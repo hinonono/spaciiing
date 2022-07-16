@@ -149,7 +149,7 @@
 
         console.log(mode);
         console.log(spacing);
-        // parent.postMessage({pluginMessage: {type: 'actionApply'}}, '*');
+        parent.postMessage({pluginMessage: {type: 'actionApply', mode, spacing}}, '*');
     };
 
 </script>
