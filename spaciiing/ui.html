@@ -34,6 +34,7 @@
     .toggle-radio {
         display: inline-flex;
         border: 1px solid var(--black8);
+        border-radius: 4px;
     }
 
     .toggle-radio>input:checked+label {
@@ -43,14 +44,6 @@
 
     .toggle-radio>input+label:not(:last-of-type) {
         border-right: 1px solid #ccc
-    }
-
-    .toggle-radio {
-        border-radius: 4px;
-    }
-
-    .toggle-radio {
-        display: inline-flex;
     }
 
     .toggle-radio>input[type=radio] {
@@ -72,18 +65,6 @@
         float: left;
         cursor: pointer;
         font-size: var(--font-size-small);
-    }
-
-    .toggle-radio>input:checked+label {
-        transition: background 0ms linear
-    }
-
-    .toggle-radio[data-style=rounded] {
-        border-radius: 500px
-    }
-
-    .toggle-radio[data-style=square] {
-        border-radius: 0
     }
 </style>
 
@@ -146,9 +127,6 @@
                 spacing = document.getElementById('customSpacing').value;
             }
         }
-
-        console.log(mode);
-        console.log(spacing);
         parent.postMessage({pluginMessage: {type: 'actionApply', mode, spacing}}, '*');
     };
 
