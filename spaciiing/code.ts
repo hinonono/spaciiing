@@ -2,7 +2,6 @@ figma.showUI(__html__, { themeColors: true})
 figma.ui.resize(280, 320);
 
 figma.ui.onmessage = message => {
-  
   if(message.type === 'actionApply'){
     // 調整spacing
     var obj = [];
@@ -20,9 +19,6 @@ figma.ui.onmessage = message => {
           obj[i+1].y = parseInt(obj[i].y) + parseInt(obj[i].height) + parseInt(message.spacing);
         }
       };
-
-      
-
     } else if(message.mode == 2){
 
       // 左右模式
@@ -37,11 +33,8 @@ figma.ui.onmessage = message => {
       };
       console.log(obj);
     }
-    
     figma.notify("😇 Set spacing successfully !");
-
   } else if(message.type === 'actionExit'){
-
     figma.closePlugin();
   }
 
@@ -64,8 +57,4 @@ figma.ui.onmessage = message => {
     }
     return 0;
   }
-
-  
-
-  
 };
