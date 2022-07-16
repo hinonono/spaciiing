@@ -121,15 +121,24 @@
     disclosure.init(); //initiates the disclosure component
 
     var radioBtns = document.getElementsByName('spacingGroup');
-    var spacing = document.querySelector('input[name="spacingGroup"]:checked').value;
     const spacingArea = document.getElementById('customSpacing');
 
+    for (let i = 0; i < radioBtns.length; i++) {
+        radioBtns[i].addEventListener('change', function(){
+            if(this.checked && this.value === 'custom'){
+                spacingArea.classList.add('dp-block');
+            } else {
+                spacingArea.classList.remove('dp-block');
+            }
+        });
+    }
     document.getElementById('cancel').onclick = (event) => {
         parent.postMessage({pluginMessage: {type: 'actionExit'}}, '*');
     };
 
     document.getElementById('apply').onclick = () => {
         const mode = document.getElementById('mode').value;
+        var spacing = document.querySelector('input[name="spacingGroup"]:checked').value;
         if(spacing === 'custom'){
             // 預防textarea為空
             if (document.getElementById('customSpacing').value == ""){
