@@ -1,16 +1,71 @@
 figma.showUI(__html__, { themeColors: true})
-figma.ui.resize(320, 320);
+figma.ui.resize(280, 320);
 
 figma.ui.onmessage = message => {
   
   if(message.type === 'actionApply'){
     // 調整spacing
-    figma.closePlugin('😀 Applied spacing successfully !');
+    var obj = [];
+    obj = obj.concat(figma.currentPage.selection);
+
+    if(message.mode == 1){
+
+      // 上下模式
+      obj.sort(compareWithY);
+
+      for (let i = 0; i < obj.length; i++) {
+        if(i == obj.length - 1){
+          return;
+        } else {
+          obj[i+1].y = parseInt(obj[i].y) + parseInt(obj[i].height) + parseInt(message.spacing);
+        }
+      };
+
+      
+
+    } else if(message.mode == 2){
+
+      // 左右模式
+      obj.sort(compareWithX);
+
+      for (let i = 0; i < obj.length; i++) {
+        if(i == obj.length - 1){
+          return;
+        } else {
+          obj[i+1].x = parseInt(obj[i].x) + parseInt(obj[i].width) + parseInt(message.spacing);
+        }
+      };
+      console.log(obj);
+    }
+    
+    figma.notify("😇 Set spacing successfully !");
 
   } else if(message.type === 'actionExit'){
 
     figma.closePlugin();
   }
+
+  function compareWithX(a, b) {
+    if ( a.x < b.x ){
+      return -1;
+    }
+    if ( a.x > b.x ){
+      return 1;
+    }
+    return 0;
+  }
+
+  function compareWithY(a, b) {
+    if ( a.y < b.y ){
+      return -1;
+    }
+    if ( a.y > b.y ){
+      return 1;
+    }
+    return 0;
+  }
+
+  
 
   
 };
