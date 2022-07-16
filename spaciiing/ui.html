@@ -10,6 +10,14 @@
         display: block;
     }
 
+    .dp-none {
+        display: none;
+    }
+
+    .dp-block {
+        display: block;
+    }
+
     .width-100 {
         width: 100%;
     }
@@ -96,7 +104,7 @@
                 <label for="default_Option6">Custom</label>
             </div>
             <div class="width-100 mt-xxsmall">
-                <textarea id="customSpacing" class="textarea" rows="1" placeholder="Custom Value"></textarea>
+                <textarea id="customSpacing" class="textarea dp-none" rows="1" placeholder="Custom Value"></textarea>
             </div>
         </div>
     </div>
@@ -112,13 +120,16 @@
     selectMenu.init(); //initiates the select menu component
     disclosure.init(); //initiates the disclosure component
 
+    var radioBtns = document.getElementsByName('spacingGroup');
+    var spacing = document.querySelector('input[name="spacingGroup"]:checked').value;
+    const spacingArea = document.getElementById('customSpacing');
+
     document.getElementById('cancel').onclick = (event) => {
         parent.postMessage({pluginMessage: {type: 'actionExit'}}, '*');
     };
 
     document.getElementById('apply').onclick = () => {
         const mode = document.getElementById('mode').value;
-        var spacing = document.querySelector('input[name="spacingGroup"]:checked').value;
         if(spacing === 'custom'){
             // 預防textarea為空
             if (document.getElementById('customSpacing').value == ""){
