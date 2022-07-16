@@ -7,33 +7,35 @@ figma.ui.onmessage = message => {
     var obj = [];
     obj = obj.concat(figma.currentPage.selection);
 
-    if(message.mode == 1){
-
-      // 上下模式
-      obj.sort(compareWithY);
-
-      for (let i = 0; i < obj.length; i++) {
-        if(i == obj.length - 1){
-          return;
-        } else {
-          obj[i+1].y = parseInt(obj[i].y) + parseInt(obj[i].height) + parseInt(message.spacing);
-        }
-      };
-    } else if(message.mode == 2){
-
-      // 左右模式
-      obj.sort(compareWithX);
-
-      for (let i = 0; i < obj.length; i++) {
-        if(i == obj.length - 1){
-          return;
-        } else {
-          obj[i+1].x = parseInt(obj[i].x) + parseInt(obj[i].width) + parseInt(message.spacing);
-        }
-      };
-      console.log(obj);
+    if (obj.length < 2) {
+      figma.notify("❌ Please select at least two layers.");
+    } else {
+      if(message.mode == 1){
+        // 上下模式
+        obj.sort(compareWithY);
+  
+        for (let i = 0; i < obj.length; i++) {
+          if(i == obj.length - 1){
+            return;
+          } else {
+            obj[i+1].y = parseInt(obj[i].y) + parseInt(obj[i].height) + parseInt(message.spacing);
+          }
+        };
+        figma.notify("😇 Set spacing successfully !");
+      } else if(message.mode == 2){
+        // 左右模式
+        obj.sort(compareWithX);
+  
+        for (let i = 0; i < obj.length; i++) {
+          if(i == obj.length - 1){
+            return;
+          } else {
+            obj[i+1].x = parseInt(obj[i].x) + parseInt(obj[i].width) + parseInt(message.spacing);
+          }
+        };
+        figma.notify("😇 Set spacing successfully !");
+      }
     }
-    figma.notify("😇 Set spacing successfully !");
   } else if(message.type === 'actionExit'){
     figma.closePlugin();
   }

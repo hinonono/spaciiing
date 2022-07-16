@@ -104,7 +104,8 @@
                 <label for="default_Option6">Custom</label>
             </div>
             <div class="width-100 mt-xxsmall">
-                <textarea id="customSpacing" class="textarea dp-none" rows="1" placeholder="Custom Value"></textarea>
+                <textarea id="customSpacing" class="textarea dp-none" rows="1" onkeypress="return isNumberKey(event)"
+                    placeholder="Custom Value. Numbers only."></textarea>
             </div>
         </div>
     </div>
@@ -124,8 +125,8 @@
     const spacingArea = document.getElementById('customSpacing');
 
     for (let i = 0; i < radioBtns.length; i++) {
-        radioBtns[i].addEventListener('change', function(){
-            if(this.checked && this.value === 'custom'){
+        radioBtns[i].addEventListener('change', function () {
+            if (this.checked && this.value === 'custom') {
                 spacingArea.classList.add('dp-block');
             } else {
                 spacingArea.classList.remove('dp-block');
@@ -133,21 +134,39 @@
         });
     }
     document.getElementById('cancel').onclick = (event) => {
-        parent.postMessage({pluginMessage: {type: 'actionExit'}}, '*');
+        parent.postMessage({
+            pluginMessage: {
+                type: 'actionExit'
+            }
+        }, '*');
     };
 
     document.getElementById('apply').onclick = () => {
         const mode = document.getElementById('mode').value;
         var spacing = document.querySelector('input[name="spacingGroup"]:checked').value;
-        if(spacing === 'custom'){
+        if (spacing === 'custom') {
             // 預防textarea為空
-            if (document.getElementById('customSpacing').value == ""){
+            if (document.getElementById('customSpacing').value == "") {
                 spacing = "8";
             } else {
                 spacing = document.getElementById('customSpacing').value;
             }
         }
-        parent.postMessage({pluginMessage: {type: 'actionApply', mode, spacing}}, '*');
+        parent.postMessage({
+            pluginMessage: {
+                type: 'actionApply',
+                mode,
+                spacing
+            }
+        }, '*');
     };
 
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31 &&
+            (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
 </script>
