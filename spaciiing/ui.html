@@ -88,39 +88,41 @@
 </style>
 
 <!-- Plugin UI -->
-<div>
-    <!-- Section title -->
-    <div class="section-title">Mode</div>
-    <select id="uniqueId" class="select-menu">
-        <option value="1">Up - Down</option>
-        <option value="2">Left - Right</option>
-    </select>
-</div>
-<div class="mt-xxsmall">
-    <div class="section-title">Spacing</div>
-    <div class="flex flex-row">
-        <div class="toggle-radio">
-            <input type="radio" name="default" id="default_Option1" value="Option1" checked>
-            <label for="default_Option1">8</label>
-            <input type="radio" name="default" id="default_Option2" value="Option2">
-            <label for="default_Option2">16</label>
-            <input type="radio" name="default" id="default_Option3" value="Option3">
-            <label for="default_Option3">20</label>
-            <input type="radio" name="default" id="default_Option4" value="Option4">
-            <label for="default_Option4">24</label>
-            <input type="radio" name="default" id="default_Option5" value="Option4">
-            <label for="default_Option5">32</label>
-            <input type="radio" name="default" id="default_Option6" value="Option4">
-            <label for="default_Option6">Custom</label>
-        </div>
-        <div class="width-100 mt-xxsmall">
-            <textarea class="textarea" rows="1" placeholder="Custom Value"></textarea>
+<div id="wrapper">
+    <div>
+        <!-- Section title -->
+        <div class="section-title">Mode</div>
+        <select id="mode" class="select-menu">
+            <option value="1">Up - Down</option>
+            <option value="2">Left - Right</option>
+        </select>
+    </div>
+    <div class="mt-xxsmall">
+        <div class="section-title">Spacing</div>
+        <div class="flex flex-row">
+            <div class="toggle-radio">
+                <input type="radio" name="spacingGroup" id="default_Option1" value="8" checked>
+                <label for="default_Option1">8</label>
+                <input type="radio" name="spacingGroup" id="default_Option2" value="16">
+                <label for="default_Option2">16</label>
+                <input type="radio" name="spacingGroup" id="default_Option3" value="20">
+                <label for="default_Option3">20</label>
+                <input type="radio" name="spacingGroup" id="default_Option4" value="24">
+                <label for="default_Option4">24</label>
+                <input type="radio" name="spacingGroup" id="default_Option5" value="32">
+                <label for="default_Option5">32</label>
+                <input type="radio" name="spacingGroup" id="default_Option6" value="custom">
+                <label for="default_Option6">Custom</label>
+            </div>
+            <div class="width-100 mt-xxsmall">
+                <textarea id="customSpacing" class="textarea" rows="1" placeholder="Custom Value"></textarea>
+            </div>
         </div>
     </div>
 </div>
 <div class="flex mt-small">
-    <button class='button button--secondary'>Cancel</button>
-    <button class='button button--primary'>Apply</button>
+    <button class='button button--secondary' id="cancel">Cancel</button>
+    <button class='button button--primary' id="apply">Apply</button>
 </div>
 
 <!-- Scripts -->
@@ -128,4 +130,26 @@
 <script>
     selectMenu.init(); //initiates the select menu component
     disclosure.init(); //initiates the disclosure component
+
+    document.getElementById('cancel').onclick = (event) => {
+        parent.postMessage({pluginMessage: {type: 'actionExit'}}, '*');
+    };
+
+    document.getElementById('apply').onclick = () => {
+        const mode = document.getElementById('mode').value;
+        var spacing = document.querySelector('input[name="spacingGroup"]:checked').value;
+        if(spacing === 'custom'){
+            // 預防textarea為空
+            if (document.getElementById('customSpacing').value == ""){
+                spacing = "8";
+            } else {
+                spacing = document.getElementById('customSpacing').value;
+            }
+        }
+
+        console.log(mode);
+        console.log(spacing);
+        // parent.postMessage({pluginMessage: {type: 'actionApply'}}, '*');
+    };
+
 </script>
