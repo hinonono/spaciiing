@@ -10,6 +10,10 @@
         display: block;
     }
 
+    .section-title {
+        color: var(--figma-color-text);
+    }
+
     .dp-none {
         display: none;
     }
@@ -41,7 +45,7 @@
 
     .toggle-radio {
         display: inline-flex;
-        border: 1px solid var(--black8);
+        border: 1px solid var(--figma-color-text);
         border-radius: 4px;
     }
 
@@ -73,6 +77,13 @@
         float: left;
         cursor: pointer;
         font-size: var(--font-size-small);
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+        .textarea {
+            background-color: #f7f7f7;
+        }
     }
 </style>
 
