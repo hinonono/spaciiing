@@ -92,10 +92,16 @@
     <div>
         <!-- Section title -->
         <div class="section-title">Mode</div>
-        <select id="mode" class="select-menu">
+        <!-- <select id="mode" class="select-menu">
             <option value="1">Vertical</option>
             <option value="2">Horizontal</option>
-        </select>
+        </select> -->
+        <div class="toggle-radio">
+            <input type="radio" name="modeGroup" id="mode_Option1" value="vertical" checked>
+            <label for="mode_Option1">Vertical</label>
+            <input type="radio" name="modeGroup" id="mode_Option2" value="horizontal">
+            <label for="mode_Option2">Horizontal</label>
+        </div>
     </div>
     <div class="mt-xxsmall">
         <div class="section-title">Spacing</div>
@@ -132,11 +138,15 @@
     selectMenu.init(); //initiates the select menu component
     disclosure.init(); //initiates the disclosure component
 
-    var radioBtns = document.getElementsByName('spacingGroup');
+    // Mode變數
+    var modeRadioBtns = document.getElementsByName('modeGroup');
+
+    // Spacing變數
+    var spacingRadioBtns = document.getElementsByName('spacingGroup');
     const spacingArea = document.getElementById('customSpacing');
 
-    for (let i = 0; i < radioBtns.length; i++) {
-        radioBtns[i].addEventListener('change', function () {
+    for (let i = 0; i < spacingRadioBtns.length; i++) {
+        spacingRadioBtns[i].addEventListener('change', function () {
             if (this.checked && this.value === 'custom') {
                 spacingArea.classList.add('dp-block');
             } else {
@@ -153,7 +163,10 @@
     };
 
     document.getElementById('apply').onclick = () => {
-        const mode = document.getElementById('mode').value;
+        // const mode = document.getElementById('mode').value;
+        const mode = document.querySelector('input[name="modeGroup"]:checked').value;
+
+
         var spacing = document.querySelector('input[name="spacingGroup"]:checked').value;
         if (spacing === 'custom') {
             // 預防textarea為空
@@ -163,6 +176,8 @@
                 spacing = document.getElementById('customSpacing').value;
             }
         }
+        
+        console.log("Mode", mode, "Spacing", spacing);
         parent.postMessage({
             pluginMessage: {
                 type: 'actionApply',
