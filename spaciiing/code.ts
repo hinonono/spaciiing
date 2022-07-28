@@ -10,7 +10,7 @@ figma.ui.onmessage = message => {
     if (obj.length < 2) {
       figma.notify("❌ Please select at least two layers.");
     } else {
-      if(message.mode == 1){
+      if(message.mode == "vertical"){
         // 上下模式
         obj.sort(compareWithY);
   
@@ -22,7 +22,7 @@ figma.ui.onmessage = message => {
           }
         };
         figma.notify("😇 Set spacing successfully !");
-      } else if(message.mode == 2){
+      } else if(message.mode == "horizontal"){
         // 左右模式
         obj.sort(compareWithX);
   
