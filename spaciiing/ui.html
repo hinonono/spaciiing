@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/figma-plugin-ds@1.0.1/dist/figma-plugin-ds.css">
+<style id="external-styles"></style>
 <style>
     body {
         padding: 1em;
@@ -135,8 +135,36 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/figma-plugin-ds@1.0.1/dist/iife/figma-plugin-ds.js"></script>
 <script>
-    selectMenu.init(); //initiates the select menu component
-    disclosure.init(); //initiates the disclosure component
+    initPlugin();
+
+    function initPlugin() {
+        fetchCssStyle();
+
+        console.log("Here");
+        parent.postMessage({
+            pluginMessage: {
+                type: 'init'
+            }
+        }, '*');
+    }
+
+
+    function fetchCssStyle() {
+        // URL of the external CSS file
+        const cssFileURL = 'https://cdn.jsdelivr.net/npm/figma-plugin-ds@1.0.1/dist/figma-plugin-ds.css';
+
+        // Fetch the CSS file contents
+        fetch(cssFileURL)
+            .then((response) => response.text())
+            .then((css) => {
+                // Inject the CSS contents into the <style> element
+                const styleElement = document.getElementById('external-styles');
+                styleElement.textContent = css;
+            });
+    }
+
+    // selectMenu.init(); //initiates the select menu component
+    // disclosure.init(); //initiates the disclosure component
 
     // Mode變數
     var modeRadioBtns = document.getElementsByName('modeGroup');
@@ -176,7 +204,7 @@
                 spacing = document.getElementById('customSpacing').value;
             }
         }
-        
+
         // console.log("Mode", mode, "Spacing", spacing);
         parent.postMessage({
             pluginMessage: {
