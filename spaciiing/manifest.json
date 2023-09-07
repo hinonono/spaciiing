@@ -2,7 +2,7 @@
   "name": "Spaciiing",
   "id": "1129646367083296027",
   "api": "1.0.0",
-  "main": "code.js",
+  "main": "dist/code.js",
   "capabilities": [],
   "enableProposedApi": false,
   "editorType": ["figma"],
