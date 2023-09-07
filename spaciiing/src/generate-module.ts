@@ -1,4 +1,4 @@
-// import { text } from "@fortawesome/fontawesome-svg-core";
+import { text } from "@fortawesome/fontawesome-svg-core";
 import * as FUND from "./fundamental-module";
 
 export function genTypography() {

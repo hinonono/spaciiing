@@ -2,13 +2,13 @@
   "name": "Spaciiing",
   "id": "1129646367083296027",
   "api": "1.0.0",
-  "main": "code.js",
+  "main": "dist/code.js",
   "capabilities": [],
   "enableProposedApi": false,
   "editorType": ["figma"],
   "ui": "ui.html",
   "networkAccess": {
     "allowedDomains": ["https://cdn.jsdelivr.net/", "https://rsms.me/"],
-    "reasoning": "Load neccessary css styles."
+    "reasoning": "test"
   }
 }
