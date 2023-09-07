@@ -94,10 +94,10 @@
         font-size: var(--font-size-small);
     }
 
-    section {
+    /* section {
         border-bottom: 1px solid #ccc;
         padding-bottom: 20px;
-    }
+    } */
 
     h4 {
         margin: 0;
@@ -174,7 +174,7 @@
                                     d="M182.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L128 109.3V402.7L86.6 361.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 402.7V109.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96z" />
                             </svg>
                         </div>
-                        垂直
+                        Vertical
                     </label>
                     <input type="radio" name="sp-mode" id="mode_Option2" value="horizontal">
                     <label for="mode_Option2">
@@ -185,12 +185,12 @@
                                     d="M406.6 374.6l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224l-293.5 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288l293.5 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
                             </svg>
                         </div>
-                        水平
+                        Horizontal
                     </label>
                 </div>
             </div>
             <div class="mt-xxsmall">
-                <div class="section-title">乘以</div>
+                <div class="section-title">Multiply by</div>
                 <div class="flex flex-row">
                     <div class="toggle-radio">
                         <input type="radio" name="sp-multiply" id="multiply_Option1" value="1" checked>
@@ -207,7 +207,7 @@
                 </div>
             </div>
             <div class="mt-xxsmall">
-                <div class="section-title">間距</div>
+                <div class="section-title">Spacing</div>
                 <div class="flex flex-row">
                     <div class="toggle-radio">
                         <input type="radio" name="sp-space" id="default_Option1" value="8" checked>
@@ -221,18 +221,18 @@
                         <input type="radio" name="sp-space" id="default_Option5" value="32">
                         <label class="sp-c-space" for="default_Option5">32</label>
                         <input type="radio" name="sp-space" id="default_Option6" value="custom">
-                        <label class="sp-c-space" for="default_Option6">自訂</label>
+                        <label class="sp-c-space" for="default_Option6">Custom</label>
                     </div>
                     <div class="width-100 mt-xxsmall">
                         <textarea id="sp-space-custom" class="textarea dp-none" rows="1"
                             onkeypress="return isNumberKey(event)" placeholder="Custom Value. Numbers only."></textarea>
                     </div>
-                    <span class="note">自訂數值不會受到倍率的影響</span>
+                    <span class="note">Custom value will not be effected by multiplier.</span>
                 </div>
             </div>
         </div>
         <div class="flex mt-xsmall">
-            <button class='button button--primary' id="sp-apply">套用</button>
+            <button class='button button--primary' id="sp-apply">Apply</button>
         </div>
     </section>
 </div>
@@ -268,7 +268,7 @@
     var space = [8, 16, 20, 24, 32]
     var multiplyRadioBtns = document.getElementsByName('sp-multiply');
     var spacingRadioBtns = document.getElementsByName('sp-space');
-    var memFrame = document.getElementById("mem-frame");
+    // var memFrame = document.getElementById("mem-frame");
 
     multiplyRadioBtns.forEach(item => {
         item.addEventListener('change', function () {
@@ -281,64 +281,6 @@
     });
 
     document.getElementById('sp-apply').onclick = spacingApply;
-    document.getElementById('nc-al').onclick = function () {
-        useNameCleaner("auto-layout");
-    };
-    document.getElementById('nc-img').onclick = function () {
-        useNameCleaner("image");
-    };
-    document.getElementById('nc-label').onclick = function () {
-        useNameCleaner("label");
-    };
-    document.getElementById('qk-overlay').onclick = function () {
-        useQuickAction("overlay");
-    }
-    document.getElementById('qk-newframe').onclick = function () {
-        useQuickAction("newframe");
-    }
-    document.getElementById('qk-setframew').onclick = function () {
-        useQuickAction("setframew");
-    }
-    document.getElementById('qk-remember').onclick = function () {
-        useQuickAction("remember");
-    }
-    document.getElementById('gen-typography').onclick = function () {
-        useGenerate("typography");
-    }
-    document.getElementById('gen-texttostyle').onclick = function () {
-        useGenerate("gen-texttostyle");
-    }
-    document.getElementById('gen-color-gray-solid').onclick = function () {
-        useGenerate("gen-color-gray-solid");
-    }
-    document.getElementById('gen-color-gray-opacity').onclick = function () {
-        useGenerate("gen-color-gray-opacity");
-    }
-    document.getElementById('gen-color-gray-solid-tip').onclick = function () {
-        useGenerate("gen-color-gray-solid-tip");
-    }
-    document.getElementById('gen-color-gray-opacity-tip').onclick = function () {
-        useGenerate("gen-color-gray-opacity-tip");
-    }
-    document.getElementById('gen-color-ios-light').onclick = function () {
-        useGenerate("gen-color-ios-light");
-    }
-    document.getElementById('gen-color-ios-dark').onclick = function () {
-        useGenerate("gen-color-ios-dark");
-    }
-    document.getElementById('gen-shadow').onclick = function () {
-        useGenerate("gen-shadow");
-    }
-    document.getElementById('gen-shadow-tip').onclick = function () {
-        useGenerate("gen-shadow-tip");
-    }
-    document.getElementById('gen-text-visible').onclick = function () {
-        useGenerate("gen-text-visible");
-    }
-    document.getElementById('eq-apply').onclick = function () {
-        useEqual();
-    }
-    document.getElementById('lorem-apply').onclick = useLorem;
 
 
     function initPlugin() {
@@ -352,28 +294,7 @@
         }, '*');
     }
 
-    function useLorem() {
-        const mode = document.querySelector('input[name="lorem-mode"]:checked').value;
-        const length = document.querySelector('input[name="lorem-length"]:checked').value;
-
-        parent.postMessage({
-            pluginMessage: {
-                type: 'lorem',
-                mode,
-                length
-            }
-        }, '*');
-    }
-
-    function uploadMemFrame(width, height) {
-        if (width == "" || height == "") {
-            memFrame.innerHTML = "現在的記憶Frame大小：未定義x未定義";
-        } else {
-            console.log("Frame Updated!");
-            memFrame.innerHTML = "現在的記憶Frame大小：" + width + " x " + height;
-        }
-
-    }
+    
 
     function fetchCssStyle() {
         // URL of the external CSS file
@@ -444,55 +365,6 @@
                 type: 'actionApply',
                 mode,
                 spacing
-            }
-        }, '*');
-    }
-
-    function useNameCleaner(name) {
-        const mode = name;
-
-        parent.postMessage({
-            pluginMessage: {
-                type: 'nameCleaner',
-                mode
-            }
-        }, '*');
-    }
-
-    function useQuickAction(name) {
-        const mode = name;
-
-        parent.postMessage({
-            pluginMessage: {
-                type: 'qa',
-                mode
-            }
-        }, '*');
-    }
-
-    function useEqual() {
-        // const mode = name;
-        const mode = document.querySelector('input[name="eq-mode"]:checked').value;
-        // var spacing = "0";
-        // const customValue = document.getElementById('sp-space-custom').value;
-
-        parent.postMessage({
-            pluginMessage: {
-                type: 'eq',
-                mode
-            }
-        }, '*');
-
-
-    }
-
-    function useGenerate(name) {
-        const mode = name;
-
-        parent.postMessage({
-            pluginMessage: {
-                type: 'gen',
-                mode
             }
         }, '*');
     }
