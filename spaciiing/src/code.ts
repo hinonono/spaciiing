@@ -16,16 +16,32 @@ figma.ui.onmessage = (message) => {
       pluginInit();
       break;
     case "getLocalization":
-      const messageBack = {
+      var messageBack = {
         type: "updateLocalization",
-        localization: FUND.getLocalization(mode)
+        localization: FUND.getLocalization(mode),
+        mode: mode
       };
-    
+
+      figma.currentPage.setPluginData("preferredLang", mode);
+
+      console.log("Your preffer: " + mode);
+      figma.ui.postMessage({
+        pluginMessage: messageBack,
+      });
+
+      break;
+    case "getDefaultLocalization":
+      var messageBack = {
+        type: "updateDefaultLocalization",
+        localization: FUND.getLocalization(mode),
+        mode: mode
+      };
+
       // console.log("Hello from figma!");
       figma.ui.postMessage({
         pluginMessage: messageBack,
       });
-      
+
       break;
     case "actionApply":
       SPACING.useSpacing(message);
@@ -54,12 +70,24 @@ figma.ui.onmessage = (message) => {
 function pluginInit() {
   const storedWidth = figma.currentPage.getPluginData("remember-width");
   const storedHeight = figma.currentPage.getPluginData("remember-height");
+  var preferredLang = figma.currentPage.getPluginData("preferredLang");
 
   const message = {
     type: "updateMemFrame",
     storedWidth: storedWidth,
     storedHeight: storedHeight,
   };
+
+  if (preferredLang != undefined) {
+    console.log("preferred Lang = " + preferredLang);
+    figma.ui.postMessage({
+      pluginMessage: {
+        type: "initLocalization",
+        localization: FUND.getLocalization(preferredLang),
+        preferredLang: preferredLang
+      },
+    });
+  }
 
   // console.log("Hello from figma!");
   figma.ui.postMessage({
