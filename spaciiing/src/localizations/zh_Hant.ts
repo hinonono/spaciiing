@@ -7,5 +7,6 @@ export const zh_hant: LanguageObject = {
     "tran_multiply": "乘以",
     "tran_spacing": "間距",
     "tran_spacing_custom": "自訂",
-    "tran_spacing_comment": "自訂間距不會被倍率影響"
+    "tran_spacing_comment": "自訂間距不會被倍率影響",
+    "tran_apply": "套用"
 }

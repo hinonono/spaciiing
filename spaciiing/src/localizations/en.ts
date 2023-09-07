@@ -7,5 +7,6 @@ export const en: FUND.LanguageObject = {
     "tran_multiply": "Multiply by",
     "tran_spacing": "Spacing",
     "tran_spacing_custom": "Custom",
-    "tran_spacing_comment": "Custom value will not be effected by multiplier."
+    "tran_spacing_comment": "Custom value will not be effected by multiplier.",
+    "tran_apply": "Apply"
 }
