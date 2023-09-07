@@ -160,6 +160,13 @@
   <section>
     <div>
       <div>
+        <!-- 加入語言選擇下拉選單 -->
+        <select id="langDropdown">
+          <option value="en">English</option>
+          <option value="zh_Hant">繁體中文</option>
+        </select>
+      </div>
+      <div>
         <div id="tran_mode" class="section-title">Mode</div>
         <div class="toggle-radio">
           <input type="radio" name="sp-mode" id="mode_Option1" value="vertical" checked>
@@ -239,6 +246,8 @@
 <script src="https://cdn.jsdelivr.net/npm/figma-plugin-ds@1.0.1/dist/iife/figma-plugin-ds.js"></script>
 <script>
   var localization;
+  var defaultLocalization;
+  const langDropdown = document.getElementById('langDropdown');
 
   initPlugin();
 
@@ -256,9 +265,18 @@
           uploadMemFrame(width, height);
           break;
 
+        case "initLocalization":
+          localization = receivedMessage[1];
+          updateLocalization(localization);
+          langDropdown.value = receivedMessage[2];
+          console.log("lang Value: " + receivedMessage[2]);
+          break;
         case "updateLocalization":
           localization = receivedMessage[1];
           updateLocalization(localization);
+          break;
+        case "updateDefaultLocalization":
+          defaultLocalization = receivedMessage[1];
           break;
         default:
           break;
@@ -282,6 +300,11 @@
 
   spacingRadioBtns.forEach(item => {
     item.addEventListener('change', addDPBlockClass);
+  });
+
+  langDropdown.addEventListener('change', function (event) {
+    const selectedValue = event.target.value;
+    getLocalization(selectedValue);
   });
 
   document.getElementById('sp-apply').onclick = spacingApply;
@@ -347,7 +370,8 @@
 
   function initPlugin() {
     fetchCssStyle();
-    getLocalization();
+    getDefaultLocalization();
+    // getLocalization(langDropdown.value);
 
     parent.postMessage({
       pluginMessage: {
@@ -356,9 +380,20 @@
     }, '*');
   }
 
-  function getLocalization() {
+  function getDefaultLocalization() {
     console.log("call: ui.html -> getLocalization");
     const mode = "en";
+
+    parent.postMessage({
+      pluginMessage: {
+        type: 'getDefaultLocalization',
+        mode
+      }
+    }, '*');
+  }
+
+  function getLocalization(mode) {
+    console.log("call: ui.html -> getLocalization");
 
     parent.postMessage({
       pluginMessage: {
@@ -370,11 +405,15 @@
 
   function updateLocalization(localization) {
     Object.keys(localization).forEach(key => {
-      console.log("Finding with key: " + key + "and the result is: " + localization[key]);
+      // console.log("Finding with key: " + key + "and the result is: " + localization[key]);
 
       const elem = document.getElementById(key);
       if (elem) {
-        elem.textContent = localization[key];
+        if (localization[key] != undefined) {
+          elem.textContent = localization[key];
+        } else {
+          elem.textContent = defaultLocalization[key];
+        }
       }
     });
   }
