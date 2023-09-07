@@ -15,6 +15,18 @@ figma.ui.onmessage = (message) => {
     case "init":
       pluginInit();
       break;
+    case "getLocalization":
+      const messageBack = {
+        type: "updateLocalization",
+        localization: FUND.getLocalization(mode)
+      };
+    
+      // console.log("Hello from figma!");
+      figma.ui.postMessage({
+        pluginMessage: messageBack,
+      });
+      
+      break;
     case "actionApply":
       SPACING.useSpacing(message);
       break;

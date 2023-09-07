@@ -31,9 +31,10 @@ export function sendMessageBack(message: object) {
 }
 
 export function getLocalization(lang: string) {
-  console.log("Hellow from localization");
+  var result = localizations[lang];
+  // console.log(result)
   
-  return localizations[lang];
+  return result;
 }
 
 export function makeCurrentSelection(): Array<SceneNode> {
