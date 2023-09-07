@@ -1,62 +1,34 @@
-figma.showUI(__html__, { themeColors: true})
-figma.ui.resize(280, 320);
+// This plugin will open a window to prompt the user to enter a number, and
+// it will then create that many rectangles on the screen.
 
-figma.ui.onmessage = message => {
-  if(message.type === 'actionApply'){
-    // 調整spacing
-    var obj = [];
-    obj = obj.concat(figma.currentPage.selection);
+// This file holds the main code for plugins. Code in this file has access to
+// the *figma document* via the figma global object.
+// You can access browser APIs in the <script> tag inside "ui.html" which has a
+// full browser environment (See https://www.figma.com/plugin-docs/how-plugins-run).
 
-    if (obj.length < 2) {
-      figma.notify("❌ Please select at least two layers.");
-    } else {
-      if(message.mode == "vertical"){
-        // 上下模式
-        obj.sort(compareWithY);
-  
-        for (let i = 0; i < obj.length; i++) {
-          if(i == obj.length - 1){
-            return;
-          } else {
-            obj[i+1].y = parseInt(obj[i].y) + parseInt(obj[i].height) + parseInt(message.spacing);
-          }
-        };
-        figma.notify("😇 Set spacing successfully !");
-      } else if(message.mode == "horizontal"){
-        // 左右模式
-        obj.sort(compareWithX);
-  
-        for (let i = 0; i < obj.length; i++) {
-          if(i == obj.length - 1){
-            return;
-          } else {
-            obj[i+1].x = parseInt(obj[i].x) + parseInt(obj[i].width) + parseInt(message.spacing);
-          }
-        };
-        figma.notify("😇 Set spacing successfully !");
-      }
+// This shows the HTML page in "ui.html".
+figma.showUI(__html__);
+
+// Calls to "parent.postMessage" from within the HTML page will trigger this
+// callback. The callback will be passed the "pluginMessage" property of the
+// posted message.
+figma.ui.onmessage = msg => {
+  // One way of distinguishing between different types of messages sent from
+  // your HTML page is to use an object with a "type" property like this.
+  if (msg.type === 'create-rectangles') {
+    const nodes: SceneNode[] = [];
+    for (let i = 0; i < msg.count; i++) {
+      const rect = figma.createRectangle();
+      rect.x = i * 150;
+      rect.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
+      figma.currentPage.appendChild(rect);
+      nodes.push(rect);
     }
-  } else if(message.type === 'actionExit'){
-    figma.closePlugin();
+    figma.currentPage.selection = nodes;
+    figma.viewport.scrollAndZoomIntoView(nodes);
   }
 
-  function compareWithX(a, b) {
-    if ( a.x < b.x ){
-      return -1;
-    }
-    if ( a.x > b.x ){
-      return 1;
-    }
-    return 0;
-  }
-
-  function compareWithY(a, b) {
-    if ( a.y < b.y ){
-      return -1;
-    }
-    if ( a.y > b.y ){
-      return 1;
-    }
-    return 0;
-  }
+  // Make sure to close the plugin when you're done. Otherwise the plugin will
+  // keep running, which shows the cancel button at the bottom of the screen.
+  figma.closePlugin();
 };
