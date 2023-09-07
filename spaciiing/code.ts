@@ -1,5 +1,5 @@
 figma.showUI(__html__, { themeColors: true})
-figma.ui.resize(280, 800);
+figma.ui.resize(280, 320);
 
 figma.ui.onmessage = message => {
   if(message.type === 'actionApply'){
