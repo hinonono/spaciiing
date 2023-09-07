@@ -1,7 +1,13 @@
 <style id="external-styles"></style>
 <style>
-    body {
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    section {
         padding: 1em;
+        padding-top: 0.5rem;
         background-color: var(--figma-color-bg);
         color: var(--figma-color-text);
     }
@@ -22,12 +28,20 @@
         display: block;
     }
 
+    .width-50 {
+        width: 50%;
+    }
+
     .width-100 {
         width: 100%;
     }
 
     .flex {
         display: flex;
+    }
+
+    .flex-jusify-spacebetween {
+        justify-content: space-between;
     }
 
     .flex-row {
@@ -52,6 +66,7 @@
     .toggle-radio>input:checked+label {
         background: var(--blue);
         color: var(--white);
+        fill: var(--white);
     }
 
     .toggle-radio>input+label:not(:last-of-type) {
@@ -74,9 +89,65 @@
         display: inline-block;
         margin-bottom: 0;
         padding: 5px 10px;
-        float: left;
+        /* float: left; */
         cursor: pointer;
         font-size: var(--font-size-small);
+    }
+
+    section {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+    }
+
+    h4 {
+        margin: 0;
+    }
+
+    .func-title {
+        color: #146eff;
+    }
+
+    .icon-24 {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+    }
+
+    .icon-24 * {
+        fill: var(--figma-color-text);
+        height: 100%;
+    }
+
+    .note {
+        font-size: 0.8rem;
+    }
+
+    button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 0.4rem 0;
+    }
+
+    .header-bar {
+        width: 100%;
+        position: sticky;
+        top: 0;
+        background-color: rgba(221, 241, 255, 0.9);
+        backdrop-filter: blur(4px);
+        padding: 0.5rem 1rem;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+    }
+
+    .button-third {
+        background-color: rgba(24, 160, 251, 0.15);
+        color: var(--blue);
+        border: 1px solid var(--blue);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -88,54 +159,187 @@
 </style>
 
 <!-- Plugin UI -->
-<div id="wrapper">
-    <div>
-        <!-- Section title -->
-        <div class="section-title">Mode</div>
-        <!-- <select id="mode" class="select-menu">
-            <option value="1">Vertical</option>
-            <option value="2">Horizontal</option>
-        </select> -->
-        <div class="toggle-radio">
-            <input type="radio" name="modeGroup" id="mode_Option1" value="vertical" checked>
-            <label for="mode_Option1">Vertical</label>
-            <input type="radio" name="modeGroup" id="mode_Option2" value="horizontal">
-            <label for="mode_Option2">Horizontal</label>
-        </div>
-    </div>
-    <div class="mt-xxsmall">
-        <div class="section-title">Spacing</div>
-        <div class="flex flex-row">
-            <div class="toggle-radio">
-                <input type="radio" name="spacingGroup" id="default_Option1" value="8" checked>
-                <label for="default_Option1">8</label>
-                <input type="radio" name="spacingGroup" id="default_Option2" value="16">
-                <label for="default_Option2">16</label>
-                <input type="radio" name="spacingGroup" id="default_Option3" value="20">
-                <label for="default_Option3">20</label>
-                <input type="radio" name="spacingGroup" id="default_Option4" value="24">
-                <label for="default_Option4">24</label>
-                <input type="radio" name="spacingGroup" id="default_Option5" value="32">
-                <label for="default_Option5">32</label>
-                <input type="radio" name="spacingGroup" id="default_Option6" value="custom">
-                <label for="default_Option6">Custom</label>
+<div>
+    <section>
+        <div>
+            <div>
+                <div class="section-title">Mode</div>
+                <div class="toggle-radio">
+                    <input type="radio" name="sp-mode" id="mode_Option1" value="vertical" checked>
+                    <label for="mode_Option1">
+                        <div class="icon-24">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 320 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M182.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L128 109.3V402.7L86.6 361.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 402.7V109.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96z" />
+                            </svg>
+                        </div>
+                        垂直
+                    </label>
+                    <input type="radio" name="sp-mode" id="mode_Option2" value="horizontal">
+                    <label for="mode_Option2">
+                        <div class="icon-24">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M406.6 374.6l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224l-293.5 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288l293.5 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
+                            </svg>
+                        </div>
+                        水平
+                    </label>
+                </div>
             </div>
-            <div class="width-100 mt-xxsmall">
-                <textarea id="customSpacing" class="textarea dp-none" rows="1" onkeypress="return isNumberKey(event)"
-                    placeholder="Custom Value. Numbers only."></textarea>
+            <div class="mt-xxsmall">
+                <div class="section-title">乘以</div>
+                <div class="flex flex-row">
+                    <div class="toggle-radio">
+                        <input type="radio" name="sp-multiply" id="multiply_Option1" value="1" checked>
+                        <label for="multiply_Option1">1</label>
+                        <input type="radio" name="sp-multiply" id="multiply_Option2" value="2">
+                        <label for="multiply_Option2">2</label>
+                        <input type="radio" name="sp-multiply" id="multiply_Option3" value="3">
+                        <label for="multiply_Option3">3</label>
+                        <input type="radio" name="sp-multiply" id="multiply_Option4" value="4">
+                        <label for="multiply_Option4">4</label>
+                        <input type="radio" name="sp-multiply" id="multiply_Option5" value="5">
+                        <label for="multiply_Option5">5</label>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-xxsmall">
+                <div class="section-title">間距</div>
+                <div class="flex flex-row">
+                    <div class="toggle-radio">
+                        <input type="radio" name="sp-space" id="default_Option1" value="8" checked>
+                        <label class="sp-c-space" for="default_Option1">8</label>
+                        <input type="radio" name="sp-space" id="default_Option2" value="16">
+                        <label class="sp-c-space" for="default_Option2">16</label>
+                        <input type="radio" name="sp-space" id="default_Option3" value="20">
+                        <label class="sp-c-space" for="default_Option3">20</label>
+                        <input type="radio" name="sp-space" id="default_Option4" value="24">
+                        <label class="sp-c-space" for="default_Option4">24</label>
+                        <input type="radio" name="sp-space" id="default_Option5" value="32">
+                        <label class="sp-c-space" for="default_Option5">32</label>
+                        <input type="radio" name="sp-space" id="default_Option6" value="custom">
+                        <label class="sp-c-space" for="default_Option6">自訂</label>
+                    </div>
+                    <div class="width-100 mt-xxsmall">
+                        <textarea id="sp-space-custom" class="textarea dp-none" rows="1"
+                            onkeypress="return isNumberKey(event)" placeholder="Custom Value. Numbers only."></textarea>
+                    </div>
+                    <span class="note">自訂數值不會受到倍率的影響</span>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="flex mt-small">
-    <button class='button button--secondary' id="cancel">Cancel</button>
-    <button class='button button--primary' id="apply">Apply</button>
+        <div class="flex mt-xsmall">
+            <button class='button button--primary' id="sp-apply">套用</button>
+        </div>
+    </section>
 </div>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/figma-plugin-ds@1.0.1/dist/iife/figma-plugin-ds.js"></script>
 <script>
     initPlugin();
+
+    window.onmessage = (event) => {
+        if (event.data.pluginMessage) {
+            // Handle the received message
+            var value = Object.values(event.data.pluginMessage);
+            var receivedMessage = Object.values(value[0]);
+            // console.log(value2);
+
+            switch (receivedMessage[0]) {
+                case "updateMemFrame":
+                    var width = receivedMessage[1];
+                    var height = receivedMessage[2];
+                    uploadMemFrame(width, height);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
+    // selectMenu.init(); //initiates the select menu component
+    // disclosure.init(); //initiates the disclosure component
+
+    var space = [8, 16, 20, 24, 32]
+    var multiplyRadioBtns = document.getElementsByName('sp-multiply');
+    var spacingRadioBtns = document.getElementsByName('sp-space');
+    var memFrame = document.getElementById("mem-frame");
+
+    multiplyRadioBtns.forEach(item => {
+        item.addEventListener('change', function () {
+            updateSpaceText(item.value);
+        });
+    });
+
+    spacingRadioBtns.forEach(item => {
+        item.addEventListener('change', addDPBlockClass);
+    });
+
+    document.getElementById('sp-apply').onclick = spacingApply;
+    document.getElementById('nc-al').onclick = function () {
+        useNameCleaner("auto-layout");
+    };
+    document.getElementById('nc-img').onclick = function () {
+        useNameCleaner("image");
+    };
+    document.getElementById('nc-label').onclick = function () {
+        useNameCleaner("label");
+    };
+    document.getElementById('qk-overlay').onclick = function () {
+        useQuickAction("overlay");
+    }
+    document.getElementById('qk-newframe').onclick = function () {
+        useQuickAction("newframe");
+    }
+    document.getElementById('qk-setframew').onclick = function () {
+        useQuickAction("setframew");
+    }
+    document.getElementById('qk-remember').onclick = function () {
+        useQuickAction("remember");
+    }
+    document.getElementById('gen-typography').onclick = function () {
+        useGenerate("typography");
+    }
+    document.getElementById('gen-texttostyle').onclick = function () {
+        useGenerate("gen-texttostyle");
+    }
+    document.getElementById('gen-color-gray-solid').onclick = function () {
+        useGenerate("gen-color-gray-solid");
+    }
+    document.getElementById('gen-color-gray-opacity').onclick = function () {
+        useGenerate("gen-color-gray-opacity");
+    }
+    document.getElementById('gen-color-gray-solid-tip').onclick = function () {
+        useGenerate("gen-color-gray-solid-tip");
+    }
+    document.getElementById('gen-color-gray-opacity-tip').onclick = function () {
+        useGenerate("gen-color-gray-opacity-tip");
+    }
+    document.getElementById('gen-color-ios-light').onclick = function () {
+        useGenerate("gen-color-ios-light");
+    }
+    document.getElementById('gen-color-ios-dark').onclick = function () {
+        useGenerate("gen-color-ios-dark");
+    }
+    document.getElementById('gen-shadow').onclick = function () {
+        useGenerate("gen-shadow");
+    }
+    document.getElementById('gen-shadow-tip').onclick = function () {
+        useGenerate("gen-shadow-tip");
+    }
+    document.getElementById('gen-text-visible').onclick = function () {
+        useGenerate("gen-text-visible");
+    }
+    document.getElementById('eq-apply').onclick = function () {
+        useEqual();
+    }
+    document.getElementById('lorem-apply').onclick = useLorem;
+
 
     function initPlugin() {
         fetchCssStyle();
@@ -148,6 +352,28 @@
         }, '*');
     }
 
+    function useLorem() {
+        const mode = document.querySelector('input[name="lorem-mode"]:checked').value;
+        const length = document.querySelector('input[name="lorem-length"]:checked').value;
+
+        parent.postMessage({
+            pluginMessage: {
+                type: 'lorem',
+                mode,
+                length
+            }
+        }, '*');
+    }
+
+    function uploadMemFrame(width, height) {
+        if (width == "" || height == "") {
+            memFrame.innerHTML = "現在的記憶Frame大小：未定義x未定義";
+        } else {
+            console.log("Frame Updated!");
+            memFrame.innerHTML = "現在的記憶Frame大小：" + width + " x " + height;
+        }
+
+    }
 
     function fetchCssStyle() {
         // URL of the external CSS file
@@ -163,58 +389,6 @@
             });
     }
 
-    // selectMenu.init(); //initiates the select menu component
-    // disclosure.init(); //initiates the disclosure component
-
-    // Mode變數
-    var modeRadioBtns = document.getElementsByName('modeGroup');
-
-    // Spacing變數
-    var spacingRadioBtns = document.getElementsByName('spacingGroup');
-    const spacingArea = document.getElementById('customSpacing');
-
-    for (let i = 0; i < spacingRadioBtns.length; i++) {
-        spacingRadioBtns[i].addEventListener('change', function () {
-            if (this.checked && this.value === 'custom') {
-                spacingArea.classList.add('dp-block');
-            } else {
-                spacingArea.classList.remove('dp-block');
-            }
-        });
-    }
-    document.getElementById('cancel').onclick = (event) => {
-        parent.postMessage({
-            pluginMessage: {
-                type: 'actionExit'
-            }
-        }, '*');
-    };
-
-    document.getElementById('apply').onclick = () => {
-        // const mode = document.getElementById('mode').value;
-        const mode = document.querySelector('input[name="modeGroup"]:checked').value;
-
-
-        var spacing = document.querySelector('input[name="spacingGroup"]:checked').value;
-        if (spacing === 'custom') {
-            // 預防textarea為空
-            if (document.getElementById('customSpacing').value == "") {
-                spacing = "8";
-            } else {
-                spacing = document.getElementById('customSpacing').value;
-            }
-        }
-
-        // console.log("Mode", mode, "Spacing", spacing);
-        parent.postMessage({
-            pluginMessage: {
-                type: 'actionApply',
-                mode,
-                spacing
-            }
-        }, '*');
-    };
-
     function isNumberKey(evt) {
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         if (charCode != 46 && charCode > 31 &&
@@ -222,5 +396,104 @@
             return false;
 
         return true;
+    }
+
+    function updateSpaceText(value) {
+        //依照選取的倍率更新space的文字
+        const spacingRadioBtns = document.getElementsByName('sp-space');
+        const space_labels = document.querySelectorAll('.sp-c-space');
+
+        for (let i = 0; i < spacingRadioBtns.length; i++) {
+            if (space_labels[i].textContent != '自訂') {
+                space_labels[i].textContent = space[i] * value;
+            } else {
+                return
+            }
+        }
+    }
+
+    function addDPBlockClass() {
+        const spacingArea = document.getElementById('sp-space-custom');
+        if (this.checked && this.value === 'custom') {
+            spacingArea.classList.add('dp-block');
+        } else {
+            spacingArea.classList.remove('dp-block');
+        }
+    }
+
+    function spacingApply() {
+        const mode = document.querySelector('input[name="sp-mode"]:checked').value;
+        var select_multiply = document.querySelector('input[name="sp-multiply"]:checked').value;
+        var select_space = document.querySelector('input[name="sp-space"]:checked').value
+        var spacing = "0";
+
+        if (select_space == 'custom') {
+            //自訂間距
+            const customValue = document.getElementById('sp-space-custom').value;
+            if (customValue == "") {
+                spacing = "8";
+            } else {
+                spacing = customValue;
+            }
+        } else {
+            spacing = select_space * select_multiply;
+        }
+
+        parent.postMessage({
+            pluginMessage: {
+                type: 'actionApply',
+                mode,
+                spacing
+            }
+        }, '*');
+    }
+
+    function useNameCleaner(name) {
+        const mode = name;
+
+        parent.postMessage({
+            pluginMessage: {
+                type: 'nameCleaner',
+                mode
+            }
+        }, '*');
+    }
+
+    function useQuickAction(name) {
+        const mode = name;
+
+        parent.postMessage({
+            pluginMessage: {
+                type: 'qa',
+                mode
+            }
+        }, '*');
+    }
+
+    function useEqual() {
+        // const mode = name;
+        const mode = document.querySelector('input[name="eq-mode"]:checked').value;
+        // var spacing = "0";
+        // const customValue = document.getElementById('sp-space-custom').value;
+
+        parent.postMessage({
+            pluginMessage: {
+                type: 'eq',
+                mode
+            }
+        }, '*');
+
+
+    }
+
+    function useGenerate(name) {
+        const mode = name;
+
+        parent.postMessage({
+            pluginMessage: {
+                type: 'gen',
+                mode
+            }
+        }, '*');
     }
 </script>
