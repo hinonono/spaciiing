@@ -168,8 +168,8 @@
                     <input type="radio" name="sp-mode" id="mode_Option1" value="vertical" checked>
                     <label for="mode_Option1">
                         <div class="icon-24">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 320 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                 <path
                                     d="M182.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L128 109.3V402.7L86.6 361.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 402.7V109.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96z" />
                             </svg>
@@ -179,8 +179,8 @@
                     <input type="radio" name="sp-mode" id="mode_Option2" value="horizontal">
                     <label for="mode_Option2">
                         <div class="icon-24">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                 <path
                                     d="M406.6 374.6l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224l-293.5 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288l293.5 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
                             </svg>
@@ -250,10 +250,8 @@
             // console.log(value2);
 
             switch (receivedMessage[0]) {
-                case "updateMemFrame":
-                    var width = receivedMessage[1];
-                    var height = receivedMessage[2];
-                    uploadMemFrame(width, height);
+                case "updateLocalization":
+                    updateLocalization(receivedMessage[1]);
                     break;
 
                 default:
@@ -282,10 +280,36 @@
 
     document.getElementById('sp-apply').onclick = spacingApply;
 
+    function getLocalization() {
+        var lang = "en";
+
+        console.log("getting Localization");
+        
+        parent.postMessage({
+            pluginMessage: {
+                type: 'getLocalization',
+                lang,
+            }
+        }, '*');
+    }
+
+    function updateLocalization(localization) {
+        console.log(localization);
+    }
+
+    function setLanguage(lang) {
+        Object.keys(localization[lang]).forEach(key => {
+            const elem = document.getElementById(key);
+            if (elem) {
+                elem.textContent = localization[lang][key];
+            }
+        });
+    }
 
 
     function initPlugin() {
         fetchCssStyle();
+        getLocalization();
 
         console.log("Here");
         parent.postMessage({
@@ -295,7 +319,7 @@
         }, '*');
     }
 
-    
+
 
     function fetchCssStyle() {
         // URL of the external CSS file

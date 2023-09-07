@@ -1,3 +1,5 @@
+import { localizations } from "./localizations/localizations";
+
 export interface myStyle {
   series: string;
   name: string;
@@ -14,10 +16,24 @@ export interface myDropShadowEffect {
   effect: Array<Effect>;
 }
 
+export interface LanguageObject {
+  [key: string]: string;
+}
+
+export interface Localizations {
+  [key: string]: LanguageObject;
+}
+
 export function sendMessageBack(message: object) {
   figma.ui.postMessage({
     pluginMessage: message,
   });
+}
+
+export function getLocalization(lang: string) {
+  console.log("Hellow from localization");
+  
+  return localizations[lang];
 }
 
 export function makeCurrentSelection(): Array<SceneNode> {

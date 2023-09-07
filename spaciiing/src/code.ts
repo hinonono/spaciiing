@@ -5,15 +5,32 @@ import * as GEN from "./generate-module";
 import * as LOREM from "./lorem-module";
 
 figma.showUI(__html__, { themeColors: true });
-figma.ui.resize(280, 700);
+figma.ui.resize(280, 320);
 
 figma.ui.onmessage = (message) => {
   console.log(message);
   var mode = message.mode;
 
+  console.log("mode:" + mode);
+
   switch (message.type) {
     case "init":
       pluginInit();
+      break;
+    case "getLocalization":
+      var localization = FUND.getLocalization(mode);
+      console.log("whfoeiwhfoihe")
+
+      const messageBack = {
+        type: "updateLocalization",
+        localization: localization
+      };
+    
+      // console.log("Hello from figma!");
+      figma.ui.postMessage({
+        pluginMessage: messageBack,
+      });
+
       break;
     case "actionApply":
       SPACING.useSpacing(message);

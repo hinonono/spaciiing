@@ -2,7 +2,7 @@
   "name": "spaciiing",
   "version": "1.0.0",
   "description": "Your Figma Plugin",
-  "main": "dist/code.js",
+  "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "watch": "npm run build -- --watch"
