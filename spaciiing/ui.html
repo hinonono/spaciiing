@@ -95,11 +95,6 @@
     font-size: var(--font-size-small);
   }
 
-  section {
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 20px;
-  }
-
   h4 {
     margin: 0;
   }
@@ -176,7 +171,7 @@
                   d="M182.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L128 109.3V402.7L86.6 361.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 402.7V109.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96z" />
               </svg>
             </div>
-            垂直
+            Vertical
           </label>
           <input type="radio" name="sp-mode" id="mode_Option2" value="horizontal">
           <label for="mode_Option2">
@@ -187,12 +182,12 @@
                   d="M406.6 374.6l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224l-293.5 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288l293.5 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
               </svg>
             </div>
-            水平
+            Horizontal
           </label>
         </div>
       </div>
       <div class="mt-xxsmall">
-        <div class="section-title">乘以</div>
+        <div class="section-title">Multiply by</div>
         <div class="flex flex-row">
           <div class="toggle-radio">
             <input type="radio" name="sp-multiply" id="multiply_Option1" value="1" checked>
@@ -209,7 +204,7 @@
         </div>
       </div>
       <div class="mt-xxsmall">
-        <div class="section-title">間距</div>
+        <div class="section-title">Spacing</div>
         <div class="flex flex-row">
           <div class="toggle-radio">
             <input type="radio" name="sp-space" id="default_Option1" value="8" checked>
@@ -223,18 +218,18 @@
             <input type="radio" name="sp-space" id="default_Option5" value="32">
             <label class="sp-c-space" for="default_Option5">32</label>
             <input type="radio" name="sp-space" id="default_Option6" value="custom">
-            <label class="sp-c-space" for="default_Option6">自訂</label>
+            <label class="sp-c-space" for="default_Option6">Custom</label>
           </div>
           <div class="width-100 mt-xxsmall">
             <textarea id="sp-space-custom" class="textarea dp-none" rows="1" onkeypress="return isNumberKey(event)"
               placeholder="Custom Value. Numbers only."></textarea>
           </div>
-          <span class="note">自訂數值不會受到倍率的影響</span>
+          <span class="note">Custom value is not effected by multiplier.</span>
         </div>
       </div>
     </div>
     <div class="flex mt-xsmall">
-      <button class='button button--primary' id="sp-apply">套用</button>
+      <button class='button button--primary' id="sp-apply">Apply</button>
     </div>
   </section>
 </div>
@@ -407,7 +402,7 @@
     const space_labels = document.querySelectorAll('.sp-c-space');
 
     for (let i = 0; i < spacingRadioBtns.length; i++) {
-      if (space_labels[i].textContent != '自訂') {
+      if (space_labels[i].textContent != 'Custom') {
         space_labels[i].textContent = space[i] * value;
       } else {
         return
