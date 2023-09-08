@@ -5,7 +5,7 @@ import * as GEN from "./generate-module";
 import * as LOREM from "./lorem-module";
 
 figma.showUI(__html__, { themeColors: true });
-figma.ui.resize(300, 400);
+figma.ui.resize(320, 420);
 
 figma.ui.onmessage = (message) => {
   console.log(message);
