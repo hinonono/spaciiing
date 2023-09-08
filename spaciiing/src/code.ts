@@ -16,32 +16,10 @@ figma.ui.onmessage = (message) => {
       pluginInit();
       break;
     case "getLocalization":
-      var messageBack = {
-        type: "updateLocalization",
-        localization: FUND.getLocalization(mode),
-        mode: mode
-      };
-
-      figma.currentPage.setPluginData("preferredLang", mode);
-
-      console.log("Your preffer: " + mode);
-      figma.ui.postMessage({
-        pluginMessage: messageBack,
-      });
-
+      getLocalization(mode);
       break;
     case "getDefaultLocalization":
-      var messageBack = {
-        type: "updateDefaultLocalization",
-        localization: FUND.getLocalization(mode),
-        mode: mode
-      };
-
-      // console.log("Hello from figma!");
-      figma.ui.postMessage({
-        pluginMessage: messageBack,
-      });
-
+      getDefaultLocalization(mode);
       break;
     case "actionApply":
       SPACING.useSpacing(message);
@@ -84,12 +62,40 @@ function pluginInit() {
       pluginMessage: {
         type: "initLocalization",
         localization: FUND.getLocalization(preferredLang),
-        preferredLang: preferredLang
+        preferredLang: preferredLang,
       },
     });
   }
 
   // console.log("Hello from figma!");
+  figma.ui.postMessage({
+    pluginMessage: message,
+  });
+}
+
+function getLocalization(mode: string) {
+  var localization = FUND.getLocalization(mode);
+  var message = {
+    type: "updateLocalization",
+    localization: localization,
+    mode: mode,
+  };
+
+  figma.currentPage.setPluginData("preferredLang", mode);
+
+  figma.ui.postMessage({
+    pluginMessage: message,
+  });
+}
+
+function getDefaultLocalization(mode: string) {
+  var localization = FUND.getLocalization(mode);
+  var message = {
+    type: "updateDefaultLocalization",
+    localization: localization,
+    mode: mode,
+  };
+
   figma.ui.postMessage({
     pluginMessage: message,
   });
