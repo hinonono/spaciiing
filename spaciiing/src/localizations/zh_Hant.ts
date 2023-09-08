@@ -1,6 +1,6 @@
 import { LanguageObject } from "../fundamental-module";
 
-export const zh_hant: LanguageObject = {
+export const zh_Hant: LanguageObject = {
     "tran_horizontal": "水平",
     "tran_vertical": "垂直",
     "tran_mode": "模式",

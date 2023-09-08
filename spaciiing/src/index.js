@@ -28,7 +28,7 @@ window.onmessage = (event) => {
         localization = receivedMessage[1];
         updateLocalization(localization);
         break;
-      case "updateDefaultLocalization":
+      case "setDefaultLocalization":
         defaultLocalization = receivedMessage[1];
         break;
       default:
@@ -61,64 +61,6 @@ langDropdown.addEventListener("change", function (event) {
 });
 
 document.getElementById("sp-apply").onclick = spacingApply;
-document.getElementById("nc-al").onclick = function () {
-  useNameCleaner("auto-layout");
-};
-document.getElementById("nc-img").onclick = function () {
-  useNameCleaner("image");
-};
-document.getElementById("nc-label").onclick = function () {
-  useNameCleaner("label");
-};
-document.getElementById("qk-overlay").onclick = function () {
-  useQuickAction("overlay");
-};
-document.getElementById("qk-newframe").onclick = function () {
-  useQuickAction("newframe");
-};
-document.getElementById("qk-setframew").onclick = function () {
-  useQuickAction("setframew");
-};
-document.getElementById("qk-remember").onclick = function () {
-  useQuickAction("remember");
-};
-document.getElementById("gen-typography").onclick = function () {
-  useGenerate("typography");
-};
-document.getElementById("gen-texttostyle").onclick = function () {
-  useGenerate("gen-texttostyle");
-};
-document.getElementById("gen-color-gray-solid").onclick = function () {
-  useGenerate("gen-color-gray-solid");
-};
-document.getElementById("gen-color-gray-opacity").onclick = function () {
-  useGenerate("gen-color-gray-opacity");
-};
-document.getElementById("gen-color-gray-solid-tip").onclick = function () {
-  useGenerate("gen-color-gray-solid-tip");
-};
-document.getElementById("gen-color-gray-opacity-tip").onclick = function () {
-  useGenerate("gen-color-gray-opacity-tip");
-};
-document.getElementById("gen-color-ios-light").onclick = function () {
-  useGenerate("gen-color-ios-light");
-};
-document.getElementById("gen-color-ios-dark").onclick = function () {
-  useGenerate("gen-color-ios-dark");
-};
-document.getElementById("gen-shadow").onclick = function () {
-  useGenerate("gen-shadow");
-};
-document.getElementById("gen-shadow-tip").onclick = function () {
-  useGenerate("gen-shadow-tip");
-};
-document.getElementById("gen-text-visible").onclick = function () {
-  useGenerate("gen-text-visible");
-};
-document.getElementById("eq-apply").onclick = function () {
-  useEqual();
-};
-document.getElementById("lorem-apply").onclick = useLorem;
 
 function initPlugin() {
   fetchCssStyle();
@@ -136,7 +78,6 @@ function initPlugin() {
 }
 
 function getDefaultLocalization() {
-  console.log("call: ui.html -> getLocalization");
   const mode = "en";
 
   parent.postMessage(
@@ -177,33 +118,6 @@ function updateLocalization(localization) {
       }
     }
   });
-}
-
-function useLorem() {
-  const mode = document.querySelector('input[name="lorem-mode"]:checked').value;
-  const length = document.querySelector(
-    'input[name="lorem-length"]:checked'
-  ).value;
-
-  parent.postMessage(
-    {
-      pluginMessage: {
-        type: "lorem",
-        mode,
-        length,
-      },
-    },
-    "*"
-  );
-}
-
-function uploadMemFrame(width, height) {
-  if (width == "" || height == "") {
-    memFrame.innerHTML = "現在的記憶Frame大小：未定義x未定義";
-  } else {
-    console.log("Frame Updated!");
-    memFrame.innerHTML = "現在的記憶Frame大小：" + width + " x " + height;
-  }
 }
 
 function fetchCssStyle() {
@@ -280,65 +194,6 @@ function spacingApply() {
         type: "actionApply",
         mode,
         spacing,
-      },
-    },
-    "*"
-  );
-}
-
-function useNameCleaner(name) {
-  const mode = name;
-
-  parent.postMessage(
-    {
-      pluginMessage: {
-        type: "nameCleaner",
-        mode,
-      },
-    },
-    "*"
-  );
-}
-
-function useQuickAction(name) {
-  const mode = name;
-
-  parent.postMessage(
-    {
-      pluginMessage: {
-        type: "qa",
-        mode,
-      },
-    },
-    "*"
-  );
-}
-
-function useEqual() {
-  // const mode = name;
-  const mode = document.querySelector('input[name="eq-mode"]:checked').value;
-  // var spacing = "0";
-  // const customValue = document.getElementById('sp-space-custom').value;
-
-  parent.postMessage(
-    {
-      pluginMessage: {
-        type: "eq",
-        mode,
-      },
-    },
-    "*"
-  );
-}
-
-function useGenerate(name) {
-  const mode = name;
-
-  parent.postMessage(
-    {
-      pluginMessage: {
-        type: "gen",
-        mode,
       },
     },
     "*"
