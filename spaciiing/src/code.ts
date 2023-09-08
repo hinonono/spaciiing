@@ -78,7 +78,6 @@ function getLocalization(mode: string) {
   var message = {
     type: "updateLocalization",
     localization: localization,
-    mode: mode,
   };
 
   figma.currentPage.setPluginData("preferredLang", mode);
@@ -91,9 +90,8 @@ function getLocalization(mode: string) {
 function getDefaultLocalization(mode: string) {
   var localization = FUND.getLocalization(mode);
   var message = {
-    type: "updateDefaultLocalization",
-    localization: localization,
-    mode: mode,
+    type: "setDefaultLocalization",
+    localization: localization
   };
 
   figma.ui.postMessage({
