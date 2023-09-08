@@ -6,7 +6,7 @@
   "capabilities": [],
   "enableProposedApi": false,
   "editorType": ["figma"],
-  "ui": "ui.html",
+  "ui": "dist/ui.html",
   "networkAccess": {
     "allowedDomains": ["https://cdn.jsdelivr.net/", "https://rsms.me/"],
     "reasoning": "test"

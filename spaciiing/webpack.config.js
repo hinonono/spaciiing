@@ -28,28 +28,3 @@ module.exports = (env, argv) => ({
     path: path.resolve(__dirname, "dist"),
   },
 });
-
-
-//GPT 整合HTML嘗試
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-module.exports = {
-  mode: 'production',
-  entry: './src/index.js',
-  output: {
-    filename: 'bundle.js'
-  },
-  module: {
-    rules: [
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.html$/, use: 'html-loader' }
-    ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      filename: 'ui.html',
-    })
-  ]
-};
-//GPT 整合HTML嘗試 END
