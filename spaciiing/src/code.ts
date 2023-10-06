@@ -49,6 +49,9 @@ function pluginInit() {
   const storedWidth = figma.currentPage.getPluginData("remember-width");
   const storedHeight = figma.currentPage.getPluginData("remember-height");
   var preferredLang = figma.currentPage.getPluginData("preferredLang");
+  var recentCustomSpacing = figma.currentPage.getPluginData(
+    "recent-custom-spacing"
+  );
 
   const message = {
     type: "updateMemFrame",
@@ -63,6 +66,16 @@ function pluginInit() {
         type: "initLocalization",
         localization: FUND.getLocalization(preferredLang),
         preferredLang: preferredLang,
+      },
+    });
+  }
+
+  if (recentCustomSpacing != undefined) {
+    console.log("customSpacing = " + recentCustomSpacing);
+    figma.ui.postMessage({
+      pluginMessage: {
+        type: "initCustomSpacing",
+        value: recentCustomSpacing,
       },
     });
   }
@@ -91,7 +104,7 @@ function getDefaultLocalization(mode: string) {
   var localization = FUND.getLocalization(mode);
   var message = {
     type: "setDefaultLocalization",
-    localization: localization
+    localization: localization,
   };
 
   figma.ui.postMessage({
