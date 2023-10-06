@@ -31,6 +31,10 @@ window.onmessage = (event) => {
       case "setDefaultLocalization":
         defaultLocalization = receivedMessage[1];
         break;
+      case "initCustomSpacing":
+        var value = receivedMessage[1];
+        updateCustomSpacing(value);
+        break;
       default:
         break;
     }
@@ -120,6 +124,11 @@ function updateLocalization(localization) {
   });
 }
 
+function updateCustomSpacing(value) {
+  // 當用戶之前已有自定義間距時，載入自定義間距
+  document.getElementById("sp-space-custom").value = value;
+}
+
 function fetchCssStyle() {
   // URL of the external CSS file
   const cssFileURL =
@@ -175,17 +184,20 @@ function spacingApply() {
     'input[name="sp-space"]:checked'
   ).value;
   var spacing = "0";
+  var useCustomValue;
 
   if (select_space == "custom") {
     //自訂間距
     const customValue = document.getElementById("sp-space-custom").value;
     if (customValue == "") {
-      spacing = "8";
+      spacing = "0";
     } else {
       spacing = customValue;
+      useCustomValue = "true";
     }
   } else {
     spacing = select_space * select_multiply;
+    useCustomValue = "false";
   }
 
   parent.postMessage(
@@ -194,6 +206,7 @@ function spacingApply() {
         type: "actionApply",
         mode,
         spacing,
+        useCustomValue,
       },
     },
     "*"

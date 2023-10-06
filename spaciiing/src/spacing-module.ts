@@ -2,10 +2,16 @@ import * as fund from "./fundamental-module";
 
 export function useSpacing(message: any) {
   // 調整spacing
-  // var obj:[BaseNode];
-  // obj = obj.concat(figma.currentPage.selection);
-
+  console.log("message.useCustomValue == " + message.useCustomValue);
   const selectedLayers = fund.makeCurrentSelection();
+
+  if (message.useCustomValue == "true") {
+    console.log("UseCustomValue == TRUE");
+    figma.currentPage.setPluginData(
+      "recent-custom-spacing",
+      String(message.spacing)
+    );
+  }
 
   if (selectedLayers.length < 2) {
     figma.notify("❌請選擇至少2個圖層");
@@ -24,7 +30,6 @@ export function useSpacing(message: any) {
             parseInt(message.spacing);
         }
       }
-      figma.notify("😇成功設置間距：" + message.spacing);
     } else if (message.mode == "horizontal") {
       // 左右模式
       selectedLayers.sort(compareWithX);
@@ -39,7 +44,6 @@ export function useSpacing(message: any) {
             parseInt(message.spacing);
         }
       }
-      figma.notify("😇成功設置間距：" + message.spacing);
     }
   }
 }
