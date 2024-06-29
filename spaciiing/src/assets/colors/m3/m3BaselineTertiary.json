@@ -1,0 +1,240 @@
+{
+  "brand": "M3",
+  "name": "tertiary",
+  "members": [
+    {
+      "name": "tertiary0",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary10",
+      "color": {
+        "light": {
+          "r": 49,
+          "g": 16,
+          "b": 29,
+          "a": 1
+        },
+        "dark": {
+          "r": 49,
+          "g": 16,
+          "b": 29,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary20",
+      "color": {
+        "light": {
+          "r": 74,
+          "g": 37,
+          "b": 50,
+          "a": 1
+        },
+        "dark": {
+          "r": 74,
+          "g": 37,
+          "b": 50,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary30",
+      "color": {
+        "light": {
+          "r": 99,
+          "g": 59,
+          "b": 72,
+          "a": 1
+        },
+        "dark": {
+          "r": 99,
+          "g": 59,
+          "b": 72,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary40",
+      "color": {
+        "light": {
+          "r": 126,
+          "g": 82,
+          "b": 96,
+          "a": 1
+        },
+        "dark": {
+          "r": 126,
+          "g": 82,
+          "b": 96,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary50",
+      "color": {
+        "light": {
+          "r": 153,
+          "g": 106,
+          "b": 120,
+          "a": 1
+        },
+        "dark": {
+          "r": 153,
+          "g": 106,
+          "b": 120,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary60",
+      "color": {
+        "light": {
+          "r": 181,
+          "g": 131,
+          "b": 146,
+          "a": 1
+        },
+        "dark": {
+          "r": 181,
+          "g": 131,
+          "b": 146,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary70",
+      "color": {
+        "light": {
+          "r": 210,
+          "g": 157,
+          "b": 172,
+          "a": 1
+        },
+        "dark": {
+          "r": 210,
+          "g": 157,
+          "b": 172,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary80",
+      "color": {
+        "light": {
+          "r": 239,
+          "g": 184,
+          "b": 200,
+          "a": 1
+        },
+        "dark": {
+          "r": 239,
+          "g": 184,
+          "b": 200,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary90",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 217,
+          "b": 227,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 217,
+          "b": 227,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary95",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 236,
+          "b": 240,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 236,
+          "b": 240,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary99",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 251,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 251,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "tertiary100",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    }
+  ]
+}

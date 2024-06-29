@@ -1,0 +1,14 @@
+import React from 'react';
+
+interface %filenameProps {
+  
+}
+
+const %filename: React.FC<%filenameProps> = () => {
+
+  return (
+    <div></div>
+  );
+};
+
+export default %filename;

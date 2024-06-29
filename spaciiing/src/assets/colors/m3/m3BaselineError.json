@@ -1,0 +1,240 @@
+{
+  "brand": "M3",
+  "name": "error",
+  "members": [
+    {
+      "name": "error0",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error10",
+      "color": {
+        "light": {
+          "r": 65,
+          "g": 0,
+          "b": 4,
+          "a": 1
+        },
+        "dark": {
+          "r": 65,
+          "g": 0,
+          "b": 4,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error20",
+      "color": {
+        "light": {
+          "r": 101,
+          "g": 9,
+          "b": 14,
+          "a": 1
+        },
+        "dark": {
+          "r": 101,
+          "g": 9,
+          "b": 14,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error30",
+      "color": {
+        "light": {
+          "r": 133,
+          "g": 34,
+          "b": 33,
+          "a": 1
+        },
+        "dark": {
+          "r": 133,
+          "g": 34,
+          "b": 33,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error40",
+      "color": {
+        "light": {
+          "r": 165,
+          "g": 58,
+          "b": 54,
+          "a": 1
+        },
+        "dark": {
+          "r": 165,
+          "g": 58,
+          "b": 54,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error50",
+      "color": {
+        "light": {
+          "r": 197,
+          "g": 82,
+          "b": 76,
+          "a": 1
+        },
+        "dark": {
+          "r": 197,
+          "g": 82,
+          "b": 76,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error60",
+      "color": {
+        "light": {
+          "r": 230,
+          "g": 106,
+          "b": 99,
+          "a": 1
+        },
+        "dark": {
+          "r": 230,
+          "g": 106,
+          "b": 99,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error70",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 137,
+          "b": 129,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 137,
+          "b": 129,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error80",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 179,
+          "b": 173,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 179,
+          "b": 173,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error90",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 218,
+          "b": 215,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 218,
+          "b": 215,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error95",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 237,
+          "b": 235,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 237,
+          "b": 235,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error99",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 251,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 251,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "error100",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    }
+  ]
+}

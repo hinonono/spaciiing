@@ -1,0 +1,114 @@
+{
+  "brand": "iOS",
+  "name": "System Gray Colors",
+  "members": [
+    {
+      "name": "Gray",
+      "color": {
+        "light": {
+          "r": 142,
+          "g": 142,
+          "b": 147,
+          "a": 1
+        },
+        "dark": {
+          "r": 142,
+          "g": 142,
+          "b": 147,
+          "a": 1
+        }
+      },
+      "description": "This color represents the standard system gray. It adapts to the current environment."
+    },
+    {
+      "name": "Gray 2",
+      "color": {
+        "light": {
+          "r": 174,
+          "g": 174,
+          "b": 178,
+          "a": 1
+        },
+        "dark": {
+          "r": 99,
+          "g": 99,
+          "b": 102,
+          "a": 1
+        }
+      },
+      "description": "This color adapts to the current environment. In light environments, this gray is slightly lighter than systemGray. In dark environments, this gray is slightly darker than systemGray."
+    },
+    {
+      "name": "Gray 3",
+      "color": {
+        "light": {
+          "r": 199,
+          "g": 199,
+          "b": 204,
+          "a": 1
+        },
+        "dark": {
+          "r": 72,
+          "g": 72,
+          "b": 74,
+          "a": 1
+        }
+      },
+      "description": "This color adapts to the current environment. In light environments, this gray is slightly lighter than systemGray2. In dark environments, this gray is slightly darker than systemGray2."
+    },
+    {
+      "name": "Gray 4",
+      "color": {
+        "light": {
+          "r": 209,
+          "g": 209,
+          "b": 214,
+          "a": 1
+        },
+        "dark": {
+          "r": 58,
+          "g": 58,
+          "b": 60,
+          "a": 1
+        }
+      },
+      "description": "This color adapts to the current environment. In light environments, this gray is slightly lighter than systemGray3. In dark environments, this gray is slightly darker than systemGray3."
+    },
+    {
+      "name": "Gray 5",
+      "color": {
+        "light": {
+          "r": 229,
+          "g": 229,
+          "b": 234,
+          "a": 1
+        },
+        "dark": {
+          "r": 44,
+          "g": 44,
+          "b": 46,
+          "a": 1
+        }
+      },
+      "description": "This color adapts to the current environment. In light environments, this gray is slightly lighter than systemGray4. In dark environments, this gray is slightly darker than systemGray4."
+    },
+    {
+      "name": "Gray 6",
+      "color": {
+        "light": {
+          "r": 242,
+          "g": 242,
+          "b": 247,
+          "a": 1
+        },
+        "dark": {
+          "r": 28,
+          "g": 28,
+          "b": 30,
+          "a": 1
+        }
+      },
+      "description": "This color adapts to the current environment, and is close in color to systemBackground. In light environments, this gray is slightly lighter than systemGray5. In dark environments, this gray is slightly darker than systemGray5."
+    }
+  ]
+}

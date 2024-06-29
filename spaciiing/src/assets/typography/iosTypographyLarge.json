@@ -1,0 +1,72 @@
+{
+  "brand": "iOS",
+  "name": "Typography Large",
+  "members": [
+    {
+      "name": "Large Title",
+      "description": "",
+      "fontSize": 34,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Title 1",
+      "description": "",
+      "fontSize": 28,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Title 2",
+      "description": "",
+      "fontSize": 22,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Title 3",
+      "description": "",
+      "fontSize": 20,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Headline",
+      "description": "",
+      "fontSize": 17,
+      "fontWeight": "semibold"
+    },
+    {
+      "name": "Body",
+      "description": "",
+      "fontSize": 17,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Callout",
+      "description": "",
+      "fontSize": 16,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Subhead",
+      "description": "",
+      "fontSize": 15,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Footnote",
+      "description": "",
+      "fontSize": 13,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Caption 1",
+      "description": "",
+      "fontSize": 12,
+      "fontWeight": "regular"
+    },
+    {
+      "name": "Caption 2",
+      "description": "",
+      "fontSize": 11,
+      "fontWeight": "regular"
+    }
+  ]
+}

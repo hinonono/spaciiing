@@ -1,0 +1,240 @@
+{
+  "brand": "M3",
+  "name": "primary",
+  "members": [
+    {
+      "name": "primary0",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary10",
+      "color": {
+        "light": {
+          "r": 34,
+          "g": 0,
+          "b": 93,
+          "a": 1
+        },
+        "dark": {
+          "r": 34,
+          "g": 0,
+          "b": 93,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary20",
+      "color": {
+        "light": {
+          "r": 56,
+          "g": 30,
+          "b": 114,
+          "a": 1
+        },
+        "dark": {
+          "r": 56,
+          "g": 30,
+          "b": 114,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary30",
+      "color": {
+        "light": {
+          "r": 79,
+          "g": 55,
+          "b": 138,
+          "a": 1
+        },
+        "dark": {
+          "r": 79,
+          "g": 55,
+          "b": 138,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary40",
+      "color": {
+        "light": {
+          "r": 103,
+          "g": 80,
+          "b": 164,
+          "a": 1
+        },
+        "dark": {
+          "r": 103,
+          "g": 80,
+          "b": 164,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary50",
+      "color": {
+        "light": {
+          "r": 128,
+          "g": 105,
+          "b": 191,
+          "a": 1
+        },
+        "dark": {
+          "r": 128,
+          "g": 105,
+          "b": 191,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary60",
+      "color": {
+        "light": {
+          "r": 154,
+          "g": 131,
+          "b": 219,
+          "a": 1
+        },
+        "dark": {
+          "r": 154,
+          "g": 131,
+          "b": 219,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary70",
+      "color": {
+        "light": {
+          "r": 182,
+          "g": 157,
+          "b": 247,
+          "a": 1
+        },
+        "dark": {
+          "r": 182,
+          "g": 157,
+          "b": 247,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary80",
+      "color": {
+        "light": {
+          "r": 207,
+          "g": 188,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 207,
+          "g": 188,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary90",
+      "color": {
+        "light": {
+          "r": 233,
+          "g": 221,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 233,
+          "g": 221,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary95",
+      "color": {
+        "light": {
+          "r": 246,
+          "g": 238,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 246,
+          "g": 238,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary99",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 251,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 251,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    },
+    {
+      "name": "primary100",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": ""
+    }
+  ]
+}
