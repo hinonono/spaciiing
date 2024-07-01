@@ -15,6 +15,5 @@
       "https://api.gumroad.com"
     ],
     "reasoning": "CSS loading and license validation."
-  },
-  "permissions": ["payments"]
+  }
 }

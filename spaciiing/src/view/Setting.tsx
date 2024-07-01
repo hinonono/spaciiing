@@ -75,7 +75,7 @@ const Setting: React.FC = () => {
           <div className="grid">
             <div className="membership-block">
               <p className="color--secondary">Version</p>
-              <span>1.0.0</span>
+              <span>6</span>
             </div>
           </div>
           <div className="mt-xxsmall"></div>
