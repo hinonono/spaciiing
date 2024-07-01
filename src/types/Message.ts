@@ -16,6 +16,7 @@ type MessageDirection = "Inner" | "Outer";
 
 export type ModuleType =
   | "Init"
+  | "Localization"
   | "Spaciiing"
   | "Memorizer"
   | "Shortcut"
@@ -119,6 +120,9 @@ export type LicenseManagementAction = "UPDATE" | "VERIFY";
 export interface ExternalMessageLicenseManagement extends ExternalMessage {
   action: LicenseManagementAction;
   license: LicenseManagement;
+}
+export interface ExternalMessageLocalization extends ExternalMessage {
+  lang: string;
 }
 export interface ExternalMessageUpdateFrame extends ExternalMessage {
   memorizedObjectWidth?: string;
@@ -280,4 +284,9 @@ export interface MessageSelectionFilter extends Message {
 export interface MessageLicenseManagement extends Message {
   license: LicenseManagement;
   action: LicenseManagementAction;
+}
+
+// Localization
+export interface MessageLocalization extends Message {
+  lang: string;
 }

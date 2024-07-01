@@ -4,6 +4,7 @@ import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import { capitalizeWords } from "../module/util";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
+import { MessageLocalization } from "../types/Message";
 
 const Setting: React.FC = () => {
   // Context
@@ -12,9 +13,22 @@ const Setting: React.FC = () => {
 
   const { t, i18n } = useTranslation(["common", "settings", "license"]);
 
-  const handleChange = (event: { target: { value: string } }) => {
+  const handleLangChange = (event: { target: { value: string } }) => {
     const selectedLanguage = event.target.value;
     i18n.changeLanguage(selectedLanguage);
+
+    const message: MessageLocalization = {
+      lang: selectedLanguage,
+      module: "Localization",
+      phase: "Actual",
+      direction: "Inner",
+    };
+    parent.postMessage(
+      {
+        pluginMessage: message,
+      },
+      "*"
+    );
   };
 
   return (
@@ -28,7 +42,7 @@ const Setting: React.FC = () => {
             id="brand_select"
             className="custom-select"
             value={i18n.language} // current language
-            onChange={handleChange}
+            onChange={handleLangChange}
           >
             <option value="en">English</option>
             <option value="jp">日本語</option>
@@ -39,9 +53,7 @@ const Setting: React.FC = () => {
           <div className="grid">
             {licenseManagement.tier == "PAID" ? (
               <div className="membership-block pro">
-                <p className="color--secondary">
-                  {t("license:currentPlan")}
-                </p>
+                <p className="color--secondary">{t("license:currentPlan")}</p>
                 <span>
                   {licenseManagement.tier === "PAID"
                     ? t("license:paid")
@@ -56,16 +68,12 @@ const Setting: React.FC = () => {
               </div>
             ) : (
               <div className="membership-block">
-                <p className="color--secondary">
-                  {t("license:currenTier")}
-                </p>
+                <p className="color--secondary">{t("license:currenTier")}</p>
                 <span>{t("license:free")}</span>
               </div>
             )}
             <div className="membership-block">
-              <p className="color--secondary">
-                {t("license:licenseStatus")}
-              </p>
+              <p className="color--secondary">{t("license:licenseStatus")}</p>
               <span>
                 {licenseManagement.isLicenseActive == true
                   ? t("license:licenseActive")

@@ -2,10 +2,12 @@ import { ExternalMessageUpdateCustomSpacing } from "./../types/Message";
 import { ExternalMessageUpdateFrame } from "../types/Message";
 import * as util from "./util";
 import * as licenseManagement from "./licenseManagement";
+import * as localization from "./localization";
 
 export async function init() {
   // 檢查License狀態
   await licenseManagement.initLicenseCheck();
+  await localization.initLocalization();
 
   const storedWidth = figma.currentPage.getPluginData("memorized-object-width");
   const storedHeight = figma.currentPage.getPluginData(

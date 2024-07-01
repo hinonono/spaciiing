@@ -13,6 +13,7 @@ import {
   ExternalMessage,
   MessageSelectionFilter,
   MessageLicenseManagement,
+  MessageLocalization,
 } from "./types/Message";
 
 // 功能模組
@@ -29,6 +30,7 @@ import * as virtualProfile from "./module/virtualProfile";
 import * as selectionFilter from "./module/selectionFilter";
 import * as util from "./module/util";
 import * as licenseManagement from "./module/licenseManagement";
+import * as localization from "./module/localization";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(380, 500);
@@ -39,6 +41,9 @@ figma.ui.onmessage = (message: Message) => {
   switch (message.module) {
     case "Init":
       init.init();
+      break;
+    case "Localization":
+      localization.reception(message as MessageLocalization);
       break;
     case "Spaciiing":
       spaciiing.useSpacing(message as MessageSpaciiing);

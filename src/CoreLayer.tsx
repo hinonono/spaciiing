@@ -14,17 +14,19 @@ import {
   MessageVirtualProfileWholeObject,
   ModuleType,
   ExternalMessageUpdateCustomCodeExecutionResults,
+  ExternalMessageLocalization,
 } from "./types/Message";
 
 import * as licenseManagementFrontEnd from "./module-frontend/licenseManagementFrontEnd";
 import SubscriptionModal from "./view/SubscriptionModal";
 import TabBar from "./components/TabBar";
+import { useTranslation } from "react-i18next";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ModuleType>("Spaciiing");
   const [prevTab, setPrevTab] = useState<ModuleType | null>(null);
-
+  const { i18n } = useTranslation();
   //
   const {
     setLastCustomSpacing,
@@ -60,6 +62,9 @@ const CoreLayer: React.FC = () => {
         }
 
         switch (message.module) {
+          case "Localization":
+            localizationHandler(message as ExternalMessageLocalization);
+            break;
           case "Spaciiing":
             SpaciiingHandler(message as ExternalMessageUpdateCustomSpacing);
             break;
@@ -146,6 +151,13 @@ const CoreLayer: React.FC = () => {
   }, [activeTab]);
 
   // #region Module Handler
+  // Localization
+  const localizationHandler = (message: ExternalMessageLocalization) => {
+    console.log("Preferred Lang changed to" + message.lang);
+
+    i18n.changeLanguage(message.lang);
+  };
+
   // Shortcut
   const initShortcut = () => {
     const message: Message = {
