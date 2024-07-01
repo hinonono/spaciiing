@@ -46,6 +46,7 @@ const Setting: React.FC = () => {
           >
             <option value="en">English</option>
             <option value="jp">日本語</option>
+            <option value="zh">繁體中文</option>
           </select>
         </div>
         <div className="mt-small">

@@ -7,7 +7,21 @@
   "licenseStatus": "ライセンスステータス",
   "licenseActive": "有効",
   "licenseInactive": "無効",
-  "licenseNote": "ライセンスのステータスは、PRO機能がアクセス可能かどうかを示します。ライセンス認証プロセス中にインターネット接続がない場合、PROプランに登録されていてもステータスは無効に設定されます。",
+  "licenseNote": "ライセンスのステータスは、プロ機能がアクセス可能かどうかを示します。ライセンス認証プロセス中にインターネット接続がない場合、プロプランに登録されていてもステータスは無効に設定されます。",
   "activateLicense": "ライセンスキーを入力",
-  "subscribeNow": "今すぐ購読する"
+  "subscribeNow": "今すぐ購読する",
+  "enterLicenseKey": "ライセンスキーを入力してください",
+  "enterLicenseKeyDescription": "ライセンスキーはGumroadのページまたは購入時に入力したメールボックスで確認できます。",
+  "enterYourLicenseKeyHere": "ここにライセンスキーを入力してください",
+  "activateSuccess": "ライセンスを成功にアクティベートしました。",
+  "activateInvalid": "提供されたライセンスキーが無効です。",
+  "activateUnknown": "不明なエラーが発生しました",
+  "licenseKeyCannotBeNull": "ライセンスキーはnullではありません。",
+  "proceed": "進む",
+  "offlineNotification": "オフラインです。ライセンス検証の前にインターネット接続を確認してください。",
+  "back": "戻る",
+  "finish": "完了",
+  "pro": "プロ",
+  "subscribeToUnlock": "すべての機能をアンロックするにはサブスクライブしてください。",
+  "youHaveNoActiveLicense": "アクティブなライセンスがありません。仮想プロフィール、選択フィルター、変数エディター、および他の機能をアンロックするためにアップグレードしてください！"
 }

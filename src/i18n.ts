@@ -6,15 +6,19 @@ import LanguageDetector from "i18next-browser-languagedetector";
 // Import common translation files
 import commonEN from "../public/locales/en/common.json";
 import commonJA from "../public/locales/ja/common.json";
+import commonZH from "../public/locales/zh/common.json";
 
 import settingsEN from "../public/locales/en/settings.json";
 import settingsJA from "../public/locales/ja/settings.json";
+import settingsZH from "../public/locales/zh/settings.json";
 
 import licenseEN from "../public/locales/en/license.json";
 import licenseJA from "../public/locales/ja/license.json";
+import licenseZH from "../public/locales/zh/license.json";
 
 import moduleEN from "../public/locales/en/module.json";
 import moduleJA from "../public/locales/ja/module.json";
+import moduleZH from "../public/locales/zh/module.json";
 
 const resources = {
   en: {
@@ -28,6 +32,12 @@ const resources = {
     settings: settingsJA,
     license: licenseJA,
     module: moduleJA,
+  },
+  zh: {
+    common: commonZH,
+    settings: settingsZH,
+    license: licenseZH,
+    module: moduleZH,
   },
 };
 
