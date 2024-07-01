@@ -1,4 +1,7 @@
 {
   "moduleName": "Settings",
-  "subscriptionSectionTitle": "Your Subscription"
+  "preferredLanguage": "Preferred Language",
+  "about": "About",
+  "version": "Version",
+  "forBugReportOrSupport": "For bug report or support, please contact"
 }

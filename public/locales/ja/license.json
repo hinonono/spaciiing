@@ -1,0 +1,13 @@
+{
+  "subscriptionSectionTitle": "あなたの購読",
+  "currentPlan": "現在のプラン",
+  "paid": "有料ユーザー",
+  "free": "無料ユーザー",
+  "currenTier": "プラン",
+  "licenseStatus": "ライセンスステータス",
+  "licenseActive": "有効",
+  "licenseInactive": "無効",
+  "licenseNote": "ライセンスのステータスは、PRO機能がアクセス可能かどうかを示します。ライセンス認証プロセス中にインターネット接続がない場合、PROプランに登録されていてもステータスは無効に設定されます。",
+  "activateLicense": "ライセンスキーを入力",
+  "subscribeNow": "今すぐ購読する"
+}

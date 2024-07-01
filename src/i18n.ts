@@ -10,14 +10,19 @@ import commonJA from "../public/locales/ja/common.json";
 import settingsEN from "../public/locales/en/settings.json";
 import settingsJA from "../public/locales/ja/settings.json";
 
+import licenseEN from "../public/locales/en/license.json";
+import licenseJA from "../public/locales/ja/license.json";
+
 const resources = {
   en: {
     common: commonEN,
     settings: settingsEN,
+    license: licenseEN,
   },
   jp: {
     common: commonJA,
     settings: settingsJA,
+    license: licenseJA,
   },
 };
 

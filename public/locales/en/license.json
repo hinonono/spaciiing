@@ -1,0 +1,13 @@
+{
+  "subscriptionSectionTitle": "Your Subscription",
+  "currentPlan": "Current Plan",
+  "paid": "PAID",
+  "free": "FREE",
+  "currenTier": "Current Tier",
+  "licenseStatus": "License Status",
+  "licenseActive": "Active",
+  "licenseInactive": "Inactive",
+  "licenseNote": "The license status indicates whether PRO features are accessible. In the absence of an internet connection during the license verification process, the status will be set to false, even if you are enrolled in the PRO tier.",
+  "activateLicense": "Activate License",
+  "subscribeNow": "Subscribe Now"
+}
