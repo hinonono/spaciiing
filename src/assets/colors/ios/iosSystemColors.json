@@ -1,0 +1,222 @@
+{
+  "brand" : "iOS",
+  "name" : "System Colors",
+  "members" : [
+    {
+      "name" : "Red",
+      "color" : {
+        "light" : {
+          "r" : 234,
+          "g" : 77,
+          "b" : 61,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 235,
+          "g" : 84,
+          "b" : 69,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Orange",
+      "color" : {
+        "light" : {
+          "r" : 240,
+          "g" : 154,
+          "b" : 55,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 241,
+          "g" : 163,
+          "b" : 60,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Yellow",
+      "color" : {
+        "light" : {
+          "r" : 246,
+          "g" : 206,
+          "b" : 70,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 248,
+          "g" : 215,
+          "b" : 74,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Green",
+      "color" : {
+        "light" : {
+          "r" : 101,
+          "g" : 196,
+          "b" : 101,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 104,
+          "g" : 206,
+          "b" : 102,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Mint",
+      "color" : {
+        "light" : {
+          "r" : 89,
+          "g" : 196,
+          "b" : 188,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 130,
+          "g" : 209,
+          "b" : 205,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Teal",
+      "color" : {
+        "light" : {
+          "r" : 89,
+          "g" : 173,
+          "b" : 195,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 106,
+          "g" : 196,
+          "b" : 220,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Cyan",
+      "color" : {
+        "light" : {
+          "r" : 88,
+          "g" : 170,
+          "b" : 224,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 128,
+          "g" : 207,
+          "b" : 250,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Blue",
+      "color" : {
+        "light" : {
+          "r" : 0,
+          "g" : 122,
+          "b" : 255,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 58,
+          "g" : 130,
+          "b" : 246,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Indigo",
+      "color" : {
+        "light" : {
+          "r" : 87,
+          "g" : 86,
+          "b" : 206,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 93,
+          "g" : 92,
+          "b" : 221,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Purple",
+      "color" : {
+        "light" : {
+          "r" : 163,
+          "g" : 87,
+          "b" : 214,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 178,
+          "g" : 95,
+          "b" : 233,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Pink",
+      "color" : {
+        "light" : {
+          "r" : 234,
+          "g" : 68,
+          "b" : 89,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 234,
+          "g" : 74,
+          "b" : 98,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    },
+    {
+      "name" : "Brown",
+      "color" : {
+        "light" : {
+          "r" : 156,
+          "g" : 133,
+          "b" : 99,
+          "a" : 1
+        },
+        "dark" : {
+          "r" : 166,
+          "g" : 143,
+          "b" : 109,
+          "a" : 1
+        }
+      },
+      "description" : ""
+    }
+  ]
+}
