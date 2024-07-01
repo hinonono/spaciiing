@@ -5,10 +5,10 @@ import LanguageDetector from "i18next-browser-languagedetector";
 // Import translation files directly
 // Import common translation files
 import commonEN from "../public/locales/en/common.json";
-import commonJP from "../public/locales/jp/common.json";
+import commonJA from "../public/locales/ja/common.json";
 
 import settingsEN from "../public/locales/en/settings.json";
-import settingsJP from "../public/locales/jp/settings.json";
+import settingsJA from "../public/locales/ja/settings.json";
 
 const resources = {
   en: {
@@ -16,8 +16,8 @@ const resources = {
     settings: settingsEN,
   },
   jp: {
-    common: commonJP,
-    settings: settingsJP,
+    common: commonJA,
+    settings: settingsJA,
   },
 };
 
