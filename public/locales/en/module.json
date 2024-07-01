@@ -106,5 +106,15 @@
   "virtualProfileCardNetwork": "Card Network",
   "virtualProfileCustom1": "Custom 1",
   "virtualProfileCustom2": "Custom 2",
-  "virtualProfileCustom3": "Custom 3"
+  "virtualProfileCustom3": "Custom 3",
+  "modulePropertyClipboard": "Property Clipboard",
+  "modulePropertyClipboardDesc": "Memorize specific property of selected object, then apply it to another object(s).",
+  "nothingInsideClipboard": "There is nothing inside the clipboard.",
+  "widthAbbreviation": "W",
+  "heightAbbreviation": "H",
+  "nameAbbreviation": "NAME",
+  "memorize": "Memorize",
+  "width": "Width",
+  "height": "Height",
+  "name": "Name"
 }
