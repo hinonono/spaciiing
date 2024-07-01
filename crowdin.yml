@@ -1,5 +1,0 @@
-project_id: "690347"
-api_token: "2396006575891d752a3dce73efec8d40c4a8a21580fcaf9e2e8723a48b580b1fbf78aa2e9fddec49"
-files:
-  - source: "/public/locales/en/settings.json"
-    translation: "/public/locales/%two_letters_code%/settings.json"
