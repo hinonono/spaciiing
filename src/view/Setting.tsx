@@ -1,5 +1,5 @@
 import React from "react";
-import { TitleBar, FigmaButton } from "../components";
+import { TitleBar, FigmaButton, SectionTitle } from "../components";
 import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import { capitalizeWords } from "../module/util";
 import { useAppContext } from "../AppProvider";
@@ -10,21 +10,31 @@ const Setting: React.FC = () => {
   const { licenseManagement, setShowActivateModal, setShowCTSubscribe } =
     useAppContext();
 
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(["common", "settings"]);
 
-  const changeLanguage = (lng: string) => {
-    console.log(lng);
-    i18n.changeLanguage(lng);
+  const handleChange = (event: { target: { value: string } }) => {
+    const selectedLanguage = event.target.value;
+    i18n.changeLanguage(selectedLanguage);
   };
 
   return (
     <div>
       <TitleBar title="Settings" showInfoIcon={false} />
       <div className="content">
-        <h2>{t("welcome")}</h2>
-        <FigmaButton title={"English"} onClick={() => changeLanguage("en")} />
-        <FigmaButton title={"Japanese"} onClick={() => changeLanguage("jp")} />
         <div>
+          <h3>{t("settings:moduleName")}</h3>
+          <SectionTitle title="Language" />
+          <select
+            id="brand_select"
+            className="custom-select"
+            value={i18n.language} // current language
+            onChange={handleChange}
+          >
+            <option value="en">English</option>
+            <option value="jp">日本語</option>
+          </select>
+        </div>
+        <div className="mt-small">
           <h3>Your subscription</h3>
           <div className="grid">
             {licenseManagement.tier == "PAID" ? (

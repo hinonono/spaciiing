@@ -3,15 +3,21 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 // Import translation files directly
-import translationEN from "../public/locales/en/translation.json";
-import translationJP from "../public/locales/jp/translation.json";
+// Import common translation files
+import commonEN from "../public/locales/en/common.json";
+import commonJP from "../public/locales/jp/common.json";
+
+import settingsEN from "../public/locales/en/settings.json";
+import settingsJP from "../public/locales/jp/settings.json";
 
 const resources = {
   en: {
-    translation: translationEN,
+    common: commonEN,
+    settings: settingsEN,
   },
   jp: {
-    translation: translationJP,
+    common: commonJP,
+    settings: settingsJP,
   },
 };
 
@@ -31,6 +37,8 @@ i18n
     interpolation: {
       escapeValue: false, // React already escapes values
     },
+    ns: ["common", "settings"],
+    defaultNS: "common",
   });
 
 export default i18n;
