@@ -33,7 +33,7 @@ const Setting: React.FC = () => {
 
   return (
     <div>
-      <TitleBar title="Settings" showInfoIcon={false} />
+      <TitleBar title={t("settings:moduleName")} showInfoIcon={false} />
       <div className="content">
         <div>
           <h3>{t("settings:moduleName")}</h3>
