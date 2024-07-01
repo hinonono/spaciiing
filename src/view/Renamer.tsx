@@ -4,6 +4,7 @@ import { MessageRenamer, RenamerSupportedTargets } from "../types/Message";
 import { NodeRenamable } from "../types/NodeRenamable";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
+import { useTranslation } from "react-i18next";
 
 const RenamableScopes: NodeRenamable[] = [
   "ALL_OPTIONS",
@@ -21,6 +22,8 @@ const RenamableScopes: NodeRenamable[] = [
 ];
 
 const Renamer: React.FC = () => {
+  const { t } = useTranslation(["module"]);
+
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -123,33 +126,35 @@ const Renamer: React.FC = () => {
         handleClose={handleCloseExplanationModal}
       >
         <div>
-          <h3>Naming Cleaner</h3>
-          <p>Clean the naming of layers within your selection.</p>
-          <h4>Rename format</h4>
+          <h3>{t("module:moduleNamingClener")}</h3>
+          <p>{t("module:moduleNamingClenerDesc")}</p>
+          <h4>{t("module:renameFormat")}</h4>
           <ul>
-            <li>Image: Image</li>
-            <li>Auto layout: V Auto Layout / H Auto Layout</li>
-            <li>Text: The content of the itself</li>
-            <li>Frame: Frame</li>
-            <li>Group: Group</li>
-            <li>Rectangle: Rectangle</li>
-            <li>Ellipse: Ellipse</li>
-            <li>Line: Line</li>
-            <li>Polygon: Polygon</li>
-            <li>Star: Star</li>
-            <li>Vector: Vector</li>
+            <li>{t("module:renameImage")}</li>
+            <li>{t("module:renameAutoLayout")}</li>
+            <li>{t("module:renameText")}</li>
+            <li>{t("module:renameFrame")}</li>
+            <li>{t("module:renameGroup")}</li>
+            <li>{t("module:renameRectangle")}</li>
+            <li>{t("module:renameEllipse")}</li>
+            <li>{t("module:renameLine")}</li>
+            <li>{t("module:renamePolygon")}</li>
+            <li>{t("module:renameStar")}</li>
+            <li>{t("module:renameVector")}</li>
           </ul>
         </div>
       </Modal>
       <TitleBar
-        title="Naming Cleaner"
+        title={t("module:moduleNamingClener")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         {/* 選項 */}
         <div className="mt-xxsmall">
-          <SectionTitle title={`Rename Scopes (${selectedScopes.length})`} />
+          <SectionTitle
+            title={`${t("module:renameScopes")} (${selectedScopes.length})`}
+          />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
             {RenamableScopes.map((scope) => (
               <label key={scope} className="container">
@@ -169,7 +174,7 @@ const Renamer: React.FC = () => {
           <SectionTitle title={`Options`} />
           <div className="custom-checkbox-group">
             <label className="container">
-              Delete hidden layers
+              {t("module:deleteHiddenLayers")}
               <input
                 type="checkbox"
                 checked={deleteHiddenLayer}
@@ -178,7 +183,7 @@ const Renamer: React.FC = () => {
               <span className="checkmark"></span>
             </label>
             <label className="container">
-              Include parent layers
+              {t("module:includeParentLayers")}
               <input
                 type="checkbox"
                 checked={includeParentLayer}
@@ -187,7 +192,7 @@ const Renamer: React.FC = () => {
               <span className="checkmark"></span>
             </label>
             <label className="container">
-              Skip lock layers
+              {t("module:skipLockLayers")}
               <input
                 type="checkbox"
                 checked={skipLockedLayer}
@@ -200,7 +205,7 @@ const Renamer: React.FC = () => {
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={"Clean selection"}
+            title={t("module:cleanUp")}
             id={"renamer-apply"}
             onClick={applyRenamer}
           />

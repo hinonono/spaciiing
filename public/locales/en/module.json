@@ -46,6 +46,24 @@
   "titleSection": "Title Section",
   "setting": "Setting",
   "iconTemplate": "Icon Template",
-  "alignToFrameEdge": "Align to frame edge"
-
+  "alignToFrameEdge": "Align to frame edge",
+  "moduleNamingClener": "Naming Cleaner",
+  "moduleNamingClenerDesc": "Clean the naming of layers within your selection.",
+  "renameFormat": "Rename format",
+  "renameImage": "Image: Image",
+  "renameAutoLayout": "Auto layout: V Auto Layout / H Auto Layout",
+  "renameText": "Text: The content of the text itself",
+  "renameFrame": "Frame: Frame",
+  "renameGroup": "Group: Group",
+  "renameRectangle": "Rectangle: Rectangle",
+  "renameEllipse": "Ellipse: Ellipse",
+  "renameLine": "Line: Line",
+  "renamePolygon": "Polygon: Polygon",
+  "renameStar": "Star: Star",
+  "renameVector": "Vector: Vector",
+  "renameScopes": "Rename Scopes",
+  "deleteHiddenLayers": "Delete hidden layers",
+  "includeParentLayers": "Include parent layers",
+  "skipLockLayers":"Skip lock layers",
+  "cleanUp": "Cleanup"
 }
