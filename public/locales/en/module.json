@@ -25,5 +25,27 @@
   "createANewMode": "Create a new mode",
   "default": "Default",
   "codeExampleFor": "Code Example for ",
-  "execute": "Execute"
+  "execute": "Execute",
+  "moduleShortcut": "Shortcut",
+  "moduleShortcutDesc": "A comprehensive collection of various shortcut that will fasten your workflow.",
+  "generateHEXorRGB": "Generate HEX or RGB text label",
+  "generateHEXorRGBDesc": "To generate HEX or RGB value text label, you need to select layers that has fill color.",
+  "generateNoteDesignStatusTag": "Generate Note, Design status tag, Title section",
+  "generateNoteDesignStatusTagDesc": "To generate Note, Design status tag or Title section, you need to copy the template component into your file, then use the \"Memorize\" button with in setting window. After object is memorized, you can start generate these component instance by selecting one or multiple frames, then click generate button. The current date will be automatically fill in to the component by default.",
+  "frame": "Frame",
+  "generateShadowOverlayToFrame": "Generate shadow overlay to frame",
+  "text": "Text",
+  "findAndReplaceInSelection": "Find and Replace in selection",
+  "hexValueText": "Hex value text",
+  "rgbValueText": "RGB value text",
+  "rgbaValueText": "RGBA value text",
+  "loremIpsumText": "Lorem ipsum text",
+  "textStyleFromSelection": "Text style from selection",
+  "note": "Note",
+  "designStatusTag": "Design Status Tag",
+  "titleSection": "Title Section",
+  "setting": "Setting",
+  "iconTemplate": "Icon Template",
+  "alignToFrameEdge": "Align to frame edge"
+
 }

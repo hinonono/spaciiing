@@ -41,7 +41,7 @@ const VariableScopes: { [key in VariableResolvedDataType]: VariableScope[] } = {
 };
 
 const VariableEditor: React.FC = () => {
-  const { t } = useTranslation(["license"]);
+  const { t } = useTranslation(["module"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);

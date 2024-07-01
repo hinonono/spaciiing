@@ -15,8 +15,11 @@ import {
   NoteModal,
   TitleSectionModal,
 } from "../components/modalComponents";
+import { useTranslation } from "react-i18next";
 
 const Shortcut: React.FC = () => {
+  const { t } = useTranslation(["module"]);
+
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -118,26 +121,12 @@ const Shortcut: React.FC = () => {
           handleClose={handleCloseExplanationModal}
         >
           <div>
-            <h3>Shortcut</h3>
-            <p>
-              A comprehensive collection of various shortcut that will fasten
-              your workflow.
-            </p>
-            <h4>Generate HEX or RGB text label</h4>
-            <p>
-              To generate HEX or RGB value text label, you need to select layers
-              that has fill color.
-            </p>
-            <h4>Generate Note, Design status tag, Title section</h4>
-            <p>
-              To generate Note, Design status tag or Title section, you need to
-              copy the template component into your file, then use the
-              "Memorize" button with in setting window. After object is
-              memorized, you can start generate these component instance by
-              selecting one or multiple frames, then click generate button. The
-              current date will be automatically fill in to the component by
-              default.
-            </p>
+            <h3>{t("module:moduleShortcut")}</h3>
+            <p>{t("module:moduleShortcutDesc")}</p>
+            <h4>{t("module:generateHEXorRGB")}</h4>
+            <p>{t("module:generateHEXorRGBDesc")}</p>
+            <h4>{t("module:generateNoteDesignStatusTag")}</h4>
+            <p>{t("module:generateNoteDesignStatusTagDesc")}</p>
           </div>
         </Modal>
         <NoteModal
@@ -170,16 +159,16 @@ const Shortcut: React.FC = () => {
         />
       </div>
       <TitleBar
-        title="Shortcut"
+        title={t("module:moduleShortcut")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         <div>
-          <SectionTitle title={"Frame"} />
+          <SectionTitle title={t("module:frame")} />
           <FigmaButton
             buttonType="secondary"
-            title={"Generate shadow overlay to frame"}
+            title={t("module:generateShadowOverlayToFrame")}
             id={"shortcut-overlay"}
             onClick={() => {
               applyShortcut("makeFrameOverlay");
@@ -187,19 +176,19 @@ const Shortcut: React.FC = () => {
           />
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={"Text"} />
+          <SectionTitle title={t("module:text")} />
           <FigmaButton
             buttonType="secondary"
-            title={"Find and Replace in selection"}
+            title={t("module:findAndReplaceInSelection")}
             id={"shortcut-find-and-replace-in-selection"}
             onClick={handleOpenFindAndReplaceModal}
           />
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={"Generate"} />
+          <SectionTitle title={t("module:generate")} />
           <FigmaButton
             buttonType="secondary"
-            title={"Hex value text"}
+            title={t("module:hexValueText")}
             id={"shortcut-color-to-label-hex"}
             onClick={() => {
               applyShortcut("colorToLabelHEX");
@@ -207,7 +196,7 @@ const Shortcut: React.FC = () => {
           />
           <FigmaButton
             buttonType="secondary"
-            title={"RGB value text"}
+            title={t("module:rgbValueText")}
             id={"shortcut-color-to-label-rgb"}
             onClick={() => {
               applyShortcut("colorToLabelRGB");
@@ -215,7 +204,7 @@ const Shortcut: React.FC = () => {
           />
           <FigmaButton
             buttonType="secondary"
-            title={"RGBA value text"}
+            title={t("module:rgbaValueText")}
             id={"shortcut-color-to-label-rgba"}
             onClick={() => {
               applyShortcut("colorToLabelRGBA");
@@ -223,13 +212,13 @@ const Shortcut: React.FC = () => {
           />
           <FigmaButton
             buttonType="secondary"
-            title={"Lorem ipsum text"}
+            title={t("module:loremIpsumText")}
             id={"shortcut-generate-lorem-ipsum-text"}
             onClick={handleOpenLoremModal}
           />
           <FigmaButton
             buttonType="secondary"
-            title={"Text style from selection"}
+            title={t("module:textStyleFromSelection")}
             id={"shortcut-generate-text-style-from-selection"}
             onClick={() => {
               applyShortcut("convertSelectionToTextStyles");
@@ -238,7 +227,7 @@ const Shortcut: React.FC = () => {
           <div className="grid">
             <FigmaButton
               buttonType="secondary"
-              title={"Note"}
+              title={t("module:note")}
               id={"shortcut-generate-note"}
               onClick={() => {
                 applyShortcut("generateNote");
@@ -247,7 +236,7 @@ const Shortcut: React.FC = () => {
             />
             <FigmaButton
               buttonType="tertiary"
-              title={"Setting"}
+              title={t("module:setting")}
               id={"shortcut-generate-note-setting"}
               onClick={handleOpenNoteModal}
             />
@@ -255,7 +244,7 @@ const Shortcut: React.FC = () => {
           <div className="grid">
             <FigmaButton
               buttonType="secondary"
-              title={"Design status tag"}
+              title={t("module:designStatusTag")}
               id={"shortcut-generate-design-status-tag"}
               onClick={() => {
                 applyShortcut("generateDesignStatusTag");
@@ -264,7 +253,7 @@ const Shortcut: React.FC = () => {
             />
             <FigmaButton
               buttonType="tertiary"
-              title={"Setting"}
+              title={t("module:setting")}
               id={"shortcut-generate-design-status-tag-setting"}
               onClick={handleOpenDesignStatusTagModal}
             />
@@ -272,7 +261,7 @@ const Shortcut: React.FC = () => {
           <div className="grid">
             <FigmaButton
               buttonType="secondary"
-              title={"Title Section"}
+              title={t("module:titleSection")}
               id={"shortcut-generate-title-section"}
               onClick={() => {
                 applyShortcut("generateTitleSection");
@@ -281,7 +270,7 @@ const Shortcut: React.FC = () => {
             />
             <FigmaButton
               buttonType="tertiary"
-              title={"Setting"}
+              title={t("module:setting")}
               id={"shortcut-generate-section-title-setting"}
               onClick={handleOpenTitleSectionModal}
             />
@@ -289,7 +278,7 @@ const Shortcut: React.FC = () => {
 
           <FigmaButton
             buttonType="secondary"
-            title={"Icon template"}
+            title={t("module:iconTemplate")}
             id={"shortcut-generate-icon-template"}
             onClick={handleOpenIconModal}
           />
@@ -298,7 +287,7 @@ const Shortcut: React.FC = () => {
           <SectionTitle title={"Elements inside frame"} />
           <FigmaButton
             buttonType="secondary"
-            title={"Align to frame edge"}
+            title={t("module:alignToFrameEdge")}
             id={"shortcut-framer"}
             onClick={handleOpenFramerModal}
           />
