@@ -1,1 +1,10 @@
+# Node
+*.log
+*.log.*
+*.env
 node_modules
+crowdin.yml
+
+out/
+dist/
+code.js

@@ -1,0 +1,44 @@
+import React from "react";
+import { SvgInfo } from "../assets/icons";
+import { useAppContext } from "../AppProvider";
+
+interface TitleBarProps {
+  title: string;
+  children?: React.ReactNode;
+  onClick?: () => void;
+  showInfoIcon?: boolean;
+  isProFeature?: boolean;
+}
+
+const TitleBar: React.FC<TitleBarProps> = ({
+  title,
+  children,
+  onClick,
+  showInfoIcon = true,
+  isProFeature = false,
+}) => {
+  const isDevelopment = process.env.REACT_APP_ENV === "development";
+  const { licenseManagement } = useAppContext();
+
+  return (
+    <div className="title-bar">
+      {isDevelopment && <div className="banner">現在正執行開發者模式</div>}
+      <div className="content-wrap">
+        <h5 className="func-title">{title.toUpperCase()}</h5>
+        {children && <div className="title-bar-children">{children}</div>}
+        {!licenseManagement.isLicenseActive &&
+          isProFeature &&
+          !isDevelopment && <div className="badge ml-xxsmall">PRO</div>}
+        {showInfoIcon && (
+          <div className="ml-xxxsmall tooltip">
+            <div className="icon-20 icon-hover" onClick={onClick}>
+              <SvgInfo color="var(--tooltip-icon)" />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default TitleBar;
