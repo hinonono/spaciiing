@@ -4,6 +4,7 @@ import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import { MessageFramer, FramerMode } from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
+import { useTranslation } from "react-i18next";
 
 interface FramerModalProps {
   showFramerModal: boolean;
@@ -14,6 +15,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
   showFramerModal,
   handleCloseFramerModal,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
 
   const [selectedFramerMode, setSelectedFramerMode] = useState("topAndBottom");
@@ -50,7 +52,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
     <Modal show={showFramerModal} handleClose={handleCloseFramerModal}>
       <div>
         <div>
-          <div className="section-title">Mode</div>
+          <div className="section-title">{t("module:mode")}</div>
           <div className="custom-segmented-control">
             <input
               type="radio"
@@ -64,7 +66,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
               <div className="icon-20">
                 <SvgVertical color="var(--figma-color-text)" />
               </div>
-              Top and Bottom
+              {t("module:topAndBottom")}
             </label>
             <input
               type="radio"
@@ -78,7 +80,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
               <div className="icon-20">
                 <SvgHorizontal color="var(--figma-color-text)" />
               </div>
-              Left and Right
+              {t("module:leftAndRight")}
             </label>
             <input
               type="radio"
@@ -88,11 +90,11 @@ const FramerModal: React.FC<FramerModalProps> = ({
               checked={selectedFramerMode === "all"}
               onChange={handleChange}
             />
-            <label htmlFor="eq_Option3">All</label>
+            <label htmlFor="eq_Option3">{t("module:all")}</label>
           </div>
         </div>
         <div className="mt-xxsmall"></div>
-        <FigmaButton title={"Apply"} id={"eq-apply"} onClick={applyFramer} />
+        <FigmaButton title={t("module:apply")} id={"eq-apply"} onClick={applyFramer} />
       </div>
     </Modal>
   );

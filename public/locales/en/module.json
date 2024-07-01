@@ -130,5 +130,19 @@
   "designStatusTagHasNotBeenMemorized": "The design status tag component has not been memorized. Please use the button below to memorize it.",
   "noteHasNotBeenMemorized": "The notes component has not been memorized. Please use the button below to memorize it.",
   "titleSectionHasNotBeenMemorized": "The title section component has not been memorized. Please use the button below to memorize it.",
-  "objectIsMemorizedWithId": "Object is memorized with id:"
+  "objectIsMemorizedWithId": "Object is memorized with id:",
+  "findInSelection": "Find in selection",
+  "find": "Find",
+  "replace": "Replace",
+  "findAndReplaceCriteriaAreCaseSensitive": "Find and replace criteria are case sensitive.",
+  "keepOriginalNameOfTextLayers": "Keep original name of text layer(s)",
+  "mode": "Mode",
+  "topAndBottom": "Top and Bottom",
+  "leftAndRight": "Left and Right",
+  "all": "All",
+  "short": "Short",
+  "medium": "Medium",
+  "long": "Long",
+  "howManyIconsToBeGenerated": "How many icons to be generated",
+  "size": "Size"
 }
