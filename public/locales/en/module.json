@@ -116,5 +116,12 @@
   "memorize": "Memorize",
   "width": "Width",
   "height": "Height",
-  "name": "Name"
+  "name": "Name",
+  "moduleSpaciiing": "Spaciiing",
+  "moduleSpaciiingDesc": "Set spacing between elements with just one click.",
+  "vertical": "Vertical",
+  "horizontal": "Horizontal",
+  "multiplySpacingBy": "Multiply spacing by",
+  "customValueIsNotAffect": "Custom value is not affected by multiply value.",
+  "addAutoLayoutAfterApply": "Add auto layout after apply"
 }
