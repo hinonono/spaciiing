@@ -3,6 +3,7 @@
 *.log.*
 *.env
 node_modules
+crowdin.yml
 
 out/
 dist/
