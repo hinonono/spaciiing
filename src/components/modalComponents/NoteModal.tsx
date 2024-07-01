@@ -6,6 +6,7 @@ import {
   MessageShortcutUpdateMagicalObjectSingle,
   ShortcutAction,
 } from "../../types/Message";
+import { useTranslation } from "react-i18next";
 
 interface NoteModalProps {
   showNoteModal: boolean;
@@ -16,6 +17,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
   showNoteModal,
   handleCloseNoteModal,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { magicalObject, licenseManagement, setShowCTSubscribe } =
     useAppContext();
 
@@ -47,15 +49,12 @@ const NoteModal: React.FC<NoteModalProps> = ({
   return (
     <Modal show={showNoteModal} handleClose={handleCloseNoteModal}>
       <div>
-        <h3>Note Setting</h3>
+        <h3>{t("module:noteSetting")}</h3>
         {magicalObject.noteId == "" ? (
-          <span className="note">
-            The note component has not been memorized. Please use the button
-            below to memorize it.
-          </span>
+          <span className="note">{t("module:noteHasNotBeenMemorized")}</span>
         ) : (
           <span className="note">
-            Object is memorized with id: {magicalObject.noteId}.
+            {t("module:objectIsMemorizedWithId")} {magicalObject.noteId}
           </span>
         )}
         <FigmaButton

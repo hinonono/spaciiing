@@ -6,6 +6,7 @@ import {
   MessageShortcutUpdateMagicalObjectSingle,
   ShortcutAction,
 } from "../../types/Message";
+import { useTranslation } from "react-i18next";
 
 interface TitleSectionModalProps {
   showTitleSectionModal: boolean;
@@ -16,6 +17,7 @@ const TitleSectionModal: React.FC<TitleSectionModalProps> = ({
   showTitleSectionModal,
   handleCloseTitleSectionModal,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { magicalObject, licenseManagement, setShowCTSubscribe } =
     useAppContext();
 
@@ -50,15 +52,14 @@ const TitleSectionModal: React.FC<TitleSectionModalProps> = ({
       handleClose={handleCloseTitleSectionModal}
     >
       <div>
-        <h3>Title Section Setting</h3>
+        <h3>{t("module:titleSectionSetting")}</h3>
         {magicalObject.titleSectionId == "" ? (
           <span className="note">
-            The title section component has not been memorized. Please use the
-            button below to memorize it.
+            {t("module:titleSectionHasNotBeenMemorized")}
           </span>
         ) : (
           <span className="note">
-            Object is memorized with id: {magicalObject.titleSectionId}.
+            {t("module:objectIsMemorizedWithId")} {magicalObject.titleSectionId}
           </span>
         )}
         <FigmaButton

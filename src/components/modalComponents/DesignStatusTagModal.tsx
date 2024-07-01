@@ -6,6 +6,7 @@ import {
   MessageShortcutUpdateMagicalObjectSingle,
   ShortcutAction,
 } from "../../types/Message";
+import { useTranslation } from "react-i18next";
 
 interface DesignStatusTagModalProps {
   showDesignStatusTagModal: boolean;
@@ -16,6 +17,7 @@ const DesignStatusTagModal: React.FC<DesignStatusTagModalProps> = ({
   showDesignStatusTagModal,
   handleCloseDesignStatusTagModal,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { magicalObject, licenseManagement, setShowCTSubscribe } =
     useAppContext();
 
@@ -50,15 +52,15 @@ const DesignStatusTagModal: React.FC<DesignStatusTagModalProps> = ({
       handleClose={handleCloseDesignStatusTagModal}
     >
       <div>
-        <h3>Design Status Tag Setting</h3>
+        <h3>{t("module:designStatusTagSetting")}</h3>
         {magicalObject.designStatusTagId == "" ? (
           <span className="note">
-            The design status tag component has not been memorized. Please use
-            the button below to memorize it.
+            {t("module:designStatusTagHasNotBeenMemorized")}
           </span>
         ) : (
           <span className="note">
-            Object is memorized with id: {magicalObject.designStatusTagId}.
+            {t("module:objectIsMemorizedWithId")}
+            {magicalObject.designStatusTagId}
           </span>
         )}
         <FigmaButton
