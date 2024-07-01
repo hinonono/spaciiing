@@ -65,5 +65,11 @@
   "deleteHiddenLayers": "Delete hidden layers",
   "includeParentLayers": "Include parent layers",
   "skipLockLayers":"Skip lock layers",
-  "cleanUp": "Cleanup"
+  "cleanUp": "Cleanup",
+  "moduleSelectionFilter": "Selection Filter",
+  "moduleSelectionFilterDesc": "Filter your selection with various of available options.",
+  "filterFor": "Filter for",
+  "findWithName": "Find with name",
+  "findWithNameOptional": "Find with name (Optional)",
+  "filter": "Filter"
 }

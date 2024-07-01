@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import { NodeFilterable } from "../types/NodeFilterable";
 import { MessageSelectionFilter } from "../types/Message";
 import { useAppContext } from "../AppProvider";
+import { useTranslation } from "react-i18next";
 
 const FilterableScopes: NodeFilterable[] = [
   "ALL_OPTIONS",
@@ -24,6 +25,7 @@ const FilterableScopes: NodeFilterable[] = [
 ];
 
 const SelectionFilter: React.FC = () => {
+  const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
 
   // 功能說明彈窗
@@ -91,21 +93,23 @@ const SelectionFilter: React.FC = () => {
           handleClose={handleCloseExplanationModal}
         >
           <div>
-            <h3>Selection Filter</h3>
-            <p>Filter your selection with various of available options.</p>
+            <h3>{t("module:moduleSelectionFilter")}</h3>
+            <p>{t("module:moduleSelectionFilterDesc")}</p>
           </div>
         </Modal>
       </div>
 
       <TitleBar
-        title="Selection Filter"
+        title={t("module:moduleSelectionFilter")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         {/* 選項 */}
         <div className="mt-xxsmall">
-          <SectionTitle title={`Filter for (${selectedScopes.length})`} />
+          <SectionTitle
+            title={`${t("module:filterFor")} (${selectedScopes.length})`}
+          />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
             {FilterableScopes.map((scope) => (
               <label key={scope} className="container">
@@ -122,21 +126,21 @@ const SelectionFilter: React.FC = () => {
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={"Find with name (Optional)"} />
+          <SectionTitle title={t("module:findWithNameOptional")} />
           <div className="width-100">
             <textarea
               className="textarea"
               rows={1}
               value={findCriteria}
               onChange={handleFindCriteriaChange}
-              placeholder="Find with name"
+              placeholder={t("module:findWithName")}
             />
           </div>
         </div>
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={"Filter"}
+            title={t("module:filter")}
             id={"selection-filter-apply"}
             onClick={applySelectionFilter}
           />
