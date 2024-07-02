@@ -10,8 +10,22 @@ import { SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 
+const SpacingValue: {
+  nameKey: string;
+  value: number | string;
+  translate: boolean;
+}[] = [
+  { nameKey: "0", value: 0, translate: false },
+  { nameKey: "8", value: 8, translate: false },
+  { nameKey: "16", value: 16, translate: false },
+  { nameKey: "20", value: 20, translate: false },
+  { nameKey: "24", value: 24, translate: false },
+  { nameKey: "32", value: 32, translate: false },
+  { nameKey: "term:custom", value: "custom", translate: true },
+];
+
 const SpaciiingView: React.FC = () => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -160,7 +174,25 @@ const SpaciiingView: React.FC = () => {
           <SectionTitle title={t("module:spacingValue")} />
           <div className="flex flex-row">
             <div className="custom-segmented-control">
-              {[0, 8, 16, 20, 24, 32, "custom"].map((value) => (
+              {SpacingValue.map((item) => (
+                <React.Fragment key={item.value}>
+                  <input
+                    type="radio"
+                    name="sp-space"
+                    id={`default_Option${item.value}`}
+                    value={item.value}
+                    checked={space === item.value}
+                    onChange={() => setSpace(item.value)}
+                  />
+                  <label
+                    className="sp-c-space"
+                    htmlFor={`default_Option${item.value}`}
+                  >
+                    {typeof item.value === "string" ? t(item.nameKey) : item.value * multiply}
+                  </label>
+                </React.Fragment>
+              ))}
+              {/* {[0, 8, 16, 20, 24, 32, "custom"].map((value) => (
                 <React.Fragment key={value}>
                   <input
                     type="radio"
@@ -177,7 +209,7 @@ const SpaciiingView: React.FC = () => {
                     {typeof value === "string" ? value : value * multiply}
                   </label>
                 </React.Fragment>
-              ))}
+              ))} */}
             </div>
             {space === "custom" && (
               <div className="width-100">
@@ -188,7 +220,7 @@ const SpaciiingView: React.FC = () => {
                     rows={1}
                     value={lastCustomSpacing}
                     onChange={handleCustomValueChange}
-                    placeholder="Custom Value. Numbers only."
+                    placeholder={t("module:customValueNumbersOnly")}
                   />
                 </div>
                 <div className="mt-xxsmall">

@@ -153,5 +153,6 @@
   "memorizeTitleSection": "Memorize TitleSection",
   "elementsInsideFrame": "Elements inside frame",
   "generateAs": "Generate as",
-  "licenseKey": "License key"
+  "licenseKey": "License key",
+  "customValueNumbersOnly": "Custom Value. Numbers only."
 }
