@@ -40,44 +40,63 @@ import { useTranslation } from "react-i18next";
 //   STRING: ["ALL_SCOPES", "TEXT_CONTENT", "FONT_FAMILY", "FONT_STYLE"],
 // };
 
+interface KeyAndScope {
+  nameKey: string;
+  scope: VariableScope;
+}
+
+interface NameAndResolvedDataType {
+  nameKey: string;
+  members: KeyAndScope[];
+}
+
 const VariableScopesNew: {
-  [key in VariableResolvedDataType]: {
-    nameKey: string;
-    scope: VariableScope;
-  }[];
+  [key in VariableResolvedDataType]: NameAndResolvedDataType;
 } = {
-  BOOLEAN: [],
-  COLOR: [
-    { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
-    { nameKey: "term:allFills", scope: "ALL_FILLS" },
-    { nameKey: "term:frameFill", scope: "FRAME_FILL" },
-    { nameKey: "term:shapeFill", scope: "SHAPE_FILL" },
-    { nameKey: "term:textFill", scope: "TEXT_FILL" },
-    { nameKey: "term:strokeColor", scope: "STROKE_COLOR" },
-    { nameKey: "term:effectColor", scope: "EFFECT_COLOR" },
-  ],
-  FLOAT: [
-    { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
-    { nameKey: "term:textContent", scope: "TEXT_CONTENT" },
-    { nameKey: "term:cornerRadius", scope: "CORNER_RADIUS" },
-    { nameKey: "term:widthHeight", scope: "WIDTH_HEIGHT" },
-    { nameKey: "term:gap", scope: "GAP" },
-    { nameKey: "term:opacity", scope: "OPACITY" },
-    { nameKey: "term:strokeFloat", scope: "STROKE_FLOAT" },
-    { nameKey: "term:effectFloat", scope: "EFFECT_FLOAT" },
-    { nameKey: "term:fontWeight", scope: "FONT_WEIGHT" },
-    { nameKey: "term:fontSize", scope: "FONT_SIZE" },
-    { nameKey: "term:lineHeight", scope: "LINE_HEIGHT" },
-    { nameKey: "term:letterSpacing", scope: "LETTER_SPACING" },
-    { nameKey: "term:paragraphSpacing", scope: "PARAGRAPH_SPACING" },
-    { nameKey: "term:paragraphIndent", scope: "PARAGRAPH_INDENT" },
-  ],
-  STRING: [
-    { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
-    { nameKey: "term:textContent", scope: "TEXT_CONTENT" },
-    { nameKey: "term:fontFamily", scope: "FONT_FAMILY" },
-    { nameKey: "term:fontStyle", scope: "FONT_STYLE" },
-  ],
+  BOOLEAN: {
+    nameKey: "term:boolean",
+    members: [],
+  },
+  COLOR: {
+    nameKey: "term:color",
+    members: [
+      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
+      { nameKey: "term:allFills", scope: "ALL_FILLS" },
+      { nameKey: "term:frameFill", scope: "FRAME_FILL" },
+      { nameKey: "term:shapeFill", scope: "SHAPE_FILL" },
+      { nameKey: "term:textFill", scope: "TEXT_FILL" },
+      { nameKey: "term:strokeColor", scope: "STROKE_COLOR" },
+      { nameKey: "term:effectColor", scope: "EFFECT_COLOR" },
+    ],
+  },
+  FLOAT: {
+    nameKey: "term:float",
+    members: [
+      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
+      { nameKey: "term:textContent", scope: "TEXT_CONTENT" },
+      { nameKey: "term:cornerRadius", scope: "CORNER_RADIUS" },
+      { nameKey: "term:widthHeight", scope: "WIDTH_HEIGHT" },
+      { nameKey: "term:gap", scope: "GAP" },
+      { nameKey: "term:opacity", scope: "OPACITY" },
+      { nameKey: "term:strokeFloat", scope: "STROKE_FLOAT" },
+      { nameKey: "term:effectFloat", scope: "EFFECT_FLOAT" },
+      { nameKey: "term:fontWeight", scope: "FONT_WEIGHT" },
+      { nameKey: "term:fontSize", scope: "FONT_SIZE" },
+      { nameKey: "term:lineHeight", scope: "LINE_HEIGHT" },
+      { nameKey: "term:letterSpacing", scope: "LETTER_SPACING" },
+      { nameKey: "term:paragraphSpacing", scope: "PARAGRAPH_SPACING" },
+      { nameKey: "term:paragraphIndent", scope: "PARAGRAPH_INDENT" },
+    ],
+  },
+  STRING: {
+    nameKey: "term:string",
+    members: [
+      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
+      { nameKey: "term:textContent", scope: "TEXT_CONTENT" },
+      { nameKey: "term:fontFamily", scope: "FONT_FAMILY" },
+      { nameKey: "term:fontStyle", scope: "FONT_STYLE" },
+    ],
+  },
 };
 
 const VariableEditor: React.FC = () => {
@@ -94,7 +113,7 @@ const VariableEditor: React.FC = () => {
   const [dataType, setDataType] = useState<VariableResolvedDataType>("COLOR");
   const [variableMode, setVariableMode] = useState("");
   const [variableScope, setVariableScope] = useState<VariableScope[]>(
-    VariableScopesNew[dataType].map((item) => item.scope)
+    VariableScopesNew[dataType].members.map((item) => item.scope)
   );
 
   const {
@@ -110,7 +129,9 @@ const VariableEditor: React.FC = () => {
     useState(0);
 
   useEffect(() => {
-    setVariableScope(VariableScopesNew[dataType].map((item) => item.scope));
+    setVariableScope(
+      VariableScopesNew[dataType].members.map((item) => item.scope)
+    );
     setCode("");
     setTimesExampleCodeBtnClicked(0);
   }, [dataType]);
@@ -155,7 +176,9 @@ const VariableEditor: React.FC = () => {
   const handleScopeChange = (scope: VariableScope) => {
     if (scope === "ALL_SCOPES") {
       // Toggle all scopes
-      const allScopes = VariableScopesNew[dataType].map((item) => item.scope);
+      const allScopes = VariableScopesNew[dataType].members.map(
+        (item) => item.scope
+      );
       setVariableScope((prevScopes) =>
         prevScopes.includes(scope)
           ? prevScopes.filter((s) => !allScopes.includes(s))
@@ -368,7 +391,7 @@ const VariableEditor: React.FC = () => {
           >
             {Object.keys(VariableScopesNew).map((type) => (
               <option key={type} value={type}>
-                {type}
+                {t(VariableScopesNew[type as VariableResolvedDataType].nameKey)}
               </option>
             ))}
           </select>
@@ -381,7 +404,7 @@ const VariableEditor: React.FC = () => {
               }
             />
             <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
-              {VariableScopesNew[dataType].map(({ nameKey, scope }) => (
+              {VariableScopesNew[dataType].members.map(({ nameKey, scope }) => (
                 <label key={scope} className="container">
                   {t(nameKey)}
                   <input

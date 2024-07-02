@@ -36,5 +36,9 @@
   "paragraphIndent": "PARAGRAPH_INDENT",
   "fontFamily": "FONT_FAMILY",
   "fontStyle": "FONT_STYLE",
-  "custom": "Custom"
+  "custom": "Custom",
+  "boolean": "Boolean",
+  "color": "Color",
+  "float": "Float",
+  "string": "String"
 }
