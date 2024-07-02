@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 // ];
 
 const SelectionFilter: React.FC = () => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
 
   // 功能說明彈窗
