@@ -90,7 +90,7 @@ const Shortcut: React.FC = () => {
       <div className="content">
         {/* 已記憶 */}
         <div>
-          <SectionTitle title="Clipboard" />
+          <SectionTitle title={t("module:clipboard")} />
           <div className="flex variable-list">
             {allDoesNotExist && (
               <div>
@@ -127,7 +127,7 @@ const Shortcut: React.FC = () => {
         </div>
         {/* 模式 */}
         <div className="mt-xxsmall">
-          <SectionTitle title="Mode" />
+          <SectionTitle title={t("module:mode")} />
           <div className="custom-segmented-control">
             <input
               type="radio"
@@ -153,7 +153,7 @@ const Shortcut: React.FC = () => {
         </div>
         {/* 選項 */}
         <div className="mt-xxsmall">
-          <SectionTitle title="Options" />
+          <SectionTitle title={t("module:options")} />
           <div className="custom-radio-group">
             <input
               type="radio"

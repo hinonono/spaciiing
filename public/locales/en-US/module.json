@@ -144,5 +144,14 @@
   "medium": "Medium",
   "long": "Long",
   "howManyIconsToBeGenerated": "How many icons to be generated",
-  "size": "Size"
+  "size": "Size",
+  "spacingValue": "Spacing Value",
+  "clipboard": "Clipboard",
+  "options": "Options",
+  "memorizeNote": "Memorize Note",
+  "memorizeDesignStatusTag": "Memorize Design Status Tag",
+  "memorizeTitleSection": "Memorize TitleSection",
+  "elementsInsideFrame": "Elements inside frame",
+  "generateAs": "Generate as",
+  "licenseKey": "License key"
 }

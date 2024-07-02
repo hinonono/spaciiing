@@ -110,7 +110,7 @@ const SubscriptionModal: React.FC = () => {
             {isOnline ? (
               <div>
                 <div className="mt-xxsmall">
-                  <SectionTitle title={"License key"} />
+                  <SectionTitle title={t("module:licenseKey")} />
                   <div className="width-100">
                     <textarea
                       className="textarea"

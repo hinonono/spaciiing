@@ -4,40 +4,50 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 // Import translation files directly
 // Import common translation files
-import commonEN from "../public/locales/en/common.json";
-import commonJA from "../public/locales/ja/common.json";
-import commonZH from "../public/locales/zh/common.json";
+import common_en_US from "../public/locales/en-US/common.json";
+import common_ja_JP from "../public/locales/ja-JP/common.json";
+import common_zh_TW from "../public/locales/zh-TW/common.json";
+import common_zh_CN from "../public/locales/zh-CN/common.json";
 
-import settingsEN from "../public/locales/en/settings.json";
-import settingsJA from "../public/locales/ja/settings.json";
-import settingsZH from "../public/locales/zh/settings.json";
+import settings_en_US from "../public/locales/en-US/settings.json";
+import settings_ja_JP from "../public/locales/ja-JP/settings.json";
+import settings_zh_TW from "../public/locales/zh-TW/settings.json";
+import settings_zh_CN from "../public/locales/zh-CN/settings.json";
 
-import licenseEN from "../public/locales/en/license.json";
-import licenseJA from "../public/locales/ja/license.json";
-import licenseZH from "../public/locales/zh/license.json";
+import license_en_US from "../public/locales/en-US/license.json";
+import license_ja_JP from "../public/locales/ja-JP/license.json";
+import license_zh_TW from "../public/locales/zh-TW/license.json";
+import license_zh_CN from "../public/locales/zh-CN/license.json";
 
-import moduleEN from "../public/locales/en/module.json";
-import moduleJA from "../public/locales/ja/module.json";
-import moduleZH from "../public/locales/zh/module.json";
+import module_en_US from "../public/locales/en-US/module.json";
+import module_ja_JP from "../public/locales/ja-JP/module.json";
+import module_zh_TW from "../public/locales/zh-TW/module.json";
+import module_zh_CN from "../public/locales/zh-CN/module.json";
 
 const resources = {
-  en: {
-    common: commonEN,
-    settings: settingsEN,
-    license: licenseEN,
-    module: moduleEN,
+  enUS: {
+    common: common_en_US,
+    settings: settings_en_US,
+    license: license_en_US,
+    module: module_en_US,
   },
-  jp: {
-    common: commonJA,
-    settings: settingsJA,
-    license: licenseJA,
-    module: moduleJA,
+  jaJP: {
+    common: common_ja_JP,
+    settings: settings_ja_JP,
+    license: license_ja_JP,
+    module: module_ja_JP,
   },
-  zh: {
-    common: commonZH,
-    settings: settingsZH,
-    license: licenseZH,
-    module: moduleZH,
+  zhTW: {
+    common: common_zh_TW,
+    settings: settings_zh_TW,
+    license: license_zh_TW,
+    module: module_zh_TW,
+  },
+  zhCN: {
+    common: common_zh_CN,
+    settings: settings_zh_CN,
+    license: license_zh_CN,
+    module: module_zh_CN,
   },
 };
 
@@ -52,7 +62,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: "en",
+    fallbackLng: "enUS",
     debug: true,
     interpolation: {
       escapeValue: false, // React already escapes values

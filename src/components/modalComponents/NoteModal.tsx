@@ -59,7 +59,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
         )}
         <FigmaButton
           buttonType="secondary"
-          title={"Memorize note"}
+          title={t("module:memorizeNote")}
           id={"shortcut-memorize-note"}
           onClick={() => {
             applyMemorizeNote("memorizeNote");

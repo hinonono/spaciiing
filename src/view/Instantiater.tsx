@@ -89,7 +89,7 @@ const Instantiater: React.FC = () => {
       />
       <div className="content">
         <div>
-          <SectionTitle title="Generate as" />
+          <SectionTitle title={t("module:generateAs")} />
           <div className="custom-segmented-control">
             <input
               type="radio"

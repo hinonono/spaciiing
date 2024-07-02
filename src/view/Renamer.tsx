@@ -171,7 +171,7 @@ const Renamer: React.FC = () => {
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={`Options`} />
+          <SectionTitle title={t("module:options")} />
           <div className="custom-checkbox-group">
             <label className="container">
               {t("module:deleteHiddenLayers")}

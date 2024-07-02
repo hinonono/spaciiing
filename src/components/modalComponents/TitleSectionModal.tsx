@@ -64,7 +64,7 @@ const TitleSectionModal: React.FC<TitleSectionModalProps> = ({
         )}
         <FigmaButton
           buttonType="secondary"
-          title={"Memorize title section"}
+          title={t("module:memorizeTitleSection")}
           id={"shortcut-memorize-title-section"}
           onClick={() => {
             applyMemorizeTitleSection("memorizeTitleSection");

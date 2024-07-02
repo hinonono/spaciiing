@@ -44,9 +44,10 @@ const Setting: React.FC = () => {
             value={i18n.language} // current language
             onChange={handleLangChange}
           >
-            <option value="en">English</option>
-            <option value="jp">日本語</option>
-            <option value="zh">繁體中文</option>
+            <option value="enUS">English</option>
+            <option value="jaJP">日本語</option>
+            <option value="zhTW">繁體中文</option>
+            <option value="zhCN">简体中文</option>
           </select>
         </div>
         <div className="mt-small">
@@ -108,7 +109,7 @@ const Setting: React.FC = () => {
           <div className="grid">
             <div className="membership-block">
               <p className="color--secondary">{t("settings:version")}</p>
-              <span>6</span>
+              <span>7</span>
             </div>
           </div>
           <div className="mt-xxsmall"></div>

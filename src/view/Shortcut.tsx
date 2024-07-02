@@ -284,7 +284,7 @@ const Shortcut: React.FC = () => {
           />
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={"Elements inside frame"} />
+          <SectionTitle title={t("module:elementsInsideFrame")} />
           <FigmaButton
             buttonType="secondary"
             title={t("module:alignToFrameEdge")}

@@ -65,7 +65,7 @@ const DesignStatusTagModal: React.FC<DesignStatusTagModalProps> = ({
         )}
         <FigmaButton
           buttonType="secondary"
-          title={"Memorize design status tag"}
+          title={t("module:memorizeDesignStatusTag")}
           id={"shortcut-memorize-design-status-tag"}
           onClick={() => {
             applyMemorizeDesignStatusTag("memorizeDesignStatusTag");

@@ -104,7 +104,7 @@ const SpaciiingView: React.FC = () => {
       <TitleBar title="Spaciiing" onClick={handleOpenExplanationModal} />
       <div className="content">
         <div>
-          <SectionTitle title="Mode" />
+          <SectionTitle title={t("module:mode")} />
           <div className="custom-segmented-control">
             <input
               type="radio"
@@ -157,7 +157,7 @@ const SpaciiingView: React.FC = () => {
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title="Spacing Value" />
+          <SectionTitle title={t("module:spacingValue")} />
           <div className="flex flex-row">
             <div className="custom-segmented-control">
               {[0, 8, 16, 20, 24, 32, "custom"].map((value) => (

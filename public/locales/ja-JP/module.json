@@ -144,5 +144,14 @@
   "medium": "中",
   "long": "長い",
   "howManyIconsToBeGenerated": "生成されるアイコンの数",
-  "size": "サイズ"
+  "size": "サイズ",
+  "spacingValue": "間隔値",
+  "clipboard": "クリップボード",
+  "options": "オプション",
+  "memorizeNote": "メモコンポーネントを記憶する",
+  "memorizeDesignStatusTag": "デザインステータスタグコンポーネントを記憶する",
+  "memorizeTitleSection": "タイトルセクションコンポーネントを記憶する",
+  "elementsInsideFrame": "フレーム内のオブジェクト",
+  "generateAs": "生成するタイプ",
+  "licenseKey": "ライセンスキー"
 }
