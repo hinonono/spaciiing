@@ -6,20 +6,20 @@ import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 
-const RenamableScopes: NodeRenamable[] = [
-  "ALL_OPTIONS",
-  "IMAGE",
-  "TEXT",
-  "FRAME",
-  "GROUP",
-  "ALL_SHAPE",
-  "RECTANGLE",
-  "ELLIPSE",
-  "LINE",
-  "POLYGON",
-  "STAR",
-  "VECTOR",
-];
+// const RenamableScopes: NodeRenamable[] = [
+//   "ALL_OPTIONS",
+//   "IMAGE",
+//   "TEXT",
+//   "FRAME",
+//   "GROUP",
+//   "ALL_SHAPE",
+//   "RECTANGLE",
+//   "ELLIPSE",
+//   "LINE",
+//   "POLYGON",
+//   "STAR",
+//   "VECTOR",
+// ];
 
 const Renamer: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -30,9 +30,27 @@ const Renamer: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
+  //
+  const RenamableScopesNew: { name: string; scope: NodeRenamable }[] = [
+    { name: t("term:allOptions"), scope: "ALL_OPTIONS" },
+    { name: t("term:image"), scope: "IMAGE" },
+    { name: t("term:text"), scope: "TEXT" },
+    { name: t("term:frame"), scope: "FRAME" },
+    { name: t("term:group"), scope: "GROUP" },
+    { name: t("term:allShape"), scope: "ALL_SHAPE" },
+    { name: t("term:rectangle"), scope: "RECTANGLE" },
+    { name: t("term:ellipse"), scope: "ELLIPSE" },
+    { name: t("term:line"), scope: "LINE" },
+    { name: t("term:polygon"), scope: "POLYGON" },
+    { name: t("term:star"), scope: "STAR" },
+    { name: t("term:vector"), scope: "VECTOR" },
+  ];
+  const initialScopes = RenamableScopesNew.map((item) => item.scope);
+
+  //
   const [options, setOptions] = useState<RenamerSupportedTargets[]>([]);
   const [selectedScopes, setSelectedScopes] =
-    useState<NodeRenamable[]>(RenamableScopes);
+    useState<NodeRenamable[]>(initialScopes);
   const [deleteHiddenLayer, setDeleteHiddenLayer] = useState(false);
   const [skipLockedLayer, setSkipLockedLayer] = useState(true);
   const [includeParentLayer, setIncludeParentLayer] = useState(false);
@@ -59,7 +77,9 @@ const Renamer: React.FC = () => {
   const handleScopeChange = (scope: NodeRenamable) => {
     if (scope === "ALL_OPTIONS") {
       // Toggle specific fill scopes
-      const fillScopes: NodeRenamable[] = RenamableScopes;
+      const fillScopes: NodeRenamable[] = RenamableScopesNew.map(
+        (item) => item.scope
+      );
       setSelectedScopes((prevScopes) =>
         prevScopes.includes(scope)
           ? prevScopes.filter((s) => !fillScopes.includes(s))
@@ -156,7 +176,19 @@ const Renamer: React.FC = () => {
             title={`${t("module:renameScopes")} (${selectedScopes.length})`}
           />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
-            {RenamableScopes.map((scope) => (
+            {RenamableScopesNew.map((item) => (
+              <label key={item.scope} className="container">
+                {item.name}
+                <input
+                  type="checkbox"
+                  value={item.scope}
+                  checked={selectedScopes.includes(item.scope)}
+                  onChange={() => handleScopeChange(item.scope)}
+                />
+                <span className="checkmark"></span>
+              </label>
+            ))}
+            {/* {RenamableScopes.map((scope) => (
               <label key={scope} className="container">
                 {scope}
                 <input
@@ -167,7 +199,7 @@ const Renamer: React.FC = () => {
                 />
                 <span className="checkmark"></span>
               </label>
-            ))}
+            ))} */}
           </div>
         </div>
         <div className="mt-xxsmall">
