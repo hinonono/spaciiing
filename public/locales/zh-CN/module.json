@@ -153,5 +153,6 @@
   "memorizeTitleSection": "记忆标题区段",
   "elementsInsideFrame": "框架内的元素",
   "generateAs": "生成为",
-  "licenseKey": "授权密钥"
+  "licenseKey": "授权密钥",
+  "customValueNumbersOnly": "在此处填入自定义数值"
 }

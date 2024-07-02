@@ -153,5 +153,6 @@
   "memorizeTitleSection": "記憶標題區段元件",
   "elementsInsideFrame": "框架內的元素",
   "generateAs": "生成為",
-  "licenseKey": "授權金鑰"
+  "licenseKey": "授權金鑰",
+  "customValueNumbersOnly": "請在此處填入數值"
 }

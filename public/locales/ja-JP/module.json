@@ -123,7 +123,7 @@
   "horizontal": "横",
   "multiplySpacingBy": "間隔を倍にする",
   "customValueIsNotAffect": "カスタム値は倍数値の影響を受けません。",
-  "addAutoLayoutAfterApply": "適用後に自動レイアウトを追加",
+  "addAutoLayoutAfterApply": "適用後にオートレイアウトを追加",
   "designStatusTagSetting": "デザインステータスタグ設定",
   "noteSetting": "ノート設定",
   "titleSectionSetting": "タイトルセクション設定",
@@ -153,5 +153,6 @@
   "memorizeTitleSection": "タイトルセクションコンポーネントを記憶する",
   "elementsInsideFrame": "フレーム内のオブジェクト",
   "generateAs": "生成するタイプ",
-  "licenseKey": "ライセンスキー"
+  "licenseKey": "ライセンスキー",
+  "customValueNumbersOnly": "ここに数字を入力してください"
 }
