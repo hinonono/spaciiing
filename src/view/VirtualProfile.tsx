@@ -87,31 +87,43 @@ const VirtualProfile: React.FC = () => {
   }, [virtualProfile]);
 
   const renderTableContent = () => {
-    const categories: Record<CategoryKey, string[]> = {
-      personal: [
-        "username",
-        "userId",
-        "name",
-        "nickname",
-        "age",
-        "gender",
-        "birthday",
-        "email",
-        "country",
-        "city",
-        "address",
-        "landlineNum",
-        "phoneNum",
-      ],
-      employment: [
-        "jobTitle",
-        "industry",
-        "companyName",
-        "companyAddress",
-        "companyPhoneNum",
-      ],
-      financial: ["cardNum", "expirationDate", "cvv", "cardNetwork"],
-      custom: ["custom1", "custom2", "custom3"],
+    const categories: Record<
+      CategoryKey,
+      { nameKey: string; members: string[] }
+    > = {
+      personal: {
+        nameKey: "module:personal",
+        members: [
+          "username",
+          "userId",
+          "name",
+          "nickname",
+          "age",
+          "gender",
+          "birthday",
+          "email",
+          "country",
+          "city",
+          "address",
+          "landlineNum",
+          "phoneNum",
+        ],
+      },
+      employment: {
+        nameKey: "module:employment",
+        members: [
+          "jobTitle",
+          "industry",
+          "companyName",
+          "companyAddress",
+          "companyPhoneNum",
+        ],
+      },
+      financial: {
+        nameKey: "module:financial",
+        members: ["cardNum", "expirationDate", "cvv", "cardNetwork"],
+      },
+      custom: { nameKey: "module:custom", members: ["custom1", "custom2", "custom3"] },
     };
 
     const rows = [
@@ -244,13 +256,14 @@ const VirtualProfile: React.FC = () => {
 
     const categorizedRows = Object.keys(categories).map((category) => {
       const categoryRows = rows.filter((row) =>
-        categories[category as CategoryKey].includes(row.key)
+        categories[category as CategoryKey].members.includes(row.key)
       );
       return (
         <div key={category} className="category">
           <div className="table-row category-title">
             <div className="table-cell">
-              {category.charAt(0).toUpperCase() + category.slice(1)}
+              {t(categories[category as CategoryKey].nameKey)}
+              {/* {category.charAt(0).toUpperCase() + category.slice(1)} */}
             </div>
             <div className="table-cell"></div>
             <div className="table-cell"></div>

@@ -154,5 +154,9 @@
   "elementsInsideFrame": "Elements inside frame",
   "generateAs": "Generate as",
   "licenseKey": "License key",
-  "customValueNumbersOnly": "Custom Value. Numbers only."
+  "customValueNumbersOnly": "Custom Value. Numbers only.",
+  "personal": "Personal",
+  "employment": "Employment",
+  "financial": "Financial",
+  "custom": "Custom"
 }
