@@ -8,6 +8,7 @@
   "instance": "INSTANCE",
   "component": "COMPONENT",
   "componentSet": "COMPONENT_SET",
+  "allShape": "ALL_SHAPE",
   "rectangle": "RECTANGLE",
   "ellipse": "ELLIPSE",
   "line": "LINE",

@@ -141,7 +141,7 @@ const Instantiater: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className="mt-xxsmall"></div>
+        <div className="mt-xsmall"></div>
         <div className="grid">
           <FigmaButton
             buttonType="secondary"

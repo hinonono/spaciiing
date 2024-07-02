@@ -361,7 +361,7 @@ const VariableEditor: React.FC = () => {
         </div>
         {/* Mode */}
         <div className="mt-xsmall">
-          <SectionTitle title={"Variable Mode"} />
+          <SectionTitle title={t("module:variableMode")} />
           <select
             name="mode"
             className="custom-select"

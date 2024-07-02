@@ -50,7 +50,7 @@ const Setting: React.FC = () => {
             <option value="zhCN">简体中文</option>
           </select>
         </div>
-        <div className="mt-small">
+        <div className="mt-large">
           <h3>{t("license:subscriptionSectionTitle")}</h3>
           <div className="grid">
             {licenseManagement.tier == "PAID" ? (
@@ -104,7 +104,7 @@ const Setting: React.FC = () => {
             )}
           </div>
         </div>
-        <div className="mt-small">
+        <div className="mt-large">
           <h3>{t("settings:about")}</h3>
           <div className="grid">
             <div className="membership-block">
