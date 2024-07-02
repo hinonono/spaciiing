@@ -6,23 +6,23 @@ import { MessageSelectionFilter } from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 
-const FilterableScopes: NodeFilterable[] = [
-  "ALL_OPTIONS",
-  "IMAGE",
-  "TEXT",
-  "FRAME",
-  "GROUP",
-  "AUTO_LAYOUT",
-  "INSTANCE",
-  "COMPONENT",
-  "COMPONENT_SET",
-  "RECTANGLE",
-  "ELLIPSE",
-  "LINE",
-  "POLYGON",
-  "STAR",
-  "VECTOR",
-];
+// const FilterableScopes: NodeFilterable[] = [
+//   "ALL_OPTIONS",
+//   "IMAGE",
+//   "TEXT",
+//   "FRAME",
+//   "GROUP",
+//   "AUTO_LAYOUT",
+//   "INSTANCE",
+//   "COMPONENT",
+//   "COMPONENT_SET",
+//   "RECTANGLE",
+//   "ELLIPSE",
+//   "LINE",
+//   "POLYGON",
+//   "STAR",
+//   "VECTOR",
+// ];
 
 const SelectionFilter: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -33,12 +33,31 @@ const SelectionFilter: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
+  const FilterableScopesNew: { name: string; scope: NodeFilterable }[] = [
+    { name: t("term:allOptions"), scope: "ALL_OPTIONS" },
+    { name: t("term:image"), scope: "IMAGE" },
+    { name: t("term:text"), scope: "TEXT" },
+    { name: t("term:frame"), scope: "FRAME" },
+    { name: t("term:group"), scope: "GROUP" },
+    { name: t("term:autoLayout"), scope: "AUTO_LAYOUT" },
+    { name: t("term:instance"), scope: "INSTANCE" },
+    { name: t("term:component"), scope: "COMPONENT" },
+    { name: t("term:componentSet"), scope: "COMPONENT_SET" },
+    { name: t("term:rectangle"), scope: "RECTANGLE" },
+    { name: t("term:ellipse"), scope: "ELLIPSE" },
+    { name: t("term:line"), scope: "LINE" },
+    { name: t("term:polygon"), scope: "POLYGON" },
+    { name: t("term:star"), scope: "STAR" },
+    { name: t("term:vector"), scope: "VECTOR" },
+  ];
+
   // 主要功能
   const [selectedScopes, setSelectedScopes] = useState<NodeFilterable[]>([]);
   const handleScopeChange = (scope: NodeFilterable) => {
     if (scope === "ALL_OPTIONS") {
       // Toggle specific fill scopes
-      const fillScopes: NodeFilterable[] = FilterableScopes;
+      const scopes = FilterableScopesNew.map((item) => item.scope);
+      const fillScopes: NodeFilterable[] = scopes;
       setSelectedScopes((prevScopes) =>
         prevScopes.includes(scope)
           ? prevScopes.filter((s) => !fillScopes.includes(s))
@@ -98,7 +117,6 @@ const SelectionFilter: React.FC = () => {
           </div>
         </Modal>
       </div>
-
       <TitleBar
         title={t("module:moduleSelectionFilter")}
         onClick={handleOpenExplanationModal}
@@ -111,7 +129,19 @@ const SelectionFilter: React.FC = () => {
             title={`${t("module:filterFor")} (${selectedScopes.length})`}
           />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
-            {FilterableScopes.map((scope) => (
+            {FilterableScopesNew.map((item) => (
+              <label key={item.name} className="container">
+                {item.name}
+                <input
+                  type="checkbox"
+                  value={item.scope}
+                  checked={selectedScopes.includes(item.scope)}
+                  onChange={() => handleScopeChange(item.scope)}
+                />
+                <span className="checkmark"></span>
+              </label>
+            ))}
+            {/* {FilterableScopes.map((scope) => (
               <label key={scope} className="container">
                 {scope}
                 <input
@@ -122,7 +152,7 @@ const SelectionFilter: React.FC = () => {
                 />
                 <span className="checkmark"></span>
               </label>
-            ))}
+            ))} */}
           </div>
         </div>
         <div className="mt-xxsmall">
