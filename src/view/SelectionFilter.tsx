@@ -33,22 +33,22 @@ const SelectionFilter: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const FilterableScopesNew: { name: string; scope: NodeFilterable }[] = [
-    { name: t("term:allOptions"), scope: "ALL_OPTIONS" },
-    { name: t("term:image"), scope: "IMAGE" },
-    { name: t("term:text"), scope: "TEXT" },
-    { name: t("term:frame"), scope: "FRAME" },
-    { name: t("term:group"), scope: "GROUP" },
-    { name: t("term:autoLayout"), scope: "AUTO_LAYOUT" },
-    { name: t("term:instance"), scope: "INSTANCE" },
-    { name: t("term:component"), scope: "COMPONENT" },
-    { name: t("term:componentSet"), scope: "COMPONENT_SET" },
-    { name: t("term:rectangle"), scope: "RECTANGLE" },
-    { name: t("term:ellipse"), scope: "ELLIPSE" },
-    { name: t("term:line"), scope: "LINE" },
-    { name: t("term:polygon"), scope: "POLYGON" },
-    { name: t("term:star"), scope: "STAR" },
-    { name: t("term:vector"), scope: "VECTOR" },
+  const FilterableScopesNew: { nameKey: string; scope: NodeFilterable }[] = [
+    { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
+    { nameKey: "term:image", scope: "IMAGE" },
+    { nameKey: "term:text", scope: "TEXT" },
+    { nameKey: "term:frame", scope: "FRAME" },
+    { nameKey: "term:group", scope: "GROUP" },
+    { nameKey: "term:autoLayout", scope: "AUTO_LAYOUT" },
+    { nameKey: "term:instance", scope: "INSTANCE" },
+    { nameKey: "term:component", scope: "COMPONENT" },
+    { nameKey: "term:componentSet", scope: "COMPONENT_SET" },
+    { nameKey: "term:rectangle", scope: "RECTANGLE" },
+    { nameKey: "term:ellipse", scope: "ELLIPSE" },
+    { nameKey: "term:line", scope: "LINE" },
+    { nameKey: "term:polygon", scope: "POLYGON" },
+    { nameKey: "term:star", scope: "STAR" },
+    { nameKey: "term:vector", scope: "VECTOR" },
   ];
 
   // 主要功能
@@ -130,8 +130,8 @@ const SelectionFilter: React.FC = () => {
           />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
             {FilterableScopesNew.map((item) => (
-              <label key={item.name} className="container">
-                {item.name}
+              <label key={t(item.nameKey)} className="container">
+                {t(item.nameKey)}
                 <input
                   type="checkbox"
                   value={item.scope}

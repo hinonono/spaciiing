@@ -31,19 +31,19 @@ const Renamer: React.FC = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   //
-  const RenamableScopesNew: { name: string; scope: NodeRenamable }[] = [
-    { name: t("term:allOptions"), scope: "ALL_OPTIONS" },
-    { name: t("term:image"), scope: "IMAGE" },
-    { name: t("term:text"), scope: "TEXT" },
-    { name: t("term:frame"), scope: "FRAME" },
-    { name: t("term:group"), scope: "GROUP" },
-    { name: t("term:allShape"), scope: "ALL_SHAPE" },
-    { name: t("term:rectangle"), scope: "RECTANGLE" },
-    { name: t("term:ellipse"), scope: "ELLIPSE" },
-    { name: t("term:line"), scope: "LINE" },
-    { name: t("term:polygon"), scope: "POLYGON" },
-    { name: t("term:star"), scope: "STAR" },
-    { name: t("term:vector"), scope: "VECTOR" },
+  const RenamableScopesNew: { nameKey: string; scope: NodeRenamable }[] = [
+    { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
+    { nameKey: "term:image", scope: "IMAGE" },
+    { nameKey: "term:text", scope: "TEXT" },
+    { nameKey: "term:frame", scope: "FRAME" },
+    { nameKey: "term:group", scope: "GROUP" },
+    { nameKey: "term:allShape", scope: "ALL_SHAPE" },
+    { nameKey: "term:rectangle", scope: "RECTANGLE" },
+    { nameKey: "term:ellipse", scope: "ELLIPSE" },
+    { nameKey: "term:line", scope: "LINE" },
+    { nameKey: "term:polygon", scope: "POLYGON" },
+    { nameKey: "term:star", scope: "STAR" },
+    { nameKey: "term:vector", scope: "VECTOR" },
   ];
   const initialScopes = RenamableScopesNew.map((item) => item.scope);
 
@@ -178,7 +178,7 @@ const Renamer: React.FC = () => {
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
               <label key={item.scope} className="container">
-                {item.name}
+                {t(item.nameKey)}
                 <input
                   type="checkbox"
                   value={item.scope}
