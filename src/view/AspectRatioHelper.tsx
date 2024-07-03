@@ -192,6 +192,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
                 onClick={() => {
                   applyAspectRatioHandler(option.width, option.height, false);
                 }}
+                hasTopBottomMargin={false}
               />
             ))}
           </div>

@@ -395,10 +395,6 @@ button {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.4rem;
-
-    button {
-        margin: 0;
-    }
 }
 
 .button--tertiary {
@@ -754,6 +750,11 @@ li {
 
 .color--secondary {
     color: var(--figma-color-text-secondary)
+}
+
+.disable-mtmb {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
 }
 
 

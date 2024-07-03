@@ -704,9 +704,6 @@ button {
   grid-template-columns: 1fr 1fr;
   gap: 0.4rem;
 }
-.grid button {
-  margin: 0;
-}
 
 .button--tertiary {
   background-color: rgba(24, 160, 251, 0.15);
@@ -1020,6 +1017,11 @@ li {
 
 .color--secondary {
   color: var(--figma-color-text-secondary);
+}
+
+.disable-mtmb {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
 }
 
 /*# sourceMappingURL=App.css.map */
