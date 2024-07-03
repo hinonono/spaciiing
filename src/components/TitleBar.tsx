@@ -1,6 +1,7 @@
 import React from "react";
 import { SvgInfo } from "../assets/icons";
 import { useAppContext } from "../AppProvider";
+import { useTranslation } from "react-i18next";
 
 interface TitleBarProps {
   title: string;
@@ -19,6 +20,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
 }) => {
   const isDevelopment = process.env.REACT_APP_ENV === "development";
   const { licenseManagement } = useAppContext();
+  const { t } = useTranslation(["license"]);
 
   return (
     <div className="title-bar">
@@ -28,7 +30,9 @@ const TitleBar: React.FC<TitleBarProps> = ({
         {children && <div className="title-bar-children">{children}</div>}
         {!licenseManagement.isLicenseActive &&
           isProFeature &&
-          !isDevelopment && <div className="badge ml-xxsmall">PRO</div>}
+          !isDevelopment && (
+            <div className="badge ml-xxsmall">{t("license:pro")}</div>
+          )}
         {showInfoIcon && (
           <div className="ml-xxxsmall tooltip">
             <div className="icon-20 icon-hover" onClick={onClick}>
