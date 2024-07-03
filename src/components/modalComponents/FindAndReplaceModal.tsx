@@ -8,6 +8,7 @@ import {
 } from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface FindAndReplaceModalProps {
   showFindAndReplaceModal: boolean;
@@ -43,8 +44,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
   };
 
   const applyFindAndReplace = (action: ShortcutAction) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

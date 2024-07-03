@@ -7,6 +7,7 @@ import {
   ShortcutAction,
 } from "../../types/Message";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface DesignStatusTagModalProps {
   showDesignStatusTagModal: boolean;
@@ -22,8 +23,7 @@ const DesignStatusTagModal: React.FC<DesignStatusTagModalProps> = ({
     useAppContext();
 
   const applyMemorizeDesignStatusTag = (action: ShortcutAction) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

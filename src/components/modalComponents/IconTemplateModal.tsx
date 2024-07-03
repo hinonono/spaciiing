@@ -8,6 +8,7 @@ import {
 } from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface IconTemplateModalProps {
   showIconModal: boolean;
@@ -31,8 +32,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   };
 
   const applyGenerateIconTemplate = (action: ShortcutAction) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

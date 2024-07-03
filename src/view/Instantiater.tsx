@@ -11,6 +11,7 @@ import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -44,9 +45,7 @@ const Instantiater: React.FC = () => {
   }, [selectedBrand, form]);
 
   const applyInstantiater = (type: InstantiaterType) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

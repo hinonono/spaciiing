@@ -8,6 +8,7 @@ import {
 import { VirtualProfile } from "../types/VirtualProfile";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 type CategoryKey = "personal" | "employment" | "financial" | "custom";
 
@@ -58,9 +59,7 @@ const VirtualProfile: React.FC = () => {
   };
 
   const saveVirtualProfile = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

@@ -8,6 +8,7 @@ import { useAppContext } from "../AppProvider";
 import MonacoCodeEditor from "../components/MonacoCodeEditor";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 // Define the valid scopes for each VariableResolvedDataType
 // const VariableScopes: { [key in VariableResolvedDataType]: VariableScope[] } = {
@@ -208,9 +209,7 @@ const VariableEditor: React.FC = () => {
   };
 
   const executeCode = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

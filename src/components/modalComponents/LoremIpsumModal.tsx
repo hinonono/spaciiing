@@ -9,6 +9,7 @@ import {
 import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface LoremIpsumModalProps {
   show: boolean;
@@ -26,8 +27,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
   const [length, setLength] = useState<LoremLength>("short");
 
   const generateLorem = (lang: LoremSupportedLang, length: LoremLength) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

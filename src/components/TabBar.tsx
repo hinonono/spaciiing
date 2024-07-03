@@ -63,12 +63,6 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
       <div className="tab-bar hide-scrollbar-horizontal">
         <TabButton
           activeTab={activeTab}
-          tabName="AspectRatioHelper"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgSpaciiing}
-        />
-        <TabButton
-          activeTab={activeTab}
           tabName="Spaciiing"
           setActiveTab={setActiveTab}
           SvgComponent={SvgSpaciiing}
@@ -96,6 +90,12 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           tabName="Renamer"
           setActiveTab={setActiveTab}
           SvgComponent={SvgRenamer}
+        />
+        <TabButton
+          activeTab={activeTab}
+          tabName="AspectRatioHelper"
+          setActiveTab={setActiveTab}
+          SvgComponent={SvgSpaciiing}
         />
         <TabButton
           activeTab={activeTab}

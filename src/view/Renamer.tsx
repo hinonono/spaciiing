@@ -5,6 +5,7 @@ import { NodeRenamable } from "../types/NodeRenamable";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 // const RenamableScopes: NodeRenamable[] = [
 //   "ALL_OPTIONS",
@@ -112,9 +113,7 @@ const Renamer: React.FC = () => {
   };
 
   const applyRenamer = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

@@ -5,6 +5,7 @@ import Modal from "../Modal";
 import { MessageFramer, FramerMode } from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface FramerModalProps {
   showFramerModal: boolean;
@@ -26,9 +27,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
   };
 
   const applyFramer = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

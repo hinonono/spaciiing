@@ -5,6 +5,7 @@ import { NodeFilterable } from "../types/NodeFilterable";
 import { MessageSelectionFilter } from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 // const FilterableScopes: NodeFilterable[] = [
 //   "ALL_OPTIONS",
@@ -81,9 +82,7 @@ const SelectionFilter: React.FC = () => {
 
   // 傳送訊息
   const applySelectionFilter = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
