@@ -8,6 +8,7 @@
   "instance": "インスタンス",
   "component": "コンポーネント",
   "componentSet": "コンポーネントセット",
+  "allShape": "すべての形状",
   "rectangle": "長方形",
   "ellipse": "楕円",
   "line": "直線",
@@ -36,5 +37,9 @@
   "paragraphIndent": "段落インデント",
   "fontFamily": "フォントファミリー",
   "fontStyle": "フォントの太さまたはスタイル",
-  "custom": "カスタム"
+  "custom": "カスタム",
+  "boolean": "ブーリアン",
+  "color": "カラー",
+  "float": "数値",
+  "string": "文字列"
 }

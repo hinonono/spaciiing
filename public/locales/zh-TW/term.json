@@ -8,6 +8,7 @@
   "instance": "實例",
   "component": "元件",
   "componentSet": "元件組",
+  "allShape": "所有形狀",
   "rectangle": "矩形",
   "ellipse": "圓形",
   "line": "線",
@@ -36,5 +37,9 @@
   "paragraphIndent": "段落縮排",
   "fontFamily": "字型",
   "fontStyle": "文字樣式",
-  "custom": "自訂"
+  "custom": "自訂",
+  "boolean": "布林值",
+  "color": "色彩",
+  "float": "浮點值",
+  "string": "字串"
 }

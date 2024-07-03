@@ -123,11 +123,11 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
         handleClose={handleCloseExplanationModal}
       >
         <div>
-          <h3>Aspect Ratio Helper</h3>
+          <h3>{t("module:moduleAspectRatioHelper")}</h3>
           <p>
-            Adjust element's width or height to match specific aspect ratio.
+            {t("module:moduleAspectRatioHelperDesc")}
           </p>
-          <h4>Commonly used aspect ratio</h4>
+          <h4>{t("module:commonlyUsedAspectRatio")}</h4>
           <ul>
             {aspectRatioOptionsUI.map((option) => (
               <li key={option.name}>
@@ -138,13 +138,13 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
         </div>
       </Modal>
       <TitleBar
-        title="Aspect Ratio Helper"
+        title={t("module:moduleAspectRatioHelper")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         <div>
-          <SectionTitle title="Lock dimension" />
+          <SectionTitle title={t("module:lockDimension")} />
           <div className="flex flex-row">
             <div className="custom-segmented-control">
               <input
@@ -179,7 +179,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
           </div>
         </div>
         <div className="mt-xsmall">
-          <SectionTitle title="Preset aspect ratio" />
+          <SectionTitle title={t("module:presetAspectRatio")} />
           <div className="grid mt-xxxsmall">
             {aspectRatioOptionsUI.map((option) => (
               <FigmaButton
@@ -201,7 +201,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
           <div className="border-1 padding-16 border-radius-large">
             <div className="grid">
               <div>
-                <SectionTitle title={"Width Ratio"} />
+                <SectionTitle title={t("module:widthRatio")} />
                 <textarea
                   className="textarea font-size-xlarge"
                   rows={1}
@@ -211,7 +211,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
                 />
               </div>
               <div>
-                <SectionTitle title={"Height Ratio"} />
+                <SectionTitle title={t("module:heightRatio")} />
                 <textarea
                   className="textarea font-size-xlarge"
                   rows={1}

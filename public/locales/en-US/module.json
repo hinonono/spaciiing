@@ -165,5 +165,13 @@
   "aspectRatio_3_4": "Commonly used for portrait photography and some social media images.",
   "aspectRatio_3_2": "Commonly used for DSLR camera photography and some laptop screens.",
   "aspectRatio_2_3": "Commonly used for portrait photography and prints.",
-  "aspectRatio_1_1": "Commonly used for social media profile pictures and square videos."
+  "aspectRatio_1_1": "Commonly used for social media profile pictures and square videos.",
+  "moduleAspectRatioHelper": "Aspect Ratio Helper",
+  "moduleAspectRatioHelperDesc": "Adjust element's width or height to match specific aspect ratio.",
+  "commonlyUsedAspectRatio": "Commonly used aspect ratio",
+  "lockDimension": "Lock dimension",
+  "presetAspectRatio": "Preset aspect ratio",
+  "widthRatio": "Width Ratio",
+  "heightRatio": "Height Ratio"
+
 }
