@@ -1,6 +1,5 @@
 import React from "react";
 import { capitalizeWords } from "../module/util";
-import { SVGprops } from "../types/SVGprops";
 
 interface FigmaButtonProps {
   buttonType?: "primary" | "secondary" | "tertiary";

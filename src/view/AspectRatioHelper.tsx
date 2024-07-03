@@ -5,7 +5,10 @@ import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { SvgVertical, SvgHorizontal } from "../assets/icons";
 import { Dimension, MessageAspectRatio } from "../types/Message";
-import { checkProFeatureAccessibleForUser, applyAspectRatio } from "../module-frontend/utilFrontEnd";
+import {
+  checkProFeatureAccessibleForUser,
+  applyAspectRatio,
+} from "../module-frontend/utilFrontEnd";
 
 interface AspectRatioHelperProps {}
 type AspectRatioOptions =
@@ -29,6 +32,19 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
 
   // 功能
   const [lockedDimension, setLockedDimension] = useState<Dimension>("width");
+  const [widthCustomRatio, setWidthCustomRatio] = useState(0);
+  const handleWidthCustomRatioChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setWidthCustomRatio(Number(event.target.value));
+  };
+
+  const [heightCustomRatio, setHeightCustomRatio] = useState(0);
+  const handleHeightCustomRatioChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setHeightCustomRatio(Number(event.target.value));
+  };
 
   const aspectRatioOptionsUI: {
     name: AspectRatioOptions;
@@ -146,7 +162,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
             </div>
           </div>
         </div>
-        <div className="mt-xxsmall">
+        <div className="mt-xsmall">
           <SectionTitle title="Preset aspect ratio" />
           <div className="grid mt-xxxsmall">
             {aspectRatioOptionsUI.map((option) => (
@@ -164,8 +180,45 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
             ))}
           </div>
         </div>
-        <div className="mt-xxsmall">
-          <FigmaButton buttonType="secondary" title={t("term:custom")} />
+        <div className="mt-xsmall">
+          <SectionTitle title={t("term:custom")} />
+          <div className="border-1 padding-16 border-radius-large">
+            <div className="grid">
+              <div>
+                <SectionTitle title={"Width Ratio"} />
+                <textarea
+                  className="textarea"
+                  rows={1}
+                  value={widthCustomRatio}
+                  onChange={handleWidthCustomRatioChange}
+                  placeholder={t("module:customValueNumbersOnly")}
+                />
+              </div>
+              <div>
+                <SectionTitle title={"Height Ratio"} />
+                <textarea
+                  className="textarea"
+                  rows={1}
+                  value={heightCustomRatio}
+                  onChange={handleHeightCustomRatioChange}
+                  placeholder={t("module:customValueNumbersOnly")}
+                />
+              </div>
+            </div>
+            <div className="mt-xxsmall">
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:apply")}
+                onClick={() => {
+                  applyAspectRatioHandler(
+                    widthCustomRatio,
+                    heightCustomRatio,
+                    true
+                  );
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

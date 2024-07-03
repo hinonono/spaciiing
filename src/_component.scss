@@ -289,3 +289,15 @@
         color: var(--figma-color-text-secondary);
     }
 }
+
+.border-1 {
+    border: 1px solid var(--figma-color-border);
+}
+
+.padding-16 {
+    padding: 16px;
+}
+
+.border-radius-large {
+    border-radius: var(--cy-border-radius-large);
+}
