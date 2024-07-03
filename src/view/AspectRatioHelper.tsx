@@ -5,6 +5,7 @@ import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { SvgVertical, SvgHorizontal } from "../assets/icons";
 import { Dimension, MessageAspectRatio } from "../types/Message";
+import { checkProFeatureAccessibleForUser, applyAspectRatio } from "../module-frontend/utilFrontEnd";
 
 interface AspectRatioHelperProps {}
 type AspectRatioOptions =
@@ -79,28 +80,16 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
     },
   ];
 
-  const applyAspectRatio = (widthRatio: number, heightRatio: number, isCustom: boolean) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+  const applyAspectRatioHandler = (
+    widthRatio: number,
+    heightRatio: number,
+    isCustom: boolean
+  ) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
-
-    const message: MessageAspectRatio = {
-      lockedDimension: lockedDimension,
-      module: "AspectRatioHelper",
-      phase: "Actual",
-      direction: "Inner",
-      isCustomAspectRatio: isCustom,
-      widthRatio: widthRatio,
-      heightRatio: heightRatio,
-    };
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    applyAspectRatio(widthRatio, heightRatio, isCustom, lockedDimension);
   };
 
   return (
@@ -169,7 +158,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
                 svg={option.svg}
                 buttonHeight="xlarge"
                 onClick={() => {
-                  applyAspectRatio(option.width, option.height, false);
+                  applyAspectRatioHandler(option.width, option.height, false);
                 }}
               />
             ))}
