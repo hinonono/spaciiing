@@ -22,6 +22,7 @@ import {
   Spaciiing,
   VariableEditor,
   VirtualProfile,
+  AspectRatioHelper,
 } from "../view";
 
 interface TabBarProps {
@@ -40,8 +41,8 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
         return <Memorizer />;
       case "Renamer":
         return <Renamer />;
-      // case "LoremGenerator":
-      //   return <LoremGenerator />;
+      case "AspectRatioHelper":
+        return <AspectRatioHelper />;
       case "Instantiater":
         return <Instantiater />;
       case "Shortcut":
@@ -60,6 +61,12 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
   return (
     <div className="tabs">
       <div className="tab-bar hide-scrollbar-horizontal">
+        <TabButton
+          activeTab={activeTab}
+          tabName="AspectRatioHelper"
+          setActiveTab={setActiveTab}
+          SvgComponent={SvgSpaciiing}
+        />
         <TabButton
           activeTab={activeTab}
           tabName="Spaciiing"
@@ -96,12 +103,6 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           setActiveTab={setActiveTab}
           SvgComponent={SvgShortcut}
         />
-        {/* <TabButton
-          activeTab={activeTab}
-          tabName="LoremGenerator"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgLoremGenerator}
-        /> */}
         <TabButton
           activeTab={activeTab}
           tabName="VariableEditor"

@@ -244,7 +244,7 @@
 }
 
 .button {
-    height: 36px;
+    height: var(--cy-button-height-medium);
     border-radius: var(--cy-border-radius-large);
 
     &--primary {

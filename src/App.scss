@@ -16,8 +16,6 @@ body {
     flex-direction: column;
 }
 
-
-
 pre {
     font-family: "Inter", sans-serif;
     line-height: 150%;
@@ -201,6 +199,49 @@ section {
 // Define the base size and padding
 $base-size: 24px;
 
+// Mixin for button height
+@mixin button-height($size) {
+    height: var(--cy-button-height-#{$size});
+}
+
+.button-height-xlarge {
+    @include button-height(xlarge);
+}
+
+.button-height-large {
+    @include button-height(large);
+}
+
+.button-height-medium {
+    @include button-height(medium);
+}
+
+.button-height-small {
+    @include button-height(small);
+}
+
+
+// Mixin for font size
+@mixin font-size($size) {
+    font-size: var(--font-size-#{$size});
+}
+
+.font-size-xsmall {
+    @include font-size(xsmall);
+}
+
+.font-size-small {
+    @include font-size(small);
+}
+
+.font-size-large {
+    @include font-size(large);
+}
+
+.font-size-xlarge {
+    @include font-size(xlarge);
+}
+
 // Mixin for icon size
 @mixin icon-size($size) {
     display: flex;
@@ -354,6 +395,10 @@ button {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.4rem;
+
+    button {
+        margin: 0;
+    }
 }
 
 .button--tertiary {

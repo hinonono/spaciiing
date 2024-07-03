@@ -28,7 +28,8 @@ export type ModuleType =
   | "VirtualProfile"
   | "SelectionFilter"
   | "PluginSetting"
-  | "LicenseManagement";
+  | "LicenseManagement"
+  | "AspectRatioHelper";
 
 // Spaciiing模組專用的基底屬性
 export type SpacingMode = "horizontal" | "vertical";
@@ -289,4 +290,14 @@ export interface MessageLicenseManagement extends Message {
 // Localization
 export interface MessageLocalization extends Message {
   lang: string;
+}
+
+// Aspect Ratio 專用的基底屬性
+export type Dimension = "width" | "height";
+
+export interface MessageAspectRatio extends Message {
+  lockedDimension: Dimension;
+  isCustomAspectRatio: boolean;
+  widthRatio: number;
+  heightRatio: number;
 }

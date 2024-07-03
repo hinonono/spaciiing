@@ -14,6 +14,7 @@ import {
   MessageSelectionFilter,
   MessageLicenseManagement,
   MessageLocalization,
+  MessageAspectRatio,
 } from "./types/Message";
 
 // 功能模組
@@ -31,6 +32,7 @@ import * as selectionFilter from "./module/selectionFilter";
 import * as util from "./module/util";
 import * as licenseManagement from "./module/licenseManagement";
 import * as localization from "./module/localization";
+import * as aspectRatioHelper from "./module/aspectRatioHelper";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(380, 500);
@@ -77,6 +79,9 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "LicenseManagement":
       licenseManagement.reception(message as MessageLicenseManagement);
+      break;
+    case "AspectRatioHelper":
+      aspectRatioHelper.reception(message as MessageAspectRatio);
       break;
     default:
       break;
