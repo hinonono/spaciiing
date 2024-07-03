@@ -158,5 +158,12 @@
   "personal": "Personal",
   "employment": "Employment",
   "financial": "Financial",
-  "custom": "Custom"
+  "custom": "Custom",
+  "aspectRatio_16_9": "Commonly used for widescreen TVs and computer monitors.",
+  "aspectRatio_9_16": "Commonly used for vertical video content, such as stories on social media platforms.",
+  "aspectRatio_4_3": "Commonly used for older TV broadcasts and video formats, as well as some tablet screens.",
+  "aspectRatio_3_4": "Commonly used for portrait photography and some social media images.",
+  "aspectRatio_3_2": "Commonly used for DSLR camera photography and some laptop screens.",
+  "aspectRatio_2_3": "Commonly used for portrait photography and prints.",
+  "aspectRatio_1_1": "Commonly used for social media profile pictures and square videos."
 }

@@ -301,3 +301,34 @@
 .border-radius-large {
     border-radius: var(--cy-border-radius-large);
 }
+
+.textarea {
+    font-family: 'Inter', sans-serif;
+    border-radius: var(--cy-border-radius-large);
+    background-color: var(--figma-color-bg-secondary);
+    color: var(--figma-color-text-secondary);
+    font-size: var(--font-size-small);
+    min-height: 48px;
+    border: 1px solid var(--figma-color-bg-secondary);
+    // transition: all 0.3s;
+
+    &.code {
+        resize: vertical;
+    }
+
+    &:hover {
+        color: var(--figma-color-text);
+        border: 1px solid var(--figma-color-border);
+    }
+
+    &:active,
+    &:focus {
+        color: var(--figma-color-text);
+        border-width: 2px;
+    }
+
+    &::placeholder {
+        color: var(--figma-color-text-secondary);
+        opacity: .8;
+    }
+}

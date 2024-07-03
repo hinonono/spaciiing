@@ -4,7 +4,7 @@ import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { SvgVertical, SvgHorizontal } from "../assets/icons";
-import { Dimension, MessageAspectRatio } from "../types/Message";
+import { Dimension } from "../types/Message";
 import {
   checkProFeatureAccessibleForUser,
   applyAspectRatio,
@@ -51,48 +51,56 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
     svg: React.JSX.Element;
     width: number;
     height: number;
+    nameKey: string;
   }[] = [
     {
       name: "16:9",
       svg: <SvgHorizontal color="var(--figma-color-text)" />,
       width: 16,
       height: 9,
+      nameKey: "module:aspectRatio_16_9",
     },
     {
       name: "9:16",
       svg: <SvgHorizontal color="var(--figma-color-text)" />,
       width: 9,
       height: 16,
+      nameKey: "module:aspectRatio_9_16",
     },
     {
       name: "4:3",
       svg: <SvgHorizontal color="var(--figma-color-text)" />,
       width: 4,
       height: 3,
+      nameKey: "module:aspectRatio_4_3",
     },
     {
       name: "3:4",
       svg: <SvgHorizontal color="var(--figma-color-text)" />,
       width: 3,
       height: 4,
+      nameKey: "module:aspectRatio_3_4",
     },
     {
       name: "3:2",
       svg: <SvgHorizontal color="var(--figma-color-text)" />,
       width: 3,
       height: 2,
+      nameKey: "module:aspectRatio_3_2",
     },
     {
       name: "2:3",
       svg: <SvgHorizontal color="var(--figma-color-text)" />,
       width: 2,
       height: 3,
+      nameKey: "module:aspectRatio_2_3",
     },
     {
       name: "1:1",
       svg: <SvgHorizontal color="var(--figma-color-text)" />,
       width: 1,
       height: 1,
+      nameKey: "module:aspectRatio_1_1",
     },
   ];
 
@@ -119,6 +127,14 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
           <p>
             Adjust element's width or height to match specific aspect ratio.
           </p>
+          <h4>Commonly used aspect ratio</h4>
+          <ul>
+            {aspectRatioOptionsUI.map((option) => (
+              <li key={option.name}>
+                [{option.name}] {t(option.nameKey)}
+              </li>
+            ))}
+          </ul>
         </div>
       </Modal>
       <TitleBar
@@ -187,7 +203,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
               <div>
                 <SectionTitle title={"Width Ratio"} />
                 <textarea
-                  className="textarea"
+                  className="textarea font-size-xlarge"
                   rows={1}
                   value={widthCustomRatio}
                   onChange={handleWidthCustomRatioChange}
@@ -197,7 +213,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
               <div>
                 <SectionTitle title={"Height Ratio"} />
                 <textarea
-                  className="textarea"
+                  className="textarea font-size-xlarge"
                   rows={1}
                   value={heightCustomRatio}
                   onChange={handleHeightCustomRatioChange}
