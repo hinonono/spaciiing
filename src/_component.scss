@@ -247,6 +247,10 @@
     height: var(--cy-button-height-medium);
     border-radius: var(--cy-border-radius-large);
 
+    span {
+        min-width: 30px;
+    }
+
     &--primary {
         cursor: pointer;
         color: var(--white);

@@ -10,6 +10,7 @@ import {
   SvgSpaciiing,
   SvgVariableEditor,
   SvgVirtualProfile,
+  SvgAspectRatioHelper
 } from "../assets/icons";
 import TabButton from "./TabButton";
 import {
@@ -95,7 +96,7 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           activeTab={activeTab}
           tabName="AspectRatioHelper"
           setActiveTab={setActiveTab}
-          SvgComponent={SvgSpaciiing}
+          SvgComponent={SvgAspectRatioHelper}
         />
         <TabButton
           activeTab={activeTab}

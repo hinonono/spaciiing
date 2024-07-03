@@ -31,7 +31,7 @@ const FigmaButton: React.FC<FigmaButtonProps> = ({
         disabled={disabled}
       >
         {svg && <div className="icon-24">{svg}</div>}
-        {capitalizeWords(title)}
+        <span>{capitalizeWords(title)}</span>
       </button>
     </div>
   );

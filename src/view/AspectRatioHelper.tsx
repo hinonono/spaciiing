@@ -3,7 +3,7 @@ import { useAppContext } from "../AppProvider";
 import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
-import { SvgVertical, SvgHorizontal } from "../assets/icons";
+import { SvgVertical, SvgHorizontal, SvgAR16to9, SvgAR9to16, SvgAR4to3, SvgAR3to4, SvgAR3to2, SvgAR2to3, SvgAR1to1 } from "../assets/icons";
 import { Dimension } from "../types/Message";
 import {
   checkProFeatureAccessibleForUser,
@@ -55,49 +55,49 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
   }[] = [
     {
       name: "16:9",
-      svg: <SvgHorizontal color="var(--figma-color-text)" />,
+      svg: <SvgAR16to9 color="var(--figma-color-text)" />,
       width: 16,
       height: 9,
       nameKey: "module:aspectRatio_16_9",
     },
     {
       name: "9:16",
-      svg: <SvgHorizontal color="var(--figma-color-text)" />,
+      svg: <SvgAR9to16 color="var(--figma-color-text)" />,
       width: 9,
       height: 16,
       nameKey: "module:aspectRatio_9_16",
     },
     {
       name: "4:3",
-      svg: <SvgHorizontal color="var(--figma-color-text)" />,
+      svg: <SvgAR4to3 color="var(--figma-color-text)" />,
       width: 4,
       height: 3,
       nameKey: "module:aspectRatio_4_3",
     },
     {
       name: "3:4",
-      svg: <SvgHorizontal color="var(--figma-color-text)" />,
+      svg: <SvgAR3to4 color="var(--figma-color-text)" />,
       width: 3,
       height: 4,
       nameKey: "module:aspectRatio_3_4",
     },
     {
       name: "3:2",
-      svg: <SvgHorizontal color="var(--figma-color-text)" />,
+      svg: <SvgAR3to2 color="var(--figma-color-text)" />,
       width: 3,
       height: 2,
       nameKey: "module:aspectRatio_3_2",
     },
     {
       name: "2:3",
-      svg: <SvgHorizontal color="var(--figma-color-text)" />,
+      svg: <SvgAR2to3 color="var(--figma-color-text)" />,
       width: 2,
       height: 3,
       nameKey: "module:aspectRatio_2_3",
     },
     {
       name: "1:1",
-      svg: <SvgHorizontal color="var(--figma-color-text)" />,
+      svg: <SvgAR1to1 color="var(--figma-color-text)" />,
       width: 1,
       height: 1,
       nameKey: "module:aspectRatio_1_1",
