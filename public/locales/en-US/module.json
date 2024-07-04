@@ -33,14 +33,17 @@
   "generateNoteDesignStatusTag": "Generate Note, Design status tag, Title section",
   "generateNoteDesignStatusTagDesc": "To generate Note, Design status tag or Title section, you need to copy the template component into your file, then use the \"Memorize\" button with in setting window. After object is memorized, you can start generate these component instance by selecting one or multiple frames, then click generate button. The current date will be automatically fill in to the component by default.",
   "frame": "Frame",
-  "generateShadowOverlayToFrame": "Generate shadow overlay to frame",
+  "createShadowOverlay": "Create shadow overlay",
   "text": "Text",
-  "findAndReplaceInSelection": "Find and Replace in selection",
-  "hexValueText": "Hex value text",
-  "rgbValueText": "RGB value text",
-  "rgbaValueText": "RGBA value text",
+  "findAndReplace": "Find and Replace",
+  "hexValue": "Hex value",
+  "rgbValue": "RGB value",
+  "rgbaValue": "RGBA value",
+  "colorValueToTextLabel": "Color value to text label",
   "loremIpsumText": "Lorem ipsum text",
-  "textStyleFromSelection": "Text style from selection",
+  "createTextStyleFromSelection": "Create text style from selection",
+  "fileOrganizingObject": "File organizing object",
+  "fileOrganizingObjectSetting": "File organizing object setting",
   "note": "Note",
   "designStatusTag": "Design Status Tag",
   "titleSection": "Title Section",
@@ -172,6 +175,6 @@
   "lockDimension": "Lock dimension",
   "presetAspectRatio": "Preset aspect ratio",
   "widthRatio": "Width Ratio",
-  "heightRatio": "Height Ratio"
-
+  "heightRatio": "Height Ratio",
+  "other": "Other"
 }

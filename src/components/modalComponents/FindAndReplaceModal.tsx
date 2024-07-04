@@ -86,7 +86,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
         </div>
       </div>
       <div className="mt-xxsmall">
-        <SectionTitle title={"Replace"} />
+        <SectionTitle title={t("module:replace")} />
         <div className="width-100 mt-xxsmall">
           <textarea
             className="textarea"

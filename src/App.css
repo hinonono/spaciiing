@@ -233,6 +233,30 @@
   color: var(--figma-color-text);
   padding: 0;
   height: var(--size-small);
+  display: flex;
+  justify-content: space-between;
+}
+.section-title span {
+  width: 100%;
+}
+.section-title .plain-text-button {
+  background: none;
+  border: none;
+  color: var(--figma-color-bg-brand);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  font-size: var(--font-size-xsmall);
+  width: -moz-fit-content;
+  width: fit-content;
+  text-wrap: nowrap;
+  font-weight: var(--font-weight-bold);
+}
+.section-title .plain-text-button:hover {
+  color: #0084DC;
+}
+.section-title .plain-text-button:focus {
+  outline: none;
 }
 
 .button {

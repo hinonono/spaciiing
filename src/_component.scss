@@ -241,6 +241,33 @@
     color: var(--figma-color-text);
     padding: 0;
     height: var(--size-small);
+    display: flex;
+    justify-content: space-between;
+
+    span {
+        width: 100%;
+    }
+
+    .plain-text-button {
+        background: none;
+        border: none;
+        color: var(--figma-color-bg-brand); // You can choose any color you prefer
+        cursor: pointer;
+        padding: 0;
+        text-decoration: underline;
+        font-size: var(--font-size-xsmall);
+        width: fit-content;
+        text-wrap: nowrap;
+        font-weight: var(--font-weight-bold);
+
+        &:hover {
+            color: #0084DC;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
 }
 
 .button {
