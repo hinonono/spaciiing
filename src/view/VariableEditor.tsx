@@ -10,40 +10,11 @@ import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
-// Define the valid scopes for each VariableResolvedDataType
-// const VariableScopes: { [key in VariableResolvedDataType]: VariableScope[] } = {
-//   BOOLEAN: [],
-//   COLOR: [
-//     "ALL_SCOPES",
-//     "ALL_FILLS",
-//     "FRAME_FILL",
-//     "SHAPE_FILL",
-//     "TEXT_FILL",
-//     "STROKE_COLOR",
-//     "EFFECT_COLOR",
-//   ],
-//   FLOAT: [
-//     "ALL_SCOPES",
-//     "TEXT_CONTENT",
-//     "CORNER_RADIUS",
-//     "WIDTH_HEIGHT",
-//     "GAP",
-//     "OPACITY",
-//     "STROKE_FLOAT",
-//     "EFFECT_FLOAT",
-//     "FONT_WEIGHT",
-//     "FONT_SIZE",
-//     "LINE_HEIGHT",
-//     "LETTER_SPACING",
-//     "PARAGRAPH_SPACING",
-//     "PARAGRAPH_INDENT",
-//   ],
-//   STRING: ["ALL_SCOPES", "TEXT_CONTENT", "FONT_FAMILY", "FONT_STYLE"],
-// };
-
 interface KeyAndScope {
   nameKey: string;
   scope: VariableScope;
+  indented?: boolean;
+  indentLevel?: number;
 }
 
 interface NameAndResolvedDataType {
@@ -63,9 +34,24 @@ const VariableScopesNew: {
     members: [
       { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
       { nameKey: "term:allFills", scope: "ALL_FILLS" },
-      { nameKey: "term:frameFill", scope: "FRAME_FILL" },
-      { nameKey: "term:shapeFill", scope: "SHAPE_FILL" },
-      { nameKey: "term:textFill", scope: "TEXT_FILL" },
+      {
+        nameKey: "term:frameFill",
+        scope: "FRAME_FILL",
+        indented: true,
+        indentLevel: 1,
+      },
+      {
+        nameKey: "term:shapeFill",
+        scope: "SHAPE_FILL",
+        indented: true,
+        indentLevel: 1,
+      },
+      {
+        nameKey: "term:textFill",
+        scope: "TEXT_FILL",
+        indented: true,
+        indentLevel: 1,
+      },
       { nameKey: "term:strokeColor", scope: "STROKE_COLOR" },
       { nameKey: "term:effectColor", scope: "EFFECT_COLOR" },
     ],
@@ -403,14 +389,19 @@ const VariableEditor: React.FC = () => {
               }
             />
             <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
-              {VariableScopesNew[dataType].members.map(({ nameKey, scope }) => (
-                <label key={scope} className="container">
-                  {t(nameKey)}
+              {VariableScopesNew[dataType].members.map((item) => (
+                <label
+                  key={item.scope}
+                  className={`container ${
+                    item.indented ? `indent-level-${item.indentLevel}` : ""
+                  }`}
+                >
+                  {t(item.nameKey)}
                   <input
                     type="checkbox"
-                    value={scope}
-                    checked={variableScope.includes(scope)}
-                    onChange={() => handleScopeChange(scope)}
+                    value={item.scope}
+                    checked={variableScope.includes(item.scope)}
+                    onChange={() => handleScopeChange(item.scope)}
                   />
                   <span className="checkmark"></span>
                 </label>

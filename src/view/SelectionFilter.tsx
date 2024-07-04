@@ -7,23 +7,12 @@ import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
-// const FilterableScopes: NodeFilterable[] = [
-//   "ALL_OPTIONS",
-//   "IMAGE",
-//   "TEXT",
-//   "FRAME",
-//   "GROUP",
-//   "AUTO_LAYOUT",
-//   "INSTANCE",
-//   "COMPONENT",
-//   "COMPONENT_SET",
-//   "RECTANGLE",
-//   "ELLIPSE",
-//   "LINE",
-//   "POLYGON",
-//   "STAR",
-//   "VECTOR",
-// ];
+interface FilterScopeItem {
+  nameKey: string;
+  scope: NodeFilterable;
+  indented?: boolean;
+  indentLevel?: number;
+}
 
 const SelectionFilter: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -34,7 +23,7 @@ const SelectionFilter: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const FilterableScopesNew: { nameKey: string; scope: NodeFilterable }[] = [
+  const FilterableScopesNew: FilterScopeItem[] = [
     { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
     { nameKey: "term:image", scope: "IMAGE" },
     { nameKey: "term:text", scope: "TEXT" },
@@ -44,12 +33,28 @@ const SelectionFilter: React.FC = () => {
     { nameKey: "term:instance", scope: "INSTANCE" },
     { nameKey: "term:component", scope: "COMPONENT" },
     { nameKey: "term:componentSet", scope: "COMPONENT_SET" },
-    { nameKey: "term:rectangle", scope: "RECTANGLE" },
-    { nameKey: "term:ellipse", scope: "ELLIPSE" },
-    { nameKey: "term:line", scope: "LINE" },
-    { nameKey: "term:polygon", scope: "POLYGON" },
-    { nameKey: "term:star", scope: "STAR" },
-    { nameKey: "term:vector", scope: "VECTOR" },
+    { nameKey: "term:allShape", scope: "ALL_SHAPE" },
+    {
+      nameKey: "term:rectangle",
+      scope: "RECTANGLE",
+      indented: true,
+      indentLevel: 1,
+    },
+    {
+      nameKey: "term:ellipse",
+      scope: "ELLIPSE",
+      indented: true,
+      indentLevel: 1,
+    },
+    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
+    {
+      nameKey: "term:polygon",
+      scope: "POLYGON",
+      indented: true,
+      indentLevel: 1,
+    },
+    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
+    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
   ];
 
   // 主要功能
@@ -59,6 +64,22 @@ const SelectionFilter: React.FC = () => {
       // Toggle specific fill scopes
       const scopes = FilterableScopesNew.map((item) => item.scope);
       const fillScopes: NodeFilterable[] = scopes;
+      setSelectedScopes((prevScopes) =>
+        prevScopes.includes(scope)
+          ? prevScopes.filter((s) => !fillScopes.includes(s))
+          : [...new Set([...prevScopes, ...fillScopes])]
+      );
+    } else if (scope === "ALL_SHAPE") {
+      // Toggle specific fill scopes
+      const fillScopes: NodeFilterable[] = [
+        "RECTANGLE",
+        "ELLIPSE",
+        "LINE",
+        "POLYGON",
+        "STAR",
+        "VECTOR",
+        "ALL_SHAPE",
+      ];
       setSelectedScopes((prevScopes) =>
         prevScopes.includes(scope)
           ? prevScopes.filter((s) => !fillScopes.includes(s))
@@ -129,7 +150,12 @@ const SelectionFilter: React.FC = () => {
           />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
             {FilterableScopesNew.map((item) => (
-              <label key={t(item.nameKey)} className="container">
+              <label
+                key={t(item.nameKey)}
+                className={`container ${
+                  item.indented ? `indent-level-${item.indentLevel}` : ""
+                }`}
+              >
                 {t(item.nameKey)}
                 <input
                   type="checkbox"
@@ -140,18 +166,6 @@ const SelectionFilter: React.FC = () => {
                 <span className="checkmark"></span>
               </label>
             ))}
-            {/* {FilterableScopes.map((scope) => (
-              <label key={scope} className="container">
-                {scope}
-                <input
-                  type="checkbox"
-                  value={scope}
-                  checked={selectedScopes.includes(scope)}
-                  onChange={() => handleScopeChange(scope)}
-                />
-                <span className="checkmark"></span>
-              </label>
-            ))} */}
           </div>
         </div>
         <div className="mt-xxsmall">

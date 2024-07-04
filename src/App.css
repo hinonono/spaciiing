@@ -508,6 +508,10 @@ input {
     background-color: var(--figma-color-text);
   }
 }
+.indent-level-1 {
+  margin-left: 1.8rem;
+}
+
 section {
   border-bottom: 1px solid #ccc;
   padding-bottom: 20px;

@@ -7,21 +7,6 @@ import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
-// const RenamableScopes: NodeRenamable[] = [
-//   "ALL_OPTIONS",
-//   "IMAGE",
-//   "TEXT",
-//   "FRAME",
-//   "GROUP",
-//   "ALL_SHAPE",
-//   "RECTANGLE",
-//   "ELLIPSE",
-//   "LINE",
-//   "POLYGON",
-//   "STAR",
-//   "VECTOR",
-// ];
-
 const Renamer: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
 
@@ -32,19 +17,39 @@ const Renamer: React.FC = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   //
-  const RenamableScopesNew: { nameKey: string; scope: NodeRenamable }[] = [
+  const RenamableScopesNew: {
+    nameKey: string;
+    scope: NodeRenamable;
+    indented?: boolean;
+    indentLevel?: number;
+  }[] = [
     { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
     { nameKey: "term:image", scope: "IMAGE" },
     { nameKey: "term:text", scope: "TEXT" },
     { nameKey: "term:frame", scope: "FRAME" },
     { nameKey: "term:group", scope: "GROUP" },
     { nameKey: "term:allShape", scope: "ALL_SHAPE" },
-    { nameKey: "term:rectangle", scope: "RECTANGLE" },
-    { nameKey: "term:ellipse", scope: "ELLIPSE" },
-    { nameKey: "term:line", scope: "LINE" },
-    { nameKey: "term:polygon", scope: "POLYGON" },
-    { nameKey: "term:star", scope: "STAR" },
-    { nameKey: "term:vector", scope: "VECTOR" },
+    {
+      nameKey: "term:rectangle",
+      scope: "RECTANGLE",
+      indented: true,
+      indentLevel: 1,
+    },
+    {
+      nameKey: "term:ellipse",
+      scope: "ELLIPSE",
+      indented: true,
+      indentLevel: 1,
+    },
+    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
+    {
+      nameKey: "term:polygon",
+      scope: "POLYGON",
+      indented: true,
+      indentLevel: 1,
+    },
+    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
+    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
   ];
   const initialScopes = RenamableScopesNew.map((item) => item.scope);
 
@@ -176,7 +181,12 @@ const Renamer: React.FC = () => {
           />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
-              <label key={item.scope} className="container">
+              <label
+                key={item.scope}
+                className={`container ${
+                  item.indented ? `indent-level-${item.indentLevel}` : ""
+                }`}
+              >
                 {t(item.nameKey)}
                 <input
                   type="checkbox"
@@ -187,18 +197,6 @@ const Renamer: React.FC = () => {
                 <span className="checkmark"></span>
               </label>
             ))}
-            {/* {RenamableScopes.map((scope) => (
-              <label key={scope} className="container">
-                {scope}
-                <input
-                  type="checkbox"
-                  value={scope}
-                  checked={selectedScopes.includes(scope)}
-                  onChange={() => handleScopeChange(scope)}
-                />
-                <span className="checkmark"></span>
-              </label>
-            ))} */}
           </div>
         </div>
         <div className="mt-xxsmall">
