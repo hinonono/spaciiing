@@ -109,7 +109,7 @@ const Setting: React.FC = () => {
           <div className="grid">
             <div className="membership-block">
               <p className="color--secondary">{t("settings:version")}</p>
-              <span>7</span>
+              <span>8</span>
             </div>
           </div>
           <div className="mt-xxsmall"></div>
