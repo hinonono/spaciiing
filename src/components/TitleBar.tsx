@@ -19,7 +19,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
   isProFeature = false,
 }) => {
   const isDevelopment = process.env.REACT_APP_ENV === "development";
-  const { licenseManagement } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe } = useAppContext();
   const { t } = useTranslation(["license"]);
 
   return (
@@ -31,7 +31,12 @@ const TitleBar: React.FC<TitleBarProps> = ({
         {!licenseManagement.isLicenseActive &&
           isProFeature &&
           !isDevelopment && (
-            <div className="badge ml-xxsmall">{t("license:pro")}</div>
+            <div
+              className="badge ml-xxsmall"
+              onClick={() => setShowCTSubscribe(true)}
+            >
+              {t("license:pro")}
+            </div>
           )}
         {showInfoIcon && (
           <div className="ml-xxxsmall tooltip">

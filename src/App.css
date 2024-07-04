@@ -673,6 +673,7 @@ button {
   background-color: #bb90ff;
   width: -moz-fit-content;
   width: fit-content;
+  cursor: pointer;
 }
 
 .title-bar {
