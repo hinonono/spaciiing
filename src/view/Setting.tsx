@@ -17,6 +17,7 @@ const Setting: React.FC = () => {
     const selectedLanguage = event.target.value;
     i18n.changeLanguage(selectedLanguage);
 
+    
     const message: MessageLocalization = {
       lang: selectedLanguage,
       module: "Localization",
@@ -30,6 +31,8 @@ const Setting: React.FC = () => {
       "*"
     );
   };
+
+  console.log(licenseManagement);
 
   return (
     <div>
@@ -60,11 +63,8 @@ const Setting: React.FC = () => {
                   {licenseManagement.tier === "PAID"
                     ? t("license:paid")
                     : t("license:free")}
-                  {licenseManagement.recurrence ? (
-                    <div>
-                      {" "}
-                      ({capitalizeWords(licenseManagement.recurrence)})
-                    </div>
+                  {licenseManagement.recurrence != undefined ? (
+                    <div>({capitalizeWords(licenseManagement.recurrence)})</div>
                   ) : null}
                 </span>
               </div>

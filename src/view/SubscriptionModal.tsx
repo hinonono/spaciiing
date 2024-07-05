@@ -11,6 +11,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 const SubscriptionModal: React.FC = () => {
+  const { licenseManagement } = useAppContext();
   const { t } = useTranslation(["license"]);
 
   const isOnline = useNetworkStatus();
@@ -89,6 +90,8 @@ const SubscriptionModal: React.FC = () => {
 
   const handleCloseCTSubscribe = () => {
     setShowCTSubscribe(false);
+    setShowActivateModal(false);
+    setError(null);
     setLicenseKey("");
   };
   const handleOpenActivateModal = () => {
@@ -98,6 +101,7 @@ const SubscriptionModal: React.FC = () => {
   const handleCloseActivateModal = () => {
     setShowActivateModal(false);
     setLicenseKey("");
+    setError(null);
   };
 
   return (
@@ -150,11 +154,13 @@ const SubscriptionModal: React.FC = () => {
             )}
             <div>
               {!response ? (
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("license:back")}
-                  onClick={handleCloseActivateModal}
-                />
+                licenseManagement.tier != "PAID" ? (
+                  <FigmaButton
+                    buttonType="secondary"
+                    title={t("license:back")}
+                    onClick={handleCloseActivateModal}
+                  />
+                ) : null
               ) : (
                 <FigmaButton
                   title={t("license:finish")}

@@ -57,6 +57,9 @@ const licenseVerifyHandler = async (
             } else {
               newLicense.tier = "PAID";
               newLicense.isLicenseActive = true;
+              if (response.recurrence) {
+                newLicense.recurrence = response.recurrence;
+              }
               console.log("License is successfully verified.");
             }
           } else {
