@@ -6,6 +6,23 @@ import {
 import * as util from "../module/util";
 import * as paymentsUtil from "./paymentsUtil";
 
+interface LicenseResponseSuccess {
+  success: true;
+  subscription_ended_at: string | null;
+  subscription_cancelled_at: string | null;
+  subscription_failed_at: string | null;
+  recurrence?: string;
+  [key: string]: unknown; // Allow additional properties with unknown type
+}
+
+interface LicenseResponseError {
+  success: false;
+  message: string;
+  [key: string]: unknown; // Allow additional properties with unknown type
+}
+
+type LicenseResponse = LicenseResponseSuccess | LicenseResponseError;
+
 export const licenseManagementHandler = (
   message: ExternalMessageLicenseManagement,
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
@@ -21,58 +38,80 @@ export const licenseManagementHandler = (
   }
 };
 
+const verifyLicense = async (licenseKey: string): Promise<LicenseResponse> => {
+  try {
+    const response = await paymentsUtil.verifyLicenseKey(licenseKey);
+    return response as LicenseResponse;
+  } catch (error) {
+    console.error("License validation failed due to unknown error:", error);
+    throw new Error("License validation failed");
+  }
+};
+
+const handleSubscriptionStatus = (
+  response: LicenseResponseSuccess,
+  newLicense: LicenseManagement
+): void => {
+  if (!response.subscription_cancelled_at) {
+    return;
+  }
+  if (!response.subscription_cancelled_at) {
+    return;
+  }
+  if (!response.subscription_ended_at) {
+    return;
+  }
+
+  // Main
+  if (
+    hasDatePassed(response.subscription_ended_at) ||
+    hasDatePassed(response.subscription_cancelled_at) ||
+    response.subscription_failed_at != null
+  ) {
+    newLicense.tier = "FREE";
+    newLicense.isLicenseActive = false;
+    console.log(
+      "License is invalid due to end of subscription, cancelled, or payment failed."
+    );
+  } else {
+    newLicense.tier = "PAID";
+    newLicense.isLicenseActive = true;
+    if (response.recurrence) {
+      newLicense.recurrence = response.recurrence;
+    }
+    console.log("License is successfully verified.");
+  }
+};
+
 const licenseVerifyHandler = async (
   license: LicenseManagement,
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
 ) => {
-  const newLicense = license;
+  const newLicense = { ...license };
   const oldDate = util.convertUTCStringToDate(license.sessionExpiredAt);
 
   if (oldDate <= new Date()) {
     // 過期
-
-    // 檢查用戶類型
-    if (license.tier == "PAID" || license.tier == "UNKNOWN") {
+    if (license.tier === "PAID" || license.tier === "UNKNOWN") {
       // 付費
-
-      if (license.licenseKey != "") {
-        // 執行API驗證
+      if (license.licenseKey) {
         try {
-          const response = await paymentsUtil.verifyLicenseKey(
+          const response: LicenseResponse = await verifyLicense(
             license.licenseKey
           );
-
-          if (response.success == true) {
-            // 檢查用戶是否取消訂閱、已結束訂閱、或付款失敗
-            if (
-              hasDatePassed(response.subscription_ended_at) ||
-              hasDatePassed(response.subscription_cancelled_at) ||
-              response.subscription_failed_at != null
-            ) {
-              newLicense.tier = "FREE";
-              newLicense.isLicenseActive = false;
-              console.log(
-                "License is invalid due to end of subscription, cancelled or payment failed."
-              );
-            } else {
-              newLicense.tier = "PAID";
-              newLicense.isLicenseActive = true;
-              if (response.recurrence) {
-                newLicense.recurrence = response.recurrence;
-              }
-              console.log("License is successfully verified.");
-            }
+          if (response.success) {
+            handleSubscriptionStatus(
+              response as LicenseResponseSuccess,
+              newLicense
+            );
           } else {
             newLicense.tier = "FREE";
             newLicense.isLicenseActive = false;
-            console.log("Invalid license.");
+            console.log((response as LicenseResponseError).message);
           }
-        } catch (error) {
+        } catch {
           newLicense.tier = "UNKNOWN";
           newLicense.isLicenseActive = false;
-          console.error(
-            "License validation failed due to unknown error:" + error
-          );
         }
       } else {
         newLicense.tier = "UNKNOWN";
@@ -85,41 +124,24 @@ const licenseVerifyHandler = async (
       newLicense.isLicenseActive = false;
     }
 
-    const newExpiredTime = util.addHours(oldDate, 6).toUTCString();
+    const newExpiredTime = util.addHours(oldDate, 3).toUTCString();
     newLicense.sessionExpiredAt = newExpiredTime;
-
-    const message: MessageLicenseManagement = {
-      license: newLicense,
-      module: "LicenseManagement",
-      phase: "Actual",
-      direction: "Inner",
-      action: "UPDATE",
-    };
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-    setLicenseManagement(newLicense);
-  } else {
-    // 沒有過期
-    const newLicense = license;
-    const message: MessageLicenseManagement = {
-      license: newLicense,
-      module: "LicenseManagement",
-      phase: "Actual",
-      direction: "Inner",
-      action: "UPDATE",
-    };
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-    setLicenseManagement(newLicense);
   }
+
+  const message: MessageLicenseManagement = {
+    license: newLicense,
+    module: "LicenseManagement",
+    phase: "Actual",
+    direction: "Inner",
+    action: "UPDATE",
+  };
+  parent.postMessage(
+    {
+      pluginMessage: message,
+    },
+    "*"
+  );
+  setLicenseManagement(newLicense);
 };
 
 // Function to check if a date string has passed today's date
