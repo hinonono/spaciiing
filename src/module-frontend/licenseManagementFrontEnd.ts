@@ -45,8 +45,8 @@ const licenseVerifyHandler = async (
           if (response.success == true) {
             // 檢查用戶是否取消訂閱、已結束訂閱、或付款失敗
             if (
-              response.subscription_ended_at != null ||
-              response.subscription_cancelled_at != null ||
+              hasDatePassed(response.subscription_ended_at) ||
+              hasDatePassed(response.subscription_cancelled_at) ||
               response.subscription_failed_at != null
             ) {
               newLicense.tier = "FREE";
@@ -121,3 +121,12 @@ const licenseVerifyHandler = async (
     setLicenseManagement(newLicense);
   }
 };
+
+// Function to check if a date string has passed today's date
+function hasDatePassed(dateString: string) {
+  if (!dateString) {
+    return false; // If dateString is null or undefined, it has not passed.
+  }
+  const date = new Date(dateString);
+  return date < new Date();
+}
