@@ -7,12 +7,18 @@ export function renameSelectedObjects(message: MessageRenamer) {
   // otherwise use the selection itself
   let filteredSelection: SceneNode[] = [];
   let hasChildren = false;
+  const topLevelNodesWithChildren: SceneNode[] = [];
 
   for (const node of selection) {
     if ("children" in node) {
       hasChildren = true;
       filteredSelection = filteredSelection.concat(node.children);
     }
+  }
+
+  for (let i = 0; i < selection.length; i++) {
+    topLevelNodesWithChildren.push(selection[i]);
+    console.log(selection[i].name);
   }
 
   if (!hasChildren) {
@@ -172,6 +178,15 @@ export function renameSelectedObjects(message: MessageRenamer) {
       deleteHiddenLayers(selectedNode);
     } else {
       renameNode(selectedNode, false);
+    }
+  });
+
+  topLevelNodesWithChildren.forEach((topLevelNode) => {
+    if (message.docOptions.includeParentLayer) {
+      const newName = getNewName(topLevelNode);
+      if (newName !== null) {
+        topLevelNode.name = newName;
+      }
     }
   });
 
