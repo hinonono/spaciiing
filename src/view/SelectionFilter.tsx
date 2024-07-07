@@ -43,6 +43,9 @@ const SelectionFilter: React.FC = () => {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
   }) => {
     setFindWithName(event.target.checked);
+    if (event.target.checked == false) {
+      setFindCriteria("");
+    }
   };
 
   const FilterableScopesNew: FilterScopeItem[] = [
