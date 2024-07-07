@@ -68,6 +68,7 @@
   "deleteHiddenLayers": "Delete hidden layers",
   "includeParentLayers": "Include parent layers",
   "skipLockLayers": "Skip lock layers",
+  "skipHiddenLayers": "Skip hidden layers",
   "cleanUp": "Cleanup",
   "moduleSelectionFilter": "Selection Filter",
   "moduleSelectionFilterDesc": "Filter your selection with various of available options.",

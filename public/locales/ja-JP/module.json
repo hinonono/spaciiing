@@ -68,6 +68,7 @@
   "deleteHiddenLayers": "非表示レイヤーを削除",
   "includeParentLayers": "親レイヤーを含む",
   "skipLockLayers": "ロックされたレイヤーをスキップ",
+  "skipHiddenLayers": "非表示レイヤーをスキップ",
   "cleanUp": "クリーンアップ",
   "moduleSelectionFilter": "選択フィルタ",
   "moduleSelectionFilterDesc": "さまざまな利用可能なオプションで選択をフィルタリングします。",

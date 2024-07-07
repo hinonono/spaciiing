@@ -204,7 +204,7 @@ const SelectionFilter: React.FC = () => {
           <SectionTitle title={t("module:options")} />
           <div className="custom-checkbox-group">
             <label className="container">
-              Skip hidden layers
+              {t("module:skipHiddenLayers")}
               <input
                 type="checkbox"
                 checked={skipHiddenLayer}
@@ -222,7 +222,7 @@ const SelectionFilter: React.FC = () => {
               <span className="checkmark"></span>
             </label>
             <label className="container">
-              Find with name
+              {t("module:findWithName")}
               <input
                 type="checkbox"
                 checked={findWithName}
