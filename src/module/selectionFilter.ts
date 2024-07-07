@@ -95,6 +95,11 @@ function filterSelection(message: MessageSelectionFilter) {
     return result;
   }
 
+  function getIntersection(array1: SceneNode[], array2: SceneNode[]): SceneNode[] {
+    const set2 = new Set(array2);
+    return array1.filter(node => set2.has(node));
+  }
+
   // Use the children of the top-level selected nodes for filtering if present,
   // otherwise use the selection itself
   let filteredSelection: SceneNode[] = [];
@@ -111,51 +116,47 @@ function filterSelection(message: MessageSelectionFilter) {
     filteredSelection = selection;
   }
 
-  if (message.additionalFilterOptions.skipLockLayers) {
-    filteredSelection = skipLockLayersAndChildren(filteredSelection);
-    console.log("");
-    filteredSelection.forEach((i) => {
-      console.log(i.name);
-    });
-  }
+  // Filter out hidden and locked layers
+  let filteredSelection1: SceneNode[] = filteredSelection;
+  let filteredSelection2: SceneNode[] = filteredSelection;
 
   if (message.additionalFilterOptions.skipHiddenLayers) {
-    filteredSelection = skipHiddenLayersAndChildren(filteredSelection);
-    console.log("");
-    filteredSelection.forEach((i) => {
-      console.log(i.name);
-    });
+    filteredSelection1 = skipHiddenLayersAndChildren(filteredSelection);
   }
 
-  // Find all matching nodes from the filtered selection
-  filteredSelection = findAllMatchingNodes(filteredSelection);
-  console.log("");
-  filteredSelection.forEach((i) => {
-    console.log(i.name);
-  });
+  if (message.additionalFilterOptions.skipLockLayers) {
+    filteredSelection2 = skipLockLayersAndChildren(filteredSelection);
+  }
 
-  if (filteredSelection.length === 0) {
+  const overlappedSelection = getIntersection(filteredSelection1, filteredSelection2);
+
+  
+
+  // Find all matching nodes from the filtered selection
+  let finalSelection = findAllMatchingNodes(overlappedSelection);
+
+  if (finalSelection.length === 0) {
     figma.notify("❌ No layers match the specified types.");
     return;
   }
 
   // Further filter by name if findCriteria is not empty
   if (message.additionalFilterOptions.findWithName) {
-    filteredSelection = filteredSelection.filter(
+    finalSelection = finalSelection.filter(
       (node) => node.name === message.additionalFilterOptions.findCriteria
     );
 
-    if (filteredSelection.length === 0) {
+    if (finalSelection.length === 0) {
       figma.notify("❌ No layers match the specified name.");
       return;
     }
   }
 
   // Set the filtered selection as the user's new current selection
-  figma.currentPage.selection = filteredSelection;
+  figma.currentPage.selection = finalSelection;
 
   // Notify the user of the number of matching layers
   figma.notify(
-    `✅ Found ${filteredSelection.length} layer(s) matching the criteria.`
+    `✅ Found ${finalSelection.length} layer(s) matching the criteria.`
   );
 }
