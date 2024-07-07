@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { TitleBar, FigmaButton, SectionTitle } from "../components";
 import Modal from "../components/Modal";
 import { NodeFilterable } from "../types/NodeFilterable";
-import { MessageSelectionFilter } from "../types/Message";
+import {
+  AdditionalFilterOptions,
+  MessageSelectionFilter,
+} from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -22,6 +25,25 @@ const SelectionFilter: React.FC = () => {
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
+
+  const [skipLockedLayer, setSkipLockedLayer] = useState(true);
+  const handleSkipLockedLayerChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setSkipLockedLayer(event.target.checked);
+  };
+  const [skipHiddenLayer, setSkipHiddenLayer] = useState(true);
+  const handleSkipHiddenLayerChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setSkipHiddenLayer(event.target.checked);
+  };
+  const [findWithName, setFindWithName] = useState(false);
+  const handleFindWithNameChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setFindWithName(event.target.checked);
+  };
 
   const FilterableScopesNew: FilterScopeItem[] = [
     { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
@@ -108,12 +130,19 @@ const SelectionFilter: React.FC = () => {
       return;
     }
 
+    const addtionalOptions: AdditionalFilterOptions = {
+      skipLockLayers: skipLockedLayer,
+      skipHiddenLayers: skipHiddenLayer,
+      findWithName: findWithName,
+      findCriteria: findCriteria,
+    };
+
     const message: MessageSelectionFilter = {
       filterScopes: selectedScopes,
-      findCriteria: findCriteria,
       module: "SelectionFilter",
       phase: "Actual",
       direction: "Inner",
+      additionalFilterOptions: addtionalOptions,
     };
 
     parent.postMessage(
@@ -143,7 +172,7 @@ const SelectionFilter: React.FC = () => {
         isProFeature={true}
       />
       <div className="content">
-        {/* 選項 */}
+        {/* 圖層類型 */}
         <div className="mt-xxsmall">
           <SectionTitle
             title={`${t("module:filterFor")} (${selectedScopes.length})`}
@@ -169,15 +198,46 @@ const SelectionFilter: React.FC = () => {
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={t("module:findWithNameOptional")} />
-          <div className="width-100">
-            <textarea
-              className="textarea"
-              rows={1}
-              value={findCriteria}
-              onChange={handleFindCriteriaChange}
-              placeholder={t("module:findWithName")}
-            />
+          <SectionTitle title={t("module:options")} />
+          <div className="custom-checkbox-group">
+            <label className="container">
+              Skip hidden layers
+              <input
+                type="checkbox"
+                checked={skipHiddenLayer}
+                onChange={handleSkipHiddenLayerChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+            <label className="container">
+              {t("module:skipLockLayers")}
+              <input
+                type="checkbox"
+                checked={skipLockedLayer}
+                onChange={handleSkipLockedLayerChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+            <label className="container">
+              Find with name
+              <input
+                type="checkbox"
+                checked={findWithName}
+                onChange={handleFindWithNameChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+            {findWithName && (
+              <div className="indent-level-1">
+                <textarea
+                  className="textarea"
+                  rows={1}
+                  value={findCriteria}
+                  onChange={handleFindCriteriaChange}
+                  placeholder={t("module:findWithName")}
+                />
+              </div>
+            )}
           </div>
         </div>
         {/* 按鈕 */}

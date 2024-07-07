@@ -188,28 +188,12 @@ const SpaciiingView: React.FC = () => {
                     className="sp-c-space"
                     htmlFor={`default_Option${item.value}`}
                   >
-                    {typeof item.value === "string" ? t(item.nameKey) : item.value * multiply}
+                    {typeof item.value === "string"
+                      ? t(item.nameKey)
+                      : item.value * multiply}
                   </label>
                 </React.Fragment>
               ))}
-              {/* {[0, 8, 16, 20, 24, 32, "custom"].map((value) => (
-                <React.Fragment key={value}>
-                  <input
-                    type="radio"
-                    name="sp-space"
-                    id={`default_Option${value}`}
-                    value={value}
-                    checked={space === value}
-                    onChange={() => setSpace(value)}
-                  />
-                  <label
-                    className="sp-c-space"
-                    htmlFor={`default_Option${value}`}
-                  >
-                    {typeof value === "string" ? value : value * multiply}
-                  </label>
-                </React.Fragment>
-              ))} */}
             </div>
             {space === "custom" && (
               <div className="width-100">

@@ -276,9 +276,15 @@ export interface VirtualProfileSingleValue {
 }
 
 // Selection Filter 專用的基底屬性
+export interface AdditionalFilterOptions {
+  skipLockLayers: boolean;
+  skipHiddenLayers: boolean;
+  findWithName: boolean;
+  findCriteria: string;
+}
 export interface MessageSelectionFilter extends Message {
   filterScopes: NodeFilterable[];
-  findCriteria: string;
+  additionalFilterOptions: AdditionalFilterOptions;
 }
 
 // License Management 專用的基底屬性

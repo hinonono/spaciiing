@@ -54,7 +54,85 @@ function filterSelection(message: MessageSelectionFilter) {
     return matchingNodes;
   }
 
-  let filteredSelection = findAllMatchingNodes([...selection]);
+  function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
+    let result: SceneNode[] = [];
+
+    for (const node of nodes) {
+      if (!node.locked) {
+        if ("children" in node && node.children.length > 0) {
+          const filteredChildren = skipLockLayersAndChildren(node.children);
+          result = result.concat(filteredChildren);
+        }
+        result.push(node);
+      }
+    }
+
+    return result;
+  }
+
+  function skipHiddenLayersAndChildren(
+    nodes: readonly SceneNode[],
+    parentVisible: boolean = true
+  ): SceneNode[] {
+    let result: SceneNode[] = [];
+
+    for (const node of nodes) {
+      const nodeVisible = parentVisible && node.visible;
+
+      if (!nodeVisible) {
+        continue; // Skip nodes that are not visible due to their parent being hidden
+      }
+
+      result.push(node);
+
+      if ("children" in node) {
+        result = result.concat(
+          skipHiddenLayersAndChildren(node.children, nodeVisible)
+        );
+      }
+    }
+
+    return result;
+  }
+
+  // Use the children of the top-level selected nodes for filtering if present,
+  // otherwise use the selection itself
+  let filteredSelection: SceneNode[] = [];
+  let hasChildren = false;
+
+  for (const node of selection) {
+    if ("children" in node) {
+      hasChildren = true;
+      filteredSelection = filteredSelection.concat(node.children);
+    }
+  }
+
+  if (!hasChildren) {
+    filteredSelection = selection;
+  }
+
+  if (message.additionalFilterOptions.skipLockLayers) {
+    filteredSelection = skipLockLayersAndChildren(filteredSelection);
+    console.log("");
+    filteredSelection.forEach((i) => {
+      console.log(i.name);
+    });
+  }
+
+  if (message.additionalFilterOptions.skipHiddenLayers) {
+    filteredSelection = skipHiddenLayersAndChildren(filteredSelection);
+    console.log("");
+    filteredSelection.forEach((i) => {
+      console.log(i.name);
+    });
+  }
+
+  // Find all matching nodes from the filtered selection
+  filteredSelection = findAllMatchingNodes(filteredSelection);
+  console.log("");
+  filteredSelection.forEach((i) => {
+    console.log(i.name);
+  });
 
   if (filteredSelection.length === 0) {
     figma.notify("❌ No layers match the specified types.");
@@ -62,9 +140,9 @@ function filterSelection(message: MessageSelectionFilter) {
   }
 
   // Further filter by name if findCriteria is not empty
-  if (message.findCriteria !== "") {
+  if (message.additionalFilterOptions.findWithName) {
     filteredSelection = filteredSelection.filter(
-      (node) => node.name === message.findCriteria
+      (node) => node.name === message.additionalFilterOptions.findCriteria
     );
 
     if (filteredSelection.length === 0) {
