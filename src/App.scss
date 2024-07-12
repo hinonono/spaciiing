@@ -129,6 +129,10 @@ input {
     margin-left: 0;
 }
 
+.align-items-center {
+    align-items: center;
+}
+
 .custom-radio-group {
     display: flex;
     flex-direction: column;
@@ -187,6 +191,10 @@ input {
 
 .indent-level-1 {
     margin-left: 1.8rem;
+}
+
+.text-decoration-none {
+    text-decoration: none;
 }
 
 section {
@@ -400,6 +408,20 @@ button {
     background-color: rgba(24, 160, 251, 0.15);
     color: var(--figma-color-bg-brand);
     border: 1px solid var(--figma-color-bg-brand);
+}
+
+.button--special {
+    background-color: #8d41ff;
+    color: white;
+
+    &:hover {
+        background-color: #6824cd;
+    }
+}
+
+.button {
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 .checkbox-group {

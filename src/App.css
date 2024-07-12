@@ -221,6 +221,8 @@
   border-radius: var(--cy-border-radius-large);
   border: 1px solid var(--cy-border-light);
   max-height: 160px;
+  height: -moz-fit-content;
+  height: fit-content;
   width: 100%;
   overflow: scroll;
   transition: all 0.3s;
@@ -342,6 +344,18 @@
   opacity: 0.8;
 }
 
+.banner {
+  background-color: #f6caff;
+  padding: 0.5rem 1rem;
+}
+.banner .message-primary {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.banner .time-left {
+  margin-left: 4px;
+}
+
 body {
   margin: 0 !important;
 }
@@ -461,6 +475,10 @@ input {
   margin-left: 0;
 }
 
+.align-items-center {
+  align-items: center;
+}
+
 .custom-radio-group {
   display: flex;
   flex-direction: column;
@@ -510,6 +528,10 @@ input {
 }
 .indent-level-1 {
   margin-left: 1.8rem;
+}
+
+.text-decoration-none {
+  text-decoration: none;
 }
 
 section {
@@ -738,6 +760,19 @@ button {
   background-color: rgba(24, 160, 251, 0.15);
   color: var(--figma-color-bg-brand);
   border: 1px solid var(--figma-color-bg-brand);
+}
+
+.button--special {
+  background-color: #8d41ff;
+  color: white;
+}
+.button--special:hover {
+  background-color: #6824cd;
+}
+
+.button {
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .checkbox-group {

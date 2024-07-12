@@ -10,7 +10,7 @@ import {
   SvgSpaciiing,
   SvgVariableEditor,
   SvgVirtualProfile,
-  SvgAspectRatioHelper
+  SvgAspectRatioHelper,
 } from "../assets/icons";
 import TabButton from "./TabButton";
 import {
@@ -25,6 +25,8 @@ import {
   VirtualProfile,
   AspectRatioHelper,
 } from "../view";
+import { useAppContext } from "../AppProvider";
+import SaleBannerWrapper from "./SaleBannerWrapper";
 
 interface TabBarProps {
   activeTab: ModuleType;
@@ -32,6 +34,10 @@ interface TabBarProps {
 }
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
+  const { licenseManagement } = useAppContext();
+  licenseManagement.licenseKey
+  licenseManagement.tier
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "Spaciiing":
@@ -61,6 +67,7 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="tabs">
+      <SaleBannerWrapper licenseManagement={licenseManagement} />
       <div className="tab-bar hide-scrollbar-horizontal">
         <TabButton
           activeTab={activeTab}
