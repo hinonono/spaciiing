@@ -24,6 +24,8 @@
   "pro": "專業版",
   "subscribeToUnlock": "訂閱以解鎖所有功能。",
   "youHaveNoActiveLicense": "您尚未加入專業版訂閱計畫。立即升級以解鎖虛擬用戶檔案、選取範圍過濾器、變數編輯器及其他專業功能！",
-  "flashSale": "快閃優惠",
-  "additional10percentOff": "額外10%折扣"
+  "subscribe": "訂閱",
+  "endIn": "結束於",
+  "validForFirstBillingCycle": "適用於首個訂閱循環",
+  "50percentOff": "訂閱現省50%"
 }

@@ -2,32 +2,48 @@ import React from "react";
 import useCountdown from "../useCountdown";
 import { useTranslation } from "react-i18next";
 
-interface SaleBannerProps {}
+interface SaleBannerProps {
+  targetDate: Date;
+  messageKey: string;
+  url: string;
+}
 
-const SaleBanner: React.FC<SaleBannerProps> = () => {
+const SaleBanner: React.FC<SaleBannerProps> = ({
+  targetDate,
+  messageKey,
+  url,
+}) => {
   const { t } = useTranslation(["license"]);
-  
-  const targetDate = new Date("2024-08-08T00:00:00+08:00");
+
   const timeLeft = useCountdown(targetDate);
 
   const formatTime = (time: number) => {
     return time.toString().padStart(2, "0");
   };
 
+  const timeLeftString = `${formatTime(
+    timeLeft.hours + timeLeft.days * 24
+  )}:${formatTime(timeLeft.minutes)}:${formatTime(timeLeft.seconds)}`;
+
+  const bannerMessage = t(`license:${messageKey}`);
+
   return (
     <div className="banner flex flex-jusify-spacebetween align-items-center">
       <div className="frame-group">
         <div className="flex flex-row align-items-center">
-          <span className="font-size-small color--secondary">{t("license:flashSale")}</span>
-          <span className="font-size-small time-left color--secondary">
-            {formatTime(timeLeft.hours + timeLeft.days * 24)}:
-            {formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
+          <span className="font-size-small message-secondary">
+            {t("license:endIn")} {timeLeftString}
           </span>
         </div>
-        <div className="message-primary">{t("license:additional10percentOff")}</div>
+        <div className="message-primary">{bannerMessage}</div>
+        <div className="note message-secondary mt-xxxsmall">
+          {t("license:validForFirstBillingCycle")}
+        </div>
       </div>
-      <a className="text-decoration-none" href="https://hsiehchengyi.gumroad.com/l/spaciiing-pro/gpun2vz" target="_blank">
-        <button className="button button--special">{t("license:subscribeNow")}</button>
+      <a className="text-decoration-none" href={url} target="_blank">
+        <button className="button button--special">
+          {t("license:subscribe")}
+        </button>
       </a>
     </div>
   );

@@ -24,6 +24,8 @@
   "pro": "プロ",
   "subscribeToUnlock": "有料プランで全ての機能を利用可能",
   "youHaveNoActiveLicense": "有料プランを購読することで、バーチャルプロフィール、選択フィルター、バリアブルエディタなど、全ての機能をご利用いただけます。",
-  "flashSale": "タイムセール",
-  "additional10percentOff": "10% OFF"
+  "subscribe": "購読する",
+  "endIn": "あと",
+  "validForFirstBillingCycle": "最初のサブスクリプションサイクルのみに適用されます",
+  "50percentOff": "今なら50%OFF"
 }

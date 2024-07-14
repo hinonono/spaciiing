@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SaleBanner from "./SaleBanner";
 import { LicenseManagement } from "../types/LicenseManagement";
-import flashSaleData from "../assets/flashSale.json"
+import flashSaleData from "../assets/flashSale.json";
 
 interface SaleBannerWrapperProps {
   licenseManagement: LicenseManagement;
@@ -13,7 +13,9 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
   const [config, setConfig] = useState({
     targetKey: "",
     startDate: "",
-    endDate: ""
+    endDate: "",
+    messageKey: "",
+    url: "",
   });
 
   useEffect(() => {
@@ -21,10 +23,12 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
     setConfig({
       targetKey: flashSaleData.targetKey,
       startDate: flashSaleData.startDate,
-      endDate: flashSaleData.endDate
+      endDate: flashSaleData.endDate,
+      messageKey: flashSaleData.messageKey,
+      url: flashSaleData.url,
     });
   }, []);
-  
+
   const targetKey = config.targetKey;
   const startDate = new Date(config.startDate);
   const endDate = new Date(config.endDate);
@@ -35,7 +39,20 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
     currentTime >= startDate &&
     currentTime <= endDate;
 
-  return shouldShowBanner ? <SaleBanner /> : null;
+  return shouldShowBanner ? (
+    <SaleBanner
+      targetDate={endDate}
+      messageKey={config.messageKey}
+      url={config.url}
+    />
+  ) : null;
+  // return (
+  //   <SaleBanner
+  //     targetDate={endDate}
+  //     messageKey={config.messageKey}
+  //     url={config.url}
+  //   />
+  // );
 };
 
 export default SaleBannerWrapper;

@@ -24,6 +24,8 @@
   "pro": "PRO",
   "subscribeToUnlock": "Subscribe to unlock all features.",
   "youHaveNoActiveLicense": "You have no active license. Upgrade to unlock virtual profile, selection filter, variable editor and more features!",
-  "flashSale": "Flash sale",
-  "additional10percentOff": "10% OFF"
+  "subscribe": "Subscribe",
+  "endIn": "End in",
+  "validForFirstBillingCycle": "Valid for first billing cycle.",
+  "50percentOff": "Now 50% OFF"
 }

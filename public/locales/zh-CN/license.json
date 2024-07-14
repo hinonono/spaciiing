@@ -24,6 +24,8 @@
   "pro": "PRO",
   "subscribeToUnlock": "订阅以解锁所有功能。",
   "youHaveNoActiveLicense": "您没有有效的授权。升级以解锁虚拟档案、选择过滤器、变量编辑器等更多功能！",
-  "flashSale": "快闪优惠",
-  "additional10percentOff": "额外10%折扣"
+  "subscribe": "订阅",
+  "endIn": "结束于",
+  "validForFirstBillingCycle": "适用于首个订阅循环",
+  "50percentOff": "订阅现省50%"
 }

@@ -17,7 +17,6 @@ const Setting: React.FC = () => {
     const selectedLanguage = event.target.value;
     i18n.changeLanguage(selectedLanguage);
 
-    
     const message: MessageLocalization = {
       lang: selectedLanguage,
       module: "Localization",
@@ -109,7 +108,7 @@ const Setting: React.FC = () => {
           <div className="grid">
             <div className="membership-block">
               <p className="color--secondary">{t("settings:version")}</p>
-              <span>9</span>
+              <span>11</span>
             </div>
           </div>
           <div className="mt-xxsmall"></div>
