@@ -4,32 +4,59 @@ import { MessageRenamer, RenamerSupportedTargets } from "../types/Message";
 import { NodeRenamable } from "../types/NodeRenamable";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
-
-const RenamableScopes: NodeRenamable[] = [
-  "ALL_OPTIONS",
-  "IMAGE",
-  "TEXT",
-  "FRAME",
-  "GROUP",
-  "ALL_SHAPE",
-  "RECTANGLE",
-  "ELLIPSE",
-  "LINE",
-  "POLYGON",
-  "STAR",
-  "VECTOR",
-];
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 const Renamer: React.FC = () => {
+  const { t } = useTranslation(["module", "term"]);
+
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
+  //
+  const RenamableScopesNew: {
+    nameKey: string;
+    scope: NodeRenamable;
+    indented?: boolean;
+    indentLevel?: number;
+  }[] = [
+    { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
+    { nameKey: "term:image", scope: "IMAGE" },
+    { nameKey: "term:text", scope: "TEXT" },
+    { nameKey: "term:frame", scope: "FRAME" },
+    { nameKey: "term:group", scope: "GROUP" },
+    { nameKey: "term:allShape", scope: "ALL_SHAPE" },
+    {
+      nameKey: "term:rectangle",
+      scope: "RECTANGLE",
+      indented: true,
+      indentLevel: 1,
+    },
+    {
+      nameKey: "term:ellipse",
+      scope: "ELLIPSE",
+      indented: true,
+      indentLevel: 1,
+    },
+    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
+    {
+      nameKey: "term:polygon",
+      scope: "POLYGON",
+      indented: true,
+      indentLevel: 1,
+    },
+    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
+    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
+  ];
+  const initialScopes = RenamableScopesNew.map((item) => item.scope);
+
+  //
   const [options, setOptions] = useState<RenamerSupportedTargets[]>([]);
   const [selectedScopes, setSelectedScopes] =
-    useState<NodeRenamable[]>(RenamableScopes);
+    useState<NodeRenamable[]>(initialScopes);
   const [deleteHiddenLayer, setDeleteHiddenLayer] = useState(false);
   const [skipLockedLayer, setSkipLockedLayer] = useState(true);
   const [includeParentLayer, setIncludeParentLayer] = useState(false);
@@ -56,7 +83,9 @@ const Renamer: React.FC = () => {
   const handleScopeChange = (scope: NodeRenamable) => {
     if (scope === "ALL_OPTIONS") {
       // Toggle specific fill scopes
-      const fillScopes: NodeRenamable[] = RenamableScopes;
+      const fillScopes: NodeRenamable[] = RenamableScopesNew.map(
+        (item) => item.scope
+      );
       setSelectedScopes((prevScopes) =>
         prevScopes.includes(scope)
           ? prevScopes.filter((s) => !fillScopes.includes(s))
@@ -89,9 +118,7 @@ const Renamer: React.FC = () => {
   };
 
   const applyRenamer = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
@@ -123,42 +150,49 @@ const Renamer: React.FC = () => {
         handleClose={handleCloseExplanationModal}
       >
         <div>
-          <h3>Naming Cleaner</h3>
-          <p>Clean the naming of layers within your selection.</p>
-          <h4>Rename format</h4>
+          <h3>{t("module:moduleNamingClener")}</h3>
+          <p>{t("module:moduleNamingClenerDesc")}</p>
+          <h4>{t("module:renameFormat")}</h4>
           <ul>
-            <li>Image: Image</li>
-            <li>Auto layout: V Auto Layout / H Auto Layout</li>
-            <li>Text: The content of the itself</li>
-            <li>Frame: Frame</li>
-            <li>Group: Group</li>
-            <li>Rectangle: Rectangle</li>
-            <li>Ellipse: Ellipse</li>
-            <li>Line: Line</li>
-            <li>Polygon: Polygon</li>
-            <li>Star: Star</li>
-            <li>Vector: Vector</li>
+            <li>{t("module:renameImage")}</li>
+            <li>{t("module:renameAutoLayout")}</li>
+            <li>{t("module:renameText")}</li>
+            <li>{t("module:renameFrame")}</li>
+            <li>{t("module:renameGroup")}</li>
+            <li>{t("module:renameRectangle")}</li>
+            <li>{t("module:renameEllipse")}</li>
+            <li>{t("module:renameLine")}</li>
+            <li>{t("module:renamePolygon")}</li>
+            <li>{t("module:renameStar")}</li>
+            <li>{t("module:renameVector")}</li>
           </ul>
         </div>
       </Modal>
       <TitleBar
-        title="Naming Cleaner"
+        title={t("module:moduleNamingClener")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         {/* 選項 */}
         <div className="mt-xxsmall">
-          <SectionTitle title={`Rename Scopes (${selectedScopes.length})`} />
+          <SectionTitle
+            title={`${t("module:renameScopes")} (${selectedScopes.length})`}
+          />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
-            {RenamableScopes.map((scope) => (
-              <label key={scope} className="container">
-                {scope}
+            {RenamableScopesNew.map((item) => (
+              <label
+                key={item.scope}
+                className={`container ${
+                  item.indented ? `indent-level-${item.indentLevel}` : ""
+                }`}
+              >
+                {t(item.nameKey)}
                 <input
                   type="checkbox"
-                  value={scope}
-                  checked={selectedScopes.includes(scope)}
-                  onChange={() => handleScopeChange(scope)}
+                  value={item.scope}
+                  checked={selectedScopes.includes(item.scope)}
+                  onChange={() => handleScopeChange(item.scope)}
                 />
                 <span className="checkmark"></span>
               </label>
@@ -166,10 +200,10 @@ const Renamer: React.FC = () => {
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={`Options`} />
+          <SectionTitle title={t("module:options")} />
           <div className="custom-checkbox-group">
             <label className="container">
-              Delete hidden layers
+              {t("module:deleteHiddenLayers")}
               <input
                 type="checkbox"
                 checked={deleteHiddenLayer}
@@ -178,7 +212,7 @@ const Renamer: React.FC = () => {
               <span className="checkmark"></span>
             </label>
             <label className="container">
-              Include parent layers
+              {t("module:includeParentLayers")}
               <input
                 type="checkbox"
                 checked={includeParentLayer}
@@ -187,7 +221,7 @@ const Renamer: React.FC = () => {
               <span className="checkmark"></span>
             </label>
             <label className="container">
-              Skip lock layers
+              {t("module:skipLockLayers")}
               <input
                 type="checkbox"
                 checked={skipLockedLayer}
@@ -200,7 +234,7 @@ const Renamer: React.FC = () => {
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={"Clean selection"}
+            title={t("module:cleanUp")}
             id={"renamer-apply"}
             onClick={applyRenamer}
           />

@@ -8,6 +8,8 @@ import {
 } from "../../types/Message";
 import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface LoremIpsumModalProps {
   show: boolean;
@@ -18,14 +20,14 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
   show,
   handleClose,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
 
   const [lang, setLang] = useState<LoremSupportedLang>("en");
   const [length, setLength] = useState<LoremLength>("short");
 
   const generateLorem = (lang: LoremSupportedLang, length: LoremLength) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
@@ -70,14 +72,14 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
           value={length}
           onChange={(e) => setLength(e.target.value as LoremLength)}
         >
-          <option value="short">Short</option>
-          <option value="medium">Medium</option>
-          <option value="long">Long</option>
+          <option value="short">{t("module:short")}</option>
+          <option value="medium">{t("module:medium")}</option>
+          <option value="long">{t("module:long")}</option>
         </select>
       </div>
       <div className="mt-xxsmall"></div>
       <FigmaButton
-        title={"Generate"}
+        title={t("module:generate")}
         id={"lorem-apply"}
         onClick={() => {
           generateLorem(lang, length);

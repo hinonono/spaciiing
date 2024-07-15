@@ -8,8 +8,12 @@ import { LicenseManagement } from "../types/LicenseManagement";
 import { MessageLicenseManagement } from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const SubscriptionModal: React.FC = () => {
+  const { licenseManagement } = useAppContext();
+  const { t } = useTranslation(["license"]);
+
   const isOnline = useNetworkStatus();
   // 金鑰輸入
   const [licenseKey, setLicenseKey] = useState("");
@@ -27,7 +31,7 @@ const SubscriptionModal: React.FC = () => {
 
   const handleVerify = async () => {
     if (licenseKey == "") {
-      setError("License key cannot be null.");
+      setError(t("license:licenseKeyCannotBeNull"));
       return;
     }
     setLoading(true);
@@ -74,10 +78,10 @@ const SubscriptionModal: React.FC = () => {
         // Handle other types of errors
         console.log("💖");
         console.error(error.message);
-        setError("The provided license key is invalid.");
+        setError(t("license:activateInvalid"));
       } else {
         console.log("🍏");
-        setError("An unknown error occurred");
+        setError(t("license:activateUnknown"));
       }
     } finally {
       setLoading(false);
@@ -86,6 +90,8 @@ const SubscriptionModal: React.FC = () => {
 
   const handleCloseCTSubscribe = () => {
     setShowCTSubscribe(false);
+    setShowActivateModal(false);
+    setError(null);
     setLicenseKey("");
   };
   const handleOpenActivateModal = () => {
@@ -95,6 +101,7 @@ const SubscriptionModal: React.FC = () => {
   const handleCloseActivateModal = () => {
     setShowActivateModal(false);
     setLicenseKey("");
+    setError(null);
   };
 
   return (
@@ -102,27 +109,24 @@ const SubscriptionModal: React.FC = () => {
       <div>
         {showActivateModal && (
           <div>
-            <h3>Enter your license key</h3>
-            <p>
-              You can find your license key in Gumroad page or the email inbox
-              you filled in during purchase.
-            </p>
+            <h3>{t("license:enterLicenseKey")}</h3>
+            <p>{t("license:enterLicenseKeyDescription")}</p>
             {isOnline ? (
               <div>
                 <div className="mt-xxsmall">
-                  <SectionTitle title={"License key"} />
+                  <SectionTitle title={t("module:licenseKey")} />
                   <div className="width-100">
                     <textarea
                       className="textarea"
                       rows={1}
                       value={licenseKey}
                       onChange={(e) => setLicenseKey(e.target.value)}
-                      placeholder="Enter your license key here"
+                      placeholder={t("license:enterYourLicenseKeyHere")}
                     />
                     {response && (
                       <div>
                         <pre className="note success">
-                          You have activate your license successfully.
+                          {t("license:activateSuccess")}
                         </pre>
                       </div>
                     )}
@@ -136,7 +140,7 @@ const SubscriptionModal: React.FC = () => {
                 {!response && (
                   <div className="mt-xsmall">
                     <FigmaButton
-                      title={"Proceed"}
+                      title={t("license:proceed")}
                       onClick={handleVerify}
                       disabled={loading}
                     />
@@ -145,22 +149,21 @@ const SubscriptionModal: React.FC = () => {
               </div>
             ) : (
               <div>
-                <p>
-                  You are offline. Please check your internet connection before
-                  procceed license verification.
-                </p>
+                <p>{t("license:offlineNotification")}</p>
               </div>
             )}
             <div>
               {!response ? (
-                <FigmaButton
-                  buttonType="secondary"
-                  title={"Back"}
-                  onClick={handleCloseActivateModal}
-                />
+                licenseManagement.tier != "PAID" ? (
+                  <FigmaButton
+                    buttonType="secondary"
+                    title={t("license:back")}
+                    onClick={handleCloseActivateModal}
+                  />
+                ) : null
               ) : (
                 <FigmaButton
-                  title={"Finish"}
+                  title={t("license:finish")}
                   onClick={handleCloseCTSubscribe}
                 />
               )}
@@ -169,20 +172,17 @@ const SubscriptionModal: React.FC = () => {
         )}
         {!showActivateModal && (
           <div>
-            <div className="badge">PRO</div>
-            <h2>Subscribe to unlock all features.</h2>
-            <p>
-              You have no active license. Upgrade to unlock virtual profile,
-              selection filter, variable editor and more features!
-            </p>
+            <div className="badge">{t("license:pro")}</div>
+            <h2>{t("license:subscribeToUnlock")}</h2>
+            <p>{t("license:youHaveNoActiveLicense")}</p>
             <div className="mt-xsmall">
               <FigmaButton
-                title={"Subscribe Now"}
+                title={t("license:subscribeNow")}
                 onClick={paymentsUtil.navigateToPurchasePage}
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Activate License"}
+                title={t("license:activateLicense")}
                 onClick={handleOpenActivateModal}
               />
             </div>

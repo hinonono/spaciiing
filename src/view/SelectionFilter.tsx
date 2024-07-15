@@ -2,28 +2,23 @@ import React, { useState } from "react";
 import { TitleBar, FigmaButton, SectionTitle } from "../components";
 import Modal from "../components/Modal";
 import { NodeFilterable } from "../types/NodeFilterable";
-import { MessageSelectionFilter } from "../types/Message";
+import {
+  AdditionalFilterOptions,
+  MessageSelectionFilter,
+} from "../types/Message";
 import { useAppContext } from "../AppProvider";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
-const FilterableScopes: NodeFilterable[] = [
-  "ALL_OPTIONS",
-  "IMAGE",
-  "TEXT",
-  "FRAME",
-  "GROUP",
-  "AUTO_LAYOUT",
-  "INSTANCE",
-  "COMPONENT",
-  "COMPONENT_SET",
-  "RECTANGLE",
-  "ELLIPSE",
-  "LINE",
-  "POLYGON",
-  "STAR",
-  "VECTOR",
-];
+interface FilterScopeItem {
+  nameKey: string;
+  scope: NodeFilterable;
+  indented?: boolean;
+  indentLevel?: number;
+}
 
 const SelectionFilter: React.FC = () => {
+  const { t } = useTranslation(["module", "term"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
 
   // 功能說明彈窗
@@ -31,12 +26,85 @@ const SelectionFilter: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
+  const [skipLockedLayer, setSkipLockedLayer] = useState(true);
+  const handleSkipLockedLayerChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setSkipLockedLayer(event.target.checked);
+  };
+  const [skipHiddenLayer, setSkipHiddenLayer] = useState(true);
+  const handleSkipHiddenLayerChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setSkipHiddenLayer(event.target.checked);
+  };
+  const [findWithName, setFindWithName] = useState(false);
+  const handleFindWithNameChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setFindWithName(event.target.checked);
+    if (event.target.checked == false) {
+      setFindCriteria("");
+    }
+  };
+
+  const FilterableScopesNew: FilterScopeItem[] = [
+    { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
+    { nameKey: "term:image", scope: "IMAGE" },
+    { nameKey: "term:text", scope: "TEXT" },
+    { nameKey: "term:frame", scope: "FRAME" },
+    { nameKey: "term:group", scope: "GROUP" },
+    { nameKey: "term:autoLayout", scope: "AUTO_LAYOUT" },
+    { nameKey: "term:instance", scope: "INSTANCE" },
+    { nameKey: "term:component", scope: "COMPONENT" },
+    { nameKey: "term:componentSet", scope: "COMPONENT_SET" },
+    { nameKey: "term:allShape", scope: "ALL_SHAPE" },
+    {
+      nameKey: "term:rectangle",
+      scope: "RECTANGLE",
+      indented: true,
+      indentLevel: 1,
+    },
+    {
+      nameKey: "term:ellipse",
+      scope: "ELLIPSE",
+      indented: true,
+      indentLevel: 1,
+    },
+    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
+    {
+      nameKey: "term:polygon",
+      scope: "POLYGON",
+      indented: true,
+      indentLevel: 1,
+    },
+    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
+    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
+  ];
+
   // 主要功能
   const [selectedScopes, setSelectedScopes] = useState<NodeFilterable[]>([]);
   const handleScopeChange = (scope: NodeFilterable) => {
     if (scope === "ALL_OPTIONS") {
       // Toggle specific fill scopes
-      const fillScopes: NodeFilterable[] = FilterableScopes;
+      const scopes = FilterableScopesNew.map((item) => item.scope);
+      const fillScopes: NodeFilterable[] = scopes;
+      setSelectedScopes((prevScopes) =>
+        prevScopes.includes(scope)
+          ? prevScopes.filter((s) => !fillScopes.includes(s))
+          : [...new Set([...prevScopes, ...fillScopes])]
+      );
+    } else if (scope === "ALL_SHAPE") {
+      // Toggle specific fill scopes
+      const fillScopes: NodeFilterable[] = [
+        "RECTANGLE",
+        "ELLIPSE",
+        "LINE",
+        "POLYGON",
+        "STAR",
+        "VECTOR",
+        "ALL_SHAPE",
+      ];
       setSelectedScopes((prevScopes) =>
         prevScopes.includes(scope)
           ? prevScopes.filter((s) => !fillScopes.includes(s))
@@ -60,19 +128,24 @@ const SelectionFilter: React.FC = () => {
 
   // 傳送訊息
   const applySelectionFilter = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
 
+    const addtionalOptions: AdditionalFilterOptions = {
+      skipLockLayers: skipLockedLayer,
+      skipHiddenLayers: skipHiddenLayer,
+      findWithName: findWithName,
+      findCriteria: findCriteria,
+    };
+
     const message: MessageSelectionFilter = {
       filterScopes: selectedScopes,
-      findCriteria: findCriteria,
       module: "SelectionFilter",
       phase: "Actual",
       direction: "Inner",
+      additionalFilterOptions: addtionalOptions,
     };
 
     parent.postMessage(
@@ -91,30 +164,36 @@ const SelectionFilter: React.FC = () => {
           handleClose={handleCloseExplanationModal}
         >
           <div>
-            <h3>Selection Filter</h3>
-            <p>Filter your selection with various of available options.</p>
+            <h3>{t("module:moduleSelectionFilter")}</h3>
+            <p>{t("module:moduleSelectionFilterDesc")}</p>
           </div>
         </Modal>
       </div>
-
       <TitleBar
-        title="Selection Filter"
+        title={t("module:moduleSelectionFilter")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
-        {/* 選項 */}
+        {/* 圖層類型 */}
         <div className="mt-xxsmall">
-          <SectionTitle title={`Filter for (${selectedScopes.length})`} />
+          <SectionTitle
+            title={`${t("module:filterFor")} (${selectedScopes.length})`}
+          />
           <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
-            {FilterableScopes.map((scope) => (
-              <label key={scope} className="container">
-                {scope}
+            {FilterableScopesNew.map((item) => (
+              <label
+                key={t(item.nameKey)}
+                className={`container ${
+                  item.indented ? `indent-level-${item.indentLevel}` : ""
+                }`}
+              >
+                {t(item.nameKey)}
                 <input
                   type="checkbox"
-                  value={scope}
-                  checked={selectedScopes.includes(scope)}
-                  onChange={() => handleScopeChange(scope)}
+                  value={item.scope}
+                  checked={selectedScopes.includes(item.scope)}
+                  onChange={() => handleScopeChange(item.scope)}
                 />
                 <span className="checkmark"></span>
               </label>
@@ -122,21 +201,52 @@ const SelectionFilter: React.FC = () => {
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={"Find with name (Optional)"} />
-          <div className="width-100">
-            <textarea
-              className="textarea"
-              rows={1}
-              value={findCriteria}
-              onChange={handleFindCriteriaChange}
-              placeholder="Find with name"
-            />
+          <SectionTitle title={t("module:options")} />
+          <div className="custom-checkbox-group">
+            <label className="container">
+              {t("module:skipHiddenLayers")}
+              <input
+                type="checkbox"
+                checked={skipHiddenLayer}
+                onChange={handleSkipHiddenLayerChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+            <label className="container">
+              {t("module:skipLockLayers")}
+              <input
+                type="checkbox"
+                checked={skipLockedLayer}
+                onChange={handleSkipLockedLayerChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+            <label className="container">
+              {t("module:findWithName")}
+              <input
+                type="checkbox"
+                checked={findWithName}
+                onChange={handleFindWithNameChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+            {findWithName && (
+              <div className="indent-level-1">
+                <textarea
+                  className="textarea"
+                  rows={1}
+                  value={findCriteria}
+                  onChange={handleFindCriteriaChange}
+                  placeholder={t("module:findWithName")}
+                />
+              </div>
+            )}
           </div>
         </div>
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={"Filter"}
+            title={t("module:filter")}
             id={"selection-filter-apply"}
             onClick={applySelectionFilter}
           />

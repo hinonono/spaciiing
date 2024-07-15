@@ -54,30 +54,109 @@ function filterSelection(message: MessageSelectionFilter) {
     return matchingNodes;
   }
 
-  let filteredSelection = findAllMatchingNodes([...selection]);
+  function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
+    let result: SceneNode[] = [];
 
-  if (filteredSelection.length === 0) {
+    for (const node of nodes) {
+      if (!node.locked) {
+        if ("children" in node && node.children.length > 0) {
+          const filteredChildren = skipLockLayersAndChildren(node.children);
+          result = result.concat(filteredChildren);
+        }
+        result.push(node);
+      }
+    }
+
+    return result;
+  }
+
+  function skipHiddenLayersAndChildren(
+    nodes: readonly SceneNode[],
+    parentVisible: boolean = true
+  ): SceneNode[] {
+    let result: SceneNode[] = [];
+
+    for (const node of nodes) {
+      const nodeVisible = parentVisible && node.visible;
+
+      if (!nodeVisible) {
+        continue; // Skip nodes that are not visible due to their parent being hidden
+      }
+
+      result.push(node);
+
+      if ("children" in node) {
+        result = result.concat(
+          skipHiddenLayersAndChildren(node.children, nodeVisible)
+        );
+      }
+    }
+
+    return result;
+  }
+
+  function getIntersection(array1: SceneNode[], array2: SceneNode[]): SceneNode[] {
+    const set2 = new Set(array2);
+    return array1.filter(node => set2.has(node));
+  }
+
+  // Use the children of the top-level selected nodes for filtering if present,
+  // otherwise use the selection itself
+  let filteredSelection: SceneNode[] = [];
+  let hasChildren = false;
+
+  for (const node of selection) {
+    if ("children" in node) {
+      hasChildren = true;
+      filteredSelection = filteredSelection.concat(node.children);
+    }
+  }
+
+  if (!hasChildren) {
+    filteredSelection = selection;
+  }
+
+  // Filter out hidden and locked layers
+  let filteredSelection1: SceneNode[] = filteredSelection;
+  let filteredSelection2: SceneNode[] = filteredSelection;
+
+  if (message.additionalFilterOptions.skipHiddenLayers) {
+    filteredSelection1 = skipHiddenLayersAndChildren(filteredSelection);
+  }
+
+  if (message.additionalFilterOptions.skipLockLayers) {
+    filteredSelection2 = skipLockLayersAndChildren(filteredSelection);
+  }
+
+  const overlappedSelection = getIntersection(filteredSelection1, filteredSelection2);
+
+  
+
+  // Find all matching nodes from the filtered selection
+  let finalSelection = findAllMatchingNodes(overlappedSelection);
+
+  if (finalSelection.length === 0) {
     figma.notify("❌ No layers match the specified types.");
     return;
   }
 
   // Further filter by name if findCriteria is not empty
-  if (message.findCriteria !== "") {
-    filteredSelection = filteredSelection.filter(
-      (node) => node.name === message.findCriteria
+  if (message.additionalFilterOptions.findWithName) {
+    finalSelection = finalSelection.filter(
+      (node) => node.name === message.additionalFilterOptions.findCriteria
     );
 
-    if (filteredSelection.length === 0) {
+    if (finalSelection.length === 0) {
       figma.notify("❌ No layers match the specified name.");
       return;
     }
   }
 
   // Set the filtered selection as the user's new current selection
-  figma.currentPage.selection = filteredSelection;
+  figma.currentPage.selection = finalSelection;
 
   // Notify the user of the number of matching layers
   figma.notify(
-    `✅ Found ${filteredSelection.length} layer(s) matching the criteria.`
+    `✅ Found ${finalSelection.length} layer(s) matching the criteria.`
   );
 }

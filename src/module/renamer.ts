@@ -3,8 +3,33 @@ import * as util from "./util";
 
 export function renameSelectedObjects(message: MessageRenamer) {
   const selection = util.getCurrentSelection();
+  // Use the children of the top-level selected nodes for filtering if present,
+  // otherwise use the selection itself
+  let filteredSelection: SceneNode[] = [];
+  let hasChildren = false;
+  const topLevelNodesWithChildren: SceneNode[] = [];
 
-  if (selection.length === 0) {
+  for (const node of selection) {
+    if ("children" in node) {
+      hasChildren = true;
+      filteredSelection = filteredSelection.concat(node.children);
+    }
+  }
+
+  for (let i = 0; i < selection.length; i++) {
+    topLevelNodesWithChildren.push(selection[i]);
+    console.log(selection[i].name);
+  }
+
+  if (!hasChildren) {
+    filteredSelection = selection;
+  }
+
+  if (message.docOptions.skipLockedLayer) {
+    filteredSelection = skipLockLayersAndChildren(filteredSelection);
+  }
+
+  if (filteredSelection.length === 0) {
     figma.notify("❌ Please select at least one object.");
     return;
   }
@@ -23,6 +48,22 @@ export function renameSelectedObjects(message: MessageRenamer) {
     auto_layout_horizontal: "H Auto Layout",
     auto_layout_vertical: "V Auto Layout",
   };
+
+  function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
+    let result: SceneNode[] = [];
+
+    for (const node of nodes) {
+      if (!node.locked) {
+        if ("children" in node && node.children.length > 0) {
+          const filteredChildren = skipLockLayersAndChildren(node.children);
+          result = result.concat(filteredChildren);
+        }
+        result.push(node);
+      }
+    }
+
+    return result;
+  }
 
   function shouldRenameNode(node: SceneNode): boolean {
     if (message.docOptions.skipLockedLayer && node.locked) {
@@ -128,7 +169,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
     }
   }
 
-  selection.forEach((selectedNode) => {
+  filteredSelection.forEach((selectedNode) => {
     if (!selectedNode) {
       figma.notify("❌ The selected object is invalid.");
       return;
@@ -136,7 +177,16 @@ export function renameSelectedObjects(message: MessageRenamer) {
     if (message.docOptions.deleteHiddenLayer) {
       deleteHiddenLayers(selectedNode);
     } else {
-      renameNode(selectedNode, true); // Pass true for top-level node
+      renameNode(selectedNode, false);
+    }
+  });
+
+  topLevelNodesWithChildren.forEach((topLevelNode) => {
+    if (message.docOptions.includeParentLayer) {
+      const newName = getNewName(topLevelNode);
+      if (newName !== null) {
+        topLevelNode.name = newName;
+      }
     }
   });
 

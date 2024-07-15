@@ -8,8 +8,25 @@ import {
 import { useAppContext } from "../AppProvider";
 import { SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
+import { useTranslation } from "react-i18next";
+
+const SpacingValue: {
+  nameKey: string;
+  value: number | string;
+  translate: boolean;
+}[] = [
+  { nameKey: "0", value: 0, translate: false },
+  { nameKey: "8", value: 8, translate: false },
+  { nameKey: "16", value: 16, translate: false },
+  { nameKey: "20", value: 20, translate: false },
+  { nameKey: "24", value: 24, translate: false },
+  { nameKey: "32", value: 32, translate: false },
+  { nameKey: "term:custom", value: "custom", translate: true },
+];
 
 const SpaciiingView: React.FC = () => {
+  const { t } = useTranslation(["module", "term"]);
+
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -94,14 +111,14 @@ const SpaciiingView: React.FC = () => {
         handleClose={handleCloseExplanationModal}
       >
         <div>
-          <h3>Spaciiing</h3>
-          <p>Set spacing between elements with just one click.</p>
+          <h3>{t("module:moduleSpaciiing")}</h3>
+          <p>{t("module:moduleSpaciiingDesc")}</p>
         </div>
       </Modal>
       <TitleBar title="Spaciiing" onClick={handleOpenExplanationModal} />
       <div className="content">
         <div>
-          <SectionTitle title="Mode" />
+          <SectionTitle title={t("module:mode")} />
           <div className="custom-segmented-control">
             <input
               type="radio"
@@ -115,7 +132,7 @@ const SpaciiingView: React.FC = () => {
               <div className="icon-24">
                 <SvgVertical color="var(--figma-color-text)" />
               </div>
-              Vertical
+              {t("module:vertical")}
             </label>
             <input
               type="radio"
@@ -129,12 +146,12 @@ const SpaciiingView: React.FC = () => {
               <div className="icon-24">
                 <SvgHorizontal color="var(--figma-color-text)" />
               </div>
-              Horizontal
+              {t("module:horizontal")}
             </label>
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title="Multiply spacing by" />
+          <SectionTitle title={t("module:multiplySpacingBy")} />
           <div className="flex flex-row">
             <div className="custom-segmented-control">
               {[1, 2, 3, 4, 5].map((value) => (
@@ -154,24 +171,26 @@ const SpaciiingView: React.FC = () => {
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title="Spacing Value" />
+          <SectionTitle title={t("module:spacingValue")} />
           <div className="flex flex-row">
             <div className="custom-segmented-control">
-              {[0, 8, 16, 20, 24, 32, "custom"].map((value) => (
-                <React.Fragment key={value}>
+              {SpacingValue.map((item) => (
+                <React.Fragment key={item.value}>
                   <input
                     type="radio"
                     name="sp-space"
-                    id={`default_Option${value}`}
-                    value={value}
-                    checked={space === value}
-                    onChange={() => setSpace(value)}
+                    id={`default_Option${item.value}`}
+                    value={item.value}
+                    checked={space === item.value}
+                    onChange={() => setSpace(item.value)}
                   />
                   <label
                     className="sp-c-space"
-                    htmlFor={`default_Option${value}`}
+                    htmlFor={`default_Option${item.value}`}
                   >
-                    {typeof value === "string" ? value : value * multiply}
+                    {typeof item.value === "string"
+                      ? t(item.nameKey)
+                      : item.value * multiply}
                   </label>
                 </React.Fragment>
               ))}
@@ -185,12 +204,12 @@ const SpaciiingView: React.FC = () => {
                     rows={1}
                     value={lastCustomSpacing}
                     onChange={handleCustomValueChange}
-                    placeholder="Custom Value. Numbers only."
+                    placeholder={t("module:customValueNumbersOnly")}
                   />
                 </div>
                 <div className="mt-xxsmall">
                   <span className="note">
-                    Custom value is not affected by multiply value.
+                    {t("module:customValueIsNotAffect")}
                   </span>
                 </div>
               </div>
@@ -199,7 +218,7 @@ const SpaciiingView: React.FC = () => {
         </div>
         <div className="custom-checkbox-group mt-xsmall">
           <label className="container">
-            Add auto layout after apply
+            {t("module:addAutoLayoutAfterApply")}
             <input
               type="checkbox"
               checked={isChecked}
@@ -208,7 +227,11 @@ const SpaciiingView: React.FC = () => {
             <span className="checkmark"></span>
           </label>
         </div>
-        <FigmaButton title={"Execute"} id={"sp-apply"} onClick={applySpacing} />
+        <FigmaButton
+          title={t("module:execute")}
+          id={"sp-apply"}
+          onClick={applySpacing}
+        />
       </div>
     </div>
   );

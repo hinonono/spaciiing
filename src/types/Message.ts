@@ -16,6 +16,7 @@ type MessageDirection = "Inner" | "Outer";
 
 export type ModuleType =
   | "Init"
+  | "Localization"
   | "Spaciiing"
   | "Memorizer"
   | "Shortcut"
@@ -27,7 +28,8 @@ export type ModuleType =
   | "VirtualProfile"
   | "SelectionFilter"
   | "PluginSetting"
-  | "LicenseManagement";
+  | "LicenseManagement"
+  | "AspectRatioHelper";
 
 // Spaciiing模組專用的基底屬性
 export type SpacingMode = "horizontal" | "vertical";
@@ -119,6 +121,9 @@ export type LicenseManagementAction = "UPDATE" | "VERIFY";
 export interface ExternalMessageLicenseManagement extends ExternalMessage {
   action: LicenseManagementAction;
   license: LicenseManagement;
+}
+export interface ExternalMessageLocalization extends ExternalMessage {
+  lang: string;
 }
 export interface ExternalMessageUpdateFrame extends ExternalMessage {
   memorizedObjectWidth?: string;
@@ -271,13 +276,34 @@ export interface VirtualProfileSingleValue {
 }
 
 // Selection Filter 專用的基底屬性
+export interface AdditionalFilterOptions {
+  skipLockLayers: boolean;
+  skipHiddenLayers: boolean;
+  findWithName: boolean;
+  findCriteria: string;
+}
 export interface MessageSelectionFilter extends Message {
   filterScopes: NodeFilterable[];
-  findCriteria: string;
+  additionalFilterOptions: AdditionalFilterOptions;
 }
 
 // License Management 專用的基底屬性
 export interface MessageLicenseManagement extends Message {
   license: LicenseManagement;
   action: LicenseManagementAction;
+}
+
+// Localization
+export interface MessageLocalization extends Message {
+  lang: string;
+}
+
+// Aspect Ratio 專用的基底屬性
+export type Dimension = "width" | "height";
+
+export interface MessageAspectRatio extends Message {
+  lockedDimension: Dimension;
+  isCustomAspectRatio: boolean;
+  widthRatio: number;
+  heightRatio: number;
 }

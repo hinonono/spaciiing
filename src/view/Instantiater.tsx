@@ -10,8 +10,11 @@ import {
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 const Instantiater: React.FC = () => {
+  const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -38,14 +41,11 @@ const Instantiater: React.FC = () => {
   const options = getOptionsForSelectedBrandAndForm(selectedBrand, form);
 
   useEffect(() => {
-    console.log("Options changed!");
     setTarget(""); // Reset target when options change
   }, [selectedBrand, form]);
 
   const applyInstantiater = (type: InstantiaterType) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
@@ -77,18 +77,18 @@ const Instantiater: React.FC = () => {
         handleClose={handleCloseExplanationModal}
       >
         <div>
-          <h3>Preset library</h3>
-          <p>Create style or variables from well known design systems.</p>
+          <h3>{t("module:modulePresetLibrary")}</h3>
+          <p>{t("module:modulePresetLibraryDesc")}</p>
         </div>
       </Modal>
       <TitleBar
-        title="Preset library"
+        title={t("module:modulePresetLibrary")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         <div>
-          <SectionTitle title="Generate as" />
+          <SectionTitle title={t("module:generateAs")} />
           <div className="custom-segmented-control">
             <input
               type="radio"
@@ -98,7 +98,7 @@ const Instantiater: React.FC = () => {
               checked={form === "style"}
               onChange={() => setForm("style")}
             />
-            <label htmlFor="instantiater-form-style">Style</label>
+            <label htmlFor="instantiater-form-style">{t("module:style")}</label>
             <input
               type="radio"
               name="instantiater-form"
@@ -107,11 +107,13 @@ const Instantiater: React.FC = () => {
               checked={form === "variable"}
               onChange={() => setForm("variable")}
             />
-            <label htmlFor="instantiater-form-variable">Variable</label>
+            <label htmlFor="instantiater-form-variable">
+              {t("module:variable")}
+            </label>
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title="Collection" />
+          <SectionTitle title={t("module:collection")} />
           <select
             id="brand_select"
             className="custom-select"
@@ -130,7 +132,7 @@ const Instantiater: React.FC = () => {
             onChange={handleOptionChange}
             disabled={!selectedBrand}
           >
-            <option value="">Select an option</option>
+            <option value="">{t("module:selectAnOption")}</option>
             {options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -138,16 +140,16 @@ const Instantiater: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className="mt-xxsmall"></div>
+        <div className="mt-xsmall"></div>
         <div className="grid">
           <FigmaButton
             buttonType="secondary"
-            title={"Generate usage definition"}
+            title={t("module:generateUsageDefinition")}
             id={"instantiater-intantiate-explanation-text"}
             onClick={() => applyInstantiater("explanation")}
           />
           <FigmaButton
-            title={"Generate"}
+            title={t("module:generate")}
             id={"instantiater-apply"}
             onClick={() => applyInstantiater("actual")}
           />
