@@ -23,10 +23,7 @@ async function adjustNodeAspectRatio(
   // Check if there are any nodes selected
   if (selection.length === 0) {
     const langCode = await getPreferredLang();
-    console.log(langCode);
-
     notify("noNodesSelected", langCode, "ERROR");
-    // figma.notify("No nodes selected");
     return;
   }
 
