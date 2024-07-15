@@ -1,4 +1,6 @@
 import { Dimension, MessageAspectRatio } from "../types/Message";
+import { getPreferredLang } from "./localization";
+import { notify } from "./pluginNotificationHelper";
 import * as util from "./util";
 
 export function reception(message: MessageAspectRatio) {
@@ -11,7 +13,7 @@ export function reception(message: MessageAspectRatio) {
   }
 }
 
-function adjustNodeAspectRatio(
+async function adjustNodeAspectRatio(
   widthRatio: number,
   heightRatio: number,
   lockedDimension: Dimension
@@ -20,7 +22,11 @@ function adjustNodeAspectRatio(
 
   // Check if there are any nodes selected
   if (selection.length === 0) {
-    figma.notify("No nodes selected");
+    const langCode = await getPreferredLang();
+    console.log(langCode);
+
+    notify("noNodesSelected", langCode);
+    // figma.notify("No nodes selected");
     return;
   }
 

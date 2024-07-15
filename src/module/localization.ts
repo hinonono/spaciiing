@@ -24,7 +24,7 @@ export async function initLocalization() {
     util.sendMessageBack(message);
   } else {
     // 沒有偏好語言，進行初始化
-    await figma.clientStorage.setAsync(KEY, "en");
+    await figma.clientStorage.setAsync(KEY, "enUS");
   }
 }
 
@@ -36,5 +36,16 @@ export async function setPreferredLangToLocalStorage(lang: string) {
 export function reception(message: MessageLocalization) {
   if (message.phase == "Actual") {
     setPreferredLangToLocalStorage(message.lang);
+  }
+}
+
+export async function getPreferredLang(): Promise<string> {
+  const KEY = "preferred-language";
+  const preferredLanguage = await figma.clientStorage.getAsync(KEY);
+
+  if (preferredLanguage) {
+    return preferredLanguage;
+  } else {
+    return "enUS";
   }
 }

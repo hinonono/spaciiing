@@ -5,12 +5,13 @@
   "main": "code.js",
   "scripts": {
     "start": "webpack serve --mode development",
-    "build": "REACT_APP_ENV=development webpack --mode production && npm run inline",
-    "production": "REACT_APP_ENV=production webpack --mode production && npm run inline",
+    "build": "npm run copyLocale && REACT_APP_ENV=development webpack --mode production && npm run inline",
+    "production": "npm run copyLocale && REACT_APP_ENV=production webpack --mode production && npm run inline",
     "lint": "eslint --ext .ts,.tsx --ignore-pattern node_modules .",
     "lint:fix": "eslint --ext .ts,.tsx --ignore-pattern node_modules --fix .",
     "watch": "npm run build -- --watch",
-    "inline": "node inlineAssets.js"
+    "inline": "node inlineAssets.js",
+    "copyLocale": "node copyLocale.js"
   },
   "author": "",
   "license": "",
