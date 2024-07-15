@@ -1,4 +1,7 @@
-import { FigmaNotificationMessage } from "../types/FigmaNotificationMessage";
+import {
+  FigmaNotificationMessage,
+  FigmaNotificationMessageRole,
+} from "../types/FigmaNotificationMessage";
 import {
   noti_enUS_data,
   noti_jaJP_data,
@@ -29,7 +32,11 @@ function getNotificationsByLang(
   }
 }
 
-export function notify(key: string, langCode: string) {
+export function notify(
+  key: string,
+  langCode: string,
+  role: FigmaNotificationMessageRole
+) {
   const notifications = getNotificationsByLang(langCode);
   if (!notifications) {
     figma.notify(`Language code ${langCode} is not supported.`);
@@ -37,8 +44,23 @@ export function notify(key: string, langCode: string) {
   }
 
   const message = notifications[key];
+  let emoji = "";
+  switch (role) {
+    case "SUCCESS":
+      emoji = "✅";
+      break;
+    case "WARNING":
+      emoji = "⚠️";
+      break;
+    case "ERROR":
+      emoji = "❌";
+      break;
+    default:
+      break;
+  }
+  
   if (message) {
-    figma.notify(message);
+    figma.notify(`${emoji} ${message}`);
   } else {
     figma.notify(`Notification key ${key} not found.`);
   }
