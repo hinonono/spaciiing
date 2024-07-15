@@ -1,5 +1,5 @@
+import { LocalizationService } from "../services/LocalizationService";
 import { Dimension, MessageAspectRatio } from "../types/Message";
-import { getPreferredLang } from "./localization";
 import { notify } from "./pluginNotificationHelper";
 import * as util from "./util";
 
@@ -13,7 +13,9 @@ export function reception(message: MessageAspectRatio) {
   }
 }
 
-async function adjustNodeAspectRatio(
+
+
+function adjustNodeAspectRatio(
   widthRatio: number,
   heightRatio: number,
   lockedDimension: Dimension
@@ -22,8 +24,11 @@ async function adjustNodeAspectRatio(
 
   // Check if there are any nodes selected
   if (selection.length === 0) {
-    const langCode = await getPreferredLang();
-    notify("noNodesSelected", langCode, "ERROR");
+    LocalizationService.getLanguageCode().then((langCode) => {
+      if (langCode) {
+        notify("noNodesSelected", langCode, "ERROR");
+      }
+    });
     return;
   }
 
