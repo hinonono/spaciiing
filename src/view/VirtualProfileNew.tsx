@@ -35,42 +35,63 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const handleInputChange = (
     groupId: string,
     childId: string,
-    value: string
+    value: string,
+    type: "CONTENT" | "TITLE"
   ) => {
     console.log(value);
 
-    setVirtualProfileGroups((prevGroups) =>
-      prevGroups.map((group) => {
-        if (group.id === groupId) {
-          return {
-            ...group,
-            children: group.children.map((child) => {
-              if (child.id === childId) {
-                return { ...child, content: value };
-              }
-              return child;
-            }),
-          };
-        }
-        return group;
-      })
-    );
-    // setVirtualProfileGroups(rows);
+    if (type == "CONTENT") {
+      setVirtualProfileGroups((prevGroups) =>
+        prevGroups.map((group) => {
+          if (group.id === groupId) {
+            return {
+              ...group,
+              children: group.children.map((child) => {
+                if (child.id === childId) {
+                  return { ...child, content: value };
+                }
+                return child;
+              }),
+            };
+          }
+          return group;
+        })
+      );
+    } else {
+      setVirtualProfileGroups((prevGroups) =>
+        prevGroups.map((group) => {
+          if (group.id === groupId) {
+            return {
+              ...group,
+              children: group.children.map((child) => {
+                if (child.id === childId) {
+                  return { ...child, title: value };
+                }
+                return child;
+              }),
+            };
+          }
+          return group;
+        })
+      );
+    }
   };
 
   //
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   // const [rows, setVirtualProfileGroups] = useState<VirtualProfileGroup[]>(virtualProfileGroups);
-  console.log("🍏🍏🍏");
-  console.log(virtualProfileGroups);
-  console.log("🍏🍏🍏");
-  
+
   const menuRef = useRef<HTMLUListElement>(null);
   const [hoveredRowIndex, setHoveredRowIndex] = useState<string | null>(null);
 
   const toggleAll = () => {
     const allCollapsed = virtualProfileGroups.every((row) => row.isCollapsed);
-    setVirtualProfileGroups(virtualProfileGroups.map((row) => ({ ...row, isCollapsed: !allCollapsed })));
+    setVirtualProfileGroups(
+      virtualProfileGroups.map((row) => ({
+        ...row,
+        isCollapsed: !allCollapsed,
+      }))
+    );
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -91,8 +112,12 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       // setVirtualProfileGroups(rows);
     } else if (source.droppableId !== destination.droppableId) {
       // Moving items between different title rows
-      const sourceRow = virtualProfileGroups.find((row) => row.id === source.droppableId);
-      const destRow = virtualProfileGroups.find((row) => row.id === destination.droppableId);
+      const sourceRow = virtualProfileGroups.find(
+        (row) => row.id === source.droppableId
+      );
+      const destRow = virtualProfileGroups.find(
+        (row) => row.id === destination.droppableId
+      );
       const sourceChildren = Array.from(sourceRow!.children);
       const destChildren = Array.from(destRow!.children);
       const [removed] = sourceChildren.splice(source.index, 1);
@@ -199,7 +224,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   const deleteRow = (rowId: string) => {
-    setVirtualProfileGroups(virtualProfileGroups.filter((row) => row.id !== rowId));
+    setVirtualProfileGroups(
+      virtualProfileGroups.filter((row) => row.id !== rowId)
+    );
     // setVirtualProfileGroups(rows);
     handleClose();
   };
@@ -224,7 +251,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     const newChild: VirtualProfileChild = {
       id: uuidv4(), // Generate a unique ID for the new child
       content: "Value",
-      title: "Default Title",
+      title: "Title",
     };
 
     setVirtualProfileGroups(
@@ -272,7 +299,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
     if (childIndex === -1) return;
 
-    const childToDuplicate = virtualProfileGroups[rowIndex].children[childIndex];
+    const childToDuplicate =
+      virtualProfileGroups[rowIndex].children[childIndex];
     const duplicatedChild = {
       ...childToDuplicate,
       id: uuidv4(), // Ensure a unique ID
@@ -417,17 +445,31 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                       )}
                                     </div>
                                     <div className="virtual-profile-title">
-                                      {child.title}
+                                      <input
+                                        className="cy-input"
+                                        type="text"
+                                        value={child.title}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            row.id,
+                                            child.id,
+                                            e.target.value,
+                                            "TITLE"
+                                          )
+                                        }
+                                      />
                                     </div>
                                     <div>
                                       <input
+                                        className="cy-input"
                                         type="text"
                                         value={child.content}
                                         onChange={(e) =>
                                           handleInputChange(
                                             row.id,
                                             child.id,
-                                            e.target.value
+                                            e.target.value,
+                                            "CONTENT"
                                           )
                                         }
                                       />

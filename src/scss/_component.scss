@@ -1,61 +1,5 @@
-.custom-segmented-control>input:checked+label {
-    z-index: -1;
-}
-
-.custom-segmented-control {
-    display: inline-flex;
-    border: 1px solid var(--cy-border-light);
-    border-radius: var(--cy-border-radius-large);
-    width: 100%;
-    justify-content: space-between;
-    overflow: hidden;
-    transition: all .3s;
-    padding: 6px;
-
-    &:hover {
-        border-color: var(--cy-border-dark);
-    }
-
-    input[type="radio"] {
-        display: none;
-
-        &:checked+label {
-            background: var(--figma-color-bg-brand);
-            color: var(--white);
-            fill: var(--white);
-            z-index: 1;
-
-            * {
-                fill: white;
-            }
-        }
-
-        &:disabled+label {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        &:hover:not(:checked)+label {
-            background-color: var(--figma-color-bg-secondary);
-            z-index: 1;
-        }
-    }
-
-
-    label {
-        display: flex;
-        // margin-bottom: 0;
-        padding: 2px 6px;
-        cursor: pointer;
-        font-size: var(--font-size-large);
-        width: 100%;
-        justify-content: center;
-        color: var(--figma-color-text);
-        align-items: center;
-        min-height: 28px;
-        border-radius: 4px;
-    }
-}
+@import "./components/input";
+@import "./components/segmented-control";
 
 .custom-checkbox-group {
     .container {
@@ -388,14 +332,6 @@
 }
 
 /* Table.module.css */
-.tableContainer {
-    // margin: 20px;
-    // padding: 10px;
-    // background-color: #f0f0f0;
-    // border-radius: 8px;
-    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .row {
     // padding: 10px;
     margin: 8px 0;
@@ -438,6 +374,11 @@
 .rowContent.visible {
     display: block;
     /* show content when row is expanded */
+
+    .row-child:last-of-type {
+        // Add your styles here for the last .row-child
+        border-bottom: none;
+    }
 }
 
 .dragHandle {
@@ -446,27 +387,16 @@
     color: rgb(0, 0, 0, 0.5);
 }
 
-/* Hover effect for draggable items */
-.row:hover {
-    // background-color: var(--figma-color-bg-secondary);
-}
-
 .row-child {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    // display: grid;
-    // grid-template-columns: 1fr 1fr 9fr 1fr;
-    // column-gap: 0;
-    // background-color: var(--figma-color-bg);
-    padding: 0px 8px;
-    // border-radius: var(--cy-border-radius-large);
+    display: grid;
+    grid-template-columns: 2fr 3fr 7fr 1fr;
+    padding: 8px;
     position: relative;
     font-size: var(--font-size-small);
     padding-right: 0px;
     color: var(--figma-color-text);
     border-bottom: 1px solid var(--figma-color-border);
-    min-height: 40px;
+    min-height: 56px;
 
     .dragHandle {
         opacity: 0;

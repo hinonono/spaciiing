@@ -34,8 +34,24 @@
     --color-bg-selected: #4a5878;
   }
 }
-.custom-segmented-control > input:checked + label {
-  z-index: -1;
+.cy-input {
+  border: none;
+  border-bottom: 1px solid transparent;
+  padding: 4px;
+  padding-bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-bottom-color 0.3s;
+  height: 100%;
+  background-color: transparent;
+  color: inherit;
+}
+.cy-input:hover {
+  border-bottom-color: var(--figma-color-border);
+}
+.cy-input:focus {
+  outline: none;
+  border-bottom-color: var(--figma-color-bg-brand);
 }
 
 .custom-segmented-control {
@@ -82,6 +98,9 @@
   align-items: center;
   min-height: 28px;
   border-radius: 4px;
+}
+.custom-segmented-control > input:checked + label {
+  z-index: -1;
 }
 
 .custom-checkbox-group .container {
@@ -402,6 +421,9 @@
   display: block;
   /* show content when row is expanded */
 }
+.rowContent.visible .row-child:last-of-type {
+  border-bottom: none;
+}
 
 .dragHandle {
   padding: 10px;
@@ -409,18 +431,16 @@
   color: rgba(0, 0, 0, 0.5);
 }
 
-/* Hover effect for draggable items */
 .row-child {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0px 8px;
+  display: grid;
+  grid-template-columns: 2fr 3fr 7fr 1fr;
+  padding: 8px;
   position: relative;
   font-size: var(--font-size-small);
   padding-right: 0px;
   color: var(--figma-color-text);
   border-bottom: 1px solid var(--figma-color-border);
-  min-height: 40px;
+  min-height: 56px;
 }
 .row-child .dragHandle {
   opacity: 0;

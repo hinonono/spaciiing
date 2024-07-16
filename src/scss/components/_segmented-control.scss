@@ -1,0 +1,58 @@
+.custom-segmented-control {
+    display: inline-flex;
+    border: 1px solid var(--cy-border-light);
+    border-radius: var(--cy-border-radius-large);
+    width: 100%;
+    justify-content: space-between;
+    overflow: hidden;
+    transition: all .3s;
+    padding: 6px;
+
+    &:hover {
+        border-color: var(--cy-border-dark);
+    }
+
+    input[type="radio"] {
+        display: none;
+
+        &:checked+label {
+            background: var(--figma-color-bg-brand);
+            color: var(--white);
+            fill: var(--white);
+            z-index: 1;
+
+            * {
+                fill: white;
+            }
+        }
+
+        &:disabled+label {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &:hover:not(:checked)+label {
+            background-color: var(--figma-color-bg-secondary);
+            z-index: 1;
+        }
+    }
+
+
+    label {
+        display: flex;
+        // margin-bottom: 0;
+        padding: 2px 6px;
+        cursor: pointer;
+        font-size: var(--font-size-large);
+        width: 100%;
+        justify-content: center;
+        color: var(--figma-color-text);
+        align-items: center;
+        min-height: 28px;
+        border-radius: 4px;
+    }
+
+    &>input:checked+label {
+        z-index: -1;
+    }
+}
