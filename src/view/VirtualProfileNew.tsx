@@ -39,7 +39,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   ) => {
     console.log(value);
 
-    setRows((prevGroups) =>
+    setVirtualProfileGroups((prevGroups) =>
       prevGroups.map((group) => {
         if (group.id === groupId) {
           return {
@@ -55,18 +55,22 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return group;
       })
     );
-    setVirtualProfileGroups(rows);
+    // setVirtualProfileGroups(rows);
   };
 
   //
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  const [rows, setRows] = useState<VirtualProfileGroup[]>(virtualProfileGroups);
+  // const [rows, setVirtualProfileGroups] = useState<VirtualProfileGroup[]>(virtualProfileGroups);
+  console.log("🍏🍏🍏");
+  console.log(virtualProfileGroups);
+  console.log("🍏🍏🍏");
+  
   const menuRef = useRef<HTMLUListElement>(null);
   const [hoveredRowIndex, setHoveredRowIndex] = useState<string | null>(null);
 
   const toggleAll = () => {
-    const allCollapsed = rows.every((row) => row.isCollapsed);
-    setRows(rows.map((row) => ({ ...row, isCollapsed: !allCollapsed })));
+    const allCollapsed = virtualProfileGroups.every((row) => row.isCollapsed);
+    setVirtualProfileGroups(virtualProfileGroups.map((row) => ({ ...row, isCollapsed: !allCollapsed })));
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -80,21 +84,21 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       source.droppableId === "all-rows"
     ) {
       // Reordering top-level title rows
-      const newRows = Array.from(rows);
+      const newRows = Array.from(virtualProfileGroups);
       const [reordered] = newRows.splice(source.index, 1);
       newRows.splice(destination.index, 0, reordered);
-      setRows(newRows);
-      setVirtualProfileGroups(rows);
+      setVirtualProfileGroups(newRows);
+      // setVirtualProfileGroups(rows);
     } else if (source.droppableId !== destination.droppableId) {
       // Moving items between different title rows
-      const sourceRow = rows.find((row) => row.id === source.droppableId);
-      const destRow = rows.find((row) => row.id === destination.droppableId);
+      const sourceRow = virtualProfileGroups.find((row) => row.id === source.droppableId);
+      const destRow = virtualProfileGroups.find((row) => row.id === destination.droppableId);
       const sourceChildren = Array.from(sourceRow!.children);
       const destChildren = Array.from(destRow!.children);
       const [removed] = sourceChildren.splice(source.index, 1);
       destChildren.splice(destination.index, 0, removed);
 
-      const newRows = rows.map((row) => {
+      const newRows = virtualProfileGroups.map((row) => {
         if (row.id === source.droppableId) {
           return { ...row, children: sourceChildren };
         } else if (row.id === destination.droppableId) {
@@ -103,13 +107,13 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       });
 
-      setRows(newRows);
-      setVirtualProfileGroups(rows);
+      setVirtualProfileGroups(newRows);
+      // setVirtualProfileGroups(rows);
     }
   };
 
   const toggleCollapse = useCallback((id: string) => {
-    setRows((prevRows) =>
+    setVirtualProfileGroups((prevRows) =>
       prevRows.map((row) =>
         row.id === id ? { ...row, isCollapsed: !row.isCollapsed } : row
       )
@@ -120,17 +124,17 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const addTitleRow = () => {
     const newRow: VirtualProfileGroup = {
       id: uuidv4(), // Ensure unique ID
-      title: `Title ${rows.length + 1}`,
+      title: `Title`,
       children: [],
       isCollapsed: false,
     };
-    setRows([...rows, newRow]);
-    setVirtualProfileGroups(rows);
+    setVirtualProfileGroups([...virtualProfileGroups, newRow]);
+    // setVirtualProfileGroups(rows);
   };
 
   // Handler to add a new record to the last title row
   const addRecordToLastTitle = () => {
-    if (rows.length === 0) {
+    if (virtualProfileGroups.length === 0) {
       console.warn("No title rows available to add a record");
       return;
     }
@@ -139,10 +143,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       content: "Example Content",
       title: "Content Title",
     };
-    const newRows = [...rows];
+    const newRows = [...virtualProfileGroups];
     newRows[newRows.length - 1].children.push(newRecord);
-    setRows(newRows);
-    setVirtualProfileGroups(rows);
+    setVirtualProfileGroups(newRows);
+    setVirtualProfileGroups(virtualProfileGroups);
   };
 
   // Inside your component
@@ -195,14 +199,14 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   const deleteRow = (rowId: string) => {
-    setRows(rows.filter((row) => row.id !== rowId));
-    setVirtualProfileGroups(rows);
+    setVirtualProfileGroups(virtualProfileGroups.filter((row) => row.id !== rowId));
+    // setVirtualProfileGroups(rows);
     handleClose();
   };
 
   const deleteChild = (rowId: string, childId: string) => {
-    setRows(
-      rows.map((row) => {
+    setVirtualProfileGroups(
+      virtualProfileGroups.map((row) => {
         if (row.id === rowId) {
           return {
             ...row,
@@ -212,7 +216,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       })
     );
-    setVirtualProfileGroups(rows);
+    // setVirtualProfileGroups(rows);
     handleClose();
   };
 
@@ -223,8 +227,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       title: "Default Title",
     };
 
-    setRows(
-      rows.map((row) => {
+    setVirtualProfileGroups(
+      virtualProfileGroups.map((row) => {
         if (row.id === rowId) {
           return {
             ...row,
@@ -234,15 +238,15 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       })
     );
-    setVirtualProfileGroups(rows);
+    // setVirtualProfileGroups(rows);
     handleClose(); // Close any open context menus or modal dialogs
   };
 
   const duplicateTitleRow = (rowId: string) => {
-    const rowIndex = rows.findIndex((row) => row.id === rowId);
+    const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
 
-    const rowToDuplicate = rows[rowIndex];
+    const rowToDuplicate = virtualProfileGroups[rowIndex];
     const duplicatedRow = {
       ...rowToDuplicate,
       id: uuidv4(), // Ensure a unique ID
@@ -252,32 +256,32 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       })),
     };
 
-    const newRows = [...rows];
+    const newRows = [...virtualProfileGroups];
     newRows.splice(rowIndex + 1, 0, duplicatedRow);
-    setRows(newRows);
-    setVirtualProfileGroups(rows);
+    setVirtualProfileGroups(newRows);
+    // setVirtualProfileGroups(rows);
     handleClose();
   };
 
   const duplicateContentRow = (rowId: string, childId: string) => {
-    const rowIndex = rows.findIndex((row) => row.id === rowId);
+    const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
 
-    const childIndex = rows[rowIndex].children.findIndex(
+    const childIndex = virtualProfileGroups[rowIndex].children.findIndex(
       (child) => child.id === childId
     );
     if (childIndex === -1) return;
 
-    const childToDuplicate = rows[rowIndex].children[childIndex];
+    const childToDuplicate = virtualProfileGroups[rowIndex].children[childIndex];
     const duplicatedChild = {
       ...childToDuplicate,
       id: uuidv4(), // Ensure a unique ID
     };
 
-    const newRows = [...rows];
+    const newRows = [...virtualProfileGroups];
     newRows[rowIndex].children.splice(childIndex + 1, 0, duplicatedChild);
-    setRows(newRows);
-    setVirtualProfileGroups(rows);
+    setVirtualProfileGroups(newRows);
+    // setVirtualProfileGroups(rows);
     handleClose();
   };
 
@@ -334,7 +338,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               ref={provided.innerRef}
               className="tableContainer"
             >
-              {rows.map((row, index) => (
+              {virtualProfileGroups.map((row, index) => (
                 <Draggable key={row.id} draggableId={row.id} index={index}>
                   {(provided) => (
                     <div
