@@ -6,19 +6,14 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
+import {
+  VirtualProfileChild,
+  VirtualProfileGroup,
+} from "../types/VirtualProfile";
+import { useTranslation } from "react-i18next";
 
-interface VirtualProfileNewProps {}
-
-interface ChildData {
-  id: string;
-  content: string;
-}
-
-interface TableRowData {
-  id: string;
-  title: string;
-  children: ChildData[];
-  isCollapsed: boolean;
+interface VirtualProfileNewProps {
+  applyVirtualProfile: (key: string, value: string) => void;
 }
 
 interface ContextMenuState {
@@ -28,24 +23,39 @@ interface ContextMenuState {
   childId?: string;
 }
 
-const initialRows: TableRowData[] = [
+const initialRows: VirtualProfileGroup[] = [
   {
     id: uuidv4(),
     title: "Title 1",
-    children: [{ id: uuidv4(), content: "Content 1-1" }],
+    children: [
+      {
+        id: uuidv4(),
+        content: "Content 1-1",
+        title: "content title",
+      },
+    ],
     isCollapsed: false,
   },
   {
     id: uuidv4(),
     title: "Title 2",
-    children: [{ id: uuidv4(), content: "Content 2-1" }],
+    children: [
+      {
+        id: uuidv4(),
+        content: "Content 2-1",
+        title: "content title",
+      },
+    ],
     isCollapsed: false,
   },
 ];
 
-const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
+const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
+  applyVirtualProfile,
+}) => {
+  const { t } = useTranslation(["module"]);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  const [rows, setRows] = useState<TableRowData[]>(initialRows);
+  const [rows, setRows] = useState<VirtualProfileGroup[]>(initialRows);
   const menuRef = useRef<HTMLUListElement>(null);
 
   const toggleAll = () => {
@@ -100,11 +110,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
 
   // Handler to add a new title row
   const addTitleRow = () => {
-    const newRow: TableRowData = {
+    const newRow: VirtualProfileGroup = {
       id: uuidv4(), // Ensure unique ID
       title: `Title ${rows.length + 1}`,
       children: [],
-      isCollapsed: true,
+      isCollapsed: false,
     };
     setRows([...rows, newRow]);
   };
@@ -115,11 +125,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
       console.warn("No title rows available to add a record");
       return;
     }
-    const newRecord = {
+    const newRecord: VirtualProfileChild = {
       id: uuidv4(),
-      content: `Content ${rows.length}-${
-        rows[rows.length - 1].children.length + 1
-      }`,
+      content: "Example Content",
+      title: "Content Title",
     };
     const newRows = [...rows];
     newRows[newRows.length - 1].children.push(newRecord);
@@ -153,8 +162,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
     childId?: string
   ) => {
     event.preventDefault();
-    const clickX = event.pageX;
-    const clickY = event.pageY - 20;
+    const clickX = event.pageX + 20;
+    const clickY = event.pageY - 40;
     const screenW = window.innerWidth;
     const screenH = window.innerHeight;
     const rootW = 140; // Assume the width of the context menu
@@ -169,13 +178,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
       rowId,
       childId,
     });
-
-    // document.addEventListener("mousedown", handleClickOutside);
   };
 
   const handleClose = () => {
     setContextMenu(null);
-    // document.removeEventListener("mousedown", handleClickOutside);
   };
 
   const deleteRow = (rowId: string) => {
@@ -243,7 +249,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
   const renderContextMenu = () => {
     if (!contextMenu) return null;
     const { mouseX, mouseY, rowId, childId } = contextMenu;
-    console.log({ mouseX, mouseY });
 
     if (!rowId) return;
 
@@ -268,9 +273,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
           Duplicate
         </li>
         {childId ? (
-          <li onClick={() => deleteChild(rowId!, childId)}>Delete Record</li>
+          <li onClick={() => deleteChild(rowId!, childId)}>Delete Group</li>
         ) : (
-          <li onClick={() => deleteRow(rowId!)}>Delete Title Row</li>
+          <li onClick={() => deleteRow(rowId!)}>Delete Item</li>
         )}
       </ul>
     );
@@ -353,6 +358,22 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
                                       handleContextMenu(e, row.id, child.id)
                                     }
                                   >
+                                    <div>
+                                      <button
+                                        onClick={() =>
+                                          applyVirtualProfile(
+                                            child.id,
+                                            child.content
+                                          )
+                                        }
+                                      >
+                                        {t("module:apply")}
+                                      </button>
+                                    </div>
+                                    <div className="virtual-profile-title">
+                                      {child.title}
+                                    </div>
+
                                     {child.content}
                                     <div
                                       {...provided.dragHandleProps}

@@ -271,7 +271,7 @@ export interface MessageVirtualProfileWholeObject
 }
 
 export interface VirtualProfileSingleValue {
-  virtualProfileKey: string;
+  virtualProfileKey?: string;
   virtualProfileValue: string;
 }
 

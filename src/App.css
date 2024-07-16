@@ -367,22 +367,23 @@
 /* Table.module.css */
 .row {
   margin: 8px 0;
-  background-color: white;
-  border: 1px solid #ddd;
+  background-color: var(--figma-color-bg);
+  border: 1px solid var(--figma-color-border);
   border-radius: var(--cy-border-radius-large);
   overflow: hidden;
 }
 
 .row-Header {
   font-weight: bold;
-  background-color: #e9ecef;
-  padding: 8px;
-  border-bottom: 1px solid #ccc;
+  background-color: var(--figma-color-bg-secondary);
+  padding: 0px 8px;
+  border-bottom: 1px solid VirtualProfileGroup;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   font-size: var(--font-size-large);
+  color: var(--figma-color-text);
 }
 .row-Header .dragHandle {
   opacity: 0;
@@ -393,7 +394,7 @@
 
 .rowContent {
   padding: 8px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--figma-color-border);
   display: none;
   /* initially hidden */
 }
@@ -419,6 +420,7 @@
   position: relative;
   font-size: var(--font-size-small);
   padding-right: 0px;
+  color: var(--figma-color-text);
 }
 .row-child .dragHandle {
   opacity: 0;
@@ -467,6 +469,10 @@
 }
 .context-menu li:hover {
   background-color: var(--figma-color-bg-brand);
+}
+
+.virtual-profile-title {
+  color: var(--figma-color-text-secondary);
 }
 
 body {

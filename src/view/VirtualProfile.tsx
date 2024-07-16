@@ -33,15 +33,39 @@ const VirtualProfile: React.FC = () => {
     setVirtualProfile({ ...virtualProfile, [key]: value });
   };
 
-  const applyVirtualProfile = (key: string) => {
+  // const applyVirtualProfile = (key: string) => {
+  //   const isDevelopment = process.env.REACT_APP_ENV === "development";
+
+  //   if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+  //     setShowCTSubscribe(true);
+  //     return;
+  //   }
+
+  //   const value = virtualProfile[key as keyof VirtualProfile]; // Get the value for the given key
+
+  //   const message: MessageVirtualProfileSingleValue = {
+  //     module: "VirtualProfile",
+  //     direction: "Inner",
+  //     virtualProfileKey: key,
+  //     virtualProfileValue: value,
+  //     phase: "Actual",
+  //   };
+
+  //   parent.postMessage(
+  //     {
+  //       pluginMessage: message,
+  //     },
+  //     "*"
+  //   );
+  // };
+
+  const applyVirtualProfile = (key: string, value: string) => {
     const isDevelopment = process.env.REACT_APP_ENV === "development";
 
     if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
       setShowCTSubscribe(true);
       return;
     }
-
-    const value = virtualProfile[key as keyof VirtualProfile]; // Get the value for the given key
 
     const message: MessageVirtualProfileSingleValue = {
       module: "VirtualProfile",
@@ -281,9 +305,9 @@ const VirtualProfile: React.FC = () => {
               <div className="table-cell">
                 {hoveredRowIndex === index && (
                   <div className="content-wrap">
-                    <button onClick={() => applyVirtualProfile(row.key)}>
+                    {/* <button onClick={() => applyVirtualProfile(row.key)}>
                       {t("module:apply")}
-                    </button>
+                    </button> */}
                   </div>
                 )}
               </div>
@@ -336,9 +360,9 @@ const VirtualProfile: React.FC = () => {
           onClick={saveVirtualProfile}
           disabled={virtualProfile == previousVirtualProfile ? true : false}
         />
-        <VirtualProfileNew />
+        <VirtualProfileNew applyVirtualProfile={applyVirtualProfile} />
       </div>
-      {/* <div>
+      <div>
         <div className="table">
           <div className="table-row table-header">
             <div className="table-cell">{t("module:apply")}</div>
@@ -347,7 +371,7 @@ const VirtualProfile: React.FC = () => {
           </div>
           {renderTableContent()}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -36,3 +36,17 @@ export interface VirtualProfile {
   custom2: string;
   custom3: string;
 }
+
+interface BasicRow {
+  id: string;
+  title: string;
+}
+
+export interface VirtualProfileChild extends BasicRow {
+  content: string;
+}
+
+export interface VirtualProfileGroup extends BasicRow {
+  children: VirtualProfileChild[];
+  isCollapsed: boolean;
+}

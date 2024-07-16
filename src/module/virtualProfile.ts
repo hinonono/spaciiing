@@ -140,7 +140,7 @@ async function applyVirtualProfileValueToTextNode(
     }
 
     figma.notify(
-      `✅ Text nodes updated successfully (${textNodes.length} layer(s)).`
+      `✅ Text nodes updated successfully.`
     );
   } catch (error) {
     figma.notify("❌ Failed to load font.");
