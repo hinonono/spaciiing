@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -75,15 +75,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
     }
   };
 
-  const toggleCollapse = (id: string) => {
-    const newRows = rows.map((row) => {
-      if (row.id === id) {
-        return { ...row, isCollapsed: !row.isCollapsed };
-      }
-      return row;
-    });
-    setRows(newRows);
-  };
+  const toggleCollapse = useCallback((id: string) => {
+    setRows(prevRows => prevRows.map(row =>
+      row.id === id ? {...row, isCollapsed: !row.isCollapsed} : row
+    ));
+  }, []);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -100,7 +96,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    {...provided.dragHandleProps}
+                    // {...provided.dragHandleProps}
                     className="row"
                   >
                     <div
@@ -108,7 +104,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
                       className="row-header"
                     >
                       {row.title}
+                      <div {...provided.dragHandleProps} className="dragHandle">
+                        &#9776; {/* Hamburger icon */}
+                      </div>
                     </div>
+
                     <Droppable droppableId={row.id} type="child">
                       {(provided) => (
                         <div
@@ -133,9 +133,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
                                 <div
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
+                                  //{...provided.dragHandleProps}
+                                  className="row-child"
                                 >
                                   {child.content}
+                                  <div
+                                    {...provided.dragHandleProps}
+                                    className="dragHandle"
+                                  >
+                                    &#9776; {/* Hamburger icon */}
+                                  </div>
                                 </div>
                               )}
                             </Draggable>
