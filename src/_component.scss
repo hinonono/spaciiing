@@ -455,6 +455,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    // display: grid;
+    // grid-template-columns: 1fr 1fr 9fr 1fr;
+    // column-gap: 0;
     // background-color: var(--figma-color-bg);
     padding: 0px 8px;
     // border-radius: var(--cy-border-radius-large);
@@ -463,6 +466,7 @@
     padding-right: 0px;
     color: var(--figma-color-text);
     border-bottom: 1px solid var(--figma-color-border);
+    min-height: 40px;
 
     .dragHandle {
         opacity: 0;

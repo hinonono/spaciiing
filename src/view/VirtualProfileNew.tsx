@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
-  handleInputChange: (key: string, value: string) => void
+  handleInputChange: (key: string, value: string) => void;
 }
 
 interface ContextMenuState {
@@ -53,7 +53,7 @@ const initialRows: VirtualProfileGroup[] = [
 
 const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   applyVirtualProfile,
-  handleInputChange
+  handleInputChange,
 }) => {
   const { t } = useTranslation(["module"]);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
@@ -207,6 +207,28 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     handleClose();
   };
 
+  const addChildToRow = (rowId: string) => {
+    const newChild: VirtualProfileChild = {
+      id: uuidv4(), // Generate a unique ID for the new child
+      content: "Value",
+      title: "Default Title",
+    };
+
+    setRows(
+      rows.map((row) => {
+        if (row.id === rowId) {
+          return {
+            ...row,
+            children: [...row.children, newChild], // Append new child to the existing children array
+          };
+        }
+        return row;
+      })
+    );
+
+    handleClose(); // Close any open context menus or modal dialogs
+  };
+
   const duplicateTitleRow = (rowId: string) => {
     const rowIndex = rows.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
@@ -266,6 +288,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }}
         className="context-menu"
       >
+        {!childId && (
+          <li onClick={() => addChildToRow(rowId)}>Add Item</li>
+        )}
         <li
           onClick={() =>
             childId
