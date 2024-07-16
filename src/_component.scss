@@ -413,6 +413,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .dragHandle {
+        opacity: 0;
+    }
+
+    &:hover {
+        .dragHandle {
+            opacity: 1;
+        }
+    }
 }
 
 .rowContent {
@@ -425,6 +435,8 @@
 .rowContent.visible {
     display: block;
     /* show content when row is expanded */
+
+
 }
 
 .dragHandle {
@@ -444,7 +456,17 @@
     justify-content: space-between;
     background-color: white;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: var(--cy-border-radius-large);
+
+    .dragHandle {
+        opacity: 0;
+    }
+
+    &:hover {
+        .dragHandle {
+            opacity: 1;
+        }
+    }
 }
 
 .arrowIcon {

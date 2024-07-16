@@ -38,6 +38,11 @@ const initialRows: TableRowData[] = [
 const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
   const [rows, setRows] = useState<TableRowData[]>(initialRows);
 
+  const toggleAll = () => {
+    const allCollapsed = rows.every((row) => row.isCollapsed);
+    setRows(rows.map((row) => ({ ...row, isCollapsed: !allCollapsed })));
+  };
+
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) {
@@ -113,6 +118,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      <button onClick={toggleAll}>Toggle All</button>
       <button onClick={addTitleRow}>Add Title Row</button>
       <button onClick={addRecordToLastTitle}>
         Add Record to Last Title Row
@@ -133,9 +139,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
                     // {...provided.dragHandleProps}
                     className="row"
                   >
-                    <div
-                      className="row-header"
-                    >
+                    <div className="row-header">
                       <span
                         className={`arrowIcon ${
                           row.isCollapsed ? "collapsed" : "expanded"

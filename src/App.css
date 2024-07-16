@@ -380,6 +380,12 @@
   align-items: center;
   justify-content: space-between;
 }
+.row-Header .dragHandle {
+  opacity: 0;
+}
+.row-Header:hover .dragHandle {
+  opacity: 1;
+}
 
 .rowContent {
   border-top: 1px solid #eee;
@@ -409,7 +415,13 @@
   justify-content: space-between;
   background-color: white;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: var(--cy-border-radius-large);
+}
+.row-child .dragHandle {
+  opacity: 0;
+}
+.row-child:hover .dragHandle {
+  opacity: 1;
 }
 
 .arrowIcon {
