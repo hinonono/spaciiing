@@ -76,13 +76,47 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
   };
 
   const toggleCollapse = useCallback((id: string) => {
-    setRows(prevRows => prevRows.map(row =>
-      row.id === id ? {...row, isCollapsed: !row.isCollapsed} : row
-    ));
+    setRows((prevRows) =>
+      prevRows.map((row) =>
+        row.id === id ? { ...row, isCollapsed: !row.isCollapsed } : row
+      )
+    );
   }, []);
+
+  // Handler to add a new title row
+  const addTitleRow = () => {
+    const newRow: TableRowData = {
+      id: `row-${rows.length + 1}`, // Ensure unique ID
+      title: `Title ${rows.length + 1}`,
+      children: [],
+      isCollapsed: true,
+    };
+    setRows([...rows, newRow]);
+  };
+
+  // Handler to add a new record to the last title row
+  const addRecordToLastTitle = () => {
+    if (rows.length === 0) {
+      console.warn("No title rows available to add a record");
+      return;
+    }
+    const newRecord = {
+      id: `child-${rows.length}-${rows[rows.length - 1].children.length + 1}`,
+      content: `Content ${rows.length}-${
+        rows[rows.length - 1].children.length + 1
+      }`,
+    };
+    const newRows = [...rows];
+    newRows[newRows.length - 1].children.push(newRecord);
+    setRows(newRows);
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      <button onClick={addTitleRow}>Add Title Row</button>
+      <button onClick={addRecordToLastTitle}>
+        Add Record to Last Title Row
+      </button>
       <Droppable droppableId="all-rows" type="row">
         {(provided) => (
           <div
@@ -100,9 +134,15 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
                     className="row"
                   >
                     <div
-                      onClick={() => toggleCollapse(row.id)}
                       className="row-header"
                     >
+                      <span
+                        className={`arrowIcon ${
+                          row.isCollapsed ? "collapsed" : "expanded"
+                        }`}
+                      >
+                        ➤
+                      </span>
                       {row.title}
                       <div {...provided.dragHandleProps} className="dragHandle">
                         &#9776; {/* Hamburger icon */}

@@ -446,3 +446,18 @@
     padding: 10px;
     border-radius: 5px;
 }
+
+.arrowIcon {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.arrowIcon.collapsed {
+    transform: rotate(0deg);
+    /* Arrow pointing right when collapsed */
+}
+
+.arrowIcon.expanded {
+    transform: rotate(90deg);
+    /* Arrow pointing down when expanded */
+}
