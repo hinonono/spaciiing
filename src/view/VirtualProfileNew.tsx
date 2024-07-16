@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
 } from "react-beautiful-dnd";
+import { v4 as uuidv4 } from "uuid";
 
 interface VirtualProfileNewProps {}
 
@@ -20,23 +21,32 @@ interface TableRowData {
   isCollapsed: boolean;
 }
 
+interface ContextMenuState {
+  mouseX: number;
+  mouseY: number;
+  rowId?: string;
+  childId?: string;
+}
+
 const initialRows: TableRowData[] = [
   {
-    id: "row-1",
+    id: uuidv4(),
     title: "Title 1",
-    children: [{ id: "child-1-1", content: "Content 1-1" }],
+    children: [{ id: uuidv4(), content: "Content 1-1" }],
     isCollapsed: true,
   },
   {
-    id: "row-2",
+    id: uuidv4(),
     title: "Title 2",
-    children: [{ id: "child-2-1", content: "Content 2-1" }],
+    children: [{ id: uuidv4(), content: "Content 2-1" }],
     isCollapsed: true,
   },
 ];
 
 const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
+  const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const [rows, setRows] = useState<TableRowData[]>(initialRows);
+  const menuRef = useRef<HTMLUListElement>(null);
 
   const toggleAll = () => {
     const allCollapsed = rows.every((row) => row.isCollapsed);
@@ -91,7 +101,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
   // Handler to add a new title row
   const addTitleRow = () => {
     const newRow: TableRowData = {
-      id: `row-${rows.length + 1}`, // Ensure unique ID
+      id: uuidv4(), // Ensure unique ID
       title: `Title ${rows.length + 1}`,
       children: [],
       isCollapsed: true,
@@ -106,7 +116,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
       return;
     }
     const newRecord = {
-      id: `child-${rows.length}-${rows[rows.length - 1].children.length + 1}`,
+      id: uuidv4(),
       content: `Content ${rows.length}-${
         rows[rows.length - 1].children.length + 1
       }`,
@@ -116,95 +126,206 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
     setRows(newRows);
   };
 
-  return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <button onClick={toggleAll}>Toggle All</button>
-      <button onClick={addTitleRow}>Add Title Row</button>
-      <button onClick={addRecordToLastTitle}>
-        Add Record to Last Title Row
-      </button>
-      <Droppable droppableId="all-rows" type="row">
-        {(provided) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className="tableContainer"
-          >
-            {rows.map((row, index) => (
-              <Draggable key={row.id} draggableId={row.id} index={index}>
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    // {...provided.dragHandleProps}
-                    className="row"
-                  >
-                    <div className="row-header">
-                      <span
-                        className={`arrowIcon ${
-                          row.isCollapsed ? "collapsed" : "expanded"
-                        }`}
-                        onClick={() => toggleCollapse(row.id)}
-                      >
-                        ➤
-                      </span>
-                      {row.title}
-                      <div {...provided.dragHandleProps} className="dragHandle">
-                        &#9776; {/* Hamburger icon */}
-                      </div>
-                    </div>
+  // Inside your component
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (contextMenu && event.target instanceof Node && menuRef.current) {
+        if (!menuRef.current.contains(event.target)) {
+          handleClose();
+        }
+      }
+    };
 
-                    <Droppable droppableId={row.id} type="child">
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          style={{
-                            display: row.isCollapsed ? "none" : "block",
-                          }}
-                          className={
-                            row.isCollapsed
-                              ? "rowContent"
-                              : "rowContent visible"
-                          }
-                        >
-                          {row.children.map((child, childIndex) => (
-                            <Draggable
-                              key={child.id}
-                              draggableId={child.id}
-                              index={childIndex}
-                            >
-                              {(provided) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  //{...provided.dragHandleProps}
-                                  className="row-child"
-                                >
-                                  {child.content}
-                                  <div
-                                    {...provided.dragHandleProps}
-                                    className="dragHandle"
-                                  >
-                                    &#9776; {/* Hamburger icon */}
-                                  </div>
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
+    if (contextMenu) {
+      // Add event listener when context menu is open
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      // Cleanup event listener when context menu is closed or component unmounts
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [contextMenu]); // Depend on contextMenu state
+
+  const handleContextMenu = (
+    event: React.MouseEvent,
+    rowId: string,
+    childId?: string
+  ) => {
+    event.preventDefault();
+    const clickX = event.pageX;
+    const clickY = event.pageY - 20;
+    const screenW = window.innerWidth;
+    const screenH = window.innerHeight;
+    const rootW = 140; // Assume the width of the context menu
+    const rootH = 50; // Assume the height of the context menu
+
+    const right = screenW - clickX > rootW;
+    const bottom = screenH - clickY > rootH;
+
+    setContextMenu({
+      mouseX: right ? clickX : clickX - rootW,
+      mouseY: bottom ? clickY : clickY - rootH,
+      rowId,
+      childId,
+    });
+
+    // document.addEventListener("mousedown", handleClickOutside);
+  };
+
+  const handleClose = () => {
+    setContextMenu(null);
+    // document.removeEventListener("mousedown", handleClickOutside);
+  };
+
+  const deleteRow = (rowId: string) => {
+    setRows(rows.filter((row) => row.id !== rowId));
+    handleClose();
+  };
+
+  const deleteChild = (rowId: string, childId: string) => {
+    setRows(
+      rows.map((row) => {
+        if (row.id === rowId) {
+          return {
+            ...row,
+            children: row.children.filter((child) => child.id !== childId),
+          };
+        }
+        return row;
+      })
+    );
+    handleClose();
+  };
+
+  // Inside your component render method where the context menu is defined
+  const renderContextMenu = () => {
+    if (!contextMenu) return null;
+    const { mouseX, mouseY, rowId, childId } = contextMenu;
+    console.log({ mouseX, mouseY });
+
+    return (
+      <ul
+        ref={menuRef}
+        style={{
+          position: "absolute",
+          top: mouseY,
+          left: mouseX,
+          zIndex: 1000,
+        }}
+        className="context-menu"
+      >
+        {childId ? (
+          <li onClick={() => deleteChild(rowId!, childId)}>Delete Record</li>
+        ) : (
+          <li onClick={() => deleteRow(rowId!)}>Delete Title Row</li>
         )}
-      </Droppable>
-    </DragDropContext>
+      </ul>
+    );
+  };
+
+  return (
+    <div>
+      {renderContextMenu()}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <button onClick={toggleAll}>Toggle All</button>
+        <button onClick={addTitleRow}>Add Title Row</button>
+        <button onClick={addRecordToLastTitle}>
+          Add Record to Last Title Row
+        </button>
+        <Droppable droppableId="all-rows" type="row">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="tableContainer"
+            >
+              {rows.map((row, index) => (
+                <Draggable key={row.id} draggableId={row.id} index={index}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      // {...provided.dragHandleProps}
+                      className="row"
+                    >
+                      <div
+                        className="row-header"
+                        onContextMenu={(e) => handleContextMenu(e, row.id)}
+                      >
+                        <span
+                          className={`arrowIcon ${
+                            row.isCollapsed ? "collapsed" : "expanded"
+                          }`}
+                          onClick={() => toggleCollapse(row.id)}
+                        >
+                          ➤
+                        </span>
+                        {row.title}
+
+                        <div
+                          {...provided.dragHandleProps}
+                          className="dragHandle"
+                        >
+                          &#9776; {/* Hamburger icon */}
+                        </div>
+                      </div>
+
+                      <Droppable droppableId={row.id} type="child">
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            style={{
+                              display: row.isCollapsed ? "none" : "block",
+                            }}
+                            className={
+                              row.isCollapsed
+                                ? "rowContent"
+                                : "rowContent visible"
+                            }
+                          >
+                            {row.children.map((child, childIndex) => (
+                              <Draggable
+                                key={child.id}
+                                draggableId={child.id}
+                                index={childIndex}
+                              >
+                                {(provided) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    //{...provided.dragHandleProps}
+                                    className="row-child"
+                                    onContextMenu={(e) =>
+                                      handleContextMenu(e, row.id, child.id)
+                                    }
+                                  >
+                                    {child.content}
+                                    <div
+                                      {...provided.dragHandleProps}
+                                      className="dragHandle"
+                                    >
+                                      &#9776; {/* Hamburger icon */}
+                                    </div>
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </div>
   );
 };
 

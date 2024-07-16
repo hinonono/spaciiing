@@ -24,7 +24,7 @@ import { useTranslation } from "react-i18next";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<ModuleType>("Spaciiing");
+  const [activeTab, setActiveTab] = useState<ModuleType>("VirtualProfile");
   const [prevTab, setPrevTab] = useState<ModuleType | null>(null);
   const { i18n } = useTranslation();
   //
