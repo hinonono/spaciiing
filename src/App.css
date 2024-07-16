@@ -393,7 +393,6 @@
 }
 
 .rowContent {
-  padding: 8px;
   border-top: 1px solid var(--figma-color-border);
   display: none;
   /* initially hidden */
@@ -416,11 +415,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 0px 8px;
-  border-radius: var(--cy-border-radius-large);
   position: relative;
   font-size: var(--font-size-small);
   padding-right: 0px;
   color: var(--figma-color-text);
+  border-bottom: 1px solid var(--figma-color-border);
 }
 .row-child .dragHandle {
   opacity: 0;

@@ -59,7 +59,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const [rows, setRows] = useState<VirtualProfileGroup[]>(initialRows);
   const menuRef = useRef<HTMLUListElement>(null);
-  const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
+  const [hoveredRowIndex, setHoveredRowIndex] = useState<string | null>(null);
 
   const toggleAll = () => {
     const allCollapsed = rows.every((row) => row.isCollapsed);
@@ -276,9 +276,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           Duplicate
         </li>
         {childId ? (
-          <li onClick={() => deleteChild(rowId!, childId)}>Delete Group</li>
+          <li onClick={() => deleteChild(rowId!, childId)}>Delete Item</li>
         ) : (
-          <li onClick={() => deleteRow(rowId!)}>Delete Item</li>
+          <li onClick={() => deleteRow(rowId!)}>Delete Group</li>
         )}
       </ul>
     );
@@ -361,14 +361,14 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                       handleContextMenu(e, row.id, child.id)
                                     }
                                     onMouseEnter={() =>
-                                      setHoveredRowIndex(index)
+                                      setHoveredRowIndex(child.id)
                                     }
                                     onMouseLeave={() =>
                                       setHoveredRowIndex(null)
                                     }
                                   >
                                     <div>
-                                      {hoveredRowIndex === index && (
+                                      {hoveredRowIndex === child.id && (
                                         <button
                                           onClick={() =>
                                             applyVirtualProfile(
