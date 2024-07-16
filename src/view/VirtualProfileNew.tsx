@@ -18,6 +18,7 @@ import { SvgHorizontal } from "../assets/icons";
 import vpdata_financial from "../assets/virtual-profile/financial.json";
 import vpdata_personal from "../assets/virtual-profile/personal.json";
 import { transformJsonToGroup } from "../module-frontend/virtualProfileFrontEnd";
+import { resolveContextMenuPos } from "../module-frontend/utilFrontEnd";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -106,6 +107,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     mouseY: number;
   } | null>(null);
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLUListElement>(null);
   const additionalMenuRef = useRef<HTMLUListElement>(null);
 
@@ -256,16 +258,19 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     childId?: string
   ) => {
     event.preventDefault();
-    const { right, bottom } = resolveContextMenuPos(
-      event.pageX,
-      event.pageY,
-      140,
-      50
+    if (!containerRef.current) {
+      return;
+    }
+
+    const { left, top } = resolveContextMenuPos(
+      event.clientX,
+      event.clientY,
+      containerRef.current.getBoundingClientRect()
     );
 
     setContextMenu({
-      mouseX: right,
-      mouseY: bottom,
+      mouseX: left,
+      mouseY: top,
       rowId,
       childId,
     });
@@ -402,38 +407,18 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
   };
 
-  const resolveContextMenuPos = (
-    x: number,
-    y: number,
-    rootW: number,
-    rootH: number
-  ): { right: number; bottom: number } => {
-    const clickX = x + 20;
-    const clickY = y - 40;
-    const screenW = window.innerWidth;
-    const screenH = window.innerHeight;
-
-    const right = screenW - clickX > rootW;
-    const bottom = screenH - clickY > rootH;
-
-    return {
-      right: right ? clickX : clickX - rootW,
-      bottom: bottom ? clickY : clickY - rootH,
-    };
-  };
-
   const handleAdditionalContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
-    const { right, bottom } = resolveContextMenuPos(
+    if (!containerRef.current) return;
+    const { left, top } = resolveContextMenuPos(
       event.clientX,
       event.clientY,
-      140,
-      50
+      containerRef.current.getBoundingClientRect()
     );
 
     setAdditionalContextMenu({
-      mouseX: right,
-      mouseY: bottom,
+      mouseX: left,
+      mouseY: top,
     });
   };
 
@@ -453,8 +438,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         ref={additionalMenuRef}
         style={{
           position: "absolute",
-          top: mouseX,
-          left: mouseY,
+          top: mouseY,
+          left: mouseX,
           zIndex: 1000,
         }}
         className="context-menu"
@@ -482,7 +467,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   // Function to transform JSON data to VirtualProfileGroup
 
   return (
-    <div>
+    <div ref={containerRef} className="position-relative">
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={onDragEnd}>

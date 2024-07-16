@@ -34,3 +34,21 @@ export const checkProFeatureAccessibleForUser = (
     return true;
   }
 };
+
+export const resolveContextMenuPos = (
+  x: number,
+  y: number,
+  outerContainerRect: DOMRect
+): { left: number; top: number } => {
+  let menuX = x - outerContainerRect.left;
+  let menuY = y - outerContainerRect.top;
+
+  if (x + 120 > outerContainerRect.width) {
+    menuX = x - outerContainerRect.left - 120;
+  }
+
+  return {
+    left: menuX,
+    top: menuY,
+  };
+};
