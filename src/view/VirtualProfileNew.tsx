@@ -404,11 +404,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
             >
               {virtualProfileGroups.map((row, index) => (
                 <Draggable key={row.id} draggableId={row.id} index={index}>
-                  {(provided) => (
+                  {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      className="cy-table-group"
+                      className={`cy-table-group ${snapshot.isDragging ? 'dragging' : ''}`}
                     >
                       <div
                         className="cy-table-group-header"
