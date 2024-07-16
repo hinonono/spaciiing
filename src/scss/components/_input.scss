@@ -1,22 +1,23 @@
 .cy-input {
     border: none;
-    border-bottom: 1px solid transparent;
+    border: 1px solid transparent;
     padding: 4px;
     padding-bottom: 0;
     width: 100%;
     box-sizing: border-box;
-    transition: border-bottom-color 0.3s;
     height: 100%;
     background-color: transparent;
     color: inherit;
     height: 1.5rem;
 
     &:hover {
-        border-bottom-color: var(--figma-color-border);
+        border-color: var(--fg-focus);
     }
 
     &:focus {
         outline: none;
-        border-bottom-color: var(--figma-color-bg-brand);
+        border-color: var(--fg-focus);
+        border-width: 1.5px;
+        background-color: var(--figma-color-bg);
     }
 }

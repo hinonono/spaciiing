@@ -4,6 +4,7 @@
   --variable-text-secondary: rgba(176, 65, 0, .6);
   --tooltip-icon: #7f7f7f;
   --button-disabled: #cacaca;
+  --fg-focus: #0d99ff;
   --cy-border-light: #d5d5d5;
   --cy-border-dark: #a0a0a0;
   --cy-border-radius-xlarge: 10px;
@@ -26,6 +27,7 @@
     --variable-text-secondary: rgba(255, 162, 107, .8);
     --tooltip-icon: #bfbfbf;
     --button-disabled: #656565;
+    --fg-focus: #0c8ce9;
     --figma-color-text: #ebebeb;
     --cy-border-light: #5b5b5b;
     --cy-border-dark: #aaaaaa;
@@ -36,23 +38,24 @@
 }
 .cy-input {
   border: none;
-  border-bottom: 1px solid transparent;
+  border: 1px solid transparent;
   padding: 4px;
   padding-bottom: 0;
   width: 100%;
   box-sizing: border-box;
-  transition: border-bottom-color 0.3s;
   height: 100%;
   background-color: transparent;
   color: inherit;
   height: 1.5rem;
 }
 .cy-input:hover {
-  border-bottom-color: var(--figma-color-border);
+  border-color: var(--fg-focus);
 }
 .cy-input:focus {
   outline: none;
-  border-bottom-color: var(--figma-color-bg-brand);
+  border-color: var(--fg-focus);
+  border-width: 1.5px;
+  background-color: var(--figma-color-bg);
 }
 
 .custom-segmented-control {
@@ -213,9 +216,6 @@
 }
 .cy-table-row-child .dragHandle {
   opacity: 0;
-}
-.cy-table-row-child:hover {
-  background-color: var(--color-bg-selected);
 }
 .cy-table-row-child:hover .dragHandle {
   opacity: 1;

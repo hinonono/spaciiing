@@ -399,9 +399,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           Duplicate
         </li>
         {childId ? (
-          <li onClick={() => deleteChild(rowId!, childId)}>Delete Item</li>
+          <li onClick={() => deleteChild(rowId!, childId)}>Delete</li>
         ) : (
-          <li onClick={() => deleteRow(rowId!)}>Delete Group</li>
+          <li onClick={() => deleteRow(rowId!)}>Delete</li>
         )}
       </ul>
     );
