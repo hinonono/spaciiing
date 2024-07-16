@@ -15,7 +15,6 @@ import { useAppContext } from "../AppProvider";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
-  handleInputChange: (key: string, value: string) => void;
 }
 
 interface ContextMenuState {
@@ -25,46 +24,43 @@ interface ContextMenuState {
   childId?: string;
 }
 
-const initialRows: VirtualProfileGroup[] = [
-  {
-    id: uuidv4(),
-    title: "Title 1",
-    children: [
-      {
-        id: uuidv4(),
-        content: "Content 1-1",
-        title: "content title",
-      },
-    ],
-    isCollapsed: false,
-  },
-  {
-    id: uuidv4(),
-    title: "Title 2",
-    children: [
-      {
-        id: uuidv4(),
-        content: "Content 2-1",
-        title: "content title",
-      },
-    ],
-    isCollapsed: false,
-  },
-];
-
 const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   applyVirtualProfile,
-  handleInputChange,
 }) => {
   const { t } = useTranslation(["module"]);
-  
-  //Context
-  const { virtualProfileGroup, setVirtualProfileGroup } = useAppContext();
 
+  //Context
+  const { virtualProfileGroups, setVirtualProfileGroups } = useAppContext();
+
+  const handleInputChange = (
+    groupId: string,
+    childId: string,
+    value: string
+  ) => {
+    console.log(value);
+
+    setRows((prevGroups) =>
+      prevGroups.map((group) => {
+        if (group.id === groupId) {
+          return {
+            ...group,
+            children: group.children.map((child) => {
+              if (child.id === childId) {
+                return { ...child, content: value };
+              }
+              return child;
+            }),
+          };
+        }
+        return group;
+      })
+    );
+    setVirtualProfileGroups(rows);
+  };
 
   //
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  const [rows, setRows] = useState<VirtualProfileGroup[]>(initialRows);
+  const [rows, setRows] = useState<VirtualProfileGroup[]>(virtualProfileGroups);
   const menuRef = useRef<HTMLUListElement>(null);
   const [hoveredRowIndex, setHoveredRowIndex] = useState<string | null>(null);
 
@@ -88,6 +84,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       const [reordered] = newRows.splice(source.index, 1);
       newRows.splice(destination.index, 0, reordered);
       setRows(newRows);
+      setVirtualProfileGroups(rows);
     } else if (source.droppableId !== destination.droppableId) {
       // Moving items between different title rows
       const sourceRow = rows.find((row) => row.id === source.droppableId);
@@ -107,6 +104,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       });
 
       setRows(newRows);
+      setVirtualProfileGroups(rows);
     }
   };
 
@@ -127,6 +125,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       isCollapsed: false,
     };
     setRows([...rows, newRow]);
+    setVirtualProfileGroups(rows);
   };
 
   // Handler to add a new record to the last title row
@@ -143,6 +142,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     const newRows = [...rows];
     newRows[newRows.length - 1].children.push(newRecord);
     setRows(newRows);
+    setVirtualProfileGroups(rows);
   };
 
   // Inside your component
@@ -196,6 +196,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
   const deleteRow = (rowId: string) => {
     setRows(rows.filter((row) => row.id !== rowId));
+    setVirtualProfileGroups(rows);
     handleClose();
   };
 
@@ -211,6 +212,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       })
     );
+    setVirtualProfileGroups(rows);
     handleClose();
   };
 
@@ -232,7 +234,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       })
     );
-
+    setVirtualProfileGroups(rows);
     handleClose(); // Close any open context menus or modal dialogs
   };
 
@@ -253,6 +255,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     const newRows = [...rows];
     newRows.splice(rowIndex + 1, 0, duplicatedRow);
     setRows(newRows);
+    setVirtualProfileGroups(rows);
     handleClose();
   };
 
@@ -274,6 +277,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     const newRows = [...rows];
     newRows[rowIndex].children.splice(childIndex + 1, 0, duplicatedChild);
     setRows(newRows);
+    setVirtualProfileGroups(rows);
     handleClose();
   };
 
@@ -295,9 +299,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }}
         className="context-menu"
       >
-        {!childId && (
-          <li onClick={() => addChildToRow(rowId)}>Add Item</li>
-        )}
+        {!childId && <li onClick={() => addChildToRow(rowId)}>Add Item</li>}
         <li
           onClick={() =>
             childId
@@ -338,7 +340,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      // {...provided.dragHandleProps}
                       className="row"
                     >
                       <div
@@ -359,10 +360,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                           {...provided.dragHandleProps}
                           className="dragHandle"
                         >
-                          &#9776; {/* Hamburger icon */}
+                          &#9776;
                         </div>
                       </div>
-
                       <Droppable droppableId={row.id} type="child">
                         {(provided) => (
                           <div
@@ -387,7 +387,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                   <div
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
-                                    //{...provided.dragHandleProps}
                                     className="row-child"
                                     onContextMenu={(e) =>
                                       handleContextMenu(e, row.id, child.id)
@@ -422,6 +421,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                         value={child.content}
                                         onChange={(e) =>
                                           handleInputChange(
+                                            row.id,
                                             child.id,
                                             e.target.value
                                           )

@@ -24,7 +24,7 @@ import { useTranslation } from "react-i18next";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<ModuleType>("VirtualProfile");
+  const [activeTab, setActiveTab] = useState<ModuleType>("Spaciiing");
   const [prevTab, setPrevTab] = useState<ModuleType | null>(null);
   const { i18n } = useTranslation();
   //
@@ -41,6 +41,8 @@ const CoreLayer: React.FC = () => {
     magicalObject,
     setLicenseManagement,
     setCustomCodeExecutionResults,
+    virtualProfileGroups,
+    setVirtualProfileGroups,
   } = useAppContext();
 
   // #region Handle External Message
@@ -221,6 +223,12 @@ const CoreLayer: React.FC = () => {
     console.log(message.virtualProfile);
 
     setVirtualProfile(message.virtualProfile);
+
+    if (message.virtualProfileGroups) {
+      console.log("VirtualProfileHandler GROUPS");
+      console.log(message.virtualProfileGroups);
+      setVirtualProfileGroups(message.virtualProfileGroups);
+    }
   };
 
   const virtualProfileWillEnd = () => {
@@ -229,8 +237,10 @@ const CoreLayer: React.FC = () => {
       phase: "WillEnd",
       direction: "Inner",
       virtualProfile: virtualProfile,
+      virtualProfileGroups: virtualProfileGroups,
     };
     setVirtualProfile(virtualProfile);
+    setVirtualProfileGroups(virtualProfileGroups);
 
     parent.postMessage(
       {

@@ -31,8 +31,8 @@ interface AppContextType {
   >;
   virtualProfile: VirtualProfile;
   setVirtualProfile: React.Dispatch<React.SetStateAction<VirtualProfile>>;
-  virtualProfileGroup: VirtualProfileGroup[];
-  setVirtualProfileGroup: React.Dispatch<
+  virtualProfileGroups: VirtualProfileGroup[];
+  setVirtualProfileGroups: React.Dispatch<
     React.SetStateAction<VirtualProfileGroup[]>
   >;
   magicalObject: MagicalObject;
@@ -127,7 +127,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
   //
   const [virtualProfile, setVirtualProfile] = useState<VirtualProfile>(vp);
-  const [virtualProfileGroup, setVirtualProfileGroup] = useState<
+  const [virtualProfileGroups, setVirtualProfileGroups] = useState<
     VirtualProfileGroup[]
   >([]);
 
@@ -168,8 +168,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setShowActivateModal,
         customCodeExecutionResults,
         setCustomCodeExecutionResults,
-        virtualProfileGroup,
-        setVirtualProfileGroup,
+        virtualProfileGroups,
+        setVirtualProfileGroups,
       }}
     >
       {children}

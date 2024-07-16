@@ -23,7 +23,8 @@ const VirtualProfile: React.FC = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
-  const { virtualProfile, setVirtualProfile } = useAppContext();
+  const { virtualProfile, setVirtualProfile, virtualProfileGroups } =
+    useAppContext();
   const [previousVirtualProfile, setPreviousVirtualProfile] =
     useState<VirtualProfile | null>(null);
 
@@ -91,30 +92,7 @@ const VirtualProfile: React.FC = () => {
 
     const message: MessageVirtualProfileWholeObject = {
       virtualProfile: virtualProfile,
-      module: "VirtualProfile",
-      phase: "WillEnd",
-      direction: "Inner",
-    };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-
-    setPreviousVirtualProfile(virtualProfile);
-  };
-
-  const saveVirtualProfileNew = (groups: VirtualProfileGroup[]) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
-    }
-
-    const message: MessageVirtualProfileWholeObject = {
-      virtualProfile: virtualProfile,
-      virtualProfileGroups: groups,
+      virtualProfileGroups: virtualProfileGroups,
       module: "VirtualProfile",
       phase: "WillEnd",
       direction: "Inner",
@@ -384,10 +362,7 @@ const VirtualProfile: React.FC = () => {
           onClick={saveVirtualProfile}
           disabled={virtualProfile == previousVirtualProfile ? true : false}
         />
-        <VirtualProfileNew
-          applyVirtualProfile={applyVirtualProfile}
-          handleInputChange={handleInputChange}
-        />
+        <VirtualProfileNew applyVirtualProfile={applyVirtualProfile} />
       </div>
       <div>
         <div className="table">

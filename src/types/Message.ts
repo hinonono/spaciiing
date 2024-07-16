@@ -135,6 +135,7 @@ export interface ExternalMessageUpdateCustomSpacing extends ExternalMessage {
 }
 export interface ExternalMessageUpdateVirtualProfile extends ExternalMessage {
   virtualProfile: VirtualProfile;
+  virtualProfileGroups?: VirtualProfileGroup[];
 }
 export interface ExternalMessageUpdateMagicalObject extends ExternalMessage {
   magicalObject: MagicalObject;
