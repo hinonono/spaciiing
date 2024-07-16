@@ -9,6 +9,7 @@ import { VirtualProfile } from "../types/VirtualProfile";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import VirtualProfileNew from "./VirtualProfileNew";
 
 type CategoryKey = "personal" | "employment" | "financial" | "custom";
 
@@ -122,7 +123,10 @@ const VirtualProfile: React.FC = () => {
         nameKey: "module:financial",
         members: ["cardNum", "expirationDate", "cvv", "cardNetwork"],
       },
-      custom: { nameKey: "module:custom", members: ["custom1", "custom2", "custom3"] },
+      custom: {
+        nameKey: "module:custom",
+        members: ["custom1", "custom2", "custom3"],
+      },
     };
 
     const rows = [
@@ -332,8 +336,9 @@ const VirtualProfile: React.FC = () => {
           onClick={saveVirtualProfile}
           disabled={virtualProfile == previousVirtualProfile ? true : false}
         />
+        <VirtualProfileNew />
       </div>
-      <div>
+      {/* <div>
         <div className="table">
           <div className="table-row table-header">
             <div className="table-cell">{t("module:apply")}</div>
@@ -342,7 +347,7 @@ const VirtualProfile: React.FC = () => {
           </div>
           {renderTableContent()}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
