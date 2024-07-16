@@ -360,7 +360,10 @@ const VirtualProfile: React.FC = () => {
           onClick={saveVirtualProfile}
           disabled={virtualProfile == previousVirtualProfile ? true : false}
         />
-        <VirtualProfileNew applyVirtualProfile={applyVirtualProfile} />
+        <VirtualProfileNew
+          applyVirtualProfile={applyVirtualProfile}
+          handleInputChange={handleInputChange}
+        />
       </div>
       <div>
         <div className="table">

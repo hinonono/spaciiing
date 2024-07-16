@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
+  handleInputChange: (key: string, value: string) => void
 }
 
 interface ContextMenuState {
@@ -52,11 +53,13 @@ const initialRows: VirtualProfileGroup[] = [
 
 const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   applyVirtualProfile,
+  handleInputChange
 }) => {
   const { t } = useTranslation(["module"]);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const [rows, setRows] = useState<VirtualProfileGroup[]>(initialRows);
   const menuRef = useRef<HTMLUListElement>(null);
+  const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
 
   const toggleAll = () => {
     const allCollapsed = rows.every((row) => row.isCollapsed);
@@ -357,29 +360,47 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                     onContextMenu={(e) =>
                                       handleContextMenu(e, row.id, child.id)
                                     }
+                                    onMouseEnter={() =>
+                                      setHoveredRowIndex(index)
+                                    }
+                                    onMouseLeave={() =>
+                                      setHoveredRowIndex(null)
+                                    }
                                   >
                                     <div>
-                                      <button
-                                        onClick={() =>
-                                          applyVirtualProfile(
-                                            child.id,
-                                            child.content
-                                          )
-                                        }
-                                      >
-                                        {t("module:apply")}
-                                      </button>
+                                      {hoveredRowIndex === index && (
+                                        <button
+                                          onClick={() =>
+                                            applyVirtualProfile(
+                                              child.id,
+                                              child.content
+                                            )
+                                          }
+                                        >
+                                          {t("module:apply")}
+                                        </button>
+                                      )}
                                     </div>
                                     <div className="virtual-profile-title">
                                       {child.title}
                                     </div>
-
-                                    {child.content}
+                                    <div>
+                                      <input
+                                        type="text"
+                                        value={child.content}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            child.id,
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                    </div>
                                     <div
                                       {...provided.dragHandleProps}
                                       className="dragHandle"
                                     >
-                                      &#9776; {/* Hamburger icon */}
+                                      &#9776;
                                     </div>
                                   </div>
                                 )}
