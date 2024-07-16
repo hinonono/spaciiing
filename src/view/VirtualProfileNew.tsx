@@ -12,6 +12,7 @@ import {
 } from "../types/VirtualProfile";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
+import { SvgHorizontal, SvgVertical } from "../assets/icons";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -77,6 +78,20 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     }
   };
 
+  const handleGroupTitleChange = (groupId: string, value: string) => {
+    setVirtualProfileGroups((prevGroups) =>
+      prevGroups.map((group) => {
+        if (group.id === groupId) {
+          return {
+            ...group,
+            title: value,
+          };
+        }
+        return group;
+      })
+    );
+  };
+
   //
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   // const [rows, setVirtualProfileGroups] = useState<VirtualProfileGroup[]>(virtualProfileGroups);
@@ -100,40 +115,61 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       return;
     }
 
+    console.log({ source, destination });
+
+    // Reordering top-level title rows
     if (
       source.droppableId === destination.droppableId &&
       source.droppableId === "all-rows"
     ) {
-      // Reordering top-level title rows
       const newRows = Array.from(virtualProfileGroups);
       const [reordered] = newRows.splice(source.index, 1);
       newRows.splice(destination.index, 0, reordered);
       setVirtualProfileGroups(newRows);
-      // setVirtualProfileGroups(rows);
-    } else if (source.droppableId !== destination.droppableId) {
-      // Moving items between different title rows
+    }
+    // Reordering within the same title row
+    else if (source.droppableId === destination.droppableId) {
+      const parentRow = virtualProfileGroups.find(
+        (row) => row.id === source.droppableId
+      );
+      if (parentRow) {
+        const newChildren = Array.from(parentRow.children);
+        const [reordered] = newChildren.splice(source.index, 1);
+        newChildren.splice(destination.index, 0, reordered);
+        const newRows = virtualProfileGroups.map((row) => {
+          if (row.id === parentRow.id) {
+            return { ...row, children: newChildren };
+          }
+          return row;
+        });
+        setVirtualProfileGroups(newRows);
+      }
+    }
+    // Moving items between different title rows
+    else if (source.droppableId !== destination.droppableId) {
       const sourceRow = virtualProfileGroups.find(
         (row) => row.id === source.droppableId
       );
       const destRow = virtualProfileGroups.find(
         (row) => row.id === destination.droppableId
       );
-      const sourceChildren = Array.from(sourceRow!.children);
-      const destChildren = Array.from(destRow!.children);
-      const [removed] = sourceChildren.splice(source.index, 1);
-      destChildren.splice(destination.index, 0, removed);
+      if (sourceRow && destRow) {
+        const sourceChildren = Array.from(sourceRow.children);
+        const destChildren = Array.from(destRow.children);
+        const [removed] = sourceChildren.splice(source.index, 1);
+        destChildren.splice(destination.index, 0, removed);
 
-      const newRows = virtualProfileGroups.map((row) => {
-        if (row.id === source.droppableId) {
-          return { ...row, children: sourceChildren };
-        } else if (row.id === destination.droppableId) {
-          return { ...row, children: destChildren };
-        }
-        return row;
-      });
+        const newRows = virtualProfileGroups.map((row) => {
+          if (row.id === source.droppableId) {
+            return { ...row, children: sourceChildren };
+          } else if (row.id === destination.droppableId) {
+            return { ...row, children: destChildren };
+          }
+          return row;
+        });
 
-      setVirtualProfileGroups(newRows);
-      // setVirtualProfileGroups(rows);
+        setVirtualProfileGroups(newRows);
+      }
     }
   };
 
@@ -378,16 +414,24 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                         className="row-header"
                         onContextMenu={(e) => handleContextMenu(e, row.id)}
                       >
-                        <span
+                        <div
                           className={`arrowIcon ${
                             row.isCollapsed ? "collapsed" : "expanded"
-                          }`}
+                          } icon-24`}
                           onClick={() => toggleCollapse(row.id)}
                         >
-                          ➤
-                        </span>
-                        {row.title}
-
+                          <SvgHorizontal color="var(--figma-color-text)" />
+                        </div>
+                        <div>
+                          <input
+                            className="cy-input text-center"
+                            type="text"
+                            value={row.title}
+                            onChange={(e) =>
+                              handleGroupTitleChange(row.id, e.target.value)
+                            }
+                          />
+                        </div>
                         <div
                           {...provided.dragHandleProps}
                           className="dragHandle"
@@ -439,12 +483,13 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                               child.content
                                             )
                                           }
+                                          className="button--grain"
                                         >
                                           {t("module:apply")}
                                         </button>
                                       )}
                                     </div>
-                                    <div className="virtual-profile-title">
+                                    <div className="virtual-profile-title pl-xxxsmall pr-xxxsmall">
                                       <input
                                         className="cy-input"
                                         type="text"
@@ -459,7 +504,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                         }
                                       />
                                     </div>
-                                    <div>
+                                    <div className="pl-xxxsmall pr-xxxsmall">
                                       <input
                                         className="cy-input"
                                         type="text"

@@ -364,7 +364,7 @@ const VirtualProfile: React.FC = () => {
         />
         <VirtualProfileNew applyVirtualProfile={applyVirtualProfile} />
       </div>
-      <div>
+      {/* <div>
         <div className="table">
           <div className="table-row table-header">
             <div className="table-cell">{t("module:apply")}</div>
@@ -373,7 +373,7 @@ const VirtualProfile: React.FC = () => {
           </div>
           {renderTableContent()}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

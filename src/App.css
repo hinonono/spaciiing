@@ -45,6 +45,7 @@
   height: 100%;
   background-color: transparent;
   color: inherit;
+  height: 1.5rem;
 }
 .cy-input:hover {
   border-bottom-color: var(--figma-color-border);
@@ -101,6 +102,29 @@
 }
 .custom-segmented-control > input:checked + label {
   z-index: -1;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pl-xxxsmall {
+  padding-left: var(--size-xxxsmall);
+}
+
+.pr-xxxsmall {
+  padding-right: var(--size-xxxsmall);
+}
+
+.button--grain {
+  background: none;
+  border: none;
+  color: var(--figma-color-bg-brand);
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: var(--font-size-small);
+  padding: 0;
 }
 
 .custom-checkbox-group .container {
@@ -397,12 +421,12 @@
   background-color: var(--figma-color-bg-secondary);
   padding: 0px 8px;
   border-bottom: 1px solid VirtualProfileGroup;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
   position: relative;
   font-size: var(--font-size-large);
   color: var(--figma-color-text);
+  align-items: center;
 }
 .row-Header .dragHandle {
   opacity: 0;
@@ -426,21 +450,20 @@
 }
 
 .dragHandle {
-  padding: 10px;
+  padding: 8px;
   cursor: grab;
   color: rgba(0, 0, 0, 0.5);
 }
 
 .row-child {
   display: grid;
-  grid-template-columns: 2fr 3fr 7fr 1fr;
-  padding: 8px;
+  grid-template-columns: 2fr 3fr 6fr 1fr;
+  padding: 4px 0px;
   position: relative;
   font-size: var(--font-size-small);
-  padding-right: 0px;
   color: var(--figma-color-text);
   border-bottom: 1px solid var(--figma-color-border);
-  min-height: 56px;
+  align-items: center;
 }
 .row-child .dragHandle {
   opacity: 0;
