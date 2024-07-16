@@ -198,11 +198,54 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
     handleClose();
   };
 
+  const duplicateTitleRow = (rowId: string) => {
+    const rowIndex = rows.findIndex((row) => row.id === rowId);
+    if (rowIndex === -1) return;
+
+    const rowToDuplicate = rows[rowIndex];
+    const duplicatedRow = {
+      ...rowToDuplicate,
+      id: uuidv4(), // Ensure a unique ID
+      children: rowToDuplicate.children.map((child) => ({
+        ...child,
+        id: uuidv4(), // Ensuring unique ID for children
+      })),
+    };
+
+    const newRows = [...rows];
+    newRows.splice(rowIndex + 1, 0, duplicatedRow);
+    setRows(newRows);
+    handleClose();
+  };
+
+  const duplicateContentRow = (rowId: string, childId: string) => {
+    const rowIndex = rows.findIndex((row) => row.id === rowId);
+    if (rowIndex === -1) return;
+
+    const childIndex = rows[rowIndex].children.findIndex(
+      (child) => child.id === childId
+    );
+    if (childIndex === -1) return;
+
+    const childToDuplicate = rows[rowIndex].children[childIndex];
+    const duplicatedChild = {
+      ...childToDuplicate,
+      id: uuidv4(), // Ensure a unique ID
+    };
+
+    const newRows = [...rows];
+    newRows[rowIndex].children.splice(childIndex + 1, 0, duplicatedChild);
+    setRows(newRows);
+    handleClose();
+  };
+
   // Inside your component render method where the context menu is defined
   const renderContextMenu = () => {
     if (!contextMenu) return null;
     const { mouseX, mouseY, rowId, childId } = contextMenu;
     console.log({ mouseX, mouseY });
+
+    if (!rowId) return;
 
     return (
       <ul
@@ -215,6 +258,15 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
         }}
         className="context-menu"
       >
+        <li
+          onClick={() =>
+            childId
+              ? duplicateContentRow(rowId, childId)
+              : duplicateTitleRow(rowId)
+          }
+        >
+          Duplicate
+        </li>
         {childId ? (
           <li onClick={() => deleteChild(rowId!, childId)}>Delete Record</li>
         ) : (
