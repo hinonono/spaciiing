@@ -33,6 +33,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   //Context
   const { virtualProfileGroups, setVirtualProfileGroups } = useAppContext();
 
+  //
+
   const handleInputChange = (
     groupId: string,
     childId: string,
@@ -94,9 +96,14 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
   //
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  // const [rows, setVirtualProfileGroups] = useState<VirtualProfileGroup[]>(virtualProfileGroups);
+  const [additionalContextMenu, setAdditionalContextMenu] = useState<{
+    mouseX: number;
+    mouseY: number;
+  } | null>(null);
 
   const menuRef = useRef<HTMLUListElement>(null);
+  const additionalMenuRef = useRef<HTMLUListElement>(null);
+
   const [hoveredRowIndex, setHoveredRowIndex] = useState<string | null>(null);
 
   const toggleAll = () => {
@@ -212,24 +219,31 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
   // Inside your component
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (contextMenu && event.target instanceof Node && menuRef.current) {
-        if (!menuRef.current.contains(event.target)) {
-          handleClose();
-        }
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        contextMenu &&
+        event.target instanceof Node &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target)
+      ) {
+        setContextMenu(null);
+      }
+      if (
+        additionalContextMenu &&
+        event.target instanceof Node &&
+        additionalMenuRef.current &&
+        !additionalMenuRef.current.contains(event.target)
+      ) {
+        setAdditionalContextMenu(null);
       }
     };
 
-    if (contextMenu) {
-      // Add event listener when context menu is open
-      document.addEventListener("mousedown", handleOutsideClick);
-    }
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      // Cleanup event listener when context menu is closed or component unmounts
-      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [contextMenu]); // Depend on contextMenu state
+  }, [contextMenu, additionalContextMenu]);
 
   const handleContextMenu = (
     event: React.MouseEvent,
@@ -386,15 +400,46 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
   };
 
+  const handleButtonClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setAdditionalContextMenu({
+      mouseX: event.pageX,
+      mouseY: event.pageY,
+    });
+  };
+
+  const renderAdditionalContextMenu = () => {
+    if (!additionalContextMenu) return null;
+    const { mouseX, mouseY } = additionalContextMenu;
+
+    return (
+      <ul
+        ref={additionalMenuRef}
+        style={{
+          position: "absolute",
+          top: mouseX,
+          left: mouseY,
+          zIndex: 1000,
+        }}
+        className="context-menu"
+      >
+        <li onClick={() => console.log("Option 1 clicked")}>Option 1</li>
+        <li onClick={() => console.log("Option 2 clicked")}>Option 2</li>
+      </ul>
+    );
+  };
+
   return (
     <div>
       {renderContextMenu()}
+      {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={onDragEnd}>
         <button onClick={toggleAll}>Toggle All</button>
         <button onClick={addTitleRow}>Add Title Row</button>
         <button onClick={addRecordToLastTitle}>
           Add Record to Last Title Row
         </button>
+        <button onClick={(e) => handleButtonClick(e)}>More Options</button>
         <Droppable droppableId="all-rows" type="row">
           {(provided) => (
             <div
@@ -408,7 +453,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      className={`cy-table-group ${snapshot.isDragging ? 'dragging' : ''}`}
+                      className={`cy-table-group ${
+                        snapshot.isDragging ? "dragging" : ""
+                      }`}
                     >
                       <div
                         className="cy-table-group-header"
