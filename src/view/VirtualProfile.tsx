@@ -5,7 +5,7 @@ import {
   MessageVirtualProfileSingleValue,
   MessageVirtualProfileWholeObject,
 } from "../types/Message";
-import { VirtualProfile, VirtualProfileGroup } from "../types/VirtualProfile";
+import { VirtualProfile } from "../types/VirtualProfile";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";

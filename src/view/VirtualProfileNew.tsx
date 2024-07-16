@@ -12,7 +12,7 @@ import {
 } from "../types/VirtualProfile";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
-import { SvgHorizontal, SvgVertical } from "../assets/icons";
+import { SvgHorizontal } from "../assets/icons";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -408,10 +408,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      className="row"
+                      className="cy-table-group"
                     >
                       <div
-                        className="row-header"
+                        className="cy-table-group-header"
                         onContextMenu={(e) => handleContextMenu(e, row.id)}
                       >
                         <div
@@ -449,8 +449,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                             }}
                             className={
                               row.isCollapsed
-                                ? "rowContent"
-                                : "rowContent visible"
+                                ? "cy-table-rows-wrapper"
+                                : "cy-table-rows-wrapper visible"
                             }
                           >
                             {row.children.map((child, childIndex) => (
@@ -463,7 +463,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                   <div
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
-                                    className="row-child"
+                                    className="cy-table-row-child"
                                     onContextMenu={(e) =>
                                       handleContextMenu(e, row.id, child.id)
                                     }
@@ -489,7 +489,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                         </button>
                                       )}
                                     </div>
-                                    <div className="virtual-profile-title pl-xxxsmall pr-xxxsmall">
+                                    <div className="text-color-secondary pl-xxxsmall pr-xxxsmall">
                                       <input
                                         className="cy-input"
                                         type="text"

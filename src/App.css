@@ -108,6 +108,10 @@
   text-align: center;
 }
 
+.text-color-secondary {
+  color: var(--figma-color-text-secondary);
+}
+
 .pl-xxxsmall {
   padding-left: var(--size-xxxsmall);
 }
@@ -116,6 +120,33 @@
   padding-right: var(--size-xxxsmall);
 }
 
+.button {
+  height: var(--cy-button-height-medium);
+  border-radius: var(--cy-border-radius-large);
+}
+.button span {
+  min-width: 30px;
+}
+.button--primary {
+  cursor: pointer;
+  color: var(--white);
+}
+.button--primary:hover {
+  background-color: #0084DC;
+}
+.button--secondary {
+  background-color: transparent;
+  color: var(--figma-color-text);
+  border: 1px solid var(--figma-color-text);
+  cursor: pointer;
+}
+.button--secondary:hover {
+  background-color: var(--figma-color-bg-secondary);
+}
+.button--secondary:disabled {
+  border-color: var(--button-disabled);
+  color: var(--button-disabled);
+}
 .button--grain {
   background: none;
   border: none;
@@ -125,6 +156,91 @@
   font-weight: bold;
   font-size: var(--font-size-small);
   padding: 0;
+}
+.button--grain:disabled {
+  color: var(--button-disabled);
+}
+
+.cy-table-group {
+  margin: 8px 0;
+  background-color: var(--figma-color-bg);
+  border: 1px solid var(--figma-color-border);
+  border-radius: var(--cy-border-radius-large);
+  overflow: hidden;
+}
+
+.cy-table-group-header {
+  font-weight: bold;
+  background-color: var(--figma-color-bg-secondary);
+  padding: 0px 8px;
+  border-bottom: 1px solid VirtualProfileGroup;
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
+  position: relative;
+  font-size: var(--font-size-large);
+  color: var(--figma-color-text);
+  align-items: center;
+}
+.cy-table-group-header .dragHandle {
+  opacity: 0;
+}
+.cy-table-group-header:hover .dragHandle {
+  opacity: 1;
+}
+
+.cy-table-rows-wrapper {
+  border-top: 1px solid var(--figma-color-border);
+  display: none;
+}
+.cy-table-rows-wrapper.visible {
+  display: block;
+}
+.cy-table-rows-wrapper.visible .cy-table-row-child:last-of-type {
+  border-bottom: none;
+}
+
+.cy-table-row-child {
+  display: grid;
+  grid-template-columns: 2fr 3fr 6fr 1fr;
+  padding: 4px 0px;
+  position: relative;
+  font-size: var(--font-size-small);
+  color: var(--figma-color-text);
+  border-bottom: 1px solid var(--figma-color-border);
+  align-items: center;
+}
+.cy-table-row-child .dragHandle {
+  opacity: 0;
+}
+.cy-table-row-child:hover {
+  background-color: var(--color-bg-selected);
+}
+.cy-table-row-child:hover .dragHandle {
+  opacity: 1;
+}
+
+.context-menu {
+  background: black;
+  padding: 8px;
+  box-shadow: var(--shadow-floating-window);
+  list-style: none;
+  position: fixed;
+  color: white;
+  border-radius: var(--cy-border-radius-xlarge);
+  overflow: hidden;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  /* changed to fixed for positioning relative to viewport */
+}
+.context-menu li {
+  color: white;
+  padding: 4px 16px;
+  cursor: pointer;
+  border-radius: var(--cy-border-radius-small);
+  margin: 0;
+}
+.context-menu li:hover {
+  background-color: var(--figma-color-bg-brand);
 }
 
 .custom-checkbox-group .container {
@@ -154,7 +270,8 @@
 .custom-checkbox-group .container input:checked ~ .checkmark:after {
   display: block;
 }
-.custom-checkbox-group .container .checkmark {
+
+.checkmark {
   position: absolute;
   top: 0;
   left: 0;
@@ -164,7 +281,7 @@
   margin: 3px 0px;
   border-radius: var(--cy-border-radius-small);
 }
-.custom-checkbox-group .container .checkmark:after {
+.checkmark:after {
   content: "";
   position: absolute;
   display: none;
@@ -178,15 +295,15 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .custom-checkbox-group .container .checkmark {
+  .custom-checkbox-group .container input:checked ~ .checkmark {
+    background-color: var(--figma-color-bg-brand);
+  }
+  .checkmark {
     background-color: #747474;
     border: 2px solid #747474;
   }
-  .custom-checkbox-group .container .checkmark:after {
+  .checkmark:after {
     border-color: #fff;
-  }
-  .custom-checkbox-group .container input:checked ~ .checkmark {
-    background-color: var(--figma-color-bg-brand);
   }
 }
 .custom-select {
@@ -306,34 +423,6 @@
   outline: none;
 }
 
-.button {
-  height: var(--cy-button-height-medium);
-  border-radius: var(--cy-border-radius-large);
-}
-.button span {
-  min-width: 30px;
-}
-.button--primary {
-  cursor: pointer;
-  color: var(--white);
-}
-.button--primary:hover {
-  background-color: #0084DC;
-}
-.button--secondary {
-  background-color: transparent;
-  color: var(--figma-color-text);
-  border: 1px solid var(--figma-color-text);
-  cursor: pointer;
-}
-.button--secondary:hover {
-  background-color: var(--figma-color-bg-secondary);
-}
-.button--secondary:disabled {
-  border-color: var(--button-disabled);
-  color: var(--button-disabled);
-}
-
 .note {
   font-size: var(--font-size-xsmall);
   color: var(--figma-color-text-secondary);
@@ -407,115 +496,21 @@
   font-size: 9px;
 }
 
-/* Table.module.css */
-.row {
-  margin: 8px 0;
-  background-color: var(--figma-color-bg);
-  border: 1px solid var(--figma-color-border);
-  border-radius: var(--cy-border-radius-large);
-  overflow: hidden;
-}
-
-.row-Header {
-  font-weight: bold;
-  background-color: var(--figma-color-bg-secondary);
-  padding: 0px 8px;
-  border-bottom: 1px solid VirtualProfileGroup;
-  display: grid;
-  grid-template-columns: 1fr 10fr 1fr;
-  position: relative;
-  font-size: var(--font-size-large);
-  color: var(--figma-color-text);
-  align-items: center;
-}
-.row-Header .dragHandle {
-  opacity: 0;
-}
-.row-Header:hover .dragHandle {
-  opacity: 1;
-}
-
-.rowContent {
-  border-top: 1px solid var(--figma-color-border);
-  display: none;
-  /* initially hidden */
-}
-
-.rowContent.visible {
-  display: block;
-  /* show content when row is expanded */
-}
-.rowContent.visible .row-child:last-of-type {
-  border-bottom: none;
-}
-
 .dragHandle {
   padding: 8px;
   cursor: grab;
   color: rgba(0, 0, 0, 0.5);
 }
 
-.row-child {
-  display: grid;
-  grid-template-columns: 2fr 3fr 6fr 1fr;
-  padding: 4px 0px;
-  position: relative;
-  font-size: var(--font-size-small);
-  color: var(--figma-color-text);
-  border-bottom: 1px solid var(--figma-color-border);
-  align-items: center;
-}
-.row-child .dragHandle {
-  opacity: 0;
-}
-.row-child:hover {
-  background-color: var(--color-bg-selected);
-}
-.row-child:hover .dragHandle {
-  opacity: 1;
-}
-
 .arrowIcon {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-
 .arrowIcon.collapsed {
   transform: rotate(0deg);
-  /* Arrow pointing right when collapsed */
 }
-
 .arrowIcon.expanded {
   transform: rotate(90deg);
-  /* Arrow pointing down when expanded */
-}
-
-.context-menu {
-  background: black;
-  padding: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  list-style: none;
-  position: fixed;
-  color: white;
-  border-radius: var(--cy-border-radius-xlarge);
-  overflow: hidden;
-  margin-block-start: 0em;
-  margin-block-end: 0em;
-  /* changed to fixed for positioning relative to viewport */
-}
-.context-menu li {
-  color: white;
-  padding: 4px 16px;
-  cursor: pointer;
-  border-radius: var(--cy-border-radius-small);
-  margin: 0;
-}
-.context-menu li:hover {
-  background-color: var(--figma-color-bg-brand);
-}
-
-.virtual-profile-title {
-  color: var(--figma-color-text-secondary);
 }
 
 body {
@@ -564,7 +559,7 @@ pre {
   border-radius: var(--cy-border-radius-medium);
   padding: 5px 0;
   font-size: var(--font-size-small);
-  box-shadow: 0px 4px 4px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-floating-window);
 }
 
 .variable-list {
@@ -959,7 +954,7 @@ button {
   border-radius: var(--cy-border-radius-medium);
   padding: 5px 0;
   font-size: var(--font-size-small);
-  box-shadow: 0px 4px 4px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-floating-window);
   opacity: 0;
   /* Position the tooltip */
   position: absolute;

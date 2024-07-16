@@ -1,0 +1,42 @@
+.custom-select {
+    width: 100%;
+    padding: 4px;
+    box-sizing: border-box;
+    font-size: var(--font-size-small);
+    height: var(--size-medium);
+    border-radius: var(--cy-border-radius-large);
+    background-color: var(--figma-color-bg);
+    border: 1px solid var(--cy-border-light);
+    color: var(--figma-color-text);
+    transition: all .3s;
+
+    &:hover {
+        border-color: var(--cy-border-dark);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+
+    &:disabled {
+        border: 1px solid var(--figma-color-border);
+        color: var(--figma-color-text-secondary);
+    }
+
+    /* Dropdown options styling */
+    option {
+        padding: 10px;
+        background-color: #fff;
+        color: #000;
+        border: none;
+
+        /* Styling options when they are selected */
+        &:checked {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+    }
+
+
+}

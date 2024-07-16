@@ -1,10 +1,48 @@
-.button--grain {
-    background: none;
-    border: none;
-    color: var(--figma-color-bg-brand);
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: var(--font-size-small);
-    padding: 0;
+.button {
+    height: var(--cy-button-height-medium);
+    border-radius: var(--cy-border-radius-large);
+
+    span {
+        min-width: 30px;
+    }
+
+    &--primary {
+        cursor: pointer;
+        color: var(--white);
+
+        &:hover {
+            background-color: #0084DC;
+        }
+    }
+
+    &--secondary {
+        background-color: transparent;
+        color: var(--figma-color-text);
+        border: 1px solid var(--figma-color-text);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--figma-color-bg-secondary);
+        }
+
+        &:disabled {
+            border-color: var(--button-disabled);
+            color: var(--button-disabled);
+        }
+    }
+
+    &--grain {
+        background: none;
+        border: none;
+        color: var(--figma-color-bg-brand);
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: var(--font-size-small);
+        padding: 0;
+
+        &:disabled {
+            color: var(--button-disabled);
+        }
+    }
 }

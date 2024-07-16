@@ -1,0 +1,74 @@
+.custom-checkbox-group {
+    .container {
+        display: block;
+        position: relative;
+        padding: 5px 0px;
+        padding-left: 28px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        font-size: var(--font-size-small);
+        color: var(--figma-color-text);
+        user-select: none;
+
+        input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+
+            &:checked~.checkmark {
+                background-color: var(--figma-color-bg-brand);
+                border: 0px;
+
+                &:after {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    border: 2px solid var(--figma-color-border);
+    margin: 3px 0px;
+    border-radius: var(--cy-border-radius-small);
+
+    &:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 6px;
+        top: 2px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+}
+
+@media (prefers-color-scheme: dark) {
+    .custom-checkbox-group {
+        .container {
+            input:checked~.checkmark {
+                background-color: var(--figma-color-bg-brand);
+            }
+        }
+    }
+
+    .checkmark {
+        background-color: #747474;
+        border: 2px solid #747474;
+
+        &:after {
+            border-color: #fff;
+        }
+    }
+}
