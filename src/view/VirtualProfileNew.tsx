@@ -140,6 +140,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
                         className={`arrowIcon ${
                           row.isCollapsed ? "collapsed" : "expanded"
                         }`}
+                        onClick={() => toggleCollapse(row.id)}
                       >
                         ➤
                       </span>
