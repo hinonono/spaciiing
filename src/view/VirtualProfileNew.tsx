@@ -8,13 +8,15 @@ import {
 
 interface VirtualProfileNewProps {}
 
+interface ChildData {
+  id: string;
+  content: string;
+}
+
 interface TableRowData {
   id: string;
   title: string;
-  children: Array<{
-    id: string;
-    content: string;
-  }>;
+  children: ChildData[];
   isCollapsed: boolean;
 }
 
@@ -38,42 +40,32 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
-    if (
-      !destination ||
-      (source.droppableId === destination.droppableId &&
-        source.index === destination.index)
-    ) {
+    if (!destination) {
       return;
     }
 
-    const sourceParentId = source.droppableId;
-    const destParentId = destination.droppableId;
-
-    if (sourceParentId === destParentId) {
-      // Moving items within the same parent
-      const row = rows.find((row) => row.id === sourceParentId);
-      const reorderedChildren = Array.from(row!.children);
-      const [removed] = reorderedChildren.splice(source.index, 1);
-      reorderedChildren.splice(destination.index, 0, removed);
-      const newRows = rows.map((row) =>
-        row.id === sourceParentId
-          ? { ...row, children: reorderedChildren }
-          : row
-      );
+    if (
+      source.droppableId === destination.droppableId &&
+      source.droppableId === "all-rows"
+    ) {
+      // Reordering top-level title rows
+      const newRows = Array.from(rows);
+      const [reordered] = newRows.splice(source.index, 1);
+      newRows.splice(destination.index, 0, reordered);
       setRows(newRows);
-    } else {
-      // Moving items between different parents
-      const sourceRow = rows.find((row) => row.id === sourceParentId);
-      const destRow = rows.find((row) => row.id === destParentId);
+    } else if (source.droppableId !== destination.droppableId) {
+      // Moving items between different title rows
+      const sourceRow = rows.find((row) => row.id === source.droppableId);
+      const destRow = rows.find((row) => row.id === destination.droppableId);
       const sourceChildren = Array.from(sourceRow!.children);
       const destChildren = Array.from(destRow!.children);
       const [removed] = sourceChildren.splice(source.index, 1);
       destChildren.splice(destination.index, 0, removed);
 
       const newRows = rows.map((row) => {
-        if (row.id === sourceParentId) {
+        if (row.id === source.droppableId) {
           return { ...row, children: sourceChildren };
-        } else if (row.id === destParentId) {
+        } else if (row.id === destination.droppableId) {
           return { ...row, children: destChildren };
         }
         return row;
@@ -95,41 +87,71 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      {rows.map((row, rowIndex) => (
-        <Droppable key={row.id} droppableId={row.id}>
-          {(provided) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className="tableContainer"
-            >
-              <div onClick={() => toggleCollapse(row.id)} className="rowHeader">
-                {row.title}
-              </div>
-              {!row.isCollapsed &&
-                row.children.map((child, index) => (
-                  <Draggable
-                    key={child.id}
-                    draggableId={child.id}
-                    index={index}
+      <Droppable droppableId="all-rows" type="row">
+        {(provided) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="tableContainer"
+          >
+            {rows.map((row, index) => (
+              <Draggable key={row.id} draggableId={row.id} index={index}>
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    className="row"
                   >
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className="row"
-                      >
-                        {child.content}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      ))}
+                    <div
+                      onClick={() => toggleCollapse(row.id)}
+                      className="row-header"
+                    >
+                      {row.title}
+                    </div>
+                    <Droppable droppableId={row.id} type="child">
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          style={{
+                            display: row.isCollapsed ? "none" : "block",
+                          }}
+                          className={
+                            row.isCollapsed
+                              ? "rowContent"
+                              : "rowContent visible"
+                          }
+                        >
+                          {row.children.map((child, childIndex) => (
+                            <Draggable
+                              key={child.id}
+                              draggableId={child.id}
+                              index={childIndex}
+                            >
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  {child.content}
+                                </div>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     </DragDropContext>
   );
 };
