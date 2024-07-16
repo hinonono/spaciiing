@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { VirtualProfile } from "./types/VirtualProfile";
+import { VirtualProfile, VirtualProfileGroup } from "./types/VirtualProfile";
 import { MagicalObject } from "./types/MagicalObject";
 import {
   ExternalVariableCollection,
@@ -31,6 +31,10 @@ interface AppContextType {
   >;
   virtualProfile: VirtualProfile;
   setVirtualProfile: React.Dispatch<React.SetStateAction<VirtualProfile>>;
+  virtualProfileGroup: VirtualProfileGroup[];
+  setVirtualProfileGroup: React.Dispatch<
+    React.SetStateAction<VirtualProfileGroup[]>
+  >;
   magicalObject: MagicalObject;
   setMagicalObject: React.Dispatch<React.SetStateAction<MagicalObject>>;
   licenseManagement: LicenseManagement;
@@ -120,7 +124,14 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [variableCollectionModes, setvariableCollectionModes] = useState<
     ExternalVariableMode[]
   >([]);
+
+  //
   const [virtualProfile, setVirtualProfile] = useState<VirtualProfile>(vp);
+  const [virtualProfileGroup, setVirtualProfileGroup] = useState<
+    VirtualProfileGroup[]
+  >([]);
+
+  //
   const [magicalObject, setMagicalObject] = useState<MagicalObject>(mo);
   const [licenseManagement, setLicenseManagement] =
     useState<LicenseManagement>(lm);
@@ -157,6 +168,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setShowActivateModal,
         customCodeExecutionResults,
         setCustomCodeExecutionResults,
+        virtualProfileGroup,
+        setVirtualProfileGroup,
       }}
     >
       {children}

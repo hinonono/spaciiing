@@ -5,7 +5,7 @@ import {
   MessageVirtualProfileSingleValue,
   MessageVirtualProfileWholeObject,
 } from "../types/Message";
-import { VirtualProfile } from "../types/VirtualProfile";
+import { VirtualProfile, VirtualProfileGroup } from "../types/VirtualProfile";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -91,6 +91,30 @@ const VirtualProfile: React.FC = () => {
 
     const message: MessageVirtualProfileWholeObject = {
       virtualProfile: virtualProfile,
+      module: "VirtualProfile",
+      phase: "WillEnd",
+      direction: "Inner",
+    };
+
+    parent.postMessage(
+      {
+        pluginMessage: message,
+      },
+      "*"
+    );
+
+    setPreviousVirtualProfile(virtualProfile);
+  };
+
+  const saveVirtualProfileNew = (groups: VirtualProfileGroup[]) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
+    const message: MessageVirtualProfileWholeObject = {
+      virtualProfile: virtualProfile,
+      virtualProfileGroups: groups,
       module: "VirtualProfile",
       phase: "WillEnd",
       direction: "Inner",

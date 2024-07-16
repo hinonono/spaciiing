@@ -11,6 +11,7 @@ import {
   VirtualProfileGroup,
 } from "../types/VirtualProfile";
 import { useTranslation } from "react-i18next";
+import { useAppContext } from "../AppProvider";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -56,6 +57,12 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   handleInputChange,
 }) => {
   const { t } = useTranslation(["module"]);
+  
+  //Context
+  const { virtualProfileGroup, setVirtualProfileGroup } = useAppContext();
+
+
+  //
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const [rows, setRows] = useState<VirtualProfileGroup[]>(initialRows);
   const menuRef = useRef<HTMLUListElement>(null);
