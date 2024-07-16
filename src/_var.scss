@@ -21,6 +21,8 @@
     --cy-button-height-large: 40px;
     --cy-button-height-medium: 36px;
     --cy-button-height-small: 32px;
+
+    --color-bg-selected: #e5f4ff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,5 +40,7 @@
 
         --tab-bar-bg: #2c2c2c;
         --tab-bar-icon: white;
+
+        --color-bg-selected: #4a5878;
     }
 }

@@ -33,13 +33,13 @@ const initialRows: TableRowData[] = [
     id: uuidv4(),
     title: "Title 1",
     children: [{ id: uuidv4(), content: "Content 1-1" }],
-    isCollapsed: true,
+    isCollapsed: false,
   },
   {
     id: uuidv4(),
     title: "Title 2",
     children: [{ id: uuidv4(), content: "Content 2-1" }],
-    isCollapsed: true,
+    isCollapsed: false,
   },
 ];
 
