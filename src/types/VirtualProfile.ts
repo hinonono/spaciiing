@@ -50,3 +50,13 @@ export interface VirtualProfileGroup extends BasicRow {
   children: VirtualProfileChild[];
   isCollapsed: boolean;
 }
+
+export interface VirtualProfileChildRaw {
+  content: string;
+  title: string;
+}
+
+export interface VirtualProfileGroupRaw {
+  children: VirtualProfileChildRaw[];
+  title: string;
+}

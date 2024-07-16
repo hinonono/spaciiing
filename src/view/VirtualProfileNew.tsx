@@ -9,10 +9,15 @@ import { v4 as uuidv4 } from "uuid";
 import {
   VirtualProfileChild,
   VirtualProfileGroup,
+  VirtualProfileGroupRaw,
 } from "../types/VirtualProfile";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
 import { SvgHorizontal } from "../assets/icons";
+
+import vpdata_financial from "../assets/virtual-profile/financial.json";
+import vpdata_personal from "../assets/virtual-profile/personal.json";
+import { transformJsonToGroup } from "../module-frontend/virtualProfileFrontEnd";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -251,19 +256,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     childId?: string
   ) => {
     event.preventDefault();
-    const clickX = event.pageX + 20;
-    const clickY = event.pageY - 40;
-    const screenW = window.innerWidth;
-    const screenH = window.innerHeight;
-    const rootW = 140; // Assume the width of the context menu
-    const rootH = 50; // Assume the height of the context menu
-
-    const right = screenW - clickX > rootW;
-    const bottom = screenH - clickY > rootH;
+    const { right, bottom } = resolveContextMenuPos(
+      event.pageX,
+      event.pageY,
+      140,
+      50
+    );
 
     setContextMenu({
-      mouseX: right ? clickX : clickX - rootW,
-      mouseY: bottom ? clickY : clickY - rootH,
+      mouseX: right,
+      mouseY: bottom,
       rowId,
       childId,
     });
@@ -400,12 +402,46 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
   };
 
-  const handleButtonClick = (event: React.MouseEvent) => {
+  const resolveContextMenuPos = (
+    x: number,
+    y: number,
+    rootW: number,
+    rootH: number
+  ): { right: number; bottom: number } => {
+    const clickX = x + 20;
+    const clickY = y - 40;
+    const screenW = window.innerWidth;
+    const screenH = window.innerHeight;
+
+    const right = screenW - clickX > rootW;
+    const bottom = screenH - clickY > rootH;
+
+    return {
+      right: right ? clickX : clickX - rootW,
+      bottom: bottom ? clickY : clickY - rootH,
+    };
+  };
+
+  const handleAdditionalContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
+    const { right, bottom } = resolveContextMenuPos(
+      event.clientX,
+      event.clientY,
+      140,
+      50
+    );
+
     setAdditionalContextMenu({
-      mouseX: event.pageX,
-      mouseY: event.pageY,
+      mouseX: right,
+      mouseY: bottom,
     });
+  };
+
+  const createNewGroupFromJsonData = (data: VirtualProfileGroupRaw) => {
+    setVirtualProfileGroups((prevGroups) => [
+      ...prevGroups,
+      transformJsonToGroup(data),
+    ]);
   };
 
   const renderAdditionalContextMenu = () => {
@@ -423,11 +459,27 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }}
         className="context-menu"
       >
-        <li onClick={() => console.log("Option 1 clicked")}>Option 1</li>
-        <li onClick={() => console.log("Option 2 clicked")}>Option 2</li>
+        <li
+          onClick={() => {
+            createNewGroupFromJsonData(vpdata_personal);
+            setAdditionalContextMenu(null);
+          }}
+        >
+          {t("module:personal")}
+        </li>
+        <li
+          onClick={() => {
+            createNewGroupFromJsonData(vpdata_financial);
+            setAdditionalContextMenu(null);
+          }}
+        >
+          {t("module:financial")}
+        </li>
       </ul>
     );
   };
+
+  // Function to transform JSON data to VirtualProfileGroup
 
   return (
     <div>
@@ -439,7 +491,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         <button onClick={addRecordToLastTitle}>
           Add Record to Last Title Row
         </button>
-        <button onClick={(e) => handleButtonClick(e)}>More Options</button>
+        <button onClick={(e) => handleAdditionalContextMenu(e)}>
+          More Options
+        </button>
         <Droppable droppableId="all-rows" type="row">
           {(provided) => (
             <div
