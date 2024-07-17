@@ -164,6 +164,12 @@
   color: var(--button-disabled);
 }
 
+.button-reset {
+  all: unset;
+  display: inline-block;
+  cursor: pointer;
+}
+
 .cy-table-group {
   margin: 8px 0;
   background-color: var(--figma-color-bg);
@@ -351,6 +357,29 @@
 
 .position-relative {
   position: relative;
+}
+
+.flex {
+  display: flex;
+}
+.flex button {
+  margin-left: 0.5em;
+}
+.flex button:first-child {
+  margin-left: 0;
+}
+
+.flex-jusify-spacebetween {
+  justify-content: space-between;
+}
+
+.flex-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.align-items-center {
+  align-items: center;
 }
 
 .tab-bar {
@@ -620,31 +649,6 @@ input {
 
 .width-100 {
   width: 100%;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-jusify-spacebetween {
-  justify-content: space-between;
-}
-
-.flex-row {
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.flex button {
-  margin-left: 0.5em;
-}
-
-.flex button:first-child {
-  margin-left: 0;
-}
-
-.align-items-center {
-  align-items: center;
 }
 
 .custom-radio-group {

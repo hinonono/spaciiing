@@ -10,6 +10,7 @@ import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import VirtualProfileNew from "./VirtualProfileNew";
+import { SvgSave } from "../assets/icons";
 
 type CategoryKey = "personal" | "employment" | "financial" | "custom";
 
@@ -355,14 +356,20 @@ const VirtualProfile: React.FC = () => {
         isProFeature={true}
       />
       <div className="content">
-        <FigmaButton
+        {/* <FigmaButton
           buttonType="secondary"
           title={t("module:save")}
           id={"virtual-profile-save"}
           onClick={saveVirtualProfile}
-          disabled={virtualProfileGroups == previousVirtualProfile ? true : false}
+          disabled={
+            virtualProfileGroups == previousVirtualProfile ? true : false
+          }
+        /> */}
+        <VirtualProfileNew
+          applyVirtualProfile={applyVirtualProfile}
+          saveVirtualProfile={saveVirtualProfile}
+          previousVirtualProfile={previousVirtualProfile}
         />
-        <VirtualProfileNew applyVirtualProfile={applyVirtualProfile} />
       </div>
       {/* <div>
         <div className="table">

@@ -13,7 +13,16 @@ import {
 } from "../types/VirtualProfile";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
-import { SvgHorizontal } from "../assets/icons";
+import {
+  SvgAdd,
+  SvgAddFolder,
+  SvgAddFromPreset,
+  SvgExpand,
+  SvgCollapse,
+  SvgChevronLeft,
+  SvgDragHandle,
+  SvgSave,
+} from "../assets/icons";
 
 import vpdata_financial from "../assets/virtual-profile/financial.json";
 import vpdata_personal from "../assets/virtual-profile/personal.json";
@@ -22,6 +31,8 @@ import { resolveContextMenuPos } from "../module-frontend/utilFrontEnd";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
+  saveVirtualProfile: () => void;
+  previousVirtualProfile: VirtualProfileGroup[] | null;
 }
 
 interface ContextMenuState {
@@ -33,6 +44,8 @@ interface ContextMenuState {
 
 const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   applyVirtualProfile,
+  saveVirtualProfile,
+  previousVirtualProfile,
 }) => {
   const { t } = useTranslation(["module"]);
 
@@ -40,6 +53,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const { virtualProfileGroups, setVirtualProfileGroups } = useAppContext();
 
   //
+  const [isFolderCollapsed, setIsFolderCollapsed] = useState(false);
+
+  useEffect(() => {
+    setIsFolderCollapsed(!virtualProfileGroups.every((row) => row.isCollapsed));
+  }, [virtualProfileGroups]);
 
   const handleInputChange = (
     groupId: string,
@@ -121,6 +139,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         isCollapsed: !allCollapsed,
       }))
     );
+    setIsFolderCollapsed(allCollapsed);
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -471,14 +490,57 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={onDragEnd}>
-        <button onClick={toggleAll}>Toggle All</button>
-        <button onClick={addTitleRow}>Add Title Row</button>
-        <button onClick={addRecordToLastTitle}>
-          Add Record to Last Title Row
-        </button>
-        <button onClick={(e) => handleAdditionalContextMenu(e)}>
-          More Options
-        </button>
+        <div className="flex flex-jusify-spacebetween">
+          <div>
+            <button className="button-reset" onClick={toggleAll}>
+              <div className="icon-24 icon-hover">
+                {!isFolderCollapsed ? (
+                  <SvgExpand color="var(--figma-color-text)" />
+                ) : (
+                  <SvgCollapse color="var(--figma-color-text)" />
+                )}
+              </div>
+            </button>
+          </div>
+          <div>
+            <button
+              className="button-reset"
+              onClick={saveVirtualProfile}
+              disabled={
+                virtualProfileGroups == previousVirtualProfile ? true : false
+              }
+            >
+              <div className="icon-24 icon-hover">
+                <SvgSave
+                  color={
+                    virtualProfileGroups == previousVirtualProfile
+                      ? `var(--figma-color-text-disabled)`
+                      : `var(--figma-color-text)`
+                  }
+                />
+              </div>
+            </button>
+
+            <button className="button-reset" onClick={addTitleRow}>
+              <div className="icon-24 icon-hover">
+                <SvgAddFolder color="var(--figma-color-text)" />
+              </div>
+            </button>
+            <button className="button-reset" onClick={addRecordToLastTitle}>
+              <div className="icon-24 icon-hover">
+                <SvgAdd color="var(--figma-color-text)" />
+              </div>
+            </button>
+            <button
+              className="button-reset"
+              onClick={(e) => handleAdditionalContextMenu(e)}
+            >
+              <div className="icon-24 icon-hover">
+                <SvgAddFromPreset color="var(--figma-color-text)" />
+              </div>
+            </button>
+          </div>
+        </div>
         <Droppable droppableId="all-rows" type="row">
           {(provided) => (
             <div
@@ -503,10 +565,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                         <div
                           className={`arrowIcon ${
                             row.isCollapsed ? "collapsed" : "expanded"
-                          } icon-24`}
+                          } icon-16`}
                           onClick={() => toggleCollapse(row.id)}
                         >
-                          <SvgHorizontal color="var(--figma-color-text)" />
+                          <SvgChevronLeft color="var(--figma-color-text)" />
                         </div>
                         <div>
                           <input
@@ -522,7 +584,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                           {...provided.dragHandleProps}
                           className="dragHandle"
                         >
-                          &#9776;
+                          <div className="icon-16">
+                            <SvgDragHandle color="var(--figma-color-text-secondary)" />
+                          </div>
                         </div>
                       </div>
                       <Droppable droppableId={row.id} type="child">
@@ -609,7 +673,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                       {...provided.dragHandleProps}
                                       className="dragHandle"
                                     >
-                                      &#9776;
+                                      <div className="icon-16">
+                                        <SvgDragHandle color="var(--figma-color-text-secondary)" />
+                                      </div>
                                     </div>
                                   </div>
                                 )}
