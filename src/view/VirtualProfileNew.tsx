@@ -27,7 +27,10 @@ import {
 import vpdata_financial from "../assets/virtual-profile/financial.json";
 import vpdata_personal from "../assets/virtual-profile/personal.json";
 import { transformJsonToGroup } from "../module-frontend/virtualProfileFrontEnd";
-import { resolveContextMenuPos } from "../module-frontend/utilFrontEnd";
+import {
+  checkProFeatureAccessibleForUser,
+  resolveContextMenuPos,
+} from "../module-frontend/utilFrontEnd";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -50,7 +53,12 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const { t } = useTranslation(["module"]);
 
   //Context
-  const { virtualProfileGroups, setVirtualProfileGroups } = useAppContext();
+  const {
+    virtualProfileGroups,
+    setVirtualProfileGroups,
+    licenseManagement,
+    setShowCTSubscribe,
+  } = useAppContext();
 
   //
   const [isFolderCollapsed, setIsFolderCollapsed] = useState(false);
@@ -216,6 +224,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
   // Handler to add a new title row
   const addTitleRow = () => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     const newRow: VirtualProfileGroup = {
       id: uuidv4(), // Ensure unique ID
       title: `Title`,
@@ -223,11 +236,15 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       isCollapsed: false,
     };
     setVirtualProfileGroups([...virtualProfileGroups, newRow]);
-    // setVirtualProfileGroups(rows);
   };
 
   // Handler to add a new record to the last title row
   const addRecordToLastTitle = () => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     if (virtualProfileGroups.length === 0) {
       console.warn("No title rows available to add a record");
       return;
@@ -240,7 +257,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     const newRows = [...virtualProfileGroups];
     newRows[newRows.length - 1].children.push(newRecord);
     setVirtualProfileGroups(newRows);
-    // setVirtualProfileGroups(virtualProfileGroups);
   };
 
   // Inside your component
@@ -300,14 +316,24 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   const deleteRow = (rowId: string) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     setVirtualProfileGroups(
       virtualProfileGroups.filter((row) => row.id !== rowId)
     );
-    // setVirtualProfileGroups(rows);
+
     handleClose();
   };
 
   const deleteChild = (rowId: string, childId: string) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     setVirtualProfileGroups(
       virtualProfileGroups.map((row) => {
         if (row.id === rowId) {
@@ -319,11 +345,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       })
     );
-    // setVirtualProfileGroups(rows);
+
     handleClose();
   };
 
   const addChildToRow = (rowId: string) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     const newChild: VirtualProfileChild = {
       id: uuidv4(), // Generate a unique ID for the new child
       content: "Value",
@@ -341,32 +372,40 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       })
     );
-    // setVirtualProfileGroups(rows);
     handleClose(); // Close any open context menus or modal dialogs
   };
 
   const duplicateTitleRow = (rowId: string) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
 
     const rowToDuplicate = virtualProfileGroups[rowIndex];
     const duplicatedRow = {
       ...rowToDuplicate,
-      id: uuidv4(), // Ensure a unique ID
+      id: uuidv4(),
       children: rowToDuplicate.children.map((child) => ({
         ...child,
-        id: uuidv4(), // Ensuring unique ID for children
+        id: uuidv4(),
       })),
     };
 
     const newRows = [...virtualProfileGroups];
     newRows.splice(rowIndex + 1, 0, duplicatedRow);
     setVirtualProfileGroups(newRows);
-    // setVirtualProfileGroups(rows);
     handleClose();
   };
 
   const duplicateContentRow = (rowId: string, childId: string) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
 
@@ -385,12 +424,17 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     const newRows = [...virtualProfileGroups];
     newRows[rowIndex].children.splice(childIndex + 1, 0, duplicatedChild);
     setVirtualProfileGroups(newRows);
-    // setVirtualProfileGroups(rows);
+
     handleClose();
   };
 
   // Inside your component render method where the context menu is defined
   const renderContextMenu = () => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     if (!contextMenu) return null;
     const { mouseX, mouseY, rowId, childId } = contextMenu;
 
@@ -442,6 +486,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   const createNewGroupFromJsonData = (data: VirtualProfileGroupRaw) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     setVirtualProfileGroups((prevGroups) => [
       ...prevGroups,
       transformJsonToGroup(data),
@@ -449,6 +498,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   const renderAdditionalContextMenu = () => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+
     if (!additionalContextMenu) return null;
     const { mouseX, mouseY } = additionalContextMenu;
 
@@ -520,7 +574,14 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                 />
               </div>
             </button>
-
+            <button
+              className="button-reset"
+              onClick={(e) => handleAdditionalContextMenu(e)}
+            >
+              <div className="icon-24 icon-hover">
+                <SvgAddFromPreset color="var(--figma-color-text)" />
+              </div>
+            </button>
             <button className="button-reset" onClick={addTitleRow}>
               <div className="icon-24 icon-hover">
                 <SvgAddFolder color="var(--figma-color-text)" />
@@ -529,14 +590,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
             <button className="button-reset" onClick={addRecordToLastTitle}>
               <div className="icon-24 icon-hover">
                 <SvgAdd color="var(--figma-color-text)" />
-              </div>
-            </button>
-            <button
-              className="button-reset"
-              onClick={(e) => handleAdditionalContextMenu(e)}
-            >
-              <div className="icon-24 icon-hover">
-                <SvgAddFromPreset color="var(--figma-color-text)" />
               </div>
             </button>
           </div>

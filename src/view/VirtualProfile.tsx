@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FigmaButton, TitleBar } from "../components";
+import React, { useState } from "react";
+import { TitleBar } from "../components";
 import { useAppContext } from "../AppProvider";
 import {
   MessageVirtualProfileSingleValue,
@@ -10,9 +10,8 @@ import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import VirtualProfileNew from "./VirtualProfileNew";
-import { SvgSave } from "../assets/icons";
 
-type CategoryKey = "personal" | "employment" | "financial" | "custom";
+// type CategoryKey = "personal" | "employment" | "financial" | "custom";
 
 const VirtualProfile: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -23,7 +22,7 @@ const VirtualProfile: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
+  // const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
   const { virtualProfileGroups } = useAppContext();
   const [previousVirtualProfile, setPreviousVirtualProfile] = useState<
     VirtualProfileGroup[] | null

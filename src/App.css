@@ -192,10 +192,10 @@
   min-height: 2.5rem;
 }
 .cy-table-group-header .dragHandle {
-  display: none;
+  opacity: 0;
 }
 .cy-table-group-header:hover .dragHandle {
-  display: block;
+  opacity: 1;
 }
 
 .cy-table-rows-wrapper {

@@ -22,12 +22,12 @@
     min-height: 2.5rem;
 
     .dragHandle {
-        display: none;
+        opacity: 0;
     }
 
     &:hover {
         .dragHandle {
-            display: block;
+            opacity: 1;
         }
     }
 }
@@ -67,8 +67,6 @@
         .dragHandle {
             opacity: 1;
         }
-
-        // background-color: var(--color-bg-selected);
     }
 }
 
