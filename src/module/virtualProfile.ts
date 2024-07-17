@@ -1,11 +1,15 @@
 import {
+  VirtualProfile,
+  VirtualProfileChild,
+  VirtualProfileGroup,
+} from "./../types/VirtualProfile";
+import {
   ExternalMessageUpdateVirtualProfile,
   MessageVirtualProfile,
   MessageVirtualProfileSingleValue,
   MessageVirtualProfileWholeObject,
   VirtualProfileSingleValue,
 } from "../types/Message";
-import { VirtualProfile, VirtualProfileGroup } from "../types/VirtualProfile";
 import * as util from "./util";
 
 export function reception(message: MessageVirtualProfile) {
@@ -15,7 +19,7 @@ export function reception(message: MessageVirtualProfile) {
   }
 
   if (message.phase == "Init") {
-    initVirtualProfile();
+    // initVirtualProfile();
     initVirtualProfileGroups();
   }
 
@@ -30,73 +34,133 @@ export function reception(message: MessageVirtualProfile) {
   }
 }
 
-function initVirtualProfile() {
-  const pluginDataKey = "virtual-profile";
-  const data = figma.root.getPluginData(pluginDataKey);
-  console.log("Plugin Data");
-  console.log(data);
+// function initVirtualProfile() {
+//   const pluginDataKey = "virtual-profile";
+//   const data = figma.root.getPluginData(pluginDataKey);
+//   console.log("Plugin Data");
+//   console.log(data);
 
-  if (data === "") {
-    // 未設置過virtual profile
-    const vp: VirtualProfile = {
-      name: "John Doe",
-      nickname: "Johnny",
-      gender: "Male",
-      birthday: "1990/01/01",
-      email: "johndoe@example.com",
-      cardNum: "1234-5678-9012-3456",
-      landlineNum: "555-1234",
-      phoneNum: "555-987-6543",
-      address: "123 Main St, Anytown, USA",
-      companyName: "Doe Industries",
-      companyAddress: "456 Industrial Way, Suite 100, Anytown, USA",
-      companyPhoneNum: "555-1122",
-      custom1: "Custom Field 1",
-      custom2: "Custom Field 2",
-      custom3: "Custom Field 3",
-      age: "20",
-      country: "Country",
-      city: "City",
-      expirationDate: "1990/01/01",
-      cvv: "000",
-      cardNetwork: "MasterCard",
-      username: "@johnniedoe123",
-      userId: "0000-1234-5678",
-      jobTitle: "Designer",
-      industry: "Art & Design",
-    };
+//   if (data === "") {
+//     // 未設置過virtual profile
+//     const vp: VirtualProfile = {
+//       name: "John Doe",
+//       nickname: "Johnny",
+//       gender: "Male",
+//       birthday: "1990/01/01",
+//       email: "johndoe@example.com",
+//       cardNum: "1234-5678-9012-3456",
+//       landlineNum: "555-1234",
+//       phoneNum: "555-987-6543",
+//       address: "123 Main St, Anytown, USA",
+//       companyName: "Doe Industries",
+//       companyAddress: "456 Industrial Way, Suite 100, Anytown, USA",
+//       companyPhoneNum: "555-1122",
+//       custom1: "Custom Field 1",
+//       custom2: "Custom Field 2",
+//       custom3: "Custom Field 3",
+//       age: "20",
+//       country: "Country",
+//       city: "City",
+//       expirationDate: "1990/01/01",
+//       cvv: "000",
+//       cardNetwork: "MasterCard",
+//       username: "@johnniedoe123",
+//       userId: "0000-1234-5678",
+//       jobTitle: "Designer",
+//       industry: "Art & Design",
+//     };
 
-    // Save vp as a JSON string
-    figma.root.setPluginData(pluginDataKey, JSON.stringify(vp));
+//     // Save vp as a JSON string
+//     figma.root.setPluginData(pluginDataKey, JSON.stringify(vp));
 
-    const message: ExternalMessageUpdateVirtualProfile = {
-      virtualProfile: vp,
-      module: "VirtualProfile",
-      direction: "Outer",
-      phase: "Init",
-    };
+//     const message: ExternalMessageUpdateVirtualProfile = {
+//       virtualProfile: vp,
+//       module: "VirtualProfile",
+//       direction: "Outer",
+//       phase: "Init",
+//     };
 
-    util.sendMessageBack(message);
-  } else {
-    // 有設置virtual profile
-    const vp = JSON.parse(data) as VirtualProfile;
+//     util.sendMessageBack(message);
+//   } else {
+//     // 有設置virtual profile
+//     const vp = JSON.parse(data) as VirtualProfile;
 
-    const message: ExternalMessageUpdateVirtualProfile = {
-      virtualProfile: vp,
-      module: "VirtualProfile",
-      direction: "Outer",
-      phase: "Init",
-    };
+//     const message: ExternalMessageUpdateVirtualProfile = {
+//       virtualProfile: vp,
+//       module: "VirtualProfile",
+//       direction: "Outer",
+//       phase: "Init",
+//     };
 
-    util.sendMessageBack(message);
-  }
+//     util.sendMessageBack(message);
+//   }
+// }
+
+// Function to create the vpg structure
+function ConvertOldVpToNew(oldVpdata: VirtualProfile) {
+  const personalKeys = [
+    "nickname",
+    "age",
+    "gender",
+    "birthday",
+    "email",
+    "landlineNum",
+    "phoneNum",
+    "country",
+    "city",
+    "address",
+    "userId",
+    "jobTitle",
+    "industry",
+    "companyName",
+    "companyAddress",
+    "companyPhoneNum",
+  ];
+
+  const financialKeys = ["cardNum", "expirationDate", "cvv", "cardNetwork"];
+  const customKeys = ["custom1", "custom2", "custom3"];
+
+  const createChildren = (
+    keys: (keyof VirtualProfile)[]
+  ): VirtualProfileChild[] =>
+    keys.map((key) => ({
+      id: util.generateUUID(),
+      title: key,
+      content: oldVpdata[key] || "",
+    }));
+
+  return [
+    {
+      id: util.generateUUID(),
+      title: "Personal",
+      children: createChildren(personalKeys as (keyof VirtualProfile)[]),
+      isCollapsed: false,
+    },
+    {
+      id: util.generateUUID(),
+      title: "Personal",
+      children: createChildren(financialKeys as (keyof VirtualProfile)[]),
+      isCollapsed: false,
+    },
+    {
+      id: util.generateUUID(),
+      title: "Personal",
+      children: createChildren(customKeys as (keyof VirtualProfile)[]),
+      isCollapsed: false,
+    },
+  ];
 }
 
 function initVirtualProfileGroups() {
   const pluginDataKey = "virtual-profile-groups";
-  const data = figma.root.getPluginData(pluginDataKey);
-  console.log("Plugin Data");
-  console.log(data);
+  const newVpdata = figma.root.getPluginData(pluginDataKey);
+
+  const oldVpData = figma.root.getPluginData("virtual-profile");
+
+  let vpg: VirtualProfileGroup[];
+
+  // console.log("Plugin Data");
+  // console.log(data);
 
   const vp: VirtualProfile = {
     name: "John Doe",
@@ -126,34 +190,31 @@ function initVirtualProfileGroups() {
     industry: "Art & Design",
   };
 
-  if (data === "") {
+  if (newVpdata === "") {
     // 未設置過virtual profile
-    const vpg: VirtualProfileGroup[] = [
-      {
-        id: "e26c63a2-1657-4f88-8d6d-bd0e36b6f179",
-        title: "Title 1",
-        children: [
-          {
-            id: "5c3a8d98-8cd1-4a89-bf4d-69b3d6c28c9e",
-            content: "Content 1-1",
-            title: "content title",
-          },
-        ],
-        isCollapsed: false,
-      },
-      {
-        id: "d1a3c6f4-23b8-44b9-9f17-61e5d9257e18",
-        title: "Title 2",
-        children: [
-          {
-            id: "e16e81c2-d929-4687-9a7e-74d260214f1b",
-            content: "Content 2-1",
-            title: "content title",
-          },
-        ],
-        isCollapsed: false,
-      },
-    ];
+    if (oldVpData === "") {
+      vpg = [
+        {
+          id: util.generateUUID(),
+          title: "Category Name",
+          children: [
+            {
+              content: "Value",
+              id: util.generateUUID(),
+              title: "Title",
+            },
+          ],
+          isCollapsed: false,
+        },
+      ];
+    } else {
+      // 針對曾經設置過舊版VP的用戶進行資料轉換
+      const oldVp = JSON.parse(oldVpData) as VirtualProfile;
+      vpg = ConvertOldVpToNew(oldVp);
+
+      // 轉換完成後清空舊的
+      figma.root.setPluginData("virtual-profile", "");
+    }
 
     // Save vp as a JSON string
     figma.root.setPluginData(pluginDataKey, JSON.stringify(vpg));
@@ -169,10 +230,9 @@ function initVirtualProfileGroups() {
     util.sendMessageBack(message);
   } else {
     // 有設置virtual profile
-    const vpg = JSON.parse(data) as VirtualProfileGroup[];
+    const vpg = JSON.parse(newVpdata) as VirtualProfileGroup[];
 
     const message: ExternalMessageUpdateVirtualProfile = {
-      virtualProfile: vp,
       virtualProfileGroups: vpg,
       module: "VirtualProfile",
       direction: "Outer",
@@ -184,14 +244,15 @@ function initVirtualProfileGroups() {
 }
 
 function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
-  const pluginDataKey = "virtual-profile";
-  const vp = message.virtualProfile;
-
   console.log("🔴 virtualProfileWillEnd");
-  console.log(vp);
+
+  // const pluginDataKey = "virtual-profile";
+  // const vp = message.virtualProfile;
+
+  // console.log(vp);
 
   // Save vp as a JSON string
-  figma.root.setPluginData(pluginDataKey, JSON.stringify(vp));
+  // figma.root.setPluginData(pluginDataKey, JSON.stringify(vp));
 
   if (message.virtualProfileGroups) {
     console.log("🔴");
@@ -202,6 +263,8 @@ function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
       "virtual-profile-groups",
       JSON.stringify(message.virtualProfileGroups)
     );
+    // 清空舊的
+    figma.root.setPluginData("virtual-profile", "");
   }
 }
 

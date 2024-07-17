@@ -5,7 +5,7 @@ import {
   MessageVirtualProfileSingleValue,
   MessageVirtualProfileWholeObject,
 } from "../types/Message";
-import { VirtualProfile } from "../types/VirtualProfile";
+import { VirtualProfile, VirtualProfileGroup } from "../types/VirtualProfile";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -23,16 +23,16 @@ const VirtualProfile: React.FC = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
-  const { virtualProfile, setVirtualProfile, virtualProfileGroups } =
-    useAppContext();
-  const [previousVirtualProfile, setPreviousVirtualProfile] =
-    useState<VirtualProfile | null>(null);
+  const { virtualProfileGroups } = useAppContext();
+  const [previousVirtualProfile, setPreviousVirtualProfile] = useState<
+    VirtualProfileGroup[] | null
+  >(null);
 
-  const handleInputChange = (key: string, value: string) => {
-    console.log("Input Changed");
+  // const handleInputChange = (key: string, value: string) => {
+  //   console.log("Input Changed");
 
-    setVirtualProfile({ ...virtualProfile, [key]: value });
-  };
+  //   setVirtualProfile({ ...virtualProfile, [key]: value });
+  // };
 
   // const applyVirtualProfile = (key: string) => {
   //   const isDevelopment = process.env.REACT_APP_ENV === "development";
@@ -91,7 +91,7 @@ const VirtualProfile: React.FC = () => {
     }
 
     const message: MessageVirtualProfileWholeObject = {
-      virtualProfile: virtualProfile,
+      // virtualProfile: virtualProfile,
       virtualProfileGroups: virtualProfileGroups,
       module: "VirtualProfile",
       phase: "WillEnd",
@@ -105,234 +105,234 @@ const VirtualProfile: React.FC = () => {
       "*"
     );
 
-    setPreviousVirtualProfile(virtualProfile);
+    setPreviousVirtualProfile(virtualProfileGroups);
   };
 
-  useEffect(() => {
-    renderTableContent();
-  }, [virtualProfile]);
+  // useEffect(() => {
+  //   renderTableContent();
+  // }, [virtualProfile]);
 
-  const renderTableContent = () => {
-    const categories: Record<
-      CategoryKey,
-      { nameKey: string; members: string[] }
-    > = {
-      personal: {
-        nameKey: "module:personal",
-        members: [
-          "username",
-          "userId",
-          "name",
-          "nickname",
-          "age",
-          "gender",
-          "birthday",
-          "email",
-          "country",
-          "city",
-          "address",
-          "landlineNum",
-          "phoneNum",
-        ],
-      },
-      employment: {
-        nameKey: "module:employment",
-        members: [
-          "jobTitle",
-          "industry",
-          "companyName",
-          "companyAddress",
-          "companyPhoneNum",
-        ],
-      },
-      financial: {
-        nameKey: "module:financial",
-        members: ["cardNum", "expirationDate", "cvv", "cardNetwork"],
-      },
-      custom: {
-        nameKey: "module:custom",
-        members: ["custom1", "custom2", "custom3"],
-      },
-    };
+  // const renderTableContent = () => {
+  //   const categories: Record<
+  //     CategoryKey,
+  //     { nameKey: string; members: string[] }
+  //   > = {
+  //     personal: {
+  //       nameKey: "module:personal",
+  //       members: [
+  //         "username",
+  //         "userId",
+  //         "name",
+  //         "nickname",
+  //         "age",
+  //         "gender",
+  //         "birthday",
+  //         "email",
+  //         "country",
+  //         "city",
+  //         "address",
+  //         "landlineNum",
+  //         "phoneNum",
+  //       ],
+  //     },
+  //     employment: {
+  //       nameKey: "module:employment",
+  //       members: [
+  //         "jobTitle",
+  //         "industry",
+  //         "companyName",
+  //         "companyAddress",
+  //         "companyPhoneNum",
+  //       ],
+  //     },
+  //     financial: {
+  //       nameKey: "module:financial",
+  //       members: ["cardNum", "expirationDate", "cvv", "cardNetwork"],
+  //     },
+  //     custom: {
+  //       nameKey: "module:custom",
+  //       members: ["custom1", "custom2", "custom3"],
+  //     },
+  //   };
 
-    const rows = [
-      {
-        key: "username",
-        title: t("module:virtualProfileUsername"),
-        value: virtualProfile.username,
-      },
-      {
-        key: "userId",
-        title: t("module:virtualProfileUserId"),
-        value: virtualProfile.userId,
-      },
-      {
-        key: "expirationDate",
-        title: t("module:virtualProfileExpirationDate"),
-        value: virtualProfile.expirationDate,
-      },
-      {
-        key: "cvv",
-        title: t("module:virtualProfileCvv"),
-        value: virtualProfile.cvv,
-      },
-      {
-        key: "cardNetwork",
-        title: t("module:virtualProfileCardNetwork"),
-        value: virtualProfile.cardNetwork,
-      },
-      {
-        key: "jobTitle",
-        title: t("module:virtualProfileJobTitle"),
-        value: virtualProfile.jobTitle,
-      },
-      {
-        key: "industry",
-        title: t("module:virtualProfileIndustry"),
-        value: virtualProfile.industry,
-      },
-      {
-        key: "city",
-        title: t("module:virtualProfileCity"),
-        value: virtualProfile.city,
-      },
-      {
-        key: "name",
-        title: t("module:virtualProfileName"),
-        value: virtualProfile.name,
-      },
-      {
-        key: "nickname",
-        title: t("module:virtualProfileNickname"),
-        value: virtualProfile.nickname,
-      },
-      {
-        key: "age",
-        title: t("module:virtualProfileAge"),
-        value: virtualProfile.age,
-      },
-      {
-        key: "gender",
-        title: t("module:virtualProfileGender"),
-        value: virtualProfile.gender,
-      },
-      {
-        key: "birthday",
-        title: t("module:virtualProfileBirthday"),
-        value: virtualProfile.birthday,
-      },
-      {
-        key: "email",
-        title: t("module:virtualProfileEmail"),
-        value: virtualProfile.email,
-      },
-      {
-        key: "country",
-        title: t("module:virtualProfileCountry"),
-        value: virtualProfile.country,
-      },
-      {
-        key: "cardNum",
-        title: t("module:virtualProfileCardNum"),
-        value: virtualProfile.cardNum,
-      },
-      {
-        key: "landlineNum",
-        title: t("module:virtualProfileLandlineNum"),
-        value: virtualProfile.landlineNum,
-      },
-      {
-        key: "phoneNum",
-        title: t("module:virtualProfilePhoneNum"),
-        value: virtualProfile.phoneNum,
-      },
-      {
-        key: "address",
-        title: t("module:virtualProfileAddress"),
-        value: virtualProfile.address,
-      },
-      {
-        key: "companyName",
-        title: t("module:virtualProfileCompanyName"),
-        value: virtualProfile.companyName,
-      },
-      {
-        key: "companyAddress",
-        title: t("module:virtualProfileCompanyAddress"),
-        value: virtualProfile.companyAddress,
-      },
-      {
-        key: "companyPhoneNum",
-        title: t("module:virtualProfileCompanyPhoneNum"),
-        value: virtualProfile.companyPhoneNum,
-      },
-      {
-        key: "custom1",
-        title: t("module:virtualProfileCustom1"),
-        value: virtualProfile.custom1,
-      },
-      {
-        key: "custom2",
-        title: t("module:virtualProfileCustom2"),
-        value: virtualProfile.custom2,
-      },
-      {
-        key: "custom3",
-        title: t("module:virtualProfileCustom3"),
-        value: virtualProfile.custom3,
-      },
-    ];
+  //   const rows = [
+  //     {
+  //       key: "username",
+  //       title: t("module:virtualProfileUsername"),
+  //       value: virtualProfile.username,
+  //     },
+  //     {
+  //       key: "userId",
+  //       title: t("module:virtualProfileUserId"),
+  //       value: virtualProfile.userId,
+  //     },
+  //     {
+  //       key: "expirationDate",
+  //       title: t("module:virtualProfileExpirationDate"),
+  //       value: virtualProfile.expirationDate,
+  //     },
+  //     {
+  //       key: "cvv",
+  //       title: t("module:virtualProfileCvv"),
+  //       value: virtualProfile.cvv,
+  //     },
+  //     {
+  //       key: "cardNetwork",
+  //       title: t("module:virtualProfileCardNetwork"),
+  //       value: virtualProfile.cardNetwork,
+  //     },
+  //     {
+  //       key: "jobTitle",
+  //       title: t("module:virtualProfileJobTitle"),
+  //       value: virtualProfile.jobTitle,
+  //     },
+  //     {
+  //       key: "industry",
+  //       title: t("module:virtualProfileIndustry"),
+  //       value: virtualProfile.industry,
+  //     },
+  //     {
+  //       key: "city",
+  //       title: t("module:virtualProfileCity"),
+  //       value: virtualProfile.city,
+  //     },
+  //     {
+  //       key: "name",
+  //       title: t("module:virtualProfileName"),
+  //       value: virtualProfile.name,
+  //     },
+  //     {
+  //       key: "nickname",
+  //       title: t("module:virtualProfileNickname"),
+  //       value: virtualProfile.nickname,
+  //     },
+  //     {
+  //       key: "age",
+  //       title: t("module:virtualProfileAge"),
+  //       value: virtualProfile.age,
+  //     },
+  //     {
+  //       key: "gender",
+  //       title: t("module:virtualProfileGender"),
+  //       value: virtualProfile.gender,
+  //     },
+  //     {
+  //       key: "birthday",
+  //       title: t("module:virtualProfileBirthday"),
+  //       value: virtualProfile.birthday,
+  //     },
+  //     {
+  //       key: "email",
+  //       title: t("module:virtualProfileEmail"),
+  //       value: virtualProfile.email,
+  //     },
+  //     {
+  //       key: "country",
+  //       title: t("module:virtualProfileCountry"),
+  //       value: virtualProfile.country,
+  //     },
+  //     {
+  //       key: "cardNum",
+  //       title: t("module:virtualProfileCardNum"),
+  //       value: virtualProfile.cardNum,
+  //     },
+  //     {
+  //       key: "landlineNum",
+  //       title: t("module:virtualProfileLandlineNum"),
+  //       value: virtualProfile.landlineNum,
+  //     },
+  //     {
+  //       key: "phoneNum",
+  //       title: t("module:virtualProfilePhoneNum"),
+  //       value: virtualProfile.phoneNum,
+  //     },
+  //     {
+  //       key: "address",
+  //       title: t("module:virtualProfileAddress"),
+  //       value: virtualProfile.address,
+  //     },
+  //     {
+  //       key: "companyName",
+  //       title: t("module:virtualProfileCompanyName"),
+  //       value: virtualProfile.companyName,
+  //     },
+  //     {
+  //       key: "companyAddress",
+  //       title: t("module:virtualProfileCompanyAddress"),
+  //       value: virtualProfile.companyAddress,
+  //     },
+  //     {
+  //       key: "companyPhoneNum",
+  //       title: t("module:virtualProfileCompanyPhoneNum"),
+  //       value: virtualProfile.companyPhoneNum,
+  //     },
+  //     {
+  //       key: "custom1",
+  //       title: t("module:virtualProfileCustom1"),
+  //       value: virtualProfile.custom1,
+  //     },
+  //     {
+  //       key: "custom2",
+  //       title: t("module:virtualProfileCustom2"),
+  //       value: virtualProfile.custom2,
+  //     },
+  //     {
+  //       key: "custom3",
+  //       title: t("module:virtualProfileCustom3"),
+  //       value: virtualProfile.custom3,
+  //     },
+  //   ];
 
-    const categorizedRows = Object.keys(categories).map((category) => {
-      const categoryRows = rows.filter((row) =>
-        categories[category as CategoryKey].members.includes(row.key)
-      );
-      return (
-        <div key={category} className="category">
-          <div className="table-row category-title">
-            <div className="table-cell">
-              {t(categories[category as CategoryKey].nameKey)}
-              {/* {category.charAt(0).toUpperCase() + category.slice(1)} */}
-            </div>
-            <div className="table-cell"></div>
-            <div className="table-cell"></div>
-          </div>
-          {categoryRows.map((row, index) => (
-            <div
-              key={row.key}
-              className="table-row"
-              onMouseEnter={() => setHoveredRowIndex(index)}
-              onMouseLeave={() => setHoveredRowIndex(null)}
-            >
-              <div className="table-cell">
-                {hoveredRowIndex === index && (
-                  <div className="content-wrap">
-                    {/* <button onClick={() => applyVirtualProfile(row.key)}>
-                      {t("module:apply")}
-                    </button> */}
-                  </div>
-                )}
-              </div>
-              <div className="table-cell virtual-profile-title">
-                <div className="content-wrap">{row.title}</div>
-              </div>
-              <div className="table-cell">
-                <div className="content-wrap">
-                  <input
-                    type="text"
-                    value={row.value}
-                    onChange={(e) => handleInputChange(row.key, e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-    });
+  //   const categorizedRows = Object.keys(categories).map((category) => {
+  //     const categoryRows = rows.filter((row) =>
+  //       categories[category as CategoryKey].members.includes(row.key)
+  //     );
+  //     return (
+  //       <div key={category} className="category">
+  //         <div className="table-row category-title">
+  //           <div className="table-cell">
+  //             {t(categories[category as CategoryKey].nameKey)}
+  //             {/* {category.charAt(0).toUpperCase() + category.slice(1)} */}
+  //           </div>
+  //           <div className="table-cell"></div>
+  //           <div className="table-cell"></div>
+  //         </div>
+  //         {categoryRows.map((row, index) => (
+  //           <div
+  //             key={row.key}
+  //             className="table-row"
+  //             onMouseEnter={() => setHoveredRowIndex(index)}
+  //             onMouseLeave={() => setHoveredRowIndex(null)}
+  //           >
+  //             <div className="table-cell">
+  //               {hoveredRowIndex === index && (
+  //                 <div className="content-wrap">
+  //                   {/* <button onClick={() => applyVirtualProfile(row.key)}>
+  //                     {t("module:apply")}
+  //                   </button> */}
+  //                 </div>
+  //               )}
+  //             </div>
+  //             <div className="table-cell virtual-profile-title">
+  //               <div className="content-wrap">{row.title}</div>
+  //             </div>
+  //             <div className="table-cell">
+  //               <div className="content-wrap">
+  //                 <input
+  //                   type="text"
+  //                   value={row.value}
+  //                   onChange={(e) => handleInputChange(row.key, e.target.value)}
+  //                 />
+  //               </div>
+  //             </div>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     );
+  //   });
 
-    return <div className="table-content">{categorizedRows}</div>;
-  };
+  //   return <div className="table-content">{categorizedRows}</div>;
+  // };
 
   return (
     <div>
@@ -360,7 +360,7 @@ const VirtualProfile: React.FC = () => {
           title={t("module:save")}
           id={"virtual-profile-save"}
           onClick={saveVirtualProfile}
-          disabled={virtualProfile == previousVirtualProfile ? true : false}
+          disabled={virtualProfileGroups == previousVirtualProfile ? true : false}
         />
         <VirtualProfileNew applyVirtualProfile={applyVirtualProfile} />
       </div>

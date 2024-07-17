@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { VirtualProfile, VirtualProfileGroup } from "./types/VirtualProfile";
+import { VirtualProfileGroup } from "./types/VirtualProfile";
 import { MagicalObject } from "./types/MagicalObject";
 import {
   ExternalVariableCollection,
@@ -29,8 +29,8 @@ interface AppContextType {
   setvariableCollectionModes: React.Dispatch<
     React.SetStateAction<ExternalVariableMode[]>
   >;
-  virtualProfile: VirtualProfile;
-  setVirtualProfile: React.Dispatch<React.SetStateAction<VirtualProfile>>;
+  // virtualProfile: VirtualProfile;
+  // setVirtualProfile: React.Dispatch<React.SetStateAction<VirtualProfile>>;
   virtualProfileGroups: VirtualProfileGroup[];
   setVirtualProfileGroups: React.Dispatch<
     React.SetStateAction<VirtualProfileGroup[]>
@@ -64,33 +64,33 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
-const vp: VirtualProfile = {
-  name: "",
-  nickname: "",
-  gender: "",
-  birthday: "",
-  email: "",
-  cardNum: "",
-  landlineNum: "",
-  phoneNum: "",
-  address: "",
-  companyName: "",
-  companyAddress: "",
-  companyPhoneNum: "",
-  custom1: "",
-  custom2: "",
-  custom3: "",
-  age: "",
-  country: "",
-  city: "",
-  expirationDate: "",
-  cvv: "",
-  cardNetwork: "",
-  username: "",
-  userId: "",
-  jobTitle: "",
-  industry: "",
-};
+// const vp: VirtualProfile = {
+//   name: "",
+//   nickname: "",
+//   gender: "",
+//   birthday: "",
+//   email: "",
+//   cardNum: "",
+//   landlineNum: "",
+//   phoneNum: "",
+//   address: "",
+//   companyName: "",
+//   companyAddress: "",
+//   companyPhoneNum: "",
+//   custom1: "",
+//   custom2: "",
+//   custom3: "",
+//   age: "",
+//   country: "",
+//   city: "",
+//   expirationDate: "",
+//   cvv: "",
+//   cardNetwork: "",
+//   username: "",
+//   userId: "",
+//   jobTitle: "",
+//   industry: "",
+// };
 
 const mo: MagicalObject = {
   noteId: "",
@@ -126,7 +126,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   >([]);
 
   //
-  const [virtualProfile, setVirtualProfile] = useState<VirtualProfile>(vp);
+  // const [virtualProfile, setVirtualProfile] = useState<VirtualProfile>(vp);
   const [virtualProfileGroups, setVirtualProfileGroups] = useState<
     VirtualProfileGroup[]
   >([]);
@@ -156,8 +156,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setVariableCollectionList,
         variableCollectionModes,
         setvariableCollectionModes,
-        virtualProfile,
-        setVirtualProfile,
+        // virtualProfile,
+        // setVirtualProfile,
         magicalObject,
         setMagicalObject,
         licenseManagement,

@@ -35,8 +35,6 @@ const CoreLayer: React.FC = () => {
     setMemorizedObjectWidth,
     setVariableCollectionList,
     setvariableCollectionModes,
-    setVirtualProfile,
-    virtualProfile,
     setMagicalObject,
     magicalObject,
     setLicenseManagement,
@@ -222,7 +220,7 @@ const CoreLayer: React.FC = () => {
     console.log("VirtualProfileHandler");
     console.log(message.virtualProfile);
 
-    setVirtualProfile(message.virtualProfile);
+    // setVirtualProfile(message.virtualProfile);
 
     if (message.virtualProfileGroups) {
       console.log("VirtualProfileHandler GROUPS");
@@ -236,10 +234,10 @@ const CoreLayer: React.FC = () => {
       module: "VirtualProfile",
       phase: "WillEnd",
       direction: "Inner",
-      virtualProfile: virtualProfile,
+      // virtualProfile: virtualProfile,
       virtualProfileGroups: virtualProfileGroups,
     };
-    setVirtualProfile(virtualProfile);
+    // setVirtualProfile(virtualProfile);
     setVirtualProfileGroups(virtualProfileGroups);
 
     parent.postMessage(

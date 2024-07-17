@@ -134,7 +134,7 @@ export interface ExternalMessageUpdateCustomSpacing extends ExternalMessage {
   spacing: string;
 }
 export interface ExternalMessageUpdateVirtualProfile extends ExternalMessage {
-  virtualProfile: VirtualProfile;
+  virtualProfile?: VirtualProfile;
   virtualProfileGroups?: VirtualProfileGroup[];
 }
 export interface ExternalMessageUpdateMagicalObject extends ExternalMessage {
@@ -268,7 +268,7 @@ export interface MessageVirtualProfileSingleValue
 
 export interface MessageVirtualProfileWholeObject
   extends MessageVirtualProfile {
-  virtualProfile: VirtualProfile;
+  virtualProfile?: VirtualProfile;
   virtualProfileGroups?: VirtualProfileGroup[];
 }
 
