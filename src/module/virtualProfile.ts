@@ -144,7 +144,7 @@ function ConvertOldVpToNew(oldVpdata: VirtualProfile) {
     },
     {
       id: util.generateUUID(),
-      title: "Personal",
+      title: "Other",
       children: createChildren(customKeys as (keyof VirtualProfile)[]),
       isCollapsed: false,
     },
