@@ -240,7 +240,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     const newRows = [...virtualProfileGroups];
     newRows[newRows.length - 1].children.push(newRecord);
     setVirtualProfileGroups(newRows);
-    setVirtualProfileGroups(virtualProfileGroups);
+    // setVirtualProfileGroups(virtualProfileGroups);
   };
 
   // Inside your component
@@ -490,7 +490,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-jusify-spacebetween">
+        <div className="flex flex-jusify-spacebetween virtual-profile-toolbar">
           <div>
             <button className="button-reset" onClick={toggleAll}>
               <div className="icon-24 icon-hover">

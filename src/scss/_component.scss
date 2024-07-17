@@ -207,3 +207,10 @@
         transform: rotate(90deg);
     }
 }
+
+.virtual-profile-toolbar {
+    position: sticky;
+    top: 0;
+    background-color: var(--figma-color-bg);
+    z-index: 3;
+}
