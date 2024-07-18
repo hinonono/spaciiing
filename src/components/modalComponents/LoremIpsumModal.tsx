@@ -53,7 +53,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
       <div className="mt-xxsmall">
         <SectionTitle title="Language" />
         <select
-          name="lang"
+          name={t("module:language")}
           className="custom-select"
           id="lang_select"
           value={lang}
@@ -66,7 +66,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
       <div className="mt-xxsmall">
         <SectionTitle title="Length" />
         <select
-          name="length"
+          name={t("module:length")}
           className="custom-select"
           id="length_select"
           value={length}

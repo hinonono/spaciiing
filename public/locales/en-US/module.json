@@ -156,5 +156,7 @@
   "presetAspectRatio": "Preset aspect ratio",
   "widthRatio": "Width Ratio",
   "heightRatio": "Height Ratio",
-  "other": "Other"
+  "other": "Other",
+  "language": "Language",
+  "length": "Length"
 }
