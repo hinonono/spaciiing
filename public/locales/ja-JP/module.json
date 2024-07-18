@@ -158,5 +158,8 @@
   "heightRatio": "高さの比",
   "other": "その他",
   "language": "言語",
-  "length": "長さ"
+  "length": "長さ",
+  "addItem": "アイテムを追加",
+  "delete": "削除",
+  "duplicate": "複製"
 }

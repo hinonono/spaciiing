@@ -455,7 +455,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }}
         className="context-menu"
       >
-        {!childId && <li onClick={() => addChildToRow(rowId)}>Add Item</li>}
+        {!childId && <li onClick={() => addChildToRow(rowId)}>{t("module:addItem")}</li>}
         <li
           onClick={() =>
             childId
@@ -463,12 +463,12 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               : duplicateTitleRow(rowId)
           }
         >
-          Duplicate
+          {t("module:duplicate")}
         </li>
         {childId ? (
-          <li onClick={() => deleteChild(rowId!, childId)}>Delete</li>
+          <li onClick={() => deleteChild(rowId!, childId)}>{t("module:delete")}</li>
         ) : (
-          <li onClick={() => deleteRow(rowId!)}>Delete</li>
+          <li onClick={() => deleteRow(rowId!)}>{t("module:delete")}</li>
         )}
       </ul>
     );

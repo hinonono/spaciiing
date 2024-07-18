@@ -158,5 +158,8 @@
   "heightRatio": "高比",
   "other": "其他",
   "language": "语言",
-  "length": "长度"
+  "length": "长度",
+  "addItem": "添加项目",
+  "delete": "删除",
+  "duplicate": "複製"
 }
