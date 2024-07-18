@@ -24,11 +24,12 @@ function adjustNodeAspectRatio(
 
   // Check if there are any nodes selected
   if (selection.length === 0) {
-    LocalizationService.getLanguageCode().then((langCode) => {
-      if (langCode) {
-        notify("noNodesSelected", langCode, "ERROR");
-      }
-    });
+    // LocalizationService.getLanguageCode().then((langCode) => {
+    //   if (langCode) {
+    //     notify("noNodesSelected", langCode, "ERROR");
+    //   }
+    // });
+    figma.notify("No nodes selected.")
     return;
   }
 

@@ -5,8 +5,8 @@
   "main": "code.js",
   "scripts": {
     "start": "webpack serve --mode development",
-    "build": "npm run copyLocale && REACT_APP_ENV=development webpack --mode production && npm run inline",
-    "production": "npm run copyLocale && REACT_APP_ENV=production webpack --mode production && npm run inline",
+    "build": "REACT_APP_ENV=development webpack --mode production && npm run inline",
+    "production": "REACT_APP_ENV=production webpack --mode production && npm run inline",
     "lint": "eslint --ext .ts,.tsx --ignore-pattern node_modules .",
     "lint:fix": "eslint --ext .ts,.tsx --ignore-pattern node_modules --fix .",
     "watch": "npm run build -- --watch",

@@ -51,9 +51,9 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
   return (
     <Modal show={show} handleClose={handleClose}>
       <div className="mt-xxsmall">
-        <SectionTitle title="Language" />
+        <SectionTitle title={t("module:language")} />
         <select
-          name={t("module:language")}
+          name="lang"
           className="custom-select"
           id="lang_select"
           value={lang}
@@ -64,9 +64,9 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
         </select>
       </div>
       <div className="mt-xxsmall">
-        <SectionTitle title="Length" />
+        <SectionTitle title={t("module:length")} />
         <select
-          name={t("module:length")}
+          name="length"
           className="custom-select"
           id="length_select"
           value={length}

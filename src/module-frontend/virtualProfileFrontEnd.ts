@@ -36,6 +36,16 @@ import {
   zhTW_vpdata_stock,
 } from "../assets/virtual-profile/zh-TW";
 
+import {
+  zhCN_vpdata_book,
+  zhCN_vpdata_creditCard,
+  zhCN_vpdata_flight,
+  zhCN_vpdata_movie,
+  zhCN_vpdata_personal,
+  zhCN_vpdata_product,
+  zhCN_vpdata_stock,
+} from "../assets/virtual-profile/zh-CN";
+
 const getCorrespondingJson = (
   dataType: SupportedPresetVirtualProfileCategory,
   langCode: SupportedLangCode
@@ -75,6 +85,25 @@ const getCorrespondingJson = (
         return zhTW_vpdata_product;
       case "STOCK":
         return zhTW_vpdata_stock;
+      default:
+        break;
+    }
+  } else if (langCode === "zhCN") {
+    switch (dataType) {
+      case "BOOK":
+        return zhCN_vpdata_book;
+      case "CREDIT_CARD":
+        return zhCN_vpdata_creditCard;
+      case "FLIGHT":
+        return zhCN_vpdata_flight;
+      case "MOVIE":
+        return zhCN_vpdata_movie;
+      case "PERSONAL":
+        return zhCN_vpdata_personal;
+      case "PRODUCT":
+        return zhCN_vpdata_product;
+      case "STOCK":
+        return zhCN_vpdata_stock;
       default:
         break;
     }
