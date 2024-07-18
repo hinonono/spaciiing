@@ -158,5 +158,8 @@
   "heightRatio": "Height Ratio",
   "other": "Other",
   "language": "Language",
-  "length": "Length"
+  "length": "Length",
+  "addItem": "Add Item",
+  "delete": "Delete",
+  "duplicate": "Duplicate"
 }
