@@ -1,0 +1,69 @@
+{
+    "title": "Stock",
+    "children": [
+      {
+        "title": "Stock Symbol",
+        "content": "XYZ"
+      },
+      {
+        "title": "Company Name",
+        "content": "Example Corp."
+      },
+      {
+        "title": "Current Price",
+        "content": "$100.00"
+      },
+      {
+        "title": "Price Change",
+        "content": "+$1.50 (1.52%)"
+      },
+      {
+        "title": "Market Cap",
+        "content": "$500B"
+      },
+      {
+        "title": "Volume",
+        "content": "30M"
+      },
+      {
+        "title": "52-Week High",
+        "content": "$120.00"
+      },
+      {
+        "title": "52-Week Low",
+        "content": "$80.00"
+      },
+      {
+        "title": "Dividend Yield",
+        "content": "2.0%"
+      },
+      {
+        "title": "P/E Ratio",
+        "content": "20.00"
+      },
+      {
+        "title": "EPS",
+        "content": "$5.00"
+      },
+      {
+        "title": "Day's Range",
+        "content": "$99.00 - $101.00"
+      },
+      {
+        "title": "Open Price",
+        "content": "$99.50"
+      },
+      {
+        "title": "Previous Close",
+        "content": "$98.50"
+      },
+      {
+        "title": "Bid",
+        "content": "$99.90"
+      },
+      {
+        "title": "Ask",
+        "content": "$100.10"
+      }
+    ]
+  }

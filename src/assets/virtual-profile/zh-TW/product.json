@@ -1,0 +1,53 @@
+{
+  "title": "商品",
+  "children": [
+    {
+      "title": "商品名稱",
+      "content": "範例商品"
+    },
+    {
+      "title": "價格",
+      "content": "NT$1500"
+    },
+    {
+      "title": "折扣",
+      "content": "10%"
+    },
+    {
+      "title": "原價",
+      "content": "NT$1666"
+    },
+    {
+      "title": "商品描述",
+      "content": "這是一個範例商品描述，提供有關商品特點和優點的詳細資訊。"
+    },
+    {
+      "title": "類別",
+      "content": "電子產品"
+    },
+    {
+      "title": "品牌",
+      "content": "範例品牌"
+    },
+    {
+      "title": "評分",
+      "content": "4.5"
+    },
+    {
+      "title": "庫存狀態",
+      "content": "有庫存"
+    },
+    {
+      "title": "SKU",
+      "content": "EX12345"
+    },
+    {
+      "title": "運輸信息",
+      "content": "3-5個工作日內發貨"
+    },
+    {
+      "title": "製造商",
+      "content": "範例製造商"
+    }
+  ]
+}

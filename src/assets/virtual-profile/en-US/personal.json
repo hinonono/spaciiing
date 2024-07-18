@@ -1,0 +1,77 @@
+{
+  "title": "Personal",
+  "children": [
+    {
+      "title": "Name",
+      "content": "John Doe"
+    },
+    {
+      "title": "Nickname",
+      "content": "Johnny"
+    },
+    {
+      "title": "Gender",
+      "content": "Male"
+    },
+    {
+      "title": "Birthday",
+      "content": "1990/01/01"
+    },
+    {
+      "title": "Email",
+      "content": "johndoe@example.com"
+    },
+    {
+      "title": "Landline Number",
+      "content": "555-1234"
+    },
+    {
+      "title": "Phone Number",
+      "content": "555-987-6543"
+    },
+    {
+      "title": "Address",
+      "content": "123 Main St, Anytown, USA"
+    },
+    {
+      "title": "Company Name",
+      "content": "Doe Industries"
+    },
+    {
+      "title": "Company Address",
+      "content": "456 Industrial Way, Suite 100, Anytown, USA"
+    },
+    {
+      "title": "Company Phone Number",
+      "content": "555-1122"
+    },
+    {
+      "title": "Age",
+      "content": "20"
+    },
+    {
+      "title": "Country",
+      "content": "Country"
+    },
+    {
+      "title": "City",
+      "content": "City"
+    },
+    {
+      "title": "Username",
+      "content": "@johnniedoe123"
+    },
+    {
+      "title": "User ID",
+      "content": "0000-1234-5678"
+    },
+    {
+      "title": "Job Title",
+      "content": "Designer"
+    },
+    {
+      "title": "Industry",
+      "content": "Art & Design"
+    }
+  ]
+}

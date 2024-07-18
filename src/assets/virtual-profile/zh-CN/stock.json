@@ -1,0 +1,69 @@
+{
+  "title": "股票",
+  "children": [
+    {
+      "title": "股票代号",
+      "content": "XYZ"
+    },
+    {
+      "title": "公司名称",
+      "content": "示例公司"
+    },
+    {
+      "title": "当前价格",
+      "content": "¥3000"
+    },
+    {
+      "title": "价格变动",
+      "content": "+¥45 (1.52%)"
+    },
+    {
+      "title": "市值",
+      "content": "¥15000亿"
+    },
+    {
+      "title": "成交量",
+      "content": "30百万股"
+    },
+    {
+      "title": "52周最高价",
+      "content": "¥3600"
+    },
+    {
+      "title": "52周最低价",
+      "content": "¥2400"
+    },
+    {
+      "title": "股息收益率",
+      "content": "2.0%"
+    },
+    {
+      "title": "市盈率",
+      "content": "20.00"
+    },
+    {
+      "title": "每股收益",
+      "content": "¥150"
+    },
+    {
+      "title": "今日区间",
+      "content": "¥2970 - ¥3030"
+    },
+    {
+      "title": "开盘价",
+      "content": "¥2985"
+    },
+    {
+      "title": "前日收盘价",
+      "content": "¥2955"
+    },
+    {
+      "title": "买入价",
+      "content": "¥2997"
+    },
+    {
+      "title": "卖出价",
+      "content": "¥3003"
+    }
+  ]
+}

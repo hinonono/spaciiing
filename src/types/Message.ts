@@ -2,7 +2,7 @@ import { LicenseManagement } from "./LicenseManagement";
 import { MagicalObject, MagicalObjectMembers } from "./MagicalObject";
 import { NodeFilterable } from "./NodeFilterable";
 import { NodeRenamable } from "./NodeRenamable";
-import { VirtualProfile } from "./VirtualProfile";
+import { VirtualProfile, VirtualProfileGroup } from "./VirtualProfile";
 
 // 傳送過來的訊息的基底屬性
 export interface Message {
@@ -134,7 +134,8 @@ export interface ExternalMessageUpdateCustomSpacing extends ExternalMessage {
   spacing: string;
 }
 export interface ExternalMessageUpdateVirtualProfile extends ExternalMessage {
-  virtualProfile: VirtualProfile;
+  virtualProfile?: VirtualProfile;
+  virtualProfileGroups?: VirtualProfileGroup[];
 }
 export interface ExternalMessageUpdateMagicalObject extends ExternalMessage {
   magicalObject: MagicalObject;
@@ -267,11 +268,12 @@ export interface MessageVirtualProfileSingleValue
 
 export interface MessageVirtualProfileWholeObject
   extends MessageVirtualProfile {
-  virtualProfile: VirtualProfile;
+  virtualProfile?: VirtualProfile;
+  virtualProfileGroups?: VirtualProfileGroup[];
 }
 
 export interface VirtualProfileSingleValue {
-  virtualProfileKey: string;
+  virtualProfileKey?: string;
   virtualProfileValue: string;
 }
 

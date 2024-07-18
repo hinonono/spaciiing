@@ -1,0 +1,57 @@
+{
+  "title": "航班",
+  "children": [
+    {
+      "title": "航空公司",
+      "content": "範例航空"
+    },
+    {
+      "title": "航班號碼",
+      "content": "EA123"
+    },
+    {
+      "title": "出發機場代碼",
+      "content": "TPE"
+    },
+    {
+      "title": "出發機場名稱",
+      "content": "臺灣桃園國際機場"
+    },
+    {
+      "title": "到達機場代碼",
+      "content": "LAX"
+    },
+    {
+      "title": "到達機場名稱",
+      "content": "洛杉磯國際機場"
+    },
+    {
+      "title": "出發日期和時間",
+      "content": "2024-07-18T10:00:00"
+    },
+    {
+      "title": "到達日期和時間",
+      "content": "2024-07-18T13:00:00"
+    },
+    {
+      "title": "飛行時間",
+      "content": "6小時"
+    },
+    {
+      "title": "艙等",
+      "content": "經濟艙"
+    },
+    {
+      "title": "登機口",
+      "content": "B12"
+    },
+    {
+      "title": "座位",
+      "content": "23A"
+    },
+    {
+      "title": "狀態",
+      "content": "準時"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "title": "書籍",
+  "children": [
+    {
+      "title": "書名",
+      "content": "範例書籍"
+    },
+    {
+      "title": "作者",
+      "content": "約翰·杜"
+    },
+    {
+      "title": "類型",
+      "content": "小說"
+    },
+    {
+      "title": "出版社",
+      "content": "範例出版社"
+    },
+    {
+      "title": "出版日期",
+      "content": "2024-07-18"
+    },
+    {
+      "title": "ISBN",
+      "content": "123-4567890123"
+    },
+    {
+      "title": "語言",
+      "content": "英語"
+    },
+    {
+      "title": "頁數",
+      "content": "350"
+    },
+    {
+      "title": "格式",
+      "content": "精裝本"
+    },
+    {
+      "title": "摘要",
+      "content": "一個關於在虛構世界中的冒險和發現的引人入勝的故事。"
+    }
+  ]
+}

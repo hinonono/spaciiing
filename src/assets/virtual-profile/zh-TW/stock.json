@@ -1,0 +1,69 @@
+{
+  "title": "股票",
+  "children": [
+    {
+      "title": "股票代號",
+      "content": "XYZ"
+    },
+    {
+      "title": "公司名稱",
+      "content": "範例公司"
+    },
+    {
+      "title": "當前價格",
+      "content": "NT$3000"
+    },
+    {
+      "title": "價格變動",
+      "content": "+NT$45 (1.52%)"
+    },
+    {
+      "title": "市值",
+      "content": "NT$15000億"
+    },
+    {
+      "title": "成交量",
+      "content": "30百萬股"
+    },
+    {
+      "title": "52周最高價",
+      "content": "NT$3600"
+    },
+    {
+      "title": "52周最低價",
+      "content": "NT$2400"
+    },
+    {
+      "title": "股息收益率",
+      "content": "2.0%"
+    },
+    {
+      "title": "本益比",
+      "content": "20.00"
+    },
+    {
+      "title": "每股收益",
+      "content": "NT$150"
+    },
+    {
+      "title": "今日區間",
+      "content": "NT$2970 - NT$3030"
+    },
+    {
+      "title": "開盤價",
+      "content": "NT$2985"
+    },
+    {
+      "title": "前日收盤價",
+      "content": "NT$2955"
+    },
+    {
+      "title": "買入價",
+      "content": "NT$2997"
+    },
+    {
+      "title": "賣出價",
+      "content": "NT$3003"
+    }
+  ]
+}

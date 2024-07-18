@@ -1,0 +1,45 @@
+{
+  "title": "书籍",
+  "children": [
+    {
+      "title": "书名",
+      "content": "范例书籍"
+    },
+    {
+      "title": "作者",
+      "content": "约翰·杜"
+    },
+    {
+      "title": "类型",
+      "content": "小说"
+    },
+    {
+      "title": "出版社",
+      "content": "范例出版社"
+    },
+    {
+      "title": "出版日期",
+      "content": "2024-07-18"
+    },
+    {
+      "title": "ISBN",
+      "content": "123-4567890123"
+    },
+    {
+      "title": "语言",
+      "content": "英语"
+    },
+    {
+      "title": "页数",
+      "content": "350"
+    },
+    {
+      "title": "格式",
+      "content": "精装本"
+    },
+    {
+      "title": "摘要",
+      "content": "一个关于在虚构世界中的冒险和发现的引人入胜的故事。"
+    }
+  ]
+}

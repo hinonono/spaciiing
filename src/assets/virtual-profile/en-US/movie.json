@@ -1,0 +1,45 @@
+{
+  "title": "Movie",
+  "children": [
+    {
+      "title": "Movie Title",
+      "content": "Example Movie"
+    },
+    {
+      "title": "Genre",
+      "content": "Action"
+    },
+    {
+      "title": "Director",
+      "content": "John Doe"
+    },
+    {
+      "title": "Release Date",
+      "content": "2024-07-18"
+    },
+    {
+      "title": "Duration",
+      "content": "120 minutes"
+    },
+    {
+      "title": "Rating",
+      "content": "PG-13"
+    },
+    {
+      "title": "Synopsis",
+      "content": "An action-packed adventure of a hero who saves the world from an impending disaster."
+    },
+    {
+      "title": "Language",
+      "content": "English"
+    },
+    {
+      "title": "Country",
+      "content": "USA"
+    },
+    {
+      "title": "Production Company",
+      "content": "Example Productions"
+    }
+  ]
+}

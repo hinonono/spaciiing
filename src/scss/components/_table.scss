@@ -1,0 +1,75 @@
+//.row
+.cy-table-group {
+    margin: 8px 0;
+    background-color: var(--figma-color-bg);
+    border: 1px solid var(--figma-color-border);
+    border-radius: var(--cy-border-radius-large);
+    overflow: hidden;
+    transition: all ease 0.5s;
+}
+
+//.row-header
+.cy-table-group-header {
+    font-weight: bold;
+    background-color: var(--figma-color-bg-secondary);
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    position: relative;
+    font-size: var(--font-size-large);
+    color: var(--figma-color-text);
+    align-items: center;
+    padding-left: var(--size-xxxsmall);
+    min-height: 2.5rem;
+
+    .dragHandle {
+        opacity: 0;
+    }
+
+    &:hover {
+        .dragHandle {
+            opacity: 1;
+        }
+    }
+}
+
+
+//.rowContent
+.cy-table-rows-wrapper {
+    border-top: 1px solid var(--figma-color-border);
+    display: none;
+
+    &.visible {
+        display: block;
+
+        .cy-table-row-child:last-of-type {
+            border-bottom: none;
+        }
+    }
+}
+
+//.row-child
+.cy-table-row-child {
+    display: grid;
+    grid-template-columns: 2fr 3fr 6fr 1fr;
+    padding: 4px 0px;
+    position: relative;
+    font-size: var(--font-size-small);
+    color: var(--figma-color-text);
+    border-bottom: 1px solid var(--figma-color-border);
+    align-items: center;
+    min-height: 2.5rem;
+
+    .dragHandle {
+        opacity: 0;
+    }
+
+    &:hover {
+        .dragHandle {
+            opacity: 1;
+        }
+    }
+}
+
+.dragging {
+    box-shadow: 0px 24px 24px -4px rgba(0, 0, 0, 0.3);
+}

@@ -35,12 +35,12 @@ const CoreLayer: React.FC = () => {
     setMemorizedObjectWidth,
     setVariableCollectionList,
     setvariableCollectionModes,
-    setVirtualProfile,
-    virtualProfile,
     setMagicalObject,
     magicalObject,
     setLicenseManagement,
     setCustomCodeExecutionResults,
+    virtualProfileGroups,
+    setVirtualProfileGroups,
   } = useAppContext();
 
   // #region Handle External Message
@@ -220,7 +220,13 @@ const CoreLayer: React.FC = () => {
     console.log("VirtualProfileHandler");
     console.log(message.virtualProfile);
 
-    setVirtualProfile(message.virtualProfile);
+    // setVirtualProfile(message.virtualProfile);
+
+    if (message.virtualProfileGroups) {
+      console.log("VirtualProfileHandler GROUPS");
+      console.log(message.virtualProfileGroups);
+      setVirtualProfileGroups(message.virtualProfileGroups);
+    }
   };
 
   const virtualProfileWillEnd = () => {
@@ -228,9 +234,11 @@ const CoreLayer: React.FC = () => {
       module: "VirtualProfile",
       phase: "WillEnd",
       direction: "Inner",
-      virtualProfile: virtualProfile,
+      // virtualProfile: virtualProfile,
+      virtualProfileGroups: virtualProfileGroups,
     };
-    setVirtualProfile(virtualProfile);
+    // setVirtualProfile(virtualProfile);
+    setVirtualProfileGroups(virtualProfileGroups);
 
     parent.postMessage(
       {

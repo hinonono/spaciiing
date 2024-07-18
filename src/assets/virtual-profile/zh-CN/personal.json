@@ -1,0 +1,77 @@
+{
+  "title": "个人资料",
+  "children": [
+    {
+      "title": "姓名",
+      "content": "陈大文"
+    },
+    {
+      "title": "昵称",
+      "content": "小文"
+    },
+    {
+      "title": "性别",
+      "content": "男"
+    },
+    {
+      "title": "生日",
+      "content": "1990/01/01"
+    },
+    {
+      "title": "电子邮件",
+      "content": "dawenchen@example.com"
+    },
+    {
+      "title": "市话号码",
+      "content": "021-1234-5678"
+    },
+    {
+      "title": "手机号码",
+      "content": "138-1234-5678"
+    },
+    {
+      "title": "地址",
+      "content": "中国上海市浦东新区张江路123号"
+    },
+    {
+      "title": "公司名称",
+      "content": "陈氏工业"
+    },
+    {
+      "title": "公司地址",
+      "content": "中国上海市浦东新区工业路456号100室"
+    },
+    {
+      "title": "公司电话号码",
+      "content": "021-8765-4321"
+    },
+    {
+      "title": "年龄",
+      "content": "34"
+    },
+    {
+      "title": "国家",
+      "content": "中国"
+    },
+    {
+      "title": "城市",
+      "content": "上海"
+    },
+    {
+      "title": "用户名",
+      "content": "@dawenchen123"
+    },
+    {
+      "title": "用户ID",
+      "content": "0000-1234-5678"
+    },
+    {
+      "title": "职称",
+      "content": "设计师"
+    },
+    {
+      "title": "产业",
+      "content": "艺术与设计"
+    }
+  ]
+}
