@@ -1,0 +1,77 @@
+{
+  "title": "個人資料",
+  "children": [
+    {
+      "title": "姓名",
+      "content": "陳大文"
+    },
+    {
+      "title": "暱稱",
+      "content": "小文"
+    },
+    {
+      "title": "性別",
+      "content": "男"
+    },
+    {
+      "title": "生日",
+      "content": "1990/01/01"
+    },
+    {
+      "title": "電子郵件",
+      "content": "dawenchen@example.com"
+    },
+    {
+      "title": "市話號碼",
+      "content": "02-1234-5678"
+    },
+    {
+      "title": "手機號碼",
+      "content": "0912-345-678"
+    },
+    {
+      "title": "地址",
+      "content": "台灣台北市信義區松壽路123號"
+    },
+    {
+      "title": "公司名稱",
+      "content": "陳氏工業"
+    },
+    {
+      "title": "公司地址",
+      "content": "台灣台北市信義區工業路456號100室"
+    },
+    {
+      "title": "公司電話號碼",
+      "content": "02-8765-4321"
+    },
+    {
+      "title": "年齡",
+      "content": "34"
+    },
+    {
+      "title": "國家",
+      "content": "台灣"
+    },
+    {
+      "title": "城市",
+      "content": "台北"
+    },
+    {
+      "title": "用戶名",
+      "content": "@dawenchen123"
+    },
+    {
+      "title": "用戶ID",
+      "content": "0000-1234-5678"
+    },
+    {
+      "title": "職稱",
+      "content": "設計師"
+    },
+    {
+      "title": "產業",
+      "content": "藝術與設計"
+    }
+  ]
+}

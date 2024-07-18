@@ -1,0 +1,45 @@
+{
+  "title": "电影",
+  "children": [
+    {
+      "title": "电影名称",
+      "content": "示例电影"
+    },
+    {
+      "title": "类型",
+      "content": "动作"
+    },
+    {
+      "title": "导演",
+      "content": "约翰·杜"
+    },
+    {
+      "title": "上映日期",
+      "content": "2024-07-18"
+    },
+    {
+      "title": "片长",
+      "content": "120分钟"
+    },
+    {
+      "title": "评级",
+      "content": "普遍级"
+    },
+    {
+      "title": "简介",
+      "content": "一位英雄拯救世界的充满动作的冒险故事。"
+    },
+    {
+      "title": "语言",
+      "content": "英语"
+    },
+    {
+      "title": "国家",
+      "content": "美国"
+    },
+    {
+      "title": "制作公司",
+      "content": "示例制作公司"
+    }
+  ]
+}

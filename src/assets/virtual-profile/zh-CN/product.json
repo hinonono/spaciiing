@@ -1,0 +1,53 @@
+{
+  "title": "商品",
+  "children": [
+    {
+      "title": "商品名称",
+      "content": "示例商品"
+    },
+    {
+      "title": "价格",
+      "content": "¥1500"
+    },
+    {
+      "title": "折扣",
+      "content": "10%"
+    },
+    {
+      "title": "原价",
+      "content": "¥1666"
+    },
+    {
+      "title": "商品描述",
+      "content": "这是一个示例商品描述，提供有关商品特点和优点的详细信息。"
+    },
+    {
+      "title": "类别",
+      "content": "电子产品"
+    },
+    {
+      "title": "品牌",
+      "content": "示例品牌"
+    },
+    {
+      "title": "评分",
+      "content": "4.5"
+    },
+    {
+      "title": "库存状态",
+      "content": "有库存"
+    },
+    {
+      "title": "SKU",
+      "content": "EX12345"
+    },
+    {
+      "title": "运输信息",
+      "content": "3-5个工作日内发货"
+    },
+    {
+      "title": "制造商",
+      "content": "示例制造商"
+    }
+  ]
+}

@@ -7,9 +7,9 @@ import {
 } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 import {
+  SupportedPresetVirtualProfileCategory,
   VirtualProfileChild,
   VirtualProfileGroup,
-  VirtualProfileGroupRaw,
 } from "../types/VirtualProfile";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
@@ -24,18 +24,22 @@ import {
   SvgSave,
 } from "../assets/icons";
 
-import vpdata_financial from "../assets/virtual-profile/financial.json";
-import vpdata_personal from "../assets/virtual-profile/personal.json";
 import { transformJsonToGroup } from "../module-frontend/virtualProfileFrontEnd";
 import {
   checkProFeatureAccessibleForUser,
   resolveContextMenuPos,
 } from "../module-frontend/utilFrontEnd";
+import { SupportedLangCode } from "../types/Localization";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
   saveVirtualProfile: () => void;
   previousVirtualProfile: VirtualProfileGroup[] | null;
+}
+
+interface CategoryAndKey {
+  category: SupportedPresetVirtualProfileCategory;
+  key: string;
 }
 
 interface ContextMenuState {
@@ -50,7 +54,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   saveVirtualProfile,
   previousVirtualProfile,
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { i18n, t } = useTranslation(["module"]);
 
   //Context
   const {
@@ -485,16 +489,22 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     });
   };
 
-  const createNewGroupFromJsonData = (data: VirtualProfileGroupRaw) => {
+  const createNewGroupFromJsonData = (
+    category: SupportedPresetVirtualProfileCategory
+  ) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
 
-    setVirtualProfileGroups((prevGroups) => [
-      ...prevGroups,
-      transformJsonToGroup(data),
-    ]);
+    const newGroup = transformJsonToGroup(
+      category,
+      i18n.language as SupportedLangCode
+    );
+
+    if (newGroup) {
+      setVirtualProfileGroups((prevGroups) => [...prevGroups, newGroup]);
+    }
   };
 
   const renderAdditionalContextMenu = () => {
@@ -505,6 +515,37 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
     if (!additionalContextMenu) return null;
     const { mouseX, mouseY } = additionalContextMenu;
+
+    const categories: CategoryAndKey[] = [
+      {
+        category: "BOOK",
+        key: "module:book",
+      },
+      {
+        category: "CREDIT_CARD",
+        key: "module:creditcard",
+      },
+      {
+        category: "FLIGHT",
+        key: "module:flight",
+      },
+      {
+        category: "MOVIE",
+        key: "module:movie",
+      },
+      {
+        category: "PERSONAL",
+        key: "module:personal",
+      },
+      {
+        category: "PRODUCT",
+        key: "module:product",
+      },
+      {
+        category: "STOCK",
+        key: "module:stock",
+      },
+    ];
 
     return (
       <ul
@@ -517,27 +558,20 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }}
         className="context-menu"
       >
-        <li
-          onClick={() => {
-            createNewGroupFromJsonData(vpdata_personal);
-            setAdditionalContextMenu(null);
-          }}
-        >
-          {t("module:personal")}
-        </li>
-        <li
-          onClick={() => {
-            createNewGroupFromJsonData(vpdata_financial);
-            setAdditionalContextMenu(null);
-          }}
-        >
-          {t("module:financial")}
-        </li>
+        {categories.map((item) => (
+          <li
+            key={item.category}
+            onClick={() => {
+              createNewGroupFromJsonData(item.category);
+              setAdditionalContextMenu(null);
+            }}
+          >
+            {t(item.key)}
+          </li>
+        ))}
       </ul>
     );
   };
-
-  // Function to transform JSON data to VirtualProfileGroup
 
   return (
     <div ref={containerRef} className="position-relative">

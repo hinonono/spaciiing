@@ -1,0 +1,53 @@
+{
+  "title": "Product",
+  "children": [
+    {
+      "title": "Product Name",
+      "content": "Example Product"
+    },
+    {
+      "title": "Price",
+      "content": "$50.00"
+    },
+    {
+      "title": "Discount",
+      "content": "10%"
+    },
+    {
+      "title": "Original Price",
+      "content": "$55.56"
+    },
+    {
+      "title": "Product Description",
+      "content": "This is an example product description providing details about the product's features and benefits."
+    },
+    {
+      "title": "Category",
+      "content": "Electronics"
+    },
+    {
+      "title": "Brand",
+      "content": "Example Brand"
+    },
+    {
+      "title": "Ratings",
+      "content": "4.5"
+    },
+    {
+      "title": "Availability",
+      "content": "In Stock"
+    },
+    {
+      "title": "SKU",
+      "content": "EX12345"
+    },
+    {
+      "title": "Shipping Information",
+      "content": "Ships within 3-5 business days"
+    },
+    {
+      "title": "Manufacturer",
+      "content": "Example Manufacturer"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "title": "個人",
+  "children": [
+    {
+      "title": "名前",
+      "content": "山田 太郎"
+    },
+    {
+      "title": "ニックネーム",
+      "content": "タロー"
+    },
+    {
+      "title": "性別",
+      "content": "男性"
+    },
+    {
+      "title": "誕生日",
+      "content": "1990/01/01"
+    },
+    {
+      "title": "メールアドレス",
+      "content": "taro.yamada@example.com"
+    },
+    {
+      "title": "固定電話番号",
+      "content": "03-1234-5678"
+    },
+    {
+      "title": "携帯電話番号",
+      "content": "090-1234-5678"
+    },
+    {
+      "title": "住所",
+      "content": "東京都新宿区西新宿2-8-1"
+    },
+    {
+      "title": "会社名",
+      "content": "山田産業"
+    },
+    {
+      "title": "会社の住所",
+      "content": "東京都港区芝公園4-2-8"
+    },
+    {
+      "title": "会社の電話番号",
+      "content": "03-8765-4321"
+    },
+    {
+      "title": "年齢",
+      "content": "34"
+    },
+    {
+      "title": "国",
+      "content": "日本"
+    },
+    {
+      "title": "市",
+      "content": "東京"
+    },
+    {
+      "title": "ユーザー名",
+      "content": "@taroyamada123"
+    },
+    {
+      "title": "ユーザーID",
+      "content": "0000-1234-5678"
+    },
+    {
+      "title": "職業",
+      "content": "デザイナー"
+    },
+    {
+      "title": "業界",
+      "content": "アート＆デザイン"
+    }
+  ]
+}

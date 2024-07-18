@@ -1,0 +1,57 @@
+{
+  "title": "Flight",
+  "children": [
+    {
+      "title": "Airline",
+      "content": "Example Airlines"
+    },
+    {
+      "title": "Flight Number",
+      "content": "EA123"
+    },
+    {
+      "title": "Departure Airport Code",
+      "content": "JFK"
+    },
+    {
+      "title": "Departure Airport Name",
+      "content": "John F. Kennedy International Airport"
+    },
+    {
+      "title": "Arrival Airport Code",
+      "content": "LAX"
+    },
+    {
+      "title": "Arrival Airport Name",
+      "content": "Los Angeles International Airport"
+    },
+    {
+      "title": "Departure Date and Time",
+      "content": "2024-07-18T10:00:00"
+    },
+    {
+      "title": "Arrival Date and Time",
+      "content": "2024-07-18T13:00:00"
+    },
+    {
+      "title": "Duration",
+      "content": "6 hours"
+    },
+    {
+      "title": "Class",
+      "content": "Economy"
+    },
+    {
+      "title": "Gate",
+      "content": "B12"
+    },
+    {
+      "title": "Seat",
+      "content": "23A"
+    },
+    {
+      "title": "Status",
+      "content": "On Time"
+    }
+  ]
+}

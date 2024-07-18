@@ -60,3 +60,12 @@ export interface VirtualProfileGroupRaw {
   children: VirtualProfileChildRaw[];
   title: string;
 }
+
+export type SupportedPresetVirtualProfileCategory =
+  | "BOOK"
+  | "CREDIT_CARD"
+  | "FLIGHT"
+  | "MOVIE"
+  | "PERSONAL"
+  | "PRODUCT"
+  | "STOCK";
