@@ -434,10 +434,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
   // Inside your component render method where the context menu is defined
   const renderContextMenu = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
-    }
+    // if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+    //   setShowCTSubscribe(true);
+    //   return;
+    // }
 
     if (!contextMenu) return null;
     const { mouseX, mouseY, rowId, childId } = contextMenu;
@@ -508,10 +508,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   const renderAdditionalContextMenu = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
-    }
+    // if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+    //   setShowCTSubscribe(true);
+    //   return;
+    // }
 
     if (!additionalContextMenu) return null;
     const { mouseX, mouseY } = additionalContextMenu;

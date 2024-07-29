@@ -217,8 +217,8 @@ const CoreLayer: React.FC = () => {
   const virtualProfileHandler = (
     message: ExternalMessageUpdateVirtualProfile
   ) => {
-    console.log("VirtualProfileHandler");
-    console.log(message.virtualProfile);
+    // console.log("VirtualProfileHandler");
+    // console.log(message.virtualProfile);
 
     // setVirtualProfile(message.virtualProfile);
 
