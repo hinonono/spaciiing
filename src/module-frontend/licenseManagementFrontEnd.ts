@@ -51,7 +51,7 @@ const verifyLicense = async (licenseKey: string): Promise<LicenseResponse> => {
 const handleSubscriptionStatus = (
   response: LicenseResponseSuccess,
   newLicense: LicenseManagement
-): void => {
+): LicenseManagement => {
   const {
     subscription_ended_at,
     subscription_cancelled_at,
@@ -71,7 +71,7 @@ const handleSubscriptionStatus = (
       newLicense.recurrence = response.recurrence;
     }
     console.log("License is successfully verified.");
-    return;
+    return newLicense;
   }
 
   // Check if any of the subscription-related dates have passed or are not null
@@ -95,18 +95,23 @@ const handleSubscriptionStatus = (
     }
     console.log("License is successfully verified.");
   }
+
+  return newLicense;
 };
 
 const licenseVerifyHandler = async (
   license: LicenseManagement,
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
 ) => {
-  const newLicense = { ...license };
+  let newLicense = { ...license };
   const oldDate = util.convertUTCStringToDate(license.sessionExpiredAt);
 
-  console.log("Is old date:", oldDate <= new Date());
+  // console.log("Is old date:", oldDate);
 
   if (oldDate <= new Date()) {
+    const newExpiredTime = util.addHours(new Date(), 3).toUTCString();
+    newLicense.sessionExpiredAt = newExpiredTime;
+
     // 過期
     if (license.tier === "PAID" || license.tier === "UNKNOWN") {
       // 付費
@@ -117,7 +122,7 @@ const licenseVerifyHandler = async (
           );
           if (response.success) {
             // 修正這裡
-            handleSubscriptionStatus(
+            newLicense = handleSubscriptionStatus(
               response as LicenseResponseSuccess,
               newLicense
             );
@@ -140,9 +145,6 @@ const licenseVerifyHandler = async (
       newLicense.tier = "FREE";
       newLicense.isLicenseActive = false;
     }
-
-    const newExpiredTime = util.addHours(oldDate, 3).toUTCString();
-    newLicense.sessionExpiredAt = newExpiredTime;
   }
 
   const message: MessageLicenseManagement = {
