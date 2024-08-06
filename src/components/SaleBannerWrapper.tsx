@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SaleBanner from "./SaleBanner";
 import { LicenseManagement } from "../types/LicenseManagement";
 import flashSaleData from "../assets/flashSale.json";
+import { SalesConfig, SalesType } from "../types/SalesConfig";
 
 interface SaleBannerWrapperProps {
   licenseManagement: LicenseManagement;
@@ -10,12 +11,13 @@ interface SaleBannerWrapperProps {
 const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
   licenseManagement,
 }) => {
-  const [config, setConfig] = useState({
+  const [config, setConfig] = useState<SalesConfig>({
     targetKey: "",
     startDate: "",
     endDate: "",
     messageKey: "",
     url: "",
+    type: "DEFAULT",
   });
 
   useEffect(() => {
@@ -26,6 +28,7 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
       endDate: flashSaleData.endDate,
       messageKey: flashSaleData.messageKey,
       url: flashSaleData.url,
+      type: flashSaleData.type as SalesType,
     });
   }, []);
 
@@ -35,7 +38,8 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
   const currentTime = new Date();
 
   const shouldShowBanner =
-    licenseManagement.licenseKey === targetKey &&
+    (licenseManagement.licenseKey === targetKey ||
+      licenseManagement.licenseKey === "") &&
     currentTime >= startDate &&
     currentTime <= endDate;
 
@@ -44,15 +48,9 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
       targetDate={endDate}
       messageKey={config.messageKey}
       url={config.url}
+      type={config.type}
     />
   ) : null;
-  // return (
-  //   <SaleBanner
-  //     targetDate={endDate}
-  //     messageKey={config.messageKey}
-  //     url={config.url}
-  //   />
-  // );
 };
 
 export default SaleBannerWrapper;
