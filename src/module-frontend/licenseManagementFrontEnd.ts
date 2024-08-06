@@ -1,27 +1,15 @@
-import { LicenseManagement } from "./../types/LicenseManagement";
+import {
+  LicenseManagement,
+  LicenseResponse,
+  LicenseResponseError,
+  LicenseResponseSuccess,
+} from "./../types/LicenseManagement";
 import {
   ExternalMessageLicenseManagement,
   MessageLicenseManagement,
 } from "../types/Message";
 import * as util from "../module/util";
 import * as paymentsUtil from "./paymentsUtil";
-
-interface LicenseResponseSuccess {
-  success: true;
-  subscription_ended_at: string | null;
-  subscription_cancelled_at: string | null;
-  subscription_failed_at: string | null;
-  recurrence?: string;
-  [key: string]: unknown; // Allow additional properties with unknown type
-}
-
-interface LicenseResponseError {
-  success: false;
-  message: string;
-  [key: string]: unknown; // Allow additional properties with unknown type
-}
-
-type LicenseResponse = LicenseResponseSuccess | LicenseResponseError;
 
 export const licenseManagementHandler = (
   message: ExternalMessageLicenseManagement,
@@ -48,7 +36,7 @@ const verifyLicense = async (licenseKey: string): Promise<LicenseResponse> => {
   }
 };
 
-const handleSubscriptionStatus = (
+export const handleSubscriptionStatus = (
   response: LicenseResponseSuccess,
   newLicense: LicenseManagement
 ): LicenseManagement => {
@@ -164,7 +152,7 @@ const licenseVerifyHandler = async (
 };
 
 // Function to check if a date string has passed today's date
-function hasDatePassed(dateString: string) {
+export function hasDatePassed(dateString: string) {
   if (!dateString) {
     return false; // If dateString is null or undefined, it has not passed.
   }

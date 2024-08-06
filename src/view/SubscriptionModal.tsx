@@ -4,11 +4,16 @@ import useNetworkStatus from "../useNetworkStatus";
 import { FigmaButton, SectionTitle } from "../components";
 import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import * as util from "../module/util";
-import { LicenseManagement } from "../types/LicenseManagement";
+import {
+  LicenseManagement,
+  LicenseResponse,
+  LicenseResponseSuccess,
+} from "../types/LicenseManagement";
 import { MessageLicenseManagement } from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { handleSubscriptionStatus } from "../module-frontend/licenseManagementFrontEnd";
 
 const SubscriptionModal: React.FC = () => {
   const { licenseManagement } = useAppContext();
@@ -18,7 +23,7 @@ const SubscriptionModal: React.FC = () => {
   // 金鑰輸入
   const [licenseKey, setLicenseKey] = useState("");
   // API 呼叫
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState<LicenseResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const {
@@ -37,17 +42,23 @@ const SubscriptionModal: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await paymentsUtil.verifyLicenseKey(licenseKey);
+      const response: LicenseResponse = await paymentsUtil.verifyLicenseKey(
+        licenseKey
+      );
 
       if (response.success === true) {
-        const expiredTime = util.addHours(new Date(), 3).toUTCString();
-        const newLicense: LicenseManagement = {
-          tier: "PAID",
-          recurrence: response.recurrence,
-          isLicenseActive: true,
-          licenseKey: licenseKey,
-          sessionExpiredAt: expiredTime,
+        let newLicense: LicenseManagement = {
+          tier: "UNKNOWN",
+          recurrence: "",
+          isLicenseActive: false,
+          licenseKey: "",
+          sessionExpiredAt: util.addHours(new Date(), 3).toUTCString(),
         };
+
+        newLicense = handleSubscriptionStatus(
+          response as LicenseResponseSuccess,
+          newLicense
+        );
 
         const message: MessageLicenseManagement = {
           license: newLicense,
