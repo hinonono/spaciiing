@@ -52,28 +52,42 @@ const handleSubscriptionStatus = (
   response: LicenseResponseSuccess,
   newLicense: LicenseManagement
 ): void => {
-  if (!response.subscription_cancelled_at) {
-    return;
-  }
-  if (!response.subscription_cancelled_at) {
-    return;
-  }
-  if (!response.subscription_ended_at) {
+  const {
+    subscription_ended_at,
+    subscription_cancelled_at,
+    subscription_failed_at,
+  } = response;
+
+  // Check if all subscription-related dates are null
+  if (
+    subscription_ended_at === null &&
+    subscription_cancelled_at === null &&
+    subscription_failed_at === null
+  ) {
+    // Paid tier process
+    newLicense.tier = "PAID";
+    newLicense.isLicenseActive = true;
+    if (response.recurrence) {
+      newLicense.recurrence = response.recurrence;
+    }
+    console.log("License is successfully verified.");
     return;
   }
 
-  // Main
+  // Check if any of the subscription-related dates have passed or are not null
   if (
-    hasDatePassed(response.subscription_ended_at) ||
-    hasDatePassed(response.subscription_cancelled_at) ||
-    response.subscription_failed_at != null
+    (subscription_ended_at && hasDatePassed(subscription_ended_at)) ||
+    (subscription_cancelled_at && hasDatePassed(subscription_cancelled_at)) ||
+    subscription_failed_at !== null
   ) {
+    // Free tier process
     newLicense.tier = "FREE";
     newLicense.isLicenseActive = false;
     console.log(
       "License is invalid due to end of subscription, cancelled, or payment failed."
     );
   } else {
+    // Paid tier process
     newLicense.tier = "PAID";
     newLicense.isLicenseActive = true;
     if (response.recurrence) {
@@ -90,6 +104,8 @@ const licenseVerifyHandler = async (
   const newLicense = { ...license };
   const oldDate = util.convertUTCStringToDate(license.sessionExpiredAt);
 
+  console.log("Is old date:", oldDate <= new Date());
+
   if (oldDate <= new Date()) {
     // 過期
     if (license.tier === "PAID" || license.tier === "UNKNOWN") {
@@ -100,6 +116,7 @@ const licenseVerifyHandler = async (
             license.licenseKey
           );
           if (response.success) {
+            // 修正這裡
             handleSubscriptionStatus(
               response as LicenseResponseSuccess,
               newLicense
