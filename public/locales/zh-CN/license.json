@@ -27,5 +27,6 @@
   "subscribe": "订阅",
   "endIn": "结束于",
   "validForFirstBillingCycle": "适用于首个订阅循环",
-  "50percentOff": "订阅现省50%"
+  "50percentOff": "订阅现省50%",
+  "30percentOff": "订阅现省30%"
 }

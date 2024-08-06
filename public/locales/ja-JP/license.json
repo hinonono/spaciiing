@@ -27,5 +27,6 @@
   "subscribe": "購読する",
   "endIn": "あと",
   "validForFirstBillingCycle": "最初のサブスクリプションサイクルのみに適用されます",
-  "50percentOff": "今なら50%OFF"
+  "50percentOff": "今なら50%OFF",
+  "30percentOff": "今なら30%OFF"
 }
