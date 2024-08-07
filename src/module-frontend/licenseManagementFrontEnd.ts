@@ -173,6 +173,11 @@ export function shouldShowBanner(
   config: SalesConfig,
   licenseManagement: LicenseManagement
 ): boolean {
+  // Return false if the license tier is "PAID"
+  if (licenseManagement.tier === "PAID") {
+    return false;
+  }
+
   const startDate = new Date(config.startDate);
   const endDate = new Date(config.endDate);
   const currentTime = new Date();
