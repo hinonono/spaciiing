@@ -3,6 +3,7 @@ import SaleBanner from "./SaleBanner";
 import { LicenseManagement } from "../types/LicenseManagement";
 import flashSaleData from "../assets/flashSale.json";
 import { SalesConfig, SalesType } from "../types/SalesConfig";
+import * as LicenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
 
 interface SaleBannerWrapperProps {
   licenseManagement: LicenseManagement;
@@ -12,12 +13,13 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
   licenseManagement,
 }) => {
   const [config, setConfig] = useState<SalesConfig>({
+    showCountdown: false,
     targetKey: "",
     startDate: "",
     endDate: "",
     messageKey: "",
     url: "",
-    type: "DEFAULT",
+    type: "ALL",
   });
 
   useEffect(() => {
@@ -29,26 +31,23 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
       messageKey: flashSaleData.messageKey,
       url: flashSaleData.url,
       type: flashSaleData.type as SalesType,
+      showCountdown: flashSaleData.showCountdown,
     });
   }, []);
 
-  const targetKey = config.targetKey;
-  const startDate = new Date(config.startDate);
-  const endDate = new Date(config.endDate);
-  const currentTime = new Date();
+  const shouldShowBanner = LicenseManagementFrontEnd.shouldShowBanner(
+    config,
+    licenseManagement
+  );
 
-  const shouldShowBanner =
-    (licenseManagement.licenseKey === targetKey ||
-      licenseManagement.licenseKey === "") &&
-    currentTime >= startDate &&
-    currentTime <= endDate;
+  console.log("License Management", licenseManagement.licenseKey);
 
   return shouldShowBanner ? (
     <SaleBanner
-      targetDate={endDate}
+      targetDate={new Date(config.endDate)}
       messageKey={config.messageKey}
       url={config.url}
-      type={config.type}
+      showCountdown={config.showCountdown}
     />
   ) : null;
 };

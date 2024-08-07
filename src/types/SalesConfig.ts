@@ -1,10 +1,11 @@
-export type SalesType = "DEFAULT" | "TIME_LIMITED";
+export type SalesType = "ALL" | "SPECIFIC_KEY";
 
 export interface SalesConfig {
+  type: SalesType;
   targetKey: string;
   startDate: string;
   endDate: string;
   messageKey: string;
   url: string;
-  type: SalesType;
+  showCountdown: boolean;
 }

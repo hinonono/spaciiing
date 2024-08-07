@@ -10,6 +10,7 @@ import {
 } from "../types/Message";
 import * as util from "../module/util";
 import * as paymentsUtil from "./paymentsUtil";
+import { SalesConfig } from "../types/SalesConfig";
 
 export const licenseManagementHandler = (
   message: ExternalMessageLicenseManagement,
@@ -158,4 +159,37 @@ export function hasDatePassed(dateString: string) {
   }
   const date = new Date(dateString);
   return date < new Date();
+}
+
+
+/**
+ * Determines whether to show a banner based on the given configuration and license management.
+ *
+ * @param config - The sales configuration containing start date, end date, type, and optional target key.
+ * @param licenseManagement - The license management containing the license key.
+ * @returns true if the current date is within the specified range and the conditions based on config.type are met, otherwise false.
+ */
+export function shouldShowBanner(
+  config: SalesConfig,
+  licenseManagement: LicenseManagement
+): boolean {
+  const startDate = new Date(config.startDate);
+  const endDate = new Date(config.endDate);
+  const currentTime = new Date();
+
+  // Check if the current date is within the specified date range
+  const isWithinDateRange = currentTime >= startDate && currentTime <= endDate;
+
+  if (isWithinDateRange) {
+    if (config.type === "ALL") {
+      return true; // Always return true for "ALL" type
+    } else if (config.type === "SPECIFIC_KEY") {
+      // Check if the config type is "SPECIFIC_KEY"
+      // Return true if the license key matches the target key
+      return licenseManagement.licenseKey === config.targetKey;
+    }
+  }
+
+  // Return false if the date is not within range or conditions are not met
+  return false;
 }
