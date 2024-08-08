@@ -219,70 +219,70 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
       generateColorStyle(antDesignMagenta, "dark");
       break;
     case "tailwindSlate":
-      generateColorStyle(tailwindSlate, "light");
+      generateColorStyle(tailwindSlate, "none");
       break;
     case "tailwindGray":
-      generateColorStyle(tailwindGray, "light");
+      generateColorStyle(tailwindGray, "none");
       break;
     case "tailwindZinc":
-      generateColorStyle(tailwindZinc, "light");
+      generateColorStyle(tailwindZinc, "none");
       break;
     case "tailwindNeutral":
-      generateColorStyle(tailwindNeutral, "light");
+      generateColorStyle(tailwindNeutral, "none");
       break;
     case "tailwindStone":
-      generateColorStyle(tailwindStone, "light");
+      generateColorStyle(tailwindStone, "none");
       break;
     case "tailwindRed":
-      generateColorStyle(tailwindRed, "light");
+      generateColorStyle(tailwindRed, "none");
       break;
     case "tailwindOrange":
-      generateColorStyle(tailwindOrange, "light");
+      generateColorStyle(tailwindOrange, "none");
       break;
     case "tailwindAmber":
-      generateColorStyle(tailwindAmber, "light");
+      generateColorStyle(tailwindAmber, "none");
       break;
     case "tailwindYellow":
-      generateColorStyle(tailwindYellow, "light");
+      generateColorStyle(tailwindYellow, "none");
       break;
     case "tailwindLime":
-      generateColorStyle(tailwindLime, "light");
+      generateColorStyle(tailwindLime, "none");
       break;
     case "tailwindGreen":
-      generateColorStyle(tailwindGreen, "light");
+      generateColorStyle(tailwindGreen, "none");
       break;
     case "tailwindEmerald":
-      generateColorStyle(tailwindEmerald, "light");
+      generateColorStyle(tailwindEmerald, "none");
       break;
     case "tailwindTeal":
-      generateColorStyle(tailwindTeal, "light");
+      generateColorStyle(tailwindTeal, "none");
       break;
     case "tailwindCyan":
-      generateColorStyle(tailwindCyan, "light");
+      generateColorStyle(tailwindCyan, "none");
       break;
     case "tailwindSky":
-      generateColorStyle(tailwindSky, "light");
+      generateColorStyle(tailwindSky, "none");
       break;
     case "tailwindBlue":
-      generateColorStyle(tailwindBlue, "light");
+      generateColorStyle(tailwindBlue, "none");
       break;
     case "tailwindIndigo":
-      generateColorStyle(tailwindIndigo, "light");
+      generateColorStyle(tailwindIndigo, "none");
       break;
     case "tailwindViolet":
-      generateColorStyle(tailwindViolet, "light");
+      generateColorStyle(tailwindViolet, "none");
       break;
     case "tailwindPurple":
-      generateColorStyle(tailwindPurple, "light");
+      generateColorStyle(tailwindPurple, "none");
       break;
     case "tailwindFuchsia":
-      generateColorStyle(tailwindFuchsia, "light");
+      generateColorStyle(tailwindFuchsia, "none");
       break;
     case "tailwindPink":
-      generateColorStyle(tailwindPink, "light");
+      generateColorStyle(tailwindPink, "none");
       break;
     case "tailwindRose":
-      generateColorStyle(tailwindRose, "light");
+      generateColorStyle(tailwindRose, "none");
       break;
     default:
       // handle default case
