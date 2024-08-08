@@ -56,8 +56,8 @@ export const handleSubscriptionStatus = (
     // Paid tier process
     newLicense.tier = "PAID";
     newLicense.isLicenseActive = true;
-    if (response.recurrence) {
-      newLicense.recurrence = response.recurrence;
+    if (response.purchase.recurrence) {
+      newLicense.recurrence = response.purchase.recurrence;
     }
     console.log("License is successfully verified.");
     return newLicense;
@@ -67,7 +67,7 @@ export const handleSubscriptionStatus = (
   if (
     (subscription_ended_at && hasDatePassed(subscription_ended_at)) ||
     (subscription_cancelled_at && hasDatePassed(subscription_cancelled_at)) ||
-    subscription_failed_at !== null
+    (subscription_failed_at && hasDatePassed(subscription_failed_at))
   ) {
     // Free tier process
     newLicense.tier = "FREE";
@@ -79,8 +79,8 @@ export const handleSubscriptionStatus = (
     // Paid tier process
     newLicense.tier = "PAID";
     newLicense.isLicenseActive = true;
-    if (response.recurrence) {
-      newLicense.recurrence = response.recurrence;
+    if (response.purchase.recurrence) {
+      newLicense.recurrence = response.purchase.recurrence;
     }
     console.log("License is successfully verified.");
   }
@@ -160,7 +160,6 @@ export function hasDatePassed(dateString: string) {
   const date = new Date(dateString);
   return date < new Date();
 }
-
 
 /**
  * Determines whether to show a banner based on the given configuration and license management.

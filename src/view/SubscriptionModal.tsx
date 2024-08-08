@@ -51,7 +51,7 @@ const SubscriptionModal: React.FC = () => {
           tier: "UNKNOWN",
           recurrence: "",
           isLicenseActive: false,
-          licenseKey: "",
+          licenseKey: licenseKey,
           sessionExpiredAt: util.addHours(new Date(), 3).toUTCString(),
         };
 

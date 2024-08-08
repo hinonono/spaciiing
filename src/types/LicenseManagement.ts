@@ -13,8 +13,10 @@ export interface LicenseResponseSuccess {
   subscription_ended_at: string | null;
   subscription_cancelled_at: string | null;
   subscription_failed_at: string | null;
-  recurrence?: string;
-  [key: string]: unknown; // Allow additional properties with unknown type
+  purchase: {
+    recurrence: string;
+    [key: string]: unknown; // Allow additional properties with unknown type within purchase
+  };
 }
 
 export interface LicenseResponseError {
