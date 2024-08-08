@@ -284,6 +284,141 @@ const antDesignOptions: AvailableOption[] = [
   },
 ];
 
+const tailwindOptions: AvailableOption[] = [
+  {
+    value: "tailwindSlate",
+    label: "Slate",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindGray",
+    label: "Gray",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindZinc",
+    label: "Zinc",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindNeutral",
+    label: "Neutral",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindStone",
+    label: "Stone",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindRed",
+    label: "Red",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindOrange",
+    label: "Orange",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindAmber",
+    label: "Amber",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindYellow",
+    label: "Yellow",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindLime",
+    label: "Lime",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindGreen",
+    label: "Green",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindEmerald",
+    label: "Emerald",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindTeal",
+    label: "Teal",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindCyan",
+    label: "Cyan",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindSky",
+    label: "Sky",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindBlue",
+    label: "Blue",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindIndigo",
+    label: "Indigo",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindViolet",
+    label: "Violet",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindPurple",
+    label: "Purple",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindFuchsia",
+    label: "Fuchsia",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindPink",
+    label: "Pink",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindRose",
+    label: "Rose",
+    brands: ["tailwind"],
+    forms: ["style", "variable"],
+  },
+];
+
 /**
  * 用於Preset Library模組，列出所有可選擇的選項
  */
@@ -291,6 +426,7 @@ const allOptions: AvailableOption[] = [
   ...iosOptions,
   ...materialDesignOptions,
   ...antDesignOptions,
+  ...tailwindOptions,
 ];
 
 export const getOptionsForSelectedBrandAndForm = (

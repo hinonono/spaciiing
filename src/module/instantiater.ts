@@ -6,28 +6,7 @@ import {
 import * as util from "./util";
 import * as spaciiing from "./spaciiing";
 
-import {
-  iosSystemColorsData,
-  iosSystemGrayColorsData,
-  m3BaselinePrimaryData,
-  m3BaselineSecondaryData,
-  m3BaselineTertiaryData,
-  m3BaselineNeutralData,
-  m3BaselineErrorData,
-  antDesignNeutralColorData,
-  antDesignDustRedData,
-  antDesignVolcanoData,
-  antDesignSunsetOrangeData,
-  antDesignCalendulaGoldData,
-  antDesignSunriseYellowData,
-  antDesignLimeData,
-  antDesignPolarGreenData,
-  antDesignCyanData,
-  antDesignDaybreakBlueData,
-  antDesignGeekBlueData,
-  antDesignGoldenPurpleData,
-  antDesignMagentaData,
-} from "../assets/colors";
+import * as colors from "../assets/colors";
 import iosDefaultDropShadowData from "../assets/effects/iosDefaultDropShadow.json";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
 
@@ -40,26 +19,56 @@ import {
 } from "../types/ColorCollection";
 import { m3ElevationDarkData, m3ElevationLightData } from "../assets/effects";
 
-const iosSystemColors: ColorCollection = iosSystemColorsData;
-const iosSystemGrayColors: ColorCollection = iosSystemGrayColorsData;
-const m3BaselinePrimary: ColorCollection = m3BaselinePrimaryData;
-const m3BaselineSecondary: ColorCollection = m3BaselineSecondaryData;
-const m3BaselineTertiary: ColorCollection = m3BaselineTertiaryData;
-const m3BaselineNeutral: ColorCollection = m3BaselineNeutralData;
-const m3BaselineError: ColorCollection = m3BaselineErrorData;
-const antDesignNeutralColor: ColorCollection = antDesignNeutralColorData;
-const antDesignDustRed: ColorCollection = antDesignDustRedData;
-const antDesignVolcano: ColorCollection = antDesignVolcanoData;
-const antDesignSunsetOrange: ColorCollection = antDesignSunsetOrangeData;
-const antDesignCalendulaGold: ColorCollection = antDesignCalendulaGoldData;
-const antDesignSunriseYellow: ColorCollection = antDesignSunriseYellowData;
-const antDesignLime: ColorCollection = antDesignLimeData;
-const antDesignPolarGreen: ColorCollection = antDesignPolarGreenData;
-const antDesignCyan: ColorCollection = antDesignCyanData;
-const antDesignDaybreakBlue: ColorCollection = antDesignDaybreakBlueData;
-const antDesignGeekBlue: ColorCollection = antDesignGeekBlueData;
-const antDesignGoldenPurple: ColorCollection = antDesignGoldenPurpleData;
-const antDesignMagenta: ColorCollection = antDesignMagentaData;
+const iosSystemColors: ColorCollection = colors.iosSystemColorsData;
+const iosSystemGrayColors: ColorCollection = colors.iosSystemGrayColorsData;
+
+// Material
+const m3BaselinePrimary: ColorCollection = colors.m3BaselinePrimaryData;
+const m3BaselineSecondary: ColorCollection = colors.m3BaselineSecondaryData;
+const m3BaselineTertiary: ColorCollection = colors.m3BaselineTertiaryData;
+const m3BaselineNeutral: ColorCollection = colors.m3BaselineNeutralData;
+const m3BaselineError: ColorCollection = colors.m3BaselineErrorData;
+
+// Ant Design
+const antDesignNeutralColor: ColorCollection = colors.antDesignNeutralColorData;
+const antDesignDustRed: ColorCollection = colors.antDesignDustRedData;
+const antDesignVolcano: ColorCollection = colors.antDesignVolcanoData;
+const antDesignSunsetOrange: ColorCollection = colors.antDesignSunsetOrangeData;
+const antDesignCalendulaGold: ColorCollection =
+  colors.antDesignCalendulaGoldData;
+const antDesignSunriseYellow: ColorCollection =
+  colors.antDesignSunriseYellowData;
+const antDesignLime: ColorCollection = colors.antDesignLimeData;
+const antDesignPolarGreen: ColorCollection = colors.antDesignPolarGreenData;
+const antDesignCyan: ColorCollection = colors.antDesignCyanData;
+const antDesignDaybreakBlue: ColorCollection = colors.antDesignDaybreakBlueData;
+const antDesignGeekBlue: ColorCollection = colors.antDesignGeekBlueData;
+const antDesignGoldenPurple: ColorCollection = colors.antDesignGoldenPurpleData;
+const antDesignMagenta: ColorCollection = colors.antDesignMagentaData;
+
+// Tailwind CSS
+const tailwindSlate: ColorCollection = colors.tailwindSlateData;
+const tailwindGray: ColorCollection = colors.tailwindGrayData;
+const tailwindZinc: ColorCollection = colors.tailwindZincData;
+const tailwindNeutral: ColorCollection = colors.tailwindNeutralData;
+const tailwindStone: ColorCollection = colors.tailwindStoneData;
+const tailwindRed: ColorCollection = colors.tailwindRedData;
+const tailwindOrange: ColorCollection = colors.tailwindOrangeData;
+const tailwindAmber: ColorCollection = colors.tailwindAmberData;
+const tailwindYellow: ColorCollection = colors.tailwindYellowData;
+const tailwindLime: ColorCollection = colors.tailwindLimeData;
+const tailwindGreen: ColorCollection = colors.tailwindGreenData;
+const tailwindEmerald: ColorCollection = colors.tailwindEmeraldData;
+const tailwindTeal: ColorCollection = colors.tailwindTealData;
+const tailwindCyan: ColorCollection = colors.tailwindCyanData;
+const tailwindSky: ColorCollection = colors.tailwindSkyData;
+const tailwindBlue: ColorCollection = colors.tailwindBlueData;
+const tailwindIndigo: ColorCollection = colors.tailwindIndigoData;
+const tailwindViolet: ColorCollection = colors.tailwindVioletData;
+const tailwindPurple: ColorCollection = colors.tailwindPurpleData;
+const tailwindFuchsia: ColorCollection = colors.tailwindFuchsiaData;
+const tailwindPink: ColorCollection = colors.tailwindPinkData;
+const tailwindRose: ColorCollection = colors.tailwindRoseData;
 
 // Effect資料
 const iosDefaultDropShadow: EffectCollection =
@@ -209,6 +218,72 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
     case "antDesignMagentaDark":
       generateColorStyle(antDesignMagenta, "dark");
       break;
+    case "tailwindSlate":
+      generateColorStyle(tailwindSlate, "light");
+      break;
+    case "tailwindGray":
+      generateColorStyle(tailwindGray, "light");
+      break;
+    case "tailwindZinc":
+      generateColorStyle(tailwindZinc, "light");
+      break;
+    case "tailwindNeutral":
+      generateColorStyle(tailwindNeutral, "light");
+      break;
+    case "tailwindStone":
+      generateColorStyle(tailwindStone, "light");
+      break;
+    case "tailwindRed":
+      generateColorStyle(tailwindRed, "light");
+      break;
+    case "tailwindOrange":
+      generateColorStyle(tailwindOrange, "light");
+      break;
+    case "tailwindAmber":
+      generateColorStyle(tailwindAmber, "light");
+      break;
+    case "tailwindYellow":
+      generateColorStyle(tailwindYellow, "light");
+      break;
+    case "tailwindLime":
+      generateColorStyle(tailwindLime, "light");
+      break;
+    case "tailwindGreen":
+      generateColorStyle(tailwindGreen, "light");
+      break;
+    case "tailwindEmerald":
+      generateColorStyle(tailwindEmerald, "light");
+      break;
+    case "tailwindTeal":
+      generateColorStyle(tailwindTeal, "light");
+      break;
+    case "tailwindCyan":
+      generateColorStyle(tailwindCyan, "light");
+      break;
+    case "tailwindSky":
+      generateColorStyle(tailwindSky, "light");
+      break;
+    case "tailwindBlue":
+      generateColorStyle(tailwindBlue, "light");
+      break;
+    case "tailwindIndigo":
+      generateColorStyle(tailwindIndigo, "light");
+      break;
+    case "tailwindViolet":
+      generateColorStyle(tailwindViolet, "light");
+      break;
+    case "tailwindPurple":
+      generateColorStyle(tailwindPurple, "light");
+      break;
+    case "tailwindFuchsia":
+      generateColorStyle(tailwindFuchsia, "light");
+      break;
+    case "tailwindPink":
+      generateColorStyle(tailwindPink, "light");
+      break;
+    case "tailwindRose":
+      generateColorStyle(tailwindRose, "light");
+      break;
     default:
       // handle default case
       break;
@@ -339,6 +414,72 @@ export function determineGenerateColorVariable(target: InstantiaterTarget) {
       break;
     case "antDesignMagentaDark":
       generateColorVariable(antDesignMagenta);
+      break;
+    case "tailwindSlate":
+      generateColorVariable(tailwindSlate);
+      break;
+    case "tailwindGray":
+      generateColorVariable(tailwindGray);
+      break;
+    case "tailwindZinc":
+      generateColorVariable(tailwindZinc);
+      break;
+    case "tailwindNeutral":
+      generateColorVariable(tailwindNeutral);
+      break;
+    case "tailwindStone":
+      generateColorVariable(tailwindStone);
+      break;
+    case "tailwindRed":
+      generateColorVariable(tailwindRed);
+      break;
+    case "tailwindOrange":
+      generateColorVariable(tailwindOrange);
+      break;
+    case "tailwindAmber":
+      generateColorVariable(tailwindAmber);
+      break;
+    case "tailwindYellow":
+      generateColorVariable(tailwindYellow);
+      break;
+    case "tailwindLime":
+      generateColorVariable(tailwindLime);
+      break;
+    case "tailwindGreen":
+      generateColorVariable(tailwindGreen);
+      break;
+    case "tailwindEmerald":
+      generateColorVariable(tailwindEmerald);
+      break;
+    case "tailwindTeal":
+      generateColorVariable(tailwindTeal);
+      break;
+    case "tailwindCyan":
+      generateColorVariable(tailwindCyan);
+      break;
+    case "tailwindSky":
+      generateColorVariable(tailwindSky);
+      break;
+    case "tailwindBlue":
+      generateColorVariable(tailwindBlue);
+      break;
+    case "tailwindIndigo":
+      generateColorVariable(tailwindIndigo);
+      break;
+    case "tailwindViolet":
+      generateColorVariable(tailwindViolet);
+      break;
+    case "tailwindPurple":
+      generateColorVariable(tailwindPurple);
+      break;
+    case "tailwindFuchsia":
+      generateColorVariable(tailwindFuchsia);
+      break;
+    case "tailwindPink":
+      generateColorVariable(tailwindPink);
+      break;
+    case "tailwindRose":
+      generateColorVariable(tailwindRose);
       break;
     default:
       // handle default case
@@ -496,21 +637,42 @@ export function instantiateTarget(message: MessageInstantiater) {
 }
 
 // Define the function
-function generateColorVariable(collection: ColorCollection) {
+async function generateColorVariable(collection: ColorCollection) {
   // Create a new variable collection
-  const variableCollection = figma.variables.createVariableCollection(
-    collection.name
+  const variableCollections =
+    await figma.variables.getLocalVariableCollectionsAsync();
+
+  // Find the collection named "Colors"
+  let variableCollection = variableCollections.find(
+    (vc) => vc.name === "Colors"
   );
 
-  // Add "light" and "dark" modes to the collection
-  const lightModeId = variableCollection.addMode("Light");
-  const darkModeId = variableCollection.addMode("Dark");
+  // If the collection does not exist, create one
+  if (!variableCollection) {
+    variableCollection = figma.variables.createVariableCollection("Colors");
+  }
+
+  // Check if "Light" and "Dark" modes exist, and add them if they don't
+  let lightModeId = variableCollection.modes.find(
+    (mode) => mode.name === "Light"
+  )?.modeId;
+  let darkModeId = variableCollection.modes.find(
+    (mode) => mode.name === "Dark"
+  )?.modeId;
+
+  if (!lightModeId) {
+    lightModeId = variableCollection.addMode("Light");
+  }
+
+  if (!darkModeId) {
+    darkModeId = variableCollection.addMode("Dark");
+  }
 
   // Iterate over each member in the collection and create variables
   for (const member of collection.members) {
     // Create a new variable for the current color member
     const variable = figma.variables.createVariable(
-      member.name,
+      `${collection.name}/${member.name}`, // Variable name includes collection name and member name
       variableCollection,
       "COLOR"
     );

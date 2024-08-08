@@ -23,3 +23,27 @@ export { default as antDesignDaybreakBlueData } from "./antDesign/antDesignDaybr
 export { default as antDesignGeekBlueData } from "./antDesign/antDesignGeekBlue.json";
 export { default as antDesignGoldenPurpleData } from "./antDesign/antDesignGoldenPurple.json";
 export { default as antDesignMagentaData } from "./antDesign/antDesignMagenta.json";
+
+// Tailwind CSS
+export { default as tailwindSlateData } from "./tailwind/tailwindSlate.json";
+export { default as tailwindGrayData } from "./tailwind/tailwindGray.json";
+export { default as tailwindZincData } from "./tailwind/tailwindZinc.json";
+export { default as tailwindNeutralData } from "./tailwind/tailwindNeutral.json";
+export { default as tailwindStoneData } from "./tailwind/tailwindStone.json";
+export { default as tailwindRedData } from "./tailwind/tailwindRed.json";
+export { default as tailwindOrangeData } from "./tailwind/tailwindOrange.json";
+export { default as tailwindAmberData } from "./tailwind/tailwindAmber.json";
+export { default as tailwindYellowData } from "./tailwind/tailwindYellow.json";
+export { default as tailwindLimeData } from "./tailwind/tailwindLime.json";
+export { default as tailwindGreenData } from "./tailwind/tailwindGreen.json";
+export { default as tailwindEmeraldData } from "./tailwind/tailwindEmerald.json";
+export { default as tailwindTealData } from "./tailwind/tailwindTeal.json";
+export { default as tailwindCyanData } from "./tailwind/tailwindCyan.json";
+export { default as tailwindSkyData } from "./tailwind/tailwindSky.json";
+export { default as tailwindBlueData } from "./tailwind/tailwindBlue.json";
+export { default as tailwindIndigoData } from "./tailwind/tailwindIndigo.json";
+export { default as tailwindVioletData } from "./tailwind/tailwindViolet.json";
+export { default as tailwindPurpleData } from "./tailwind/tailwindPurple.json";
+export { default as tailwindFuchsiaData } from "./tailwind/tailwindFuchsia.json";
+export { default as tailwindPinkData } from "./tailwind/tailwindPink.json";
+export { default as tailwindRoseData } from "./tailwind/tailwindRose.json";

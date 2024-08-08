@@ -172,7 +172,7 @@ export interface MessageLoremGenerator extends Message {
 // Instantiater專用的基底屬性
 export type InstantiaterType = "actual" | "explanation";
 export type InstantiateForm = "style" | "variable";
-export type InstantiaterSupportedBrand = "ios" | "antDesign" | "materialDesign";
+export type InstantiaterSupportedBrand = "ios" | "antDesign" | "materialDesign" | "tailwind";
 export type InstantiaterTarget =
   | ""
   | "iosEffectDefaultDropShadow"
@@ -218,7 +218,29 @@ export type InstantiaterTarget =
   | "antDesignGoldenPurpleLight"
   | "antDesignGoldenPurpleDark"
   | "antDesignMagentaLight"
-  | "antDesignMagentaDark";
+  | "antDesignMagentaDark"
+  | "tailwindSlate"
+  | "tailwindGray"
+  | "tailwindZinc"
+  | "tailwindNeutral"
+  | "tailwindStone"
+  | "tailwindRed"
+  | "tailwindOrange"
+  | "tailwindAmber"
+  | "tailwindYellow"
+  | "tailwindLime"
+  | "tailwindGreen"
+  | "tailwindEmerald"
+  | "tailwindTeal"
+  | "tailwindCyan"
+  | "tailwindSky"
+  | "tailwindBlue"
+  | "tailwindIndigo"
+  | "tailwindViolet"
+  | "tailwindPurple"
+  | "tailwindFuchsia"
+  | "tailwindPink"
+  | "tailwindRose";
 
 export interface MessageInstantiater extends Message {
   target: InstantiaterTarget;
