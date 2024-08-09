@@ -110,35 +110,20 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
     case "iosSystemGrayColorsDark":
       generateColorStyle(iosSystemGrayColors, "dark");
       break;
-    case "m3BaselinePrimaryLight":
-      generateColorStyle(m3BaselinePrimary, "light");
+    case "m3BaselinePrimary":
+      generateColorStyle(m3BaselinePrimary, "none");
       break;
-    case "m3BaselinePrimaryDark":
-      generateColorStyle(m3BaselinePrimary, "dark");
+    case "m3BaselineSecondary":
+      generateColorStyle(m3BaselineSecondary, "none");
       break;
-    case "m3BaselineSecondaryLight":
-      generateColorStyle(m3BaselineSecondary, "light");
+    case "m3BaselineTertiary":
+      generateColorStyle(m3BaselineTertiary, "none");
       break;
-    case "m3BaselineSecondaryDark":
-      generateColorStyle(m3BaselineSecondary, "dark");
+    case "m3BaselineNeutral":
+      generateColorStyle(m3BaselineNeutral, "none");
       break;
-    case "m3BaselineTertiaryLight":
-      generateColorStyle(m3BaselineTertiary, "light");
-      break;
-    case "m3BaselineTertiaryDark":
-      generateColorStyle(m3BaselineTertiary, "dark");
-      break;
-    case "m3BaselineNeutralLight":
-      generateColorStyle(m3BaselineNeutral, "light");
-      break;
-    case "m3BaselineNeutralDark":
-      generateColorStyle(m3BaselineNeutral, "dark");
-      break;
-    case "m3BaselineErrorLight":
-      generateColorStyle(m3BaselineError, "light");
-      break;
-    case "m3BaselineErrorDark":
-      generateColorStyle(m3BaselineError, "dark");
+    case "m3BaselineError":
+      generateColorStyle(m3BaselineError, "none");
       break;
     case "antDesignNeutralColorLight":
       generateColorStyle(antDesignNeutralColor, "light");
@@ -307,34 +292,19 @@ export function determineGenerateColorVariable(target: InstantiaterTarget) {
     case "iosSystemGrayColorsDark":
       generateColorVariable(iosSystemGrayColors);
       break;
-    case "m3BaselinePrimaryLight":
+    case "m3BaselinePrimary":
       generateColorVariable(m3BaselinePrimary);
       break;
-    case "m3BaselinePrimaryDark":
-      generateColorVariable(m3BaselinePrimary);
-      break;
-    case "m3BaselineSecondaryLight":
+    case "m3BaselineSecondary":
       generateColorVariable(m3BaselineSecondary);
       break;
-    case "m3BaselineSecondaryDark":
-      generateColorVariable(m3BaselineSecondary);
-      break;
-    case "m3BaselineTertiaryLight":
+    case "m3BaselineTertiary":
       generateColorVariable(m3BaselineTertiary);
       break;
-    case "m3BaselineTertiaryDark":
-      generateColorVariable(m3BaselineTertiary);
-      break;
-    case "m3BaselineNeutralLight":
+    case "m3BaselineNeutral":
       generateColorVariable(m3BaselineNeutral);
       break;
-    case "m3BaselineNeutralDark":
-      generateColorVariable(m3BaselineNeutral);
-      break;
-    case "m3BaselineErrorLight":
-      generateColorVariable(m3BaselineError);
-      break;
-    case "m3BaselineErrorDark":
+    case "m3BaselineError":
       generateColorVariable(m3BaselineError);
       break;
     case "antDesignNeutralColorLight":
@@ -510,34 +480,19 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
     case "iosSystemGrayColorsDark":
       generateExplanationText(iosSystemGrayColors);
       break;
-    case "m3BaselinePrimaryLight":
+    case "m3BaselinePrimary":
       generateExplanationText(m3BaselinePrimary);
       break;
-    case "m3BaselinePrimaryDark":
-      generateExplanationText(m3BaselinePrimary);
-      break;
-    case "m3BaselineSecondaryLight":
+    case "m3BaselineSecondary":
       generateExplanationText(m3BaselineSecondary);
       break;
-    case "m3BaselineSecondaryDark":
-      generateExplanationText(m3BaselineSecondary);
-      break;
-    case "m3BaselineTertiaryLight":
+    case "m3BaselineTertiary":
       generateExplanationText(m3BaselineTertiary);
       break;
-    case "m3BaselineTertiaryDark":
-      generateExplanationText(m3BaselineTertiary);
-      break;
-    case "m3BaselineNeutralLight":
+    case "m3BaselineNeutral":
       generateExplanationText(m3BaselineNeutral);
       break;
-    case "m3BaselineNeutralDark":
-      generateExplanationText(m3BaselineNeutral);
-      break;
-    case "m3BaselineErrorLight":
-      generateExplanationText(m3BaselineError);
-      break;
-    case "m3BaselineErrorDark":
+    case "m3BaselineError":
       generateExplanationText(m3BaselineError);
       break;
     case "antDesignNeutralColorLight":
