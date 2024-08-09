@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton } from "../components";
 import {
   InstantiateForm,
+  InstantiaterCategory,
   InstantiaterSupportedBrand,
   InstantiaterTarget,
   InstantiaterType,
@@ -23,6 +24,7 @@ const Instantiater: React.FC = () => {
 
   const [selectedBrand, setSelectedBrand] =
     useState<InstantiaterSupportedBrand>("ios");
+  const [selectedCat, setSelectedCat] = useState<InstantiaterCategory>("color");
   const [target, setTarget] = useState<InstantiaterTarget>(
     "iosSystemColorsLight"
   );
@@ -33,12 +35,21 @@ const Instantiater: React.FC = () => {
     setSelectedBrand(brand);
     setTarget(""); // Reset the selected option when the brand changes
   };
+  const handleCatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const cat = event.target.value as InstantiaterCategory;
+    setSelectedCat(cat);
+    setTarget(""); // Reset the selected option when the brand changes
+  };
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTarget(event.target.value as InstantiaterTarget);
   };
 
-  const options = getOptionsForSelectedBrandAndForm(selectedBrand, form);
+  const options = getOptionsForSelectedBrandAndForm(
+    selectedBrand,
+    selectedCat,
+    form
+  );
 
   useEffect(() => {
     setTarget(""); // Reset target when options change
@@ -114,6 +125,7 @@ const Instantiater: React.FC = () => {
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:collection")} />
+          {/* 選擇品牌 */}
           <select
             id="brand_select"
             className="custom-select"
@@ -126,6 +138,18 @@ const Instantiater: React.FC = () => {
             <option value="tailwind">Tailwind CSS</option>
           </select>
           <div className="mt-xxsmall"></div>
+          {/* 選擇類型 */}
+          <select
+            className="custom-select"
+            value={selectedCat}
+            onChange={handleCatChange}
+          >
+            <option value="color">Color</option>
+            <option value="effect">Effect</option>
+            <option value="typography">Typography</option>
+          </select>
+          <div className="mt-xxsmall"></div>
+          {/* 選項 */}
           <select
             id="option_select"
             className="custom-select"

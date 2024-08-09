@@ -172,7 +172,12 @@ export interface MessageLoremGenerator extends Message {
 // Instantiater專用的基底屬性
 export type InstantiaterType = "actual" | "explanation";
 export type InstantiateForm = "style" | "variable";
-export type InstantiaterSupportedBrand = "ios" | "antDesign" | "materialDesign" | "tailwind";
+export type InstantiaterSupportedBrand =
+  | "ios"
+  | "antDesign"
+  | "materialDesign"
+  | "tailwind";
+export type InstantiaterCategory = "color" | "effect" | "typography";
 export type InstantiaterTarget =
   | ""
   | "iosEffectDefaultDropShadow"
