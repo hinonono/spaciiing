@@ -975,7 +975,8 @@ async function generateExplanationText(collection: CollectionExplanationable) {
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
   // 結果
-  const results = [];
+  const results: SceneNode[] = [];
+  const explanationNodes: SceneNode[] = [];
 
   // 說明文字
   const explanationTextTitle = `Usage definition of ${collection.brand} - ${collection.name}`;
@@ -984,7 +985,9 @@ async function generateExplanationText(collection: CollectionExplanationable) {
   explanationTitleNode.x = viewport.x;
   explanationTitleNode.y = viewport.y;
   explanationTitleNode.characters = explanationTextTitle;
-  explanationTitleNode.fontSize = baseFontSize;
+  explanationTitleNode.fontSize = baseFontSize * 1.25;
+
+  figma.currentPage.appendChild(explanationTitleNode);
   results.push(explanationTitleNode);
 
   collection.members.forEach((member) => {
@@ -996,21 +999,39 @@ async function generateExplanationText(collection: CollectionExplanationable) {
     explanationNode.fontSize = baseFontSize;
     explanationNode.x = viewport.x;
     explanationNode.y = viewport.y;
-    results.push(explanationNode);
+
+    // results.push(explanationNode);
+    explanationNodes.push(explanationNode);
+    figma.currentPage.appendChild(explanationNode);
   });
 
-  results.forEach((item) => {
-    figma.currentPage.appendChild(item);
-  });
-
-  figma.currentPage.selection = results;
   const spacing = 8;
   const mode: SpacingMode = "vertical";
   const addAutolayout = true;
 
+  const explanationNodeFrame = spaciiing.applySpacingToLayers(
+    explanationNodes,
+    spacing,
+    mode,
+    addAutolayout,
+    true
+  );
+
+  if (!explanationNodeFrame) {
+    return;
+  }
+
+  results.push(explanationNodeFrame);
+
+  // results.forEach((item) => {
+  //   figma.currentPage.appendChild(item);
+  // });
+
+  figma.currentPage.selection = results;
+
   const frame = spaciiing.applySpacingToLayers(
     results,
-    spacing,
+    spacing * 3,
     mode,
     addAutolayout,
     true
@@ -1027,13 +1048,13 @@ async function generateExplanationText(collection: CollectionExplanationable) {
 
     frame.name = explanationTextTitle;
     // Set padding for all sides
-    frame.paddingTop = 16;
-    frame.paddingRight = 16;
-    frame.paddingBottom = 16;
-    frame.paddingLeft = 16;
+    frame.paddingTop = 32;
+    frame.paddingRight = 48;
+    frame.paddingBottom = 32;
+    frame.paddingLeft = 48;
 
     // Set corner radius
-    frame.cornerRadius = 8;
+    frame.cornerRadius = 16;
     // Set the width and height to hug contents
     frame.primaryAxisSizingMode = "AUTO";
     frame.counterAxisSizingMode = "AUTO";
