@@ -25,27 +25,18 @@ const Instantiater: React.FC = () => {
   const [selectedBrand, setSelectedBrand] =
     useState<InstantiaterSupportedBrand>("ios");
   const [selectedCat, setSelectedCat] = useState<InstantiaterCategory>("color");
-  // const [target, setTarget] = useState<InstantiaterTarget>(
-  //   "iosSystemColorsLight"
-  // );
   const [form, setForm] = useState<InstantiateForm>("style");
 
   const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const brand = event.target.value as InstantiaterSupportedBrand;
     setSelectedBrand(brand);
-    // setTarget("");
     setSelectedTargets([]); // Reset the selected option when the brand changes
   };
   const handleCatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cat = event.target.value as InstantiaterCategory;
     setSelectedCat(cat);
-    // setTarget("");
     setSelectedTargets([]); // Reset the selected option when the brand changes
   };
-
-  // const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setTarget(event.target.value as InstantiaterTarget);
-  // };
 
   const options = getOptionsForSelectedBrandAndForm(
     selectedBrand,
@@ -78,7 +69,6 @@ const Instantiater: React.FC = () => {
   };
 
   useEffect(() => {
-    // setTarget("");
     setSelectedTargets([]); // Reset target when options change
   }, [selectedBrand, selectedCat]);
 
