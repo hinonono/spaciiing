@@ -60,3 +60,17 @@ export { default as bootstrapGreen } from "./bootstrap/bootstrapGreen.json";
 export { default as bootstrapTeal } from "./bootstrap/bootstrapTeal.json";
 export { default as bootstrapCyan } from "./bootstrap/bootstrapCyan.json";
 export { default as bootstrapGray } from "./bootstrap/bootstrapGray.json";
+
+// Polaris
+export { default as polarisRose } from "./polaris/polarisRose.json";
+export { default as polarisMagenta } from "./polaris/polarisMagenta.json";
+export { default as polarisPurple } from "./polaris/polarisPurple.json";
+export { default as polarisBlue } from "./polaris/polarisBlue.json";
+export { default as polarisAzure } from "./polaris/polarisAzure.json";
+export { default as polarisTeal } from "./polaris/polarisTeal.json";
+export { default as polarisCyan } from "./polaris/polarisCyan.json";
+export { default as polarisGreen } from "./polaris/polarisGreen.json";
+export { default as polarisLime } from "./polaris/polarisLime.json";
+export { default as polarisYellow } from "./polaris/polarisYellow.json";
+export { default as polarisOrange } from "./polaris/polarisOrange.json";
+export { default as polarisRed } from "./polaris/polarisRed.json";

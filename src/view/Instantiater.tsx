@@ -153,6 +153,7 @@ const Instantiater: React.FC = () => {
             <option value="bootstrap">Bootstrap</option>
             <option value="ios">iOS</option>
             <option value="materialDesign">Material Design</option>
+            <option value="polaris">Shopify Polaris</option>
             <option value="tailwind">Tailwind CSS</option>
           </select>
           <div className="mt-xxsmall"></div>

@@ -595,6 +595,105 @@ const bootstrapOptions: AvailableOption[] = [
   },
 ];
 
+const polarisOptions: AvailableOption[] = [
+  {
+    value: "polarisRed",
+    label: "Red",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(229, 28, 0)", // Red step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisOrange",
+    label: "Orange",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(255, 184, 0)", // Orange step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisYellow",
+    label: "Yellow",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(255, 230, 0)", // Yellow step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisLime",
+    label: "Lime",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(56, 254, 62)", // Lime step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisGreen",
+    label: "Green",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(46, 211, 137)", // Green step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisCyan",
+    label: "Cyan",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(23, 199, 167)", // Cyan step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisTeal",
+    label: "Teal",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(30, 199, 188)", // Teal step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisAzure",
+    label: "Azure",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(0, 148, 213)", // Azure step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisBlue",
+    label: "Blue",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(0, 113, 233)", // Blue step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisPurple",
+    label: "Purple",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(128, 81, 255)", // Purple step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisMagenta",
+    label: "Magenta",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(197, 48, 197)", // Magenta step 8
+    forms: ["style", "variable"],
+  },
+  {
+    value: "polarisRose",
+    label: "Rose",
+    brands: ["polaris"],
+    category: ["color"],
+    thumbnailColor: "rgb(227, 12, 118)", // Rose step 8
+    forms: ["style", "variable"],
+  },
+];
+
 /**
  * 用於Preset Library模組，列出所有可選擇的選項
  */
@@ -602,7 +701,14 @@ const allOptions: AvailableOption[] = [
   {
     value: "all",
     label: "ALL",
-    brands: ["ios", "antDesign", "materialDesign", "tailwind", "bootstrap"],
+    brands: [
+      "ios",
+      "antDesign",
+      "materialDesign",
+      "tailwind",
+      "bootstrap",
+      "polaris",
+    ],
     category: ["color", "effect", "typography"],
     forms: ["style", "variable"],
   },
@@ -611,6 +717,7 @@ const allOptions: AvailableOption[] = [
   ...antDesignOptions,
   ...tailwindOptions,
   ...bootstrapOptions,
+  ...polarisOptions,
 ];
 
 export const getOptionsForSelectedBrandAndForm = (

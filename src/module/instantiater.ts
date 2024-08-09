@@ -83,6 +83,20 @@ const bootstrapTeal: ColorCollection = colors.bootstrapTeal;
 const bootstrapCyan: ColorCollection = colors.bootstrapCyan;
 const bootstrapGray: ColorCollection = colors.bootstrapGray;
 
+// Polaris
+const polarisRose: ColorCollection = colors.polarisRose;
+const polarisMagenta: ColorCollection = colors.polarisMagenta;
+const polarisPurple: ColorCollection = colors.polarisPurple;
+const polarisBlue: ColorCollection = colors.polarisBlue;
+const polarisAzure: ColorCollection = colors.polarisAzure;
+const polarisTeal: ColorCollection = colors.polarisTeal;
+const polarisCyan: ColorCollection = colors.polarisCyan;
+const polarisGreen: ColorCollection = colors.polarisGreen;
+const polarisLime: ColorCollection = colors.polarisLime;
+const polarisYellow: ColorCollection = colors.polarisYellow;
+const polarisOrange: ColorCollection = colors.polarisOrange;
+const polarisRed: ColorCollection = colors.polarisRed;
+
 // Effect資料
 const iosDefaultDropShadow: EffectCollection =
   iosDefaultDropShadowData as EffectCollection;
@@ -315,6 +329,42 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
     case "bootstrapGray":
       generateColorStyle(bootstrapGray, "none");
       break;
+    case "polarisRose":
+      generateColorStyle(polarisRose, "none");
+      break;
+    case "polarisMagenta":
+      generateColorStyle(polarisMagenta, "none");
+      break;
+    case "polarisPurple":
+      generateColorStyle(polarisPurple, "none");
+      break;
+    case "polarisBlue":
+      generateColorStyle(polarisBlue, "none");
+      break;
+    case "polarisAzure":
+      generateColorStyle(polarisAzure, "none");
+      break;
+    case "polarisTeal":
+      generateColorStyle(polarisTeal, "none");
+      break;
+    case "polarisCyan":
+      generateColorStyle(polarisCyan, "none");
+      break;
+    case "polarisGreen":
+      generateColorStyle(polarisGreen, "none");
+      break;
+    case "polarisLime":
+      generateColorStyle(polarisLime, "none");
+      break;
+    case "polarisYellow":
+      generateColorStyle(polarisYellow, "none");
+      break;
+    case "polarisOrange":
+      generateColorStyle(polarisOrange, "none");
+      break;
+    case "polarisRed":
+      generateColorStyle(polarisRed, "none");
+      break;
     default:
       // handle default case
       break;
@@ -529,6 +579,42 @@ export function determineGenerateColorVariable(target: InstantiaterTarget) {
       break;
     case "bootstrapGray":
       generateColorVariable(bootstrapGray);
+      break;
+    case "polarisRose":
+      generateColorVariable(polarisRose);
+      break;
+    case "polarisMagenta":
+      generateColorVariable(polarisMagenta);
+      break;
+    case "polarisPurple":
+      generateColorVariable(polarisPurple);
+      break;
+    case "polarisBlue":
+      generateColorVariable(polarisBlue);
+      break;
+    case "polarisAzure":
+      generateColorVariable(polarisAzure);
+      break;
+    case "polarisTeal":
+      generateColorVariable(polarisTeal);
+      break;
+    case "polarisCyan":
+      generateColorVariable(polarisCyan);
+      break;
+    case "polarisGreen":
+      generateColorVariable(polarisGreen);
+      break;
+    case "polarisLime":
+      generateColorVariable(polarisLime);
+      break;
+    case "polarisYellow":
+      generateColorVariable(polarisYellow);
+      break;
+    case "polarisOrange":
+      generateColorVariable(polarisOrange);
+      break;
+    case "polarisRed":
+      generateColorVariable(polarisRed);
       break;
     default:
       // handle default case
@@ -750,6 +836,42 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
       break;
     case "bootstrapGray":
       generateExplanationText(bootstrapGray);
+      break;
+    case "polarisRose":
+      generateExplanationText(polarisRose);
+      break;
+    case "polarisMagenta":
+      generateExplanationText(polarisMagenta);
+      break;
+    case "polarisPurple":
+      generateExplanationText(polarisPurple);
+      break;
+    case "polarisBlue":
+      generateExplanationText(polarisBlue);
+      break;
+    case "polarisAzure":
+      generateExplanationText(polarisAzure);
+      break;
+    case "polarisTeal":
+      generateExplanationText(polarisTeal);
+      break;
+    case "polarisCyan":
+      generateExplanationText(polarisCyan);
+      break;
+    case "polarisGreen":
+      generateExplanationText(polarisGreen);
+      break;
+    case "polarisLime":
+      generateExplanationText(polarisLime);
+      break;
+    case "polarisYellow":
+      generateExplanationText(polarisYellow);
+      break;
+    case "polarisOrange":
+      generateExplanationText(polarisOrange);
+      break;
+    case "polarisRed":
+      generateExplanationText(polarisRed);
       break;
     default:
       // handle default case

@@ -177,7 +177,8 @@ export type InstantiaterSupportedBrand =
   | "antDesign"
   | "materialDesign"
   | "tailwind"
-  | "bootstrap";
+  | "bootstrap"
+  | "polaris";
 export type InstantiaterCategory = "color" | "effect" | "typography";
 export type InstantiaterTarget =
   | ""
@@ -253,7 +254,19 @@ export type InstantiaterTarget =
   | "bootstrapGreen"
   | "bootstrapTeal"
   | "bootstrapCyan"
-  | "bootstrapGray";
+  | "bootstrapGray"
+  | "polarisRose"
+  | "polarisMagenta"
+  | "polarisPurple"
+  | "polarisBlue"
+  | "polarisAzure"
+  | "polarisTeal"
+  | "polarisCyan"
+  | "polarisGreen"
+  | "polarisLime"
+  | "polarisYellow"
+  | "polarisOrange"
+  | "polarisRed";
 
 export interface MessageInstantiater extends Message {
   targets: InstantiaterTarget[];
