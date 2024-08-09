@@ -80,7 +80,7 @@ const Instantiater: React.FC = () => {
   useEffect(() => {
     // setTarget("");
     setSelectedTargets([]); // Reset target when options change
-  }, [selectedBrand, selectedCat, form]);
+  }, [selectedBrand, selectedCat]);
 
   const applyInstantiater = (type: InstantiaterType) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
@@ -171,23 +171,33 @@ const Instantiater: React.FC = () => {
             value={selectedCat}
             onChange={handleCatChange}
           >
-            <option value="color">Color</option>
-            <option value="effect">Effect</option>
-            <option value="typography">Typography</option>
+            <option value="color">{t("term:color")}</option>
+            <option value="effect">{t("term:effectColor")}</option>
+            <option value="typography">{t("term:fontFamily")}</option>
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選項 */}
-          <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
+          <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
             {options.map((option) => (
               <label key={option.value} className={`container`}>
-                {option.label === "ALL" ? t("term:allOptions") : option.label}
-                <input
-                  type="checkbox"
-                  value={option.value}
-                  checked={selectedTargets.includes(option.value)}
-                  onChange={() => handleTargetChange(option.value)}
-                />
-                <span className="checkmark"></span>
+                <div className="flex flex-row align-items-center">
+                  {option.label !== "ALL" && selectedCat === "color" && (
+                    <div
+                      className={`color-thumbnail color-thumbnail-${
+                        form === "style" ? "style" : "variable"
+                      } mr-xxsmall`}
+                      style={{ background: option.thumbnailColor }}
+                    ></div>
+                  )}
+                  {option.label === "ALL" ? t("term:allOptions") : option.label}
+                  <input
+                    type="checkbox"
+                    value={option.value}
+                    checked={selectedTargets.includes(option.value)}
+                    onChange={() => handleTargetChange(option.value)}
+                  />
+                  <span className="checkmark checkmark-large"></span>
+                </div>
               </label>
             ))}
           </div>

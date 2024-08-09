@@ -69,6 +69,10 @@
     &:hover {
         border-color: var(--cy-border-dark);
     }
+
+    &-large {
+        max-height: 320px;
+    }
 }
 
 .section-title {
@@ -213,4 +217,23 @@
     top: 0;
     background-color: var(--figma-color-bg);
     z-index: 3;
+}
+
+@mixin color-thumbnail {
+    width: 20px;
+    height: 20px;
+}
+
+.color-thumbnail {
+    transition: all 0.3s ease;
+
+    &-style {
+        @include color-thumbnail();
+        border-radius: 999px;
+    }
+
+    &-variable {
+        @include color-thumbnail();
+        border-radius: var(--cy-border-radius-small);
+    }
 }

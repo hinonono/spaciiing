@@ -291,8 +291,12 @@
   height: 18px;
   width: 18px;
   border: 2px solid var(--figma-color-border);
-  margin: 3px 0px;
+  margin: 4px 0px;
   border-radius: var(--cy-border-radius-small);
+}
+.checkmark-large {
+  top: 25%;
+  margin: 0;
 }
 .checkmark:after {
   content: "";
@@ -312,8 +316,8 @@
     background-color: var(--figma-color-bg-brand);
   }
   .checkmark {
-    background-color: #747474;
-    border: 2px solid #747474;
+    background-color: #4c4c4c;
+    border: 2px solid #595959;
   }
   .checkmark:after {
     border-color: #fff;
@@ -431,6 +435,9 @@
 }
 .scope-group:hover {
   border-color: var(--cy-border-dark);
+}
+.scope-group-large {
+  max-height: 320px;
 }
 
 .section-title {
@@ -558,6 +565,20 @@
   top: 0;
   background-color: var(--figma-color-bg);
   z-index: 3;
+}
+
+.color-thumbnail {
+  transition: all 0.3s ease;
+}
+.color-thumbnail-style {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+}
+.color-thumbnail-variable {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--cy-border-radius-small);
 }
 
 body {

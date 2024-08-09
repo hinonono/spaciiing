@@ -36,8 +36,13 @@
     height: 18px;
     width: 18px;
     border: 2px solid var(--figma-color-border);
-    margin: 3px 0px;
+    margin: 4px 0px;
     border-radius: var(--cy-border-radius-small);
+
+    &-large {
+        top: 25%;
+        margin: 0;
+    }
 
     &:after {
         content: "";
@@ -64,8 +69,8 @@
     }
 
     .checkmark {
-        background-color: #747474;
-        border: 2px solid #747474;
+        background-color: #4c4c4c;
+        border: 2px solid #595959;
 
         &:after {
             border-color: #fff;

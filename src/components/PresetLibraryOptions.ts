@@ -11,6 +11,7 @@ type AvailableOption = {
   brands: InstantiaterSupportedBrand[];
   category: InstantiaterCategory[];
   forms: InstantiateForm[];
+  thumbnailColor?: string;
 };
 
 const iosOptions: AvailableOption[] = [
@@ -19,6 +20,8 @@ const iosOptions: AvailableOption[] = [
     label: "System colors (Light)",
     brands: ["ios"],
     category: ["color"],
+    thumbnailColor:
+      "conic-gradient(rgba(255,52,143,1), rgba(255,197,65,1), rgba(0,212,255,1), rgba(207,0,255,1))",
     forms: ["style", "variable"],
   },
   {
@@ -26,6 +29,8 @@ const iosOptions: AvailableOption[] = [
     label: "System colors (Dark)",
     brands: ["ios"],
     category: ["color"],
+    thumbnailColor:
+      "conic-gradient(rgba(190, 45, 110, 1), rgba(189, 147, 47, 1), rgba(0, 146, 176, 1), rgba(131, 1, 160, 1))",
     forms: ["style", "variable"],
   },
   {
@@ -33,6 +38,7 @@ const iosOptions: AvailableOption[] = [
     label: "System gray colors (Light)",
     brands: ["ios"],
     category: ["color"],
+    thumbnailColor: "rgb(199,199,204)",
     forms: ["style", "variable"],
   },
   {
@@ -40,6 +46,7 @@ const iosOptions: AvailableOption[] = [
     label: "System gray colors (Dark)",
     brands: ["ios"],
     category: ["color"],
+    thumbnailColor: "rgb(72,72,74)",
     forms: ["style", "variable"],
   },
   {
@@ -64,6 +71,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline primary (Light)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(154,131,219)",
     forms: ["style", "variable"],
   },
   {
@@ -71,6 +79,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline primary (Dark)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(154,131,219)",
     forms: ["style", "variable"],
   },
   {
@@ -78,6 +87,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline secondary (Light)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(149,141,165)",
     forms: ["style", "variable"],
   },
   {
@@ -85,6 +95,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline secondary (Dark)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(149,141,165)",
     forms: ["style", "variable"],
   },
   {
@@ -92,6 +103,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline tertiary (Light)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(181,131,146)",
     forms: ["style", "variable"],
   },
   {
@@ -99,6 +111,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline tertiary (Dark)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(181,131,146)",
     forms: ["style", "variable"],
   },
   {
@@ -106,6 +119,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline neutral (Light)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(147,144,144)",
     forms: ["style", "variable"],
   },
   {
@@ -113,6 +127,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline neutral (Dark)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(147,144,144)",
     forms: ["style", "variable"],
   },
   {
@@ -120,6 +135,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline error (Light)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(230,106,99)",
     forms: ["style", "variable"],
   },
   {
@@ -127,6 +143,7 @@ const materialDesignOptions: AvailableOption[] = [
     label: "Baseline error (Dark)",
     brands: ["materialDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(230,106,99)",
     forms: ["style", "variable"],
   },
   {
@@ -151,6 +168,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Neutral color (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(140,140,140)",
     forms: ["style", "variable"],
   },
   {
@@ -158,6 +176,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Neutral color (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(140,140,140)",
     forms: ["style", "variable"],
   },
   {
@@ -165,6 +184,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Dust red (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(207,19,34)",
     forms: ["style", "variable"],
   },
   {
@@ -172,6 +192,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Dust red (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(207,19,34)",
     forms: ["style", "variable"],
   },
   {
@@ -179,6 +200,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Volcano (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(216,56,13)",
     forms: ["style", "variable"],
   },
   {
@@ -186,6 +208,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Volcano (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(216,56,13)",
     forms: ["style", "variable"],
   },
   {
@@ -193,6 +216,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Sunset orange (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(212,107,8)",
     forms: ["style", "variable"],
   },
   {
@@ -200,6 +224,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Sunset orange (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(212,107,8)",
     forms: ["style", "variable"],
   },
   {
@@ -207,6 +232,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Calendula gold (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(212,136,6)",
     forms: ["style", "variable"],
   },
   {
@@ -214,6 +240,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Calendula gold (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(212,136,6)",
     forms: ["style", "variable"],
   },
   {
@@ -221,6 +248,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Sunrise yellow (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(212,177,6)",
     forms: ["style", "variable"],
   },
   {
@@ -228,6 +256,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Sunrise yellow (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(212,177,6)",
     forms: ["style", "variable"],
   },
   {
@@ -235,6 +264,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Lime (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(124,179,5)",
     forms: ["style", "variable"],
   },
   {
@@ -242,6 +272,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Lime (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(124,179,5)",
     forms: ["style", "variable"],
   },
   {
@@ -249,6 +280,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Polar green (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(56,158,13)",
     forms: ["style", "variable"],
   },
   {
@@ -256,6 +288,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Polar green (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(56,158,13)",
     forms: ["style", "variable"],
   },
   {
@@ -263,6 +296,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Cyan (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(8,151,156)",
     forms: ["style", "variable"],
   },
   {
@@ -270,6 +304,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Cyan (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(8,151,156)",
     forms: ["style", "variable"],
   },
   {
@@ -277,6 +312,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Daybreak blue (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(9,109,217)",
     forms: ["style", "variable"],
   },
   {
@@ -284,6 +320,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Daybreak blue (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(9,109,217)",
     forms: ["style", "variable"],
   },
   {
@@ -291,6 +328,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Geek blue (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(29,57,196)",
     forms: ["style", "variable"],
   },
   {
@@ -298,6 +336,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Geek blue (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(29,57,196)",
     forms: ["style", "variable"],
   },
   {
@@ -305,6 +344,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Golden purple (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(83,29,171)",
     forms: ["style", "variable"],
   },
   {
@@ -312,6 +352,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Golden purple (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(83,29,171)",
     forms: ["style", "variable"],
   },
   {
@@ -319,6 +360,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Magenta (Light)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(196,29,127)",
     forms: ["style", "variable"],
   },
   {
@@ -326,6 +368,7 @@ const antDesignOptions: AvailableOption[] = [
     label: "Magenta (Dark)",
     brands: ["antDesign"],
     category: ["color"],
+    thumbnailColor: "rgb(196,29,127)",
     forms: ["style", "variable"],
   },
 ];
@@ -336,6 +379,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Slate",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(100,116,139)",
     forms: ["style", "variable"],
   },
   {
@@ -343,6 +387,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Gray",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(107,114,128)",
     forms: ["style", "variable"],
   },
   {
@@ -350,6 +395,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Zinc",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(113,113,122)",
     forms: ["style", "variable"],
   },
   {
@@ -357,6 +403,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Neutral",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(115,115,115)",
     forms: ["style", "variable"],
   },
   {
@@ -364,6 +411,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Stone",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(120,113,108)",
     forms: ["style", "variable"],
   },
   {
@@ -371,6 +419,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Red",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(239,68,68)",
     forms: ["style", "variable"],
   },
   {
@@ -378,6 +427,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Orange",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(249,115,22)",
     forms: ["style", "variable"],
   },
   {
@@ -385,6 +435,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Amber",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(245,158,11)",
     forms: ["style", "variable"],
   },
   {
@@ -392,6 +443,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Yellow",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(234,179,8)",
     forms: ["style", "variable"],
   },
   {
@@ -399,6 +451,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Lime",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(132,204,22)",
     forms: ["style", "variable"],
   },
   {
@@ -406,6 +459,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Green",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(34,197,94)",
     forms: ["style", "variable"],
   },
   {
@@ -413,6 +467,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Emerald",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(16,185,129)",
     forms: ["style", "variable"],
   },
   {
@@ -420,6 +475,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Teal",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(20,184,166)",
     forms: ["style", "variable"],
   },
   {
@@ -427,6 +483,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Cyan",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(6,182,212)",
     forms: ["style", "variable"],
   },
   {
@@ -434,6 +491,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Sky",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(14,165,233)",
     forms: ["style", "variable"],
   },
   {
@@ -441,6 +499,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Blue",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(59,130,246)",
     forms: ["style", "variable"],
   },
   {
@@ -448,6 +507,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Indigo",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(99,102,241)",
     forms: ["style", "variable"],
   },
   {
@@ -455,6 +515,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Violet",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(139,92,246)",
     forms: ["style", "variable"],
   },
   {
@@ -462,6 +523,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Purple",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(168,85,247)",
     forms: ["style", "variable"],
   },
   {
@@ -469,6 +531,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Fuchsia",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(217,70,239)",
     forms: ["style", "variable"],
   },
   {
@@ -476,6 +539,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Pink",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(236,72,153)",
     forms: ["style", "variable"],
   },
   {
@@ -483,6 +547,7 @@ const tailwindOptions: AvailableOption[] = [
     label: "Rose",
     brands: ["tailwind"],
     category: ["color"],
+    thumbnailColor: "rgb(244,63,94)",
     forms: ["style", "variable"],
   },
 ];
