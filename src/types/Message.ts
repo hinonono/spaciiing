@@ -176,7 +176,8 @@ export type InstantiaterSupportedBrand =
   | "ios"
   | "antDesign"
   | "materialDesign"
-  | "tailwind";
+  | "tailwind"
+  | "bootstrap";
 export type InstantiaterCategory = "color" | "effect" | "typography";
 export type InstantiaterTarget =
   | ""
@@ -241,7 +242,18 @@ export type InstantiaterTarget =
   | "tailwindPurple"
   | "tailwindFuchsia"
   | "tailwindPink"
-  | "tailwindRose";
+  | "tailwindRose"
+  | "bootstrapBlue"
+  | "bootstrapIndigo"
+  | "bootstrapPurple"
+  | "bootstrapPink"
+  | "bootstrapRed"
+  | "bootstrapOrange"
+  | "bootstrapYellow"
+  | "bootstrapGreen"
+  | "bootstrapTeal"
+  | "bootstrapCyan"
+  | "bootstrapGray";
 
 export interface MessageInstantiater extends Message {
   targets: InstantiaterTarget[];

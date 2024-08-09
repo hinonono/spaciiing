@@ -335,46 +335,6 @@ const antDesignOptions: AvailableOption[] = [
 
 const tailwindOptions: AvailableOption[] = [
   {
-    value: "tailwindSlate",
-    label: "Slate",
-    brands: ["tailwind"],
-    category: ["color"],
-    thumbnailColor: "rgb(100,116,139)",
-    forms: ["style", "variable"],
-  },
-  {
-    value: "tailwindGray",
-    label: "Gray",
-    brands: ["tailwind"],
-    category: ["color"],
-    thumbnailColor: "rgb(107,114,128)",
-    forms: ["style", "variable"],
-  },
-  {
-    value: "tailwindZinc",
-    label: "Zinc",
-    brands: ["tailwind"],
-    category: ["color"],
-    thumbnailColor: "rgb(113,113,122)",
-    forms: ["style", "variable"],
-  },
-  {
-    value: "tailwindNeutral",
-    label: "Neutral",
-    brands: ["tailwind"],
-    category: ["color"],
-    thumbnailColor: "rgb(115,115,115)",
-    forms: ["style", "variable"],
-  },
-  {
-    value: "tailwindStone",
-    label: "Stone",
-    brands: ["tailwind"],
-    category: ["color"],
-    thumbnailColor: "rgb(120,113,108)",
-    forms: ["style", "variable"],
-  },
-  {
     value: "tailwindRed",
     label: "Red",
     brands: ["tailwind"],
@@ -503,11 +463,134 @@ const tailwindOptions: AvailableOption[] = [
     forms: ["style", "variable"],
   },
   {
-    value: "tailwindRose",
-    label: "Rose",
+    value: "tailwindSlate",
+    label: "Slate",
     brands: ["tailwind"],
     category: ["color"],
-    thumbnailColor: "rgb(244,63,94)",
+    thumbnailColor: "rgb(100,116,139)",
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindStone",
+    label: "Stone",
+    brands: ["tailwind"],
+    category: ["color"],
+    thumbnailColor: "rgb(120,113,108)",
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindZinc",
+    label: "Zinc",
+    brands: ["tailwind"],
+    category: ["color"],
+    thumbnailColor: "rgb(113,113,122)",
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindNeutral",
+    label: "Neutral",
+    brands: ["tailwind"],
+    category: ["color"],
+    thumbnailColor: "rgb(115,115,115)",
+    forms: ["style", "variable"],
+  },
+  {
+    value: "tailwindGray",
+    label: "Gray",
+    brands: ["tailwind"],
+    category: ["color"],
+    thumbnailColor: "rgb(107,114,128)",
+    forms: ["style", "variable"],
+  },
+];
+
+const bootstrapOptions: AvailableOption[] = [
+  {
+    value: "bootstrapRed",
+    label: "Red",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(220, 53, 69)", // Red 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapOrange",
+    label: "Orange",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(253, 126, 20)", // Orange 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapYellow",
+    label: "Yellow",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(255, 193, 7)", // Yellow 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapGreen",
+    label: "Green",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(25, 135, 84)", // Green 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapTeal",
+    label: "Teal",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(32, 201, 151)", // Teal 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapCyan",
+    label: "Cyan",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(13, 202, 240)", // Cyan 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapBlue",
+    label: "Blue",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(13, 110, 253)", // Blue 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapIndigo",
+    label: "Indigo",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(102, 16, 242)", // Indigo 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapPurple",
+    label: "Purple",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(111, 66, 193)", // Purple 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapPink",
+    label: "Pink",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(214, 51, 132)", // Pink 500
+    forms: ["style", "variable"],
+  },
+  {
+    value: "bootstrapGray",
+    label: "Gray",
+    brands: ["bootstrap"],
+    category: ["color"],
+    thumbnailColor: "rgb(173, 181, 189)", // Gray 500
     forms: ["style", "variable"],
   },
 ];
@@ -519,7 +602,7 @@ const allOptions: AvailableOption[] = [
   {
     value: "all",
     label: "ALL",
-    brands: ["ios", "antDesign", "materialDesign", "tailwind"],
+    brands: ["ios", "antDesign", "materialDesign", "tailwind", "bootstrap"],
     category: ["color", "effect", "typography"],
     forms: ["style", "variable"],
   },
@@ -527,6 +610,7 @@ const allOptions: AvailableOption[] = [
   ...materialDesignOptions,
   ...antDesignOptions,
   ...tailwindOptions,
+  ...bootstrapOptions,
 ];
 
 export const getOptionsForSelectedBrandAndForm = (

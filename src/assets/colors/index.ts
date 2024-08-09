@@ -47,3 +47,16 @@ export { default as tailwindPurpleData } from "./tailwind/tailwindPurple.json";
 export { default as tailwindFuchsiaData } from "./tailwind/tailwindFuchsia.json";
 export { default as tailwindPinkData } from "./tailwind/tailwindPink.json";
 export { default as tailwindRoseData } from "./tailwind/tailwindRose.json";
+
+// Tailwind
+export { default as bootstrapBlue } from "./bootstrap/bootstrapBlue.json";
+export { default as bootstrapIndigo } from "./bootstrap/bootstrapIndigo.json";
+export { default as bootstrapPurple } from "./bootstrap/bootstrapPurple.json";
+export { default as bootstrapPink } from "./bootstrap/bootstrapPink.json";
+export { default as bootstrapRed } from "./bootstrap/bootstrapRed.json";
+export { default as bootstrapOrange } from "./bootstrap/bootstrapOrange.json";
+export { default as bootstrapYellow } from "./bootstrap/bootstrapYellow.json";
+export { default as bootstrapGreen } from "./bootstrap/bootstrapGreen.json";
+export { default as bootstrapTeal } from "./bootstrap/bootstrapTeal.json";
+export { default as bootstrapCyan } from "./bootstrap/bootstrapCyan.json";
+export { default as bootstrapGray } from "./bootstrap/bootstrapGray.json";

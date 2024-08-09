@@ -70,6 +70,19 @@ const tailwindFuchsia: ColorCollection = colors.tailwindFuchsiaData;
 const tailwindPink: ColorCollection = colors.tailwindPinkData;
 const tailwindRose: ColorCollection = colors.tailwindRoseData;
 
+// Bootstrap
+const bootstrapBlue: ColorCollection = colors.bootstrapBlue;
+const bootstrapIndigo: ColorCollection = colors.bootstrapIndigo;
+const bootstrapPurple: ColorCollection = colors.bootstrapPurple;
+const bootstrapPink: ColorCollection = colors.bootstrapPink;
+const bootstrapRed: ColorCollection = colors.bootstrapRed;
+const bootstrapOrange: ColorCollection = colors.bootstrapOrange;
+const bootstrapYellow: ColorCollection = colors.bootstrapYellow;
+const bootstrapGreen: ColorCollection = colors.bootstrapGreen;
+const bootstrapTeal: ColorCollection = colors.bootstrapTeal;
+const bootstrapCyan: ColorCollection = colors.bootstrapCyan;
+const bootstrapGray: ColorCollection = colors.bootstrapGray;
+
 // Effect資料
 const iosDefaultDropShadow: EffectCollection =
   iosDefaultDropShadowData as EffectCollection;
@@ -269,6 +282,39 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
     case "tailwindRose":
       generateColorStyle(tailwindRose, "none");
       break;
+    case "bootstrapBlue":
+      generateColorStyle(bootstrapBlue, "none");
+      break;
+    case "bootstrapIndigo":
+      generateColorStyle(bootstrapIndigo, "none");
+      break;
+    case "bootstrapPurple":
+      generateColorStyle(bootstrapPurple, "none");
+      break;
+    case "bootstrapPink":
+      generateColorStyle(bootstrapPink, "none");
+      break;
+    case "bootstrapRed":
+      generateColorStyle(bootstrapRed, "none");
+      break;
+    case "bootstrapOrange":
+      generateColorStyle(bootstrapOrange, "none");
+      break;
+    case "bootstrapYellow":
+      generateColorStyle(bootstrapYellow, "none");
+      break;
+    case "bootstrapGreen":
+      generateColorStyle(bootstrapGreen, "none");
+      break;
+    case "bootstrapTeal":
+      generateColorStyle(bootstrapTeal, "none");
+      break;
+    case "bootstrapCyan":
+      generateColorStyle(bootstrapCyan, "none");
+      break;
+    case "bootstrapGray":
+      generateColorStyle(bootstrapGray, "none");
+      break;
     default:
       // handle default case
       break;
@@ -451,6 +497,39 @@ export function determineGenerateColorVariable(target: InstantiaterTarget) {
     case "tailwindRose":
       generateColorVariable(tailwindRose);
       break;
+    case "bootstrapBlue":
+      generateColorVariable(bootstrapBlue);
+      break;
+    case "bootstrapIndigo":
+      generateColorVariable(bootstrapIndigo);
+      break;
+    case "bootstrapPurple":
+      generateColorVariable(bootstrapPurple);
+      break;
+    case "bootstrapPink":
+      generateColorVariable(bootstrapPink);
+      break;
+    case "bootstrapRed":
+      generateColorVariable(bootstrapRed);
+      break;
+    case "bootstrapOrange":
+      generateColorVariable(bootstrapOrange);
+      break;
+    case "bootstrapYellow":
+      generateColorVariable(bootstrapYellow);
+      break;
+    case "bootstrapGreen":
+      generateColorVariable(bootstrapGreen);
+      break;
+    case "bootstrapTeal":
+      generateColorVariable(bootstrapTeal);
+      break;
+    case "bootstrapCyan":
+      generateColorVariable(bootstrapCyan);
+      break;
+    case "bootstrapGray":
+      generateColorVariable(bootstrapGray);
+      break;
     default:
       // handle default case
       break;
@@ -572,6 +651,105 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
       break;
     case "antDesignMagentaDark":
       generateExplanationText(antDesignMagenta);
+      break;
+    case "tailwindSlate":
+      generateExplanationText(tailwindSlate);
+      break;
+    case "tailwindGray":
+      generateExplanationText(tailwindGray);
+      break;
+    case "tailwindZinc":
+      generateExplanationText(tailwindZinc);
+      break;
+    case "tailwindNeutral":
+      generateExplanationText(tailwindNeutral);
+      break;
+    case "tailwindStone":
+      generateExplanationText(tailwindStone);
+      break;
+    case "tailwindRed":
+      generateExplanationText(tailwindRed);
+      break;
+    case "tailwindOrange":
+      generateExplanationText(tailwindOrange);
+      break;
+    case "tailwindAmber":
+      generateExplanationText(tailwindAmber);
+      break;
+    case "tailwindYellow":
+      generateExplanationText(tailwindYellow);
+      break;
+    case "tailwindLime":
+      generateExplanationText(tailwindLime);
+      break;
+    case "tailwindGreen":
+      generateExplanationText(tailwindGreen);
+      break;
+    case "tailwindEmerald":
+      generateExplanationText(tailwindEmerald);
+      break;
+    case "tailwindTeal":
+      generateExplanationText(tailwindTeal);
+      break;
+    case "tailwindCyan":
+      generateExplanationText(tailwindCyan);
+      break;
+    case "tailwindSky":
+      generateExplanationText(tailwindSky);
+      break;
+    case "tailwindBlue":
+      generateExplanationText(tailwindBlue);
+      break;
+    case "tailwindIndigo":
+      generateExplanationText(tailwindIndigo);
+      break;
+    case "tailwindViolet":
+      generateExplanationText(tailwindViolet);
+      break;
+    case "tailwindPurple":
+      generateExplanationText(tailwindPurple);
+      break;
+    case "tailwindFuchsia":
+      generateExplanationText(tailwindFuchsia);
+      break;
+    case "tailwindPink":
+      generateExplanationText(tailwindPink);
+      break;
+    case "tailwindRose":
+      generateExplanationText(tailwindRose);
+      break;
+    case "bootstrapBlue":
+      generateExplanationText(bootstrapBlue);
+      break;
+    case "bootstrapIndigo":
+      generateExplanationText(bootstrapIndigo);
+      break;
+    case "bootstrapPurple":
+      generateExplanationText(bootstrapPurple);
+      break;
+    case "bootstrapPink":
+      generateExplanationText(bootstrapPink);
+      break;
+    case "bootstrapRed":
+      generateExplanationText(bootstrapRed);
+      break;
+    case "bootstrapOrange":
+      generateExplanationText(bootstrapOrange);
+      break;
+    case "bootstrapYellow":
+      generateExplanationText(bootstrapYellow);
+      break;
+    case "bootstrapGreen":
+      generateExplanationText(bootstrapGreen);
+      break;
+    case "bootstrapTeal":
+      generateExplanationText(bootstrapTeal);
+      break;
+    case "bootstrapCyan":
+      generateExplanationText(bootstrapCyan);
+      break;
+    case "bootstrapGray":
+      generateExplanationText(bootstrapGray);
       break;
     default:
       // handle default case

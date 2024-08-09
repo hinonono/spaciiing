@@ -23,7 +23,7 @@ const Instantiater: React.FC = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   const [selectedBrand, setSelectedBrand] =
-    useState<InstantiaterSupportedBrand>("ios");
+    useState<InstantiaterSupportedBrand>("antDesign");
   const [selectedCat, setSelectedCat] = useState<InstantiaterCategory>("color");
   const [form, setForm] = useState<InstantiateForm>("style");
 
@@ -149,9 +149,10 @@ const Instantiater: React.FC = () => {
             value={selectedBrand}
             onChange={handleBrandChange}
           >
+            <option value="antDesign">Ant Design</option>
+            <option value="bootstrap">Bootstrap</option>
             <option value="ios">iOS</option>
             <option value="materialDesign">Material Design</option>
-            <option value="antDesign">Ant Design</option>
             <option value="tailwind">Tailwind CSS</option>
           </select>
           <div className="mt-xxsmall"></div>
@@ -196,12 +197,15 @@ const Instantiater: React.FC = () => {
         <div className="grid">
           <FigmaButton
             buttonType="secondary"
-            title={t("module:generateUsageDefinition")}
+            title={
+              t("module:generateUsageDefinition") +
+              ` (${selectedTargets.length})`
+            }
             id={"instantiater-intantiate-explanation-text"}
             onClick={() => applyInstantiater("explanation")}
           />
           <FigmaButton
-            title={t("module:generate")}
+            title={t("module:generate") + ` (${selectedTargets.length})`}
             id={"instantiater-apply"}
             onClick={() => applyInstantiater("actual")}
           />
