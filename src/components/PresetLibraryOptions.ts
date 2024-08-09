@@ -528,15 +528,6 @@ const tailwindOptions: AvailableOption[] = [
     count: 11,
   },
   {
-    value: "tailwindStone",
-    label: "Stone",
-    brands: ["tailwind"],
-    category: ["color"],
-    thumbnailColor: "rgb(120,113,108)",
-    forms: ["style", "variable"],
-    count: 11,
-  },
-  {
     value: "tailwindZinc",
     label: "Zinc",
     brands: ["tailwind"],
@@ -546,20 +537,29 @@ const tailwindOptions: AvailableOption[] = [
     count: 11,
   },
   {
-    value: "tailwindNeutral",
-    label: "Neutral",
-    brands: ["tailwind"],
-    category: ["color"],
-    thumbnailColor: "rgb(115,115,115)",
-    forms: ["style", "variable"],
-    count: 11,
-  },
-  {
     value: "tailwindGray",
     label: "Gray",
     brands: ["tailwind"],
     category: ["color"],
     thumbnailColor: "rgb(107,114,128)",
+    forms: ["style", "variable"],
+    count: 11,
+  },
+  {
+    value: "tailwindStone",
+    label: "Stone",
+    brands: ["tailwind"],
+    category: ["color"],
+    thumbnailColor: "rgb(120,113,108)",
+    forms: ["style", "variable"],
+    count: 11,
+  },
+  {
+    value: "tailwindNeutral",
+    label: "Neutral",
+    brands: ["tailwind"],
+    category: ["color"],
+    thumbnailColor: "rgb(115,115,115)",
     forms: ["style", "variable"],
     count: 11,
   },
@@ -843,33 +843,6 @@ const carbonOptions: AvailableOption[] = [
     count: 10,
   },
   {
-    value: "carbonCoolGray",
-    label: "Cool Gray",
-    brands: ["carbon"],
-    category: ["color"],
-    thumbnailColor: "rgb(105, 112, 119)", // Cool Gray - shade 60
-    forms: ["style", "variable"],
-    count: 10,
-  },
-  {
-    value: "carbonGray",
-    label: "Gray",
-    brands: ["carbon"],
-    category: ["color"],
-    thumbnailColor: "rgb(111, 111, 111)", // Gray - shade 60
-    forms: ["style", "variable"],
-    count: 10,
-  },
-  {
-    value: "carbonWarmGray",
-    label: "Warm Gray",
-    brands: ["carbon"],
-    category: ["color"],
-    thumbnailColor: "rgb(114, 110, 110)", // Warm Gray - shade 60
-    forms: ["style", "variable"],
-    count: 10,
-  },
-  {
     value: "carbonPurple",
     label: "Purple",
     brands: ["carbon"],
@@ -884,6 +857,33 @@ const carbonOptions: AvailableOption[] = [
     brands: ["carbon"],
     category: ["color"],
     thumbnailColor: "rgb(208, 38, 112)", // Magenta - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonGray",
+    label: "Gray",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(111, 111, 111)", // Gray - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonCoolGray",
+    label: "Cool Gray",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(105, 112, 119)", // Cool Gray - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonWarmGray",
+    label: "Warm Gray",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(114, 110, 110)", // Warm Gray - shade 60
     forms: ["style", "variable"],
     count: 10,
   },
