@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 const Instantiater: React.FC = () => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "terms"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -25,25 +25,27 @@ const Instantiater: React.FC = () => {
   const [selectedBrand, setSelectedBrand] =
     useState<InstantiaterSupportedBrand>("ios");
   const [selectedCat, setSelectedCat] = useState<InstantiaterCategory>("color");
-  const [target, setTarget] = useState<InstantiaterTarget>(
-    "iosSystemColorsLight"
-  );
+  // const [target, setTarget] = useState<InstantiaterTarget>(
+  //   "iosSystemColorsLight"
+  // );
   const [form, setForm] = useState<InstantiateForm>("style");
 
   const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const brand = event.target.value as InstantiaterSupportedBrand;
     setSelectedBrand(brand);
-    setTarget(""); // Reset the selected option when the brand changes
+    // setTarget("");
+    setSelectedTargets([]); // Reset the selected option when the brand changes
   };
   const handleCatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cat = event.target.value as InstantiaterCategory;
     setSelectedCat(cat);
-    setTarget(""); // Reset the selected option when the brand changes
+    // setTarget("");
+    setSelectedTargets([]); // Reset the selected option when the brand changes
   };
 
-  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTarget(event.target.value as InstantiaterTarget);
-  };
+  // const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setTarget(event.target.value as InstantiaterTarget);
+  // };
 
   const options = getOptionsForSelectedBrandAndForm(
     selectedBrand,
@@ -51,9 +53,34 @@ const Instantiater: React.FC = () => {
     form
   );
 
+  const [selectedTargets, setSelectedTargets] = useState<InstantiaterTarget[]>(
+    []
+  );
+  const handleTargetChange = (target: InstantiaterTarget) => {
+    if (target === "all") {
+      // Toggle specific fill scopes
+      const scopes = options.map((item) => item.value);
+      // const fillScopes: InstantiaterTarget[] = scopes;
+
+      setSelectedTargets((prevTargets) =>
+        prevTargets.includes(target)
+          ? prevTargets.filter((s) => !scopes.includes(s))
+          : [...new Set([...prevTargets, ...scopes])]
+      );
+    } else {
+      // Standard toggle for individual scopes
+      setSelectedTargets((prevTargets) =>
+        prevTargets.includes(target)
+          ? prevTargets.filter((s) => s !== target)
+          : [...prevTargets, target]
+      );
+    }
+  };
+
   useEffect(() => {
-    setTarget(""); // Reset target when options change
-  }, [selectedBrand, form]);
+    // setTarget("");
+    setSelectedTargets([]); // Reset target when options change
+  }, [selectedBrand, selectedCat, form]);
 
   const applyInstantiater = (type: InstantiaterType) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
@@ -61,12 +88,12 @@ const Instantiater: React.FC = () => {
       return;
     }
 
-    if (target == null) {
+    if (selectedTargets == null) {
       return;
     }
     const message: MessageInstantiater = {
       module: "Instantiater",
-      target,
+      targets: selectedTargets,
       direction: "Inner",
       type: type,
       form: form,
@@ -150,20 +177,20 @@ const Instantiater: React.FC = () => {
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選項 */}
-          <select
-            id="option_select"
-            className="custom-select"
-            value={target}
-            onChange={handleOptionChange}
-            disabled={!selectedBrand}
-          >
-            <option value="">{t("module:selectAnOption")}</option>
+          <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
             {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
+              <label key={option.value} className={`container`}>
+                {option.label === "ALL" ? t("term:allOptions") : option.label}
+                <input
+                  type="checkbox"
+                  value={option.value}
+                  checked={selectedTargets.includes(option.value)}
+                  onChange={() => handleTargetChange(option.value)}
+                />
+                <span className="checkmark"></span>
+              </label>
             ))}
-          </select>
+          </div>
         </div>
         <div className="mt-xsmall"></div>
         <div className="grid">

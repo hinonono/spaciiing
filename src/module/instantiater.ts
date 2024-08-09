@@ -625,15 +625,21 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
 }
 
 export function instantiateTarget(message: MessageInstantiater) {
-  if (message.type == "actual") {
-    if (message.form == "style") {
-      determineGenerateColorStyle(message.target);
-    } else {
-      determineGenerateColorVariable(message.target);
+  message.targets.forEach((target) => {
+    if (target === "all") {
+      return;
     }
-  } else if (message.type == "explanation") {
-    determineGenerateExplanationText(message.target);
-  }
+
+    if (message.type == "actual") {
+      if (message.form == "style") {
+        determineGenerateColorStyle(target);
+      } else {
+        determineGenerateColorVariable(target);
+      }
+    } else if (message.type == "explanation") {
+      determineGenerateExplanationText(target);
+    }
+  });
 }
 
 // Define the function

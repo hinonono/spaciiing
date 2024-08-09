@@ -180,6 +180,7 @@ export type InstantiaterSupportedBrand =
 export type InstantiaterCategory = "color" | "effect" | "typography";
 export type InstantiaterTarget =
   | ""
+  | "all"
   | "iosEffectDefaultDropShadow"
   | "iosTypographyLarge"
   | "iosSystemColorsLight"
@@ -248,7 +249,7 @@ export type InstantiaterTarget =
   | "tailwindRose";
 
 export interface MessageInstantiater extends Message {
-  target: InstantiaterTarget;
+  targets: InstantiaterTarget[];
   type: InstantiaterType;
   form: InstantiateForm;
 }
