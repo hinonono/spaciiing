@@ -97,6 +97,20 @@ const polarisYellow: ColorCollection = colors.polarisYellow;
 const polarisOrange: ColorCollection = colors.polarisOrange;
 const polarisRed: ColorCollection = colors.polarisRed;
 
+// Carbon
+const carbonBlue: ColorCollection = colors.carbonBlue;
+const carbonCoolGray: ColorCollection = colors.carbonCoolGray;
+const carbonCyan: ColorCollection = colors.carbonCyan;
+const carbonGray: ColorCollection = colors.carbonGray;
+const carbonGreen: ColorCollection = colors.carbonGreen;
+const carbonMagenta: ColorCollection = colors.carbonMagenta;
+const carbonOrange: ColorCollection = colors.carbonOrange;
+const carbonPurple: ColorCollection = colors.carbonPurple;
+const carbonRed: ColorCollection = colors.carbonRed;
+const carbonTeal: ColorCollection = colors.carbonTeal;
+const carbonWarmGray: ColorCollection = colors.carbonWarmGray;
+const carbonYellow: ColorCollection = colors.carbonYellow;
+
 // Effect資料
 const iosDefaultDropShadow: EffectCollection =
   iosDefaultDropShadowData as EffectCollection;
@@ -365,6 +379,42 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
     case "polarisRed":
       generateColorStyle(polarisRed, "none");
       break;
+    case "carbonBlue":
+      generateColorStyle(carbonBlue, "none");
+      break;
+    case "carbonCoolGray":
+      generateColorStyle(carbonCoolGray, "none");
+      break;
+    case "carbonCyan":
+      generateColorStyle(carbonCyan, "none");
+      break;
+    case "carbonGray":
+      generateColorStyle(carbonGray, "none");
+      break;
+    case "carbonGreen":
+      generateColorStyle(carbonGreen, "none");
+      break;
+    case "carbonMagenta":
+      generateColorStyle(carbonMagenta, "none");
+      break;
+    case "carbonOrange":
+      generateColorStyle(carbonOrange, "none");
+      break;
+    case "carbonPurple":
+      generateColorStyle(carbonPurple, "none");
+      break;
+    case "carbonRed":
+      generateColorStyle(carbonRed, "none");
+      break;
+    case "carbonTeal":
+      generateColorStyle(carbonTeal, "none");
+      break;
+    case "carbonWarmGray":
+      generateColorStyle(carbonWarmGray, "none");
+      break;
+    case "carbonYellow":
+      generateColorStyle(carbonYellow, "none");
+      break;
     default:
       // handle default case
       break;
@@ -615,6 +665,42 @@ export function determineGenerateColorVariable(target: InstantiaterTarget) {
       break;
     case "polarisRed":
       generateColorVariable(polarisRed);
+      break;
+    case "carbonBlue":
+      generateColorVariable(carbonBlue);
+      break;
+    case "carbonCoolGray":
+      generateColorVariable(carbonCoolGray);
+      break;
+    case "carbonCyan":
+      generateColorVariable(carbonCyan);
+      break;
+    case "carbonGray":
+      generateColorVariable(carbonGray);
+      break;
+    case "carbonGreen":
+      generateColorVariable(carbonGreen);
+      break;
+    case "carbonMagenta":
+      generateColorVariable(carbonMagenta);
+      break;
+    case "carbonOrange":
+      generateColorVariable(carbonOrange);
+      break;
+    case "carbonPurple":
+      generateColorVariable(carbonPurple);
+      break;
+    case "carbonRed":
+      generateColorVariable(carbonRed);
+      break;
+    case "carbonTeal":
+      generateColorVariable(carbonTeal);
+      break;
+    case "carbonWarmGray":
+      generateColorVariable(carbonWarmGray);
+      break;
+    case "carbonYellow":
+      generateColorVariable(carbonYellow);
       break;
     default:
       // handle default case
@@ -872,6 +958,42 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
       break;
     case "polarisRed":
       generateExplanationText(polarisRed);
+      break;
+    case "carbonBlue":
+      generateExplanationText(carbonBlue);
+      break;
+    case "carbonCoolGray":
+      generateExplanationText(carbonCoolGray);
+      break;
+    case "carbonCyan":
+      generateExplanationText(carbonCyan);
+      break;
+    case "carbonGray":
+      generateExplanationText(carbonGray);
+      break;
+    case "carbonGreen":
+      generateExplanationText(carbonGreen);
+      break;
+    case "carbonMagenta":
+      generateExplanationText(carbonMagenta);
+      break;
+    case "carbonOrange":
+      generateExplanationText(carbonOrange);
+      break;
+    case "carbonPurple":
+      generateExplanationText(carbonPurple);
+      break;
+    case "carbonRed":
+      generateExplanationText(carbonRed);
+      break;
+    case "carbonTeal":
+      generateExplanationText(carbonTeal);
+      break;
+    case "carbonWarmGray":
+      generateExplanationText(carbonWarmGray);
+      break;
+    case "carbonYellow":
+      generateExplanationText(carbonYellow);
       break;
     default:
       // handle default case

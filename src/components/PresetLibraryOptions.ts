@@ -778,6 +778,117 @@ const polarisOptions: AvailableOption[] = [
   },
 ];
 
+const carbonOptions: AvailableOption[] = [
+  {
+    value: "carbonRed",
+    label: "Red",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(218, 30, 40)", // Red - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonOrange",
+    label: "Orange",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(186, 78, 0)", // Orange - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonYellow",
+    label: "Yellow",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(142, 106, 0)", // Yellow - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonGreen",
+    label: "Green",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(25, 128, 56)", // Green - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonTeal",
+    label: "Teal",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(0, 125, 121)", // Teal - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonCyan",
+    label: "Cyan",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(0, 114, 195)", // Cyan - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonBlue",
+    label: "Blue",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(15, 98, 254)", // Blue - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonCoolGray",
+    label: "Cool Gray",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(105, 112, 119)", // Cool Gray - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonGray",
+    label: "Gray",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(111, 111, 111)", // Gray - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonWarmGray",
+    label: "Warm Gray",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(114, 110, 110)", // Warm Gray - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonPurple",
+    label: "Purple",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(138, 63, 252)", // Purple - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+  {
+    value: "carbonMagenta",
+    label: "Magenta",
+    brands: ["carbon"],
+    category: ["color"],
+    thumbnailColor: "rgb(208, 38, 112)", // Magenta - shade 60
+    forms: ["style", "variable"],
+    count: 10,
+  },
+];
+
 /**
  * 用於Preset Library模組，列出所有可選擇的選項
  */
@@ -792,6 +903,7 @@ const allOptions: AvailableOption[] = [
       "tailwind",
       "bootstrap",
       "polaris",
+      "carbon",
     ],
     category: ["color", "effect", "typography"],
     forms: ["style", "variable"],
@@ -802,6 +914,7 @@ const allOptions: AvailableOption[] = [
   ...tailwindOptions,
   ...bootstrapOptions,
   ...polarisOptions,
+  ...carbonOptions,
 ];
 
 export const getOptionsForSelectedBrandAndForm = (

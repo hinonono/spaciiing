@@ -178,7 +178,8 @@ export type InstantiaterSupportedBrand =
   | "materialDesign"
   | "tailwind"
   | "bootstrap"
-  | "polaris";
+  | "polaris"
+  | "carbon";
 export type InstantiaterCategory = "color" | "effect" | "typography";
 export type InstantiaterTarget =
   | ""
@@ -266,7 +267,19 @@ export type InstantiaterTarget =
   | "polarisLime"
   | "polarisYellow"
   | "polarisOrange"
-  | "polarisRed";
+  | "polarisRed"
+  | "carbonBlue"
+  | "carbonCoolGray"
+  | "carbonCyan"
+  | "carbonGray"
+  | "carbonGreen"
+  | "carbonMagenta"
+  | "carbonOrange"
+  | "carbonPurple"
+  | "carbonRed"
+  | "carbonTeal"
+  | "carbonWarmGray"
+  | "carbonYellow";
 
 export interface MessageInstantiater extends Message {
   targets: InstantiaterTarget[];

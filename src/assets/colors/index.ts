@@ -74,3 +74,17 @@ export { default as polarisLime } from "./polaris/polarisLime.json";
 export { default as polarisYellow } from "./polaris/polarisYellow.json";
 export { default as polarisOrange } from "./polaris/polarisOrange.json";
 export { default as polarisRed } from "./polaris/polarisRed.json";
+
+// Carbon
+export { default as carbonBlue } from "./carbon/carbonBlue.json";
+export { default as carbonCoolGray } from "./carbon/carbonCoolGray.json";
+export { default as carbonCyan } from "./carbon/carbonCyan.json";
+export { default as carbonGray } from "./carbon/carbonGray.json";
+export { default as carbonGreen } from "./carbon/carbonGreen.json";
+export { default as carbonMagenta } from "./carbon/carbonMagenta.json";
+export { default as carbonOrange } from "./carbon/carbonOrange.json";
+export { default as carbonPurple } from "./carbon/carbonPurple.json";
+export { default as carbonRed } from "./carbon/carbonRed.json";
+export { default as carbonTeal } from "./carbon/carbonTeal.json";
+export { default as carbonWarmGray } from "./carbon/carbonWarmGray.json";
+export { default as carbonYellow } from "./carbon/carbonYellow.json";
