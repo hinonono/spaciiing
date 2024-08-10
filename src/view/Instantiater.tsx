@@ -38,7 +38,8 @@ const Instantiater: React.FC = () => {
     const counts: { [key in InstantiaterCategory]: number } = {
       color: getOptionsForSelectedBrandAndForm(brand, "color", form).length,
       effect: getOptionsForSelectedBrandAndForm(brand, "effect", form).length,
-      typography: getOptionsForSelectedBrandAndForm(brand, "typography", form).length,
+      typography: getOptionsForSelectedBrandAndForm(brand, "typography", form)
+        .length,
     };
     setCategoryOptionsCount(counts);
   };
@@ -46,6 +47,7 @@ const Instantiater: React.FC = () => {
   const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const brand = event.target.value as InstantiaterSupportedBrand;
     setSelectedBrand(brand);
+    setSelectedCat("color");
     setSelectedTargets([]); // Reset the selected option when the brand changes
     calculateOptionsCount(brand); // Calculate options count for the new brand
   };
