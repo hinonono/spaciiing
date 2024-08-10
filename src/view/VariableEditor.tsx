@@ -96,12 +96,6 @@ const VariableEditor: React.FC = () => {
 
   const [defaultNewCollectionName, setDefaultNewCollectionName] =
     useState("New Collection");
-  const [destination, setDestination] = useState("new");
-  const [dataType, setDataType] = useState<VariableResolvedDataType>("COLOR");
-  const [variableMode, setVariableMode] = useState("");
-  const [variableScope, setVariableScope] = useState<VariableScope[]>(
-    VariableScopesNew[dataType].members.map((item) => item.scope)
-  );
 
   const {
     variableCollectionList,
@@ -112,6 +106,26 @@ const VariableEditor: React.FC = () => {
     setCustomCodeExecutionResults,
   } = useAppContext();
   const [code, setCode] = useState<string>("");
+
+  const [destination, setDestination] = useState("new");
+  useEffect(() => {
+    if (variableCollectionList.length > 0 && destination === "new") {
+      setDestination(variableCollectionList[0].id);
+    }
+  }, [variableCollectionList]);
+
+  const [dataType, setDataType] = useState<VariableResolvedDataType>("COLOR");
+
+  const [variableMode, setVariableMode] = useState("");
+  useEffect(() => {
+    if (variableCollectionModes.length > 0 && variableMode === "") {
+      setVariableMode(variableCollectionModes[0].modeId);
+    }
+  }, [variableCollectionModes]);
+
+  const [variableScope, setVariableScope] = useState<VariableScope[]>(
+    VariableScopesNew[dataType].members.map((item) => item.scope)
+  );
 
   useEffect(() => {
     setVariableScope(
