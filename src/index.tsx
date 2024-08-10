@@ -31,4 +31,37 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     "*"
   );
+
+  // Resizing logic
+  const resizeHandle = document.getElementById("resize-handle");
+  let isResizing = false;
+
+  resizeHandle?.addEventListener("mousedown", (e) => {
+    isResizing = true;
+    document.body.style.cursor = "se-resize";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (isResizing) {
+      const newWidth = e.clientX;
+      const newHeight = e.clientY;
+      parent.postMessage(
+        {
+          pluginMessage: {
+            module: "Resize",
+            width: newWidth,
+            height: newHeight,
+          },
+        },
+        "*"
+      );
+    }
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (isResizing) {
+      isResizing = false;
+      document.body.style.cursor = "default";
+    }
+  });
 });

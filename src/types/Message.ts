@@ -29,7 +29,8 @@ export type ModuleType =
   | "SelectionFilter"
   | "PluginSetting"
   | "LicenseManagement"
-  | "AspectRatioHelper";
+  | "AspectRatioHelper"
+  | "Resize";
 
 // Spaciiing模組專用的基底屬性
 export type SpacingMode = "horizontal" | "vertical";
@@ -370,4 +371,9 @@ export interface MessageAspectRatio extends Message {
   isCustomAspectRatio: boolean;
   widthRatio: number;
   heightRatio: number;
+}
+
+export interface MessageResize extends Message {
+  width: number;
+  height: number;
 }
