@@ -78,12 +78,13 @@ async function handleVariableCreation<
 
     let value: string | number | boolean | RGB | RGBA | null = item.value;
     if (message.dataType === "COLOR") {
-      
-      value = util.hexToRgba(item.value as string, 1);
-
-      // 檢查傳入的型別以縮減範圍，存取opacity屬性
-      // if (isCustomVariableCodeColor(item)) {
-      // }
+      value = util.parseColorToRgba(item.value as string, 1);
+      if (!value) {
+        executionResults.push(
+          `❌ Invalid color format for variable "${item.name}". Skipping creation.`
+        );
+        continue;
+      }
     }
 
     if (existingVariable) {

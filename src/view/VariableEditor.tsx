@@ -9,6 +9,7 @@ import MonacoCodeEditor from "../components/MonacoCodeEditor";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import { exampleCodeBase } from "../components/ExampleVariableCreationCode";
 
 interface KeyAndScope {
   nameKey: string;
@@ -233,63 +234,6 @@ const VariableEditor: React.FC = () => {
       },
       "*"
     );
-  };
-
-  const exampleCodeBase = {
-    COLOR: `{
-      "Grey": {
-        "50": {
-          "value": "#f6f6f6",
-          "type": "color"
-        },
-        "100": {
-          "value": "#e1e1e1",
-          "type": "color"
-        }
-      },
-      "Pink": {
-        "50": {
-          "value": "#fff2f7",
-          "type": "color"
-        }
-      }
-    }`,
-    FLOAT: `{
-      "Size": {
-        "Small": {
-          "value": 12,
-          "type": "float"
-        },
-        "Large": {
-          "value": 24,
-          "type": "float"
-        }
-      }
-    }`,
-    STRING: `{
-      "Text": {
-        "Greeting": {
-          "value": "Hello",
-          "type": "string"
-        },
-        "Farewell": {
-          "value": "Goodbye",
-          "type": "string"
-        }
-      }
-    }`,
-    BOOLEAN: `{
-      "Flags": {
-        "IsEnabled": {
-          "value": true,
-          "type": "boolean"
-        },
-        "IsVisible": {
-          "value": false,
-          "type": "boolean"
-        }
-      }
-    }`,
   };
 
   const exampleCode = {
