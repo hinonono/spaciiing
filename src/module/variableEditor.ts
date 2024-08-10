@@ -110,26 +110,18 @@ async function handleVariableCreation<
               !["FRAME_FILL", "SHAPE_FILL", "TEXT_FILL"].includes(scope)
           );
         } else {
-          variable.scopes = message.scope;
+          if (message.dataType !== "BOOLEAN") {
+            variable.scopes = message.scope;
+          }
         }
 
-        if (message.mode != "") {
-          if (value != null) {
-            variable.setValueForMode(message.mode, value);
-          } else {
-            executionResults.push(
-              `❌ Execute error when creation ${item.name} due to null value.`
-            );
-          }
+        if (message.mode !== "") {
+          const modeId = collection.modes[0].modeId;
+          variable.setValueForMode(modeId, value);
         } else {
-          if (value != null) {
-            const modeId = collection.modes[0].modeId;
-            variable.setValueForMode(modeId, value);
-          } else {
-            executionResults.push(
-              `❌ Execute error when creation ${item.name} due to null value.`
-            );
-          }
+          executionResults.push(
+            `❌ Error creating variable due to no mode selected.`
+          );
         }
 
         executionResults.push(

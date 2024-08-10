@@ -1,6 +1,6 @@
 export const exampleCodeBase = {
   COLOR: `{
-      "Grey": {
+      "grey": {
         "50": {
           "value": "#f6f6f6",
           "type": "color"
@@ -10,7 +10,7 @@ export const exampleCodeBase = {
           "type": "color"
         }
       },
-      "Pink": {
+      "pink": {
         "50": {
           "value": "#fff2f7",
           "type": "color"
@@ -18,36 +18,36 @@ export const exampleCodeBase = {
       }
     }`,
   FLOAT: `{
-      "Size": {
-        "Small": {
+      "size": {
+        "small": {
           "value": 12,
           "type": "float"
         },
-        "Large": {
+        "large": {
           "value": 24,
           "type": "float"
         }
       }
     }`,
   STRING: `{
-      "Text": {
-        "Greeting": {
+      "text": {
+        "greeting": {
           "value": "Hello",
           "type": "string"
         },
-        "Farewell": {
+        "farewell": {
           "value": "Goodbye",
           "type": "string"
         }
       }
     }`,
   BOOLEAN: `{
-      "Flags": {
-        "IsEnabled": {
+      "flags": {
+        "isEnabled": {
           "value": true,
           "type": "boolean"
         },
-        "IsVisible": {
+        "isVisible": {
           "value": false,
           "type": "boolean"
         }
