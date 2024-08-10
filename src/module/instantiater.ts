@@ -1032,6 +1032,9 @@ export function instantiateTarget(message: MessageInstantiater) {
   });
 }
 
+// Shared state to track if the collection is already created
+let isColorsCollectionCreated = false;
+
 // Define the function
 async function generateColorVariable(collection: ColorCollection) {
   // Create a new variable collection
@@ -1045,7 +1048,24 @@ async function generateColorVariable(collection: ColorCollection) {
 
   // If the collection does not exist, create one
   if (!variableCollection) {
-    variableCollection = figma.variables.createVariableCollection("Colors");
+    if (!isColorsCollectionCreated) {
+      variableCollection = figma.variables.createVariableCollection("Colors");
+      isColorsCollectionCreated = true;
+    } else {
+      // Re-fetch the collections to ensure the collection is created by another instance
+      const updatedVariableCollections =
+        await figma.variables.getLocalVariableCollectionsAsync();
+      variableCollection = updatedVariableCollections.find(
+        (vc) => vc.name === "Colors"
+      );
+    }
+  }
+
+  // Ensure variableCollection is defined
+  if (!variableCollection) {
+    throw new Error(
+      'Failed to create or find the "Colors" variable collection.'
+    );
   }
 
   // Check if "Light" and "Dark" modes exist, and add them if they don't
