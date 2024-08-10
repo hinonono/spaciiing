@@ -274,6 +274,16 @@ const Shortcut: React.FC = () => {
                 />
                 <FigmaButton
                   buttonType="secondary"
+                  title={t("module:hexValueWithTransparency")}
+                  id={"shortcut-color-to-label-hex-transparent"}
+                  onClick={() => {
+                    applyShortcut("colorToLabelHEXWithTransparency");
+                  }}
+                  buttonHeight="xlarge"
+                  hasTopBottomMargin={false}
+                />
+                <FigmaButton
+                  buttonType="secondary"
                   title={t("module:rgbValue")}
                   id={"shortcut-color-to-label-rgb"}
                   onClick={() => {

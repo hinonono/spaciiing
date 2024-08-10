@@ -38,6 +38,28 @@ export function rgbToHex(
   }
 }
 
+export function rgbToHexWithTransparency(
+  r: number,
+  g: number,
+  b: number,
+  opacity: number
+): string {
+  // Ensure the RGB values are within the valid range
+  r = Math.round(r * 255);
+  g = Math.round(g * 255);
+  b = Math.round(b * 255);
+  opacity = Math.round(opacity * 255);
+
+  // Convert each component to a 2-digit hexadecimal string
+  const hexR = r.toString(16).padStart(2, "0");
+  const hexG = g.toString(16).padStart(2, "0");
+  const hexB = b.toString(16).padStart(2, "0");
+  const hexA = opacity.toString(16).padStart(2, "0");
+
+  // Concatenate the hex components and prepend a '#'
+  return `#${hexR}${hexG}${hexB}${hexA}`;
+}
+
 /**
  * Converts RGB values (0-1) to an RGB string.
  *

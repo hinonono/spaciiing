@@ -66,6 +66,7 @@ export interface MessageMemorizer extends Message {
 export type ShortcutAction =
   | "makeFrameOverlay"
   | "colorToLabelHEX"
+  | "colorToLabelHEXWithTransparency"
   | "colorToLabelRGB"
   | "colorToLabelRGBA"
   | "convertSelectionToTextStyles"

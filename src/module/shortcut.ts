@@ -29,6 +29,9 @@ export function executeShortcut(message: MessageShortcut) {
       case "colorToLabelHEX":
         generateLabelFromObjectFillColor("HEX");
         break;
+      case "colorToLabelHEXWithTransparency":
+        generateLabelFromObjectFillColor("HEX_WITH_TRANSPARENCY");
+        break;
       case "colorToLabelRGB":
         generateLabelFromObjectFillColor("RGB");
         break;
@@ -409,7 +412,9 @@ function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
   spaciiing.applySpacingToLayers(results, spacing, mode, addAutolayout, false);
 }
 
-async function generateLabelFromObjectFillColor(type: "HEX" | "RGB" | "RGBA") {
+async function generateLabelFromObjectFillColor(
+  type: "HEX" | "RGB" | "RGBA" | "HEX_WITH_TRANSPARENCY"
+) {
   const selection = figma.currentPage.selection;
 
   if (selection.length === 0) {
@@ -459,6 +464,14 @@ async function generateLabelFromObjectFillColor(type: "HEX" | "RGB" | "RGBA") {
               "❌ Unable to generate rgba text label due to null opacity."
             );
           }
+        } else if (type === "HEX_WITH_TRANSPARENCY") {
+          label = util.rgbToHexWithTransparency(
+            rectColor.color.r,
+            rectColor.color.g,
+            rectColor.color.b,
+            rectColor.opacity ?? 1
+          );
+          createTextLabel(selectedNode, label, "HEX_WITH_TRANSPARENCY_LABEL");
         }
       }
     }
