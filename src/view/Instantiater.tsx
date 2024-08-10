@@ -27,10 +27,27 @@ const Instantiater: React.FC = () => {
   const [selectedCat, setSelectedCat] = useState<InstantiaterCategory>("color");
   const [form, setForm] = useState<InstantiateForm>("style");
 
+  const [categoryOptionsCount, setCategoryOptionsCount] = useState<{
+    [key in InstantiaterCategory]: number;
+  }>({
+    color: 0,
+    effect: 0,
+    typography: 0,
+  });
+  const calculateOptionsCount = (brand: InstantiaterSupportedBrand) => {
+    const counts: { [key in InstantiaterCategory]: number } = {
+      color: getOptionsForSelectedBrandAndForm(brand, "color", form).length,
+      effect: getOptionsForSelectedBrandAndForm(brand, "effect", form).length,
+      typography: getOptionsForSelectedBrandAndForm(brand, "typography", form).length,
+    };
+    setCategoryOptionsCount(counts);
+  };
+
   const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const brand = event.target.value as InstantiaterSupportedBrand;
     setSelectedBrand(brand);
     setSelectedTargets([]); // Reset the selected option when the brand changes
+    calculateOptionsCount(brand); // Calculate options count for the new brand
   };
   const handleCatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cat = event.target.value as InstantiaterCategory;
@@ -71,6 +88,10 @@ const Instantiater: React.FC = () => {
   useEffect(() => {
     setSelectedTargets([]); // Reset target when options change
   }, [selectedBrand, selectedCat]);
+
+  useEffect(() => {
+    calculateOptionsCount(selectedBrand); // Initial calculation on component mount
+  }, [selectedBrand, form]);
 
   const applyInstantiater = (type: InstantiaterType) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
@@ -164,9 +185,15 @@ const Instantiater: React.FC = () => {
             value={selectedCat}
             onChange={handleCatChange}
           >
-            <option value="color">{t("term:color")}</option>
-            <option value="effect">{t("term:effectColor")}</option>
-            <option value="typography">{t("term:fontFamily")}</option>
+            {categoryOptionsCount.color > 1 && (
+              <option value="color">{t("term:color")}</option>
+            )}
+            {categoryOptionsCount.effect > 1 && (
+              <option value="effect">{t("term:effectColor")}</option>
+            )}
+            {categoryOptionsCount.typography > 1 && (
+              <option value="typography">{t("term:fontFamily")}</option>
+            )}
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選項 */}
