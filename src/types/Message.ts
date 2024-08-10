@@ -223,6 +223,7 @@ export type InstantiaterTarget =
   | "antDesignGoldenPurpleDark"
   | "antDesignMagentaLight"
   | "antDesignMagentaDark"
+  | "antDesignDropShadow"
   | "tailwindSlate"
   | "tailwindGray"
   | "tailwindZinc"

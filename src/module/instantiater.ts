@@ -7,7 +7,7 @@ import * as util from "./util";
 import * as spaciiing from "./spaciiing";
 
 import * as colors from "../assets/colors";
-import iosDefaultDropShadowData from "../assets/effects/iosDefaultDropShadow.json";
+// import iosDefaultDropShadowData from "../assets/effects/iosDefaultDropShadow.json";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
 
 import {
@@ -17,7 +17,12 @@ import {
   EffectCollection,
   TypographyCollection,
 } from "../types/ColorCollection";
-import { m3ElevationDarkData, m3ElevationLightData } from "../assets/effects";
+import {
+  m3ElevationDarkData,
+  m3ElevationLightData,
+  iosDefaultDropShadowData,
+  antDesignDropShadowData,
+} from "../assets/effects";
 
 const iosSystemColors: ColorCollection = colors.iosSystemColorsData;
 const iosSystemGrayColors: ColorCollection = colors.iosSystemGrayColorsData;
@@ -114,6 +119,8 @@ const carbonYellow: ColorCollection = colors.carbonYellow;
 // Effect資料
 const iosDefaultDropShadow: EffectCollection =
   iosDefaultDropShadowData as EffectCollection;
+const antDesignDropShadow: EffectCollection =
+  antDesignDropShadowData as EffectCollection;
 const m3ElevationLight: EffectCollection =
   m3ElevationLightData as EffectCollection;
 const m3ElevationDark: EffectCollection =
@@ -129,6 +136,9 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
   switch (target) {
     case "iosEffectDefaultDropShadow":
       generateEffectStyle(iosDefaultDropShadow);
+      break;
+    case "antDesignDropShadow":
+      generateEffectStyle(antDesignDropShadow);
       break;
     case "m3ElevationLight":
       generateEffectStyle(m3ElevationLight);
@@ -715,6 +725,9 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
   switch (target) {
     case "iosEffectDefaultDropShadow":
       generateExplanationText(iosDefaultDropShadow);
+      break;
+    case "antDesignDropShadow":
+      generateExplanationText(antDesignDropShadow);
       break;
     case "iosTypographyLarge":
       generateExplanationText(iosTypographyLarge);

@@ -1,0 +1,690 @@
+{
+  "brand" : "Ant Design",
+  "name" : "Drop Shadow",
+  "members" : [
+    {
+      "name" : "shadow-1-up",
+      "description" : "Mainly applied to bottom navigation or toolbars, etc.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.16
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -1
+          },
+          "radius" : 2,
+          "spread" : -2,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.12
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -3
+          },
+          "radius" : 6,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.09
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -5
+          },
+          "radius" : 12,
+          "spread" : 4,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-1-down",
+      "description" : "Mainly used inside components or the components themselves, which is the most common use case.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.16
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 1
+          },
+          "radius" : 2,
+          "spread" : -2,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.12
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 3
+          },
+          "radius" : 6,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.09
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 5
+          },
+          "radius" : 12,
+          "spread" : 4,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-1-left",
+      "description" : "Mainly used in right-side navigation bars, drawer components, or fixed table headers.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.16
+          },
+          "offset" : {
+            "x" : -1,
+            "y" : 0
+          },
+          "radius" : 2,
+          "spread" : -2,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.12
+          },
+          "offset" : {
+            "x" : -3,
+            "y" : 0
+          },
+          "radius" : 6,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.09
+          },
+          "offset" : {
+            "x" : -5,
+            "y" : 0
+          },
+          "radius" : 12,
+          "spread" : 4,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-1-right",
+      "description" : "Mainly used in left-side navigation bars, drawer components, or fixed table headers.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.16
+          },
+          "offset" : {
+            "x" : 1,
+            "y" : 0
+          },
+          "radius" : 2,
+          "spread" : -2,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.12
+          },
+          "offset" : {
+            "x" : 3,
+            "y" : 0
+          },
+          "radius" : 6,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.09
+          },
+          "offset" : {
+            "x" : 5,
+            "y" : 0
+          },
+          "radius" : 12,
+          "spread" : 4,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-2-up",
+      "description" : "Mainly applied to bottom navigation or toolbars, etc.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.12
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -3
+          },
+          "radius" : 6,
+          "spread" : -4,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.08
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -6
+          },
+          "radius" : 16,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.05
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -9
+          },
+          "radius" : 28,
+          "spread" : 8,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-2-down",
+      "description" : "Mainly used inside components or the components themselves, which is the most common use case.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.12
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 3
+          },
+          "radius" : 6,
+          "spread" : -4,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.08
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 6
+          },
+          "radius" : 16,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.05
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 9
+          },
+          "radius" : 28,
+          "spread" : 8,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-2-left",
+      "description" : "Mainly used in right-side navigation bars, drawer components, or fixed table headers.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.12
+          },
+          "offset" : {
+            "x" : -3,
+            "y" : 0
+          },
+          "radius" : 6,
+          "spread" : -4,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.08
+          },
+          "offset" : {
+            "x" : -6,
+            "y" : 0
+          },
+          "radius" : 16,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.05
+          },
+          "offset" : {
+            "x" : -9,
+            "y" : 0
+          },
+          "radius" : 28,
+          "spread" : 8,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-2-right",
+      "description" : "Mainly used in left-side navigation bars, drawer components, or fixed table headers.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.12
+          },
+          "offset" : {
+            "x" : 3,
+            "y" : 0
+          },
+          "radius" : 6,
+          "spread" : -4,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.08
+          },
+          "offset" : {
+            "x" : 6,
+            "y" : 0
+          },
+          "radius" : 16,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.05
+          },
+          "offset" : {
+            "x" : 9,
+            "y" : 0
+          },
+          "radius" : 28,
+          "spread" : 8,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-3-up",
+      "description" : "Mainly applied to bottom navigation or toolbars, etc.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.08
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -6
+          },
+          "radius" : 16,
+          "spread" : -8,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.05
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -9
+          },
+          "radius" : 28,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.03
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : -12
+          },
+          "radius" : 48,
+          "spread" : 16,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-3-down",
+      "description" : "Mainly used inside components or the components themselves, which is the most common use case.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.08
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 6
+          },
+          "radius" : 16,
+          "spread" : -8,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.05
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 9
+          },
+          "radius" : 28,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.03
+          },
+          "offset" : {
+            "x" : 0,
+            "y" : 12
+          },
+          "radius" : 48,
+          "spread" : 16,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-3-left",
+      "description" : "Mainly used in right-side navigation bars, drawer components, or fixed table headers.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.08
+          },
+          "offset" : {
+            "x" : -6,
+            "y" : 0
+          },
+          "radius" : 16,
+          "spread" : -8,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.05
+          },
+          "offset" : {
+            "x" : -9,
+            "y" : 0
+          },
+          "radius" : 28,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.03
+          },
+          "offset" : {
+            "x" : -12,
+            "y" : 0
+          },
+          "radius" : 48,
+          "spread" : 16,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    },
+    {
+      "name" : "shadow-3-right",
+      "description" : "Mainly used in left-side navigation bars, drawer components, or fixed table headers.",
+      "effects" : [
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.08
+          },
+          "offset" : {
+            "x" : 6,
+            "y" : 0
+          },
+          "radius" : 16,
+          "spread" : -8,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.05
+          },
+          "offset" : {
+            "x" : 9,
+            "y" : 0
+          },
+          "radius" : 28,
+          "spread" : 0,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        },
+        {
+          "type" : "DROP_SHADOW",
+          "color" : {
+            "r" : 0,
+            "g" : 0,
+            "b" : 0,
+            "a" : 0.03
+          },
+          "offset" : {
+            "x" : 12,
+            "y" : 0
+          },
+          "radius" : 48,
+          "spread" : 16,
+          "visible" : true,
+          "blendMode" : "NORMAL"
+        }
+      ]
+    }
+  ]
+}

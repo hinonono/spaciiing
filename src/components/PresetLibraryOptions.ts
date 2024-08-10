@@ -371,6 +371,14 @@ const antDesignOptions: AvailableOption[] = [
     forms: ["style", "variable"],
     count: 10,
   },
+  {
+    value: "antDesignDropShadow",
+    label: "Drop shadow",
+    brands: ["antDesign"],
+    category: ["effect"],
+    forms: ["style"],
+    count: 12,
+  },
 ];
 
 const tailwindOptions: AvailableOption[] = [
