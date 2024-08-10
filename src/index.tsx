@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   resizeHandle?.addEventListener("mousedown", (e) => {
     isResizing = true;
     document.body.style.cursor = "se-resize";
+    e.preventDefault(); // Prevent text selection
   });
 
   document.addEventListener("mousemove", (e) => {
@@ -63,5 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
       isResizing = false;
       document.body.style.cursor = "default";
     }
+  });
+
+  // Prevent default drag behavior on the resize handle
+  resizeHandle?.addEventListener("dragstart", (e) => {
+    e.preventDefault();
   });
 });
