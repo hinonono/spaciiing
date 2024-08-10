@@ -311,11 +311,11 @@ export interface MessageVariableEditor extends Message {
 
 export interface MessageVariableEditorExecuteCode
   extends MessageVariableEditor {
-  dataType: VariableResolvedDataType;
-  destination: string;
+  variableResolvedDataType: VariableResolvedDataType;
+  variableCollectionId: string;
   code: string;
-  scope: VariableScope[];
-  mode: string;
+  variableScope: VariableScope[];
+  variableMode: string;
   newCollectionName?: string;
 }
 

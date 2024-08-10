@@ -216,13 +216,13 @@ const VariableEditor: React.FC = () => {
     setCustomCodeExecutionResults([]);
 
     const message: MessageVariableEditorExecuteCode = {
-      dataType: dataType,
-      destination: destination,
+      variableResolvedDataType: dataType,
+      variableCollectionId: destination,
       code: code,
       module: "VariableEditor",
       direction: "Inner",
-      scope: variableScope,
-      mode: variableMode,
+      variableScope: variableScope,
+      variableMode: variableMode,
       intent: "executeCode",
       phase: "Actual",
       newCollectionName: defaultNewCollectionName,
@@ -378,9 +378,7 @@ const VariableEditor: React.FC = () => {
           <SectionTitle title={t("module:codeEditor")} />
           <div className="width-100">
             <div>
-              <span className="note">
-                {t("module:codeEditorDesc2")}
-              </span>
+              <span className="note">{t("module:codeEditorDesc2")}</span>
             </div>
             <div className="mt-xxsmall">
               <MonacoCodeEditor code={code} setCode={setCode} />

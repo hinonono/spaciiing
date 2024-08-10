@@ -83,7 +83,7 @@ async function createVariable(
 ): Promise<string> {
   let value: string | number | boolean | RGB | RGBA | null = item.value;
 
-  if (message.dataType === "COLOR") {
+  if (message.variableResolvedDataType === "COLOR") {
     value = util.parseColorToRgba(item.value as string, 1);
     if (!value) {
       return `❌ Invalid color format for variable "${item.name}". Skipping creation.`;
@@ -94,12 +94,12 @@ async function createVariable(
     const variable = figma.variables.createVariable(
       item.name,
       collection,
-      message.dataType
+      message.variableResolvedDataType
     );
 
     variable.scopes = getScopesForVariable(message);
 
-    if (message.mode === "") {
+    if (message.variableMode === "") {
       return `❌ Error creating variable due to no mode selected.`;
     }
 
@@ -121,17 +121,19 @@ async function createVariable(
 function getScopesForVariable(
   message: MessageVariableEditorExecuteCode
 ): VariableScope[] {
-  if (message.scope.includes("ALL_SCOPES")) {
+  if (message.variableScope.includes("ALL_SCOPES")) {
     return ["ALL_SCOPES"];
   }
 
-  if (message.scope.includes("ALL_FILLS")) {
-    return message.scope.filter(
+  if (message.variableScope.includes("ALL_FILLS")) {
+    return message.variableScope.filter(
       (scope) => !["FRAME_FILL", "SHAPE_FILL", "TEXT_FILL"].includes(scope)
     );
   }
 
-  return message.dataType !== "BOOLEAN" ? message.scope : [];
+  return message.variableResolvedDataType !== "BOOLEAN"
+    ? message.variableScope
+    : [];
 }
 
 function returnExecutionResults(results: Array<string>) {
@@ -186,7 +188,10 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
     figma.notify("❌ The content of custom code must not be empty.");
     return;
   }
-  if (message.destination == "" || message.destination == "new") {
+  if (
+    message.variableCollectionId == "" ||
+    message.variableCollectionId == "new"
+  ) {
     if (message.newCollectionName != undefined) {
       collection = figma.variables.createVariableCollection(
         message.newCollectionName
@@ -196,7 +201,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
     }
   } else {
     collection = await figma.variables.getVariableCollectionByIdAsync(
-      message.destination
+      message.variableCollectionId
     );
     if (collection == null) {
       figma.notify(
@@ -255,7 +260,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
     JSON.parse(message.code) as NestedVariable
   );
 
-  switch (message.dataType) {
+  switch (message.variableResolvedDataType) {
     case "BOOLEAN":
       parsedCode = flattenedCode as CustomVariableCodeBool[];
       await handleVariableCreation(
