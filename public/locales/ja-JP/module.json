@@ -37,6 +37,7 @@
   "text": "テキスト",
   "findAndReplace": "検索と置換",
   "hexValue": "Hex値",
+  "hexValueWithTransparency": "Hex値と透明度",
   "rgbValue": "RGB値",
   "rgbaValue": "RGBA値",
   "colorValueToTextLabel": "塗り色数値からテキストを作成",

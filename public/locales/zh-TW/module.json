@@ -37,6 +37,7 @@
   "text": "文字",
   "findAndReplace": "尋找與取代",
   "hexValue": "Hex值",
+  "hexValueWithTransparency": "Hex值與透明度",
   "rgbValue": "RGB值",
   "rgbaValue": "RGBA值",
   "colorValueToTextLabel": "顏色數值至文字標籤",

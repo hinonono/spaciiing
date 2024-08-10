@@ -37,6 +37,7 @@
   "text": "文本",
   "findAndReplace": "查找和替换",
   "hexValue": "十六进制值",
+  "hexValueWithTransparency": "十六进制值和透明度",
   "rgbValue": "RGB 值",
   "rgbaValue": "RGB 值",
   "colorValueToTextLabel": "颜色值至文本标签",
