@@ -227,18 +227,35 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
     [key: string]: NestedVariable | FlattenedVariable;
   };
 
+  /**
+   * Recursively flattens a nested variable object into an array of flattened variables.
+   * Each flattened variable includes its full path as the name.
+   * 
+   * @param obj - The nested variable object to flatten.
+   * @param parentKey - The parent key to prepend to each variable's key.
+   * @returns An array of flattened variables.
+   */
   const flattenVariables = (
     obj: NestedVariable,
     parentKey = ""
   ): FlattenedVariable[] => {
+    // Object.keys(obj) returns an array of the object's own enumerable property names.
+    // reduce is used to iterate over each key in the array and accumulate the results into a single array.
     return Object.keys(obj).reduce<FlattenedVariable[]>((acc, key) => {
+      // Construct the new key by appending the current key to the parent key, separated by a slash.
       const newKey = parentKey ? `${parentKey}/${key}` : key;
       const value = obj[key];
+      
+      // If the value is an object and does not contain a 'value' property, it means it's a nested object.
+      // Recursively flatten the nested object and append the results to the accumulator.
       if (typeof value === "object" && !("value" in value)) {
         acc.push(...flattenVariables(value as NestedVariable, newKey));
       } else {
+        // If the value is not a nested object, add it to the accumulator with the constructed key as its name.
         acc.push({ ...(value as FlattenedVariable), name: newKey });
       }
+      
+      // Return the accumulator for the next iteration.
       return acc;
     }, []);
   };
