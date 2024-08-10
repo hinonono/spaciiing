@@ -43,15 +43,15 @@ export function reception(message: MessageVariableEditor) {
   // Do other things
 }
 
-function isCustomVariableCodeColor(
-  variable:
-    | CustomVariableCodeNumber
-    | CustomVariableCodeString
-    | CustomVariableCodeBool
-    | CustomVariableCodeColor
-): variable is CustomVariableCodeColor {
-  return "opacity" in variable && typeof variable.opacity === "number";
-}
+// function isCustomVariableCodeColor(
+//   variable:
+//     | CustomVariableCodeNumber
+//     | CustomVariableCodeString
+//     | CustomVariableCodeBool
+//     | CustomVariableCodeColor
+// ): variable is CustomVariableCodeColor {
+//   return "opacity" in variable && typeof variable.opacity === "number";
+// }
 
 async function handleVariableCreation<
   T extends
@@ -69,6 +69,8 @@ async function handleVariableCreation<
   const executionResults: Array<string> = [];
 
   for (const item of parsedCode) {
+    console.log(item);
+
     // Check if the variable already exists
     const existingVariable = existingVariables.find(
       (v: Variable) => v.name === item.name
@@ -76,10 +78,12 @@ async function handleVariableCreation<
 
     let value: string | number | boolean | RGB | RGBA | null = item.value;
     if (message.dataType === "COLOR") {
+      
+      value = util.hexToRgba(item.value as string, 1);
+
       // 檢查傳入的型別以縮減範圍，存取opacity屬性
-      if (isCustomVariableCodeColor(item)) {
-        value = util.hexToRgba(item.value, item.opacity);
-      }
+      // if (isCustomVariableCodeColor(item)) {
+      // }
     }
 
     if (existingVariable) {
@@ -212,7 +216,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
     );
     if (collection == null) {
       figma.notify(
-        "❌ Cannot find correspoding variable collection by ID provided."
+        "❌ Cannot find corresponding variable collection by ID provided."
       );
       return;
     }
@@ -220,9 +224,39 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
 
   const existingVariables = await findExistingVariables(collection.variableIds);
 
+  interface FlattenedVariable {
+    name: string;
+    value: string | number | boolean;
+    opacity?: number;
+  }
+
+  type NestedVariable = {
+    [key: string]: NestedVariable | FlattenedVariable;
+  };
+
+  const flattenVariables = (
+    obj: NestedVariable,
+    parentKey = ""
+  ): FlattenedVariable[] => {
+    return Object.keys(obj).reduce<FlattenedVariable[]>((acc, key) => {
+      const newKey = parentKey ? `${parentKey}/${key}` : key;
+      const value = obj[key];
+      if (typeof value === "object" && !("value" in value)) {
+        acc.push(...flattenVariables(value as NestedVariable, newKey));
+      } else {
+        acc.push({ ...(value as FlattenedVariable), name: newKey });
+      }
+      return acc;
+    }, []);
+  };
+
+  const flattenedCode = flattenVariables(
+    JSON.parse(message.code) as NestedVariable
+  );
+
   switch (message.dataType) {
     case "BOOLEAN":
-      parsedCode = JSON.parse(message.code) as CustomVariableCodeBool[];
+      parsedCode = flattenedCode as CustomVariableCodeBool[];
       await handleVariableCreation(
         parsedCode,
         collection,
@@ -231,7 +265,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
       );
       break;
     case "COLOR":
-      parsedCode = JSON.parse(message.code) as CustomVariableCodeColor[];
+      parsedCode = flattenedCode as CustomVariableCodeColor[];
       await handleVariableCreation(
         parsedCode,
         collection,
@@ -240,7 +274,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
       );
       break;
     case "FLOAT":
-      parsedCode = JSON.parse(message.code) as CustomVariableCodeNumber[];
+      parsedCode = flattenedCode as CustomVariableCodeNumber[];
       await handleVariableCreation(
         parsedCode,
         collection,
@@ -249,7 +283,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
       );
       break;
     case "STRING":
-      parsedCode = JSON.parse(message.code) as CustomVariableCodeString[];
+      parsedCode = flattenedCode as CustomVariableCodeString[];
       await handleVariableCreation(
         parsedCode,
         collection,

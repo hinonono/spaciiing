@@ -112,15 +112,12 @@ const VariableEditor: React.FC = () => {
     setCustomCodeExecutionResults,
   } = useAppContext();
   const [code, setCode] = useState<string>("");
-  const [timesExampleCodeBtnClicked, setTimesExampleCodeBtnClicked] =
-    useState(0);
 
   useEffect(() => {
     setVariableScope(
       VariableScopesNew[dataType].members.map((item) => item.scope)
     );
     setCode("");
-    setTimesExampleCodeBtnClicked(0);
   }, [dataType]);
 
   useEffect(() => {
@@ -226,61 +223,70 @@ const VariableEditor: React.FC = () => {
 
   const exampleCodeBase = {
     COLOR: `{
-    "name": "example ${timesExampleCodeBtnClicked + 1}",
-    "value": "#FFFFFF",
-    "opacity": 1
-  }`,
+      "Grey": {
+        "50": {
+          "value": "#f6f6f6",
+          "type": "color"
+        },
+        "100": {
+          "value": "#e1e1e1",
+          "type": "color"
+        }
+      },
+      "Pink": {
+        "50": {
+          "value": "#fff2f7",
+          "type": "color"
+        }
+      }
+    }`,
     FLOAT: `{
-    "name": "example ${timesExampleCodeBtnClicked + 1}",
-    "value": 24
-  }`,
+      "Size": {
+        "Small": {
+          "value": 12,
+          "type": "float"
+        },
+        "Large": {
+          "value": 24,
+          "type": "float"
+        }
+      }
+    }`,
     STRING: `{
-    "name": "example ${timesExampleCodeBtnClicked + 1}",
-    "value": "string value"
-  }`,
+      "Text": {
+        "Greeting": {
+          "value": "Hello",
+          "type": "string"
+        },
+        "Farewell": {
+          "value": "Goodbye",
+          "type": "string"
+        }
+      }
+    }`,
     BOOLEAN: `{
-    "name": "example ${timesExampleCodeBtnClicked + 1}",
-    "value": true
-  }`,
+      "Flags": {
+        "IsEnabled": {
+          "value": true,
+          "type": "boolean"
+        },
+        "IsVisible": {
+          "value": false,
+          "type": "boolean"
+        }
+      }
+    }`,
   };
 
   const exampleCode = {
-    COLOR: `[
-  ${exampleCodeBase["COLOR"]}
-]
-`,
-    FLOAT: `[
-  ${exampleCodeBase["FLOAT"]}
-]
-`,
-    STRING: `[
-  ${exampleCodeBase["STRING"]}
-]
-`,
-    BOOLEAN: `[
-  ${exampleCodeBase["BOOLEAN"]}
-]
-`,
+    COLOR: exampleCodeBase["COLOR"],
+    FLOAT: exampleCodeBase["FLOAT"],
+    STRING: exampleCodeBase["STRING"],
+    BOOLEAN: exampleCodeBase["BOOLEAN"],
   };
 
   const generateExampleCodeSnippet = () => {
-    const newTimesClicked = timesExampleCodeBtnClicked + 1;
-    setTimesExampleCodeBtnClicked(newTimesClicked);
-
-    if (newTimesClicked === 1) {
-      setCode(exampleCode[dataType]);
-    } else {
-      try {
-        const currentCode = JSON.parse(code);
-        const newExampleCode = JSON.parse(exampleCodeBase[dataType]);
-        if (Array.isArray(currentCode)) {
-          const updatedCode = [...currentCode, newExampleCode];
-          setCode(JSON.stringify(updatedCode, null, 2));
-        }
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-      }
-    }
+    setCode(exampleCode[dataType]);
   };
 
   return (
@@ -442,9 +448,8 @@ const VariableEditor: React.FC = () => {
               buttonType="secondary"
               title={t("module:codeExampleFor") + dataType}
               id={"variable-editor-example-code-snippet"}
-              onClick={() => {
-                generateExampleCodeSnippet();
-              }}
+              onClick={generateExampleCodeSnippet}
+              disabled={code.trim() !== ""}
             />
             <FigmaButton
               title={t("module:execute")}
