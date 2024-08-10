@@ -379,9 +379,6 @@ const VariableEditor: React.FC = () => {
           <div className="width-100">
             <div>
               <span className="note">
-                {t("module:codeEditorDesc1")}
-                <br />
-                <br />
                 {t("module:codeEditorDesc2")}
               </span>
             </div>
