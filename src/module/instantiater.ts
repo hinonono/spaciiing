@@ -6,29 +6,8 @@ import {
 import * as util from "./util";
 import * as spaciiing from "./spaciiing";
 
-import {
-  iosSystemColorsData,
-  iosSystemGrayColorsData,
-  m3BaselinePrimaryData,
-  m3BaselineSecondaryData,
-  m3BaselineTertiaryData,
-  m3BaselineNeutralData,
-  m3BaselineErrorData,
-  antDesignNeutralColorData,
-  antDesignDustRedData,
-  antDesignVolcanoData,
-  antDesignSunsetOrangeData,
-  antDesignCalendulaGoldData,
-  antDesignSunriseYellowData,
-  antDesignLimeData,
-  antDesignPolarGreenData,
-  antDesignCyanData,
-  antDesignDaybreakBlueData,
-  antDesignGeekBlueData,
-  antDesignGoldenPurpleData,
-  antDesignMagentaData,
-} from "../assets/colors";
-import iosDefaultDropShadowData from "../assets/effects/iosDefaultDropShadow.json";
+import * as colors from "../assets/colors";
+// import iosDefaultDropShadowData from "../assets/effects/iosDefaultDropShadow.json";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
 
 import {
@@ -38,32 +17,110 @@ import {
   EffectCollection,
   TypographyCollection,
 } from "../types/ColorCollection";
-import { m3ElevationDarkData, m3ElevationLightData } from "../assets/effects";
+import {
+  m3ElevationDarkData,
+  m3ElevationLightData,
+  iosDefaultDropShadowData,
+  antDesignDropShadowData,
+} from "../assets/effects";
 
-const iosSystemColors: ColorCollection = iosSystemColorsData;
-const iosSystemGrayColors: ColorCollection = iosSystemGrayColorsData;
-const m3BaselinePrimary: ColorCollection = m3BaselinePrimaryData;
-const m3BaselineSecondary: ColorCollection = m3BaselineSecondaryData;
-const m3BaselineTertiary: ColorCollection = m3BaselineTertiaryData;
-const m3BaselineNeutral: ColorCollection = m3BaselineNeutralData;
-const m3BaselineError: ColorCollection = m3BaselineErrorData;
-const antDesignNeutralColor: ColorCollection = antDesignNeutralColorData;
-const antDesignDustRed: ColorCollection = antDesignDustRedData;
-const antDesignVolcano: ColorCollection = antDesignVolcanoData;
-const antDesignSunsetOrange: ColorCollection = antDesignSunsetOrangeData;
-const antDesignCalendulaGold: ColorCollection = antDesignCalendulaGoldData;
-const antDesignSunriseYellow: ColorCollection = antDesignSunriseYellowData;
-const antDesignLime: ColorCollection = antDesignLimeData;
-const antDesignPolarGreen: ColorCollection = antDesignPolarGreenData;
-const antDesignCyan: ColorCollection = antDesignCyanData;
-const antDesignDaybreakBlue: ColorCollection = antDesignDaybreakBlueData;
-const antDesignGeekBlue: ColorCollection = antDesignGeekBlueData;
-const antDesignGoldenPurple: ColorCollection = antDesignGoldenPurpleData;
-const antDesignMagenta: ColorCollection = antDesignMagentaData;
+const iosSystemColors: ColorCollection = colors.iosSystemColorsData;
+const iosSystemGrayColors: ColorCollection = colors.iosSystemGrayColorsData;
+
+// Material
+const m3BaselinePrimary: ColorCollection = colors.m3BaselinePrimaryData;
+const m3BaselineSecondary: ColorCollection = colors.m3BaselineSecondaryData;
+const m3BaselineTertiary: ColorCollection = colors.m3BaselineTertiaryData;
+const m3BaselineNeutral: ColorCollection = colors.m3BaselineNeutralData;
+const m3BaselineError: ColorCollection = colors.m3BaselineErrorData;
+
+// Ant Design
+const antDesignNeutralColor: ColorCollection = colors.antDesignNeutralColorData;
+const antDesignDustRed: ColorCollection = colors.antDesignDustRedData;
+const antDesignVolcano: ColorCollection = colors.antDesignVolcanoData;
+const antDesignSunsetOrange: ColorCollection = colors.antDesignSunsetOrangeData;
+const antDesignCalendulaGold: ColorCollection =
+  colors.antDesignCalendulaGoldData;
+const antDesignSunriseYellow: ColorCollection =
+  colors.antDesignSunriseYellowData;
+const antDesignLime: ColorCollection = colors.antDesignLimeData;
+const antDesignPolarGreen: ColorCollection = colors.antDesignPolarGreenData;
+const antDesignCyan: ColorCollection = colors.antDesignCyanData;
+const antDesignDaybreakBlue: ColorCollection = colors.antDesignDaybreakBlueData;
+const antDesignGeekBlue: ColorCollection = colors.antDesignGeekBlueData;
+const antDesignGoldenPurple: ColorCollection = colors.antDesignGoldenPurpleData;
+const antDesignMagenta: ColorCollection = colors.antDesignMagentaData;
+
+// Tailwind CSS
+const tailwindSlate: ColorCollection = colors.tailwindSlateData;
+const tailwindGray: ColorCollection = colors.tailwindGrayData;
+const tailwindZinc: ColorCollection = colors.tailwindZincData;
+const tailwindNeutral: ColorCollection = colors.tailwindNeutralData;
+const tailwindStone: ColorCollection = colors.tailwindStoneData;
+const tailwindRed: ColorCollection = colors.tailwindRedData;
+const tailwindOrange: ColorCollection = colors.tailwindOrangeData;
+const tailwindAmber: ColorCollection = colors.tailwindAmberData;
+const tailwindYellow: ColorCollection = colors.tailwindYellowData;
+const tailwindLime: ColorCollection = colors.tailwindLimeData;
+const tailwindGreen: ColorCollection = colors.tailwindGreenData;
+const tailwindEmerald: ColorCollection = colors.tailwindEmeraldData;
+const tailwindTeal: ColorCollection = colors.tailwindTealData;
+const tailwindCyan: ColorCollection = colors.tailwindCyanData;
+const tailwindSky: ColorCollection = colors.tailwindSkyData;
+const tailwindBlue: ColorCollection = colors.tailwindBlueData;
+const tailwindIndigo: ColorCollection = colors.tailwindIndigoData;
+const tailwindViolet: ColorCollection = colors.tailwindVioletData;
+const tailwindPurple: ColorCollection = colors.tailwindPurpleData;
+const tailwindFuchsia: ColorCollection = colors.tailwindFuchsiaData;
+const tailwindPink: ColorCollection = colors.tailwindPinkData;
+const tailwindRose: ColorCollection = colors.tailwindRoseData;
+
+// Bootstrap
+const bootstrapBlue: ColorCollection = colors.bootstrapBlue;
+const bootstrapIndigo: ColorCollection = colors.bootstrapIndigo;
+const bootstrapPurple: ColorCollection = colors.bootstrapPurple;
+const bootstrapPink: ColorCollection = colors.bootstrapPink;
+const bootstrapRed: ColorCollection = colors.bootstrapRed;
+const bootstrapOrange: ColorCollection = colors.bootstrapOrange;
+const bootstrapYellow: ColorCollection = colors.bootstrapYellow;
+const bootstrapGreen: ColorCollection = colors.bootstrapGreen;
+const bootstrapTeal: ColorCollection = colors.bootstrapTeal;
+const bootstrapCyan: ColorCollection = colors.bootstrapCyan;
+const bootstrapGray: ColorCollection = colors.bootstrapGray;
+
+// Polaris
+const polarisRose: ColorCollection = colors.polarisRose;
+const polarisMagenta: ColorCollection = colors.polarisMagenta;
+const polarisPurple: ColorCollection = colors.polarisPurple;
+const polarisBlue: ColorCollection = colors.polarisBlue;
+const polarisAzure: ColorCollection = colors.polarisAzure;
+const polarisTeal: ColorCollection = colors.polarisTeal;
+const polarisCyan: ColorCollection = colors.polarisCyan;
+const polarisGreen: ColorCollection = colors.polarisGreen;
+const polarisLime: ColorCollection = colors.polarisLime;
+const polarisYellow: ColorCollection = colors.polarisYellow;
+const polarisOrange: ColorCollection = colors.polarisOrange;
+const polarisRed: ColorCollection = colors.polarisRed;
+
+// Carbon
+const carbonBlue: ColorCollection = colors.carbonBlue;
+const carbonCoolGray: ColorCollection = colors.carbonCoolGray;
+const carbonCyan: ColorCollection = colors.carbonCyan;
+const carbonGray: ColorCollection = colors.carbonGray;
+const carbonGreen: ColorCollection = colors.carbonGreen;
+const carbonMagenta: ColorCollection = colors.carbonMagenta;
+const carbonOrange: ColorCollection = colors.carbonOrange;
+const carbonPurple: ColorCollection = colors.carbonPurple;
+const carbonRed: ColorCollection = colors.carbonRed;
+const carbonTeal: ColorCollection = colors.carbonTeal;
+const carbonWarmGray: ColorCollection = colors.carbonWarmGray;
+const carbonYellow: ColorCollection = colors.carbonYellow;
 
 // Effect資料
 const iosDefaultDropShadow: EffectCollection =
   iosDefaultDropShadowData as EffectCollection;
+const antDesignDropShadow: EffectCollection =
+  antDesignDropShadowData as EffectCollection;
 const m3ElevationLight: EffectCollection =
   m3ElevationLightData as EffectCollection;
 const m3ElevationDark: EffectCollection =
@@ -79,6 +136,9 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
   switch (target) {
     case "iosEffectDefaultDropShadow":
       generateEffectStyle(iosDefaultDropShadow);
+      break;
+    case "antDesignDropShadow":
+      generateEffectStyle(antDesignDropShadow);
       break;
     case "m3ElevationLight":
       generateEffectStyle(m3ElevationLight);
@@ -101,35 +161,20 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
     case "iosSystemGrayColorsDark":
       generateColorStyle(iosSystemGrayColors, "dark");
       break;
-    case "m3BaselinePrimaryLight":
-      generateColorStyle(m3BaselinePrimary, "light");
+    case "m3BaselinePrimary":
+      generateColorStyle(m3BaselinePrimary, "none");
       break;
-    case "m3BaselinePrimaryDark":
-      generateColorStyle(m3BaselinePrimary, "dark");
+    case "m3BaselineSecondary":
+      generateColorStyle(m3BaselineSecondary, "none");
       break;
-    case "m3BaselineSecondaryLight":
-      generateColorStyle(m3BaselineSecondary, "light");
+    case "m3BaselineTertiary":
+      generateColorStyle(m3BaselineTertiary, "none");
       break;
-    case "m3BaselineSecondaryDark":
-      generateColorStyle(m3BaselineSecondary, "dark");
+    case "m3BaselineNeutral":
+      generateColorStyle(m3BaselineNeutral, "none");
       break;
-    case "m3BaselineTertiaryLight":
-      generateColorStyle(m3BaselineTertiary, "light");
-      break;
-    case "m3BaselineTertiaryDark":
-      generateColorStyle(m3BaselineTertiary, "dark");
-      break;
-    case "m3BaselineNeutralLight":
-      generateColorStyle(m3BaselineNeutral, "light");
-      break;
-    case "m3BaselineNeutralDark":
-      generateColorStyle(m3BaselineNeutral, "dark");
-      break;
-    case "m3BaselineErrorLight":
-      generateColorStyle(m3BaselineError, "light");
-      break;
-    case "m3BaselineErrorDark":
-      generateColorStyle(m3BaselineError, "dark");
+    case "m3BaselineError":
+      generateColorStyle(m3BaselineError, "none");
       break;
     case "antDesignNeutralColorLight":
       generateColorStyle(antDesignNeutralColor, "light");
@@ -209,6 +254,177 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
     case "antDesignMagentaDark":
       generateColorStyle(antDesignMagenta, "dark");
       break;
+    case "tailwindSlate":
+      generateColorStyle(tailwindSlate, "none");
+      break;
+    case "tailwindGray":
+      generateColorStyle(tailwindGray, "none");
+      break;
+    case "tailwindZinc":
+      generateColorStyle(tailwindZinc, "none");
+      break;
+    case "tailwindNeutral":
+      generateColorStyle(tailwindNeutral, "none");
+      break;
+    case "tailwindStone":
+      generateColorStyle(tailwindStone, "none");
+      break;
+    case "tailwindRed":
+      generateColorStyle(tailwindRed, "none");
+      break;
+    case "tailwindOrange":
+      generateColorStyle(tailwindOrange, "none");
+      break;
+    case "tailwindAmber":
+      generateColorStyle(tailwindAmber, "none");
+      break;
+    case "tailwindYellow":
+      generateColorStyle(tailwindYellow, "none");
+      break;
+    case "tailwindLime":
+      generateColorStyle(tailwindLime, "none");
+      break;
+    case "tailwindGreen":
+      generateColorStyle(tailwindGreen, "none");
+      break;
+    case "tailwindEmerald":
+      generateColorStyle(tailwindEmerald, "none");
+      break;
+    case "tailwindTeal":
+      generateColorStyle(tailwindTeal, "none");
+      break;
+    case "tailwindCyan":
+      generateColorStyle(tailwindCyan, "none");
+      break;
+    case "tailwindSky":
+      generateColorStyle(tailwindSky, "none");
+      break;
+    case "tailwindBlue":
+      generateColorStyle(tailwindBlue, "none");
+      break;
+    case "tailwindIndigo":
+      generateColorStyle(tailwindIndigo, "none");
+      break;
+    case "tailwindViolet":
+      generateColorStyle(tailwindViolet, "none");
+      break;
+    case "tailwindPurple":
+      generateColorStyle(tailwindPurple, "none");
+      break;
+    case "tailwindFuchsia":
+      generateColorStyle(tailwindFuchsia, "none");
+      break;
+    case "tailwindPink":
+      generateColorStyle(tailwindPink, "none");
+      break;
+    case "tailwindRose":
+      generateColorStyle(tailwindRose, "none");
+      break;
+    case "bootstrapBlue":
+      generateColorStyle(bootstrapBlue, "none");
+      break;
+    case "bootstrapIndigo":
+      generateColorStyle(bootstrapIndigo, "none");
+      break;
+    case "bootstrapPurple":
+      generateColorStyle(bootstrapPurple, "none");
+      break;
+    case "bootstrapPink":
+      generateColorStyle(bootstrapPink, "none");
+      break;
+    case "bootstrapRed":
+      generateColorStyle(bootstrapRed, "none");
+      break;
+    case "bootstrapOrange":
+      generateColorStyle(bootstrapOrange, "none");
+      break;
+    case "bootstrapYellow":
+      generateColorStyle(bootstrapYellow, "none");
+      break;
+    case "bootstrapGreen":
+      generateColorStyle(bootstrapGreen, "none");
+      break;
+    case "bootstrapTeal":
+      generateColorStyle(bootstrapTeal, "none");
+      break;
+    case "bootstrapCyan":
+      generateColorStyle(bootstrapCyan, "none");
+      break;
+    case "bootstrapGray":
+      generateColorStyle(bootstrapGray, "none");
+      break;
+    case "polarisRose":
+      generateColorStyle(polarisRose, "none");
+      break;
+    case "polarisMagenta":
+      generateColorStyle(polarisMagenta, "none");
+      break;
+    case "polarisPurple":
+      generateColorStyle(polarisPurple, "none");
+      break;
+    case "polarisBlue":
+      generateColorStyle(polarisBlue, "none");
+      break;
+    case "polarisAzure":
+      generateColorStyle(polarisAzure, "none");
+      break;
+    case "polarisTeal":
+      generateColorStyle(polarisTeal, "none");
+      break;
+    case "polarisCyan":
+      generateColorStyle(polarisCyan, "none");
+      break;
+    case "polarisGreen":
+      generateColorStyle(polarisGreen, "none");
+      break;
+    case "polarisLime":
+      generateColorStyle(polarisLime, "none");
+      break;
+    case "polarisYellow":
+      generateColorStyle(polarisYellow, "none");
+      break;
+    case "polarisOrange":
+      generateColorStyle(polarisOrange, "none");
+      break;
+    case "polarisRed":
+      generateColorStyle(polarisRed, "none");
+      break;
+    case "carbonBlue":
+      generateColorStyle(carbonBlue, "none");
+      break;
+    case "carbonCoolGray":
+      generateColorStyle(carbonCoolGray, "none");
+      break;
+    case "carbonCyan":
+      generateColorStyle(carbonCyan, "none");
+      break;
+    case "carbonGray":
+      generateColorStyle(carbonGray, "none");
+      break;
+    case "carbonGreen":
+      generateColorStyle(carbonGreen, "none");
+      break;
+    case "carbonMagenta":
+      generateColorStyle(carbonMagenta, "none");
+      break;
+    case "carbonOrange":
+      generateColorStyle(carbonOrange, "none");
+      break;
+    case "carbonPurple":
+      generateColorStyle(carbonPurple, "none");
+      break;
+    case "carbonRed":
+      generateColorStyle(carbonRed, "none");
+      break;
+    case "carbonTeal":
+      generateColorStyle(carbonTeal, "none");
+      break;
+    case "carbonWarmGray":
+      generateColorStyle(carbonWarmGray, "none");
+      break;
+    case "carbonYellow":
+      generateColorStyle(carbonYellow, "none");
+      break;
     default:
       // handle default case
       break;
@@ -232,34 +448,19 @@ export function determineGenerateColorVariable(target: InstantiaterTarget) {
     case "iosSystemGrayColorsDark":
       generateColorVariable(iosSystemGrayColors);
       break;
-    case "m3BaselinePrimaryLight":
+    case "m3BaselinePrimary":
       generateColorVariable(m3BaselinePrimary);
       break;
-    case "m3BaselinePrimaryDark":
-      generateColorVariable(m3BaselinePrimary);
-      break;
-    case "m3BaselineSecondaryLight":
+    case "m3BaselineSecondary":
       generateColorVariable(m3BaselineSecondary);
       break;
-    case "m3BaselineSecondaryDark":
-      generateColorVariable(m3BaselineSecondary);
-      break;
-    case "m3BaselineTertiaryLight":
+    case "m3BaselineTertiary":
       generateColorVariable(m3BaselineTertiary);
       break;
-    case "m3BaselineTertiaryDark":
-      generateColorVariable(m3BaselineTertiary);
-      break;
-    case "m3BaselineNeutralLight":
+    case "m3BaselineNeutral":
       generateColorVariable(m3BaselineNeutral);
       break;
-    case "m3BaselineNeutralDark":
-      generateColorVariable(m3BaselineNeutral);
-      break;
-    case "m3BaselineErrorLight":
-      generateColorVariable(m3BaselineError);
-      break;
-    case "m3BaselineErrorDark":
+    case "m3BaselineError":
       generateColorVariable(m3BaselineError);
       break;
     case "antDesignNeutralColorLight":
@@ -340,6 +541,177 @@ export function determineGenerateColorVariable(target: InstantiaterTarget) {
     case "antDesignMagentaDark":
       generateColorVariable(antDesignMagenta);
       break;
+    case "tailwindSlate":
+      generateColorVariable(tailwindSlate);
+      break;
+    case "tailwindGray":
+      generateColorVariable(tailwindGray);
+      break;
+    case "tailwindZinc":
+      generateColorVariable(tailwindZinc);
+      break;
+    case "tailwindNeutral":
+      generateColorVariable(tailwindNeutral);
+      break;
+    case "tailwindStone":
+      generateColorVariable(tailwindStone);
+      break;
+    case "tailwindRed":
+      generateColorVariable(tailwindRed);
+      break;
+    case "tailwindOrange":
+      generateColorVariable(tailwindOrange);
+      break;
+    case "tailwindAmber":
+      generateColorVariable(tailwindAmber);
+      break;
+    case "tailwindYellow":
+      generateColorVariable(tailwindYellow);
+      break;
+    case "tailwindLime":
+      generateColorVariable(tailwindLime);
+      break;
+    case "tailwindGreen":
+      generateColorVariable(tailwindGreen);
+      break;
+    case "tailwindEmerald":
+      generateColorVariable(tailwindEmerald);
+      break;
+    case "tailwindTeal":
+      generateColorVariable(tailwindTeal);
+      break;
+    case "tailwindCyan":
+      generateColorVariable(tailwindCyan);
+      break;
+    case "tailwindSky":
+      generateColorVariable(tailwindSky);
+      break;
+    case "tailwindBlue":
+      generateColorVariable(tailwindBlue);
+      break;
+    case "tailwindIndigo":
+      generateColorVariable(tailwindIndigo);
+      break;
+    case "tailwindViolet":
+      generateColorVariable(tailwindViolet);
+      break;
+    case "tailwindPurple":
+      generateColorVariable(tailwindPurple);
+      break;
+    case "tailwindFuchsia":
+      generateColorVariable(tailwindFuchsia);
+      break;
+    case "tailwindPink":
+      generateColorVariable(tailwindPink);
+      break;
+    case "tailwindRose":
+      generateColorVariable(tailwindRose);
+      break;
+    case "bootstrapBlue":
+      generateColorVariable(bootstrapBlue);
+      break;
+    case "bootstrapIndigo":
+      generateColorVariable(bootstrapIndigo);
+      break;
+    case "bootstrapPurple":
+      generateColorVariable(bootstrapPurple);
+      break;
+    case "bootstrapPink":
+      generateColorVariable(bootstrapPink);
+      break;
+    case "bootstrapRed":
+      generateColorVariable(bootstrapRed);
+      break;
+    case "bootstrapOrange":
+      generateColorVariable(bootstrapOrange);
+      break;
+    case "bootstrapYellow":
+      generateColorVariable(bootstrapYellow);
+      break;
+    case "bootstrapGreen":
+      generateColorVariable(bootstrapGreen);
+      break;
+    case "bootstrapTeal":
+      generateColorVariable(bootstrapTeal);
+      break;
+    case "bootstrapCyan":
+      generateColorVariable(bootstrapCyan);
+      break;
+    case "bootstrapGray":
+      generateColorVariable(bootstrapGray);
+      break;
+    case "polarisRose":
+      generateColorVariable(polarisRose);
+      break;
+    case "polarisMagenta":
+      generateColorVariable(polarisMagenta);
+      break;
+    case "polarisPurple":
+      generateColorVariable(polarisPurple);
+      break;
+    case "polarisBlue":
+      generateColorVariable(polarisBlue);
+      break;
+    case "polarisAzure":
+      generateColorVariable(polarisAzure);
+      break;
+    case "polarisTeal":
+      generateColorVariable(polarisTeal);
+      break;
+    case "polarisCyan":
+      generateColorVariable(polarisCyan);
+      break;
+    case "polarisGreen":
+      generateColorVariable(polarisGreen);
+      break;
+    case "polarisLime":
+      generateColorVariable(polarisLime);
+      break;
+    case "polarisYellow":
+      generateColorVariable(polarisYellow);
+      break;
+    case "polarisOrange":
+      generateColorVariable(polarisOrange);
+      break;
+    case "polarisRed":
+      generateColorVariable(polarisRed);
+      break;
+    case "carbonBlue":
+      generateColorVariable(carbonBlue);
+      break;
+    case "carbonCoolGray":
+      generateColorVariable(carbonCoolGray);
+      break;
+    case "carbonCyan":
+      generateColorVariable(carbonCyan);
+      break;
+    case "carbonGray":
+      generateColorVariable(carbonGray);
+      break;
+    case "carbonGreen":
+      generateColorVariable(carbonGreen);
+      break;
+    case "carbonMagenta":
+      generateColorVariable(carbonMagenta);
+      break;
+    case "carbonOrange":
+      generateColorVariable(carbonOrange);
+      break;
+    case "carbonPurple":
+      generateColorVariable(carbonPurple);
+      break;
+    case "carbonRed":
+      generateColorVariable(carbonRed);
+      break;
+    case "carbonTeal":
+      generateColorVariable(carbonTeal);
+      break;
+    case "carbonWarmGray":
+      generateColorVariable(carbonWarmGray);
+      break;
+    case "carbonYellow":
+      generateColorVariable(carbonYellow);
+      break;
     default:
       // handle default case
       break;
@@ -353,6 +725,9 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
   switch (target) {
     case "iosEffectDefaultDropShadow":
       generateExplanationText(iosDefaultDropShadow);
+      break;
+    case "antDesignDropShadow":
+      generateExplanationText(antDesignDropShadow);
       break;
     case "iosTypographyLarge":
       generateExplanationText(iosTypographyLarge);
@@ -369,34 +744,19 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
     case "iosSystemGrayColorsDark":
       generateExplanationText(iosSystemGrayColors);
       break;
-    case "m3BaselinePrimaryLight":
+    case "m3BaselinePrimary":
       generateExplanationText(m3BaselinePrimary);
       break;
-    case "m3BaselinePrimaryDark":
-      generateExplanationText(m3BaselinePrimary);
-      break;
-    case "m3BaselineSecondaryLight":
+    case "m3BaselineSecondary":
       generateExplanationText(m3BaselineSecondary);
       break;
-    case "m3BaselineSecondaryDark":
-      generateExplanationText(m3BaselineSecondary);
-      break;
-    case "m3BaselineTertiaryLight":
+    case "m3BaselineTertiary":
       generateExplanationText(m3BaselineTertiary);
       break;
-    case "m3BaselineTertiaryDark":
-      generateExplanationText(m3BaselineTertiary);
-      break;
-    case "m3BaselineNeutralLight":
+    case "m3BaselineNeutral":
       generateExplanationText(m3BaselineNeutral);
       break;
-    case "m3BaselineNeutralDark":
-      generateExplanationText(m3BaselineNeutral);
-      break;
-    case "m3BaselineErrorLight":
-      generateExplanationText(m3BaselineError);
-      break;
-    case "m3BaselineErrorDark":
+    case "m3BaselineError":
       generateExplanationText(m3BaselineError);
       break;
     case "antDesignNeutralColorLight":
@@ -477,6 +837,177 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
     case "antDesignMagentaDark":
       generateExplanationText(antDesignMagenta);
       break;
+    case "tailwindSlate":
+      generateExplanationText(tailwindSlate);
+      break;
+    case "tailwindGray":
+      generateExplanationText(tailwindGray);
+      break;
+    case "tailwindZinc":
+      generateExplanationText(tailwindZinc);
+      break;
+    case "tailwindNeutral":
+      generateExplanationText(tailwindNeutral);
+      break;
+    case "tailwindStone":
+      generateExplanationText(tailwindStone);
+      break;
+    case "tailwindRed":
+      generateExplanationText(tailwindRed);
+      break;
+    case "tailwindOrange":
+      generateExplanationText(tailwindOrange);
+      break;
+    case "tailwindAmber":
+      generateExplanationText(tailwindAmber);
+      break;
+    case "tailwindYellow":
+      generateExplanationText(tailwindYellow);
+      break;
+    case "tailwindLime":
+      generateExplanationText(tailwindLime);
+      break;
+    case "tailwindGreen":
+      generateExplanationText(tailwindGreen);
+      break;
+    case "tailwindEmerald":
+      generateExplanationText(tailwindEmerald);
+      break;
+    case "tailwindTeal":
+      generateExplanationText(tailwindTeal);
+      break;
+    case "tailwindCyan":
+      generateExplanationText(tailwindCyan);
+      break;
+    case "tailwindSky":
+      generateExplanationText(tailwindSky);
+      break;
+    case "tailwindBlue":
+      generateExplanationText(tailwindBlue);
+      break;
+    case "tailwindIndigo":
+      generateExplanationText(tailwindIndigo);
+      break;
+    case "tailwindViolet":
+      generateExplanationText(tailwindViolet);
+      break;
+    case "tailwindPurple":
+      generateExplanationText(tailwindPurple);
+      break;
+    case "tailwindFuchsia":
+      generateExplanationText(tailwindFuchsia);
+      break;
+    case "tailwindPink":
+      generateExplanationText(tailwindPink);
+      break;
+    case "tailwindRose":
+      generateExplanationText(tailwindRose);
+      break;
+    case "bootstrapBlue":
+      generateExplanationText(bootstrapBlue);
+      break;
+    case "bootstrapIndigo":
+      generateExplanationText(bootstrapIndigo);
+      break;
+    case "bootstrapPurple":
+      generateExplanationText(bootstrapPurple);
+      break;
+    case "bootstrapPink":
+      generateExplanationText(bootstrapPink);
+      break;
+    case "bootstrapRed":
+      generateExplanationText(bootstrapRed);
+      break;
+    case "bootstrapOrange":
+      generateExplanationText(bootstrapOrange);
+      break;
+    case "bootstrapYellow":
+      generateExplanationText(bootstrapYellow);
+      break;
+    case "bootstrapGreen":
+      generateExplanationText(bootstrapGreen);
+      break;
+    case "bootstrapTeal":
+      generateExplanationText(bootstrapTeal);
+      break;
+    case "bootstrapCyan":
+      generateExplanationText(bootstrapCyan);
+      break;
+    case "bootstrapGray":
+      generateExplanationText(bootstrapGray);
+      break;
+    case "polarisRose":
+      generateExplanationText(polarisRose);
+      break;
+    case "polarisMagenta":
+      generateExplanationText(polarisMagenta);
+      break;
+    case "polarisPurple":
+      generateExplanationText(polarisPurple);
+      break;
+    case "polarisBlue":
+      generateExplanationText(polarisBlue);
+      break;
+    case "polarisAzure":
+      generateExplanationText(polarisAzure);
+      break;
+    case "polarisTeal":
+      generateExplanationText(polarisTeal);
+      break;
+    case "polarisCyan":
+      generateExplanationText(polarisCyan);
+      break;
+    case "polarisGreen":
+      generateExplanationText(polarisGreen);
+      break;
+    case "polarisLime":
+      generateExplanationText(polarisLime);
+      break;
+    case "polarisYellow":
+      generateExplanationText(polarisYellow);
+      break;
+    case "polarisOrange":
+      generateExplanationText(polarisOrange);
+      break;
+    case "polarisRed":
+      generateExplanationText(polarisRed);
+      break;
+    case "carbonBlue":
+      generateExplanationText(carbonBlue);
+      break;
+    case "carbonCoolGray":
+      generateExplanationText(carbonCoolGray);
+      break;
+    case "carbonCyan":
+      generateExplanationText(carbonCyan);
+      break;
+    case "carbonGray":
+      generateExplanationText(carbonGray);
+      break;
+    case "carbonGreen":
+      generateExplanationText(carbonGreen);
+      break;
+    case "carbonMagenta":
+      generateExplanationText(carbonMagenta);
+      break;
+    case "carbonOrange":
+      generateExplanationText(carbonOrange);
+      break;
+    case "carbonPurple":
+      generateExplanationText(carbonPurple);
+      break;
+    case "carbonRed":
+      generateExplanationText(carbonRed);
+      break;
+    case "carbonTeal":
+      generateExplanationText(carbonTeal);
+      break;
+    case "carbonWarmGray":
+      generateExplanationText(carbonWarmGray);
+      break;
+    case "carbonYellow":
+      generateExplanationText(carbonYellow);
+      break;
     default:
       // handle default case
       break;
@@ -484,33 +1015,80 @@ export function determineGenerateExplanationText(target: InstantiaterTarget) {
 }
 
 export function instantiateTarget(message: MessageInstantiater) {
-  if (message.type == "actual") {
-    if (message.form == "style") {
-      determineGenerateColorStyle(message.target);
-    } else {
-      determineGenerateColorVariable(message.target);
+  message.targets.forEach((target) => {
+    if (target === "all") {
+      return;
     }
-  } else if (message.type == "explanation") {
-    determineGenerateExplanationText(message.target);
-  }
+
+    if (message.type == "actual") {
+      if (message.form == "style") {
+        determineGenerateColorStyle(target);
+      } else {
+        determineGenerateColorVariable(target);
+      }
+    } else if (message.type == "explanation") {
+      determineGenerateExplanationText(target);
+    }
+  });
 }
 
+// Shared state to track if the collection is already created
+let isColorsCollectionCreated = false;
+
 // Define the function
-function generateColorVariable(collection: ColorCollection) {
+async function generateColorVariable(collection: ColorCollection) {
   // Create a new variable collection
-  const variableCollection = figma.variables.createVariableCollection(
-    collection.name
+  const variableCollections =
+    await figma.variables.getLocalVariableCollectionsAsync();
+
+  // Find the collection named "Colors"
+  let variableCollection = variableCollections.find(
+    (vc) => vc.name === "Colors"
   );
 
-  // Add "light" and "dark" modes to the collection
-  const lightModeId = variableCollection.addMode("Light");
-  const darkModeId = variableCollection.addMode("Dark");
+  // If the collection does not exist, create one
+  if (!variableCollection) {
+    if (!isColorsCollectionCreated) {
+      variableCollection = figma.variables.createVariableCollection("Colors");
+      isColorsCollectionCreated = true;
+    } else {
+      // Re-fetch the collections to ensure the collection is created by another instance
+      const updatedVariableCollections =
+        await figma.variables.getLocalVariableCollectionsAsync();
+      variableCollection = updatedVariableCollections.find(
+        (vc) => vc.name === "Colors"
+      );
+    }
+  }
+
+  // Ensure variableCollection is defined
+  if (!variableCollection) {
+    throw new Error(
+      'Failed to create or find the "Colors" variable collection.'
+    );
+  }
+
+  // Check if "Light" and "Dark" modes exist, and add them if they don't
+  let lightModeId = variableCollection.modes.find(
+    (mode) => mode.name === "Light"
+  )?.modeId;
+  let darkModeId = variableCollection.modes.find(
+    (mode) => mode.name === "Dark"
+  )?.modeId;
+
+  if (!lightModeId) {
+    lightModeId = variableCollection.addMode("Light");
+  }
+
+  if (!darkModeId) {
+    darkModeId = variableCollection.addMode("Dark");
+  }
 
   // Iterate over each member in the collection and create variables
   for (const member of collection.members) {
     // Create a new variable for the current color member
     const variable = figma.variables.createVariable(
-      member.name,
+      `${collection.name}/${member.name}`, // Variable name includes collection name and member name
       variableCollection,
       "COLOR"
     );
@@ -552,7 +1130,8 @@ async function generateExplanationText(collection: CollectionExplanationable) {
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
   // 結果
-  const results = [];
+  const results: SceneNode[] = [];
+  const explanationNodes: SceneNode[] = [];
 
   // 說明文字
   const explanationTextTitle = `Usage definition of ${collection.brand} - ${collection.name}`;
@@ -561,7 +1140,9 @@ async function generateExplanationText(collection: CollectionExplanationable) {
   explanationTitleNode.x = viewport.x;
   explanationTitleNode.y = viewport.y;
   explanationTitleNode.characters = explanationTextTitle;
-  explanationTitleNode.fontSize = baseFontSize;
+  explanationTitleNode.fontSize = baseFontSize * 1.25;
+
+  figma.currentPage.appendChild(explanationTitleNode);
   results.push(explanationTitleNode);
 
   collection.members.forEach((member) => {
@@ -573,21 +1154,39 @@ async function generateExplanationText(collection: CollectionExplanationable) {
     explanationNode.fontSize = baseFontSize;
     explanationNode.x = viewport.x;
     explanationNode.y = viewport.y;
-    results.push(explanationNode);
+
+    // results.push(explanationNode);
+    explanationNodes.push(explanationNode);
+    figma.currentPage.appendChild(explanationNode);
   });
 
-  results.forEach((item) => {
-    figma.currentPage.appendChild(item);
-  });
-
-  figma.currentPage.selection = results;
   const spacing = 8;
   const mode: SpacingMode = "vertical";
   const addAutolayout = true;
 
+  const explanationNodeFrame = spaciiing.applySpacingToLayers(
+    explanationNodes,
+    spacing,
+    mode,
+    addAutolayout,
+    true
+  );
+
+  if (!explanationNodeFrame) {
+    return;
+  }
+
+  results.push(explanationNodeFrame);
+
+  // results.forEach((item) => {
+  //   figma.currentPage.appendChild(item);
+  // });
+
+  figma.currentPage.selection = results;
+
   const frame = spaciiing.applySpacingToLayers(
     results,
-    spacing,
+    spacing * 3,
     mode,
     addAutolayout,
     true
@@ -604,13 +1203,13 @@ async function generateExplanationText(collection: CollectionExplanationable) {
 
     frame.name = explanationTextTitle;
     // Set padding for all sides
-    frame.paddingTop = 16;
-    frame.paddingRight = 16;
-    frame.paddingBottom = 16;
-    frame.paddingLeft = 16;
+    frame.paddingTop = 32;
+    frame.paddingRight = 48;
+    frame.paddingBottom = 32;
+    frame.paddingLeft = 48;
 
     // Set corner radius
-    frame.cornerRadius = 8;
+    frame.cornerRadius = 16;
     // Set the width and height to hug contents
     frame.primaryAxisSizingMode = "AUTO";
     frame.counterAxisSizingMode = "AUTO";

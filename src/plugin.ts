@@ -13,6 +13,8 @@ import {
   ExternalMessage,
   MessageSelectionFilter,
   MessageLicenseManagement,
+  MessageLocalization,
+  MessageAspectRatio,
 } from "./types/Message";
 
 // 功能模組
@@ -29,6 +31,8 @@ import * as virtualProfile from "./module/virtualProfile";
 import * as selectionFilter from "./module/selectionFilter";
 import * as util from "./module/util";
 import * as licenseManagement from "./module/licenseManagement";
+import * as localization from "./module/localization";
+import * as aspectRatioHelper from "./module/aspectRatioHelper";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(380, 500);
@@ -39,6 +43,9 @@ figma.ui.onmessage = (message: Message) => {
   switch (message.module) {
     case "Init":
       init.init();
+      break;
+    case "Localization":
+      localization.reception(message as MessageLocalization);
       break;
     case "Spaciiing":
       spaciiing.useSpacing(message as MessageSpaciiing);
@@ -72,6 +79,9 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "LicenseManagement":
       licenseManagement.reception(message as MessageLicenseManagement);
+      break;
+    case "AspectRatioHelper":
+      aspectRatioHelper.reception(message as MessageAspectRatio);
       break;
     default:
       break;

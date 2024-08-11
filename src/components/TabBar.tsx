@@ -10,6 +10,7 @@ import {
   SvgSpaciiing,
   SvgVariableEditor,
   SvgVirtualProfile,
+  SvgAspectRatioHelper,
 } from "../assets/icons";
 import TabButton from "./TabButton";
 import {
@@ -22,7 +23,10 @@ import {
   Spaciiing,
   VariableEditor,
   VirtualProfile,
+  AspectRatioHelper,
 } from "../view";
+import { useAppContext } from "../AppProvider";
+import SaleBannerWrapper from "./SaleBannerWrapper";
 
 interface TabBarProps {
   activeTab: ModuleType;
@@ -30,6 +34,10 @@ interface TabBarProps {
 }
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
+  const { licenseManagement } = useAppContext();
+  licenseManagement.licenseKey
+  licenseManagement.tier
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "Spaciiing":
@@ -40,8 +48,8 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
         return <Memorizer />;
       case "Renamer":
         return <Renamer />;
-      // case "LoremGenerator":
-      //   return <LoremGenerator />;
+      case "AspectRatioHelper":
+        return <AspectRatioHelper />;
       case "Instantiater":
         return <Instantiater />;
       case "Shortcut":
@@ -59,6 +67,7 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="tabs">
+      <SaleBannerWrapper licenseManagement={licenseManagement} />
       <div className="tab-bar hide-scrollbar-horizontal">
         <TabButton
           activeTab={activeTab}
@@ -92,16 +101,16 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
         />
         <TabButton
           activeTab={activeTab}
+          tabName="AspectRatioHelper"
+          setActiveTab={setActiveTab}
+          SvgComponent={SvgAspectRatioHelper}
+        />
+        <TabButton
+          activeTab={activeTab}
           tabName="Shortcut"
           setActiveTab={setActiveTab}
           SvgComponent={SvgShortcut}
         />
-        {/* <TabButton
-          activeTab={activeTab}
-          tabName="LoremGenerator"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgLoremGenerator}
-        /> */}
         <TabButton
           activeTab={activeTab}
           tabName="VariableEditor"

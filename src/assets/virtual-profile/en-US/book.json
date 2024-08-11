@@ -1,0 +1,45 @@
+{
+  "title": "Book",
+  "children": [
+    {
+      "title": "Book Title",
+      "content": "Example Book"
+    },
+    {
+      "title": "Author",
+      "content": "John Doe"
+    },
+    {
+      "title": "Genre",
+      "content": "Fiction"
+    },
+    {
+      "title": "Publisher",
+      "content": "Example Publisher"
+    },
+    {
+      "title": "Publication Date",
+      "content": "2024-07-18"
+    },
+    {
+      "title": "ISBN",
+      "content": "123-4567890123"
+    },
+    {
+      "title": "Language",
+      "content": "English"
+    },
+    {
+      "title": "Number of Pages",
+      "content": "350"
+    },
+    {
+      "title": "Format",
+      "content": "Hardcover"
+    },
+    {
+      "title": "Synopsis",
+      "content": "A captivating tale of adventure and discovery in a fictional world."
+    }
+  ]
+}

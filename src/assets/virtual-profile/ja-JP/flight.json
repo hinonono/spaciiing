@@ -1,0 +1,57 @@
+{
+  "title": "フライト",
+  "children": [
+    {
+      "title": "航空会社",
+      "content": "エグザンプル航空"
+    },
+    {
+      "title": "便名",
+      "content": "EA123"
+    },
+    {
+      "title": "出発空港コード",
+      "content": "NRT"
+    },
+    {
+      "title": "出発空港名",
+      "content": "成田国際空港"
+    },
+    {
+      "title": "到着空港コード",
+      "content": "LAX"
+    },
+    {
+      "title": "到着空港名",
+      "content": "ロサンゼルス国際空港"
+    },
+    {
+      "title": "出発日時",
+      "content": "2024-07-18T10:00:00"
+    },
+    {
+      "title": "到着日時",
+      "content": "2024-07-18T13:00:00"
+    },
+    {
+      "title": "飛行時間",
+      "content": "6時間"
+    },
+    {
+      "title": "クラス",
+      "content": "エコノミー"
+    },
+    {
+      "title": "ゲート",
+      "content": "B12"
+    },
+    {
+      "title": "座席",
+      "content": "23A"
+    },
+    {
+      "title": "ステータス",
+      "content": "定刻通り"
+    }
+  ]
+}

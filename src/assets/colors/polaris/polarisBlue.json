@@ -1,0 +1,294 @@
+{
+  "brand": "Polaris",
+  "name": "Blue",
+  "members": [
+    {
+      "name": "1",
+      "color": {
+        "light": {
+          "r": 252,
+          "g": 253,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 252,
+          "g": 253,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "2",
+      "color": {
+        "light": {
+          "r": 246,
+          "g": 248,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 246,
+          "g": 248,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "3",
+      "color": {
+        "light": {
+          "r": 240,
+          "g": 242,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 240,
+          "g": 242,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "4",
+      "color": {
+        "light": {
+          "r": 234,
+          "g": 237,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 234,
+          "g": 237,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "5",
+      "color": {
+        "light": {
+          "r": 226,
+          "g": 231,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 226,
+          "g": 231,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "6",
+      "color": {
+        "light": {
+          "r": 219,
+          "g": 225,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 219,
+          "g": 225,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "7",
+      "color": {
+        "light": {
+          "r": 213,
+          "g": 220,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 213,
+          "g": 220,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "8",
+      "color": {
+        "light": {
+          "r": 197,
+          "g": 208,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 197,
+          "g": 208,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "9",
+      "color": {
+        "light": {
+          "r": 186,
+          "g": 199,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 186,
+          "g": 199,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "10",
+      "color": {
+        "light": {
+          "r": 151,
+          "g": 173,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 151,
+          "g": 173,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "11",
+      "color": {
+        "light": {
+          "r": 65,
+          "g": 136,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 65,
+          "g": 136,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "12",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 113,
+          "b": 233,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 113,
+          "b": 233,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "13",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 91,
+          "b": 211,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 91,
+          "b": 211,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "14",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 66,
+          "b": 153,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 66,
+          "b": 153,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "15",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 46,
+          "b": 106,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 46,
+          "b": 106,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    },
+    {
+      "name": "16",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 22,
+          "b": 51,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 22,
+          "b": 51,
+          "a": 1
+        }
+      },
+      "description": "Emphasis, Interactive, Focus"
+    }
+  ]
+}

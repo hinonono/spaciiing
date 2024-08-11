@@ -6,6 +6,9 @@ import {
   MessageShortcutUpdateMagicalObjectSingle,
   ShortcutAction,
 } from "../../types/Message";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
+import { MagicalObjectMembers } from "../../types/MagicalObject";
 
 interface NoteModalProps {
   showNoteModal: boolean;
@@ -16,24 +19,33 @@ const NoteModal: React.FC<NoteModalProps> = ({
   showNoteModal,
   handleCloseNoteModal,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { magicalObject, licenseManagement, setShowCTSubscribe } =
     useAppContext();
 
-  const applyMemorizeNote = (action: ShortcutAction) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+  const applyMemorize = (
+    action: ShortcutAction,
+    member: MagicalObjectMembers
+  ) => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
-    if (action != "memorizeNote") {
+    const validActions = [
+      "memorizeNote",
+      "memorizeDesignStatusTag",
+      "memorizeTitleSection",
+    ];
+    if (!validActions.includes(action)) {
       return;
     }
+
     const message: MessageShortcutUpdateMagicalObjectSingle = {
       module: "Shortcut",
       action: action,
       direction: "Inner",
       phase: "Actual",
-      member: "note",
+      member: member,
     };
 
     parent.postMessage(
@@ -46,24 +58,63 @@ const NoteModal: React.FC<NoteModalProps> = ({
 
   return (
     <Modal show={showNoteModal} handleClose={handleCloseNoteModal}>
+      <h3>{t("module:fileOrganizingObjectSetting")}</h3>
       <div>
-        <h3>Note Setting</h3>
+        <h4>{t("module:note")}</h4>
         {magicalObject.noteId == "" ? (
-          <span className="note">
-            The note component has not been memorized. Please use the button
-            below to memorize it.
-          </span>
+          <span className="note">{t("module:noteHasNotBeenMemorized")}</span>
         ) : (
           <span className="note">
-            Object is memorized with id: {magicalObject.noteId}.
+            {t("module:objectIsMemorizedWithId")} {magicalObject.noteId}
           </span>
         )}
         <FigmaButton
           buttonType="secondary"
-          title={"Memorize note"}
+          title={t("module:memorize")}
           id={"shortcut-memorize-note"}
           onClick={() => {
-            applyMemorizeNote("memorizeNote");
+            applyMemorize("memorizeNote", "note");
+          }}
+        />
+      </div>
+      <div className="mt-small">
+        <h4>{t("module:designStatusTag")}</h4>
+        {magicalObject.designStatusTagId == "" ? (
+          <span className="note">
+            {t("module:designStatusTagHasNotBeenMemorized")}
+          </span>
+        ) : (
+          <span className="note">
+            {t("module:objectIsMemorizedWithId")}
+            {magicalObject.designStatusTagId}
+          </span>
+        )}
+        <FigmaButton
+          buttonType="secondary"
+          title={t("module:memorize")}
+          id={"shortcut-memorize-design-status-tag"}
+          onClick={() => {
+            applyMemorize("memorizeDesignStatusTag", "designStatusTag");
+          }}
+        />
+      </div>
+      <div className="mt-small">
+        <h4>{t("module:titleSection")}</h4>
+        {magicalObject.titleSectionId == "" ? (
+          <span className="note">
+            {t("module:titleSectionHasNotBeenMemorized")}
+          </span>
+        ) : (
+          <span className="note">
+            {t("module:objectIsMemorizedWithId")} {magicalObject.titleSectionId}
+          </span>
+        )}
+        <FigmaButton
+          buttonType="secondary"
+          title={t("module:memorize")}
+          id={"shortcut-memorize-title-section"}
+          onClick={() => {
+            applyMemorize("memorizeTitleSection", "titleSection");
           }}
         />
       </div>

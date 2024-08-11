@@ -1,0 +1,24 @@
+.flex {
+    display: flex;
+
+    button {
+        margin-left: 0.5em;
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.flex-jusify-spacebetween {
+    justify-content: space-between;
+}
+
+.flex-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.align-items-center {
+    align-items: center;
+}

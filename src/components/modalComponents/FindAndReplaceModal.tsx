@@ -7,6 +7,8 @@ import {
   ShortcutAction,
 } from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface FindAndReplaceModalProps {
   showFindAndReplaceModal: boolean;
@@ -17,6 +19,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
   showFindAndReplaceModal,
   handleCloseFindAndReplaceModal,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
 
   const [findCriteria, setFindCriteria] = useState("");
@@ -41,8 +44,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
   };
 
   const applyFindAndReplace = (action: ShortcutAction) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
@@ -72,36 +74,36 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       handleClose={handleCloseFindAndReplaceModal}
     >
       <div className="mt-xxsmall">
-        <SectionTitle title={"Find in selection"} />
+        <SectionTitle title={t("module:findInSelection")} />
         <div className="width-100 mt-xxsmall">
           <textarea
             className="textarea"
             rows={1}
             value={findCriteria}
             onChange={handleFindCriteriaChange}
-            placeholder="Find"
+            placeholder={t("module:find")}
           />
         </div>
       </div>
       <div className="mt-xxsmall">
-        <SectionTitle title={"Replace"} />
+        <SectionTitle title={t("module:replace")} />
         <div className="width-100 mt-xxsmall">
           <textarea
             className="textarea"
             rows={1}
             value={replaceCriteria}
             onChange={handleReplaceCriteriaChange}
-            placeholder="Replace"
+            placeholder={t("module:replace")}
           />
         </div>
       </div>
       <span className="note">
-        Find and replace criteria are case sensitive.
+        {t("module:findAndReplaceCriteriaAreCaseSensitive")}
       </span>
       <div className="mt-xsmall">
         <div className="custom-checkbox-group">
           <label className="container">
-            Keep original name of text layer(s)
+            {t("module:keepOriginalNameOfTextLayers")}
             <input
               type="checkbox"
               checked={keepOriginalLayerName}
@@ -111,7 +113,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
           </label>
         </div>
         <FigmaButton
-          title={"Apply"}
+          title={t("module:apply")}
           id={"shortcut-apply-find-and-replace-in-selection"}
           onClick={() => {
             applyFindAndReplace("findAndReplace");

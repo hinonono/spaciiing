@@ -1,0 +1,294 @@
+{
+  "brand": "Polaris",
+  "name": "Red",
+  "members": [
+    {
+      "name": "1",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 251,
+          "b": 251,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 251,
+          "b": 251,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "2",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 246,
+          "b": 246,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 246,
+          "b": 246,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "3",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 237,
+          "b": 236,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 237,
+          "b": 236,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "4",
+      "color": {
+        "light": {
+          "r": 254,
+          "g": 233,
+          "b": 232,
+          "a": 1
+        },
+        "dark": {
+          "r": 254,
+          "g": 233,
+          "b": 232,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "5",
+      "color": {
+        "light": {
+          "r": 254,
+          "g": 226,
+          "b": 225,
+          "a": 1
+        },
+        "dark": {
+          "r": 254,
+          "g": 226,
+          "b": 225,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "6",
+      "color": {
+        "light": {
+          "r": 254,
+          "g": 218,
+          "b": 217,
+          "a": 1
+        },
+        "dark": {
+          "r": 254,
+          "g": 218,
+          "b": 217,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "7",
+      "color": {
+        "light": {
+          "r": 254,
+          "g": 211,
+          "b": 209,
+          "a": 1
+        },
+        "dark": {
+          "r": 254,
+          "g": 211,
+          "b": 209,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "8",
+      "color": {
+        "light": {
+          "r": 254,
+          "g": 195,
+          "b": 193,
+          "a": 1
+        },
+        "dark": {
+          "r": 254,
+          "g": 195,
+          "b": 193,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "9",
+      "color": {
+        "light": {
+          "r": 253,
+          "g": 176,
+          "b": 172,
+          "a": 1
+        },
+        "dark": {
+          "r": 253,
+          "g": 176,
+          "b": 172,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "10",
+      "color": {
+        "light": {
+          "r": 253,
+          "g": 129,
+          "b": 122,
+          "a": 1
+        },
+        "dark": {
+          "r": 253,
+          "g": 129,
+          "b": 122,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "11",
+      "color": {
+        "light": {
+          "r": 239,
+          "g": 77,
+          "b": 47,
+          "a": 1
+        },
+        "dark": {
+          "r": 239,
+          "g": 77,
+          "b": 47,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "12",
+      "color": {
+        "light": {
+          "r": 229,
+          "g": 28,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 229,
+          "g": 28,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "13",
+      "color": {
+        "light": {
+          "r": 181,
+          "g": 38,
+          "b": 11,
+          "a": 1
+        },
+        "dark": {
+          "r": 181,
+          "g": 38,
+          "b": 11,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "14",
+      "color": {
+        "light": {
+          "r": 142,
+          "g": 31,
+          "b": 11,
+          "a": 1
+        },
+        "dark": {
+          "r": 142,
+          "g": 31,
+          "b": 11,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "15",
+      "color": {
+        "light": {
+          "r": 95,
+          "g": 21,
+          "b": 7,
+          "a": 1
+        },
+        "dark": {
+          "r": 95,
+          "g": 21,
+          "b": 7,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    },
+    {
+      "name": "16",
+      "color": {
+        "light": {
+          "r": 47,
+          "g": 10,
+          "b": 4,
+          "a": 1
+        },
+        "dark": {
+          "r": 47,
+          "g": 10,
+          "b": 4,
+          "a": 1
+        }
+      },
+      "description": "Critical, Error, Negative, Blocking"
+    }
+  ]
+}

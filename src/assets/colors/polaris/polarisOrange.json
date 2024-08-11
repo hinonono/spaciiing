@@ -1,0 +1,294 @@
+{
+  "brand": "Polaris",
+  "name": "Orange",
+  "members": [
+    {
+      "name": "1",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 253,
+          "b": 250,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 253,
+          "b": 250,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "2",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 247,
+          "b": 238,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 247,
+          "b": 238,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "3",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 241,
+          "b": 227,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 241,
+          "b": 227,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "4",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 235,
+          "b": 213,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 235,
+          "b": 213,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "5",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 228,
+          "b": 198,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 228,
+          "b": 198,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "6",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 221,
+          "b": 182,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 221,
+          "b": 182,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "7",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 214,
+          "b": 164,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 214,
+          "b": 164,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "8",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 200,
+          "b": 121,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 200,
+          "b": 121,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "9",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 184,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 184,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "10",
+      "color": {
+        "light": {
+          "r": 229,
+          "g": 165,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 229,
+          "g": 165,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "11",
+      "color": {
+        "light": {
+          "r": 178,
+          "g": 132,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 178,
+          "g": 132,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "12",
+      "color": {
+        "light": {
+          "r": 149,
+          "g": 111,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 149,
+          "g": 111,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "13",
+      "color": {
+        "light": {
+          "r": 124,
+          "g": 88,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 124,
+          "g": 88,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "14",
+      "color": {
+        "light": {
+          "r": 94,
+          "g": 66,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 94,
+          "g": 66,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "15",
+      "color": {
+        "light": {
+          "r": 65,
+          "g": 45,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 65,
+          "g": 45,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    },
+    {
+      "name": "16",
+      "color": {
+        "light": {
+          "r": 37,
+          "g": 26,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 37,
+          "g": 26,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pending, In-progress, Non blocking"
+    }
+  ]
+}

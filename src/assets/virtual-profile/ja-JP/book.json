@@ -1,0 +1,45 @@
+{
+  "title": "本",
+  "children": [
+    {
+      "title": "本のタイトル",
+      "content": "例の本"
+    },
+    {
+      "title": "著者",
+      "content": "ジョン・ドウ"
+    },
+    {
+      "title": "ジャンル",
+      "content": "フィクション"
+    },
+    {
+      "title": "出版社",
+      "content": "例の出版社"
+    },
+    {
+      "title": "出版日",
+      "content": "2024-07-18"
+    },
+    {
+      "title": "ISBN",
+      "content": "123-4567890123"
+    },
+    {
+      "title": "言語",
+      "content": "英語"
+    },
+    {
+      "title": "ページ数",
+      "content": "350"
+    },
+    {
+      "title": "形式",
+      "content": "ハードカバー"
+    },
+    {
+      "title": "概要",
+      "content": "架空の世界での冒険と発見の魅力的な物語。"
+    }
+  ]
+}

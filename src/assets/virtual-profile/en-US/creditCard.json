@@ -1,0 +1,21 @@
+{
+  "title": "Credit Card",
+  "children": [
+    {
+      "title": "Card Number",
+      "content": "1234-5678-9012-3456"
+    },
+    {
+      "title": "Expiration Date",
+      "content": "1990/01/01"
+    },
+    {
+      "title": "CVV",
+      "content": "000"
+    },
+    {
+      "title": "Card Network",
+      "content": "MasterCard"
+    }
+  ]
+}

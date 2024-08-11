@@ -7,39 +7,88 @@ import {
 import { useAppContext } from "../AppProvider";
 import MonacoCodeEditor from "../components/MonacoCodeEditor";
 import Modal from "../components/Modal";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
-// Define the valid scopes for each VariableResolvedDataType
-const VariableScopes: { [key in VariableResolvedDataType]: VariableScope[] } = {
-  BOOLEAN: [],
-  COLOR: [
-    "ALL_SCOPES",
-    "ALL_FILLS",
-    "FRAME_FILL",
-    "SHAPE_FILL",
-    "TEXT_FILL",
-    "STROKE_COLOR",
-    "EFFECT_COLOR",
-  ],
-  FLOAT: [
-    "ALL_SCOPES",
-    "TEXT_CONTENT",
-    "CORNER_RADIUS",
-    "WIDTH_HEIGHT",
-    "GAP",
-    "OPACITY",
-    "STROKE_FLOAT",
-    "EFFECT_FLOAT",
-    "FONT_WEIGHT",
-    "FONT_SIZE",
-    "LINE_HEIGHT",
-    "LETTER_SPACING",
-    "PARAGRAPH_SPACING",
-    "PARAGRAPH_INDENT",
-  ],
-  STRING: ["ALL_SCOPES", "TEXT_CONTENT", "FONT_FAMILY", "FONT_STYLE"],
+interface KeyAndScope {
+  nameKey: string;
+  scope: VariableScope;
+  indented?: boolean;
+  indentLevel?: number;
+}
+
+interface NameAndResolvedDataType {
+  nameKey: string;
+  members: KeyAndScope[];
+}
+
+const VariableScopesNew: {
+  [key in VariableResolvedDataType]: NameAndResolvedDataType;
+} = {
+  BOOLEAN: {
+    nameKey: "term:boolean",
+    members: [],
+  },
+  COLOR: {
+    nameKey: "term:color",
+    members: [
+      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
+      { nameKey: "term:allFills", scope: "ALL_FILLS" },
+      {
+        nameKey: "term:frameFill",
+        scope: "FRAME_FILL",
+        indented: true,
+        indentLevel: 1,
+      },
+      {
+        nameKey: "term:shapeFill",
+        scope: "SHAPE_FILL",
+        indented: true,
+        indentLevel: 1,
+      },
+      {
+        nameKey: "term:textFill",
+        scope: "TEXT_FILL",
+        indented: true,
+        indentLevel: 1,
+      },
+      { nameKey: "term:strokeColor", scope: "STROKE_COLOR" },
+      { nameKey: "term:effectColor", scope: "EFFECT_COLOR" },
+    ],
+  },
+  FLOAT: {
+    nameKey: "term:float",
+    members: [
+      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
+      { nameKey: "term:textContent", scope: "TEXT_CONTENT" },
+      { nameKey: "term:cornerRadius", scope: "CORNER_RADIUS" },
+      { nameKey: "term:widthHeight", scope: "WIDTH_HEIGHT" },
+      { nameKey: "term:gap", scope: "GAP" },
+      { nameKey: "term:opacity", scope: "OPACITY" },
+      { nameKey: "term:strokeFloat", scope: "STROKE_FLOAT" },
+      { nameKey: "term:effectFloat", scope: "EFFECT_FLOAT" },
+      { nameKey: "term:fontWeight", scope: "FONT_WEIGHT" },
+      { nameKey: "term:fontSize", scope: "FONT_SIZE" },
+      { nameKey: "term:lineHeight", scope: "LINE_HEIGHT" },
+      { nameKey: "term:letterSpacing", scope: "LETTER_SPACING" },
+      { nameKey: "term:paragraphSpacing", scope: "PARAGRAPH_SPACING" },
+      { nameKey: "term:paragraphIndent", scope: "PARAGRAPH_INDENT" },
+    ],
+  },
+  STRING: {
+    nameKey: "term:string",
+    members: [
+      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
+      { nameKey: "term:textContent", scope: "TEXT_CONTENT" },
+      { nameKey: "term:fontFamily", scope: "FONT_FAMILY" },
+      { nameKey: "term:fontStyle", scope: "FONT_STYLE" },
+    ],
+  },
 };
 
 const VariableEditor: React.FC = () => {
+  const { t } = useTranslation(["module", "term"]);
+
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -51,8 +100,9 @@ const VariableEditor: React.FC = () => {
   const [dataType, setDataType] = useState<VariableResolvedDataType>("COLOR");
   const [variableMode, setVariableMode] = useState("");
   const [variableScope, setVariableScope] = useState<VariableScope[]>(
-    VariableScopes[dataType]
+    VariableScopesNew[dataType].members.map((item) => item.scope)
   );
+
   const {
     variableCollectionList,
     variableCollectionModes,
@@ -66,7 +116,9 @@ const VariableEditor: React.FC = () => {
     useState(0);
 
   useEffect(() => {
-    setVariableScope(VariableScopes[dataType]);
+    setVariableScope(
+      VariableScopesNew[dataType].members.map((item) => item.scope)
+    );
     setCode("");
     setTimesExampleCodeBtnClicked(0);
   }, [dataType]);
@@ -111,7 +163,9 @@ const VariableEditor: React.FC = () => {
   const handleScopeChange = (scope: VariableScope) => {
     if (scope === "ALL_SCOPES") {
       // Toggle all scopes
-      const allScopes = VariableScopes[dataType];
+      const allScopes = VariableScopesNew[dataType].members.map(
+        (item) => item.scope
+      );
       setVariableScope((prevScopes) =>
         prevScopes.includes(scope)
           ? prevScopes.filter((s) => !allScopes.includes(s))
@@ -141,9 +195,7 @@ const VariableEditor: React.FC = () => {
   };
 
   const executeCode = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
@@ -238,55 +290,41 @@ const VariableEditor: React.FC = () => {
         handleClose={handleCloseExplanationModal}
       >
         <div>
-          <h3>Variable Editor</h3>
-          <p>
-            Setup your local variables by code, say goodbye to time-consuming
-            operation through official GUI.
-          </p>
+          <h3>{t("module:moduleVariableGenerator")}</h3>
+          <p>{t("module:moduleVariableGeneratorDesc")}</p>
           <h4>Destination</h4>
           <p>
-            Select where the variable(s) will be created.
+            {t("module:destinationDesc1")}
             <br />
             <br />
-            Due to limitations of the plugin API, the list cannot instantly
-            reflect all available collections when you use the plugin and the
-            local variables window simultaneously. Please always refresh this
-            tab to see the latest list.
+            {t("module:destinationDesc2")}
           </p>
-          <h4>Variable Mode</h4>
-          <p>Select under which mode will the variables being created.</p>
-          <h4>Value Type</h4>
-          <p>
-            This is equivalent to all types figma has provided. The numbers are
-            represent by FLOAT type.
-          </p>
-          <h4>Variable Scope</h4>
-          <p>Select which scope will the variable being created apply.</p>
-          <h4>Code Editor</h4>
-          <p>
-            The code should be an array, each element being an object with
-            "name" and "value" properties to create a variable. Click the button
-            below to generate example code. Click multiple times to create
-            multiple variables.
-          </p>
+          <h4>{t("module:variableMode")}</h4>
+          <p>{t("module:variableModeDesc")}</p>
+          <h4>{t("module:valueType")}</h4>
+          <p>{t("module:valueTypeDesc")}</p>
+          <h4>{t("module:variableScope")}</h4>
+          <p>{t("module:variableScopeDesc")}</p>
+          <h4>{t("module:codeEditor")}</h4>
+          <p>{t("module:codeEditorDesc1")}</p>
         </div>
       </Modal>
       <TitleBar
-        title="Variable Generator"
+        title={t("module:moduleVariableGenerator")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         {/* Destination */}
         <div>
-          <SectionTitle title={"Destination"} />
+          <SectionTitle title={t("module:destination")} />
           <select
             name="destination"
             className="custom-select"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
           >
-            <option value="new">Create a new collection</option>
+            <option value="new">{t("module:createANewCollection")}</option>
             {variableCollectionList.map((item) => (
               <option value={item.id}>{item.name}</option>
             ))}
@@ -303,44 +341,42 @@ const VariableEditor: React.FC = () => {
             </div>
           )}
           <div className="mt-xxsmall">
-            <span className="note">
-              Due to the limitation of the plugins API, the list cannot
-              automatically reflect changes made through the "Local Variables"
-              window. Please refresh this tab to see the latest list.
-            </span>
+            <span className="note">{t("module:destinationDesc2")}</span>
           </div>
         </div>
         {/* Mode */}
         <div className="mt-xsmall">
-          <SectionTitle title={"Variable Mode"} />
+          <SectionTitle title={t("module:variableMode")} />
           <select
             name="mode"
             className="custom-select"
             value={variableMode}
             onChange={(e) => setVariableMode(e.target.value)}
           >
-            <option value="new">Create a new mode</option>
+            <option value="new">{t("module:createANewMode")}</option>
             {destination != "new" &&
               variableCollectionModes.map((item) => (
                 <option value={item.modeId}>
                   {item.name}
-                  {variableCollectionModes.length == 1 ? " (Default)" : ""}
+                  {variableCollectionModes.length == 1
+                    ? ` (${t("module:default")})`
+                    : ""}
                 </option>
               ))}
           </select>
         </div>
         {/* Type */}
         <div className="mt-xsmall">
-          <SectionTitle title={"Value Type"} />
+          <SectionTitle title={t("module:valueType")} />
           <select
             name="type"
             className="custom-select"
             value={dataType}
             onChange={handleTypeChange}
           >
-            {Object.keys(VariableScopes).map((type) => (
+            {Object.keys(VariableScopesNew).map((type) => (
               <option key={type} value={type}>
-                {type}
+                {t(VariableScopesNew[type as VariableResolvedDataType].nameKey)}
               </option>
             ))}
           </select>
@@ -348,17 +384,24 @@ const VariableEditor: React.FC = () => {
         {dataType !== "BOOLEAN" && (
           <div className="mt-xsmall">
             <SectionTitle
-              title={"Variable Scope " + "(" + variableScope.length + ")"}
+              title={
+                t("module:variableScope") + "(" + variableScope.length + ")"
+              }
             />
             <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
-              {VariableScopes[dataType].map((scope) => (
-                <label key={scope} className="container">
-                  {scope}
+              {VariableScopesNew[dataType].members.map((item) => (
+                <label
+                  key={item.scope}
+                  className={`container ${
+                    item.indented ? `indent-level-${item.indentLevel}` : ""
+                  }`}
+                >
+                  {t(item.nameKey)}
                   <input
                     type="checkbox"
-                    value={scope}
-                    checked={variableScope.includes(scope)}
-                    onChange={() => handleScopeChange(scope)}
+                    value={item.scope}
+                    checked={variableScope.includes(item.scope)}
+                    onChange={() => handleScopeChange(item.scope)}
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -368,16 +411,14 @@ const VariableEditor: React.FC = () => {
         )}
         {/* Code */}
         <div className="mt-xsmall">
-          <SectionTitle title={"Code Editor"} />
+          <SectionTitle title={t("module:codeEditor")} />
           <div className="width-100">
             <div>
               <span className="note">
-                The code should be an array, each element being an object with
-                "name" and "value" properties to create a variable.
+                {t("module:codeEditorDesc1")}
                 <br />
                 <br />
-                Click the button below to generate example code. Click multiple
-                times to create multiple variables.
+                {t("module:codeEditorDesc2")}
               </span>
             </div>
             <div className="mt-xxsmall">
@@ -399,14 +440,14 @@ const VariableEditor: React.FC = () => {
           <div className="grid">
             <FigmaButton
               buttonType="secondary"
-              title={"Code Example for " + dataType}
+              title={t("module:codeExampleFor") + dataType}
               id={"variable-editor-example-code-snippet"}
               onClick={() => {
                 generateExampleCodeSnippet();
               }}
             />
             <FigmaButton
-              title={"Execute"}
+              title={t("module:execute")}
               id={"variable-editor-execute"}
               onClick={executeCode}
             />

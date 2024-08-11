@@ -2,7 +2,7 @@ import { LicenseManagement } from "./LicenseManagement";
 import { MagicalObject, MagicalObjectMembers } from "./MagicalObject";
 import { NodeFilterable } from "./NodeFilterable";
 import { NodeRenamable } from "./NodeRenamable";
-import { VirtualProfile } from "./VirtualProfile";
+import { VirtualProfile, VirtualProfileGroup } from "./VirtualProfile";
 
 // 傳送過來的訊息的基底屬性
 export interface Message {
@@ -16,6 +16,7 @@ type MessageDirection = "Inner" | "Outer";
 
 export type ModuleType =
   | "Init"
+  | "Localization"
   | "Spaciiing"
   | "Memorizer"
   | "Shortcut"
@@ -27,7 +28,8 @@ export type ModuleType =
   | "VirtualProfile"
   | "SelectionFilter"
   | "PluginSetting"
-  | "LicenseManagement";
+  | "LicenseManagement"
+  | "AspectRatioHelper";
 
 // Spaciiing模組專用的基底屬性
 export type SpacingMode = "horizontal" | "vertical";
@@ -120,6 +122,9 @@ export interface ExternalMessageLicenseManagement extends ExternalMessage {
   action: LicenseManagementAction;
   license: LicenseManagement;
 }
+export interface ExternalMessageLocalization extends ExternalMessage {
+  lang: string;
+}
 export interface ExternalMessageUpdateFrame extends ExternalMessage {
   memorizedObjectWidth?: string;
   memorizedObjectHeight?: string;
@@ -129,7 +134,8 @@ export interface ExternalMessageUpdateCustomSpacing extends ExternalMessage {
   spacing: string;
 }
 export interface ExternalMessageUpdateVirtualProfile extends ExternalMessage {
-  virtualProfile: VirtualProfile;
+  virtualProfile?: VirtualProfile;
+  virtualProfileGroups?: VirtualProfileGroup[];
 }
 export interface ExternalMessageUpdateMagicalObject extends ExternalMessage {
   magicalObject: MagicalObject;
@@ -166,9 +172,18 @@ export interface MessageLoremGenerator extends Message {
 // Instantiater專用的基底屬性
 export type InstantiaterType = "actual" | "explanation";
 export type InstantiateForm = "style" | "variable";
-export type InstantiaterSupportedBrand = "ios" | "antDesign" | "materialDesign";
+export type InstantiaterSupportedBrand =
+  | "ios"
+  | "antDesign"
+  | "materialDesign"
+  | "tailwind"
+  | "bootstrap"
+  | "polaris"
+  | "carbon";
+export type InstantiaterCategory = "color" | "effect" | "typography";
 export type InstantiaterTarget =
   | ""
+  | "all"
   | "iosEffectDefaultDropShadow"
   | "iosTypographyLarge"
   | "iosSystemColorsLight"
@@ -177,16 +192,11 @@ export type InstantiaterTarget =
   | "iosSystemGrayColorsDark"
   | "m3ElevationLight"
   | "m3ElevationDark"
-  | "m3BaselinePrimaryLight"
-  | "m3BaselinePrimaryDark"
-  | "m3BaselineSecondaryLight"
-  | "m3BaselineSecondaryDark"
-  | "m3BaselineTertiaryLight"
-  | "m3BaselineTertiaryDark"
-  | "m3BaselineNeutralLight"
-  | "m3BaselineNeutralDark"
-  | "m3BaselineErrorLight"
-  | "m3BaselineErrorDark"
+  | "m3BaselinePrimary"
+  | "m3BaselineSecondary"
+  | "m3BaselineTertiary"
+  | "m3BaselineNeutral"
+  | "m3BaselineError"
   | "antDesignNeutralColorLight"
   | "antDesignNeutralColorDark"
   | "antDesignDustRedLight"
@@ -212,10 +222,68 @@ export type InstantiaterTarget =
   | "antDesignGoldenPurpleLight"
   | "antDesignGoldenPurpleDark"
   | "antDesignMagentaLight"
-  | "antDesignMagentaDark";
+  | "antDesignMagentaDark"
+  | "antDesignDropShadow"
+  | "tailwindSlate"
+  | "tailwindGray"
+  | "tailwindZinc"
+  | "tailwindNeutral"
+  | "tailwindStone"
+  | "tailwindRed"
+  | "tailwindOrange"
+  | "tailwindAmber"
+  | "tailwindYellow"
+  | "tailwindLime"
+  | "tailwindGreen"
+  | "tailwindEmerald"
+  | "tailwindTeal"
+  | "tailwindCyan"
+  | "tailwindSky"
+  | "tailwindBlue"
+  | "tailwindIndigo"
+  | "tailwindViolet"
+  | "tailwindPurple"
+  | "tailwindFuchsia"
+  | "tailwindPink"
+  | "tailwindRose"
+  | "bootstrapBlue"
+  | "bootstrapIndigo"
+  | "bootstrapPurple"
+  | "bootstrapPink"
+  | "bootstrapRed"
+  | "bootstrapOrange"
+  | "bootstrapYellow"
+  | "bootstrapGreen"
+  | "bootstrapTeal"
+  | "bootstrapCyan"
+  | "bootstrapGray"
+  | "polarisRose"
+  | "polarisMagenta"
+  | "polarisPurple"
+  | "polarisBlue"
+  | "polarisAzure"
+  | "polarisTeal"
+  | "polarisCyan"
+  | "polarisGreen"
+  | "polarisLime"
+  | "polarisYellow"
+  | "polarisOrange"
+  | "polarisRed"
+  | "carbonBlue"
+  | "carbonCoolGray"
+  | "carbonCyan"
+  | "carbonGray"
+  | "carbonGreen"
+  | "carbonMagenta"
+  | "carbonOrange"
+  | "carbonPurple"
+  | "carbonRed"
+  | "carbonTeal"
+  | "carbonWarmGray"
+  | "carbonYellow";
 
 export interface MessageInstantiater extends Message {
-  target: InstantiaterTarget;
+  targets: InstantiaterTarget[];
   type: InstantiaterType;
   form: InstantiateForm;
 }
@@ -262,22 +330,44 @@ export interface MessageVirtualProfileSingleValue
 
 export interface MessageVirtualProfileWholeObject
   extends MessageVirtualProfile {
-  virtualProfile: VirtualProfile;
+  virtualProfile?: VirtualProfile;
+  virtualProfileGroups?: VirtualProfileGroup[];
 }
 
 export interface VirtualProfileSingleValue {
-  virtualProfileKey: string;
+  virtualProfileKey?: string;
   virtualProfileValue: string;
 }
 
 // Selection Filter 專用的基底屬性
+export interface AdditionalFilterOptions {
+  skipLockLayers: boolean;
+  skipHiddenLayers: boolean;
+  findWithName: boolean;
+  findCriteria: string;
+}
 export interface MessageSelectionFilter extends Message {
   filterScopes: NodeFilterable[];
-  findCriteria: string;
+  additionalFilterOptions: AdditionalFilterOptions;
 }
 
 // License Management 專用的基底屬性
 export interface MessageLicenseManagement extends Message {
   license: LicenseManagement;
   action: LicenseManagementAction;
+}
+
+// Localization
+export interface MessageLocalization extends Message {
+  lang: string;
+}
+
+// Aspect Ratio 專用的基底屬性
+export type Dimension = "width" | "height";
+
+export interface MessageAspectRatio extends Message {
+  lockedDimension: Dimension;
+  isCustomAspectRatio: boolean;
+  widthRatio: number;
+  heightRatio: number;
 }

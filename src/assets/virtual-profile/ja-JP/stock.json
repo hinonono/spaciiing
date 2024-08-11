@@ -1,0 +1,69 @@
+{
+  "title": "株式",
+  "children": [
+    {
+      "title": "株式シンボル",
+      "content": "XYZ"
+    },
+    {
+      "title": "会社名",
+      "content": "例の会社"
+    },
+    {
+      "title": "現在の価格",
+      "content": "¥10000"
+    },
+    {
+      "title": "価格の変動",
+      "content": "+¥150 (1.52%)"
+    },
+    {
+      "title": "時価総額",
+      "content": "¥5000億"
+    },
+    {
+      "title": "出来高",
+      "content": "30百万株"
+    },
+    {
+      "title": "52週高値",
+      "content": "¥12000"
+    },
+    {
+      "title": "52週安値",
+      "content": "¥8000"
+    },
+    {
+      "title": "配当利回り",
+      "content": "2.0%"
+    },
+    {
+      "title": "P/E比率",
+      "content": "20.00"
+    },
+    {
+      "title": "EPS",
+      "content": "¥500"
+    },
+    {
+      "title": "今日の範囲",
+      "content": "¥9900 - ¥10100"
+    },
+    {
+      "title": "始値",
+      "content": "¥9950"
+    },
+    {
+      "title": "前日終値",
+      "content": "¥9850"
+    },
+    {
+      "title": "買値",
+      "content": "¥9990"
+    },
+    {
+      "title": "売値",
+      "content": "¥10010"
+    }
+  ]
+}

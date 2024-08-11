@@ -7,6 +7,8 @@ import {
   ShortcutAction,
 } from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface IconTemplateModalProps {
   showIconModal: boolean;
@@ -17,6 +19,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   showIconModal,
   handleCloseIconModal,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
 
   const [size, setSize] = useState("24");
@@ -29,8 +32,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   };
 
   const applyGenerateIconTemplate = (action: ShortcutAction) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
@@ -59,7 +61,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   return (
     <Modal show={showIconModal} handleClose={handleCloseIconModal}>
       <div>
-        <SectionTitle title={"Size"} />
+        <SectionTitle title={t("module:size")} />
         <select
           name="size"
           className="custom-select"
@@ -78,13 +80,13 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
             rows={1}
             value={quantity}
             onChange={handleCustomValueChange}
-            placeholder="How many icons to be generated."
+            placeholder={t("module:howManyIconsToBeGenerated")}
           />
         </div>
       </div>
       <div className="mt-xxsmall">
         <FigmaButton
-          title={"Apply"}
+          title={t("module:apply")}
           id={"shortcut-apply-generate-icon-template"}
           onClick={() => {
             applyGenerateIconTemplate("generateIconTemplate");

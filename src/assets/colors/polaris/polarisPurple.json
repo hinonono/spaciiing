@@ -1,0 +1,294 @@
+{
+  "brand": "Polaris",
+  "name": "Purple",
+  "members": [
+    {
+      "name": "1",
+      "color": {
+        "light": {
+          "r": 253,
+          "g": 253,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 253,
+          "g": 253,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "2",
+      "color": {
+        "light": {
+          "r": 248,
+          "g": 247,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 248,
+          "g": 247,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "3",
+      "color": {
+        "light": {
+          "r": 243,
+          "g": 241,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 243,
+          "g": 241,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "4",
+      "color": {
+        "light": {
+          "r": 239,
+          "g": 236,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 239,
+          "g": 236,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "5",
+      "color": {
+        "light": {
+          "r": 233,
+          "g": 229,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 233,
+          "g": 229,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "6",
+      "color": {
+        "light": {
+          "r": 228,
+          "g": 222,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 228,
+          "g": 222,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "7",
+      "color": {
+        "light": {
+          "r": 223,
+          "g": 217,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 223,
+          "g": 217,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "8",
+      "color": {
+        "light": {
+          "r": 212,
+          "g": 204,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 212,
+          "g": 204,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "9",
+      "color": {
+        "light": {
+          "r": 199,
+          "g": 188,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 199,
+          "g": 188,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "10",
+      "color": {
+        "light": {
+          "r": 170,
+          "g": 149,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 170,
+          "g": 149,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "11",
+      "color": {
+        "light": {
+          "r": 148,
+          "g": 116,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 148,
+          "g": 116,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "12",
+      "color": {
+        "light": {
+          "r": 128,
+          "g": 81,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 128,
+          "g": 81,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "13",
+      "color": {
+        "light": {
+          "r": 113,
+          "g": 38,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 113,
+          "g": 38,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "14",
+      "color": {
+        "light": {
+          "r": 87,
+          "g": 0,
+          "b": 209,
+          "a": 1
+        },
+        "dark": {
+          "r": 87,
+          "g": 0,
+          "b": 209,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "15",
+      "color": {
+        "light": {
+          "r": 59,
+          "g": 0,
+          "b": 147,
+          "a": 1
+        },
+        "dark": {
+          "r": 59,
+          "g": 0,
+          "b": 147,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    },
+    {
+      "name": "16",
+      "color": {
+        "light": {
+          "r": 28,
+          "g": 0,
+          "b": 79,
+          "a": 1
+        },
+        "dark": {
+          "r": 28,
+          "g": 0,
+          "b": 79,
+          "a": 1
+        }
+      },
+      "description": "Magic, Side kick, AI"
+    }
+  ]
+}

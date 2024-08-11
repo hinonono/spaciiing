@@ -1,0 +1,294 @@
+{
+  "brand": "Polaris",
+  "name": "Azure",
+  "members": [
+    {
+      "name": "1",
+      "color": {
+        "light": {
+          "r": 251,
+          "g": 253,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 251,
+          "g": 253,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "2",
+      "color": {
+        "light": {
+          "r": 242,
+          "g": 249,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 242,
+          "g": 249,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "3",
+      "color": {
+        "light": {
+          "r": 234,
+          "g": 244,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 234,
+          "g": 244,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "4",
+      "color": {
+        "light": {
+          "r": 224,
+          "g": 240,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 224,
+          "g": 240,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "5",
+      "color": {
+        "light": {
+          "r": 213,
+          "g": 235,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 213,
+          "g": 235,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "6",
+      "color": {
+        "light": {
+          "r": 202,
+          "g": 230,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 202,
+          "g": 230,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "7",
+      "color": {
+        "light": {
+          "r": 192,
+          "g": 225,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 192,
+          "g": 225,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "8",
+      "color": {
+        "light": {
+          "r": 168,
+          "g": 216,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 168,
+          "g": 216,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "9",
+      "color": {
+        "light": {
+          "r": 145,
+          "g": 208,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 145,
+          "g": 208,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "10",
+      "color": {
+        "light": {
+          "r": 81,
+          "g": 192,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 81,
+          "g": 192,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "11",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 148,
+          "b": 213,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 148,
+          "b": 213,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "12",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 124,
+          "b": 180,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 124,
+          "b": 180,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "13",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 103,
+          "b": 155,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 103,
+          "b": 155,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "14",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 82,
+          "b": 124,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 82,
+          "b": 124,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "15",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 58,
+          "b": 90,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 58,
+          "b": 90,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    },
+    {
+      "name": "16",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 33,
+          "b": 51,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 33,
+          "b": 51,
+          "a": 1
+        }
+      },
+      "description": "Info, Highlight"
+    }
+  ]
+}

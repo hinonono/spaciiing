@@ -6,6 +6,8 @@ import {
   MessageShortcutUpdateMagicalObjectSingle,
   ShortcutAction,
 } from "../../types/Message";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 
 interface DesignStatusTagModalProps {
   showDesignStatusTagModal: boolean;
@@ -16,12 +18,12 @@ const DesignStatusTagModal: React.FC<DesignStatusTagModalProps> = ({
   showDesignStatusTagModal,
   handleCloseDesignStatusTagModal,
 }) => {
+  const { t } = useTranslation(["module"]);
   const { magicalObject, licenseManagement, setShowCTSubscribe } =
     useAppContext();
 
   const applyMemorizeDesignStatusTag = (action: ShortcutAction) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
@@ -50,20 +52,20 @@ const DesignStatusTagModal: React.FC<DesignStatusTagModalProps> = ({
       handleClose={handleCloseDesignStatusTagModal}
     >
       <div>
-        <h3>Design Status Tag Setting</h3>
+        <h3>{t("module:designStatusTagSetting")}</h3>
         {magicalObject.designStatusTagId == "" ? (
           <span className="note">
-            The design status tag component has not been memorized. Please use
-            the button below to memorize it.
+            {t("module:designStatusTagHasNotBeenMemorized")}
           </span>
         ) : (
           <span className="note">
-            Object is memorized with id: {magicalObject.designStatusTagId}.
+            {t("module:objectIsMemorizedWithId")}
+            {magicalObject.designStatusTagId}
           </span>
         )}
         <FigmaButton
           buttonType="secondary"
-          title={"Memorize design status tag"}
+          title={t("module:memorizeDesignStatusTag")}
           id={"shortcut-memorize-design-status-tag"}
           onClick={() => {
             applyMemorizeDesignStatusTag("memorizeDesignStatusTag");

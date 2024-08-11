@@ -1,0 +1,57 @@
+{
+  "title": "航班",
+  "children": [
+    {
+      "title": "航空公司",
+      "content": "示例航空"
+    },
+    {
+      "title": "航班号码",
+      "content": "EA123"
+    },
+    {
+      "title": "出发机场代码",
+      "content": "PVG"
+    },
+    {
+      "title": "出发机场名称",
+      "content": "上海浦东国际机场"
+    },
+    {
+      "title": "到达机场代码",
+      "content": "LAX"
+    },
+    {
+      "title": "到达机场名称",
+      "content": "洛杉矶国际机场"
+    },
+    {
+      "title": "出发日期和时间",
+      "content": "2024-07-18T10:00:00"
+    },
+    {
+      "title": "到达日期和时间",
+      "content": "2024-07-18T13:00:00"
+    },
+    {
+      "title": "飞行时间",
+      "content": "6小时"
+    },
+    {
+      "title": "舱等",
+      "content": "经济舱"
+    },
+    {
+      "title": "登机口",
+      "content": "B12"
+    },
+    {
+      "title": "座位",
+      "content": "23A"
+    },
+    {
+      "title": "状态",
+      "content": "准时"
+    }
+  ]
+}

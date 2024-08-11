@@ -1,0 +1,294 @@
+{
+  "brand": "Polaris",
+  "name": "Green",
+  "members": [
+    {
+      "name": "1",
+      "color": {
+        "light": {
+          "r": 248,
+          "g": 255,
+          "b": 251,
+          "a": 1
+        },
+        "dark": {
+          "r": 248,
+          "g": 255,
+          "b": 251,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "2",
+      "color": {
+        "light": {
+          "r": 227,
+          "g": 255,
+          "b": 237,
+          "a": 1
+        },
+        "dark": {
+          "r": 227,
+          "g": 255,
+          "b": 237,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "3",
+      "color": {
+        "light": {
+          "r": 205,
+          "g": 254,
+          "b": 225,
+          "a": 1
+        },
+        "dark": {
+          "r": 205,
+          "g": 254,
+          "b": 225,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "4",
+      "color": {
+        "light": {
+          "r": 180,
+          "g": 254,
+          "b": 210,
+          "a": 1
+        },
+        "dark": {
+          "r": 180,
+          "g": 254,
+          "b": 210,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "5",
+      "color": {
+        "light": {
+          "r": 146,
+          "g": 254,
+          "b": 194,
+          "a": 1
+        },
+        "dark": {
+          "r": 146,
+          "g": 254,
+          "b": 194,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "6",
+      "color": {
+        "light": {
+          "r": 99,
+          "g": 253,
+          "b": 176,
+          "a": 1
+        },
+        "dark": {
+          "r": 99,
+          "g": 253,
+          "b": 176,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "7",
+      "color": {
+        "light": {
+          "r": 56,
+          "g": 250,
+          "b": 163,
+          "a": 1
+        },
+        "dark": {
+          "r": 56,
+          "g": 250,
+          "b": 163,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "8",
+      "color": {
+        "light": {
+          "r": 53,
+          "g": 238,
+          "b": 155,
+          "a": 1
+        },
+        "dark": {
+          "r": 53,
+          "g": 238,
+          "b": 155,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "9",
+      "color": {
+        "light": {
+          "r": 50,
+          "g": 225,
+          "b": 147,
+          "a": 1
+        },
+        "dark": {
+          "r": 50,
+          "g": 225,
+          "b": 147,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "10",
+      "color": {
+        "light": {
+          "r": 46,
+          "g": 211,
+          "b": 137,
+          "a": 1
+        },
+        "dark": {
+          "r": 46,
+          "g": 211,
+          "b": 137,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "11",
+      "color": {
+        "light": {
+          "r": 50,
+          "g": 160,
+          "b": 110,
+          "a": 1
+        },
+        "dark": {
+          "r": 50,
+          "g": 160,
+          "b": 110,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "12",
+      "color": {
+        "light": {
+          "r": 41,
+          "g": 132,
+          "b": 90,
+          "a": 1
+        },
+        "dark": {
+          "r": 41,
+          "g": 132,
+          "b": 90,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "13",
+      "color": {
+        "light": {
+          "r": 19,
+          "g": 111,
+          "b": 69,
+          "a": 1
+        },
+        "dark": {
+          "r": 19,
+          "g": 111,
+          "b": 69,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "14",
+      "color": {
+        "light": {
+          "r": 12,
+          "g": 81,
+          "b": 50,
+          "a": 1
+        },
+        "dark": {
+          "r": 12,
+          "g": 81,
+          "b": 50,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "15",
+      "color": {
+        "light": {
+          "r": 8,
+          "g": 61,
+          "b": 37,
+          "a": 1
+        },
+        "dark": {
+          "r": 8,
+          "g": 61,
+          "b": 37,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    },
+    {
+      "name": "16",
+      "color": {
+        "light": {
+          "r": 9,
+          "g": 42,
+          "b": 27,
+          "a": 1
+        },
+        "dark": {
+          "r": 9,
+          "g": 42,
+          "b": 27,
+          "a": 1
+        }
+      },
+      "description": "Success, Positive"
+    }
+  ]
+}

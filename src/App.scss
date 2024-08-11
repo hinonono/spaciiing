@@ -1,5 +1,5 @@
-@import "var";
-@import "component";
+@import "./scss/var";
+@import "./scss/component";
 
 
 
@@ -15,8 +15,6 @@ body {
     display: flex;
     flex-direction: column;
 }
-
-
 
 pre {
     font-family: "Inter", sans-serif;
@@ -54,7 +52,7 @@ pre {
     border-radius: var(--cy-border-radius-medium);
     padding: 5px 0;
     font-size: var(--font-size-small);
-    box-shadow: 0px 4px 4px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-floating-window);
 }
 
 
@@ -110,26 +108,7 @@ input {
     width: 100%;
 }
 
-.flex {
-    display: flex;
-}
 
-.flex-jusify-spacebetween {
-    justify-content: space-between;
-}
-
-.flex-row {
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.flex button {
-    margin-left: 0.5em;
-}
-
-.flex button:first-child {
-    margin-left: 0;
-}
 
 .custom-radio-group {
     display: flex;
@@ -187,11 +166,13 @@ input {
     }
 }
 
+.indent-level-1 {
+    margin-left: 1.8rem;
+}
 
-
-
-
-
+.text-decoration-none {
+    text-decoration: none;
+}
 
 section {
     border-bottom: 1px solid #ccc;
@@ -200,6 +181,49 @@ section {
 
 // Define the base size and padding
 $base-size: 24px;
+
+// Mixin for button height
+@mixin button-height($size) {
+    height: var(--cy-button-height-#{$size});
+}
+
+.button-height-xlarge {
+    @include button-height(xlarge);
+}
+
+.button-height-large {
+    @include button-height(large);
+}
+
+.button-height-medium {
+    @include button-height(medium);
+}
+
+.button-height-small {
+    @include button-height(small);
+}
+
+
+// Mixin for font size
+@mixin font-size($size) {
+    font-size: var(--font-size-#{$size});
+}
+
+.font-size-xsmall {
+    @include font-size(xsmall);
+}
+
+.font-size-small {
+    @include font-size(small);
+}
+
+.font-size-large {
+    @include font-size(large);
+}
+
+.font-size-xlarge {
+    @include font-size(xlarge);
+}
 
 // Mixin for icon size
 @mixin icon-size($size) {
@@ -320,6 +344,7 @@ button {
     font-size: var(--font-size-small);
     background-color: #bb90ff;
     width: fit-content;
+    cursor: pointer;
 }
 
 .title-bar {
@@ -362,6 +387,20 @@ button {
     border: 1px solid var(--figma-color-bg-brand);
 }
 
+.button--special {
+    background-color: #8d41ff;
+    color: white;
+
+    &:hover {
+        background-color: #6824cd;
+    }
+}
+
+.button {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
 .checkbox-group {
     color: var(--figma-color-text);
     font-size: var(--font-size-small);
@@ -370,36 +409,7 @@ button {
     align-items: center;
 }
 
-.textarea {
-    font-family: 'Inter', sans-serif;
-    border-radius: var(--cy-border-radius-large);
-    background-color: var(--figma-color-bg-secondary);
-    color: var(--figma-color-text-secondary);
-    font-size: var(--font-size-small);
-    min-height: 48px;
-    border: 1px solid var(--figma-color-bg-secondary);
-    // transition: all 0.3s;
 
-    &.code {
-        resize: vertical;
-    }
-
-    &:hover {
-        color: var(--figma-color-text);
-        border: 1px solid var(--figma-color-border);
-    }
-
-    &:active,
-    &:focus {
-        color: var(--figma-color-text);
-        border-width: 2px;
-    }
-
-    &::placeholder {
-        color: var(--figma-color-text-secondary);
-        opacity: .8;
-    }
-}
 
 .tooltip {
     position: relative;
@@ -415,7 +425,7 @@ button {
         border-radius: var(--cy-border-radius-medium);
         padding: 5px 0;
         font-size: var(--font-size-small);
-        box-shadow: 0px 4px 4px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-floating-window);
         opacity: 0;
         // transform: translateY(4px);
         // transition: opacity 0.4s ease, transform 0.3s ease;
@@ -694,7 +704,6 @@ li {
             box-sizing: border-box;
             transition: border-bottom-color 0.3s;
             height: 100%;
-            // border-radius: var(--cy-border-radius-large);
             background-color: transparent;
             color: inherit;
 
@@ -738,6 +747,11 @@ li {
 
 .color--secondary {
     color: var(--figma-color-text-secondary)
+}
+
+.disable-mtmb {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
 }
 
 

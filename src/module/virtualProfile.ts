@@ -1,11 +1,15 @@
 import {
+  VirtualProfile,
+  VirtualProfileChild,
+  VirtualProfileGroup,
+} from "./../types/VirtualProfile";
+import {
   ExternalMessageUpdateVirtualProfile,
   MessageVirtualProfile,
   MessageVirtualProfileSingleValue,
   MessageVirtualProfileWholeObject,
   VirtualProfileSingleValue,
 } from "../types/Message";
-import { VirtualProfile } from "../types/VirtualProfile";
 import * as util from "./util";
 
 export function reception(message: MessageVirtualProfile) {
@@ -15,7 +19,8 @@ export function reception(message: MessageVirtualProfile) {
   }
 
   if (message.phase == "Init") {
-    initVirtualProfile();
+    // initVirtualProfile();
+    initVirtualProfileGroups();
   }
 
   if (message.phase == "Actual") {
@@ -29,47 +34,194 @@ export function reception(message: MessageVirtualProfile) {
   }
 }
 
-function initVirtualProfile() {
-  const pluginDataKey = "virtual-profile";
-  const data = figma.root.getPluginData(pluginDataKey);
-  console.log("Plugin Data");
-  console.log(data);
+// function initVirtualProfile() {
+//   const pluginDataKey = "virtual-profile";
+//   const data = figma.root.getPluginData(pluginDataKey);
+//   console.log("Plugin Data");
+//   console.log(data);
 
-  if (data === "") {
+//   if (data === "") {
+//     // 未設置過virtual profile
+//     const vp: VirtualProfile = {
+//       name: "John Doe",
+//       nickname: "Johnny",
+//       gender: "Male",
+//       birthday: "1990/01/01",
+//       email: "johndoe@example.com",
+//       cardNum: "1234-5678-9012-3456",
+//       landlineNum: "555-1234",
+//       phoneNum: "555-987-6543",
+//       address: "123 Main St, Anytown, USA",
+//       companyName: "Doe Industries",
+//       companyAddress: "456 Industrial Way, Suite 100, Anytown, USA",
+//       companyPhoneNum: "555-1122",
+//       custom1: "Custom Field 1",
+//       custom2: "Custom Field 2",
+//       custom3: "Custom Field 3",
+//       age: "20",
+//       country: "Country",
+//       city: "City",
+//       expirationDate: "1990/01/01",
+//       cvv: "000",
+//       cardNetwork: "MasterCard",
+//       username: "@johnniedoe123",
+//       userId: "0000-1234-5678",
+//       jobTitle: "Designer",
+//       industry: "Art & Design",
+//     };
+
+//     // Save vp as a JSON string
+//     figma.root.setPluginData(pluginDataKey, JSON.stringify(vp));
+
+//     const message: ExternalMessageUpdateVirtualProfile = {
+//       virtualProfile: vp,
+//       module: "VirtualProfile",
+//       direction: "Outer",
+//       phase: "Init",
+//     };
+
+//     util.sendMessageBack(message);
+//   } else {
+//     // 有設置virtual profile
+//     const vp = JSON.parse(data) as VirtualProfile;
+
+//     const message: ExternalMessageUpdateVirtualProfile = {
+//       virtualProfile: vp,
+//       module: "VirtualProfile",
+//       direction: "Outer",
+//       phase: "Init",
+//     };
+
+//     util.sendMessageBack(message);
+//   }
+// }
+
+// Function to create the vpg structure
+function ConvertOldVpToNew(oldVpdata: VirtualProfile) {
+  const personalKeys = [
+    "nickname",
+    "age",
+    "gender",
+    "birthday",
+    "email",
+    "landlineNum",
+    "phoneNum",
+    "country",
+    "city",
+    "address",
+    "userId",
+    "jobTitle",
+    "industry",
+    "companyName",
+    "companyAddress",
+    "companyPhoneNum",
+  ];
+
+  const financialKeys = ["cardNum", "expirationDate", "cvv", "cardNetwork"];
+  const customKeys = ["custom1", "custom2", "custom3"];
+
+  const createChildren = (
+    keys: (keyof VirtualProfile)[]
+  ): VirtualProfileChild[] =>
+    keys.map((key) => ({
+      id: util.generateUUID(),
+      title: key,
+      content: oldVpdata[key] || "",
+    }));
+
+  return [
+    {
+      id: util.generateUUID(),
+      title: "Personal",
+      children: createChildren(personalKeys as (keyof VirtualProfile)[]),
+      isCollapsed: false,
+    },
+    {
+      id: util.generateUUID(),
+      title: "Personal",
+      children: createChildren(financialKeys as (keyof VirtualProfile)[]),
+      isCollapsed: false,
+    },
+    {
+      id: util.generateUUID(),
+      title: "Other",
+      children: createChildren(customKeys as (keyof VirtualProfile)[]),
+      isCollapsed: false,
+    },
+  ];
+}
+
+function initVirtualProfileGroups() {
+  const pluginDataKey = "virtual-profile-groups";
+  const newVpdata = figma.root.getPluginData(pluginDataKey);
+
+  const oldVpData = figma.root.getPluginData("virtual-profile");
+
+  let vpg: VirtualProfileGroup[];
+
+  // console.log("Plugin Data");
+  // console.log(data);
+
+  const vp: VirtualProfile = {
+    name: "John Doe",
+    nickname: "Johnny",
+    gender: "Male",
+    birthday: "1990/01/01",
+    email: "johndoe@example.com",
+    cardNum: "1234-5678-9012-3456",
+    landlineNum: "555-1234",
+    phoneNum: "555-987-6543",
+    address: "123 Main St, Anytown, USA",
+    companyName: "Doe Industries",
+    companyAddress: "456 Industrial Way, Suite 100, Anytown, USA",
+    companyPhoneNum: "555-1122",
+    custom1: "Custom Field 1",
+    custom2: "Custom Field 2",
+    custom3: "Custom Field 3",
+    age: "20",
+    country: "Country",
+    city: "City",
+    expirationDate: "1990/01/01",
+    cvv: "000",
+    cardNetwork: "MasterCard",
+    username: "@johnniedoe123",
+    userId: "0000-1234-5678",
+    jobTitle: "Designer",
+    industry: "Art & Design",
+  };
+
+  if (newVpdata === "") {
     // 未設置過virtual profile
-    const vp: VirtualProfile = {
-      name: "John Doe",
-      nickname: "Johnny",
-      gender: "Male",
-      birthday: "1990/01/01",
-      email: "johndoe@example.com",
-      cardNum: "1234-5678-9012-3456",
-      landlineNum: "555-1234",
-      phoneNum: "555-987-6543",
-      address: "123 Main St, Anytown, USA",
-      companyName: "Doe Industries",
-      companyAddress: "456 Industrial Way, Suite 100, Anytown, USA",
-      companyPhoneNum: "555-1122",
-      custom1: "Custom Field 1",
-      custom2: "Custom Field 2",
-      custom3: "Custom Field 3",
-      age: "20",
-      country: "Country",
-      city: "City",
-      expirationDate: "1990/01/01",
-      cvv: "000",
-      cardNetwork: "MasterCard",
-      username: "@johnniedoe123",
-      userId: "0000-1234-5678",
-      jobTitle: "Designer",
-      industry: "Art & Design",
-    };
+    if (oldVpData === "") {
+      vpg = [
+        {
+          id: util.generateUUID(),
+          title: "Category Name",
+          children: [
+            {
+              content: "Value",
+              id: util.generateUUID(),
+              title: "Title",
+            },
+          ],
+          isCollapsed: false,
+        },
+      ];
+    } else {
+      // 針對曾經設置過舊版VP的用戶進行資料轉換
+      const oldVp = JSON.parse(oldVpData) as VirtualProfile;
+      vpg = ConvertOldVpToNew(oldVp);
+
+      // 轉換完成後清空舊的
+      figma.root.setPluginData("virtual-profile", "");
+    }
 
     // Save vp as a JSON string
-    figma.root.setPluginData(pluginDataKey, JSON.stringify(vp));
+    figma.root.setPluginData(pluginDataKey, JSON.stringify(vpg));
 
     const message: ExternalMessageUpdateVirtualProfile = {
       virtualProfile: vp,
+      virtualProfileGroups: vpg,
       module: "VirtualProfile",
       direction: "Outer",
       phase: "Init",
@@ -78,10 +230,10 @@ function initVirtualProfile() {
     util.sendMessageBack(message);
   } else {
     // 有設置virtual profile
-    const vp = JSON.parse(data) as VirtualProfile;
+    const vpg = JSON.parse(newVpdata) as VirtualProfileGroup[];
 
     const message: ExternalMessageUpdateVirtualProfile = {
-      virtualProfile: vp,
+      virtualProfileGroups: vpg,
       module: "VirtualProfile",
       direction: "Outer",
       phase: "Init",
@@ -92,14 +244,28 @@ function initVirtualProfile() {
 }
 
 function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
-  const pluginDataKey = "virtual-profile";
-  const vp = message.virtualProfile;
-
   console.log("🔴 virtualProfileWillEnd");
-  console.log(vp);
+
+  // const pluginDataKey = "virtual-profile";
+  // const vp = message.virtualProfile;
+
+  // console.log(vp);
 
   // Save vp as a JSON string
-  figma.root.setPluginData(pluginDataKey, JSON.stringify(vp));
+  // figma.root.setPluginData(pluginDataKey, JSON.stringify(vp));
+
+  if (message.virtualProfileGroups) {
+    console.log("🔴");
+    console.log(message.virtualProfileGroups);
+
+    // Save vp as a JSON string
+    figma.root.setPluginData(
+      "virtual-profile-groups",
+      JSON.stringify(message.virtualProfileGroups)
+    );
+    // 清空舊的
+    figma.root.setPluginData("virtual-profile", "");
+  }
 }
 
 async function applyVirtualProfileValueToTextNode(
@@ -139,9 +305,7 @@ async function applyVirtualProfileValueToTextNode(
       textNode.setPluginData("virtual-profile-object", JSON.stringify(vp));
     }
 
-    figma.notify(
-      `✅ Text nodes updated successfully (${textNodes.length} layer(s)).`
-    );
+    figma.notify(`✅ Text nodes updated successfully.`);
   } catch (error) {
     figma.notify("❌ Failed to load font.");
   }

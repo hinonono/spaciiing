@@ -12,3 +12,21 @@ export { default as SvgVertical } from "./SvgVertical";
 export { default as SvgHorizontal } from "./SvgHorizontal";
 export { default as SvgInfo } from "./SvgInfo";
 export { default as SvgSetting } from "./SvgSetting";
+
+export { default as SvgAR1to1 } from "./SvgAR1to1";
+export { default as SvgAR2to3 } from "./SvgAR2to3";
+export { default as SvgAR3to2 } from "./SvgAR3to2";
+export { default as SvgAR3to4 } from "./SvgAR3to4";
+export { default as SvgAR4to3 } from "./SvgAR4to3";
+export { default as SvgAR9to16 } from "./SvgAR9to16";
+export { default as SvgAR16to9 } from "./SvgAR16to9";
+export { default as SvgAspectRatioHelper } from "./SvgAspectRatioHelper";
+
+export { default as SvgAdd } from "./SvgAdd";
+export { default as SvgAddFolder } from "./SvgAddFolder";
+export { default as SvgAddFromPreset } from "./SvgAddFromPreset";
+export { default as SvgExpand } from "./SvgExpand";
+export { default as SvgCollapse } from "./SvgCollapse";
+export { default as SvgSave } from "./SvgSave";
+export { default as SvgChevronLeft } from "./SvgChevronLeft";
+export { default as SvgDragHandle } from "./SvgDragHandle";

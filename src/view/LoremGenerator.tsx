@@ -7,6 +7,7 @@ import {
 } from "../types/Message";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 const LoremGenerator: React.FC = () => {
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
@@ -19,9 +20,7 @@ const LoremGenerator: React.FC = () => {
   const [length, setLength] = useState<LoremLength>("short");
 
   const generateLorem = (lang: LoremSupportedLang, length: LoremLength) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }

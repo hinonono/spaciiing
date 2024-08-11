@@ -1,0 +1,50 @@
+:root {
+    --variable-background: rgba(255, 139, 29, .2);
+    --variable-text-primary: rgba(176, 65, 0, 1);
+    --variable-text-secondary: rgba(176, 65, 0, .6);
+    --tooltip-icon: #7f7f7f;
+    --button-disabled: #cacaca;
+
+    --fg-focus: #0d99ff;
+
+    --cy-border-light: #d5d5d5;
+    --cy-border-dark: #a0a0a0;
+
+
+    --cy-border-radius-xlarge: 10px;
+    --cy-border-radius-large: 8px;
+    --cy-border-radius-medium: 6px;
+    --cy-border-radius-small: 4px;
+
+    --tab-bar-bg: #fff;
+    --tab-bar-icon: black;
+
+    --cy-button-height-xlarge: 44px;
+    --cy-button-height-large: 40px;
+    --cy-button-height-medium: 36px;
+    --cy-button-height-small: 32px;
+
+    --color-bg-selected: #e5f4ff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --variable-background: rgba(255, 139, 29, .3);
+        --variable-text-primary: rgba(255, 162, 107, 1);
+        --variable-text-secondary: rgba(255, 162, 107, .8);
+        --tooltip-icon: #bfbfbf;
+        --button-disabled: #656565;
+
+        --fg-focus: #0c8ce9;
+
+        --figma-color-text: #ebebeb;
+
+        --cy-border-light: #5b5b5b;
+        --cy-border-dark: #aaaaaa;
+
+        --tab-bar-bg: #2c2c2c;
+        --tab-bar-icon: white;
+
+        --color-bg-selected: #4a5878;
+    }
+}

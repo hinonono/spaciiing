@@ -1,0 +1,294 @@
+{
+  "brand": "Polaris",
+  "name": "Yellow",
+  "members": [
+    {
+      "name": "1",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 253,
+          "b": 246,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 253,
+          "b": 246,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "2",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 248,
+          "b": 219,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 248,
+          "b": 219,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "3",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 244,
+          "b": 191,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 244,
+          "b": 191,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "4",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 239,
+          "b": 157,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 239,
+          "b": 157,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "5",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 235,
+          "b": 120,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 235,
+          "b": 120,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "6",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 230,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 230,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "7",
+      "color": {
+        "light": {
+          "r": 247,
+          "g": 223,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 247,
+          "g": 223,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "8",
+      "color": {
+        "light": {
+          "r": 234,
+          "g": 211,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 234,
+          "g": 211,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "9",
+      "color": {
+        "light": {
+          "r": 225,
+          "g": 203,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 225,
+          "g": 203,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "10",
+      "color": {
+        "light": {
+          "r": 197,
+          "g": 178,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 197,
+          "g": 178,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "11",
+      "color": {
+        "light": {
+          "r": 153,
+          "g": 138,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 153,
+          "g": 138,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "12",
+      "color": {
+        "light": {
+          "r": 130,
+          "g": 117,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 130,
+          "g": 117,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "13",
+      "color": {
+        "light": {
+          "r": 105,
+          "g": 95,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 105,
+          "g": 95,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "14",
+      "color": {
+        "light": {
+          "r": 79,
+          "g": 71,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 79,
+          "g": 71,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "15",
+      "color": {
+        "light": {
+          "r": 51,
+          "g": 46,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 51,
+          "g": 46,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    },
+    {
+      "name": "16",
+      "color": {
+        "light": {
+          "r": 31,
+          "g": 28,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 31,
+          "g": 28,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Incomplete, Unstarted"
+    }
+  ]
+}

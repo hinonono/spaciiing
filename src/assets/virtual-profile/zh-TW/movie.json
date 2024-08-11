@@ -1,0 +1,45 @@
+{
+  "title": "電影",
+  "children": [
+    {
+      "title": "電影名稱",
+      "content": "範例電影"
+    },
+    {
+      "title": "類型",
+      "content": "動作"
+    },
+    {
+      "title": "導演",
+      "content": "約翰·杜"
+    },
+    {
+      "title": "上映日期",
+      "content": "2024-07-18"
+    },
+    {
+      "title": "片長",
+      "content": "120分鐘"
+    },
+    {
+      "title": "評級",
+      "content": "普遍級"
+    },
+    {
+      "title": "簡介",
+      "content": "一位英雄拯救世界的充滿動作的冒險故事。"
+    },
+    {
+      "title": "語言",
+      "content": "英語"
+    },
+    {
+      "title": "國家",
+      "content": "美國"
+    },
+    {
+      "title": "製作公司",
+      "content": "範例製作公司"
+    }
+  ]
+}

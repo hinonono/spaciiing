@@ -8,8 +8,12 @@ import {
 } from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import Modal from "../components/Modal";
+import { useTranslation } from "react-i18next";
+import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 const Shortcut: React.FC = () => {
+  const { t } = useTranslation(["module"]);
+
   // 功能說明彈窗
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -38,9 +42,7 @@ const Shortcut: React.FC = () => {
   };
 
   const applyMemorizer = () => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
@@ -75,45 +77,48 @@ const Shortcut: React.FC = () => {
         handleClose={handleCloseExplanationModal}
       >
         <div>
-          <h3>Property Clipboard</h3>
-          <p>
-            Memorize specific property of selected object, then apply it to
-            another object(s).
-          </p>
+          <h3>{t("module:modulePropertyClipboard")}</h3>
+          <p>{t("module:modulePropertyClipboardDesc")}</p>
         </div>
       </Modal>
       <TitleBar
-        title="Property Clipboard"
+        title={t("module:modulePropertyClipboard")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         {/* 已記憶 */}
         <div>
-          <SectionTitle title="Clipboard" />
+          <SectionTitle title={t("module:clipboard")} />
           <div className="flex variable-list">
             {allDoesNotExist && (
               <div>
                 <span className="note">
-                  There is nothing inside the clipboard.
+                  {t("module:nothingInsideClipboard")}
                 </span>
               </div>
             )}
             {memorizedObjectWidth && (
               <div className="variable">
-                <span className="text-secondary">W</span>
+                <span className="text-secondary">
+                  {t("module:widthAbbreviation")}
+                </span>
                 <span className="text-primary">{memorizedObjectWidth}</span>
               </div>
             )}
             {memorizedObjectHeight && (
               <div className="variable">
-                <span className="text-secondary">H</span>
+                <span className="text-secondary">
+                  {t("module:heightAbbreviation")}
+                </span>
                 <span className="text-primary">{memorizedObjectHeight}</span>
               </div>
             )}
             {memorizedObjectName && (
               <div className="variable">
-                <span className="text-secondary">name</span>
+                <span className="text-secondary">
+                  {t("module:nameAbbreviation")}
+                </span>
                 <span className="text-primary">{memorizedObjectName}</span>
               </div>
             )}
@@ -121,7 +126,7 @@ const Shortcut: React.FC = () => {
         </div>
         {/* 模式 */}
         <div className="mt-xxsmall">
-          <SectionTitle title="Mode" />
+          <SectionTitle title={t("module:mode")} />
           <div className="custom-segmented-control">
             <input
               type="radio"
@@ -131,7 +136,9 @@ const Shortcut: React.FC = () => {
               checked={mode === "memorize"}
               onChange={() => setMode("memorize")}
             />
-            <label htmlFor="memorizer_mode_memorize">Memorize</label>
+            <label htmlFor="memorizer_mode_memorize">
+              {t("module:memorize")}
+            </label>
             <input
               type="radio"
               name="memorizer-mode"
@@ -140,12 +147,12 @@ const Shortcut: React.FC = () => {
               checked={mode === "apply"}
               onChange={() => setMode("apply")}
             />
-            <label htmlFor="memorizer_mode_apply">Apply</label>
+            <label htmlFor="memorizer_mode_apply">{t("module:apply")}</label>
           </div>
         </div>
         {/* 選項 */}
         <div className="mt-xxsmall">
-          <SectionTitle title="Options" />
+          <SectionTitle title={t("module:options")} />
           <div className="custom-radio-group">
             <input
               type="radio"
@@ -155,7 +162,7 @@ const Shortcut: React.FC = () => {
               checked={options === "width"}
               onChange={() => setOptions("width")}
             />
-            <label htmlFor="memorizer_option_width">Width</label>
+            <label htmlFor="memorizer_option_width">{t("module:width")}</label>
             <input
               type="radio"
               name="memorizer-options"
@@ -164,7 +171,9 @@ const Shortcut: React.FC = () => {
               checked={options === "height"}
               onChange={() => setOptions("height")}
             />
-            <label htmlFor="memorizer_option_height">Height</label>
+            <label htmlFor="memorizer_option_height">
+              {t("module:height")}
+            </label>
             <input
               type="radio"
               name="memorizer-options"
@@ -173,13 +182,13 @@ const Shortcut: React.FC = () => {
               checked={options === "name"}
               onChange={() => setOptions("name")}
             />
-            <label htmlFor="memorizer_option_name">Name</label>
+            <label htmlFor="memorizer_option_name">{t("module:name")}</label>
           </div>
         </div>
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={"Execute"}
+            title={t("module:execute")}
             id={"memorizer-apply"}
             onClick={applyMemorizer}
           />
