@@ -36,6 +36,16 @@ export function useSpacing(message: MessageSpaciiing) {
   );
 }
 
+/**
+ * Adjusts the spacing between selected layers and optionally adds them to an autolayout frame.
+ *
+ * @param {SceneNode[]} layers - The layers to which spacing will be applied.
+ * @param {number} spacing - The amount of spacing to apply between layers.
+ * @param {"vertical" | "horizontal"} mode - The mode of spacing, either vertical or horizontal.
+ * @param {boolean} addAutolayout - Whether to add the layers to an autolayout frame.
+ * @param {boolean} [returnFinalFrame=false] - Whether to return the final autolayout frame.
+ * @returns {FrameNode | void} - The autolayout frame if returnFinalFrame is true, otherwise void.
+ */
 export function applySpacingToLayers(
   layers: SceneNode[],
   spacing: number,
@@ -52,7 +62,6 @@ export function applySpacingToLayers(
   // Determine the axis and size property based on the mode
   const isVerticalMode = mode === "vertical";
   const axis = isVerticalMode ? "y" : "x";
-  const sizeProp = isVerticalMode ? "height" : "width";
 
   // Sort selected layers based on the chosen axis
   layers.sort(compareWithAxis(axis));
@@ -62,7 +71,24 @@ export function applySpacingToLayers(
     const currentLayer = layers[i];
     const nextLayer = layers[i + 1];
 
-    nextLayer[axis] = currentLayer[axis] + currentLayer[sizeProp] + spacing;
+    // Calculate the offset considering rotation
+    const currentLayerBounds = currentLayer.absoluteBoundingBox;
+    const nextLayerBounds = nextLayer.absoluteBoundingBox;
+
+    if (!currentLayerBounds || !nextLayerBounds) {
+      figma.notify("❌ One of the layers has no bounding box.");
+      return;
+    }
+
+    const offset = isVerticalMode
+      ? currentLayerBounds.y + currentLayerBounds.height + spacing - nextLayerBounds.y
+      : currentLayerBounds.x + currentLayerBounds.width + spacing - nextLayerBounds.x;
+
+    if (isVerticalMode) {
+      nextLayer.y += offset;
+    } else {
+      nextLayer.x += offset;
+    }
   }
 
   // Calculate the bounding box dimensions of the selected layers
@@ -105,6 +131,4 @@ export function applySpacingToLayers(
 
   // Notify the user of successful spacing adjustment
   figma.notify(`✅ Spacing set to ${spacing} successfully.`);
-
-  // Return the objects if requested
 }
