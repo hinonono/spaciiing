@@ -1,6 +1,16 @@
 .folder-navigator {
     border-radius: var(--cy-border-radius-large);
     border: 1px solid var(--cy-border-light);
+
+    ul {
+        list-style: none;
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+
+    li {
+        margin: 0;
+    }
 }
 
 .folder-navigator-items-group {
@@ -14,10 +24,35 @@
     &-large {
         max-height: 320px;
     }
+
+    li:last-child {
+
+        .button-folder {
+
+            border-bottom: none;
+
+        }
+    }
+
 }
 
 .folder-navigator-header {
-    padding: 16px;
+    padding: 8px;
     min-height: 48px;
     // max-height: 48px;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+}
+
+.button-folder {
+    border-bottom: 1px solid var(--cy-border-light);
+    padding: 8px;
+    display: inline-block;
+    text-align: left;
+    // border-radius: var(--cy-border-radius-small);
+    margin: 0;
+
+    &:hover {
+        background-color: var(--figma-color-bg-secondary);
+    }
 }

@@ -16,3 +16,8 @@ export type NestedStructure = {
     children?: NestedStructure;
   };
 };
+
+export interface StyleSelection {
+  title: string;
+  scopes: string[];
+}

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { NestedStructure } from "../types/General";
+import { NestedStructure, StyleSelection } from "../types/General";
 import FigmaButton from "./FigmaButton";
 
 interface FolderNavigatorProps {
   structure: NestedStructure;
-  selectedScopes: string[];
-  setSelectedScopes: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedScopes: StyleSelection;
+  setSelectedScopes: React.Dispatch<React.SetStateAction<StyleSelection>>;
 }
 
 const FolderNavigator: React.FC<FolderNavigatorProps> = ({
@@ -39,6 +39,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
     setCurrentPath(newPath);
     setCurrentStructure(newStructure);
+    setSelectedScopes([]);
   };
 
   const handleScopeChange = (id: string) => {
@@ -70,40 +71,54 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
   return (
     <div>
-      <div className="flex flex-row flex-justify-spacebetween folder-navigator-header">
-        {currentPath.length > 0 && (
-          <FigmaButton
-            title={"Back"}
-            onClick={goBack}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="secondary"
-            hasMargin={false}
-          />
-        )}
-        {isLeafNodeDisplayed && (
-          <FigmaButton
-            title={
-              Object.keys(currentStructure).every((key) =>
-                selectedScopes.includes(currentStructure[key].id!)
-              )
-                ? "Unselect All"
-                : "Select All"
-            }
-            onClick={toggleAll}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="secondary"
-            hasMargin={false}
-          />
-        )}
+      <div className="folder-navigator-header">
+        <div>
+          {currentPath.length > 0 && (
+            <FigmaButton
+              title={"Back"}
+              onClick={goBack}
+              buttonHeight="small"
+              fontSize="small"
+              buttonType="grain"
+              hasMargin={false}
+            />
+          )}
+        </div>
+        <div className="flex align-items-center flex-justify-center font-size-small">
+          {currentPath.length == 0
+            ? "Home"
+            : currentPath[currentPath.length - 1]}
+        </div>
+        <div>
+          {isLeafNodeDisplayed && (
+            <FigmaButton
+              title={
+                Object.keys(currentStructure).every((key) =>
+                  selectedScopes.includes(currentStructure[key].id!)
+                )
+                  ? "Unselect All"
+                  : "Select All"
+              }
+              onClick={toggleAll}
+              buttonHeight="small"
+              fontSize="small"
+              buttonType="grain"
+              hasMargin={false}
+            />
+          )}
+        </div>
       </div>
       <div className="custom-checkbox-group folder-navigator-items-group border-1-top hide-scrollbar-vertical">
         <ul className="list-style-none">
           {Object.keys(currentStructure).map((key) => (
             <li key={key}>
               {currentStructure[key].children ? (
-                <button onClick={() => enterFolder(key)}>{key}</button>
+                <button
+                  onClick={() => enterFolder(key)}
+                  className="button-reset button-folder"
+                >
+                  {key}
+                </button>
               ) : (
                 <label
                   key={currentStructure[key].id} // Use id as the key to ensure uniqueness

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Modal from "../components/Modal";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import { MessageStyleIntroducer } from "../types/Messages/MessageStyleIntroducer";
-import { NestedStructure } from "../types/General";
+import { NestedStructure, StyleSelection } from "../types/General";
 import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
 
@@ -44,7 +44,12 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     // );
   };
 
-  const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
+  
+
+  const [selectedScopes, setSelectedScopes] = useState<StyleSelection>({
+    title: "",
+    scopes: [],
+  });
   useEffect(() => {
     console.log(selectedScopes);
   }, [selectedScopes]);
