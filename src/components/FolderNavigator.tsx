@@ -26,6 +26,10 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
     if (currentStructure[folder].children) {
       setCurrentPath([...currentPath, folder]);
       setCurrentStructure(currentStructure[folder].children as NestedStructure);
+      setSelectedScopes((prev) => ({
+        title: currentPath.join("/"),
+        scopes: prev.scopes,
+      }));
     }
   };
 
@@ -39,15 +43,18 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
     setCurrentPath(newPath);
     setCurrentStructure(newStructure);
-    setSelectedScopes([]);
+    setSelectedScopes((prev) => ({
+      title: currentPath.join("/"),
+      scopes: [],
+    }));
   };
 
   const handleScopeChange = (id: string) => {
     setSelectedScopes((prev) => {
-      const newCheckedOptions = prev.includes(id)
-        ? prev.filter((checkedId) => checkedId !== id)
-        : [...prev, id];
-      return newCheckedOptions;
+      const newCheckedOptions = prev.scopes.includes(id)
+        ? prev.scopes.filter((checkedId) => checkedId !== id)
+        : [...prev.scopes, id];
+      return { title: prev.title, scopes: newCheckedOptions };
     });
   };
 
@@ -56,11 +63,21 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       .filter((item) => item.id)
       .map((item) => item.id!);
 
-    const areAllChecked = allLeafIds.every((id) => selectedScopes.includes(id));
+    const areAllChecked = allLeafIds.every((id) =>
+      selectedScopes.scopes.includes(id)
+    );
 
     const newCheckedOptions = areAllChecked
-      ? selectedScopes.filter((id) => !allLeafIds.includes(id))
-      : [...new Set([...selectedScopes, ...allLeafIds])];
+      ? {
+          title: currentPath.join("/"),
+          scopes: selectedScopes.scopes.filter(
+            (id) => !allLeafIds.includes(id)
+          ),
+        }
+      : {
+          title: currentPath.join("/"),
+          scopes: [...new Set([...selectedScopes.scopes, ...allLeafIds])],
+        };
 
     setSelectedScopes(newCheckedOptions);
   };
@@ -94,7 +111,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
             <FigmaButton
               title={
                 Object.keys(currentStructure).every((key) =>
-                  selectedScopes.includes(currentStructure[key].id!)
+                  selectedScopes.scopes.includes(currentStructure[key].id!)
                 )
                   ? "Unselect All"
                   : "Select All"
@@ -128,7 +145,9 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
                   <input
                     type="checkbox"
                     value={currentStructure[key].id}
-                    checked={selectedScopes.includes(currentStructure[key].id!)}
+                    checked={selectedScopes.scopes.includes(
+                      currentStructure[key].id!
+                    )}
                     onChange={() =>
                       handleScopeChange(currentStructure[key].id!)
                     }

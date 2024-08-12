@@ -28,6 +28,10 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       return;
     }
 
+    if (selectedScopes.scopes.length <= 0) {
+      return;
+    }
+
     console.log(selectedScopes);
 
     // const message: MessageStyleIntroducer = {
@@ -43,8 +47,6 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     //   "*"
     // );
   };
-
-  
 
   const [selectedScopes, setSelectedScopes] = useState<StyleSelection>({
     title: "",
