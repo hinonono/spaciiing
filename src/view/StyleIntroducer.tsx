@@ -95,39 +95,52 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   };
 
   const handleScopeChange = (id: string) => {
+    const option = paintStyleOptions.find((opt) => opt.id === id);
+    if (!option) return;
+
+    const fullName = option.fullName;
+
     setCheckedOptions((prev) => {
       const isSelected = prev.includes(id);
-      const childOptions = getChildOptions(id);
+      const childOptions = paintStyleOptions.filter((opt) =>
+        opt.fullName.startsWith(fullName)
+      );
 
       if (isSelected) {
         // Uncheck the parent and all its children
         return prev.filter(
-          (item) => item !== id && !childOptions.includes(item)
+          (item) => item !== id && !childOptions.some((opt) => opt.id === item)
         );
       } else {
         // Check the parent and all its children
         return [
           ...prev,
           id,
-          ...childOptions.filter((childId) => !prev.includes(childId)),
+          ...childOptions
+            .map((opt) => opt.id)
+            .filter((childId) => !prev.includes(childId)),
         ];
       }
     });
 
     setSelectedScopes((prev) => {
       const isSelected = prev.includes(id);
-      const childOptions = getChildOptions(id);
+      const childOptions = paintStyleOptions.filter((opt) =>
+        opt.fullName.startsWith(fullName)
+      );
 
       if (isSelected) {
         // Uncheck the parent and all its children
         return prev.filter(
-          (item) => item !== id && !childOptions.includes(item)
+          (item) => item !== id && !childOptions.some((opt) => opt.id === item)
         );
       } else {
         // Check the parent and all its children
         const newSelections = [
           id,
-          ...childOptions.filter((childId) => !prev.includes(childId)),
+          ...childOptions
+            .map((opt) => opt.id)
+            .filter((childId) => !prev.includes(childId)),
         ];
         // Only add leaf nodes to selectedScopes
         return [
