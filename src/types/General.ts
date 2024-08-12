@@ -9,3 +9,10 @@ export interface CustomCheckboxGroupOption {
   indented: boolean;
   indentLevel: number;
 }
+
+export type NestedStructure = {
+  [key: string]: {
+    id?: string;
+    children?: NestedStructure;
+  };
+};

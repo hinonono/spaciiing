@@ -5,7 +5,9 @@ import { useTranslation } from "react-i18next";
 import Modal from "../components/Modal";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import { MessageStyleIntroducer } from "../types/Messages/MessageStyleIntroducer";
-import { CustomCheckboxGroupOption } from "../types/General";
+import { CustomCheckboxGroupOption, NestedStructure } from "../types/General";
+import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd";
+import FolderNavigator from "../components/FolderNavigator";
 
 interface StyleIntroducerProps {}
 
@@ -152,6 +154,17 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     });
   };
 
+  const [nestedStructure, setNestedStructure] =
+    useState<NestedStructure | null>(null);
+
+  useEffect(() => {
+    setNestedStructure(buildNestedStructure(paintStyleList));
+  }, [paintStyleList]);
+
+  if (!nestedStructure) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <div>
@@ -174,7 +187,8 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         {/* 選項 */}
         <div className="mt-xxsmall">
           <SectionTitle title={"Styles"} />
-          <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
+          <FolderNavigator structure={nestedStructure} />
+          {/* <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
             {paintStyleOptions
               .filter((item) => !item.isLeaf) // Filter out leaf options
               .map((item) => (
@@ -194,7 +208,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
                   <span className="checkmark"></span>
                 </label>
               ))}
-          </div>
+          </div> */}
           {/* 按鈕 */}
           <div className="mt-xsmall">
             <FigmaButton
