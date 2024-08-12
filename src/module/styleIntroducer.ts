@@ -88,8 +88,12 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   // Set corner radius
   explanationWrapper.cornerRadius = 16;
   // Set the width and height to hug contents
-  explanationWrapper.primaryAxisSizingMode = "AUTO";
-  explanationWrapper.counterAxisSizingMode = "AUTO";
+  explanationWrapper.primaryAxisSizingMode = "AUTO"; // This makes the height hug the content
+  explanationWrapper.counterAxisSizingMode = "FIXED"; // This ensures the width is fixed
+
+  // Set the fixed width and initial height
+  explanationWrapper.resize(640, explanationWrapper.height);
+
   explanationWrapper.x = viewport.x;
   explanationWrapper.y = viewport.y;
 
