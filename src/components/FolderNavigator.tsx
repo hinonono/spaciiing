@@ -70,7 +70,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
   return (
     <div>
-      <div className="flex flex-row flex-justify-spacebetween">
+      <div className="flex flex-row flex-justify-spacebetween folder-navigator-header">
         {currentPath.length > 0 && (
           <FigmaButton
             title={"Back"}
@@ -78,6 +78,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
             buttonHeight="small"
             fontSize="small"
             buttonType="secondary"
+            hasMargin={false}
           />
         )}
         {isLeafNodeDisplayed && (
@@ -93,32 +94,37 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
             buttonHeight="small"
             fontSize="small"
             buttonType="secondary"
+            hasMargin={false}
           />
         )}
       </div>
-      <ul className="list-style-none">
-        {Object.keys(currentStructure).map((key) => (
-          <li key={key}>
-            {currentStructure[key].children ? (
-              <button onClick={() => enterFolder(key)}>{key}</button>
-            ) : (
-              <label
-                key={currentStructure[key].id} // Use id as the key to ensure uniqueness
-                className="container" // You can add indentation styles or other classes here
-              >
-                {key}
-                <input
-                  type="checkbox"
-                  value={currentStructure[key].id}
-                  checked={selectedScopes.includes(currentStructure[key].id!)}
-                  onChange={() => handleScopeChange(currentStructure[key].id!)}
-                />
-                <span className="checkmark"></span>
-              </label>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="custom-checkbox-group folder-navigator-items-group border-1-top hide-scrollbar-vertical">
+        <ul className="list-style-none">
+          {Object.keys(currentStructure).map((key) => (
+            <li key={key}>
+              {currentStructure[key].children ? (
+                <button onClick={() => enterFolder(key)}>{key}</button>
+              ) : (
+                <label
+                  key={currentStructure[key].id} // Use id as the key to ensure uniqueness
+                  className="container" // You can add indentation styles or other classes here
+                >
+                  {key}
+                  <input
+                    type="checkbox"
+                    value={currentStructure[key].id}
+                    checked={selectedScopes.includes(currentStructure[key].id!)}
+                    onChange={() =>
+                      handleScopeChange(currentStructure[key].id!)
+                    }
+                  />
+                  <span className="checkmark"></span>
+                </label>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

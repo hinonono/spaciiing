@@ -94,9 +94,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         {/* 選項 */}
         <div className="mt-xxsmall">
           <SectionTitle title={"Styles"} />
-          <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
-            {folderNavigator()}
-          </div>
+          <div className="folder-navigator">{folderNavigator()}</div>
           {/* 按鈕 */}
           <div className="mt-xsmall">
             <FigmaButton

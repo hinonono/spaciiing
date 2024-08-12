@@ -1,0 +1,23 @@
+.folder-navigator {
+    border-radius: var(--cy-border-radius-large);
+    border: 1px solid var(--cy-border-light);
+}
+
+.folder-navigator-items-group {
+    padding: 16px;
+    max-height: 160px;
+    height: fit-content;
+    width: 100%;
+    overflow: scroll;
+    transition: all .3s;
+
+    &-large {
+        max-height: 320px;
+    }
+}
+
+.folder-navigator-header {
+    padding: 16px;
+    min-height: 48px;
+    // max-height: 48px;
+}

@@ -9,6 +9,7 @@
 @import "./components/select-group";
 @import "./components/position";
 @import "./components/flex";
+@import "./components/folder-navigator";
 
 .tab-bar {
     display: flex;
@@ -54,6 +55,22 @@
     }
 
 
+}
+
+.boder-none {
+    border: none;
+}
+
+.border-radius-none {
+    border-radius: 0;
+}
+
+.border-1-top {
+    border-top: 1px solid var(--cy-border-light);
+}
+
+.margin-0 {
+    margin: 0;
 }
 
 .scope-group {

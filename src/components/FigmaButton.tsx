@@ -11,6 +11,7 @@ interface FigmaButtonProps {
   disabled?: boolean;
   svg?: React.ReactNode;
   hasTopBottomMargin?: boolean;
+  hasMargin?: boolean;
 }
 
 const FigmaButton: React.FC<FigmaButtonProps> = ({
@@ -23,13 +24,14 @@ const FigmaButton: React.FC<FigmaButtonProps> = ({
   disabled = false,
   svg,
   hasTopBottomMargin = true,
+  hasMargin = true,
 }) => {
   return (
     <div className="flex">
       <button
         className={`button button--${buttonType} font-size-${fontSize} button-height-${buttonHeight} ${
           hasTopBottomMargin === false && "disable-mtmb"
-        }`}
+        } ${hasMargin === false && "margin-0"}`}
         id={id}
         onClick={onClick}
         disabled={disabled}
