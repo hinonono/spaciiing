@@ -44,115 +44,48 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     // );
   };
 
-  interface PaintStyleOption extends CustomCheckboxGroupOption {
-    id: string;
-    fullName: string; // Add fullName to ensure uniqueness
-    isLeaf: boolean; // Add isLeaf to distinguish leaf nodes
-  }
+  // interface PaintStyleOption extends CustomCheckboxGroupOption {
+  //   id: string;
+  //   fullName: string; // Add fullName to ensure uniqueness
+  //   isLeaf: boolean; // Add isLeaf to distinguish leaf nodes
+  // }
 
-  const [paintStyleOptions, setPaintStyleOptions] = useState<
-    PaintStyleOption[]
-  >([]);
+  // const [paintStyleOptions, setPaintStyleOptions] = useState<
+  //   PaintStyleOption[]
+  // >([]);
 
-  useEffect(() => {
-    const newPaintStyleOptions: PaintStyleOption[] = [];
+  // useEffect(() => {
+  //   const newPaintStyleOptions: PaintStyleOption[] = [];
 
-    paintStyleList.forEach((style) => {
-      const parts = style.name.split("/");
-      parts.forEach((part, index) => {
-        const fullName = parts.slice(0, index + 1).join("/");
-        const isLeaf = index === parts.length - 1;
-        const id = isLeaf ? style.id : `non-leaf-${fullName}`;
+  //   paintStyleList.forEach((style) => {
+  //     const parts = style.name.split("/");
+  //     parts.forEach((part, index) => {
+  //       const fullName = parts.slice(0, index + 1).join("/");
+  //       const isLeaf = index === parts.length - 1;
+  //       const id = isLeaf ? style.id : `non-leaf-${fullName}`;
 
-        if (
-          !newPaintStyleOptions.some((option) => option.fullName === fullName)
-        ) {
-          newPaintStyleOptions.push({
-            id: id, // Use the generated id
-            name: part,
-            indented: index > 0,
-            indentLevel: index,
-            fullName: fullName, // Add fullName to ensure uniqueness
-            isLeaf: isLeaf, // Mark as leaf if it's the last part
-          });
-        }
-      });
-    });
+  //       if (
+  //         !newPaintStyleOptions.some((option) => option.fullName === fullName)
+  //       ) {
+  //         newPaintStyleOptions.push({
+  //           id: id, // Use the generated id
+  //           name: part,
+  //           indented: index > 0,
+  //           indentLevel: index,
+  //           fullName: fullName, // Add fullName to ensure uniqueness
+  //           isLeaf: isLeaf, // Mark as leaf if it's the last part
+  //         });
+  //       }
+  //     });
+  //   });
 
-    setPaintStyleOptions(newPaintStyleOptions);
-  }, [paintStyleList]);
+  //   setPaintStyleOptions(newPaintStyleOptions);
+  // }, [paintStyleList]);
 
   const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
-  const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
-
-  const handleScopeChange = (id: string) => {
-    const option = paintStyleOptions.find((opt) => opt.id === id);
-    if (!option) return;
-
-    const fullName = option.fullName;
-    const fullNameParts = fullName.split("/");
-
-    setCheckedOptions((prev) => {
-      const isSelected = prev.includes(id);
-      const childOptions = paintStyleOptions.filter((opt) => {
-        const optParts = opt.fullName.split("/");
-        return (
-          opt.fullName.startsWith(fullName) &&
-          optParts.length === fullNameParts.length + 1
-        );
-      });
-
-      if (isSelected) {
-        // Uncheck the parent and all its children
-        return prev.filter(
-          (item) => item !== id && !childOptions.some((opt) => opt.id === item)
-        );
-      } else {
-        // Check the parent and all its children
-        return [
-          ...prev,
-          id,
-          ...childOptions
-            .map((opt) => opt.id)
-            .filter((childId) => !prev.includes(childId)),
-        ];
-      }
-    });
-
-    setSelectedScopes((prev) => {
-      const isSelected = prev.includes(id);
-      const childOptions = paintStyleOptions.filter((opt) => {
-        const optParts = opt.fullName.split("/");
-        return (
-          opt.fullName.startsWith(fullName) &&
-          optParts.length === fullNameParts.length + 1
-        );
-      });
-
-      if (isSelected) {
-        // Uncheck the parent and all its children
-        return prev.filter(
-          (item) => item !== id && !childOptions.some((opt) => opt.id === item)
-        );
-      } else {
-        // Check the parent and all its children
-        const newSelections = [
-          id,
-          ...childOptions
-            .map((opt) => opt.id)
-            .filter((childId) => !prev.includes(childId)),
-        ];
-        // Only add leaf nodes to selectedScopes
-        return [
-          ...prev,
-          ...newSelections.filter((optionId) => {
-            const option = paintStyleOptions.find((opt) => opt.id === optionId);
-            return option?.isLeaf;
-          }),
-        ];
-      }
-    });
-  };
+  useEffect(() => {
+    console.log(selectedScopes);
+  }, [selectedScopes]);
 
   const [nestedStructure, setNestedStructure] =
     useState<NestedStructure | null>(null);
@@ -187,28 +120,13 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         {/* 選項 */}
         <div className="mt-xxsmall">
           <SectionTitle title={"Styles"} />
-          <FolderNavigator structure={nestedStructure} />
-          {/* <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
-            {paintStyleOptions
-              .filter((item) => !item.isLeaf) // Filter out leaf options
-              .map((item) => (
-                <label
-                  key={item.id} // Use id as the key to ensure uniqueness
-                  className={`container ${
-                    item.indented ? `indent-level-${item.indentLevel}` : ""
-                  }`}
-                >
-                  {item.name}
-                  <input
-                    type="checkbox"
-                    value={item.id}
-                    checked={checkedOptions.includes(item.id)}
-                    onChange={() => handleScopeChange(item.id)}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-              ))}
-          </div> */}
+          <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
+            <FolderNavigator
+              structure={nestedStructure}
+              selectedScopes={selectedScopes}
+              setSelectedScopes={setSelectedScopes}
+            />
+          </div>
           {/* 按鈕 */}
           <div className="mt-xsmall">
             <FigmaButton

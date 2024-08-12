@@ -3,13 +3,19 @@ import { NestedStructure } from "../types/General";
 
 interface FolderNavigatorProps {
   structure: NestedStructure;
+  selectedScopes: string[];
+  setSelectedScopes: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const FolderNavigator: React.FC<FolderNavigatorProps> = ({ structure }) => {
+const FolderNavigator: React.FC<FolderNavigatorProps> = ({
+  structure,
+  selectedScopes,
+  setSelectedScopes,
+}) => {
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [currentStructure, setCurrentStructure] =
     useState<NestedStructure>(structure);
-  const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
+  //   const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
 
   const enterFolder = (folder: string) => {
     if (currentStructure[folder].children) {
@@ -31,16 +37,45 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({ structure }) => {
   };
 
   const handleScopeChange = (id: string) => {
-    setCheckedOptions((prev) =>
-      prev.includes(id)
+    setSelectedScopes((prev) => {
+      const newCheckedOptions = prev.includes(id)
         ? prev.filter((checkedId) => checkedId !== id)
-        : [...prev, id]
-    );
+        : [...prev, id];
+      return newCheckedOptions;
+    });
   };
+
+  const toggleAll = () => {
+    const allLeafIds = Object.values(currentStructure)
+      .filter((item) => item.id)
+      .map((item) => item.id!);
+
+    const areAllChecked = allLeafIds.every((id) => selectedScopes.includes(id));
+
+    const newCheckedOptions = areAllChecked
+      ? selectedScopes.filter((id) => !allLeafIds.includes(id))
+      : [...new Set([...selectedScopes, ...allLeafIds])];
+
+    setSelectedScopes(newCheckedOptions);
+  };
+
+  const isLeafNodeDisplayed = Object.keys(currentStructure).every(
+    (key) => !currentStructure[key].children
+  );
 
   return (
     <div>
       {currentPath.length > 0 && <button onClick={goBack}>Back</button>}
+
+      {isLeafNodeDisplayed && (
+        <button onClick={toggleAll}>
+          {Object.keys(currentStructure).every((key) =>
+            selectedScopes.includes(currentStructure[key].id!)
+          )
+            ? "Unselect All"
+            : "Select All"}
+        </button>
+      )}
       <ul>
         {Object.keys(currentStructure).map((key) => (
           <li key={key}>
@@ -55,7 +90,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({ structure }) => {
                 <input
                   type="checkbox"
                   value={currentStructure[key].id}
-                  checked={checkedOptions.includes(currentStructure[key].id!)}
+                  checked={selectedScopes.includes(currentStructure[key].id!)}
                   onChange={() => handleScopeChange(currentStructure[key].id!)}
                 />
                 <span className="checkmark"></span>
