@@ -166,8 +166,28 @@ input {
     }
 }
 
+@mixin indent-level($level) {
+    margin-left: $level * 1.8rem;
+}
+
 .indent-level-1 {
-    margin-left: 1.8rem;
+    @include indent-level(1);
+}
+
+.indent-level-2 {
+    @include indent-level(2);
+}
+
+.indent-level-3 {
+    @include indent-level(3);
+}
+
+.indent-level-4 {
+    @include indent-level(4);
+}
+
+.indent-level-5 {
+    @include indent-level(5);
 }
 
 .text-decoration-none {

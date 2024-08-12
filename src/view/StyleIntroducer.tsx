@@ -11,12 +11,8 @@ interface StyleIntroducerProps {}
 
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
-  const {
-    licenseManagement,
-    setShowCTSubscribe,
-    paintStyleList,
-    setPaintStyleList,
-  } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, paintStyleList } =
+    useAppContext();
   const { t } = useTranslation(["common", "settings", "license"]);
 
   // 功能說明彈窗
@@ -30,22 +26,26 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       return;
     }
 
-    const message: MessageStyleIntroducer = {
-      module: "StyleIntroducer",
-      phase: "Actual",
-      direction: "Inner",
-    };
+    console.log(selectedScopes);
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    // const message: MessageStyleIntroducer = {
+    //   module: "StyleIntroducer",
+    //   phase: "Actual",
+    //   direction: "Inner",
+    // };
+
+    // parent.postMessage(
+    //   {
+    //     pluginMessage: message,
+    //   },
+    //   "*"
+    // );
   };
 
   interface PaintStyleOption extends CustomCheckboxGroupOption {
     id: string;
+    fullName: string; // Add fullName to ensure uniqueness
+    isLeaf: boolean; // Add isLeaf to distinguish leaf nodes
   }
 
   const [paintStyleOptions, setPaintStyleOptions] = useState<
@@ -53,23 +53,72 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   >([]);
 
   useEffect(() => {
-    setPaintStyleOptions(
-      paintStyleList.map((style) => ({
-        id: style.id,
-        name: style.name,
-        indented: false,
-      }))
-    );
+    const newPaintStyleOptions: PaintStyleOption[] = [];
+
+    paintStyleList.forEach((style) => {
+      const parts = style.name.split("/");
+      parts.forEach((part, index) => {
+        const fullName = parts.slice(0, index + 1).join("/");
+        if (
+          !newPaintStyleOptions.some((option) => option.fullName === fullName)
+        ) {
+          newPaintStyleOptions.push({
+            id: style.id, // Keep style.id as the primary identifier
+            name: part,
+            indented: index > 0,
+            indentLevel: index,
+            fullName: fullName, // Add fullName to ensure uniqueness
+            isLeaf: index === parts.length - 1, // Mark as leaf if it's the last part
+          });
+        }
+      });
+    });
+
+    setPaintStyleOptions(newPaintStyleOptions);
   }, [paintStyleList]);
 
   const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
 
-  const handleScopeChange = (id: string) => {
+  const getChildOptions = (fullName: string) => {
+    return paintStyleOptions
+      .filter((option) => {
+        return (
+          option.fullName.startsWith(fullName) &&
+          option.indentLevel > fullName.split("/").length - 1
+        );
+      })
+      .map((option) => option.fullName);
+  };
+
+  const handleScopeChange = (fullName: string) => {
     setSelectedScopes((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
+      const isSelected = prev.includes(fullName);
+      const childOptions = getChildOptions(fullName);
+
+      if (isSelected) {
+        // Uncheck the parent and all its children
+        return prev.filter(
+          (item) => item !== fullName && !childOptions.includes(item)
+        );
+      } else {
+        // Check the parent and all its children
+        const newSelections = [
+          fullName,
+          ...childOptions.filter(
+            (childFullName) => !prev.includes(childFullName)
+          ),
+        ];
+        // Only add leaf nodes to selectedScopes
+        return [
+          ...prev,
+          ...newSelections.filter((optionFullName) => {
+            const option = paintStyleOptions.find(
+              (opt) => opt.fullName === optionFullName
+            );
+            return option?.isLeaf;
+          }),
+        ];
       }
-      return [...prev, id];
     });
   };
 
@@ -95,20 +144,27 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         {/* 選項 */}
         <div className="mt-xxsmall">
           <SectionTitle title={"Styles"} />
-          <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
+          <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
             {paintStyleOptions.map((item) => (
               <label
-                key={item.id}
+                key={item.fullName} // Use fullName as the key to ensure uniqueness
                 className={`container ${
                   item.indented ? `indent-level-${item.indentLevel}` : ""
                 }`}
               >
-                {t(item.name)}
+                {item.name}
                 <input
                   type="checkbox"
-                  value={item.id}
-                  checked={selectedScopes.includes(item.id)}
-                  onChange={() => handleScopeChange(item.id)}
+                  value={item.fullName}
+                  checked={
+                    selectedScopes.includes(item.fullName) ||
+                    paintStyleOptions.some(
+                      (opt) =>
+                        opt.fullName.startsWith(item.fullName) &&
+                        selectedScopes.includes(opt.fullName)
+                    )
+                  }
+                  onChange={() => handleScopeChange(item.fullName)}
                 />
                 <span className="checkmark"></span>
               </label>

@@ -730,6 +730,22 @@ input {
   margin-left: 1.8rem;
 }
 
+.indent-level-2 {
+  margin-left: 3.6rem;
+}
+
+.indent-level-3 {
+  margin-left: 5.4rem;
+}
+
+.indent-level-4 {
+  margin-left: 7.2rem;
+}
+
+.indent-level-5 {
+  margin-left: 9rem;
+}
+
 .text-decoration-none {
   text-decoration: none;
 }
