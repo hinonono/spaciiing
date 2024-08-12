@@ -83,24 +83,13 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
   const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
 
-  const getChildOptions = (fullName: string) => {
-    return paintStyleOptions
-      .filter((option) => {
-        return (
-          option.fullName.startsWith(fullName) &&
-          option.indentLevel > fullName.split("/").length - 1
-        );
-      })
-      .map((option) => option.id); // Return the id instead of fullName
-  };
-
   const handleScopeChange = (id: string) => {
     const option = paintStyleOptions.find((opt) => opt.id === id);
     if (!option) return;
-  
+
     const fullName = option.fullName;
     const fullNameParts = fullName.split("/");
-  
+
     setCheckedOptions((prev) => {
       const isSelected = prev.includes(id);
       const childOptions = paintStyleOptions.filter((opt) => {
@@ -110,7 +99,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
           optParts.length === fullNameParts.length + 1
         );
       });
-  
+
       if (isSelected) {
         // Uncheck the parent and all its children
         return prev.filter(
@@ -127,7 +116,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         ];
       }
     });
-  
+
     setSelectedScopes((prev) => {
       const isSelected = prev.includes(id);
       const childOptions = paintStyleOptions.filter((opt) => {
@@ -137,7 +126,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
           optParts.length === fullNameParts.length + 1
         );
       });
-  
+
       if (isSelected) {
         // Uncheck the parent and all its children
         return prev.filter(
@@ -186,23 +175,25 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         <div className="mt-xxsmall">
           <SectionTitle title={"Styles"} />
           <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
-            {paintStyleOptions.map((item) => (
-              <label
-                key={item.id} // Use id as the key to ensure uniqueness
-                className={`container ${
-                  item.indented ? `indent-level-${item.indentLevel}` : ""
-                }`}
-              >
-                {item.name}
-                <input
-                  type="checkbox"
-                  value={item.id}
-                  checked={checkedOptions.includes(item.id)}
-                  onChange={() => handleScopeChange(item.id)}
-                />
-                <span className="checkmark"></span>
-              </label>
-            ))}
+            {paintStyleOptions
+              .filter((item) => !item.isLeaf) // Filter out leaf options
+              .map((item) => (
+                <label
+                  key={item.id} // Use id as the key to ensure uniqueness
+                  className={`container ${
+                    item.indented ? `indent-level-${item.indentLevel}` : ""
+                  }`}
+                >
+                  {item.name}
+                  <input
+                    type="checkbox"
+                    value={item.id}
+                    checked={checkedOptions.includes(item.id)}
+                    onChange={() => handleScopeChange(item.id)}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+              ))}
           </div>
           {/* 按鈕 */}
           <div className="mt-xsmall">
