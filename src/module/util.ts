@@ -541,14 +541,34 @@ export function createExplanationWrapper(
     throw new Error("Failed to create explanation title wrapper.");
   }
 
+  let itemsFrame: FrameNode;
+
   // Create an auto-layout frame for explanation items
-  const itemsFrame = spaciiing.applySpacingToLayers(
-    explanationItems,
-    0,
-    "vertical",
-    true,
-    true
-  );
+  if (explanationItems.length == 1) {
+    const frame = figma.createFrame();
+    frame.layoutMode = "VERTICAL";
+    frame.itemSpacing = 0;
+    frame.appendChild(explanationItems[0]);
+    frame.layoutSizingHorizontal = "HUG";
+    frame.layoutSizingVertical = "HUG";
+    figma.currentPage.appendChild(frame);
+
+    itemsFrame = frame;
+  } else {
+    const frame = spaciiing.applySpacingToLayers(
+      explanationItems,
+      0,
+      "vertical",
+      true,
+      true
+    );
+
+    if (!frame) {
+      throw new Error("Failed to create explanation items frame.");
+    }
+
+    itemsFrame = frame;
+  }
 
   if (!itemsFrame) {
     throw new Error("Failed to create explanation items frame.");

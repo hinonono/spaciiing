@@ -34,18 +34,19 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
 
     console.log(selectedScopes);
 
-    // const message: MessageStyleIntroducer = {
-    //   module: "StyleIntroducer",
-    //   phase: "Actual",
-    //   direction: "Inner",
-    // };
+    const message: MessageStyleIntroducer = {
+      module: "StyleIntroducer",
+      phase: "Actual",
+      direction: "Inner",
+      styleSelection: selectedScopes,
+    };
 
-    // parent.postMessage(
-    //   {
-    //     pluginMessage: message,
-    //   },
-    //   "*"
-    // );
+    parent.postMessage(
+      {
+        pluginMessage: message,
+      },
+      "*"
+    );
   };
 
   const [selectedScopes, setSelectedScopes] = useState<StyleSelection>({
