@@ -405,10 +405,13 @@ export function createExplanationItem(
   descriptionNode.characters = description == "" ? "(blank)" : description;
   descriptionNode.fontSize = baseFontSize;
   descriptionNode.fontName = fontName;
+  descriptionNode.fills = [
+    { type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } },
+  ];
 
   const explanationTextsWrapperNode = spaciiing.applySpacingToLayers(
     [titleNode, descriptionNode],
-    0,
+    8,
     "vertical",
     true,
     true
@@ -418,7 +421,11 @@ export function createExplanationItem(
     throw new Error("Failed to create explanation item texts wrapper node.");
   }
 
-  const nodesToPushInWrapper: SceneNode[] = [];
+  titleNode.layoutSizingHorizontal = "FILL";
+  descriptionNode.layoutSizingHorizontal = "FILL";
+
+  // const nodesToPushInWrapper: SceneNode[] = [];
+  let explanationItemWrapperNode: FrameNode;
 
   if (type === "color") {
     if (!color) {
@@ -428,30 +435,49 @@ export function createExplanationItem(
     colorFrame.resize(48, 48); // Set the frame size to 48x48
     colorFrame.fills = [{ type: "SOLID", color: color }];
     colorFrame.cornerRadius = 8;
-    nodesToPushInWrapper.push(colorFrame);
+    // nodesToPushInWrapper.push(colorFrame);
+
+    const item = spaciiing.applySpacingToLayers(
+      [colorFrame, explanationTextsWrapperNode],
+      16,
+      "horizontal",
+      true,
+      true
+    );
+
+    if (!item) {
+      throw new Error("Failed to create explanation item.");
+    }
+
+    explanationItemWrapperNode = item;
+  } else {
+    explanationItemWrapperNode = figma.createFrame();
+    explanationItemWrapperNode.layoutMode = "VERTICAL";
+    explanationItemWrapperNode.appendChild(explanationTextsWrapperNode);
+    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
   }
 
-  nodesToPushInWrapper.push(explanationTextsWrapperNode);
+  // nodesToPushInWrapper.push(explanationTextsWrapperNode);
 
-  const explanationItemWrapperNode = spaciiing.applySpacingToLayers(
-    nodesToPushInWrapper,
-    16,
-    "horizontal",
-    true,
-    true
-  );
+  // const explanationItemWrapperNode = spaciiing.applySpacingToLayers(
+  //   nodesToPushInWrapper,
+  //   16,
+  //   "horizontal",
+  //   true,
+  //   true
+  // );
 
-  if (!explanationItemWrapperNode) {
-    throw new Error("Failed to create explanation item wrapper node.");
-  }
+  // if (!explanationItemWrapperNode) {
+  //   throw new Error("Failed to create explanation item wrapper node.");
+  // }
 
   explanationItemWrapperNode.name = "Explanation Item";
 
   // Set height to hug content
   explanationItemWrapperNode.primaryAxisSizingMode = "AUTO";
 
-  explanationItemWrapperNode.paddingTop = basePadding;
-  explanationItemWrapperNode.paddingBottom = basePadding;
+  explanationItemWrapperNode.paddingTop = basePadding * 1.5;
+  explanationItemWrapperNode.paddingBottom = basePadding * 1.5;
   explanationItemWrapperNode.paddingLeft = basePadding / 2;
   explanationItemWrapperNode.paddingRight = basePadding / 2;
 
@@ -518,7 +544,7 @@ export function createExplanationWrapper(
   // Create an auto-layout frame for explanation items
   const itemsFrame = spaciiing.applySpacingToLayers(
     explanationItems,
-    baseSpacing,
+    0,
     "vertical",
     true,
     true
@@ -533,6 +559,7 @@ export function createExplanationWrapper(
   itemsFrame.primaryAxisSizingMode = "FIXED";
   itemsFrame.counterAxisSizingMode = "AUTO";
   itemsFrame.layoutAlign = "STRETCH";
+  itemsFrame.layoutSizingVertical = "HUG";
 
   // Create the main auto-layout frame to contain the title and items frame
   const wrapperFrame = spaciiing.applySpacingToLayers(
@@ -554,6 +581,10 @@ export function createExplanationWrapper(
   wrapperFrame.paddingBottom = basePadding * 2;
   wrapperFrame.paddingLeft = basePadding * 2;
   wrapperFrame.paddingRight = basePadding * 2;
+
+  wrapperFrame.resize(640, 1000);
+  wrapperFrame.layoutSizingHorizontal = "FIXED";
+  wrapperFrame.layoutSizingVertical = "HUG";
 
   // Ensure explanation items fill the container width
   explanationItems.forEach((item) => {
