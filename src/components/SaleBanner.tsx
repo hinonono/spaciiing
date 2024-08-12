@@ -13,7 +13,7 @@ const SaleBanner: React.FC<SaleBannerProps> = ({
   targetDate,
   messageKey,
   url,
-  showCountdown
+  showCountdown,
 }) => {
   const { t } = useTranslation(["license"]);
 
@@ -30,7 +30,7 @@ const SaleBanner: React.FC<SaleBannerProps> = ({
   const bannerMessage = t(`license:${messageKey}`);
 
   return (
-    <div className="banner flex flex-jusify-spacebetween align-items-center">
+    <div className="banner flex flex-justify-spacebetween align-items-center">
       <div className="frame-group">
         {showCountdown && (
           <div className="flex flex-row align-items-center">

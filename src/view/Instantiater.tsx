@@ -202,7 +202,7 @@ const Instantiater: React.FC = () => {
           <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
             {options.map((option) => (
               <label key={option.value} className={`container`}>
-                <div className="flex flex-row align-items-center flex-jusify-spacebetween">
+                <div className="flex flex-row align-items-center flex-justify-spacebetween">
                   <div className="flex flex-row align-items-center">
                     {option.label !== "ALL" && selectedCat === "color" && (
                       <div

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NestedStructure } from "../types/General";
+import FigmaButton from "./FigmaButton";
 
 interface FolderNavigatorProps {
   structure: NestedStructure;
@@ -69,18 +70,33 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
   return (
     <div>
-      {currentPath.length > 0 && <button onClick={goBack}>Back</button>}
-
-      {isLeafNodeDisplayed && (
-        <button onClick={toggleAll}>
-          {Object.keys(currentStructure).every((key) =>
-            selectedScopes.includes(currentStructure[key].id!)
-          )
-            ? "Unselect All"
-            : "Select All"}
-        </button>
-      )}
-      <ul>
+      <div className="flex flex-row flex-justify-spacebetween">
+        {currentPath.length > 0 && (
+          <FigmaButton
+            title={"Back"}
+            onClick={goBack}
+            buttonHeight="small"
+            fontSize="small"
+            buttonType="secondary"
+          />
+        )}
+        {isLeafNodeDisplayed && (
+          <FigmaButton
+            title={
+              Object.keys(currentStructure).every((key) =>
+                selectedScopes.includes(currentStructure[key].id!)
+              )
+                ? "Unselect All"
+                : "Select All"
+            }
+            onClick={toggleAll}
+            buttonHeight="small"
+            fontSize="small"
+            buttonType="secondary"
+          />
+        )}
+      </div>
+      <ul className="list-style-none">
         {Object.keys(currentStructure).map((key) => (
           <li key={key}>
             {currentStructure[key].children ? (

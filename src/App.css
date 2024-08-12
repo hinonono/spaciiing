@@ -373,7 +373,7 @@
   margin-left: 0;
 }
 
-.flex-jusify-spacebetween {
+.flex-justify-spacebetween {
   justify-content: space-between;
 }
 
@@ -579,6 +579,11 @@
   width: 20px;
   height: 20px;
   border-radius: var(--cy-border-radius-small);
+}
+
+.list-style-none {
+  list-style: none;
+  padding-inline-start: 0;
 }
 
 body {

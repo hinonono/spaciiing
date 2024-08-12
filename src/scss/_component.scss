@@ -237,3 +237,8 @@
         border-radius: var(--cy-border-radius-small);
     }
 }
+
+.list-style-none {
+    list-style: none;
+    padding-inline-start: 0;
+}

@@ -455,7 +455,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }}
         className="context-menu"
       >
-        {!childId && <li onClick={() => addChildToRow(rowId)}>{t("module:addItem")}</li>}
+        {!childId && (
+          <li onClick={() => addChildToRow(rowId)}>{t("module:addItem")}</li>
+        )}
         <li
           onClick={() =>
             childId
@@ -466,7 +468,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           {t("module:duplicate")}
         </li>
         {childId ? (
-          <li onClick={() => deleteChild(rowId!, childId)}>{t("module:delete")}</li>
+          <li onClick={() => deleteChild(rowId!, childId)}>
+            {t("module:delete")}
+          </li>
         ) : (
           <li onClick={() => deleteRow(rowId!)}>{t("module:delete")}</li>
         )}
@@ -578,7 +582,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-jusify-spacebetween virtual-profile-toolbar">
+        <div className="flex flex-justify-spacebetween virtual-profile-toolbar">
           <div>
             <button className="button-reset" onClick={toggleAll}>
               <div className="icon-24 icon-hover">
