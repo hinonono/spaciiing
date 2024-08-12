@@ -391,7 +391,7 @@ export function createExplanationItem(
   description: string,
   fontName: FontName,
   type: "color" | "text",
-  color?: RGB
+  fillStyleId?: string
 ): FrameNode {
   const baseFontSize = 16;
   const basePadding = 16;
@@ -428,12 +428,13 @@ export function createExplanationItem(
   let explanationItemWrapperNode: FrameNode;
 
   if (type === "color") {
-    if (!color) {
-      throw new Error("Color is required for color type.");
+    if (!fillStyleId) {
+      throw new Error("Fill style ID is required for color type.");
     }
     const colorFrame = figma.createFrame();
     colorFrame.resize(48, 48); // Set the frame size to 48x48
-    colorFrame.fills = [{ type: "SOLID", color: color }];
+    // colorFrame.fills = [{ type: "SOLID", color: color }];
+    colorFrame.setFillStyleIdAsync(fillStyleId);
     colorFrame.cornerRadius = 8;
     // nodesToPushInWrapper.push(colorFrame);
 
@@ -456,20 +457,6 @@ export function createExplanationItem(
     explanationItemWrapperNode.appendChild(explanationTextsWrapperNode);
     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
   }
-
-  // nodesToPushInWrapper.push(explanationTextsWrapperNode);
-
-  // const explanationItemWrapperNode = spaciiing.applySpacingToLayers(
-  //   nodesToPushInWrapper,
-  //   16,
-  //   "horizontal",
-  //   true,
-  //   true
-  // );
-
-  // if (!explanationItemWrapperNode) {
-  //   throw new Error("Failed to create explanation item wrapper node.");
-  // }
 
   explanationItemWrapperNode.name = "Explanation Item";
 

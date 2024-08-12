@@ -55,17 +55,12 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   selectedPaintStyleList.forEach((member) => {
     const paint = member.paints[0];
     if (paint.type === "SOLID") {
-      const solidPaint = paint as SolidPaint;
       const explanationItem = util.createExplanationItem(
         member.name.split("/").pop() || "",
         member.description,
         { family: "Inter", style: "Regular" },
         "color",
-        {
-          r: solidPaint.color.r,
-          g: solidPaint.color.g,
-          b: solidPaint.color.b,
-        }
+        member.id
       );
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";

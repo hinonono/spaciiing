@@ -1126,23 +1126,23 @@ async function generateExplanationText(collection: CollectionExplanationable) {
   // create explanation items
   const explanationItems: FrameNode[] = [];
   if (util.isColorCollection(collection)) {
-    collection.members.forEach((member) => {
-      const explanationItem = util.createExplanationItem(
-        member.name,
-        member.description,
-        { family: "Inter", style: "Regular" },
-        "color",
-        {
-          r: member.color.light.r / 255,
-          g: member.color.light.g / 255,
-          b: member.color.light.b / 255,
-        }
-      );
-      explanationItem.primaryAxisSizingMode = "AUTO";
-      explanationItem.counterAxisSizingMode = "AUTO";
+    // collection.members.forEach((member) => {
+    //   const explanationItem = util.createExplanationItem(
+    //     member.name,
+    //     member.description,
+    //     { family: "Inter", style: "Regular" },
+    //     "color",
+    //     {
+    //       r: member.color.light.r / 255,
+    //       g: member.color.light.g / 255,
+    //       b: member.color.light.b / 255,
+    //     }
+    //   );
+    //   explanationItem.primaryAxisSizingMode = "AUTO";
+    //   explanationItem.counterAxisSizingMode = "AUTO";
 
-      explanationItems.push(explanationItem);
-    });
+    //   explanationItems.push(explanationItem);
+    // });
   } else {
     collection.members.forEach((member) => {
       const explanationItem = util.createExplanationItem(
