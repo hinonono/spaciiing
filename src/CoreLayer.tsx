@@ -21,10 +21,11 @@ import * as licenseManagementFrontEnd from "./module-frontend/licenseManagementF
 import SubscriptionModal from "./view/SubscriptionModal";
 import TabBar from "./components/TabBar";
 import { useTranslation } from "react-i18next";
+import { ExternalMessageUpdatePaintStyleList } from "./types/Messages/MessageStyleIntroducer";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<ModuleType>("Spaciiing");
+  const [activeTab, setActiveTab] = useState<ModuleType>("StyleIntroducer");
   const [prevTab, setPrevTab] = useState<ModuleType | null>(null);
   const { i18n } = useTranslation();
   //
@@ -41,6 +42,7 @@ const CoreLayer: React.FC = () => {
     setCustomCodeExecutionResults,
     virtualProfileGroups,
     setVirtualProfileGroups,
+    setPaintStyleList,
   } = useAppContext();
 
   // #region Handle External Message
@@ -102,6 +104,16 @@ const CoreLayer: React.FC = () => {
               setLicenseManagement
             );
             break;
+          case "StyleIntroducer":
+            if (
+              message.mode === "UpdatePaintStyleList" &&
+              message.phase == "Init"
+            ) {
+              updatePaintStyleListHandler(
+                message as ExternalMessageUpdatePaintStyleList
+              );
+            }
+            break;
           default:
             break;
         }
@@ -142,6 +154,9 @@ const CoreLayer: React.FC = () => {
       case "VirtualProfile":
         initVirtualProfile();
         break;
+      case "StyleIntroducer":
+        initStyleIntroducer();
+        break;
       default:
         break;
     }
@@ -149,6 +164,28 @@ const CoreLayer: React.FC = () => {
     // Update prevTab to the current activeTab after handling the effect
     setPrevTab(activeTab);
   }, [activeTab]);
+
+  // #region StyleIntroducer
+  const initStyleIntroducer = () => {
+    const message: Message = {
+      module: "StyleIntroducer",
+      phase: "Init",
+      direction: "Inner",
+    };
+
+    parent.postMessage(
+      {
+        pluginMessage: message,
+      },
+      "*"
+    );
+  };
+
+  const updatePaintStyleListHandler = (
+    message: ExternalMessageUpdatePaintStyleList
+  ) => {
+    setPaintStyleList(message.paintStyleList);
+  };
 
   // #region Module Handler
   // Localization

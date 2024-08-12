@@ -6,6 +6,7 @@ import {
   ExternalVariableMode,
 } from "./types/Message";
 import { LicenseManagement } from "./types/LicenseManagement";
+import { PaintStyleFrontEnd } from "./types/General";
 
 // #region Definition
 interface AppContextType {
@@ -45,6 +46,8 @@ interface AppContextType {
   setShowActivateModal: React.Dispatch<React.SetStateAction<boolean>>;
   customCodeExecutionResults: string[];
   setCustomCodeExecutionResults: React.Dispatch<React.SetStateAction<string[]>>;
+  paintStyleList: PaintStyleFrontEnd[];
+  setPaintStyleList: React.Dispatch<React.SetStateAction<PaintStyleFrontEnd[]>>;
 }
 
 // Create a context with an initial undefined value
@@ -63,34 +66,6 @@ export const useAppContext = (): AppContextType => {
 interface AppProviderProps {
   children: ReactNode;
 }
-
-// const vp: VirtualProfile = {
-//   name: "",
-//   nickname: "",
-//   gender: "",
-//   birthday: "",
-//   email: "",
-//   cardNum: "",
-//   landlineNum: "",
-//   phoneNum: "",
-//   address: "",
-//   companyName: "",
-//   companyAddress: "",
-//   companyPhoneNum: "",
-//   custom1: "",
-//   custom2: "",
-//   custom3: "",
-//   age: "",
-//   country: "",
-//   city: "",
-//   expirationDate: "",
-//   cvv: "",
-//   cardNetwork: "",
-//   username: "",
-//   userId: "",
-//   jobTitle: "",
-//   industry: "",
-// };
 
 const mo: MagicalObject = {
   noteId: "",
@@ -124,9 +99,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [variableCollectionModes, setvariableCollectionModes] = useState<
     ExternalVariableMode[]
   >([]);
-
-  //
-  // const [virtualProfile, setVirtualProfile] = useState<VirtualProfile>(vp);
+  const [paintStyleList, setPaintStyleList] = useState<PaintStyleFrontEnd[]>(
+    []
+  );
   const [virtualProfileGroups, setVirtualProfileGroups] = useState<
     VirtualProfileGroup[]
   >([]);
@@ -156,8 +131,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setVariableCollectionList,
         variableCollectionModes,
         setvariableCollectionModes,
-        // virtualProfile,
-        // setVirtualProfile,
         magicalObject,
         setMagicalObject,
         licenseManagement,
@@ -170,6 +143,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setCustomCodeExecutionResults,
         virtualProfileGroups,
         setVirtualProfileGroups,
+        paintStyleList,
+        setPaintStyleList,
       }}
     >
       {children}

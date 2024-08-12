@@ -24,6 +24,7 @@ import {
   VariableEditor,
   VirtualProfile,
   AspectRatioHelper,
+  StyleIntroducer,
 } from "../view";
 import { useAppContext } from "../AppProvider";
 import SaleBannerWrapper from "./SaleBannerWrapper";
@@ -60,6 +61,8 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
         return <SelectionFilter />;
       case "PluginSetting":
         return <Setting />;
+      case "StyleIntroducer":
+        return <StyleIntroducer />;
       default:
         return;
     }
@@ -74,6 +77,12 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           tabName="Spaciiing"
           setActiveTab={setActiveTab}
           SvgComponent={SvgSpaciiing}
+        />
+        <TabButton
+          activeTab={activeTab}
+          tabName="StyleIntroducer"
+          setActiveTab={setActiveTab}
+          SvgComponent={SvgPropertyClipboard}
         />
         <TabButton
           activeTab={activeTab}

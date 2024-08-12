@@ -15,7 +15,7 @@ import {
   MessageLicenseManagement,
   MessageLocalization,
   MessageAspectRatio,
-  MessageResize,
+  MessageResize
 } from "./types/Message";
 
 // 功能模組
@@ -35,6 +35,8 @@ import * as licenseManagement from "./module/licenseManagement";
 import * as localization from "./module/localization";
 import * as aspectRatioHelper from "./module/aspectRatioHelper";
 import * as resize from "./module/resize";
+import * as styleIntroducer from "./module/styleIntroducer";
+import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(380, 500);
@@ -87,6 +89,9 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "Resize":
       resize.reception(message as MessageResize);
+      break;
+    case "StyleIntroducer":
+      styleIntroducer.reception(message as MessageStyleIntroducer);
       break;
     default:
       break;

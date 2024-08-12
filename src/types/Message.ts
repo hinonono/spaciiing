@@ -30,7 +30,8 @@ export type ModuleType =
   | "PluginSetting"
   | "LicenseManagement"
   | "AspectRatioHelper"
-  | "Resize";
+  | "Resize"
+  | "StyleIntroducer";
 
 // Spaciiing模組專用的基底屬性
 export type SpacingMode = "horizontal" | "vertical";
@@ -113,7 +114,8 @@ export type ExternalMode =
   | "UpdateMagicalObject"
   | "UpdateCustomCodeExecutionResults"
   | "PullVirtualProfile"
-  | "UpdateLicense";
+  | "UpdateLicense"
+  | "UpdatePaintStyleList";
 export interface ExternalMessage extends Message {
   mode?: ExternalMode;
 }
