@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Modal from "../components/Modal";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import { MessageStyleIntroducer } from "../types/Messages/MessageStyleIntroducer";
-import { CustomCheckboxGroupOption, NestedStructure } from "../types/General";
+import { NestedStructure } from "../types/General";
 import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
 
@@ -44,44 +44,6 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     // );
   };
 
-  // interface PaintStyleOption extends CustomCheckboxGroupOption {
-  //   id: string;
-  //   fullName: string; // Add fullName to ensure uniqueness
-  //   isLeaf: boolean; // Add isLeaf to distinguish leaf nodes
-  // }
-
-  // const [paintStyleOptions, setPaintStyleOptions] = useState<
-  //   PaintStyleOption[]
-  // >([]);
-
-  // useEffect(() => {
-  //   const newPaintStyleOptions: PaintStyleOption[] = [];
-
-  //   paintStyleList.forEach((style) => {
-  //     const parts = style.name.split("/");
-  //     parts.forEach((part, index) => {
-  //       const fullName = parts.slice(0, index + 1).join("/");
-  //       const isLeaf = index === parts.length - 1;
-  //       const id = isLeaf ? style.id : `non-leaf-${fullName}`;
-
-  //       if (
-  //         !newPaintStyleOptions.some((option) => option.fullName === fullName)
-  //       ) {
-  //         newPaintStyleOptions.push({
-  //           id: id, // Use the generated id
-  //           name: part,
-  //           indented: index > 0,
-  //           indentLevel: index,
-  //           fullName: fullName, // Add fullName to ensure uniqueness
-  //           isLeaf: isLeaf, // Mark as leaf if it's the last part
-  //         });
-  //       }
-  //     });
-  //   });
-
-  //   setPaintStyleOptions(newPaintStyleOptions);
-  // }, [paintStyleList]);
-
   const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
   useEffect(() => {
     console.log(selectedScopes);
@@ -91,12 +53,24 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     useState<NestedStructure | null>(null);
 
   useEffect(() => {
+    console.log("This code is running", paintStyleList);
+
     setNestedStructure(buildNestedStructure(paintStyleList));
   }, [paintStyleList]);
 
-  if (!nestedStructure) {
-    return <div>Loading...</div>;
-  }
+  const folderNavigator = () => {
+    if (!nestedStructure) {
+      return <div>Loading...</div>;
+    }
+
+    return (
+      <FolderNavigator
+        structure={nestedStructure}
+        selectedScopes={selectedScopes}
+        setSelectedScopes={setSelectedScopes}
+      />
+    );
+  };
 
   return (
     <div>
@@ -121,11 +95,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         <div className="mt-xxsmall">
           <SectionTitle title={"Styles"} />
           <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
-            <FolderNavigator
-              structure={nestedStructure}
-              selectedScopes={selectedScopes}
-              setSelectedScopes={setSelectedScopes}
-            />
+            {folderNavigator()}
           </div>
           {/* 按鈕 */}
           <div className="mt-xsmall">

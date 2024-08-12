@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NestedStructure } from "../types/General";
 
 interface FolderNavigatorProps {
@@ -15,7 +15,11 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [currentStructure, setCurrentStructure] =
     useState<NestedStructure>(structure);
-  //   const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    console.log("FolderNavigator structure updated:", structure);
+    setCurrentStructure(structure); // Update currentStructure when structure prop changes
+  }, [structure]);
 
   const enterFolder = (folder: string) => {
     if (currentStructure[folder].children) {
