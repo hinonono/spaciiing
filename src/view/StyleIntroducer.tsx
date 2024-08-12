@@ -81,6 +81,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   }, [paintStyleList]);
 
   const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
+  const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
 
   const getChildOptions = (fullName: string) => {
     return paintStyleOptions
@@ -94,6 +95,25 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   };
 
   const handleScopeChange = (id: string) => {
+    setCheckedOptions((prev) => {
+      const isSelected = prev.includes(id);
+      const childOptions = getChildOptions(id);
+
+      if (isSelected) {
+        // Uncheck the parent and all its children
+        return prev.filter(
+          (item) => item !== id && !childOptions.includes(item)
+        );
+      } else {
+        // Check the parent and all its children
+        return [
+          ...prev,
+          id,
+          ...childOptions.filter((childId) => !prev.includes(childId)),
+        ];
+      }
+    });
+
     setSelectedScopes((prev) => {
       const isSelected = prev.includes(id);
       const childOptions = getChildOptions(id);
@@ -155,14 +175,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
                 <input
                   type="checkbox"
                   value={item.id}
-                  checked={
-                    selectedScopes.includes(item.id) ||
-                    paintStyleOptions.some(
-                      (opt) =>
-                        opt.id.startsWith(item.id) &&
-                        selectedScopes.includes(opt.id)
-                    )
-                  }
+                  checked={checkedOptions.includes(item.id)}
                   onChange={() => handleScopeChange(item.id)}
                 />
                 <span className="checkmark"></span>
