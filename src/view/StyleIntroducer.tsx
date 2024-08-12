@@ -97,15 +97,20 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const handleScopeChange = (id: string) => {
     const option = paintStyleOptions.find((opt) => opt.id === id);
     if (!option) return;
-
+  
     const fullName = option.fullName;
-
+    const fullNameParts = fullName.split("/");
+  
     setCheckedOptions((prev) => {
       const isSelected = prev.includes(id);
-      const childOptions = paintStyleOptions.filter((opt) =>
-        opt.fullName.startsWith(fullName)
-      );
-
+      const childOptions = paintStyleOptions.filter((opt) => {
+        const optParts = opt.fullName.split("/");
+        return (
+          opt.fullName.startsWith(fullName) &&
+          optParts.length === fullNameParts.length + 1
+        );
+      });
+  
       if (isSelected) {
         // Uncheck the parent and all its children
         return prev.filter(
@@ -122,13 +127,17 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         ];
       }
     });
-
+  
     setSelectedScopes((prev) => {
       const isSelected = prev.includes(id);
-      const childOptions = paintStyleOptions.filter((opt) =>
-        opt.fullName.startsWith(fullName)
-      );
-
+      const childOptions = paintStyleOptions.filter((opt) => {
+        const optParts = opt.fullName.split("/");
+        return (
+          opt.fullName.startsWith(fullName) &&
+          optParts.length === fullNameParts.length + 1
+        );
+      });
+  
       if (isSelected) {
         // Uncheck the parent and all its children
         return prev.filter(
