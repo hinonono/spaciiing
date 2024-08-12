@@ -1,4 +1,5 @@
 import { ResizableNode } from "../types/NodeResizable";
+import * as spaciiing from "./spaciiing";
 
 // 取代原有的 fundamental-module.ts
 export function deepClone(val: unknown) {
@@ -278,6 +279,7 @@ export const generateUUID = () => {
   });
 };
 
+<<<<<<< Updated upstream
 export function parseColorToRgba(
   color: string,
   opacity: number = 1
@@ -369,4 +371,114 @@ function hslToRgba(h: number, s: number, l: number, a: number): RGBA {
   }
 
   return { r, g, b, a };
+=======
+/**
+ * Creates an explanation item consisting of a title and a description.
+ * The item is wrapped in a frame node with specified padding and border properties.
+ *
+ * @param {string} title - The title text for the explanation item.
+ * @param {string} description - The description text for the explanation item.
+ * @returns {FrameNode} The frame node containing the title and description.
+ * @throws Will throw an error if the explanation item wrapper node cannot be created.
+ */
+export function createExplanationItem(
+  title: string,
+  description: string
+): FrameNode {
+  const baseFontSize = 16;
+  const basePadding = 16;
+
+  const titleNode = figma.createText();
+  titleNode.characters = title;
+  titleNode.fontSize = baseFontSize * 1.25;
+
+  const descriptionNode = figma.createText();
+  descriptionNode.characters = description == "" ? "(blank)" : description;
+  descriptionNode.fontSize = baseFontSize;
+
+  const explanationItemWrapperNode = spaciiing.applySpacingToLayers(
+    [titleNode, descriptionNode],
+    8,
+    "vertical",
+    true,
+    true
+  );
+
+  if (!explanationItemWrapperNode) {
+    throw new Error("Failed to create explanation item wrapper node.");
+  }
+
+  explanationItemWrapperNode.name = "Explanation Item";
+  explanationItemWrapperNode.paddingTop = basePadding;
+  explanationItemWrapperNode.paddingBottom = basePadding;
+  explanationItemWrapperNode.paddingLeft = basePadding;
+  explanationItemWrapperNode.paddingRight = basePadding;
+
+  // Set border properties for top edge only
+  explanationItemWrapperNode.strokes = [
+    { type: "SOLID", color: { r: 0.5, g: 0.5, b: 0.5 } },
+  ];
+  explanationItemWrapperNode.strokeWeight = 1;
+  explanationItemWrapperNode.strokeTopWeight = 1;
+  explanationItemWrapperNode.strokeBottomWeight = 0;
+  explanationItemWrapperNode.strokeLeftWeight = 0;
+  explanationItemWrapperNode.strokeRightWeight = 0;
+
+  return explanationItemWrapperNode;
+}
+
+/**
+ * Creates an explanation wrapper frame containing a title and a list of explanation items.
+ *
+ * @param {FrameNode[]} explanationItems - An array of frame nodes representing the explanation items.
+ * @param {string} title - The title text for the explanation wrapper.
+ * @returns {FrameNode} The main frame node containing the title and explanation items.
+ * @throws Will throw an error if the explanation items frame or wrapper frame cannot be created.
+ */
+export function createExplanationWrapper(
+  explanationItems: FrameNode[],
+  title: string
+) {
+  const baseFontSize = 16;
+  const basePadding = 16;
+  const baseSpacing = 8;
+
+  const titleNode = figma.createText();
+  titleNode.characters = title;
+  titleNode.fontSize = baseFontSize * 2;
+
+  // Create an auto-layout frame for explanation items
+  const itemsFrame = spaciiing.applySpacingToLayers(
+    explanationItems,
+    baseSpacing,
+    "vertical",
+    true,
+    true
+  );
+
+  if (!itemsFrame) {
+    throw new Error("Failed to create explanation items frame.");
+  }
+
+  // Create the main auto-layout frame to contain the title and items frame
+  const wrapperFrame = spaciiing.applySpacingToLayers(
+    [titleNode, itemsFrame],
+    baseSpacing * 2,
+    "vertical",
+    true,
+    true
+  );
+
+  if (!wrapperFrame) {
+    throw new Error("Failed to create explanation wrapper frame.");
+  }
+
+  // Set padding for the main frame
+  wrapperFrame.paddingTop = basePadding * 2;
+  wrapperFrame.paddingBottom = basePadding * 2;
+  wrapperFrame.paddingLeft = basePadding * 2;
+  wrapperFrame.paddingRight = basePadding * 2;
+
+  return wrapperFrame;
+>>>>>>> Stashed changes
 }
