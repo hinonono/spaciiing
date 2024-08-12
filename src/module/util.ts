@@ -1,3 +1,7 @@
+import {
+  CollectionExplanationable,
+  ColorCollection,
+} from "../types/ColorCollection";
 import { ResizableNode } from "../types/NodeResizable";
 import * as spaciiing from "./spaciiing";
 
@@ -279,7 +283,6 @@ export const generateUUID = () => {
   });
 };
 
-<<<<<<< Updated upstream
 export function parseColorToRgba(
   color: string,
   opacity: number = 1
@@ -371,19 +374,24 @@ function hslToRgba(h: number, s: number, l: number, a: number): RGBA {
   }
 
   return { r, g, b, a };
-=======
+}
+
 /**
  * Creates an explanation item consisting of a title and a description.
  * The item is wrapped in a frame node with specified padding and border properties.
  *
  * @param {string} title - The title text for the explanation item.
  * @param {string} description - The description text for the explanation item.
+ * @param {FontName} fontName - The font name for the title and description.
  * @returns {FrameNode} The frame node containing the title and description.
  * @throws Will throw an error if the explanation item wrapper node cannot be created.
  */
 export function createExplanationItem(
   title: string,
-  description: string
+  description: string,
+  fontName: FontName,
+  type: "color" | "text",
+  color?: RGB
 ): FrameNode {
   const baseFontSize = 16;
   const basePadding = 16;
@@ -391,15 +399,44 @@ export function createExplanationItem(
   const titleNode = figma.createText();
   titleNode.characters = title;
   titleNode.fontSize = baseFontSize * 1.25;
+  titleNode.fontName = fontName;
 
   const descriptionNode = figma.createText();
   descriptionNode.characters = description == "" ? "(blank)" : description;
   descriptionNode.fontSize = baseFontSize;
+  descriptionNode.fontName = fontName;
+
+  const explanationTextsWrapperNode = spaciiing.applySpacingToLayers(
+    [titleNode, descriptionNode],
+    0,
+    "vertical",
+    true,
+    true
+  );
+
+  if (!explanationTextsWrapperNode) {
+    throw new Error("Failed to create explanation item texts wrapper node.");
+  }
+
+  const nodesToPushInWrapper: SceneNode[] = [];
+
+  if (type === "color") {
+    if (!color) {
+      throw new Error("Color is required for color type.");
+    }
+    const colorFrame = figma.createFrame();
+    colorFrame.resize(48, 48); // Set the frame size to 48x48
+    colorFrame.fills = [{ type: "SOLID", color: color }];
+    colorFrame.cornerRadius = 8;
+    nodesToPushInWrapper.push(colorFrame);
+  }
+
+  nodesToPushInWrapper.push(explanationTextsWrapperNode);
 
   const explanationItemWrapperNode = spaciiing.applySpacingToLayers(
-    [titleNode, descriptionNode],
-    8,
-    "vertical",
+    nodesToPushInWrapper,
+    16,
+    "horizontal",
     true,
     true
   );
@@ -409,20 +446,27 @@ export function createExplanationItem(
   }
 
   explanationItemWrapperNode.name = "Explanation Item";
+
+  // Set height to hug content
+  explanationItemWrapperNode.primaryAxisSizingMode = "AUTO";
+
   explanationItemWrapperNode.paddingTop = basePadding;
   explanationItemWrapperNode.paddingBottom = basePadding;
-  explanationItemWrapperNode.paddingLeft = basePadding;
-  explanationItemWrapperNode.paddingRight = basePadding;
+  explanationItemWrapperNode.paddingLeft = basePadding / 2;
+  explanationItemWrapperNode.paddingRight = basePadding / 2;
 
   // Set border properties for top edge only
   explanationItemWrapperNode.strokes = [
-    { type: "SOLID", color: { r: 0.5, g: 0.5, b: 0.5 } },
+    { type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } },
   ];
   explanationItemWrapperNode.strokeWeight = 1;
   explanationItemWrapperNode.strokeTopWeight = 1;
   explanationItemWrapperNode.strokeBottomWeight = 0;
   explanationItemWrapperNode.strokeLeftWeight = 0;
   explanationItemWrapperNode.strokeRightWeight = 0;
+
+  // Center items vertically
+  explanationItemWrapperNode.counterAxisAlignItems = "CENTER";
 
   return explanationItemWrapperNode;
 }
@@ -432,13 +476,15 @@ export function createExplanationItem(
  *
  * @param {FrameNode[]} explanationItems - An array of frame nodes representing the explanation items.
  * @param {string} title - The title text for the explanation wrapper.
+ * @param {FontName} fontName - The font name for the title and explanation items.
  * @returns {FrameNode} The main frame node containing the title and explanation items.
  * @throws Will throw an error if the explanation items frame or wrapper frame cannot be created.
  */
 export function createExplanationWrapper(
   explanationItems: FrameNode[],
-  title: string
-) {
+  title: string,
+  fontName: FontName
+): FrameNode {
   const baseFontSize = 16;
   const basePadding = 16;
   const baseSpacing = 8;
@@ -446,6 +492,7 @@ export function createExplanationWrapper(
   const titleNode = figma.createText();
   titleNode.characters = title;
   titleNode.fontSize = baseFontSize * 2;
+  titleNode.fontName = fontName;
 
   // Create an auto-layout frame for explanation items
   const itemsFrame = spaciiing.applySpacingToLayers(
@@ -460,10 +507,16 @@ export function createExplanationWrapper(
     throw new Error("Failed to create explanation items frame.");
   }
 
+  // Set itemsFrame to fill the container (wrapperFrame)
+  itemsFrame.layoutMode = "VERTICAL";
+  itemsFrame.primaryAxisSizingMode = "FIXED";
+  itemsFrame.counterAxisSizingMode = "AUTO";
+  itemsFrame.layoutAlign = "STRETCH";
+
   // Create the main auto-layout frame to contain the title and items frame
   const wrapperFrame = spaciiing.applySpacingToLayers(
     [titleNode, itemsFrame],
-    baseSpacing * 2,
+    baseSpacing * 4,
     "vertical",
     true,
     true
@@ -479,6 +532,16 @@ export function createExplanationWrapper(
   wrapperFrame.paddingLeft = basePadding * 2;
   wrapperFrame.paddingRight = basePadding * 2;
 
+  // Ensure explanation items fill the container width
+  explanationItems.forEach((item) => {
+    item.layoutSizingHorizontal = "FILL";
+  });
+
   return wrapperFrame;
->>>>>>> Stashed changes
+}
+
+export function isColorCollection(
+  collection: CollectionExplanationable
+): collection is ColorCollection {
+  return (collection as ColorCollection).members[0]?.color !== undefined;
 }

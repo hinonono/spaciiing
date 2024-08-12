@@ -1,10 +1,5 @@
-import {
-  InstantiaterTarget,
-  MessageInstantiater,
-  SpacingMode,
-} from "../types/Message";
+import { InstantiaterTarget, MessageInstantiater } from "../types/Message";
 import * as util from "./util";
-import * as spaciiing from "./spaciiing";
 
 import * as colors from "../assets/colors";
 // import iosDefaultDropShadowData from "../assets/effects/iosDefaultDropShadow.json";
@@ -1120,7 +1115,6 @@ async function generateColorVariable(collection: ColorCollection) {
 
 async function generateExplanationText(collection: CollectionExplanationable) {
   const viewport = util.getCurrentViewport();
-  const baseFontSize = 16;
 
   // Load all necessary fonts
   const fontsToLoad = [
@@ -1129,91 +1123,68 @@ async function generateExplanationText(collection: CollectionExplanationable) {
   ];
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
-  // 結果
-  const results: SceneNode[] = [];
-  const explanationNodes: SceneNode[] = [];
+  // create explanation items
+  const explanationItems: FrameNode[] = [];
+  if (util.isColorCollection(collection)) {
+    collection.members.forEach((member) => {
+      const explanationItem = util.createExplanationItem(
+        member.name,
+        member.description,
+        { family: "Inter", style: "Regular" },
+        "color",
+        {
+          r: 1,
+          g: 1,
+          b: 1,
+        }
+      );
+      explanationItem.primaryAxisSizingMode = "AUTO";
+      explanationItem.counterAxisSizingMode = "AUTO";
 
-  // 說明文字
+      explanationItems.push(explanationItem);
+    });
+  } else {
+    collection.members.forEach((member) => {
+      const explanationItem = util.createExplanationItem(
+        member.name,
+        member.description,
+        { family: "Inter", style: "Regular" },
+        "text"
+      );
+      explanationItem.primaryAxisSizingMode = "AUTO";
+      explanationItem.counterAxisSizingMode = "AUTO";
+
+      explanationItems.push(explanationItem);
+    });
+  }
+
+  // create explanation wrapper
   const explanationTextTitle = `Usage definition of ${collection.brand} - ${collection.name}`;
-  const explanationTitleNode = figma.createText();
-  explanationTitleNode.fontName = { family: "Inter", style: "Semi Bold" };
-  explanationTitleNode.x = viewport.x;
-  explanationTitleNode.y = viewport.y;
-  explanationTitleNode.characters = explanationTextTitle;
-  explanationTitleNode.fontSize = baseFontSize * 1.25;
-
-  figma.currentPage.appendChild(explanationTitleNode);
-  results.push(explanationTitleNode);
-
-  collection.members.forEach((member) => {
-    const description =
-      member.description == "" ? "(blank)" : member.description;
-    const explanation = `${member.name} : ${description}`;
-    const explanationNode = figma.createText();
-    explanationNode.characters = explanation;
-    explanationNode.fontSize = baseFontSize;
-    explanationNode.x = viewport.x;
-    explanationNode.y = viewport.y;
-
-    // results.push(explanationNode);
-    explanationNodes.push(explanationNode);
-    figma.currentPage.appendChild(explanationNode);
-  });
-
-  const spacing = 8;
-  const mode: SpacingMode = "vertical";
-  const addAutolayout = true;
-
-  const explanationNodeFrame = spaciiing.applySpacingToLayers(
-    explanationNodes,
-    spacing,
-    mode,
-    addAutolayout,
-    true
+  const explanationWrapper = util.createExplanationWrapper(
+    explanationItems,
+    explanationTextTitle,
+    { family: "Inter", style: "Semi Bold" }
   );
 
-  if (!explanationNodeFrame) {
-    return;
-  }
+  explanationWrapper.fills = [
+    {
+      type: "SOLID",
+      color: { r: 1, g: 1, b: 1 },
+    },
+  ];
 
-  results.push(explanationNodeFrame);
+  explanationWrapper.name = explanationTextTitle;
 
-  // results.forEach((item) => {
-  //   figma.currentPage.appendChild(item);
-  // });
+  // Set corner radius
+  explanationWrapper.cornerRadius = 16;
+  // Set the width and height to hug contents
+  explanationWrapper.primaryAxisSizingMode = "AUTO";
+  explanationWrapper.counterAxisSizingMode = "AUTO";
+  explanationWrapper.x = viewport.x;
+  explanationWrapper.y = viewport.y;
 
-  figma.currentPage.selection = results;
-
-  const frame = spaciiing.applySpacingToLayers(
-    results,
-    spacing * 3,
-    mode,
-    addAutolayout,
-    true
-  );
-
-  if (frame) {
-    // Set the fill to white
-    frame.fills = [
-      {
-        type: "SOLID",
-        color: { r: 1, g: 1, b: 1 },
-      },
-    ];
-
-    frame.name = explanationTextTitle;
-    // Set padding for all sides
-    frame.paddingTop = 32;
-    frame.paddingRight = 48;
-    frame.paddingBottom = 32;
-    frame.paddingLeft = 48;
-
-    // Set corner radius
-    frame.cornerRadius = 16;
-    // Set the width and height to hug contents
-    frame.primaryAxisSizingMode = "AUTO";
-    frame.counterAxisSizingMode = "AUTO";
-  }
+  figma.currentPage.appendChild(explanationWrapper);
+  figma.currentPage.selection = [explanationWrapper];
 }
 
 function generateColorStyle(collection: ColorCollection, type: ColorType) {
