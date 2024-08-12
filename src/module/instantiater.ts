@@ -1133,9 +1133,9 @@ async function generateExplanationText(collection: CollectionExplanationable) {
         { family: "Inter", style: "Regular" },
         "color",
         {
-          r: 1,
-          g: 1,
-          b: 1,
+          r: member.color.light.r / 255,
+          g: member.color.light.g / 255,
+          b: member.color.light.b / 255,
         }
       );
       explanationItem.primaryAxisSizingMode = "AUTO";
@@ -1162,7 +1162,8 @@ async function generateExplanationText(collection: CollectionExplanationable) {
   const explanationTextTitle = `Usage definition of ${collection.brand} - ${collection.name}`;
   const explanationWrapper = util.createExplanationWrapper(
     explanationItems,
-    explanationTextTitle,
+    `${collection.brand} - ${collection.name}`,
+    "Usage Definition",
     { family: "Inter", style: "Semi Bold" }
   );
 

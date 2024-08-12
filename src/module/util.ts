@@ -483,6 +483,7 @@ export function createExplanationItem(
 export function createExplanationWrapper(
   explanationItems: FrameNode[],
   title: string,
+  secondaryTitle: string,
   fontName: FontName
 ): FrameNode {
   const baseFontSize = 16;
@@ -493,6 +494,26 @@ export function createExplanationWrapper(
   titleNode.characters = title;
   titleNode.fontSize = baseFontSize * 2;
   titleNode.fontName = fontName;
+
+  const secondaryTitleNode = figma.createText();
+  secondaryTitleNode.characters = secondaryTitle;
+  secondaryTitleNode.fontSize = baseFontSize;
+  secondaryTitleNode.fontName = fontName;
+  secondaryTitleNode.fills = [
+    { type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } },
+  ];
+
+  const titleWrapper = spaciiing.applySpacingToLayers(
+    [secondaryTitleNode, titleNode],
+    8,
+    "vertical",
+    true,
+    true
+  );
+
+  if (!titleWrapper) {
+    throw new Error("Failed to create explanation title wrapper.");
+  }
 
   // Create an auto-layout frame for explanation items
   const itemsFrame = spaciiing.applySpacingToLayers(
@@ -515,7 +536,7 @@ export function createExplanationWrapper(
 
   // Create the main auto-layout frame to contain the title and items frame
   const wrapperFrame = spaciiing.applySpacingToLayers(
-    [titleNode, itemsFrame],
+    [titleWrapper, itemsFrame],
     baseSpacing * 4,
     "vertical",
     true,
@@ -525,6 +546,8 @@ export function createExplanationWrapper(
   if (!wrapperFrame) {
     throw new Error("Failed to create explanation wrapper frame.");
   }
+
+  titleWrapper.layoutSizingHorizontal = "FILL";
 
   // Set padding for the main frame
   wrapperFrame.paddingTop = basePadding * 2;
