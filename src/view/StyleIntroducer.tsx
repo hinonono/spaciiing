@@ -59,16 +59,19 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       const parts = style.name.split("/");
       parts.forEach((part, index) => {
         const fullName = parts.slice(0, index + 1).join("/");
+        const isLeaf = index === parts.length - 1;
+        const id = isLeaf ? style.id : `non-leaf-${fullName}`;
+
         if (
           !newPaintStyleOptions.some((option) => option.fullName === fullName)
         ) {
           newPaintStyleOptions.push({
-            id: style.id, // Keep style.id as the primary identifier
+            id: id, // Use the generated id
             name: part,
             indented: index > 0,
             indentLevel: index,
             fullName: fullName, // Add fullName to ensure uniqueness
-            isLeaf: index === parts.length - 1, // Mark as leaf if it's the last part
+            isLeaf: isLeaf, // Mark as leaf if it's the last part
           });
         }
       });
@@ -87,34 +90,30 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
           option.indentLevel > fullName.split("/").length - 1
         );
       })
-      .map((option) => option.fullName);
+      .map((option) => option.id); // Return the id instead of fullName
   };
 
-  const handleScopeChange = (fullName: string) => {
+  const handleScopeChange = (id: string) => {
     setSelectedScopes((prev) => {
-      const isSelected = prev.includes(fullName);
-      const childOptions = getChildOptions(fullName);
+      const isSelected = prev.includes(id);
+      const childOptions = getChildOptions(id);
 
       if (isSelected) {
         // Uncheck the parent and all its children
         return prev.filter(
-          (item) => item !== fullName && !childOptions.includes(item)
+          (item) => item !== id && !childOptions.includes(item)
         );
       } else {
         // Check the parent and all its children
         const newSelections = [
-          fullName,
-          ...childOptions.filter(
-            (childFullName) => !prev.includes(childFullName)
-          ),
+          id,
+          ...childOptions.filter((childId) => !prev.includes(childId)),
         ];
         // Only add leaf nodes to selectedScopes
         return [
           ...prev,
-          ...newSelections.filter((optionFullName) => {
-            const option = paintStyleOptions.find(
-              (opt) => opt.fullName === optionFullName
-            );
+          ...newSelections.filter((optionId) => {
+            const option = paintStyleOptions.find((opt) => opt.id === optionId);
             return option?.isLeaf;
           }),
         ];
@@ -147,7 +146,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
           <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
             {paintStyleOptions.map((item) => (
               <label
-                key={item.fullName} // Use fullName as the key to ensure uniqueness
+                key={item.id} // Use id as the key to ensure uniqueness
                 className={`container ${
                   item.indented ? `indent-level-${item.indentLevel}` : ""
                 }`}
@@ -155,16 +154,16 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
                 {item.name}
                 <input
                   type="checkbox"
-                  value={item.fullName}
+                  value={item.id}
                   checked={
-                    selectedScopes.includes(item.fullName) ||
+                    selectedScopes.includes(item.id) ||
                     paintStyleOptions.some(
                       (opt) =>
-                        opt.fullName.startsWith(item.fullName) &&
-                        selectedScopes.includes(opt.fullName)
+                        opt.id.startsWith(item.id) &&
+                        selectedScopes.includes(opt.id)
                     )
                   }
-                  onChange={() => handleScopeChange(item.fullName)}
+                  onChange={() => handleScopeChange(item.id)}
                 />
                 <span className="checkmark"></span>
               </label>
