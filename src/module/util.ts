@@ -2,6 +2,7 @@ import {
   CollectionExplanationable,
   ColorCollection,
 } from "../types/ColorCollection";
+import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { ResizableNode } from "../types/NodeResizable";
 
 // 取代原有的 fundamental-module.ts
@@ -398,8 +399,9 @@ export function createExplanationItem(
   title: string,
   description: string,
   fontName: FontName,
-  type: "color" | "text",
-  color?: RGB
+  type: StyleMode,
+  color?: RGB,
+  effects?: Effect[]
 ): FrameNode {
   const baseFontSize = 16;
   const basePadding = 16;
@@ -414,7 +416,8 @@ export function createExplanationItem(
 
   let explanationTextsWrapperNode: FrameNode;
 
-  if (type === "color") {
+  // 如果type是COLOR，則在titleNode後面加上顏色碼
+  if (type === "COLOR") {
     if (!color) {
       throw new Error("Color is required for color type.");
     }
@@ -453,12 +456,13 @@ export function createExplanationItem(
   // const nodesToPushInWrapper: SceneNode[] = [];
   let explanationItemWrapperNode: FrameNode;
 
-  if (type === "color") {
+  if (type === "COLOR") {
     if (!color) {
       throw new Error("Color is required for color type.");
     }
     const colorFrame = figma.createFrame();
     colorFrame.resize(64, 64);
+    colorFrame.name = "Swatch";
     colorFrame.fills = [{ type: "SOLID", color: color }];
     colorFrame.cornerRadius = 12;
 
@@ -477,7 +481,28 @@ export function createExplanationItem(
 
     explanationItemWrapperNode = item;
     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+  } else if (type === "EFFECT") {
+    if (!effects) {
+      throw new Error("Effects are required for effect type.");
+    }
+
+    const effectFrame = figma.createFrame();
+    effectFrame.resize(64, 64);
+    effectFrame.name = "Effect";
+    effectFrame.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+    effectFrame.cornerRadius = 12;
+    effectFrame.effects = effects;
+
+    const item = createAutolayoutFrame(
+      [effectFrame, explanationTextsWrapperNode],
+      16,
+      "HORIZONTAL"
+    );
+
+    explanationItemWrapperNode = item;
+    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
   } else {
+    // 預設 或 類型是TEXT
     explanationItemWrapperNode = createAutolayoutFrame(
       [explanationTextsWrapperNode],
       0,
@@ -487,6 +512,7 @@ export function createExplanationItem(
   }
 
   explanationItemWrapperNode.name = "Explanation Item";
+  explanationItemWrapperNode.clipsContent = false;
 
   // Set height to hug content
   explanationItemWrapperNode.primaryAxisSizingMode = "AUTO";
@@ -546,6 +572,7 @@ export function createExplanationWrapper(
   );
 
   const itemsFrame = createAutolayoutFrame(explanationItems, 0, "VERTICAL");
+  itemsFrame.clipsContent = false;
   itemsFrame.layoutSizingHorizontal = "HUG";
   itemsFrame.layoutSizingVertical = "HUG";
   itemsFrame.primaryAxisSizingMode = "AUTO";

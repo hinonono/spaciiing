@@ -137,7 +137,11 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
           )}
         </div>
       </div>
-      <div className="custom-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical">
+      <div
+        className={`custom-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical ${
+          isLeafNodeDisplayed ? "padding-16" : ""
+        }`}
+      >
         <ul className="list-style-none">
           {Object.keys(currentStructure).map((key) => (
             <li key={key}>

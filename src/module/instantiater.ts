@@ -1113,6 +1113,9 @@ async function generateColorVariable(collection: ColorCollection) {
   figma.notify(`✅ Collection "${collection.name}" created successfully.`);
 }
 
+/**
+ * @deprecated This function is deprecated and will be removed in future versions.
+ */
 async function generateExplanationText(collection: CollectionExplanationable) {
   const viewport = util.getCurrentViewport();
 
@@ -1144,18 +1147,18 @@ async function generateExplanationText(collection: CollectionExplanationable) {
     //   explanationItems.push(explanationItem);
     // });
   } else {
-    collection.members.forEach((member) => {
-      const explanationItem = util.createExplanationItem(
-        member.name,
-        member.description,
-        { family: "Inter", style: "Regular" },
-        "text"
-      );
-      explanationItem.primaryAxisSizingMode = "AUTO";
-      explanationItem.counterAxisSizingMode = "AUTO";
+    // collection.members.forEach((member) => {
+    //   const explanationItem = util.createExplanationItem(
+    //     member.name,
+    //     member.description,
+    //     { family: "Inter", style: "Regular" },
+    //     "text"
+    //   );
+    //   explanationItem.primaryAxisSizingMode = "AUTO";
+    //   explanationItem.counterAxisSizingMode = "AUTO";
 
-      explanationItems.push(explanationItem);
-    });
+    //   explanationItems.push(explanationItem);
+    // });
   }
 
   // create explanation wrapper

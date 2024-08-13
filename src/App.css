@@ -400,6 +400,7 @@
 .folder-navigator {
   border-radius: var(--cy-border-radius-large);
   border: 1px solid var(--cy-border-light);
+  overflow: hidden;
 }
 .folder-navigator ul {
   list-style: none;
@@ -411,13 +412,12 @@
 }
 
 .folder-navigator-items-group {
-  padding: 16px;
+  padding: 0px;
   max-height: 160px;
   height: -moz-fit-content;
   height: fit-content;
   width: 100%;
   overflow: scroll;
-  transition: all 0.3s;
 }
 .folder-navigator-items-group-large {
   max-height: 320px;
@@ -431,24 +431,26 @@
   min-height: 48px;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
+  background-color: var(--figma-color-bg-secondary);
 }
 
 .button-folder {
   border-bottom: 1px solid var(--cy-border-light);
-  padding: 8px;
+  padding: 8px 16px;
   display: inline-block;
   text-align: left;
   margin: 0;
   position: relative;
+  min-height: 40px;
   /* Add this line */
 }
 .button-folder:hover {
-  background-color: var(--figma-color-bg-secondary);
+  background-color: var(--color-bg-selected);
 }
 .button-folder .chevron {
   /* Add this block */
   position: absolute;
-  right: 8px;
+  right: 16px;
   top: 50%;
   transform: translateY(-50%);
   border: solid var(--figma-color-text-secondary);

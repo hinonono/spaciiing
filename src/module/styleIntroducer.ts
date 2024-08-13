@@ -50,51 +50,102 @@ async function getStyleList(
 }
 
 async function applyStyleIntroducer(message: MessageStyleIntroducer) {
-  const { styleSelection } = message;
+  const { styleSelection, styleMode } = message;
 
   if (!styleSelection) {
     throw new Error("styleSelection is required");
   }
   const { title, scopes } = styleSelection;
 
-  const paintStyleList = await figma.getLocalPaintStylesAsync();
-  const selectedPaintStyleList = paintStyleList.filter((paintStyle) =>
-    scopes.includes(paintStyle.id)
-  );
-
   const viewport = util.getCurrentViewport();
-
-  // Load all necessary fonts
   const fontsToLoad = [
     { family: "Inter", style: "Regular" },
     { family: "Inter", style: "Semi Bold" },
   ];
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
+  const fontName = { family: "Inter", style: "Regular" };
   // create explanation items
   const explanationItems: FrameNode[] = [];
-  selectedPaintStyleList.forEach((member) => {
-    const paint = member.paints[0];
-    if (paint.type === "SOLID") {
-      const solidPaint = paint as SolidPaint;
 
+  let styleList;
+  switch (styleMode) {
+    case "COLOR":
+      styleList = await figma.getLocalPaintStylesAsync();
+      break;
+    case "TEXT":
+      styleList = await figma.getLocalTextStylesAsync();
+      break;
+    case "EFFECT":
+      styleList = await figma.getLocalEffectStylesAsync();
+      break;
+    default:
+      throw new Error("Invalid style type");
+  }
+  const selectedStyleList = styleList.filter((style) =>
+    scopes.includes(style.id)
+  );
+
+  if (styleMode === "COLOR") {
+    const paintStyleList = selectedStyleList as PaintStyle[];
+
+    paintStyleList.forEach((member) => {
+      const paint = member.paints[0];
+      if (paint.type === "SOLID") {
+        const solidPaint = paint as SolidPaint;
+
+        const explanationItem = util.createExplanationItem(
+          member.name.split("/").pop() || "",
+          member.description,
+          fontName,
+          "COLOR",
+          {
+            r: solidPaint.color.r,
+            g: solidPaint.color.g,
+            b: solidPaint.color.b,
+          }
+        );
+        explanationItem.primaryAxisSizingMode = "AUTO";
+        explanationItem.counterAxisSizingMode = "AUTO";
+
+        explanationItems.push(explanationItem);
+      }
+    });
+  } else if (styleMode === "TEXT") {
+    const textStyleList = selectedStyleList as TextStyle[];
+    textStyleList.forEach((member) => {
       const explanationItem = util.createExplanationItem(
         member.name.split("/").pop() || "",
         member.description,
-        { family: "Inter", style: "Regular" },
-        "color",
-        {
-          r: solidPaint.color.r,
-          g: solidPaint.color.g,
-          b: solidPaint.color.b,
-        }
+        fontName,
+        "TEXT",
+        undefined,
+        undefined
       );
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
 
       explanationItems.push(explanationItem);
-    }
-  });
+    });
+  } else if (styleMode === "EFFECT") {
+    const effectStyleList = selectedStyleList as EffectStyle[];
+
+    effectStyleList.forEach((member) => {
+      const effects = [...member.effects]; // Create a copy of the readonly array
+      const explanationItem = util.createExplanationItem(
+        member.name.split("/").pop() || "",
+        member.description,
+        fontName,
+        "EFFECT",
+        undefined,
+        effects
+      );
+      explanationItem.primaryAxisSizingMode = "AUTO";
+      explanationItem.counterAxisSizingMode = "AUTO";
+
+      explanationItems.push(explanationItem);
+    });
+  }
 
   const explanationWrapper = util.createExplanationWrapper(
     explanationItems,

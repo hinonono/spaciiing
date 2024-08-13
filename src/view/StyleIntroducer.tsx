@@ -168,7 +168,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={t("module:apply")}
+            title={t("module:generate")}
             onClick={applyStyleIntroducer}
           />
         </div>
