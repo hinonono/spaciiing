@@ -11,12 +11,12 @@ import {
   MessageVariableEditor,
   MessageVirtualProfile,
   ExternalMessage,
-  MessageSelectionFilter,
 } from "./types/Message";
 
 import { MessageResize } from "./types/Messages/MessageResize";
 import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";
 import { MessageLocalization } from "./types/Messages/MessageLocalization";
+import { MessageSelectionFilter } from "./types/Messages/MessageSelectionFilter";
 
 // 功能模組
 import * as init from "./module/init";
