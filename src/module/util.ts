@@ -539,6 +539,145 @@ export function createExplanationItem(
 }
 
 /**
+ * Creates an explanation item frame for a variable.
+ *
+ * @param {string} title - The title text for the explanation item.
+ * @param {string} description - The description text for the explanation item.
+ * @param {FontName} fontName - The font name for the title and description.
+ * @param {StyleMode} type - The type of the style (e.g., COLOR, TEXT, EFFECT).
+ * @param {RGB[]} [color] - An optional array of RGB color values for the COLOR type.
+ * @returns {FrameNode} The frame node representing the explanation item.
+ * @throws Will throw an error if the color is required but not provided.
+ */
+export function createExplanationItemForVariable(
+  title: string,
+  description: string,
+  fontName: FontName,
+  type: StyleMode,
+  color?: RGBA[]
+): FrameNode {
+  const baseFontSize = 16;
+  const basePadding = 16;
+
+  const titleNode = createTextNode(title, fontName, baseFontSize * 1.25);
+  const descriptionNode = createTextNode(
+    description == "" ? "(blank)" : description,
+    fontName,
+    baseFontSize * 0.75,
+    [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+  );
+
+  let explanationTextsWrapperNode: FrameNode;
+
+  // 如果type是COLOR，則在titleNode後面加上顏色碼
+  if (type === "COLOR") {
+    if (!color) {
+      throw new Error("Color is required for color type.");
+    }
+
+    const hexValues = color.map((color) => rgbToHex(color.r, color.g, color.b));
+
+    const colorHexNode = createTextNode(
+      hexValues.join(", "),
+      fontName,
+      baseFontSize * 0.75,
+      [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+    );
+
+    colorHexNode.textCase = "UPPER";
+
+    const titleWrapper = createAutolayoutFrame(
+      [titleNode, colorHexNode],
+      4,
+      "VERTICAL"
+    );
+
+    explanationTextsWrapperNode = createAutolayoutFrame(
+      [titleWrapper, descriptionNode],
+      8,
+      "VERTICAL"
+    );
+
+    titleWrapper.layoutSizingHorizontal = "FILL";
+  } else {
+    explanationTextsWrapperNode = createAutolayoutFrame(
+      [titleNode, descriptionNode],
+      8,
+      "VERTICAL"
+    );
+  }
+
+  titleNode.layoutSizingHorizontal = "FILL";
+  descriptionNode.layoutSizingHorizontal = "FILL";
+
+  // const nodesToPushInWrapper: SceneNode[] = [];
+  let explanationItemWrapperNode: FrameNode;
+
+  if (type === "COLOR") {
+    if (!color) {
+      throw new Error("Color is required for color type.");
+    }
+
+    const colorFrames: FrameNode[] = [];
+    color.forEach((color) => {
+      const colorFrame = figma.createFrame();
+      colorFrame.resize(64, 64);
+      colorFrame.name = "Swatch";
+      colorFrame.fills = [
+        { type: "SOLID", color: { r: color.r, g: color.g, b: color.b } },
+      ];
+      colorFrame.cornerRadius = 12;
+      colorFrame.opacity = color.a;
+
+      if (isWhite(color)) {
+        colorFrame.strokes = [
+          { type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } },
+        ];
+        colorFrame.strokeWeight = 1;
+      }
+      colorFrames.push(colorFrame);
+    });
+
+    const item = createAutolayoutFrame(
+      [...colorFrames, explanationTextsWrapperNode],
+      16,
+      "HORIZONTAL"
+    );
+
+    explanationItemWrapperNode = item;
+    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+  } else {
+    explanationItemWrapperNode = figma.createFrame();
+  }
+
+  explanationItemWrapperNode.name = "Explanation Item";
+  explanationItemWrapperNode.clipsContent = false;
+
+  // Set height to hug content
+  explanationItemWrapperNode.primaryAxisSizingMode = "AUTO";
+
+  explanationItemWrapperNode.paddingTop = basePadding * 1.5;
+  explanationItemWrapperNode.paddingBottom = basePadding * 1.5;
+  explanationItemWrapperNode.paddingLeft = basePadding / 2;
+  explanationItemWrapperNode.paddingRight = basePadding / 2;
+
+  // Set border properties for top edge only
+  explanationItemWrapperNode.strokes = [
+    { type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } },
+  ];
+  explanationItemWrapperNode.strokeWeight = 1;
+  explanationItemWrapperNode.strokeTopWeight = 1;
+  explanationItemWrapperNode.strokeBottomWeight = 0;
+  explanationItemWrapperNode.strokeLeftWeight = 0;
+  explanationItemWrapperNode.strokeRightWeight = 0;
+
+  // Center items vertically
+  explanationItemWrapperNode.counterAxisAlignItems = "CENTER";
+
+  return explanationItemWrapperNode;
+}
+
+/**
  * Creates an explanation wrapper frame containing a title and a list of explanation items.
  *
  * @param {FrameNode[]} explanationItems - An array of frame nodes representing the explanation items.
@@ -567,6 +706,73 @@ export function createExplanationWrapper(
 
   const titleWrapper = createAutolayoutFrame(
     [secondaryTitleNode, titleNode],
+    8,
+    "VERTICAL"
+  );
+
+  const itemsFrame = createAutolayoutFrame(explanationItems, 0, "VERTICAL");
+  itemsFrame.clipsContent = false;
+  itemsFrame.layoutSizingHorizontal = "HUG";
+  itemsFrame.layoutSizingVertical = "HUG";
+  itemsFrame.primaryAxisSizingMode = "AUTO";
+  itemsFrame.counterAxisSizingMode = "AUTO";
+  itemsFrame.layoutAlign = "STRETCH";
+
+  // Create the main auto-layout frame to contain the title and items frame
+  const wrapperFrame = createAutolayoutFrame(
+    [titleWrapper, itemsFrame],
+    baseSpacing * 4,
+    "VERTICAL"
+  );
+
+  titleWrapper.layoutSizingHorizontal = "FILL";
+
+  // Set padding for the main frame
+  wrapperFrame.paddingTop = basePadding * 2;
+  wrapperFrame.paddingBottom = basePadding * 2;
+  wrapperFrame.paddingLeft = basePadding * 2;
+  wrapperFrame.paddingRight = basePadding * 2;
+
+  wrapperFrame.primaryAxisSizingMode = "AUTO"; // This makes the height hug the content
+  wrapperFrame.counterAxisSizingMode = "FIXED"; // This ensures the width is fixed
+
+  // Set the fixed width and initial height
+  wrapperFrame.resize(640, wrapperFrame.height);
+
+  // Ensure explanation items fill the container width
+  explanationItems.forEach((item) => {
+    item.layoutSizingHorizontal = "FILL";
+  });
+
+  return wrapperFrame;
+}
+
+export function createExplanationWrapperForVariable(
+  explanationItems: FrameNode[],
+  title: string,
+  secondaryTitle: string,
+  modes: string[],
+  fontName: FontName
+): FrameNode {
+  const baseFontSize = 16;
+  const basePadding = 16;
+  const baseSpacing = 8;
+
+  const titleNode = createTextNode(title, fontName, baseFontSize * 2);
+  const secondaryTitleNode = createTextNode(
+    secondaryTitle,
+    fontName,
+    baseFontSize,
+    [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+  );
+
+  const modesText =
+    modes.length === 1 ? `Mode: [${modes[0]}]` : `Modes: [${modes.join(", ")}]`;
+
+  const modesNode = createTextNode(modesText, fontName, baseFontSize);
+
+  const titleWrapper = createAutolayoutFrame(
+    [secondaryTitleNode, titleNode, modesNode],
     8,
     "VERTICAL"
   );
