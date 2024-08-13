@@ -125,7 +125,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
           )}
         </div>
       </div>
-      <div className="custom-checkbox-group folder-navigator-items-group border-1-top hide-scrollbar-vertical">
+      <div className="custom-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical">
         <ul className="list-style-none">
           {Object.keys(currentStructure).map((key) => (
             <li key={key}>
@@ -135,6 +135,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
                   className="button-reset button-folder"
                 >
                   {key}
+                  <span className="chevron"></span>
                 </button>
               ) : (
                 <label

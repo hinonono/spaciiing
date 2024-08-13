@@ -49,10 +49,24 @@
     padding: 8px;
     display: inline-block;
     text-align: left;
-    // border-radius: var(--cy-border-radius-small);
     margin: 0;
+    position: relative;
+    /* Add this line */
 
     &:hover {
         background-color: var(--figma-color-bg-secondary);
+    }
+
+    .chevron {
+        /* Add this block */
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: solid var(--figma-color-text-secondary);
+        border-width: 0 1.5px 1.5px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(315deg);
     }
 }
