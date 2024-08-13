@@ -16,7 +16,8 @@ import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEn
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, variableCollectionList } =
+    useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -110,6 +111,8 @@ const Instantiater: React.FC = () => {
       direction: "Inner",
       type: type,
       form: form,
+      variableCollectionId: destination,
+      newCollectionName: defaultNewCollectionName,
       phase: "Actual",
     };
 
@@ -119,6 +122,22 @@ const Instantiater: React.FC = () => {
       },
       "*"
     );
+  };
+
+  const [destination, setDestination] = useState("new");
+  useEffect(() => {
+    if (variableCollectionList.length > 0 && destination === "new") {
+      setDestination(variableCollectionList[0].id);
+    }
+  }, [variableCollectionList]);
+
+  const [defaultNewCollectionName, setDefaultNewCollectionName] =
+    useState("New Collection");
+
+  const handleDefaultNewCollectionNameChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setDefaultNewCollectionName(event.target.value);
   };
 
   return (
@@ -163,6 +182,37 @@ const Instantiater: React.FC = () => {
             </label>
           </div>
         </div>
+        {/* Destination */}
+        {form === "variable" && (
+          <div className="mt-xxsmall">
+            <SectionTitle title={t("module:destination")} />
+            <select
+              name="destination"
+              className="custom-select"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+            >
+              <option value="new">{t("module:createANewCollection")}</option>
+              {variableCollectionList.map((item) => (
+                <option value={item.id}>{item.name}</option>
+              ))}
+            </select>
+            {destination == "new" && (
+              <div className="width-100 mt-xxsmall">
+                <textarea
+                  className="textarea"
+                  rows={1}
+                  value={defaultNewCollectionName}
+                  onChange={handleDefaultNewCollectionNameChange}
+                  placeholder="New Collection"
+                />
+              </div>
+            )}
+            <div className="mt-xxsmall">
+              <span className="note">{t("module:destinationDesc2")}</span>
+            </div>
+          </div>
+        )}
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:collection")} />
           {/* 選擇品牌 */}

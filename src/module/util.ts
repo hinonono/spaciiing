@@ -868,13 +868,15 @@ export function isWhite(color: RGB): boolean {
  * @param {FontName} fontName - The font name to be applied to the text node.
  * @param {number} fontSize - The font size to be applied to the text node.
  * @param {Paint[]} paint - The paint (color) to be applied to the text node.
+ * @param {LineHeight} lineHeight - The line height to be applied to the text node.
  * @returns {TextNode} The created text node with the specified properties.
  */
 export function createTextNode(
   text: string,
   fontName: FontName,
   fontSize: number,
-  paint?: Paint[]
+  paint?: Paint[],
+  lineHeight?: LineHeight
 ): TextNode {
   const textNode = figma.createText();
   textNode.characters = text;
@@ -882,6 +884,9 @@ export function createTextNode(
   textNode.fontName = fontName;
   if (paint) {
     textNode.fills = paint;
+  }
+  if (lineHeight) {
+    textNode.lineHeight = lineHeight;
   }
   return textNode;
 }

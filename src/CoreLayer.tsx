@@ -109,9 +109,7 @@ const CoreLayer: React.FC = () => {
             break;
           case "StyleIntroducer":
             if (message.mode === "UpdateStyleList" && message.phase == "Init") {
-              updateStyleListHandler(
-                message as ExternalMessageUpdateStyleList
-              );
+              updateStyleListHandler(message as ExternalMessageUpdateStyleList);
             }
             break;
           default:
@@ -146,6 +144,9 @@ const CoreLayer: React.FC = () => {
 
     switch (activeTab) {
       case "VariableEditor":
+        initVariableEditor();
+        break;
+      case "Instantiater":
         initVariableEditor();
         break;
       case "Shortcut":
@@ -183,9 +184,7 @@ const CoreLayer: React.FC = () => {
     );
   };
 
-  const updateStyleListHandler = (
-    message: ExternalMessageUpdateStyleList
-  ) => {
+  const updateStyleListHandler = (message: ExternalMessageUpdateStyleList) => {
     setStyleList(message.styleList);
   };
 

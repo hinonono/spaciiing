@@ -6,7 +6,6 @@ import * as colors from "../assets/colors";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
 
 import {
-  CollectionExplanationable,
   ColorCollection,
   ColorType,
   EffectCollection,
@@ -142,7 +141,7 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
       generateEffectStyle(m3ElevationDark);
       break;
     case "iosTypographyLarge":
-      generateTextNode(iosTypographyLarge);
+      generateTextStyleNode(iosTypographyLarge);
       break;
     case "iosSystemColorsLight":
       generateColorStyle(iosSystemColors, "light");
@@ -429,583 +428,197 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
 /**
  * 依據Target決定要生成哪個Color Variable
  */
-export function determineGenerateColorVariable(target: InstantiaterTarget) {
+export function determineGenerateColorVariable(
+  target: InstantiaterTarget
+): ColorCollection {
   switch (target) {
     case "iosSystemColorsLight":
-      generateColorVariable(iosSystemColors);
-      break;
+      return iosSystemColors;
     case "iosSystemColorsDark":
-      generateColorVariable(iosSystemColors);
-      break;
+      return iosSystemColors;
     case "iosSystemGrayColorsLight":
-      generateColorVariable(iosSystemGrayColors);
-      break;
+      return iosSystemGrayColors;
     case "iosSystemGrayColorsDark":
-      generateColorVariable(iosSystemGrayColors);
-      break;
+      return iosSystemGrayColors;
     case "m3BaselinePrimary":
-      generateColorVariable(m3BaselinePrimary);
-      break;
+      return m3BaselinePrimary;
     case "m3BaselineSecondary":
-      generateColorVariable(m3BaselineSecondary);
-      break;
+      return m3BaselineSecondary;
     case "m3BaselineTertiary":
-      generateColorVariable(m3BaselineTertiary);
-      break;
+      return m3BaselineTertiary;
     case "m3BaselineNeutral":
-      generateColorVariable(m3BaselineNeutral);
-      break;
+      return m3BaselineNeutral;
     case "m3BaselineError":
-      generateColorVariable(m3BaselineError);
-      break;
+      return m3BaselineError;
     case "antDesignNeutralColorLight":
-      generateColorVariable(antDesignNeutralColor);
-      break;
+      return antDesignNeutralColor;
     case "antDesignNeutralColorDark":
-      generateColorVariable(antDesignNeutralColor);
-      break;
+      return antDesignNeutralColor;
     case "antDesignDustRedLight":
-      generateColorVariable(antDesignDustRed);
-      break;
+      return antDesignDustRed;
     case "antDesignDustRedDark":
-      generateColorVariable(antDesignDustRed);
-      break;
+      return antDesignDustRed;
     case "antDesignVolcanoLight":
-      generateColorVariable(antDesignVolcano);
-      break;
+      return antDesignVolcano;
     case "antDesignVolcanoDark":
-      generateColorVariable(antDesignVolcano);
-      break;
+      return antDesignVolcano;
     case "antDesignSunsetOrangeLight":
-      generateColorVariable(antDesignSunsetOrange);
-      break;
+      return antDesignSunsetOrange;
     case "antDesignSunsetOrangeDark":
-      generateColorVariable(antDesignSunsetOrange);
-      break;
+      return antDesignSunsetOrange;
     case "antDesignCalendulaGoldLight":
-      generateColorVariable(antDesignCalendulaGold);
-      break;
+      return antDesignCalendulaGold;
     case "antDesignCalendulaGoldDark":
-      generateColorVariable(antDesignCalendulaGold);
-      break;
+      return antDesignCalendulaGold;
     case "antDesignSunriseYellowLight":
-      generateColorVariable(antDesignSunriseYellow);
-      break;
+      return antDesignSunriseYellow;
     case "antDesignSunriseYellowDark":
-      generateColorVariable(antDesignSunriseYellow);
-      break;
+      return antDesignSunriseYellow;
     case "antDesignLimeLight":
-      generateColorVariable(antDesignLime);
-      break;
+      return antDesignLime;
     case "antDesignLimeDark":
-      generateColorVariable(antDesignLime);
-      break;
+      return antDesignLime;
     case "antDesignPolarGreenLight":
-      generateColorVariable(antDesignPolarGreen);
-      break;
+      return antDesignPolarGreen;
     case "antDesignPolarGreenDark":
-      generateColorVariable(antDesignPolarGreen);
-      break;
+      return antDesignPolarGreen;
     case "antDesignCyanLight":
-      generateColorVariable(antDesignCyan);
-      break;
+      return antDesignCyan;
     case "antDesignCyanDark":
-      generateColorVariable(antDesignCyan);
-      break;
+      return antDesignCyan;
     case "antDesignDaybreakBlueLight":
-      generateColorVariable(antDesignDaybreakBlue);
-      break;
+      return antDesignDaybreakBlue;
     case "antDesignDaybreakBlueDark":
-      generateColorVariable(antDesignDaybreakBlue);
-      break;
+      return antDesignDaybreakBlue;
     case "antDesignGeekBlueLight":
-      generateColorVariable(antDesignGeekBlue);
-      break;
+      return antDesignGeekBlue;
     case "antDesignGeekBlueDark":
-      generateColorVariable(antDesignGeekBlue);
-      break;
+      return antDesignGeekBlue;
     case "antDesignGoldenPurpleLight":
-      generateColorVariable(antDesignGoldenPurple);
-      break;
+      return antDesignGoldenPurple;
     case "antDesignGoldenPurpleDark":
-      generateColorVariable(antDesignGoldenPurple);
-      break;
+      return antDesignGoldenPurple;
     case "antDesignMagentaLight":
-      generateColorVariable(antDesignMagenta);
-      break;
+      return antDesignMagenta;
     case "antDesignMagentaDark":
-      generateColorVariable(antDesignMagenta);
-      break;
+      return antDesignMagenta;
     case "tailwindSlate":
-      generateColorVariable(tailwindSlate);
-      break;
+      return tailwindSlate;
     case "tailwindGray":
-      generateColorVariable(tailwindGray);
-      break;
+      return tailwindGray;
     case "tailwindZinc":
-      generateColorVariable(tailwindZinc);
-      break;
+      return tailwindZinc;
     case "tailwindNeutral":
-      generateColorVariable(tailwindNeutral);
-      break;
+      return tailwindNeutral;
     case "tailwindStone":
-      generateColorVariable(tailwindStone);
-      break;
+      return tailwindStone;
     case "tailwindRed":
-      generateColorVariable(tailwindRed);
-      break;
+      return tailwindRed;
     case "tailwindOrange":
-      generateColorVariable(tailwindOrange);
-      break;
+      return tailwindOrange;
     case "tailwindAmber":
-      generateColorVariable(tailwindAmber);
-      break;
+      return tailwindAmber;
     case "tailwindYellow":
-      generateColorVariable(tailwindYellow);
-      break;
+      return tailwindYellow;
     case "tailwindLime":
-      generateColorVariable(tailwindLime);
-      break;
+      return tailwindLime;
     case "tailwindGreen":
-      generateColorVariable(tailwindGreen);
-      break;
+      return tailwindGreen;
     case "tailwindEmerald":
-      generateColorVariable(tailwindEmerald);
-      break;
+      return tailwindEmerald;
     case "tailwindTeal":
-      generateColorVariable(tailwindTeal);
-      break;
+      return tailwindTeal;
     case "tailwindCyan":
-      generateColorVariable(tailwindCyan);
-      break;
+      return tailwindCyan;
     case "tailwindSky":
-      generateColorVariable(tailwindSky);
-      break;
+      return tailwindSky;
     case "tailwindBlue":
-      generateColorVariable(tailwindBlue);
-      break;
+      return tailwindBlue;
     case "tailwindIndigo":
-      generateColorVariable(tailwindIndigo);
-      break;
+      return tailwindIndigo;
     case "tailwindViolet":
-      generateColorVariable(tailwindViolet);
-      break;
+      return tailwindViolet;
     case "tailwindPurple":
-      generateColorVariable(tailwindPurple);
-      break;
+      return tailwindPurple;
     case "tailwindFuchsia":
-      generateColorVariable(tailwindFuchsia);
-      break;
+      return tailwindFuchsia;
     case "tailwindPink":
-      generateColorVariable(tailwindPink);
-      break;
+      return tailwindPink;
     case "tailwindRose":
-      generateColorVariable(tailwindRose);
-      break;
+      return tailwindRose;
     case "bootstrapBlue":
-      generateColorVariable(bootstrapBlue);
-      break;
+      return bootstrapBlue;
     case "bootstrapIndigo":
-      generateColorVariable(bootstrapIndigo);
-      break;
+      return bootstrapIndigo;
     case "bootstrapPurple":
-      generateColorVariable(bootstrapPurple);
-      break;
+      return bootstrapPurple;
     case "bootstrapPink":
-      generateColorVariable(bootstrapPink);
-      break;
+      return bootstrapPink;
     case "bootstrapRed":
-      generateColorVariable(bootstrapRed);
-      break;
+      return bootstrapRed;
     case "bootstrapOrange":
-      generateColorVariable(bootstrapOrange);
-      break;
+      return bootstrapOrange;
     case "bootstrapYellow":
-      generateColorVariable(bootstrapYellow);
-      break;
+      return bootstrapYellow;
     case "bootstrapGreen":
-      generateColorVariable(bootstrapGreen);
-      break;
+      return bootstrapGreen;
     case "bootstrapTeal":
-      generateColorVariable(bootstrapTeal);
-      break;
+      return bootstrapTeal;
     case "bootstrapCyan":
-      generateColorVariable(bootstrapCyan);
-      break;
+      return bootstrapCyan;
     case "bootstrapGray":
-      generateColorVariable(bootstrapGray);
-      break;
+      return bootstrapGray;
     case "polarisRose":
-      generateColorVariable(polarisRose);
-      break;
+      return polarisRose;
     case "polarisMagenta":
-      generateColorVariable(polarisMagenta);
-      break;
+      return polarisMagenta;
     case "polarisPurple":
-      generateColorVariable(polarisPurple);
-      break;
+      return polarisPurple;
     case "polarisBlue":
-      generateColorVariable(polarisBlue);
-      break;
+      return polarisBlue;
     case "polarisAzure":
-      generateColorVariable(polarisAzure);
-      break;
+      return polarisAzure;
     case "polarisTeal":
-      generateColorVariable(polarisTeal);
-      break;
+      return polarisTeal;
     case "polarisCyan":
-      generateColorVariable(polarisCyan);
-      break;
+      return polarisCyan;
     case "polarisGreen":
-      generateColorVariable(polarisGreen);
-      break;
+      return polarisGreen;
     case "polarisLime":
-      generateColorVariable(polarisLime);
-      break;
+      return polarisLime;
     case "polarisYellow":
-      generateColorVariable(polarisYellow);
-      break;
+      return polarisYellow;
     case "polarisOrange":
-      generateColorVariable(polarisOrange);
-      break;
+      return polarisOrange;
     case "polarisRed":
-      generateColorVariable(polarisRed);
-      break;
+      return polarisRed;
     case "carbonBlue":
-      generateColorVariable(carbonBlue);
-      break;
+      return carbonBlue;
     case "carbonCoolGray":
-      generateColorVariable(carbonCoolGray);
-      break;
+      return carbonCoolGray;
     case "carbonCyan":
-      generateColorVariable(carbonCyan);
-      break;
+      return carbonCyan;
     case "carbonGray":
-      generateColorVariable(carbonGray);
-      break;
+      return carbonGray;
     case "carbonGreen":
-      generateColorVariable(carbonGreen);
-      break;
+      return carbonGreen;
     case "carbonMagenta":
-      generateColorVariable(carbonMagenta);
-      break;
+      return carbonMagenta;
     case "carbonOrange":
-      generateColorVariable(carbonOrange);
-      break;
+      return carbonOrange;
     case "carbonPurple":
-      generateColorVariable(carbonPurple);
-      break;
+      return carbonPurple;
     case "carbonRed":
-      generateColorVariable(carbonRed);
-      break;
+      return carbonRed;
     case "carbonTeal":
-      generateColorVariable(carbonTeal);
-      break;
+      return carbonTeal;
     case "carbonWarmGray":
-      generateColorVariable(carbonWarmGray);
-      break;
+      return carbonWarmGray;
     case "carbonYellow":
-      generateColorVariable(carbonYellow);
-      break;
+      return carbonYellow;
     default:
       // handle default case
-      break;
-  }
-}
-
-/**
- * 依據Target決定要生成哪個Explanation Text
- */
-export function determineGenerateExplanationText(target: InstantiaterTarget) {
-  switch (target) {
-    case "iosEffectDefaultDropShadow":
-      generateExplanationText(iosDefaultDropShadow);
-      break;
-    case "antDesignDropShadow":
-      generateExplanationText(antDesignDropShadow);
-      break;
-    case "iosTypographyLarge":
-      generateExplanationText(iosTypographyLarge);
-      break;
-    case "iosSystemColorsLight":
-      generateExplanationText(iosSystemColors);
-      break;
-    case "iosSystemColorsDark":
-      generateExplanationText(iosSystemColors);
-      break;
-    case "iosSystemGrayColorsLight":
-      generateExplanationText(iosSystemGrayColors);
-      break;
-    case "iosSystemGrayColorsDark":
-      generateExplanationText(iosSystemGrayColors);
-      break;
-    case "m3BaselinePrimary":
-      generateExplanationText(m3BaselinePrimary);
-      break;
-    case "m3BaselineSecondary":
-      generateExplanationText(m3BaselineSecondary);
-      break;
-    case "m3BaselineTertiary":
-      generateExplanationText(m3BaselineTertiary);
-      break;
-    case "m3BaselineNeutral":
-      generateExplanationText(m3BaselineNeutral);
-      break;
-    case "m3BaselineError":
-      generateExplanationText(m3BaselineError);
-      break;
-    case "antDesignNeutralColorLight":
-      generateExplanationText(antDesignNeutralColor);
-      break;
-    case "antDesignNeutralColorDark":
-      generateExplanationText(antDesignNeutralColor);
-      break;
-    case "antDesignDustRedLight":
-      generateExplanationText(antDesignDustRed);
-      break;
-    case "antDesignDustRedDark":
-      generateExplanationText(antDesignDustRed);
-      break;
-    case "antDesignVolcanoLight":
-      generateExplanationText(antDesignVolcano);
-      break;
-    case "antDesignVolcanoDark":
-      generateExplanationText(antDesignVolcano);
-      break;
-    case "antDesignSunsetOrangeLight":
-      generateExplanationText(antDesignSunsetOrange);
-      break;
-    case "antDesignSunsetOrangeDark":
-      generateExplanationText(antDesignSunsetOrange);
-      break;
-    case "antDesignCalendulaGoldLight":
-      generateExplanationText(antDesignCalendulaGold);
-      break;
-    case "antDesignCalendulaGoldDark":
-      generateExplanationText(antDesignCalendulaGold);
-      break;
-    case "antDesignSunriseYellowLight":
-      generateExplanationText(antDesignSunriseYellow);
-      break;
-    case "antDesignSunriseYellowDark":
-      generateExplanationText(antDesignSunriseYellow);
-      break;
-    case "antDesignLimeLight":
-      generateExplanationText(antDesignLime);
-      break;
-    case "antDesignLimeDark":
-      generateExplanationText(antDesignLime);
-      break;
-    case "antDesignPolarGreenLight":
-      generateExplanationText(antDesignPolarGreen);
-      break;
-    case "antDesignPolarGreenDark":
-      generateExplanationText(antDesignPolarGreen);
-      break;
-    case "antDesignCyanLight":
-      generateExplanationText(antDesignCyan);
-      break;
-    case "antDesignCyanDark":
-      generateExplanationText(antDesignCyan);
-      break;
-    case "antDesignDaybreakBlueLight":
-      generateExplanationText(antDesignDaybreakBlue);
-      break;
-    case "antDesignDaybreakBlueDark":
-      generateExplanationText(antDesignDaybreakBlue);
-      break;
-    case "antDesignGeekBlueLight":
-      generateExplanationText(antDesignGeekBlue);
-      break;
-    case "antDesignGeekBlueDark":
-      generateExplanationText(antDesignGeekBlue);
-      break;
-    case "antDesignGoldenPurpleLight":
-      generateExplanationText(antDesignGoldenPurple);
-      break;
-    case "antDesignGoldenPurpleDark":
-      generateExplanationText(antDesignGoldenPurple);
-      break;
-    case "antDesignMagentaLight":
-      generateExplanationText(antDesignMagenta);
-      break;
-    case "antDesignMagentaDark":
-      generateExplanationText(antDesignMagenta);
-      break;
-    case "tailwindSlate":
-      generateExplanationText(tailwindSlate);
-      break;
-    case "tailwindGray":
-      generateExplanationText(tailwindGray);
-      break;
-    case "tailwindZinc":
-      generateExplanationText(tailwindZinc);
-      break;
-    case "tailwindNeutral":
-      generateExplanationText(tailwindNeutral);
-      break;
-    case "tailwindStone":
-      generateExplanationText(tailwindStone);
-      break;
-    case "tailwindRed":
-      generateExplanationText(tailwindRed);
-      break;
-    case "tailwindOrange":
-      generateExplanationText(tailwindOrange);
-      break;
-    case "tailwindAmber":
-      generateExplanationText(tailwindAmber);
-      break;
-    case "tailwindYellow":
-      generateExplanationText(tailwindYellow);
-      break;
-    case "tailwindLime":
-      generateExplanationText(tailwindLime);
-      break;
-    case "tailwindGreen":
-      generateExplanationText(tailwindGreen);
-      break;
-    case "tailwindEmerald":
-      generateExplanationText(tailwindEmerald);
-      break;
-    case "tailwindTeal":
-      generateExplanationText(tailwindTeal);
-      break;
-    case "tailwindCyan":
-      generateExplanationText(tailwindCyan);
-      break;
-    case "tailwindSky":
-      generateExplanationText(tailwindSky);
-      break;
-    case "tailwindBlue":
-      generateExplanationText(tailwindBlue);
-      break;
-    case "tailwindIndigo":
-      generateExplanationText(tailwindIndigo);
-      break;
-    case "tailwindViolet":
-      generateExplanationText(tailwindViolet);
-      break;
-    case "tailwindPurple":
-      generateExplanationText(tailwindPurple);
-      break;
-    case "tailwindFuchsia":
-      generateExplanationText(tailwindFuchsia);
-      break;
-    case "tailwindPink":
-      generateExplanationText(tailwindPink);
-      break;
-    case "tailwindRose":
-      generateExplanationText(tailwindRose);
-      break;
-    case "bootstrapBlue":
-      generateExplanationText(bootstrapBlue);
-      break;
-    case "bootstrapIndigo":
-      generateExplanationText(bootstrapIndigo);
-      break;
-    case "bootstrapPurple":
-      generateExplanationText(bootstrapPurple);
-      break;
-    case "bootstrapPink":
-      generateExplanationText(bootstrapPink);
-      break;
-    case "bootstrapRed":
-      generateExplanationText(bootstrapRed);
-      break;
-    case "bootstrapOrange":
-      generateExplanationText(bootstrapOrange);
-      break;
-    case "bootstrapYellow":
-      generateExplanationText(bootstrapYellow);
-      break;
-    case "bootstrapGreen":
-      generateExplanationText(bootstrapGreen);
-      break;
-    case "bootstrapTeal":
-      generateExplanationText(bootstrapTeal);
-      break;
-    case "bootstrapCyan":
-      generateExplanationText(bootstrapCyan);
-      break;
-    case "bootstrapGray":
-      generateExplanationText(bootstrapGray);
-      break;
-    case "polarisRose":
-      generateExplanationText(polarisRose);
-      break;
-    case "polarisMagenta":
-      generateExplanationText(polarisMagenta);
-      break;
-    case "polarisPurple":
-      generateExplanationText(polarisPurple);
-      break;
-    case "polarisBlue":
-      generateExplanationText(polarisBlue);
-      break;
-    case "polarisAzure":
-      generateExplanationText(polarisAzure);
-      break;
-    case "polarisTeal":
-      generateExplanationText(polarisTeal);
-      break;
-    case "polarisCyan":
-      generateExplanationText(polarisCyan);
-      break;
-    case "polarisGreen":
-      generateExplanationText(polarisGreen);
-      break;
-    case "polarisLime":
-      generateExplanationText(polarisLime);
-      break;
-    case "polarisYellow":
-      generateExplanationText(polarisYellow);
-      break;
-    case "polarisOrange":
-      generateExplanationText(polarisOrange);
-      break;
-    case "polarisRed":
-      generateExplanationText(polarisRed);
-      break;
-    case "carbonBlue":
-      generateExplanationText(carbonBlue);
-      break;
-    case "carbonCoolGray":
-      generateExplanationText(carbonCoolGray);
-      break;
-    case "carbonCyan":
-      generateExplanationText(carbonCyan);
-      break;
-    case "carbonGray":
-      generateExplanationText(carbonGray);
-      break;
-    case "carbonGreen":
-      generateExplanationText(carbonGreen);
-      break;
-    case "carbonMagenta":
-      generateExplanationText(carbonMagenta);
-      break;
-    case "carbonOrange":
-      generateExplanationText(carbonOrange);
-      break;
-    case "carbonPurple":
-      generateExplanationText(carbonPurple);
-      break;
-    case "carbonRed":
-      generateExplanationText(carbonRed);
-      break;
-    case "carbonTeal":
-      generateExplanationText(carbonTeal);
-      break;
-    case "carbonWarmGray":
-      generateExplanationText(carbonWarmGray);
-      break;
-    case "carbonYellow":
-      generateExplanationText(carbonYellow);
-      break;
-    default:
-      // handle default case
-      break;
+      throw new Error("Unknown target");
   }
 }
 
@@ -1019,49 +632,73 @@ export function instantiateTarget(message: MessageInstantiater) {
       if (message.form == "style") {
         determineGenerateColorStyle(target);
       } else {
-        determineGenerateColorVariable(target);
+        const collectionToBeUse = determineGenerateColorVariable(target);
+        if (!message.variableCollectionId) {
+          throw new Error("variableCollectionId is required");
+        }
+        if (!message.newCollectionName) {
+          throw new Error("newCollectionName is required");
+        }
+        generateColorVariable(
+          collectionToBeUse,
+          message.newCollectionName,
+          message.variableCollectionId
+        );
       }
     } else if (message.type == "explanation") {
-      determineGenerateExplanationText(target);
+      // determineGenerateExplanationText(target);
     }
   });
 }
 
-// Shared state to track if the collection is already created
-let isColorsCollectionCreated = false;
+async function generateColorVariable(
+  collection: ColorCollection,
+  newCollectionName: string,
+  variableCollectionId: string
+) {
+  let variableCollection: VariableCollection;
 
-// Define the function
-async function generateColorVariable(collection: ColorCollection) {
-  // Create a new variable collection
-  const variableCollections =
-    await figma.variables.getLocalVariableCollectionsAsync();
+  if (variableCollectionId === "new") {
+    const newCollection =
+      figma.variables.createVariableCollection(newCollectionName);
+    variableCollection = newCollection;
+  } else {
+    const variableCollections =
+      await figma.variables.getLocalVariableCollectionsAsync();
 
-  // Find the collection named "Colors"
-  let variableCollection = variableCollections.find(
-    (vc) => vc.name === "Colors"
-  );
-
-  // If the collection does not exist, create one
-  if (!variableCollection) {
-    if (!isColorsCollectionCreated) {
-      variableCollection = figma.variables.createVariableCollection("Colors");
-      isColorsCollectionCreated = true;
-    } else {
-      // Re-fetch the collections to ensure the collection is created by another instance
-      const updatedVariableCollections =
-        await figma.variables.getLocalVariableCollectionsAsync();
-      variableCollection = updatedVariableCollections.find(
-        (vc) => vc.name === "Colors"
+    // Find the collection named "Colors"
+    const collection = variableCollections.find(
+      (vc) => vc.id === variableCollectionId
+    );
+    if (!collection) {
+      throw new Error(
+        "Failed to find variable collection with id: " + variableCollectionId
       );
     }
+    variableCollection = collection;
   }
 
+  // If the collection does not exist, create one
+  // if (!variableCollection) {
+  //   if (!isColorsCollectionCreated) {
+  //     variableCollection = figma.variables.createVariableCollection("Colors");
+  //     isColorsCollectionCreated = true;
+  //   } else {
+  //     // Re-fetch the collections to ensure the collection is created by another instance
+  //     const updatedVariableCollections =
+  //       await figma.variables.getLocalVariableCollectionsAsync();
+  //     variableCollection = updatedVariableCollections.find(
+  //       (vc) => vc.name === "Colors"
+  //     );
+  //   }
+  // }
+
   // Ensure variableCollection is defined
-  if (!variableCollection) {
-    throw new Error(
-      'Failed to create or find the "Colors" variable collection.'
-    );
-  }
+  // if (!variableCollection) {
+  //   throw new Error(
+  //     "Failed to find variable collection with id: " + variableCollectionId
+  //   );
+  // }
 
   // Check if "Light" and "Dark" modes exist, and add them if they don't
   let lightModeId = variableCollection.modes.find(
@@ -1113,84 +750,6 @@ async function generateColorVariable(collection: ColorCollection) {
   figma.notify(`✅ Collection "${collection.name}" created successfully.`);
 }
 
-/**
- * @deprecated This function is deprecated and will be removed in future versions.
- */
-async function generateExplanationText(collection: CollectionExplanationable) {
-  const viewport = util.getCurrentViewport();
-
-  // Load all necessary fonts
-  const fontsToLoad = [
-    { family: "Inter", style: "Regular" },
-    { family: "Inter", style: "Semi Bold" },
-  ];
-  await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
-
-  // create explanation items
-  const explanationItems: FrameNode[] = [];
-  if (util.isColorCollection(collection)) {
-    // collection.members.forEach((member) => {
-    //   const explanationItem = util.createExplanationItem(
-    //     member.name,
-    //     member.description,
-    //     { family: "Inter", style: "Regular" },
-    //     "color",
-    //     {
-    //       r: member.color.light.r / 255,
-    //       g: member.color.light.g / 255,
-    //       b: member.color.light.b / 255,
-    //     }
-    //   );
-    //   explanationItem.primaryAxisSizingMode = "AUTO";
-    //   explanationItem.counterAxisSizingMode = "AUTO";
-
-    //   explanationItems.push(explanationItem);
-    // });
-  } else {
-    // collection.members.forEach((member) => {
-    //   const explanationItem = util.createExplanationItem(
-    //     member.name,
-    //     member.description,
-    //     { family: "Inter", style: "Regular" },
-    //     "text"
-    //   );
-    //   explanationItem.primaryAxisSizingMode = "AUTO";
-    //   explanationItem.counterAxisSizingMode = "AUTO";
-
-    //   explanationItems.push(explanationItem);
-    // });
-  }
-
-  // create explanation wrapper
-  const explanationTextTitle = `Usage definition of ${collection.brand} - ${collection.name}`;
-  const explanationWrapper = util.createExplanationWrapper(
-    explanationItems,
-    `${collection.brand} - ${collection.name}`,
-    "Usage Definition",
-    { family: "Inter", style: "Semi Bold" }
-  );
-
-  explanationWrapper.fills = [
-    {
-      type: "SOLID",
-      color: { r: 1, g: 1, b: 1 },
-    },
-  ];
-
-  explanationWrapper.name = explanationTextTitle;
-
-  // Set corner radius
-  explanationWrapper.cornerRadius = 16;
-  // Set the width and height to hug contents
-  explanationWrapper.primaryAxisSizingMode = "AUTO";
-  explanationWrapper.counterAxisSizingMode = "AUTO";
-  explanationWrapper.x = viewport.x;
-  explanationWrapper.y = viewport.y;
-
-  figma.currentPage.appendChild(explanationWrapper);
-  figma.currentPage.selection = [explanationWrapper];
-}
-
 function generateColorStyle(collection: ColorCollection, type: ColorType) {
   collection.members.forEach((item) => {
     const style = figma.createPaintStyle();
@@ -1230,7 +789,7 @@ function generateEffectStyle(collection: EffectCollection) {
   });
 }
 
-async function generateTextNode(collection: TypographyCollection) {
+async function generateTextStyleNode(collection: TypographyCollection) {
   const verticalSpacing = 32;
   let currentYPosition = 0;
 
@@ -1244,28 +803,31 @@ async function generateTextNode(collection: TypographyCollection) {
   ];
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
-  const notificationText = figma.createText();
-  notificationText.characters = `Change the typeface of below text layer, then click "Shortcut => Generate Text Style" from plugin.`;
-  notificationText.fontSize = 32;
-  notificationText.x = viewport.x;
-  notificationText.y = currentYPosition;
-  notificationText.fills = [{ type: "SOLID", color: { r: 1, g: 0, b: 0 } }];
+  const notificationText = `Change the typeface of below text layer, then click "Shortcut => Generate Text Style" from plugin.`;
+  const notificationTextNode = util.createTextNode(
+    notificationText,
+    { family: "Inter", style: "Regular" },
+    32,
+    [{ type: "SOLID", color: { r: 1, g: 0, b: 0 } }]
+  );
 
-  currentYPosition += notificationText.height + verticalSpacing;
+  notificationTextNode.x = viewport.x;
+  notificationTextNode.y = currentYPosition;
 
-  for (const item of collection.members) {
-    const textNode = figma.createText();
+  currentYPosition += notificationTextNode.height + verticalSpacing;
 
-    textNode.characters = `${collection.brand} - ${collection.name}/${item.name}`;
-    textNode.fontSize = item.fontSize;
-    textNode.lineHeight = { value: item.fontSize, unit: "PIXELS" };
-
-    // Set font properties
+  collection.members.forEach((item) => {
     const fontWeightStyle =
       item.fontWeight === "regular" ? "Regular" : "Semi Bold";
-    textNode.fontName = { family: "Inter", style: fontWeightStyle };
+    const fontName = { family: "Inter", style: fontWeightStyle };
 
-    textNode.fills = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 } }];
+    const textNode = util.createTextNode(
+      `${collection.brand} - ${collection.name}/${item.name}`,
+      fontName,
+      item.fontSize,
+      undefined,
+      { value: item.fontSize, unit: "PIXELS" }
+    );
 
     // Set the position of the text node
     textNode.x = viewport.x;
@@ -1276,7 +838,7 @@ async function generateTextNode(collection: TypographyCollection) {
 
     figma.currentPage.appendChild(textNode);
     texts.push(textNode);
-  }
+  });
 
   // Select the created text nodes
   figma.currentPage.selection = texts;

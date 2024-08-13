@@ -290,6 +290,8 @@ export interface MessageInstantiater extends Message {
   targets: InstantiaterTarget[];
   type: InstantiaterType;
   form: InstantiateForm;
+  variableCollectionId?: string;
+  newCollectionName?: string;
 }
 
 // Renamer專用的基底屬性
