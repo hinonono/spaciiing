@@ -13,11 +13,11 @@ import {
   ExternalMessage,
   MessageSelectionFilter,
   MessageLicenseManagement,
-  MessageLocalization,
 } from "./types/Message";
 
 import { MessageResize } from "./types/Messages/MessageResize";
 import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";
+import { MessageLocalization } from "./types/Messages/MessageLocalization";
 
 // 功能模組
 import * as init from "./module/init";

@@ -126,9 +126,7 @@ export interface ExternalMessageLicenseManagement extends ExternalMessage {
   action: LicenseManagementAction;
   license: LicenseManagement;
 }
-export interface ExternalMessageLocalization extends ExternalMessage {
-  lang: string;
-}
+
 export interface ExternalMessageUpdateFrame extends ExternalMessage {
   memorizedObjectWidth?: string;
   memorizedObjectHeight?: string;
@@ -362,12 +360,3 @@ export interface MessageLicenseManagement extends Message {
   license: LicenseManagement;
   action: LicenseManagementAction;
 }
-
-// Localization
-export interface MessageLocalization extends Message {
-  lang: string;
-}
-
-
-
-

@@ -4,7 +4,7 @@ import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import { capitalizeWords } from "../module/util";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
-import { MessageLocalization } from "../types/Message";
+import { MessageLocalization } from "../types/Messages/MessageLocalization";
 
 const Setting: React.FC = () => {
   // Context

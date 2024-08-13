@@ -14,7 +14,6 @@ import {
   MessageVirtualProfileWholeObject,
   ModuleType,
   ExternalMessageUpdateCustomCodeExecutionResults,
-  ExternalMessageLocalization,
 } from "./types/Message";
 
 import * as licenseManagementFrontEnd from "./module-frontend/licenseManagementFrontEnd";
@@ -25,6 +24,7 @@ import {
   ExternalMessageUpdatePaintStyleList as ExternalMessageUpdateStyleList,
   MessageStyleIntroducer,
 } from "./types/Messages/MessageStyleIntroducer";
+import { ExternalMessageLocalization } from "./types/Messages/MessageLocalization";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {

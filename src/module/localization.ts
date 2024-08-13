@@ -1,8 +1,8 @@
+import * as util from "./util";
 import {
   ExternalMessageLocalization,
   MessageLocalization,
-} from "../types/Message";
-import * as util from "./util";
+} from "../types/Messages/MessageLocalization";
 
 export async function initLocalization() {
   // 檢查用戶的Client Storage是否有儲存license key
