@@ -1,4 +1,4 @@
-import { MessageResize } from "../types/Message";
+import { MessageResize } from "../types/Messages/MessageResize";
 
 export function reception(message: MessageResize) {
   const { width, height } = message;

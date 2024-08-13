@@ -15,8 +15,9 @@ import {
   MessageLicenseManagement,
   MessageLocalization,
   MessageAspectRatio,
-  MessageResize
 } from "./types/Message";
+
+import { MessageResize } from "./types/Messages/MessageResize";
 
 // 功能模組
 import * as init from "./module/init";

@@ -377,8 +377,3 @@ export interface MessageAspectRatio extends Message {
   widthRatio: number;
   heightRatio: number;
 }
-
-export interface MessageResize extends Message {
-  width: number;
-  height: number;
-}
