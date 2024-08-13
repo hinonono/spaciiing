@@ -1,8 +1,6 @@
 // 屬性
 import {
-  MessageFramer,
   MessageSpaciiing,
-  MessageMemorizer,
   Message,
   MessageShortcut,
   ExternalMessage,
@@ -16,6 +14,8 @@ import { MessageVirtualProfile } from "./types/Messages/MessageVirtualProfile";
 import { MessageVariableEditor } from "./types/Messages/MessageVariableEditor";
 import { MessageInstantiater } from "./types/Messages/MessageInstantiater";
 import { MessageLoremGenerator } from "./types/Messages/MessageLoremGenerator";
+import { MessageFramer } from "./types/Messages/MessageFramer";
+import { MessageMemorizer } from "./types/Messages/MessageMemorizer";
 
 // 功能模組
 import * as init from "./module/init";

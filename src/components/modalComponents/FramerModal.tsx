@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { SvgVertical, SvgHorizontal } from "../../assets/icons";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
-import { MessageFramer, FramerMode } from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
+import { FramerMode, MessageFramer } from "../../types/Messages/MessageFramer";
 
 interface FramerModalProps {
   showFramerModal: boolean;
@@ -93,7 +93,11 @@ const FramerModal: React.FC<FramerModalProps> = ({
           </div>
         </div>
         <div className="mt-xxsmall"></div>
-        <FigmaButton title={t("module:apply")} id={"eq-apply"} onClick={applyFramer} />
+        <FigmaButton
+          title={t("module:apply")}
+          id={"eq-apply"}
+          onClick={applyFramer}
+        />
       </div>
     </Modal>
   );

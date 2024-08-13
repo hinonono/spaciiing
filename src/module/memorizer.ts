@@ -1,5 +1,8 @@
 import * as util from "./util";
-import { ExternalMessageUpdateFrame, MessageMemorizer } from "../types/Message";
+import {
+  ExternalMessageUpdateFrame,
+  MessageMemorizer,
+} from "../types/Messages/MessageMemorizer";
 
 export function useQuickAction(message: MessageMemorizer) {
   switch (message.action) {

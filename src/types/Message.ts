@@ -38,27 +38,9 @@ export interface MessageSpaciiing extends Message {
   addAutolayout: boolean;
 }
 
-// Framer模組專用的基底屬性
-export type FramerMode = "topAndBottom" | "leftAndRight" | "all";
-export interface MessageFramer extends Message {
-  mode: FramerMode;
-}
 
-// Memorizer模組專用的基底屬性
-export type MemorizerMode = "memorize" | "apply";
-export type AvailableMemorizeOptions = "width" | "height" | "name";
-export type MemorizerAction =
-  | "newFrame"
-  | "setResizableNodeWidth"
-  | "setResizableNodeHeight"
-  | "setSelectionToMemorizedName"
-  | "memorizeObjectSize"
-  | "memorizeObjectWidth"
-  | "memorizeObjectHeight"
-  | "memorizedObjectName";
-export interface MessageMemorizer extends Message {
-  action: MemorizerAction;
-}
+
+
 
 export type ShortcutAction =
   | "makeFrameOverlay"
@@ -118,11 +100,7 @@ export interface ExternalMessage extends Message {
 
 // License
 
-export interface ExternalMessageUpdateFrame extends ExternalMessage {
-  memorizedObjectWidth?: string;
-  memorizedObjectHeight?: string;
-  memorizedName?: string;
-}
+
 export interface ExternalMessageUpdateCustomSpacing extends ExternalMessage {
   spacing: string;
 }

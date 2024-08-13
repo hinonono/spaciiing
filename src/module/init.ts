@@ -1,5 +1,5 @@
 import { ExternalMessageUpdateCustomSpacing } from "./../types/Message";
-import { ExternalMessageUpdateFrame } from "../types/Message";
+import { ExternalMessageUpdateFrame } from "../types/Messages/MessageMemorizer";
 import * as util from "./util";
 import * as licenseManagement from "./licenseManagement";
 import * as localization from "./localization";

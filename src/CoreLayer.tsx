@@ -3,7 +3,6 @@ import { useAppContext } from "./AppProvider";
 import {
   ExternalMessage,
   ExternalMessageUpdateCustomSpacing,
-  ExternalMessageUpdateFrame,
   ExternalMessageUpdateMagicalObject,
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
@@ -26,6 +25,7 @@ import {
 } from "./types/Messages/MessageStyleIntroducer";
 import { ExternalMessageLocalization } from "./types/Messages/MessageLocalization";
 import { ExternalMessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
+import { ExternalMessageUpdateFrame } from "./types/Messages/MessageMemorizer";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
