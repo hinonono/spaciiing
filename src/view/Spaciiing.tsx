@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton } from "../components";
-import {
-  ExternalMessageUpdateCustomSpacing,
-  MessageSpaciiing,
-  SpacingMode,
-} from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import { SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
+import {
+  SpacingMode,
+  ExternalMessageUpdateCustomSpacing,
+  MessageSpaciiing,
+} from "../types/Messages/MessageSpaciiing";
 
 const SpacingValue: {
   nameKey: string;

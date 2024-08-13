@@ -1,5 +1,5 @@
+import { MessageSpaciiing } from "../types/Messages/MessageSpaciiing";
 import * as util from "./util";
-import { MessageSpaciiing } from "../types/Message";
 
 function compareWithAxis(axis: "x" | "y") {
   return (a: SceneNode, b: SceneNode) => {
@@ -81,8 +81,14 @@ export function applySpacingToLayers(
     }
 
     const offset = isVerticalMode
-      ? currentLayerBounds.y + currentLayerBounds.height + spacing - nextLayerBounds.y
-      : currentLayerBounds.x + currentLayerBounds.width + spacing - nextLayerBounds.x;
+      ? currentLayerBounds.y +
+        currentLayerBounds.height +
+        spacing -
+        nextLayerBounds.y
+      : currentLayerBounds.x +
+        currentLayerBounds.width +
+        spacing -
+        nextLayerBounds.x;
 
     if (isVerticalMode) {
       nextLayer.y += offset;

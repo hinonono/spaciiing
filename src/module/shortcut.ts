@@ -1,15 +1,8 @@
-import { MessageShortcutFindAndReplace } from "./../types/Message";
 import * as util from "./util";
-import {
-  ExternalMessageUpdateMagicalObject,
-  MessageShortcut,
-  MessageShortcutGenerateIconTemplate,
-  MessageShortcutGenerateMagicalObjectMember,
-  MessageShortcutUpdateMagicalObject,
-  SpacingMode,
-} from "../types/Message";
 import * as spaciiing from "./spaciiing";
 import { MagicalObject, MagicalObjectMembers } from "../types/MagicalObject";
+import { ExternalMessageUpdateMagicalObject, MessageShortcut, MessageShortcutFindAndReplace, MessageShortcutGenerateIconTemplate, MessageShortcutGenerateMagicalObjectMember, MessageShortcutUpdateMagicalObject } from "../types/Messages/MessageShortcut";
+import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {

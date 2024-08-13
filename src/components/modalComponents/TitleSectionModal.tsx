@@ -2,12 +2,9 @@ import React from "react";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
-import {
-  MessageShortcutUpdateMagicalObjectSingle,
-  ShortcutAction,
-} from "../../types/Message";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
+import { ShortcutAction, MessageShortcutUpdateMagicalObjectSingle } from "../../types/Messages/MessageShortcut";
 
 interface TitleSectionModalProps {
   showTitleSectionModal: boolean;

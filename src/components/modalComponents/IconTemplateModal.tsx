@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import SectionTitle from "../SectionTitle";
-import {
-  MessageShortcutGenerateIconTemplate,
-  ShortcutAction,
-} from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
+import { ShortcutAction, MessageShortcutGenerateIconTemplate } from "../../types/Messages/MessageShortcut";
 
 interface IconTemplateModalProps {
   showIconModal: boolean;

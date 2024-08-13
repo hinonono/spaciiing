@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "./AppProvider";
 import {
   ExternalMessage,
-  ExternalMessageUpdateCustomSpacing,
-  ExternalMessageUpdateMagicalObject,
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
   Message,
-  MessageShortcutUpdateMagicalObject,
   ModuleType,
   ExternalMessageUpdateCustomCodeExecutionResults,
 } from "./types/Message";
@@ -26,6 +23,11 @@ import {
 import { ExternalMessageLocalization } from "./types/Messages/MessageLocalization";
 import { ExternalMessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { ExternalMessageUpdateFrame } from "./types/Messages/MessageMemorizer";
+import {
+  ExternalMessageUpdateMagicalObject,
+  MessageShortcutUpdateMagicalObject,
+} from "./types/Messages/MessageShortcut";
+import { ExternalMessageUpdateCustomSpacing } from "./types/Messages/MessageSpaciiing";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {

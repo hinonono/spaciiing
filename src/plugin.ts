@@ -1,8 +1,6 @@
 // 屬性
 import {
-  MessageSpaciiing,
   Message,
-  MessageShortcut,
   ExternalMessage,
 } from "./types/Message";
 
@@ -16,6 +14,8 @@ import { MessageInstantiater } from "./types/Messages/MessageInstantiater";
 import { MessageLoremGenerator } from "./types/Messages/MessageLoremGenerator";
 import { MessageFramer } from "./types/Messages/MessageFramer";
 import { MessageMemorizer } from "./types/Messages/MessageMemorizer";
+import { MessageSpaciiing } from "./types/Messages/MessageSpaciiing";
+import { MessageShortcut } from "./types/Messages/MessageShortcut";
 
 // 功能模組
 import * as init from "./module/init";

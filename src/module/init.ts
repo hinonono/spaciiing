@@ -1,8 +1,8 @@
-import { ExternalMessageUpdateCustomSpacing } from "./../types/Message";
 import { ExternalMessageUpdateFrame } from "../types/Messages/MessageMemorizer";
 import * as util from "./util";
 import * as licenseManagement from "./licenseManagement";
 import * as localization from "./localization";
+import { ExternalMessageUpdateCustomSpacing } from "../types/Messages/MessageSpaciiing";
 
 export async function init() {
   // 檢查License狀態
@@ -50,7 +50,6 @@ export async function init() {
   }
 
   if (storedSpacing != undefined) {
-    // console.log("customSpacing = " + storedSpacing);
     const message: ExternalMessageUpdateCustomSpacing = {
       spacing: storedSpacing,
       module: "Spaciiing",

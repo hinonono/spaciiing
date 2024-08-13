@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { TitleBar, FigmaButton, SectionTitle } from "../components";
-import {
-  MessageShortcutGenerateMagicalObjectMember,
-  ShortcutAction,
-} from "../types/Message";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import {
@@ -17,6 +13,10 @@ import {
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import {
+  ShortcutAction,
+  MessageShortcutGenerateMagicalObjectMember,
+} from "../types/Messages/MessageShortcut";
 
 const Shortcut: React.FC = () => {
   const { t } = useTranslation(["module"]);

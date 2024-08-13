@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import SectionTitle from "../SectionTitle";
-import {
-  MessageShortcutFindAndReplace,
-  ShortcutAction,
-} from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
+import { ShortcutAction, MessageShortcutFindAndReplace } from "../../types/Messages/MessageShortcut";
 
 interface FindAndReplaceModalProps {
   showFindAndReplaceModal: boolean;
