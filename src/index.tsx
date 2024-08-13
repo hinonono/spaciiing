@@ -3,7 +3,7 @@ import App from "./App";
 import "./assets/figma-plugin-ds.css";
 import "./App.css";
 import { createRoot } from "react-dom/client";
-import { Message } from "./types/Message";
+import { Message } from "./types/Messages/Message";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 

@@ -1,4 +1,4 @@
-import { Message } from "../Message";
+import { Message } from "./Message";
 
 // Instantiater專用的基底屬性
 export type InstantiaterType = "actual" | "explanation";

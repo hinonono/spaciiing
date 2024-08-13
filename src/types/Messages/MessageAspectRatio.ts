@@ -1,5 +1,5 @@
 import { Dimension } from "../General";
-import { Message } from "../Message";
+import { Message } from "./Message";
 
 export interface MessageAspectRatio extends Message {
   lockedDimension: Dimension;

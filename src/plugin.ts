@@ -1,5 +1,5 @@
 // 屬性
-import { Message } from "./types/Message";
+import { Message } from "./types/Messages/Message";
 
 import { MessageResize } from "./types/Messages/MessageResize";
 import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";

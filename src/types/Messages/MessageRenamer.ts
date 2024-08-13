@@ -1,4 +1,4 @@
-import { Message } from "../Message";
+import { Message } from "./Message";
 import { NodeRenamable } from "../NodeRenamable";
 
 // Renamer專用的基底屬性

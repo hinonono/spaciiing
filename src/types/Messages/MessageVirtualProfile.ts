@@ -1,4 +1,4 @@
-import { Message } from "../Message";
+import { Message } from "./Message";
 import { VirtualProfile, VirtualProfileGroup } from "../VirtualProfile";
 import { ExternalMessage } from "./ExternalMessage";
 

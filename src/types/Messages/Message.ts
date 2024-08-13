@@ -1,4 +1,4 @@
-import { Module } from "./Module";
+import { Module } from "../Module";
 
 // 訊息的基底屬性
 export interface Message {
@@ -12,5 +12,3 @@ type MessagePhase = "Init" | "Actual" | "WillEnd";
 
 // 訊息的方向
 type MessageDirection = "Inner" | "Outer";
-
-

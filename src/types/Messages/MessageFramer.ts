@@ -1,4 +1,4 @@
-import { Message } from "../Message";
+import { Message } from "./Message";
 
 // Framer模組專用的基底屬性
 export type FramerMode = "topAndBottom" | "leftAndRight" | "all";

@@ -1,4 +1,4 @@
-import { Message } from "../Message";
+import { Message } from "./Message";
 
 // Lorem Generator專用的基底屬性
 export type LoremSupportedLang = "zh-tw" | "en";

@@ -1,4 +1,4 @@
-import { Message } from "../Message";
+import { Message } from "./Message";
 import { NodeFilterable } from "../NodeFilterable";
 
 // Selection Filter 專用的基底屬性
