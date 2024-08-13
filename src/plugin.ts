@@ -1,8 +1,5 @@
 // 屬性
-import {
-  Message,
-  ExternalMessage,
-} from "./types/Message";
+import { Message } from "./types/Message";
 
 import { MessageResize } from "./types/Messages/MessageResize";
 import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";
@@ -38,6 +35,7 @@ import * as styleIntroducer from "./module/styleIntroducer";
 import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
 import { MessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { MessageRenamer } from "./types/Messages/MessageRenamer";
+import { ExternalMessage } from "./types/Messages/ExternalMessage";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(380, 500);

@@ -1,5 +1,6 @@
 import { StyleListItemFrontEnd, StyleSelection } from "../General";
-import { ExternalMessage, Message } from "../Message";
+import { Message } from "../Message";
+import { ExternalMessage } from "./ExternalMessage";
 
 export type StyleMode = "COLOR" | "EFFECT" | "TEXT";
 export type StyleForm = "STYLE" | "VARIABLE";

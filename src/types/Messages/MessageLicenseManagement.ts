@@ -1,5 +1,6 @@
 import { LicenseManagement } from "../LicenseManagement";
-import { ExternalMessage, Message } from "../Message";
+import {  Message } from "../Message";
+import { ExternalMessage } from "./ExternalMessage";
 
 export type LicenseManagementAction = "UPDATE" | "VERIFY";
 

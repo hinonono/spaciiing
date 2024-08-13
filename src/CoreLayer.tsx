@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "./AppProvider";
-import { ExternalMessage, Message } from "./types/Message";
+import { Message } from "./types/Message";
+import { ExternalMessage } from "./types/Messages/ExternalMessage";
 import {
   ExternalMessageUpdateVirtualProfile,
   MessageVirtualProfileWholeObject,

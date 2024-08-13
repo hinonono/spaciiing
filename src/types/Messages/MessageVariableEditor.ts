@@ -1,4 +1,5 @@
-import { ExternalMessage, Message } from "../Message";
+import { Message } from "../Message";
+import { ExternalMessage } from "./ExternalMessage";
 
 // Variable Editor專用的基底屬性
 type VariableEditorIntent = "executeCode" | "getAvailableMode";

@@ -1,4 +1,5 @@
-import { ExternalMessage, Message } from "../Message";
+import { Message } from "../Message";
+import { ExternalMessage } from "./ExternalMessage";
 
 // Spaciiing模組專用的基底屬性
 export type SpacingMode = "horizontal" | "vertical";

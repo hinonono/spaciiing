@@ -1,5 +1,6 @@
-import { ExternalMessage, Message } from "../Message";
+import { Message } from "../Message";
 import { VirtualProfile, VirtualProfileGroup } from "../VirtualProfile";
+import { ExternalMessage } from "./ExternalMessage";
 
 // Virtual Profile 專用的基底屬性
 export interface MessageVirtualProfile extends Message {}
