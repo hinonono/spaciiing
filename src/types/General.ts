@@ -1,4 +1,4 @@
-export interface PaintStyleFrontEnd {
+export interface StyleListItemFrontEnd {
   id: string;
   name: string;
 }

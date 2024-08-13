@@ -1,10 +1,13 @@
-import { PaintStyleFrontEnd, StyleSelection } from "../General";
+import { StyleListItemFrontEnd, StyleSelection } from "../General";
 import { ExternalMessage, Message } from "../Message";
 
+export type StyleMode = "COLOR" | "EFFECT" | "TEXT";
+
 export interface MessageStyleIntroducer extends Message {
-  styleSelection: StyleSelection;
+  styleSelection?: StyleSelection;
+  styleMode: StyleMode;
 }
 
 export interface ExternalMessageUpdatePaintStyleList extends ExternalMessage {
-  paintStyleList: PaintStyleFrontEnd[];
+  styleList: StyleListItemFrontEnd[];
 }

@@ -101,7 +101,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
             />
           )}
         </div>
-        <div className="flex align-items-center flex-justify-center font-size-small">
+        <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
           {currentPath.length == 0
             ? "Home"
             : currentPath[currentPath.length - 1]}

@@ -1,21 +1,23 @@
-import { PaintStyleFrontEnd } from "../types/General";
+import { StyleListItemFrontEnd } from "../types/General";
 import {
   ExternalMessageUpdatePaintStyleList,
   MessageStyleIntroducer,
+  StyleMode,
 } from "../types/Messages/MessageStyleIntroducer";
 import * as util from "./util";
 
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
-    const paintStyleList = await getPaintStyleList();
-    const message: ExternalMessageUpdatePaintStyleList = {
+    const styleList = await getStyleList(message.styleMode);
+
+    const externalMessage: ExternalMessageUpdatePaintStyleList = {
       module: "StyleIntroducer",
-      mode: "UpdatePaintStyleList",
-      paintStyleList: paintStyleList,
+      mode: "UpdateStyleList",
+      styleList: styleList,
       direction: "Outer",
       phase: "Init",
     };
-    util.sendMessageBack(message);
+    util.sendMessageBack(externalMessage);
   }
 
   if (message.phase === "Actual") {
@@ -23,17 +25,36 @@ export const reception = async (message: MessageStyleIntroducer) => {
   }
 };
 
-async function getPaintStyleList(): Promise<PaintStyleFrontEnd[]> {
-  const paintStyleList = await figma.getLocalPaintStylesAsync();
+async function getStyleList(
+  styleType: StyleMode
+): Promise<StyleListItemFrontEnd[]> {
+  let styleList;
+  switch (styleType) {
+    case "COLOR":
+      styleList = await figma.getLocalPaintStylesAsync();
+      break;
+    case "TEXT":
+      styleList = await figma.getLocalTextStylesAsync();
+      break;
+    case "EFFECT":
+      styleList = await figma.getLocalEffectStylesAsync();
+      break;
+    default:
+      throw new Error("Invalid style type");
+  }
 
-  return paintStyleList.map((paintStyle) => ({
-    id: paintStyle.id,
-    name: paintStyle.name,
+  return styleList.map((style) => ({
+    id: style.id,
+    name: style.name,
   }));
 }
 
 async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   const { styleSelection } = message;
+
+  if (!styleSelection) {
+    throw new Error("styleSelection is required");
+  }
   const { title, scopes } = styleSelection;
 
   const paintStyleList = await figma.getLocalPaintStylesAsync();

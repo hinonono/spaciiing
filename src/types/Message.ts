@@ -115,7 +115,7 @@ export type ExternalMode =
   | "UpdateCustomCodeExecutionResults"
   | "PullVirtualProfile"
   | "UpdateLicense"
-  | "UpdatePaintStyleList";
+  | "UpdateStyleList";
 export interface ExternalMessage extends Message {
   mode?: ExternalMode;
 }

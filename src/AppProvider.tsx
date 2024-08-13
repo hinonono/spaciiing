@@ -6,7 +6,7 @@ import {
   ExternalVariableMode,
 } from "./types/Message";
 import { LicenseManagement } from "./types/LicenseManagement";
-import { PaintStyleFrontEnd } from "./types/General";
+import { StyleListItemFrontEnd } from "./types/General";
 
 // #region Definition
 interface AppContextType {
@@ -46,8 +46,10 @@ interface AppContextType {
   setShowActivateModal: React.Dispatch<React.SetStateAction<boolean>>;
   customCodeExecutionResults: string[];
   setCustomCodeExecutionResults: React.Dispatch<React.SetStateAction<string[]>>;
-  paintStyleList: PaintStyleFrontEnd[];
-  setPaintStyleList: React.Dispatch<React.SetStateAction<PaintStyleFrontEnd[]>>;
+  styleList: StyleListItemFrontEnd[];
+  setStyleList: React.Dispatch<
+    React.SetStateAction<StyleListItemFrontEnd[]>
+  >;
 }
 
 // Create a context with an initial undefined value
@@ -99,7 +101,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [variableCollectionModes, setvariableCollectionModes] = useState<
     ExternalVariableMode[]
   >([]);
-  const [paintStyleList, setPaintStyleList] = useState<PaintStyleFrontEnd[]>(
+  const [styleList, setStyleList] = useState<StyleListItemFrontEnd[]>(
     []
   );
   const [virtualProfileGroups, setVirtualProfileGroups] = useState<
@@ -143,8 +145,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setCustomCodeExecutionResults,
         virtualProfileGroups,
         setVirtualProfileGroups,
-        paintStyleList,
-        setPaintStyleList,
+        styleList,
+        setStyleList,
       }}
     >
       {children}

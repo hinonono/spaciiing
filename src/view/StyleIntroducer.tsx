@@ -4,7 +4,10 @@ import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import Modal from "../components/Modal";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
-import { MessageStyleIntroducer } from "../types/Messages/MessageStyleIntroducer";
+import {
+  MessageStyleIntroducer,
+  StyleMode,
+} from "../types/Messages/MessageStyleIntroducer";
 import { NestedStructure, StyleSelection } from "../types/General";
 import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
@@ -13,8 +16,7 @@ interface StyleIntroducerProps {}
 
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
-  const { licenseManagement, setShowCTSubscribe, paintStyleList } =
-    useAppContext();
+  const { licenseManagement, setShowCTSubscribe, styleList } = useAppContext();
   const { t } = useTranslation(["common", "settings", "license"]);
 
   // 功能說明彈窗
@@ -38,6 +40,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       module: "StyleIntroducer",
       phase: "Actual",
       direction: "Inner",
+      styleMode: mode,
       styleSelection: selectedScopes,
     };
 
@@ -61,10 +64,10 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     useState<NestedStructure | null>(null);
 
   useEffect(() => {
-    console.log("This code is running", paintStyleList);
+    console.log("This code is running", styleList);
 
-    setNestedStructure(buildNestedStructure(paintStyleList));
-  }, [paintStyleList]);
+    setNestedStructure(buildNestedStructure(styleList));
+  }, [styleList]);
 
   const folderNavigator = () => {
     if (!nestedStructure) {
@@ -79,6 +82,24 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       />
     );
   };
+
+  const [mode, setMode] = useState<StyleMode>("COLOR");
+  useEffect(() => {
+    // 當Mode改變時，傳送初始化訊息
+    const message: MessageStyleIntroducer = {
+      styleMode: mode,
+      module: "StyleIntroducer",
+      phase: "Init",
+      direction: "Inner",
+    };
+
+    parent.postMessage(
+      {
+        pluginMessage: message,
+      },
+      "*"
+    );
+  }, [mode]);
 
   return (
     <div>
@@ -99,17 +120,49 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         isProFeature={true}
       />
       <div className="content">
+        <div className="mt-xxsmall">
+          <SectionTitle title={t("module:mode")} />
+          <div className="custom-segmented-control">
+            <input
+              type="radio"
+              name="sp-mode"
+              value="COLOR"
+              id="style-introducer-mode-color"
+              checked={mode === "COLOR"}
+              onChange={() => setMode("COLOR")}
+            />
+            <label htmlFor="style-introducer-mode-color">Color</label>
+            <input
+              type="radio"
+              name="sp-mode"
+              value="EFFECT"
+              id="style-introducer-mode-effect"
+              checked={mode === "EFFECT"}
+              onChange={() => setMode("EFFECT")}
+            />
+            <label htmlFor="style-introducer-mode-effect">Effect</label>
+            <input
+              type="radio"
+              name="sp-mode"
+              value="TEXT"
+              id="style-introducer-mode-text"
+              checked={mode === "TEXT"}
+              onChange={() => setMode("TEXT")}
+            />
+            <label htmlFor="style-introducer-mode-text">Text</label>
+          </div>
+        </div>
         {/* 選項 */}
         <div className="mt-xxsmall">
           <SectionTitle title={"Styles"} />
           <div className="folder-navigator">{folderNavigator()}</div>
-          {/* 按鈕 */}
-          <div className="mt-xsmall">
-            <FigmaButton
-              title={t("module:apply")}
-              onClick={applyStyleIntroducer}
-            />
-          </div>
+        </div>
+        {/* 按鈕 */}
+        <div className="mt-xsmall">
+          <FigmaButton
+            title={t("module:apply")}
+            onClick={applyStyleIntroducer}
+          />
         </div>
       </div>
     </div>

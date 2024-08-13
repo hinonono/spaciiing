@@ -1,6 +1,8 @@
-import { PaintStyleFrontEnd, NestedStructure } from "../types/General";
+import { StyleListItemFrontEnd, NestedStructure } from "../types/General";
 
-export const buildNestedStructure = (data: PaintStyleFrontEnd[]): NestedStructure => {
+export const buildNestedStructure = (
+  data: StyleListItemFrontEnd[]
+): NestedStructure => {
   const root: NestedStructure = {};
 
   data.forEach(({ id, name }) => {

@@ -21,7 +21,10 @@ import * as licenseManagementFrontEnd from "./module-frontend/licenseManagementF
 import SubscriptionModal from "./view/SubscriptionModal";
 import TabBar from "./components/TabBar";
 import { useTranslation } from "react-i18next";
-import { ExternalMessageUpdatePaintStyleList } from "./types/Messages/MessageStyleIntroducer";
+import {
+  ExternalMessageUpdatePaintStyleList as ExternalMessageUpdateStyleList,
+  MessageStyleIntroducer,
+} from "./types/Messages/MessageStyleIntroducer";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
@@ -42,7 +45,7 @@ const CoreLayer: React.FC = () => {
     setCustomCodeExecutionResults,
     virtualProfileGroups,
     setVirtualProfileGroups,
-    setPaintStyleList,
+    setStyleList,
   } = useAppContext();
 
   // #region Handle External Message
@@ -105,12 +108,9 @@ const CoreLayer: React.FC = () => {
             );
             break;
           case "StyleIntroducer":
-            if (
-              message.mode === "UpdatePaintStyleList" &&
-              message.phase == "Init"
-            ) {
-              updatePaintStyleListHandler(
-                message as ExternalMessageUpdatePaintStyleList
+            if (message.mode === "UpdateStyleList" && message.phase == "Init") {
+              updateStyleListHandler(
+                message as ExternalMessageUpdateStyleList
               );
             }
             break;
@@ -167,10 +167,11 @@ const CoreLayer: React.FC = () => {
 
   // #region StyleIntroducer
   const initStyleIntroducer = () => {
-    const message: Message = {
+    const message: MessageStyleIntroducer = {
+      styleSelection: undefined,
+      styleMode: "COLOR",
       module: "StyleIntroducer",
       phase: "Init",
-      direction: "Inner",
     };
 
     parent.postMessage(
@@ -181,10 +182,10 @@ const CoreLayer: React.FC = () => {
     );
   };
 
-  const updatePaintStyleListHandler = (
-    message: ExternalMessageUpdatePaintStyleList
+  const updateStyleListHandler = (
+    message: ExternalMessageUpdateStyleList
   ) => {
-    setPaintStyleList(message.paintStyleList);
+    setStyleList(message.styleList);
   };
 
   // #region Module Handler
