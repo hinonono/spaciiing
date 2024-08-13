@@ -1,5 +1,5 @@
 import React from "react";
-import { ModuleType } from "../types/Message";
+import { Module } from "../types/Module";
 import {
   SvgDefaultStyleLibrary,
   SvgPropertyClipboard,
@@ -31,8 +31,8 @@ import { useAppContext } from "../AppProvider";
 import SaleBannerWrapper from "./SaleBannerWrapper";
 
 interface TabBarProps {
-  activeTab: ModuleType;
-  setActiveTab: (value: React.SetStateAction<ModuleType>) => void;
+  activeTab: Module;
+  setActiveTab: (value: React.SetStateAction<Module>) => void;
 }
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {

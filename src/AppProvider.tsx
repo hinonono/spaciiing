@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { VirtualProfileGroup } from "./types/VirtualProfile";
 import { MagicalObject } from "./types/MagicalObject";
+import { LicenseManagement } from "./types/LicenseManagement";
+import { StyleListItemFrontEnd } from "./types/General";
 import {
   ExternalVariableCollection,
   ExternalVariableMode,
-} from "./types/Message";
-import { LicenseManagement } from "./types/LicenseManagement";
-import { StyleListItemFrontEnd } from "./types/General";
+} from "./types/Messages/MessageVariableEditor";
 
 // #region Definition
 interface AppContextType {
@@ -47,9 +47,7 @@ interface AppContextType {
   customCodeExecutionResults: string[];
   setCustomCodeExecutionResults: React.Dispatch<React.SetStateAction<string[]>>;
   styleList: StyleListItemFrontEnd[];
-  setStyleList: React.Dispatch<
-    React.SetStateAction<StyleListItemFrontEnd[]>
-  >;
+  setStyleList: React.Dispatch<React.SetStateAction<StyleListItemFrontEnd[]>>;
 }
 
 // Create a context with an initial undefined value
@@ -101,9 +99,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [variableCollectionModes, setvariableCollectionModes] = useState<
     ExternalVariableMode[]
   >([]);
-  const [styleList, setStyleList] = useState<StyleListItemFrontEnd[]>(
-    []
-  );
+  const [styleList, setStyleList] = useState<StyleListItemFrontEnd[]>([]);
   const [virtualProfileGroups, setVirtualProfileGroups] = useState<
     VirtualProfileGroup[]
   >([]);

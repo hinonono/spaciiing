@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "./AppProvider";
-import {
-  ExternalMessage,
-  ExternalMessageUpdateVariableCollectionList,
-  ExternalMessageUpdateVariableCollectionMode,
-  Message,
-  ModuleType,
-  ExternalMessageUpdateCustomCodeExecutionResults,
-} from "./types/Message";
+import { ExternalMessage, Message } from "./types/Message";
 import {
   ExternalMessageUpdateVirtualProfile,
   MessageVirtualProfileWholeObject,
@@ -28,11 +21,17 @@ import {
   MessageShortcutUpdateMagicalObject,
 } from "./types/Messages/MessageShortcut";
 import { ExternalMessageUpdateCustomSpacing } from "./types/Messages/MessageSpaciiing";
+import { Module } from "./types/Module";
+import {
+  ExternalMessageUpdateVariableCollectionList,
+  ExternalMessageUpdateVariableCollectionMode,
+  ExternalMessageUpdateCustomCodeExecutionResults,
+} from "./types/Messages/MessageVariableEditor";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<ModuleType>("Spaciiing");
-  const [prevTab, setPrevTab] = useState<ModuleType | null>(null);
+  const [activeTab, setActiveTab] = useState<Module>("Spaciiing");
+  const [prevTab, setPrevTab] = useState<Module | null>(null);
   const { i18n } = useTranslation();
   //
   const {

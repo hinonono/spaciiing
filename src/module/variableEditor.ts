@@ -5,14 +5,12 @@ import {
   CustomVariableCodeNumber,
 } from "../types/CustomVariableCode";
 import {
-  ExternalMessageUpdateCustomCodeExecutionResults,
-  ExternalMessageUpdateVariableCollectionList,
-  ExternalMessageUpdateVariableCollectionMode,
-} from "../types/Message";
-import {
   MessageVariableEditor,
   MessageGetAvailableCollectionMode,
   MessageVariableEditorExecuteCode,
+  ExternalMessageUpdateCustomCodeExecutionResults,
+  ExternalMessageUpdateVariableCollectionList,
+  ExternalMessageUpdateVariableCollectionMode,
 } from "../types/Messages/MessageVariableEditor";
 import * as util from "./util";
 
