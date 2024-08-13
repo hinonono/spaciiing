@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { NestedStructure, StyleSelection } from "../types/General";
 import FigmaButton from "./FigmaButton";
+import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 
 interface FolderNavigatorProps {
+  mode: StyleMode;
   structure: NestedStructure;
   selectedScopes: StyleSelection;
   setSelectedScopes: React.Dispatch<React.SetStateAction<StyleSelection>>;
 }
 
 const FolderNavigator: React.FC<FolderNavigatorProps> = ({
+  mode,
   structure,
   selectedScopes,
   setSelectedScopes,
@@ -21,6 +24,15 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
     console.log("FolderNavigator structure updated:", structure);
     setCurrentStructure(structure); // Update currentStructure when structure prop changes
   }, [structure]);
+
+  useEffect(() => {
+    setCurrentPath([]);
+    setCurrentStructure(structure);
+    setSelectedScopes({
+      title: "",
+      scopes: [],
+    });
+  }, [mode]);
 
   const enterFolder = (folder: string) => {
     if (currentStructure[folder].children) {

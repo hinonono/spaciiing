@@ -24,6 +24,9 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
+  // 模式：色彩、效果、文字
+  const [mode, setMode] = useState<StyleMode>("COLOR");
+
   const applyStyleIntroducer = () => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
@@ -64,10 +67,10 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     useState<NestedStructure | null>(null);
 
   useEffect(() => {
-    console.log("This code is running", styleList);
+    // console.log("This code is running", styleList);
 
     setNestedStructure(buildNestedStructure(styleList));
-  }, [styleList]);
+  }, [styleList, mode]);
 
   const folderNavigator = () => {
     if (!nestedStructure) {
@@ -76,6 +79,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
 
     return (
       <FolderNavigator
+        mode={mode}
         structure={nestedStructure}
         selectedScopes={selectedScopes}
         setSelectedScopes={setSelectedScopes}
@@ -83,8 +87,12 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     );
   };
 
-  const [mode, setMode] = useState<StyleMode>("COLOR");
+  
   useEffect(() => {
+    setSelectedScopes({
+      title: "",
+      scopes: [],
+    });
     // 當Mode改變時，傳送初始化訊息
     const message: MessageStyleIntroducer = {
       styleMode: mode,
