@@ -1,9 +1,9 @@
 import {
-  InstantiateForm,
-  InstantiaterCategory,
-  InstantiaterSupportedBrand,
   InstantiaterTarget,
-} from "../types/Message";
+  InstantiaterSupportedBrand,
+  InstantiaterCategory,
+  InstantiateForm,
+} from "../types/Messages/MessageInstantiater";
 
 type AvailableOption = {
   value: InstantiaterTarget;

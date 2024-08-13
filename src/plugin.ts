@@ -4,7 +4,6 @@ import {
   MessageSpaciiing,
   MessageMemorizer,
   MessageLoremGenerator,
-  MessageInstantiater,
   Message,
   MessageShortcut,
   ExternalMessage,
@@ -16,6 +15,7 @@ import { MessageLocalization } from "./types/Messages/MessageLocalization";
 import { MessageSelectionFilter } from "./types/Messages/MessageSelectionFilter";
 import { MessageVirtualProfile } from "./types/Messages/MessageVirtualProfile";
 import { MessageVariableEditor } from "./types/Messages/MessageVariableEditor";
+import { MessageInstantiater } from "./types/Messages/MessageInstantiater";
 
 // 功能模組
 import * as init from "./module/init";

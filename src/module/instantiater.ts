@@ -1,4 +1,3 @@
-import { InstantiaterTarget, MessageInstantiater } from "../types/Message";
 import * as util from "./util";
 
 import * as colors from "../assets/colors";
@@ -17,6 +16,10 @@ import {
   iosDefaultDropShadowData,
   antDesignDropShadowData,
 } from "../assets/effects";
+import {
+  InstantiaterTarget,
+  MessageInstantiater,
+} from "../types/Messages/MessageInstantiater";
 
 const iosSystemColors: ColorCollection = colors.iosSystemColorsData;
 const iosSystemGrayColors: ColorCollection = colors.iosSystemGrayColorsData;

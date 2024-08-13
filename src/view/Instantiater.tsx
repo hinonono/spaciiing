@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton } from "../components";
-import {
-  InstantiateForm,
-  InstantiaterCategory,
-  InstantiaterSupportedBrand,
-  InstantiaterTarget,
-  InstantiaterType,
-  MessageInstantiater,
-} from "../types/Message";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import {
+  InstantiaterSupportedBrand,
+  InstantiaterCategory,
+  InstantiateForm,
+  InstantiaterTarget,
+  InstantiaterType,
+  MessageInstantiater,
+} from "../types/Messages/MessageInstantiater";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
