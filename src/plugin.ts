@@ -8,7 +8,6 @@ import {
   Message,
   MessageShortcut,
   MessageRenamer,
-  MessageVariableEditor,
   ExternalMessage,
 } from "./types/Message";
 
@@ -17,6 +16,7 @@ import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";
 import { MessageLocalization } from "./types/Messages/MessageLocalization";
 import { MessageSelectionFilter } from "./types/Messages/MessageSelectionFilter";
 import { MessageVirtualProfile } from "./types/Messages/MessageVirtualProfile";
+import { MessageVariableEditor } from "./types/Messages/MessageVariableEditor";
 
 // 功能模組
 import * as init from "./module/init";

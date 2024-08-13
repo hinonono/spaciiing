@@ -8,10 +8,12 @@ import {
   ExternalMessageUpdateCustomCodeExecutionResults,
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
-  MessageGetAvailableCollectionMode,
-  MessageVariableEditor,
-  MessageVariableEditorExecuteCode,
 } from "../types/Message";
+import {
+  MessageVariableEditor,
+  MessageGetAvailableCollectionMode,
+  MessageVariableEditorExecuteCode,
+} from "../types/Messages/MessageVariableEditor";
 import * as util from "./util";
 
 export function reception(message: MessageVariableEditor) {

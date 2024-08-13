@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { TitleBar, FigmaButton, SectionTitle } from "../components";
-import {
-  MessageGetAvailableCollectionMode,
-  MessageVariableEditorExecuteCode,
-} from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import MonacoCodeEditor from "../components/MonacoCodeEditor";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import { exampleCodeBase } from "../components/ExampleVariableCreationCode";
+import {
+  MessageGetAvailableCollectionMode,
+  MessageVariableEditorExecuteCode,
+} from "../types/Messages/MessageVariableEditor";
 
 interface KeyAndScope {
   nameKey: string;
