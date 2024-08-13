@@ -14,10 +14,10 @@ import {
   MessageSelectionFilter,
   MessageLicenseManagement,
   MessageLocalization,
-  MessageAspectRatio,
 } from "./types/Message";
 
 import { MessageResize } from "./types/Messages/MessageResize";
+import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";
 
 // 功能模組
 import * as init from "./module/init";

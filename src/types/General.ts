@@ -21,3 +21,5 @@ export interface StyleSelection {
   title: string;
   scopes: string[];
 }
+
+export type Dimension = "width" | "height";
