@@ -1,8 +1,6 @@
 {
   "modulePresetLibrary": "Preset Library",
   "modulePresetLibraryDesc": "Create style or variables from well known design systems.",
-  "style": "Style",
-  "variable": "Variable",
   "collection": "Collection",
   "selectAnOption": "Select an option",
   "generateUsageDefinition": "Generate usage definition",

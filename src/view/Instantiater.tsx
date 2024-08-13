@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 
 const Instantiater: React.FC = () => {
-  const { t } = useTranslation(["module", "terms"]);
+  const { t } = useTranslation(["module", "term"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -149,7 +149,7 @@ const Instantiater: React.FC = () => {
               checked={form === "style"}
               onChange={() => setForm("style")}
             />
-            <label htmlFor="instantiater-form-style">{t("module:style")}</label>
+            <label htmlFor="instantiater-form-style">{t("term:style")}</label>
             <input
               type="radio"
               name="instantiater-form"
@@ -159,7 +159,7 @@ const Instantiater: React.FC = () => {
               onChange={() => setForm("variable")}
             />
             <label htmlFor="instantiater-form-variable">
-              {t("module:variable")}
+              {t("term:variable")}
             </label>
           </div>
         </div>
