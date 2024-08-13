@@ -12,7 +12,6 @@ import {
   MessageVirtualProfile,
   ExternalMessage,
   MessageSelectionFilter,
-  MessageLicenseManagement,
 } from "./types/Message";
 
 import { MessageResize } from "./types/Messages/MessageResize";
@@ -38,6 +37,7 @@ import * as aspectRatioHelper from "./module/aspectRatioHelper";
 import * as resize from "./module/resize";
 import * as styleIntroducer from "./module/styleIntroducer";
 import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
+import { MessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(380, 500);

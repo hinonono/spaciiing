@@ -9,11 +9,11 @@ import {
   LicenseResponse,
   LicenseResponseSuccess,
 } from "../types/LicenseManagement";
-import { MessageLicenseManagement } from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { handleSubscriptionStatus } from "../module-frontend/licenseManagementFrontEnd";
+import { MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
 
 const SubscriptionModal: React.FC = () => {
   const { licenseManagement } = useAppContext();

@@ -4,13 +4,10 @@ import {
   LicenseResponseError,
   LicenseResponseSuccess,
 } from "./../types/LicenseManagement";
-import {
-  ExternalMessageLicenseManagement,
-  MessageLicenseManagement,
-} from "../types/Message";
 import * as util from "../module/util";
 import * as paymentsUtil from "./paymentsUtil";
 import { SalesConfig } from "../types/SalesConfig";
+import { ExternalMessageLicenseManagement, MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
 
 export const licenseManagementHandler = (
   message: ExternalMessageLicenseManagement,

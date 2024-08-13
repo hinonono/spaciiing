@@ -1,4 +1,3 @@
-import { LicenseManagement } from "./LicenseManagement";
 import { MagicalObject, MagicalObjectMembers } from "./MagicalObject";
 import { NodeFilterable } from "./NodeFilterable";
 import { NodeRenamable } from "./NodeRenamable";
@@ -121,11 +120,6 @@ export interface ExternalMessage extends Message {
 }
 
 // License
-export type LicenseManagementAction = "UPDATE" | "VERIFY";
-export interface ExternalMessageLicenseManagement extends ExternalMessage {
-  action: LicenseManagementAction;
-  license: LicenseManagement;
-}
 
 export interface ExternalMessageUpdateFrame extends ExternalMessage {
   memorizedObjectWidth?: string;
@@ -353,10 +347,4 @@ export interface AdditionalFilterOptions {
 export interface MessageSelectionFilter extends Message {
   filterScopes: NodeFilterable[];
   additionalFilterOptions: AdditionalFilterOptions;
-}
-
-// License Management 專用的基底屬性
-export interface MessageLicenseManagement extends Message {
-  license: LicenseManagement;
-  action: LicenseManagementAction;
 }

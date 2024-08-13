@@ -4,7 +4,6 @@ import {
   ExternalMessage,
   ExternalMessageUpdateCustomSpacing,
   ExternalMessageUpdateFrame,
-  ExternalMessageLicenseManagement,
   ExternalMessageUpdateMagicalObject,
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
@@ -25,6 +24,7 @@ import {
   MessageStyleIntroducer,
 } from "./types/Messages/MessageStyleIntroducer";
 import { ExternalMessageLocalization } from "./types/Messages/MessageLocalization";
+import { ExternalMessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
