@@ -17,6 +17,15 @@ export function sendMessageBack(message: object) {
   });
 }
 
+/**
+ * Converts RGB values (0-1) to a hexadecimal color string.
+ *
+ * @param {number} r - Red component (0 to 1).
+ * @param {number} g - Green component (0 to 1).
+ * @param {number} b - Blue component (0 to 1).
+ * @param {boolean} [withHashTag=true] - Whether to prepend a '#' to the hex string.
+ * @returns {string} Hexadecimal color string.
+ */
 export function rgbToHex(
   r: number,
   g: number,
@@ -390,29 +399,53 @@ export function createExplanationItem(
   description: string,
   fontName: FontName,
   type: "color" | "text",
-  fillStyleId?: string
+  color?: RGB
 ): FrameNode {
   const baseFontSize = 16;
   const basePadding = 16;
 
-  const titleNode = figma.createText();
-  titleNode.characters = title;
-  titleNode.fontSize = baseFontSize * 1.25;
-  titleNode.fontName = fontName;
-
-  const descriptionNode = figma.createText();
-  descriptionNode.characters = description == "" ? "(blank)" : description;
-  descriptionNode.fontSize = baseFontSize * 0.75;
-  descriptionNode.fontName = fontName;
-  descriptionNode.fills = [
-    { type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } },
-  ];
-
-  const explanationTextsWrapperNode = createAutolayoutFrame(
-    [titleNode, descriptionNode],
-    8,
-    "VERTICAL"
+  const titleNode = createTextNode(title, fontName, baseFontSize * 1.25);
+  const descriptionNode = createTextNode(
+    description == "" ? "(blank)" : description,
+    fontName,
+    baseFontSize * 0.75,
+    [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
   );
+
+  let explanationTextsWrapperNode: FrameNode;
+
+  if (type === "color") {
+    if (!color) {
+      throw new Error("Color is required for color type.");
+    }
+
+    const colorHexNode = createTextNode(
+      rgbToHex(color.r, color.g, color.b),
+      fontName,
+      baseFontSize * 0.75,
+      [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+    );
+
+    colorHexNode.textCase = "UPPER";
+
+    const titleWrapper = createAutolayoutFrame(
+      [titleNode, colorHexNode],
+      4,
+      "VERTICAL"
+    );
+
+    explanationTextsWrapperNode = createAutolayoutFrame(
+      [titleWrapper, descriptionNode],
+      8,
+      "VERTICAL"
+    );
+  } else {
+    explanationTextsWrapperNode = createAutolayoutFrame(
+      [titleNode, descriptionNode],
+      8,
+      "VERTICAL"
+    );
+  }
 
   titleNode.layoutSizingHorizontal = "FILL";
   descriptionNode.layoutSizingHorizontal = "FILL";
@@ -421,13 +454,20 @@ export function createExplanationItem(
   let explanationItemWrapperNode: FrameNode;
 
   if (type === "color") {
-    if (!fillStyleId) {
-      throw new Error("Fill style ID is required for color type.");
+    if (!color) {
+      throw new Error("Color is required for color type.");
     }
     const colorFrame = figma.createFrame();
     colorFrame.resize(64, 64);
-    colorFrame.setFillStyleIdAsync(fillStyleId);
+    colorFrame.fills = [{ type: "SOLID", color: color }];
     colorFrame.cornerRadius = 12;
+
+    if (isWhite(color)) {
+      colorFrame.strokes = [
+        { type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } },
+      ];
+      colorFrame.strokeWeight = 1;
+    }
 
     const item = createAutolayoutFrame(
       [colorFrame, explanationTextsWrapperNode],
@@ -491,18 +531,13 @@ export function createExplanationWrapper(
   const basePadding = 16;
   const baseSpacing = 8;
 
-  const titleNode = figma.createText();
-  titleNode.characters = title;
-  titleNode.fontSize = baseFontSize * 2;
-  titleNode.fontName = fontName;
-
-  const secondaryTitleNode = figma.createText();
-  secondaryTitleNode.characters = secondaryTitle;
-  secondaryTitleNode.fontSize = baseFontSize;
-  secondaryTitleNode.fontName = fontName;
-  secondaryTitleNode.fills = [
-    { type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } },
-  ];
+  const titleNode = createTextNode(title, fontName, baseFontSize * 2);
+  const secondaryTitleNode = createTextNode(
+    secondaryTitle,
+    fontName,
+    baseFontSize,
+    [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+  );
 
   const titleWrapper = createAutolayoutFrame(
     [secondaryTitleNode, titleNode],
@@ -581,4 +616,39 @@ export function createAutolayoutFrame(
   autolayoutFrame.fills = [];
 
   return autolayoutFrame;
+}
+
+/**
+ * Checks if the given RGB color is white.
+ *
+ * @param {RGB} color - The RGB color to check.
+ * @returns {boolean} True if the color is white, false otherwise.
+ */
+export function isWhite(color: RGB): boolean {
+  return color.r === 1 && color.g === 1 && color.b === 1;
+}
+
+/**
+ * Creates a new text node with the specified properties.
+ *
+ * @param {string} text - The text content for the text node.
+ * @param {FontName} fontName - The font name to be applied to the text node.
+ * @param {number} fontSize - The font size to be applied to the text node.
+ * @param {Paint[]} paint - The paint (color) to be applied to the text node.
+ * @returns {TextNode} The created text node with the specified properties.
+ */
+export function createTextNode(
+  text: string,
+  fontName: FontName,
+  fontSize: number,
+  paint?: Paint[]
+): TextNode {
+  const textNode = figma.createText();
+  textNode.characters = text;
+  textNode.fontSize = fontSize;
+  textNode.fontName = fontName;
+  if (paint) {
+    textNode.fills = paint;
+  }
+  return textNode;
 }

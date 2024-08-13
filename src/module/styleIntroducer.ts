@@ -55,12 +55,18 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   selectedPaintStyleList.forEach((member) => {
     const paint = member.paints[0];
     if (paint.type === "SOLID") {
+      const solidPaint = paint as SolidPaint;
+
       const explanationItem = util.createExplanationItem(
         member.name.split("/").pop() || "",
         member.description,
         { family: "Inter", style: "Regular" },
         "color",
-        member.id
+        {
+          r: solidPaint.color.r,
+          g: solidPaint.color.g,
+          b: solidPaint.color.b,
+        }
       );
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
@@ -92,7 +98,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   explanationWrapper.counterAxisSizingMode = "FIXED"; // This ensures the width is fixed
 
   // Set the fixed width and initial height
-  explanationWrapper.resize(640, explanationWrapper.height);
+  explanationWrapper.resize(480, explanationWrapper.height);
 
   explanationWrapper.x = viewport.x;
   explanationWrapper.y = viewport.y;
