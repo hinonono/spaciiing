@@ -175,7 +175,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
 
   const explanationWrapper = util.createExplanationWrapper(
     explanationItems,
-    title,
+    title == "" ? "Styles" : title,
     "Usage Definition",
     { family: "Inter", style: "Semi Bold" }
   );
@@ -187,7 +187,9 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     },
   ];
 
-  explanationWrapper.name = `Usage Definition of ${title}`;
+  explanationWrapper.name = `Usage Definition of ${
+    title == "" ? "Styles" : title
+  }`;
 
   // Set corner radius
   explanationWrapper.cornerRadius = 16;
