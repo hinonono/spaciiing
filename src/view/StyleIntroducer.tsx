@@ -24,6 +24,9 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
+  // 形式：樣式、變數
+  const [form, setForm] = useState<"STYLE" | "VARIABLE">("STYLE");
+
   // 模式：色彩、效果、文字
   const [mode, setMode] = useState<StyleMode>("COLOR");
 
@@ -43,6 +46,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       module: "StyleIntroducer",
       phase: "Actual",
       direction: "Inner",
+      form: form,
       styleMode: mode,
       styleSelection: selectedScopes,
     };
@@ -79,6 +83,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
 
     return (
       <FolderNavigator
+        form={form}
         mode={mode}
         structure={nestedStructure}
         selectedScopes={selectedScopes}
@@ -87,14 +92,14 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     );
   };
 
-  
   useEffect(() => {
     setSelectedScopes({
       title: "",
       scopes: [],
     });
-    // 當Mode改變時，傳送初始化訊息
+    // 當form或Mode改變時，傳送初始化訊息
     const message: MessageStyleIntroducer = {
+      form: form,
       styleMode: mode,
       module: "StyleIntroducer",
       phase: "Init",
@@ -107,7 +112,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       },
       "*"
     );
-  }, [mode]);
+  }, [form, mode]);
 
   return (
     <div>
@@ -129,36 +134,50 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       />
       <div className="content">
         <div className="mt-xxsmall">
-          <SectionTitle title={t("module:mode")} />
+          <SectionTitle title={"form"} />
           <div className="custom-segmented-control">
             <input
               type="radio"
-              name="sp-mode"
-              value="COLOR"
-              id="style-introducer-mode-color"
-              checked={mode === "COLOR"}
-              onChange={() => setMode("COLOR")}
+              name="style-introducer-form"
+              value="STYLE"
+              id="style-introducer-form-style"
+              checked={form === "STYLE"}
+              onChange={() => setForm("STYLE")}
             />
-            <label htmlFor="style-introducer-mode-color">Color</label>
+            <label htmlFor="style-introducer-form-style">Style</label>
             <input
               type="radio"
-              name="sp-mode"
-              value="EFFECT"
-              id="style-introducer-mode-effect"
-              checked={mode === "EFFECT"}
-              onChange={() => setMode("EFFECT")}
+              name="style-introducer-form"
+              value="VARIABLE"
+              id="style-introducer-form-variable"
+              checked={form === "VARIABLE"}
+              onChange={() => setForm("VARIABLE")}
             />
-            <label htmlFor="style-introducer-mode-effect">Effect</label>
-            <input
-              type="radio"
-              name="sp-mode"
-              value="TEXT"
-              id="style-introducer-mode-text"
-              checked={mode === "TEXT"}
-              onChange={() => setMode("TEXT")}
-            />
-            <label htmlFor="style-introducer-mode-text">Text</label>
+            <label htmlFor="style-introducer-form-variable">Variable</label>
           </div>
+        </div>
+        <div className="mt-xxsmall">
+          <SectionTitle title={t("module:mode")} />
+          <select
+            name="style-introducer-mode"
+            className="custom-select"
+            value={mode}
+            onChange={(e) => setMode(e.target.value as StyleMode)}
+          >
+            <option key="COLOR" value="COLOR">
+              Color
+            </option>
+            {form === "STYLE" && (
+              <>
+                <option key="EFFECT" value="EFFECT">
+                  Effect
+                </option>
+                <option key="TEXT" value="TEXT">
+                  Text
+                </option>
+              </>
+            )}
+          </select>
         </div>
         {/* 選項 */}
         <div className="mt-xxsmall">

@@ -169,6 +169,7 @@ const CoreLayer: React.FC = () => {
   const initStyleIntroducer = () => {
     const message: MessageStyleIntroducer = {
       styleSelection: undefined,
+      form: "STYLE",
       styleMode: "COLOR",
       module: "StyleIntroducer",
       phase: "Init",

@@ -8,16 +8,30 @@ import * as util from "./util";
 
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
-    const styleList = await getStyleList(message.styleMode);
+    if (message.form === "STYLE") {
+      const styleList = await getStyleList(message.styleMode);
 
-    const externalMessage: ExternalMessageUpdatePaintStyleList = {
-      module: "StyleIntroducer",
-      mode: "UpdateStyleList",
-      styleList: styleList,
-      direction: "Outer",
-      phase: "Init",
-    };
-    util.sendMessageBack(externalMessage);
+      const externalMessage: ExternalMessageUpdatePaintStyleList = {
+        module: "StyleIntroducer",
+        mode: "UpdateStyleList",
+        styleList: styleList,
+        direction: "Outer",
+        phase: "Init",
+      };
+      util.sendMessageBack(externalMessage);
+
+    } else if (message.form === "VARIABLE") {
+      // 获取变量列表
+      const variableList = await getVariableList();
+      const externalMessage: ExternalMessageUpdatePaintStyleList = {
+        module: "StyleIntroducer",
+        mode: "UpdateStyleList",
+        styleList: variableList,
+        direction: "Outer",
+        phase: "Init",
+      };
+      util.sendMessageBack(externalMessage);
+    }
   }
 
   if (message.phase === "Actual") {
@@ -46,6 +60,15 @@ async function getStyleList(
   return styleList.map((style) => ({
     id: style.id,
     name: style.name,
+  }));
+}
+
+async function getVariableList(): Promise<StyleListItemFrontEnd[]> {
+  const variableList = await figma.variables.getLocalVariablesAsync("COLOR");
+
+  return variableList.map((variable) => ({
+    id: variable.id,
+    name: variable.name,
   }));
 }
 
