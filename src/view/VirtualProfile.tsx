@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { TitleBar } from "../components";
 import { useAppContext } from "../AppProvider";
-import {
-  MessageVirtualProfileSingleValue,
-  MessageVirtualProfileWholeObject,
-} from "../types/Message";
 import { VirtualProfile, VirtualProfileGroup } from "../types/VirtualProfile";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import VirtualProfileNew from "./VirtualProfileNew";
+import {
+  MessageVirtualProfileSingleValue,
+  MessageVirtualProfileWholeObject,
+} from "../types/Messages/MessageVirtualProfile";
 
 const VirtualProfile: React.FC = () => {
   const { t } = useTranslation(["module"]);

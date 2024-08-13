@@ -1,6 +1,5 @@
 import { MagicalObject, MagicalObjectMembers } from "./MagicalObject";
 import { NodeRenamable } from "./NodeRenamable";
-import { VirtualProfile, VirtualProfileGroup } from "./VirtualProfile";
 
 // 傳送過來的訊息的基底屬性
 export interface Message {
@@ -128,10 +127,7 @@ export interface ExternalMessageUpdateFrame extends ExternalMessage {
 export interface ExternalMessageUpdateCustomSpacing extends ExternalMessage {
   spacing: string;
 }
-export interface ExternalMessageUpdateVirtualProfile extends ExternalMessage {
-  virtualProfile?: VirtualProfile;
-  virtualProfileGroups?: VirtualProfileGroup[];
-}
+
 export interface ExternalMessageUpdateMagicalObject extends ExternalMessage {
   magicalObject: MagicalObject;
 }
@@ -319,21 +315,6 @@ export interface MessageGetAvailableCollectionMode
   id: string;
 }
 
-// Virtual Profile 專用的基底屬性
-export interface MessageVirtualProfile extends Message {}
-export interface MessageVirtualProfileSingleValue
-  extends MessageVirtualProfile,
-    VirtualProfileSingleValue {}
 
-export interface MessageVirtualProfileWholeObject
-  extends MessageVirtualProfile {
-  virtualProfile?: VirtualProfile;
-  virtualProfileGroups?: VirtualProfileGroup[];
-}
-
-export interface VirtualProfileSingleValue {
-  virtualProfileKey?: string;
-  virtualProfileValue: string;
-}
 
 

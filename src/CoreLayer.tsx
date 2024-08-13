@@ -7,14 +7,15 @@ import {
   ExternalMessageUpdateMagicalObject,
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
-  ExternalMessageUpdateVirtualProfile,
   Message,
   MessageShortcutUpdateMagicalObject,
-  MessageVirtualProfileWholeObject,
   ModuleType,
   ExternalMessageUpdateCustomCodeExecutionResults,
 } from "./types/Message";
-
+import {
+  ExternalMessageUpdateVirtualProfile,
+  MessageVirtualProfileWholeObject,
+} from "./types/Messages/MessageVirtualProfile";
 import * as licenseManagementFrontEnd from "./module-frontend/licenseManagementFrontEnd";
 import SubscriptionModal from "./view/SubscriptionModal";
 import TabBar from "./components/TabBar";
