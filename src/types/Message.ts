@@ -1,5 +1,4 @@
 import { MagicalObject, MagicalObjectMembers } from "./MagicalObject";
-import { NodeRenamable } from "./NodeRenamable";
 
 // 傳送過來的訊息的基底屬性
 export interface Message {
@@ -281,17 +280,5 @@ export interface MessageInstantiater extends Message {
   newCollectionName?: string;
 }
 
-// Renamer專用的基底屬性
-export type RenamerSupportedTargets = "text" | "image" | "auto_layout";
-export interface RenamerDocumentOption {
-  deleteHiddenLayer: boolean;
-  skipLockedLayer: boolean;
-  includeParentLayer: boolean;
-}
-export interface MessageRenamer extends Message {
-  target: RenamerSupportedTargets[];
-  renameTarget: NodeRenamable[];
-  docOptions: RenamerDocumentOption;
-}
 
 

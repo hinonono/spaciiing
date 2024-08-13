@@ -7,7 +7,6 @@ import {
   MessageInstantiater,
   Message,
   MessageShortcut,
-  MessageRenamer,
   ExternalMessage,
 } from "./types/Message";
 
@@ -38,6 +37,7 @@ import * as resize from "./module/resize";
 import * as styleIntroducer from "./module/styleIntroducer";
 import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
 import { MessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
+import { MessageRenamer } from "./types/Messages/MessageRenamer";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(380, 500);

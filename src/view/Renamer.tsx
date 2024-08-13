@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { TitleBar, FigmaButton, SectionTitle } from "../components";
-import { MessageRenamer, RenamerSupportedTargets } from "../types/Message";
 import { NodeRenamable } from "../types/NodeRenamable";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import {
+  RenamerSupportedTargets,
+  MessageRenamer,
+} from "../types/Messages/MessageRenamer";
 
 const Renamer: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -128,7 +131,7 @@ const Renamer: React.FC = () => {
       module: "Renamer",
       phase: "Actual",
       renameTarget: selectedScopes,
-      docOptions: {
+      options: {
         deleteHiddenLayer: deleteHiddenLayer,
         skipLockedLayer: skipLockedLayer,
         includeParentLayer: includeParentLayer,

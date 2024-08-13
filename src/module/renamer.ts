@@ -1,4 +1,5 @@
-import { MessageRenamer } from "../types/Message";
+
+import { MessageRenamer } from "../types/Messages/MessageRenamer";
 import * as util from "./util";
 
 export function renameSelectedObjects(message: MessageRenamer) {
@@ -25,7 +26,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
     filteredSelection = selection;
   }
 
-  if (message.docOptions.skipLockedLayer) {
+  if (message.options.skipLockedLayer) {
     filteredSelection = skipLockLayersAndChildren(filteredSelection);
   }
 
@@ -66,7 +67,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
   }
 
   function shouldRenameNode(node: SceneNode): boolean {
-    if (message.docOptions.skipLockedLayer && node.locked) {
+    if (message.options.skipLockedLayer && node.locked) {
       return false;
     }
 
@@ -133,7 +134,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
   }
 
   function renameNode(node: SceneNode, isTopLevel: boolean) {
-    if (isTopLevel && !message.docOptions.includeParentLayer) {
+    if (isTopLevel && !message.options.includeParentLayer) {
       // Skip renaming the top-level node if includeParentLayer is false
       if ("children" in node) {
         for (const child of node.children) {
@@ -174,7 +175,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
       figma.notify("❌ The selected object is invalid.");
       return;
     }
-    if (message.docOptions.deleteHiddenLayer) {
+    if (message.options.deleteHiddenLayer) {
       deleteHiddenLayers(selectedNode);
     } else {
       renameNode(selectedNode, false);
@@ -182,7 +183,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
   });
 
   topLevelNodesWithChildren.forEach((topLevelNode) => {
-    if (message.docOptions.includeParentLayer) {
+    if (message.options.includeParentLayer) {
       const newName = getNewName(topLevelNode);
       if (newName !== null) {
         topLevelNode.name = newName;
