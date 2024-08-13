@@ -3,7 +3,6 @@ import {
   MessageFramer,
   MessageSpaciiing,
   MessageMemorizer,
-  MessageLoremGenerator,
   Message,
   MessageShortcut,
   ExternalMessage,
@@ -16,6 +15,7 @@ import { MessageSelectionFilter } from "./types/Messages/MessageSelectionFilter"
 import { MessageVirtualProfile } from "./types/Messages/MessageVirtualProfile";
 import { MessageVariableEditor } from "./types/Messages/MessageVariableEditor";
 import { MessageInstantiater } from "./types/Messages/MessageInstantiater";
+import { MessageLoremGenerator } from "./types/Messages/MessageLoremGenerator";
 
 // 功能模組
 import * as init from "./module/init";

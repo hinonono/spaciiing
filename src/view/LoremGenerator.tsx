@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { TitleBar, FigmaButton, SectionTitle } from "../components";
-import {
-  LoremLength,
-  LoremSupportedLang,
-  MessageLoremGenerator,
-} from "../types/Message";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import {
+  LoremSupportedLang,
+  LoremLength,
+  MessageLoremGenerator,
+} from "../types/Messages/MessageLoremGenerator";
 
 const LoremGenerator: React.FC = () => {
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
