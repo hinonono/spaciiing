@@ -256,7 +256,7 @@ const VariableEditor: React.FC = () => {
         <div>
           <h3>{t("module:moduleVariableGenerator")}</h3>
           <p>{t("module:moduleVariableGeneratorDesc")}</p>
-          <h4>Destination</h4>
+          <h4>{t("module:destination")}</h4>
           <p>
             {t("module:destinationDesc1")}
             <br />
@@ -377,9 +377,6 @@ const VariableEditor: React.FC = () => {
         <div className="mt-xsmall">
           <SectionTitle title={t("module:codeEditor")} />
           <div className="width-100">
-            <div>
-              <span className="note">{t("module:codeEditorDesc2")}</span>
-            </div>
             <div className="mt-xxsmall">
               <MonacoCodeEditor code={code} setCode={setCode} />
             </div>

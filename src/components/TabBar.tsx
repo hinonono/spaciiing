@@ -11,6 +11,7 @@ import {
   SvgVariableEditor,
   SvgVirtualProfile,
   SvgAspectRatioHelper,
+  SvgCatalogue,
 } from "../assets/icons";
 import TabButton from "./TabButton";
 import {
@@ -36,8 +37,8 @@ interface TabBarProps {
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
   const { licenseManagement } = useAppContext();
-  licenseManagement.licenseKey
-  licenseManagement.tier
+  licenseManagement.licenseKey;
+  licenseManagement.tier;
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -71,18 +72,12 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
   return (
     <div className="tabs">
       <SaleBannerWrapper licenseManagement={licenseManagement} />
-      <div className="tab-bar hide-scrollbar-horizontal">
+      <div className="tab-bar">
         <TabButton
           activeTab={activeTab}
           tabName="Spaciiing"
           setActiveTab={setActiveTab}
           SvgComponent={SvgSpaciiing}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="StyleIntroducer"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgPropertyClipboard}
         />
         <TabButton
           activeTab={activeTab}
@@ -132,6 +127,12 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           setActiveTab={setActiveTab}
           SvgComponent={SvgDefaultStyleLibrary}
         />
+        {/* <TabButton
+          activeTab={activeTab}
+          tabName="StyleIntroducer"
+          setActiveTab={setActiveTab}
+          SvgComponent={SvgCatalogue}
+        /> */}
         <TabButton
           activeTab={activeTab}
           tabName="PluginSetting"

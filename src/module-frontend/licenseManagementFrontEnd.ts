@@ -171,10 +171,10 @@ export function hasDatePassed(dateString: string) {
 export function shouldShowBanner(
   config: SalesConfig,
   licenseManagement: LicenseManagement
-): boolean {
+): "NONE" | "NORMAL" | "SALE" {
   // Return false if the license tier is "PAID"
   if (licenseManagement.tier === "PAID") {
-    return false;
+    return "NONE";
   }
 
   const startDate = new Date(config.startDate);
@@ -186,14 +186,17 @@ export function shouldShowBanner(
 
   if (isWithinDateRange) {
     if (config.type === "ALL") {
-      return true; // Always return true for "ALL" type
+      return "SALE";
     } else if (config.type === "SPECIFIC_KEY") {
       // Check if the config type is "SPECIFIC_KEY"
-      // Return true if the license key matches the target key
-      return licenseManagement.licenseKey === config.targetKey;
+      // Return "SALE" if the license key matches the target key
+      // Return "NORMAL" if the license key does not match the target key
+      return licenseManagement.licenseKey === config.targetKey
+        ? "SALE"
+        : "NORMAL";
     }
-  }
+  } 
 
   // Return false if the date is not within range or conditions are not met
-  return false;
+  return "NORMAL";
 }

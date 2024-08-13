@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NestedStructure, StyleSelection } from "../types/General";
 import FigmaButton from "./FigmaButton";
 import { StyleForm, StyleMode } from "../types/Messages/MessageStyleIntroducer";
+import { useTranslation } from "react-i18next";
 
 interface FolderNavigatorProps {
   form: StyleForm;
@@ -21,6 +22,8 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [currentStructure, setCurrentStructure] =
     useState<NestedStructure>(structure);
+
+  const { t } = useTranslation(["term"]);
 
   useEffect(() => {
     setCurrentStructure(structure);
@@ -105,7 +108,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
         <div>
           {currentPath.length > 0 && (
             <FigmaButton
-              title={"Back"}
+              title={t("term:back")}
               onClick={goBack}
               buttonHeight="small"
               fontSize="small"
@@ -116,7 +119,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
         </div>
         <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
           {currentPath.length == 0
-            ? "Home"
+            ? t("module:home")
             : currentPath[currentPath.length - 1]}
         </div>
         <div>
@@ -126,8 +129,8 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
                 Object.keys(currentStructure).every((key) =>
                   selectedScopes.scopes.includes(currentStructure[key].id!)
                 )
-                  ? "Unselect All"
-                  : "Select All"
+                  ? t("term:unselectAll")
+                  : t("term:selectAll")
               }
               onClick={toggleAll}
               buttonHeight="small"

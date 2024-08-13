@@ -41,5 +41,10 @@
   "boolean": "ブーリアン",
   "color": "カラー",
   "float": "数値",
-  "string": "文字列"
+  "string": "文字列",
+  "style": "スタイル",
+  "variable": "バリアブル",
+  "back": "戻る",
+  "selectAll": "すべてを選択",
+  "unselectAll": "すべての選択を解除"
 }

@@ -41,5 +41,10 @@
   "boolean": "Boolean",
   "color": "Color",
   "float": "Float",
-  "string": "String"
+  "string": "String",
+  "style": "Style",
+  "variable": "Variable",
+  "back": "Back",
+  "selectAll": "Select All",
+  "unselectAll": "Unselect All"
 }

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import SaleBanner from "./SaleBanner";
 import { LicenseManagement } from "../types/LicenseManagement";
 import flashSaleData from "../assets/flashSale.json";
 import { SalesConfig, SalesType } from "../types/SalesConfig";
 import * as LicenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
+import SaleBanner from "./SaleBanner";
+import NormalBanner from "./NormalBanner";
 
 interface SaleBannerWrapperProps {
   licenseManagement: LicenseManagement;
@@ -22,6 +23,16 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
     type: "ALL",
   });
 
+  const [shouldShowBanner, setShouldShowBanner] = useState<
+    "NONE" | "SALE" | "NORMAL"
+  >("NONE");
+
+  useEffect(() => {
+    setShouldShowBanner(
+      LicenseManagementFrontEnd.shouldShowBanner(config, licenseManagement)
+    );
+  }, [config, licenseManagement]);
+
   useEffect(() => {
     // Assuming configData is a valid JSON object as defined in the config.json file
     setConfig({
@@ -35,21 +46,20 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
     });
   }, []);
 
-  const shouldShowBanner = LicenseManagementFrontEnd.shouldShowBanner(
-    config,
-    licenseManagement
-  );
-
-  console.log("License Management", licenseManagement.licenseKey);
-
-  return shouldShowBanner ? (
-    <SaleBanner
-      targetDate={new Date(config.endDate)}
-      messageKey={config.messageKey}
-      url={config.url}
-      showCountdown={config.showCountdown}
-    />
-  ) : null;
+  if (shouldShowBanner === "NONE") {
+    return null;
+  } else if (shouldShowBanner === "SALE") {
+    return (
+      <SaleBanner
+        targetDate={new Date(config.endDate)}
+        messageKey={config.messageKey}
+        url={config.url}
+        showCountdown={config.showCountdown}
+      />
+    );
+  } else if (shouldShowBanner === "NORMAL") {
+    return <NormalBanner />;
+  }
 };
 
 export default SaleBannerWrapper;

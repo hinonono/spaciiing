@@ -41,5 +41,10 @@
   "boolean": "布林值",
   "color": "色彩",
   "float": "浮點值",
-  "string": "字串"
+  "string": "字串",
+  "style": "樣式",
+  "variable": "變數",
+  "back": "返回",
+  "selectAll": "全選",
+  "unselectAll": "取消全選"
 }

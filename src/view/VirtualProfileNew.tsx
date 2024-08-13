@@ -584,7 +584,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex flex-justify-spacebetween virtual-profile-toolbar">
           <div>
-            <button className="button-reset" onClick={toggleAll}>
+            <button className="button-reset margin-0 width-auto" onClick={toggleAll}>
               <div className="icon-24 icon-hover">
                 {!isFolderCollapsed ? (
                   <SvgExpand color="var(--figma-color-text)" />
@@ -594,9 +594,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               </div>
             </button>
           </div>
-          <div>
+          <div className="flex flex-row">
             <button
-              className="button-reset"
+              className="button-reset margin-0 width-auto"
               onClick={saveVirtualProfile}
               disabled={
                 virtualProfileGroups == previousVirtualProfile ? true : false
@@ -613,19 +613,19 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               </div>
             </button>
             <button
-              className="button-reset"
+              className="button-reset margin-0 width-auto"
               onClick={(e) => handleAdditionalContextMenu(e)}
             >
               <div className="icon-24 icon-hover">
                 <SvgAddFromPreset color="var(--figma-color-text)" />
               </div>
             </button>
-            <button className="button-reset" onClick={addTitleRow}>
+            <button className="button-reset margin-0 width-auto" onClick={addTitleRow}>
               <div className="icon-24 icon-hover">
                 <SvgAddFolder color="var(--figma-color-text)" />
               </div>
             </button>
-            <button className="button-reset" onClick={addRecordToLastTitle}>
+            <button className="button-reset margin-0 width-auto" onClick={addRecordToLastTitle}>
               <div className="icon-24 icon-hover">
                 <SvgAdd color="var(--figma-color-text)" />
               </div>

@@ -11,7 +11,7 @@
   "moduleVariableGeneratorDesc": "通過程式碼設定您的本地變數，與Figma UI的耗時操作說再見。",
   "destination": "目的地",
   "destinationDesc1": "選擇將在哪裡建立變數。",
-  "destinationDesc2": "由於外掛程式 API 的限制，在同時使用外掛程式和本地變數視窗時，列表無法即時反映所有可用的收藏。請始終刷新此標籤以查看最新列表。",
+  "destinationDesc2": "由於外掛程式 API 的限制，在同時使用外掛程式和本地變數視窗時，本列表無法即時反映所有可用的收藏。請刷新此頁籤以確保資料為最新狀態。",
   "variableMode": "變數模式",
   "variableModeDesc": "選擇將在哪種模式下建立變數。",
   "valueType": "值的類型",
@@ -19,8 +19,7 @@
   "variableScope": "變數適用範圍",
   "variableScopeDesc": "選擇建立的變數將應用於哪個範圍。",
   "codeEditor": "程式碼編輯器",
-  "codeEditorDesc1": "程式碼應該是一個數組，每個元素都是一個對象，具有 \"name\" 和 \"value\" 屬性來建立變數。單擊下面的按鈕生成示範程式碼。多次單擊以建立多個變數。",
-  "codeEditorDesc2": "單擊下面的按鈕生成示範程式碼。多次單擊按鈕可連續建立多個變數。",
+  "codeEditorDesc1": "程式碼應為JSON格式，並遵照由Design Tokens Community Group所提供的標準。",
   "createANewCollection": "建立新收藏",
   "createANewMode": "建立新模式",
   "default": "默認",
@@ -162,5 +161,10 @@
   "length": "長度",
   "addItem": "新增項目",
   "delete": "刪除",
-  "duplicate": "複製"
+  "duplicate": "複製",
+  "moduleCatalogue": "型錄",
+  "moduleCatalogueDesc": "從您的樣式或變數建立型錄。",
+  "form": "形態",
+  "type": "類型",
+  "home": "首頁"
 }

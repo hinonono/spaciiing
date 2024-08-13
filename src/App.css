@@ -676,6 +676,10 @@
   padding-inline-start: 0;
 }
 
+.width-auto {
+  width: auto;
+}
+
 body {
   margin: 0 !important;
 }

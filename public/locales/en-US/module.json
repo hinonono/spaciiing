@@ -19,8 +19,7 @@
   "variableScope": "Variable Scope",
   "variableScopeDesc": "Select which scope will the variable being created apply.",
   "codeEditor": "Code Editor",
-  "codeEditorDesc1": "The code should be an array, each element being an object with \"name\" and \"value\" properties to create a variable. Click the button below to generate example code. Click multiple times to create multiple variables.",
-  "codeEditorDesc2": "Click the button below to generate example code. Click multiple times to create multiple variables.",
+  "codeEditorDesc1": "The code should be json format, following the standard provided by the Design Tokens Community Group.",
   "createANewCollection": "Create a new collection",
   "createANewMode": "Create a new mode",
   "default": "Default",
@@ -162,5 +161,10 @@
   "length": "Length",
   "addItem": "Add Item",
   "delete": "Delete",
-  "duplicate": "Duplicate"
+  "duplicate": "Duplicate",
+  "moduleCatalogue": "Catalogue",
+  "moduleCatalogueDesc": "Create catalogue from your styles or variables.",
+  "form": "Form",
+  "type": "Type",
+  "home": "Home"
 }

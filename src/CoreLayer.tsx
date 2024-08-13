@@ -28,7 +28,7 @@ import {
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<ModuleType>("StyleIntroducer");
+  const [activeTab, setActiveTab] = useState<ModuleType>("Spaciiing");
   const [prevTab, setPrevTab] = useState<ModuleType | null>(null);
   const { i18n } = useTranslation();
   //

@@ -122,19 +122,19 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
           handleClose={handleCloseExplanationModal}
         >
           <div>
-            <h3>{t("module:moduleSelectionFilter")}</h3>
-            <p>{t("module:moduleSelectionFilterDesc")}</p>
+            <h3>{t("module:moduleCatalogue")}</h3>
+            <p>{t("module:moduleCatalogueDesc")}</p>
           </div>
         </Modal>
       </div>
       <TitleBar
-        title={"Style Introducer"}
+        title={t("module:moduleCatalogue")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
       />
       <div className="content">
         <div className="mt-xxsmall">
-          <SectionTitle title={"form"} />
+          <SectionTitle title={t("module:form")} />
           <div className="custom-segmented-control">
             <input
               type="radio"
@@ -144,7 +144,9 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
               checked={form === "STYLE"}
               onChange={() => setForm("STYLE")}
             />
-            <label htmlFor="style-introducer-form-style">Style</label>
+            <label htmlFor="style-introducer-form-style">
+              {t("term:style")}
+            </label>
             <input
               type="radio"
               name="style-introducer-form"
@@ -153,11 +155,13 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
               checked={form === "VARIABLE"}
               onChange={() => setForm("VARIABLE")}
             />
-            <label htmlFor="style-introducer-form-variable">Variable</label>
+            <label htmlFor="style-introducer-form-variable">
+              {t("term:variable")}
+            </label>
           </div>
         </div>
         <div className="mt-xxsmall">
-          <SectionTitle title={t("module:mode")} />
+          <SectionTitle title={t("module:type")} />
           <select
             name="style-introducer-mode"
             className="custom-select"
@@ -165,15 +169,15 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             onChange={(e) => setMode(e.target.value as StyleMode)}
           >
             <option key="COLOR" value="COLOR">
-              Color
+              {t("term:color")}
             </option>
             {form === "STYLE" && (
               <>
                 <option key="EFFECT" value="EFFECT">
-                  Effect
+                  {t("term:effectColor")}
                 </option>
                 <option key="TEXT" value="TEXT">
-                  Text
+                  {t("term:fontFamily")}
                 </option>
               </>
             )}
@@ -181,7 +185,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         </div>
         {/* 選項 */}
         <div className="mt-xxsmall">
-          <SectionTitle title={"Styles"} />
+          <SectionTitle title={form === "STYLE" ? t("term:style") : t("term:variable")} />
           <div className="folder-navigator">{folderNavigator()}</div>
         </div>
         {/* 按鈕 */}
