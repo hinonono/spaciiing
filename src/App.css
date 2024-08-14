@@ -460,13 +460,42 @@
   transform: rotate(315deg);
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: var(--figma-color-text);
+  color: var(--figma-color-bg);
+  text-align: center;
+  border-radius: var(--cy-border-radius-medium);
+  padding: 5px 0;
+  font-size: var(--font-size-small);
+  box-shadow: var(--shadow-floating-window);
+  opacity: 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 110%;
+  left: 50%;
+  margin-left: -60px;
+  z-index: 3;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .tab-bar {
   display: flex;
   justify-content: flex-start;
   background-color: var(--tab-bar-bg);
   z-index: 2;
   overflow: scroll;
-  overflow-y: hidden;
   padding: 4px;
   border-bottom: 1px solid var(--figma-color-border);
 }
@@ -1098,34 +1127,15 @@ button {
   align-items: center;
 }
 
-.tooltip {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-}
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
+.floating-text {
+  position: fixed;
   background-color: var(--figma-color-text);
   color: var(--figma-color-bg);
-  text-align: center;
+  padding: 8px 12px;
   border-radius: var(--cy-border-radius-medium);
-  padding: 5px 0;
-  font-size: var(--font-size-small);
-  box-shadow: var(--shadow-floating-window);
-  opacity: 0;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top: 110%;
-  left: 50%;
-  margin-left: -60px;
-  z-index: 3;
-}
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
 }
 
 /* Modal.css */
