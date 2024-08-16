@@ -1,7 +1,14 @@
 import * as util from "./util";
 import * as spaciiing from "./spaciiing";
 import { MagicalObject, MagicalObjectMembers } from "../types/MagicalObject";
-import { ExternalMessageUpdateMagicalObject, MessageShortcut, MessageShortcutFindAndReplace, MessageShortcutGenerateIconTemplate, MessageShortcutGenerateMagicalObjectMember, MessageShortcutUpdateMagicalObject } from "../types/Messages/MessageShortcut";
+import {
+  ExternalMessageUpdateMagicalObject,
+  MessageShortcut,
+  MessageShortcutFindAndReplace,
+  MessageShortcutGenerateIconTemplate,
+  MessageShortcutGenerateMagicalObjectMember,
+  MessageShortcutUpdateMagicalObject,
+} from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 
 export function executeShortcut(message: MessageShortcut) {
@@ -556,7 +563,7 @@ async function convertSelectionToTextStyles() {
       }
 
       const newTextStyle = figma.createTextStyle();
-      newTextStyle.name = node.characters.substring(0, 30); // Limiting the name length
+      newTextStyle.name = node.characters;
       newTextStyle.fontSize = node.fontSize;
       newTextStyle.textDecoration = "NONE";
       newTextStyle.fontName = node.fontName;
