@@ -46,5 +46,6 @@
   "variable": "バリアブル",
   "back": "戻る",
   "selectAll": "すべてを選択",
-  "unselectAll": "すべての選択を解除"
+  "unselectAll": "すべての選択を解除",
+  "other": "その他"
 }

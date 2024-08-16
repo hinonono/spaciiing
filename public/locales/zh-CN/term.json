@@ -46,5 +46,6 @@
   "variable": "变量",
   "back": "返回",
   "selectAll": "全选",
-  "unselectAll": "取消全选"
+  "unselectAll": "取消全选",
+  "other": "其他"
 }
