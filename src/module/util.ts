@@ -458,36 +458,90 @@ export function createExplanationItem(
       throw new Error("Text style is required for text type.");
     }
 
-    const text = `Font Name: ${textStyle.fontName.family} ${
-      textStyle.fontName.style
-    }\nFont Size: ${textStyle.fontSize}\nLine Height: ${
-      textStyle.lineHeight.unit == "AUTO" ? "Auto" : textStyle.lineHeight.value
-    }\nLetter Spacing: ${textStyle.letterSpacing.value}\nParagraph Spacing: ${
-      textStyle.paragraphSpacing
-    }\nText Case: ${textStyle.textCase}`;
-
-    const textStylePropertiesNode = createTextNode(
-      text,
-      fontName,
-      baseFontSize * 0.75,
-      secodaryColor
+    const fontNameNode = createExplanationTextPropertyItem(
+      "Font Name",
+      `${textStyle.fontName.family} ${textStyle.fontName.style}`,
+      fontName
+    );
+    const fontSizeNode = createExplanationTextPropertyItem(
+      "Font Size",
+      `${textStyle.fontSize}`,
+      fontName
     );
 
-    textStylePropertiesNode.setRangeListOptions(0, text.length, {
-      type: "UNORDERED",
-    });
-    textStylePropertiesNode.lineHeight = {
-      unit: "PIXELS",
-      value: baseFontSize * 0.75 * 1.5,
-    };
+    const lineHeightNode = createExplanationTextPropertyItem(
+      "Line Height",
+      `${
+        textStyle.lineHeight.unit == "AUTO"
+          ? "Auto"
+          : textStyle.lineHeight.value
+      }`,
+      fontName
+    );
+
+    const letterSpacingNode = createExplanationTextPropertyItem(
+      "Letter Spacing",
+      `${textStyle.letterSpacing.value}`,
+      fontName
+    );
+
+    const paragraphSpacingNode = createExplanationTextPropertyItem(
+      "Paragraph Spacing",
+      `${textStyle.paragraphSpacing}`,
+      fontName
+    );
+
+    const textCaseNode = createExplanationTextPropertyItem(
+      "Text Case",
+      `${textStyle.textCase}`,
+      fontName
+    );
+
+    const tempWrapper1 = createAutolayoutFrame(
+      [fontNameNode, fontSizeNode],
+      baseSpacing * 2,
+      "HORIZONTAL"
+    );
+
+    const tempWrapper2 = createAutolayoutFrame(
+      [lineHeightNode, letterSpacingNode],
+      baseSpacing * 2,
+      "HORIZONTAL"
+    );
+
+    const tempWrapper3 = createAutolayoutFrame(
+      [paragraphSpacingNode, textCaseNode],
+      baseSpacing * 2,
+      "HORIZONTAL"
+    );
+
+    tempWrapper1.layoutSizingVertical = "HUG";
+    tempWrapper2.layoutSizingVertical = "HUG";
+    tempWrapper3.layoutSizingVertical = "HUG";
+
+    fontNameNode.layoutSizingHorizontal = "FILL";
+    fontSizeNode.layoutSizingHorizontal = "FILL";
+    lineHeightNode.layoutSizingHorizontal = "FILL";
+    letterSpacingNode.layoutSizingHorizontal = "FILL";
+    paragraphSpacingNode.layoutSizingHorizontal = "FILL";
+    textCaseNode.layoutSizingHorizontal = "FILL";
+
+    fontNameNode.layoutSizingVertical = "HUG";
+    fontSizeNode.layoutSizingVertical = "HUG";
+    lineHeightNode.layoutSizingVertical = "HUG";
+    letterSpacingNode.layoutSizingVertical = "HUG";
+    paragraphSpacingNode.layoutSizingVertical = "HUG";
+    textCaseNode.layoutSizingVertical = "HUG";
 
     const titleWrapper = createAutolayoutFrame(
-      [titleNode, textStylePropertiesNode],
+      [titleNode, tempWrapper1, tempWrapper2, tempWrapper3],
       baseSpacing,
       "VERTICAL"
     );
     titleNode.layoutSizingHorizontal = "FILL";
-    textStylePropertiesNode.layoutSizingHorizontal = "FILL";
+    tempWrapper1.layoutSizingHorizontal = "FILL";
+    tempWrapper2.layoutSizingHorizontal = "FILL";
+    tempWrapper3.layoutSizingHorizontal = "FILL";
 
     explanationTextsWrapperNode = createAutolayoutFrame(
       [titleWrapper, descriptionNode],
@@ -872,6 +926,43 @@ export function isColorCollection(
   collection: CollectionExplanationable
 ): collection is ColorCollection {
   return (collection as ColorCollection).members[0]?.color !== undefined;
+}
+
+export function createExplanationTextPropertyItem(
+  title: string,
+  value: string,
+  fontName: FontName
+) {
+  const titleNode = createTextNode(title, fontName, 12);
+  titleNode.fills = [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }];
+  titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
+
+  const valueNode = createTextNode(value, fontName, 12);
+  valueNode.fills = [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }];
+  valueNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
+  valueNode.textAlignHorizontal = "RIGHT";
+
+  const wrapper = createAutolayoutFrame(
+    [titleNode, valueNode],
+    0,
+    "HORIZONTAL"
+  );
+  wrapper.layoutGrow = 1;
+  wrapper.paddingTop = 4;
+  wrapper.paddingBottom = 4;
+
+  // 筆畫
+  wrapper.strokes = [{ type: "SOLID", color: { r: 0.92, g: 0.92, b: 0.92 } }];
+  wrapper.strokeTopWeight = 0;
+  wrapper.strokeBottomWeight = 1;
+  wrapper.strokeLeftWeight = 0;
+  wrapper.strokeRightWeight = 0;
+
+  // Autolayout 內元素排版
+  titleNode.layoutSizingHorizontal = "FILL";
+  valueNode.layoutSizingHorizontal = "FILL";
+
+  return wrapper;
 }
 
 /**
