@@ -146,7 +146,8 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
         fontName,
         "TEXT",
         undefined,
-        undefined
+        undefined,
+        member
       );
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";

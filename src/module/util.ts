@@ -401,17 +401,22 @@ export function createExplanationItem(
   fontName: FontName,
   type: StyleMode,
   color?: RGB,
-  effects?: Effect[]
+  effects?: Effect[],
+  textStyle?: TextStyle
 ): FrameNode {
   const baseFontSize = 16;
   const basePadding = 16;
+  const baseSpacing = 8;
+  const secodaryColor: Paint[] = [
+    { type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } },
+  ];
 
   const titleNode = createTextNode(title, fontName, baseFontSize * 1.25);
   const descriptionNode = createTextNode(
     description == "" ? "(blank)" : description,
     fontName,
     baseFontSize * 0.75,
-    [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+    secodaryColor
   );
 
   let explanationTextsWrapperNode: FrameNode;
@@ -423,35 +428,84 @@ export function createExplanationItem(
     }
 
     const colorHexNode = createTextNode(
-      rgbToHex(color.r, color.g, color.b),
+      rgbToHex(color.r, color.g, color.b, true),
       fontName,
       baseFontSize * 0.75,
-      [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+      secodaryColor
     );
 
     colorHexNode.textCase = "UPPER";
 
     const titleWrapper = createAutolayoutFrame(
       [titleNode, colorHexNode],
-      4,
+      baseSpacing,
       "VERTICAL"
     );
+
+    titleNode.layoutSizingHorizontal = "FILL";
+    colorHexNode.layoutSizingHorizontal = "FILL";
 
     explanationTextsWrapperNode = createAutolayoutFrame(
       [titleWrapper, descriptionNode],
-      8,
+      baseSpacing * 2,
       "VERTICAL"
     );
+
+    titleWrapper.layoutSizingHorizontal = "FILL";
+  } else if (type === "TEXT") {
+    // 如果type是TEXT，則在titleNode後面加上描述文字屬性的TextNode
+    if (!textStyle) {
+      throw new Error("Text style is required for text type.");
+    }
+
+    const text = `Font Name: ${textStyle.fontName.family} ${
+      textStyle.fontName.style
+    }\nFont Size: ${textStyle.fontSize}\nLine Height: ${
+      textStyle.lineHeight.unit == "AUTO" ? "Auto" : textStyle.lineHeight.value
+    }\nLetter Spacing: ${textStyle.letterSpacing.value}\nParagraph Spacing: ${
+      textStyle.paragraphSpacing
+    }\nText Case: ${textStyle.textCase}`;
+
+    const textStylePropertiesNode = createTextNode(
+      text,
+      fontName,
+      baseFontSize * 0.75,
+      secodaryColor
+    );
+
+    textStylePropertiesNode.setRangeListOptions(0, text.length, {
+      type: "UNORDERED",
+    });
+    textStylePropertiesNode.lineHeight = {
+      unit: "PIXELS",
+      value: baseFontSize * 0.75 * 1.5,
+    };
+
+    const titleWrapper = createAutolayoutFrame(
+      [titleNode, textStylePropertiesNode],
+      baseSpacing,
+      "VERTICAL"
+    );
+    titleNode.layoutSizingHorizontal = "FILL";
+    textStylePropertiesNode.layoutSizingHorizontal = "FILL";
+
+    explanationTextsWrapperNode = createAutolayoutFrame(
+      [titleWrapper, descriptionNode],
+      baseSpacing * 2,
+      "VERTICAL"
+    );
+
+    titleWrapper.layoutSizingHorizontal = "FILL";
   } else {
     explanationTextsWrapperNode = createAutolayoutFrame(
       [titleNode, descriptionNode],
-      8,
+      baseSpacing * 2,
       "VERTICAL"
     );
-  }
 
-  titleNode.layoutSizingHorizontal = "FILL";
-  descriptionNode.layoutSizingHorizontal = "FILL";
+    titleNode.layoutSizingHorizontal = "FILL";
+    descriptionNode.layoutSizingHorizontal = "FILL";
+  }
 
   // const nodesToPushInWrapper: SceneNode[] = [];
   let explanationItemWrapperNode: FrameNode;
@@ -495,7 +549,7 @@ export function createExplanationItem(
 
     const item = createAutolayoutFrame(
       [effectFrame, explanationTextsWrapperNode],
-      16,
+      baseSpacing * 2,
       "HORIZONTAL"
     );
 
@@ -532,8 +586,8 @@ export function createExplanationItem(
   explanationItemWrapperNode.strokeLeftWeight = 0;
   explanationItemWrapperNode.strokeRightWeight = 0;
 
-  // Center items vertically
-  explanationItemWrapperNode.counterAxisAlignItems = "CENTER";
+  // Center items to the top
+  explanationItemWrapperNode.counterAxisAlignItems = "MIN";
 
   return explanationItemWrapperNode;
 }
@@ -671,8 +725,8 @@ export function createExplanationItemForVariable(
   explanationItemWrapperNode.strokeLeftWeight = 0;
   explanationItemWrapperNode.strokeRightWeight = 0;
 
-  // Center items vertically
-  explanationItemWrapperNode.counterAxisAlignItems = "CENTER";
+  // Center items to the top
+  explanationItemWrapperNode.counterAxisAlignItems = "MIN";
 
   return explanationItemWrapperNode;
 }
