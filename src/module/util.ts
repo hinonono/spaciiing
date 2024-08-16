@@ -441,7 +441,7 @@ export function createExplanationItem(
       baseSpacing,
       "VERTICAL"
     );
-
+    titleWrapper.name = "Explanation Item Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
     colorHexNode.layoutSizingHorizontal = "FILL";
 
@@ -515,6 +515,10 @@ export function createExplanationItem(
       "HORIZONTAL"
     );
 
+    tempWrapper1.name = "Text Property Items Wrapper";
+    tempWrapper2.name = "Text Property Items Wrapper";
+    tempWrapper3.name = "Text Property Items Wrapper";
+
     tempWrapper1.layoutSizingVertical = "HUG";
     tempWrapper2.layoutSizingVertical = "HUG";
     tempWrapper3.layoutSizingVertical = "HUG";
@@ -538,6 +542,7 @@ export function createExplanationItem(
       baseSpacing,
       "VERTICAL"
     );
+    titleWrapper.name = "Explanation Item Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
     tempWrapper1.layoutSizingHorizontal = "FILL";
     tempWrapper2.layoutSizingHorizontal = "FILL";
@@ -560,6 +565,7 @@ export function createExplanationItem(
     titleNode.layoutSizingHorizontal = "FILL";
     descriptionNode.layoutSizingHorizontal = "FILL";
   }
+  explanationTextsWrapperNode.name = "Explanation Item Texts Wrapper";
 
   // const nodesToPushInWrapper: SceneNode[] = [];
   let explanationItemWrapperNode: FrameNode;
@@ -819,6 +825,7 @@ export function createExplanationWrapper(
   );
 
   const itemsFrame = createAutolayoutFrame(explanationItems, 0, "VERTICAL");
+  itemsFrame.name = "Explanation Items Wrapper";
   itemsFrame.clipsContent = false;
   itemsFrame.layoutSizingHorizontal = "HUG";
   itemsFrame.layoutSizingVertical = "HUG";
@@ -934,7 +941,7 @@ export function createExplanationTextPropertyItem(
   fontName: FontName
 ) {
   const titleNode = createTextNode(title, fontName, 12);
-  titleNode.fills = [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }];
+  titleNode.fills = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 } }];
   titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
 
   const valueNode = createTextNode(value, fontName, 12);
@@ -947,12 +954,13 @@ export function createExplanationTextPropertyItem(
     0,
     "HORIZONTAL"
   );
+  wrapper.name = "Text Property Item";
   wrapper.layoutGrow = 1;
   wrapper.paddingTop = 4;
   wrapper.paddingBottom = 4;
 
   // 筆畫
-  wrapper.strokes = [{ type: "SOLID", color: { r: 0.92, g: 0.92, b: 0.92 } }];
+  wrapper.strokes = [{ type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } }];
   wrapper.strokeTopWeight = 0;
   wrapper.strokeBottomWeight = 1;
   wrapper.strokeLeftWeight = 0;
