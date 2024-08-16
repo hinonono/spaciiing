@@ -16,7 +16,7 @@ import {
   iosDefaultDropShadowData,
   antDesignDropShadowData,
 } from "../assets/effects";
-import { tailwindBorderRadiusData } from "../assets/numbers";
+import { tailwindBorderData, tailwindBorderRadiusData, tailwindContainerData, tailwindFontSizeData, tailwindOpacityData, tailwindSizeData } from "../assets/numbers";
 
 import {
   InstantiaterTarget,
@@ -73,7 +73,12 @@ const tailwindPurple: ColorCollection = colors.tailwindPurpleData;
 const tailwindFuchsia: ColorCollection = colors.tailwindFuchsiaData;
 const tailwindPink: ColorCollection = colors.tailwindPinkData;
 const tailwindRose: ColorCollection = colors.tailwindRoseData;
+const tailwindBorder: NumberCollection = tailwindBorderData;
 const tailwindBorderRadius: NumberCollection = tailwindBorderRadiusData;
+const tailwindContainer: NumberCollection = tailwindContainerData;
+const tailwindFontSize: NumberCollection = tailwindFontSizeData;
+const tailwindOpacity: NumberCollection = tailwindOpacityData;
+const tailwindSize: NumberCollection = tailwindSizeData;
 
 // Bootstrap
 const bootstrapBlue: ColorCollection = colors.bootstrapBlue;
@@ -552,8 +557,18 @@ export function determineGenerateVariable(
       return tailwindPink;
     case "tailwindRose":
       return tailwindRose;
+    case "tailwindBorder":
+      return tailwindBorder;
     case "tailwindBorderRadius":
       return tailwindBorderRadius;
+    case "tailwindContainer":
+      return tailwindContainer;
+    case "tailwindFontSize":
+      return tailwindFontSize;
+    case "tailwindOpacity":
+      return tailwindOpacity;
+    case "tailwindSize":
+      return tailwindSize;
     case "bootstrapBlue":
       return bootstrapBlue;
     case "bootstrapIndigo":
