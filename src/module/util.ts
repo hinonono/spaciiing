@@ -1,7 +1,3 @@
-import {
-  CollectionExplanationable,
-  ColorCollection,
-} from "../types/ColorCollection";
 import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { ResizableNode } from "../types/NodeResizable";
 
@@ -929,11 +925,11 @@ export function createExplanationWrapperForVariable(
   return wrapperFrame;
 }
 
-export function isColorCollection(
-  collection: CollectionExplanationable
-): collection is ColorCollection {
-  return (collection as ColorCollection).members[0]?.color !== undefined;
-}
+// export function isColorCollection(
+//   collection: CollectionExplanationable
+// ): collection is ColorCollection {
+//   return (collection as ColorCollection).members[0]?.color !== undefined;
+// }
 
 export function createExplanationTextPropertyItem(
   title: string,

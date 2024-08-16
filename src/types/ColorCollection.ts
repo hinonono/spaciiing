@@ -43,8 +43,3 @@ export type ColorType = "light" | "dark" | "none";
 export interface ColorCollection extends BaseCollection {
   members: CustomColor[];
 }
-
-export type CollectionExplanationable =
-  | ColorCollection
-  | EffectCollection
-  | TypographyCollection;
