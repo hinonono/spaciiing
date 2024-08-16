@@ -11,7 +11,7 @@ export type InstantiaterSupportedBrand =
   | "bootstrap"
   | "polaris"
   | "carbon";
-export type InstantiaterCategory = "color" | "effect" | "typography";
+export type InstantiaterCategory = "color" | "effect" | "typography" | "other";
 export type InstantiaterTarget =
   | ""
   | "all"
@@ -77,6 +77,7 @@ export type InstantiaterTarget =
   | "tailwindFuchsia"
   | "tailwindPink"
   | "tailwindRose"
+  | "tailwindBorderRadius"
   | "bootstrapBlue"
   | "bootstrapIndigo"
   | "bootstrapPurple"

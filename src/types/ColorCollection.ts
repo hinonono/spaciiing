@@ -43,3 +43,20 @@ export type ColorType = "light" | "dark" | "none";
 export interface ColorCollection extends BaseCollection {
   members: CustomColor[];
 }
+
+export type CollectionExplanationable =
+  | ColorCollection
+  | EffectCollection
+  | TypographyCollection
+  | NumberCollection;
+
+// 數值
+export interface NumberCollection extends BaseCollection {
+  members: CustomNumber[];
+}
+
+interface CustomNumber {
+  name: string;
+  value: number;
+  description: string;
+}

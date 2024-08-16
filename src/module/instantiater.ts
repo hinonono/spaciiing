@@ -1,13 +1,13 @@
 import * as util from "./util";
 
 import * as colors from "../assets/colors";
-// import iosDefaultDropShadowData from "../assets/effects/iosDefaultDropShadow.json";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
 
 import {
   ColorCollection,
   ColorType,
   EffectCollection,
+  NumberCollection,
   TypographyCollection,
 } from "../types/ColorCollection";
 import {
@@ -16,6 +16,8 @@ import {
   iosDefaultDropShadowData,
   antDesignDropShadowData,
 } from "../assets/effects";
+import { tailwindBorderRadiusData } from "../assets/numbers";
+
 import {
   InstantiaterTarget,
   MessageInstantiater,
@@ -71,6 +73,7 @@ const tailwindPurple: ColorCollection = colors.tailwindPurpleData;
 const tailwindFuchsia: ColorCollection = colors.tailwindFuchsiaData;
 const tailwindPink: ColorCollection = colors.tailwindPinkData;
 const tailwindRose: ColorCollection = colors.tailwindRoseData;
+const tailwindBorderRadius: NumberCollection = tailwindBorderRadiusData;
 
 // Bootstrap
 const bootstrapBlue: ColorCollection = colors.bootstrapBlue;
@@ -431,9 +434,9 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
 /**
  * 依據Target決定要生成哪個Color Variable
  */
-export function determineGenerateColorVariable(
+export function determineGenerateVariable(
   target: InstantiaterTarget
-): ColorCollection {
+): ColorCollection | NumberCollection {
   switch (target) {
     case "iosSystemColorsLight":
       return iosSystemColors;
@@ -549,6 +552,8 @@ export function determineGenerateColorVariable(
       return tailwindPink;
     case "tailwindRose":
       return tailwindRose;
+    case "tailwindBorderRadius":
+      return tailwindBorderRadius;
     case "bootstrapBlue":
       return bootstrapBlue;
     case "bootstrapIndigo":
@@ -633,25 +638,93 @@ export function instantiateTarget(message: MessageInstantiater) {
 
     if (message.type == "actual") {
       if (message.form == "style") {
+        // 生成Style
         determineGenerateColorStyle(target);
       } else {
-        const collectionToBeUse = determineGenerateColorVariable(target);
+        // 生成Variable
+        const collectionToBeUse = determineGenerateVariable(target);
         if (!message.variableCollectionId) {
           throw new Error("variableCollectionId is required");
         }
         if (!message.newCollectionName) {
           throw new Error("newCollectionName is required");
         }
-        generateColorVariable(
-          collectionToBeUse,
-          message.newCollectionName,
-          message.variableCollectionId
-        );
+
+        if (util.isNumberCollection(collectionToBeUse)) {
+          // 傳回的collection是NumberCollection，生成Number Variable
+          generateNumberVariable(
+            collectionToBeUse,
+            message.newCollectionName,
+            message.variableCollectionId
+          );
+        } else {
+          // 傳回的collection是ColorCollection，生成Color Variable
+          generateColorVariable(
+            collectionToBeUse,
+            message.newCollectionName,
+            message.variableCollectionId
+          );
+        }
       }
-    } else if (message.type == "explanation") {
-      // determineGenerateExplanationText(target);
     }
   });
+}
+
+/**
+ * Generates number variables based on the provided collection and adds them to a specified variable collection.
+ *
+ * @param {NumberCollection} collection - The collection of numbers to generate variables from.
+ * @param {string} newCollectionName - The name for the new variable collection if a new one is to be created.
+ * @param {string} variableCollectionId - The ID of the existing variable collection to add the variables to, or "new" to create a new collection.
+ * @throws Will throw an error if the specified variable collection ID is not found.
+ */
+async function generateNumberVariable(
+  collection: NumberCollection,
+  newCollectionName: string,
+  variableCollectionId: string
+) {
+  let variableCollection: VariableCollection;
+
+  if (variableCollectionId === "new") {
+    const newCollection =
+      figma.variables.createVariableCollection(newCollectionName);
+    variableCollection = newCollection;
+  } else {
+    const variableCollections =
+      await figma.variables.getLocalVariableCollectionsAsync();
+
+    // Find the collection named "Numbers"
+    const collection = variableCollections.find(
+      (vc) => vc.id === variableCollectionId
+    );
+    if (!collection) {
+      throw new Error(
+        "Failed to find variable collection with id: " + variableCollectionId
+      );
+    }
+    variableCollection = collection;
+  }
+
+  const defaultModeId = variableCollection.defaultModeId;
+
+  // Iterate over each member in the collection and create variables
+  for (const member of collection.members) {
+    // Create a new variable for the current number member
+    const variable = figma.variables.createVariable(
+      `${collection.name}/${member.name}`, // Variable name includes collection name and member name
+      variableCollection,
+      "FLOAT"
+    );
+
+    // Set the description of the variable
+    variable.description = member.description;
+
+    // Set the values for default mode
+    variable.setValueForMode(defaultModeId, member.value);
+  }
+
+  // Notify the user that the variable collection has been created
+  figma.notify(`✅ Collection "${collection.name}" created successfully.`);
 }
 
 async function generateColorVariable(
@@ -681,34 +754,12 @@ async function generateColorVariable(
     variableCollection = collection;
   }
 
-  // If the collection does not exist, create one
-  // if (!variableCollection) {
-  //   if (!isColorsCollectionCreated) {
-  //     variableCollection = figma.variables.createVariableCollection("Colors");
-  //     isColorsCollectionCreated = true;
-  //   } else {
-  //     // Re-fetch the collections to ensure the collection is created by another instance
-  //     const updatedVariableCollections =
-  //       await figma.variables.getLocalVariableCollectionsAsync();
-  //     variableCollection = updatedVariableCollections.find(
-  //       (vc) => vc.name === "Colors"
-  //     );
-  //   }
-  // }
-
-  // Ensure variableCollection is defined
-  // if (!variableCollection) {
-  //   throw new Error(
-  //     "Failed to find variable collection with id: " + variableCollectionId
-  //   );
-  // }
-
   // Check if "Light" and "Dark" modes exist, and add them if they don't
   let lightModeId = variableCollection.modes.find(
-    (mode) => mode.name === "Light"
+    (mode) => mode.name === "Light" || mode.name === "light"
   )?.modeId;
   let darkModeId = variableCollection.modes.find(
-    (mode) => mode.name === "Dark"
+    (mode) => mode.name === "Dark" || mode.name === "dark"
   )?.modeId;
 
   if (!lightModeId) {

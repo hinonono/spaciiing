@@ -571,6 +571,14 @@ const tailwindOptions: AvailableOption[] = [
     forms: ["style", "variable"],
     count: 11,
   },
+  {
+    value: "tailwindBorderRadius",
+    label: "Border radius",
+    brands: ["tailwind"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 9,
+  },
 ];
 
 const bootstrapOptions: AvailableOption[] = [
@@ -913,7 +921,7 @@ const allOptions: AvailableOption[] = [
       "polaris",
       "carbon",
     ],
-    category: ["color", "effect", "typography"],
+    category: ["color", "effect", "typography", "other"],
     forms: ["style", "variable"],
   },
   ...iosOptions,

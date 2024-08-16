@@ -1,3 +1,8 @@
+import {
+  CollectionExplanationable,
+  ColorCollection,
+  NumberCollection,
+} from "../types/ColorCollection";
 import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { ResizableNode } from "../types/NodeResizable";
 
@@ -12,6 +17,18 @@ export function sendMessageBack(message: object) {
   figma.ui.postMessage({
     pluginMessage: message,
   });
+}
+
+export function isColorCollection(
+  collection: CollectionExplanationable
+): collection is ColorCollection {
+  return (collection as ColorCollection).members[0]?.color !== undefined;
+}
+
+export function isNumberCollection(
+  collection: CollectionExplanationable
+): collection is NumberCollection {
+  return (collection as NumberCollection).members[0]?.value !== undefined;
 }
 
 /**

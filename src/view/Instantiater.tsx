@@ -34,6 +34,7 @@ const Instantiater: React.FC = () => {
     color: 0,
     effect: 0,
     typography: 0,
+    other: 0,
   });
   const calculateOptionsCount = (brand: InstantiaterSupportedBrand) => {
     const counts: { [key in InstantiaterCategory]: number } = {
@@ -41,8 +42,10 @@ const Instantiater: React.FC = () => {
       effect: getOptionsForSelectedBrandAndForm(brand, "effect", form).length,
       typography: getOptionsForSelectedBrandAndForm(brand, "typography", form)
         .length,
+      other: getOptionsForSelectedBrandAndForm(brand, "other", form).length,
     };
     setCategoryOptionsCount(counts);
+    console.log(counts);
   };
 
   const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -245,6 +248,9 @@ const Instantiater: React.FC = () => {
             )}
             {categoryOptionsCount.typography > 1 && (
               <option value="typography">{t("term:fontFamily")}</option>
+            )}
+            {categoryOptionsCount.other > 1 && (
+              <option value="other">{t("term:other")}</option>
             )}
           </select>
           <div className="mt-xxsmall"></div>
