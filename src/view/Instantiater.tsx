@@ -226,12 +226,12 @@ const Instantiater: React.FC = () => {
             onChange={handleBrandChange}
           >
             <option value="antDesign">Ant Design</option>
-            {/* <option value="bootstrap">Bootstrap</option> */}
+            <option value="bootstrap">Bootstrap</option>
             <option value="ios">iOS</option>
-            {/* <option value="carbon">IBM Carbon</option> */}
+            <option value="carbon">IBM Carbon</option>
             <option value="materialDesign">Material Design</option>
-            {/* <option value="polaris">Shopify Polaris</option> */}
-            {/* <option value="tailwind">Tailwind CSS</option> */}
+            <option value="polaris">Shopify Polaris</option>
+            <option value="tailwind">Tailwind CSS</option>
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選擇類型 */}

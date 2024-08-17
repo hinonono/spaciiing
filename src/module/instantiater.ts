@@ -16,7 +16,34 @@ import {
   iosDefaultDropShadowData,
   antDesignDropShadowData,
 } from "../assets/effects";
-import { tailwindBorderData, tailwindBorderRadiusData, tailwindContainerData, tailwindFontSizeData, tailwindOpacityData, tailwindSizeData } from "../assets/numbers";
+import {
+  tailwindBorderData,
+  tailwindBorderRadiusData,
+  tailwindContainerData,
+  tailwindFontSizeData,
+  tailwindOpacityData,
+  tailwindSizeData,
+  // Ant Design
+  antDesignBreakpointsData,
+  antDesignFontSizeData,
+  antDesignLineHeightData,
+  antDesignPaddingData,
+  // Bootstrap
+  bootstrapBorderRadiusData,
+  bootstrapBreakpointsData,
+  // Carbon
+  carbonBreakpointsData,
+  carbonSpacingData,
+  carbonTypographyScaleData,
+  // Polaris
+  polarisBorderRadiusData,
+  polarisBreakpointsData,
+  polarisFontSizeData,
+  polarisHeightData,
+  polarisLineHeightData,
+  polarisSpaceData,
+  polarisWidthData,
+} from "../assets/numbers";
 
 import {
   InstantiaterTarget,
@@ -49,6 +76,10 @@ const antDesignDaybreakBlue: ColorCollection = colors.antDesignDaybreakBlueData;
 const antDesignGeekBlue: ColorCollection = colors.antDesignGeekBlueData;
 const antDesignGoldenPurple: ColorCollection = colors.antDesignGoldenPurpleData;
 const antDesignMagenta: ColorCollection = colors.antDesignMagentaData;
+const antDesignBreakpoints: NumberCollection = antDesignBreakpointsData;
+const antDesignFontSize: NumberCollection = antDesignFontSizeData;
+const antDesignLineHeight: NumberCollection = antDesignLineHeightData;
+const antDesignPadding: NumberCollection = antDesignPaddingData;
 
 // Tailwind CSS
 const tailwindSlate: ColorCollection = colors.tailwindSlateData;
@@ -92,6 +123,8 @@ const bootstrapGreen: ColorCollection = colors.bootstrapGreen;
 const bootstrapTeal: ColorCollection = colors.bootstrapTeal;
 const bootstrapCyan: ColorCollection = colors.bootstrapCyan;
 const bootstrapGray: ColorCollection = colors.bootstrapGray;
+const bootstrapBorderRadius: NumberCollection = bootstrapBorderRadiusData;
+const bootstrapBreakpoints: NumberCollection = bootstrapBreakpointsData;
 
 // Polaris
 const polarisRose: ColorCollection = colors.polarisRose;
@@ -106,6 +139,13 @@ const polarisLime: ColorCollection = colors.polarisLime;
 const polarisYellow: ColorCollection = colors.polarisYellow;
 const polarisOrange: ColorCollection = colors.polarisOrange;
 const polarisRed: ColorCollection = colors.polarisRed;
+const polarisBorderRadius: NumberCollection = polarisBorderRadiusData;
+const polarisBreakpoints: NumberCollection = polarisBreakpointsData;
+const polarisFontSize: NumberCollection = polarisFontSizeData;
+const polarisHeight: NumberCollection = polarisHeightData;
+const polarisLineHeight: NumberCollection = polarisLineHeightData;
+const polarisSpace: NumberCollection = polarisSpaceData;
+const polarisWidth: NumberCollection = polarisWidthData;
 
 // Carbon
 const carbonBlue: ColorCollection = colors.carbonBlue;
@@ -120,6 +160,9 @@ const carbonRed: ColorCollection = colors.carbonRed;
 const carbonTeal: ColorCollection = colors.carbonTeal;
 const carbonWarmGray: ColorCollection = colors.carbonWarmGray;
 const carbonYellow: ColorCollection = colors.carbonYellow;
+const carbonBreakpoints: NumberCollection = carbonBreakpointsData;
+const carbonSpacing: NumberCollection = carbonSpacingData;
+const carbonTypographyScale: NumberCollection = carbonTypographyScaleData;
 
 // Effect資料
 const iosDefaultDropShadow: EffectCollection =
@@ -443,6 +486,7 @@ export function determineGenerateVariable(
   target: InstantiaterTarget
 ): ColorCollection | NumberCollection {
   switch (target) {
+    // iOS
     case "iosSystemColorsLight":
       return iosSystemColors;
     case "iosSystemColorsDark":
@@ -451,6 +495,7 @@ export function determineGenerateVariable(
       return iosSystemGrayColors;
     case "iosSystemGrayColorsDark":
       return iosSystemGrayColors;
+    // Material 3
     case "m3BaselinePrimary":
       return m3BaselinePrimary;
     case "m3BaselineSecondary":
@@ -461,6 +506,7 @@ export function determineGenerateVariable(
       return m3BaselineNeutral;
     case "m3BaselineError":
       return m3BaselineError;
+    // Ant Design
     case "antDesignNeutralColorLight":
       return antDesignNeutralColor;
     case "antDesignNeutralColorDark":
@@ -513,6 +559,15 @@ export function determineGenerateVariable(
       return antDesignMagenta;
     case "antDesignMagentaDark":
       return antDesignMagenta;
+    case "antDesignBreakpoints":
+      return antDesignBreakpoints;
+    case "antDesignFontSize":
+      return antDesignFontSize;
+    case "antDesignLineHeight":
+      return antDesignLineHeight;
+    case "antDesignPadding":
+      return antDesignPadding;
+    // Tailwind
     case "tailwindSlate":
       return tailwindSlate;
     case "tailwindGray":
@@ -569,6 +624,7 @@ export function determineGenerateVariable(
       return tailwindOpacity;
     case "tailwindSize":
       return tailwindSize;
+    // Bootstrap
     case "bootstrapBlue":
       return bootstrapBlue;
     case "bootstrapIndigo":
@@ -591,6 +647,11 @@ export function determineGenerateVariable(
       return bootstrapCyan;
     case "bootstrapGray":
       return bootstrapGray;
+    case "bootstrapBorderRadius":
+      return bootstrapBorderRadius;
+    case "bootstrapBreakpoints":
+      return bootstrapBreakpoints;
+    // Polaris
     case "polarisRose":
       return polarisRose;
     case "polarisMagenta":
@@ -615,6 +676,21 @@ export function determineGenerateVariable(
       return polarisOrange;
     case "polarisRed":
       return polarisRed;
+    case "polarisBorderRadius":
+      return polarisBorderRadius;
+    case "polarisBreakpoints":
+      return polarisBreakpoints;
+    case "polarisFontSize":
+      return polarisFontSize;
+    case "polarisHeight":
+      return polarisHeight;
+    case "polarisLineHeight":
+      return polarisLineHeight;
+    case "polarisSpace":
+      return polarisSpace;
+    case "polarisWidth":
+      return polarisWidth;
+    // Carbon
     case "carbonBlue":
       return carbonBlue;
     case "carbonCoolGray":
@@ -639,6 +715,12 @@ export function determineGenerateVariable(
       return carbonWarmGray;
     case "carbonYellow":
       return carbonYellow;
+    case "carbonBreakpoints":
+      return carbonBreakpoints;
+    case "carbonSpacing":
+      return carbonSpacing;
+    case "carbonTypographyScale":
+      return carbonTypographyScale;
     default:
       // handle default case
       throw new Error("Unknown target");

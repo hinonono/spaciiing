@@ -15,12 +15,14 @@ export type InstantiaterCategory = "color" | "effect" | "typography" | "other";
 export type InstantiaterTarget =
   | ""
   | "all"
+  // iOS
   | "iosEffectDefaultDropShadow"
   | "iosTypographyLarge"
   | "iosSystemColorsLight"
   | "iosSystemColorsDark"
   | "iosSystemGrayColorsLight"
   | "iosSystemGrayColorsDark"
+  // Material Design 3
   | "m3ElevationLight"
   | "m3ElevationDark"
   | "m3BaselinePrimary"
@@ -28,6 +30,7 @@ export type InstantiaterTarget =
   | "m3BaselineTertiary"
   | "m3BaselineNeutral"
   | "m3BaselineError"
+  // Ant Design
   | "antDesignNeutralColorLight"
   | "antDesignNeutralColorDark"
   | "antDesignDustRedLight"
@@ -55,6 +58,11 @@ export type InstantiaterTarget =
   | "antDesignMagentaLight"
   | "antDesignMagentaDark"
   | "antDesignDropShadow"
+  | "antDesignBreakpoints"
+  | "antDesignFontSize"
+  | "antDesignLineHeight"
+  | "antDesignPadding"
+  // Tailwind CSS
   | "tailwindSlate"
   | "tailwindGray"
   | "tailwindZinc"
@@ -83,6 +91,7 @@ export type InstantiaterTarget =
   | "tailwindFontSize"
   | "tailwindOpacity"
   | "tailwindSize"
+  // Bootstrap
   | "bootstrapBlue"
   | "bootstrapIndigo"
   | "bootstrapPurple"
@@ -94,6 +103,9 @@ export type InstantiaterTarget =
   | "bootstrapTeal"
   | "bootstrapCyan"
   | "bootstrapGray"
+  | "bootstrapBorderRadius"
+  | "bootstrapBreakpoints"
+  // Polaris
   | "polarisRose"
   | "polarisMagenta"
   | "polarisPurple"
@@ -106,6 +118,14 @@ export type InstantiaterTarget =
   | "polarisYellow"
   | "polarisOrange"
   | "polarisRed"
+  | "polarisBorderRadius"
+  | "polarisBreakpoints"
+  | "polarisFontSize"
+  | "polarisHeight"
+  | "polarisLineHeight"
+  | "polarisSpace"
+  | "polarisWidth"
+  // Carbon
   | "carbonBlue"
   | "carbonCoolGray"
   | "carbonCyan"
@@ -117,7 +137,10 @@ export type InstantiaterTarget =
   | "carbonRed"
   | "carbonTeal"
   | "carbonWarmGray"
-  | "carbonYellow";
+  | "carbonYellow"
+  | "carbonBreakpoints"
+  | "carbonSpacing"
+  | "carbonTypographyScale";
 
 export interface MessageInstantiater extends Message {
   targets: InstantiaterTarget[];

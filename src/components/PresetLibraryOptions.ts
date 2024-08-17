@@ -379,6 +379,38 @@ const antDesignOptions: AvailableOption[] = [
     forms: ["style"],
     count: 12,
   },
+  {
+    value: "antDesignBreakpoints",
+    label: "Breakpoints",
+    brands: ["antDesign"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 6,
+  },
+  {
+    value: "antDesignFontSize",
+    label: "Font size",
+    brands: ["antDesign"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 6,
+  },
+  {
+    value: "antDesignLineHeight",
+    label: "Line height",
+    brands: ["antDesign"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 6,
+  },
+  {
+    value: "antDesignPadding",
+    label: "Padding",
+    brands: ["antDesign"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 3,
+  },
 ];
 
 const tailwindOptions: AvailableOption[] = [
@@ -721,6 +753,22 @@ const bootstrapOptions: AvailableOption[] = [
     forms: ["style", "variable"],
     count: 9,
   },
+  {
+    value: "bootstrapBorderRadius",
+    label: "Border radius",
+    brands: ["bootstrap"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 6,
+  },
+  {
+    value: "bootstrapBreakpoints",
+    label: "Breakpoints",
+    brands: ["bootstrap"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 5,
+  },
 ];
 
 const polarisOptions: AvailableOption[] = [
@@ -832,6 +880,62 @@ const polarisOptions: AvailableOption[] = [
     forms: ["style", "variable"],
     count: 16,
   },
+  {
+    value: "polarisBorderRadius",
+    label: "Border radius",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 14,
+  },
+  {
+    value: "polarisBreakpoints",
+    label: "Breakpoints",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 4,
+  },
+  {
+    value: "polarisFontSize",
+    label: "Font size",
+    brands: ["polaris"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 13,
+  },
+  {
+    value: "polarisHeight",
+    label: "Height",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 19,
+  },
+  {
+    value: "polarisWidth",
+    label: "Width",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 19,
+  },
+  {
+    value: "polarisLineHeight",
+    label: "Line height",
+    brands: ["polaris"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 8,
+  },
+  {
+    value: "polarisSpace",
+    label: "Space",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 19,
+  },
 ];
 
 const carbonOptions: AvailableOption[] = [
@@ -942,6 +1046,30 @@ const carbonOptions: AvailableOption[] = [
     thumbnailColor: "rgb(114, 110, 110)", // Warm Gray - shade 60
     forms: ["style", "variable"],
     count: 10,
+  },
+  {
+    value: "carbonBreakpoints",
+    label: "Breakpoints",
+    brands: ["carbon"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 5,
+  },
+  {
+    value: "carbonSpacing",
+    label: "Spacing",
+    brands: ["carbon"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 13,
+  },
+  {
+    value: "carbonTypographyScale",
+    label: "Typography scale",
+    brands: ["carbon"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 17,
   },
 ];
 
