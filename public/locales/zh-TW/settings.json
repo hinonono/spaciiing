@@ -3,5 +3,7 @@
   "preferredLanguage": "偏好語言",
   "about": "關於本外掛程式",
   "version": "版本",
-  "forBugReportOrSupport": "如需提交錯誤報告或取得幫助，請聯繫"
+  "forBugReportOrSupport": "如需提交錯誤報告或取得幫助，請聯繫",
+  "provideFeedback": "提供意見回饋",
+  "feedbackForm": "回饋表單"
 }

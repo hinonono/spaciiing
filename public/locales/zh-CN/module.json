@@ -1,8 +1,6 @@
 {
   "modulePresetLibrary": "预设样式库",
   "modulePresetLibraryDesc": "从知名设计系统中创建样式或变量。",
-  "style": "样式",
-  "variable": "变量",
   "collection": "集合",
   "selectAnOption": "选择一个选项",
   "generateUsageDefinition": "生成使用定义",

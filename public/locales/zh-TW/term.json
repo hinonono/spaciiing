@@ -47,5 +47,7 @@
   "back": "返回",
   "selectAll": "全選",
   "unselectAll": "取消全選",
-  "other": "其他"
+  "other": "其他",
+  "effect": "效果",
+  "typography": "版式"
 }

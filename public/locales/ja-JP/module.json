@@ -1,8 +1,6 @@
 {
   "modulePresetLibrary": "プリセットライブラリ",
   "modulePresetLibraryDesc": "有名なデザインシステムからスタイルまたはバリアブルを作成します。",
-  "style": "スタイル",
-  "variable": "バリアブル",
   "collection": "コレクション",
   "selectAnOption": "オプションを選択してください",
   "generateUsageDefinition": "使用定義を生成",

@@ -1,5 +1,5 @@
 {
-  "allOptions": "全部选项",
+  "allOptions": "选择全部选项",
   "image": "图像",
   "text": "文字",
   "frame": "画框",
@@ -47,5 +47,7 @@
   "back": "返回",
   "selectAll": "全选",
   "unselectAll": "取消全选",
-  "other": "其他"
+  "other": "其他",
+  "effect": "效果",
+  "typography": "版式"
 }
