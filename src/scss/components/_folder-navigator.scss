@@ -12,6 +12,19 @@
     li {
         margin: 0;
     }
+
+    .container {
+        margin-left: 16px;
+        margin-right: 16px;
+
+        &:first-child {
+            margin-top: 16px;
+        }
+
+        &:last-child {
+            margin-bottom: 16px;
+        }
+    }
 }
 
 .folder-navigator-items-group {

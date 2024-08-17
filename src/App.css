@@ -410,6 +410,16 @@
 .folder-navigator li {
   margin: 0;
 }
+.folder-navigator .container {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.folder-navigator .container:first-child {
+  margin-top: 16px;
+}
+.folder-navigator .container:last-child {
+  margin-bottom: 16px;
+}
 
 .folder-navigator-items-group {
   padding: 0px;
