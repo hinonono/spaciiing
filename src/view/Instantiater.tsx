@@ -244,10 +244,10 @@ const Instantiater: React.FC = () => {
               <option value="color">{t("term:color")}</option>
             )}
             {categoryOptionsCount.effect > 1 && (
-              <option value="effect">{t("term:effectColor")}</option>
+              <option value="effect">{t("term:effect")}</option>
             )}
             {categoryOptionsCount.typography > 1 && (
-              <option value="typography">{t("term:fontFamily")}</option>
+              <option value="typography">{t("term:typography")}</option>
             )}
             {categoryOptionsCount.other > 1 && (
               <option value="other">{t("term:other")}</option>

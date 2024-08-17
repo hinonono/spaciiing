@@ -1,5 +1,5 @@
 {
-  "allOptions": "ALL_OPTIONS",
+  "allOptions": "Select all options",
   "image": "IMAGE",
   "text": "TEXT",
   "frame": "FRAME",
@@ -47,5 +47,7 @@
   "back": "Back",
   "selectAll": "Select All",
   "unselectAll": "Unselect All",
-  "other": "Other"
+  "other": "Other",
+  "effect": "Effect",
+  "typography": "Typography"
 }

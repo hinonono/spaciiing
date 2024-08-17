@@ -108,7 +108,21 @@ const Setting: React.FC = () => {
           <div className="grid">
             <div className="membership-block">
               <p className="color--secondary">{t("settings:version")}</p>
-              <span>14</span>
+              <span>15</span>
+            </div>
+            <div className="membership-block">
+              <p className="color--secondary">
+                {t("settings:provideFeedback")}
+              </p>
+              <span>
+                <a
+                  className="text-color-primary"
+                  href="https://forms.gle/jFgzJfs1nw259Kgk8"
+                  target="_blank"
+                >
+                  {t("settings:feedbackForm")}
+                </a>
+              </span>
             </div>
           </div>
           <div className="mt-xxsmall"></div>
