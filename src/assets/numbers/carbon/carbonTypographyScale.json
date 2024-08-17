@@ -1,0 +1,91 @@
+{
+  "brand": "Carbon",
+  "name": "Typography Scale",
+  "members": [
+    {
+      "name": "1",
+      "value": 12,
+      "description": "0.75rem"
+    },
+    {
+      "name": "2",
+      "value": 14,
+      "description": "0.875rem"
+    },
+    {
+      "name": "3",
+      "value": 16,
+      "description": "1rem"
+    },
+    {
+      "name": "4",
+      "value": 18,
+      "description": "1.125rem"
+    },
+    {
+      "name": "5",
+      "value": 20,
+      "description": "1.25rem"
+    },
+    {
+      "name": "6",
+      "value": 24,
+      "description": "1.5rem"
+    },
+    {
+      "name": "7",
+      "value": 28,
+      "description": "1.75rem"
+    },
+    {
+      "name": "8",
+      "value": 32,
+      "description": "2rem"
+    },
+    {
+      "name": "9",
+      "value": 36,
+      "description": "2.25rem"
+    },
+    {
+      "name": "10",
+      "value": 42,
+      "description": "2.625rem"
+    },
+    {
+      "name": "11",
+      "value": 48,
+      "description": "3rem"
+    },
+    {
+      "name": "12",
+      "value": 54,
+      "description": "3.375rem"
+    },
+    {
+      "name": "13",
+      "value": 60,
+      "description": "3.75rem"
+    },
+    {
+      "name": "14",
+      "value": 68,
+      "description": "4.25rem"
+    },
+    {
+      "name": "15",
+      "value": 76,
+      "description": "4.75rem"
+    },
+    {
+      "name": "16",
+      "value": 84,
+      "description": "5.25rem"
+    },
+    {
+      "name": "17",
+      "value": 92,
+      "description": "5.75rem"
+    }
+  ]
+}

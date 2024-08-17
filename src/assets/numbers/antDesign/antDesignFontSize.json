@@ -1,0 +1,36 @@
+{
+  "brand": "Ant Design",
+  "name": "Font Size",
+  "members": [
+    {
+      "name": "fontSize",
+      "value": 14,
+      "description": "The most widely used font size in the design system, from which the text gradient will be derived."
+    },
+    {
+      "name": "fontSizeHeading1",
+      "value": 38,
+      "description": "Font size of h1 tag."
+    },
+    {
+      "name": "fontSizeHeading2",
+      "value": 30,
+      "description": "Font size of h2 tag."
+    },
+    {
+      "name": "fontSizeHeading3",
+      "value": 24,
+      "description": "Font size of h3 tag."
+    },
+    {
+      "name": "fontSizeHeading4",
+      "value": 20,
+      "description": "Font size of h4 tag."
+    },
+    {
+      "name": "fontSizeHeading5",
+      "value": 16,
+      "description": "Font size of h5 tag."
+    }
+  ]
+}

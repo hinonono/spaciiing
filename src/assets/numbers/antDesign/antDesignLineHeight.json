@@ -1,0 +1,36 @@
+{
+  "brand": "Ant Design",
+  "name": "Line Height",
+  "members": [
+    {
+      "name": "lineHeight",
+      "value": 1.57,
+      "description": "Line height of text."
+    },
+    {
+      "name": "lineHeightHeading1",
+      "value": 1.21,
+      "description": "Line height of h1 tag."
+    },
+    {
+      "name": "lineHeightHeading2",
+      "value": 1.26,
+      "description": "Line height of h2 tag."
+    },
+    {
+      "name": "lineHeightHeading3",
+      "value": 1.33,
+      "description": "Line height of h3 tag."
+    },
+    {
+      "name": "lineHeightHeading4",
+      "value": 1.4,
+      "description": "Line height of h4 tag."
+    },
+    {
+      "name": "lineHeightHeading5",
+      "value": 1.5,
+      "description": "Line height of h5 tag."
+    }
+  ]
+}

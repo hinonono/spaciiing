@@ -1,0 +1,36 @@
+{
+  "brand": "Bootstrap",
+  "name": "Border Radius",
+  "members": [
+    {
+      "name": "sm",
+      "value": 4,
+      "description": "0.25rem"
+    },
+    {
+      "name": "lg",
+      "value": 8,
+      "description": "0.5rem"
+    },
+    {
+      "name": "xl",
+      "value": 16,
+      "description": "1rem"
+    },
+    {
+      "name": "xxl",
+      "value": 24,
+      "description": "1.5rem"
+    },
+    {
+      "name": "2xl",
+      "value": 24,
+      "description": "1.5rem"
+    },
+    {
+      "name": "pill",
+      "value": 800,
+      "description": "50rem"
+    }
+  ]
+}

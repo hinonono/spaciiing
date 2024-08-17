@@ -1,0 +1,36 @@
+{
+  "brand": "Ant Design",
+  "name": "Breakpoints",
+  "members": [
+    {
+      "name": "xs",
+      "value": 480,
+      "description": ""
+    },
+    {
+      "name": "sm",
+      "value": 576,
+      "description": ""
+    },
+    {
+      "name": "md",
+      "value": 768,
+      "description": ""
+    },
+    {
+      "name": "lg",
+      "value": 992,
+      "description": ""
+    },
+    {
+      "name": "xl",
+      "value": 1200,
+      "description": ""
+    },
+    {
+      "name": "xxl",
+      "value": 1600,
+      "description": ""
+    }
+  ]
+}
