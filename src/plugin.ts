@@ -41,7 +41,7 @@ figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(380, 500);
 
 figma.ui.onmessage = (message: Message) => {
-  console.log(message);
+  // console.log(message);
 
   switch (message.module) {
     case "Init":

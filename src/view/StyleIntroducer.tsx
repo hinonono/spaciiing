@@ -64,7 +64,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     scopes: [],
   });
   useEffect(() => {
-    console.log(selectedScopes);
+    // console.log(selectedScopes);
   }, [selectedScopes]);
 
   const [nestedStructure, setNestedStructure] =

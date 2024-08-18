@@ -228,53 +228,56 @@ async function applyStyleIntroducerForVariable(
   // create explanation items
   const explanationItems: FrameNode[] = [];
 
-  let variableList;
+  let localVariables;
   switch (styleMode) {
     case "COLOR":
-      variableList = await figma.variables.getLocalVariablesAsync("COLOR");
+      localVariables = await figma.variables.getLocalVariablesAsync("COLOR");
       break;
     default:
       throw new Error("Invalid style type");
   }
-  if (!variableList) {
+  if (!localVariables) {
     throw new Error("Termination due to styleList is undefined.");
   }
 
-  const selectedVariableList = variableList.filter((variable) =>
+  const selectedVariables = localVariables.filter((variable) =>
     scopes.includes(variable.id)
   );
 
+  // 抓取所選擇的變數們他們所屬的Collection ID
   const variableCollectionId =
-    selectedVariableList[selectedVariableList.length - 1].variableCollectionId;
+    selectedVariables[selectedVariables.length - 1].variableCollectionId;
 
   if (styleMode === "COLOR") {
-    if (styleMode === "COLOR") {
-      selectedVariableList.forEach((variable) => {
-        const values = Object.values(variable.valuesByMode).filter(
-          (value): value is RGBA => {
-            return (
-              typeof value === "object" &&
-              "r" in value &&
-              "g" in value &&
-              "b" in value &&
-              "a" in value
-            );
-          }
-        );
+    selectedVariables.forEach((variable) => {
+      const values = Object.values(variable.valuesByMode).filter(
+        (value): value is RGBA => {
+          return (
+            typeof value === "object" &&
+            "r" in value &&
+            "g" in value &&
+            "b" in value &&
+            "a" in value
+          );
+        }
+      );
 
-        const explanationItem = util.createExplanationItemForVariable(
-          variable.name.split("/").pop() || "",
-          variable.description,
-          fontName,
-          "COLOR",
-          values
-        );
-        explanationItem.primaryAxisSizingMode = "AUTO";
-        explanationItem.counterAxisSizingMode = "AUTO";
+      if (values.length === 0) {
+        throw new Error("Termination due to values is undefined.");
+      }
 
-        explanationItems.push(explanationItem);
-      });
-    }
+      const explanationItem = util.createExplanationItemForVariable(
+        variable.name.split("/").pop() || "",
+        variable.description,
+        fontName,
+        "COLOR",
+        values
+      );
+      explanationItem.primaryAxisSizingMode = "AUTO";
+      explanationItem.counterAxisSizingMode = "AUTO";
+
+      explanationItems.push(explanationItem);
+    });
   }
 
   const variableCollection =
