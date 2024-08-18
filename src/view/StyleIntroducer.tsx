@@ -17,7 +17,7 @@ interface StyleIntroducerProps {}
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
   const { licenseManagement, setShowCTSubscribe, styleList } = useAppContext();
-  const { t } = useTranslation(["common", "settings", "license"]);
+  const { t } = useTranslation(["common", "settings", "license", "term"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -174,10 +174,10 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             {form === "STYLE" && (
               <>
                 <option key="EFFECT" value="EFFECT">
-                  {t("term:effectColor")}
+                  {t("term:effect")}
                 </option>
                 <option key="TEXT" value="TEXT">
-                  {t("term:fontFamily")}
+                  {t("term:typography")}
                 </option>
               </>
             )}
@@ -185,7 +185,9 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         </div>
         {/* 選項 */}
         <div className="mt-xxsmall">
-          <SectionTitle title={form === "STYLE" ? t("term:style") : t("term:variable")} />
+          <SectionTitle
+            title={form === "STYLE" ? t("term:style") : t("term:variable")}
+          />
           <div className="folder-navigator">{folderNavigator()}</div>
         </div>
         {/* 按鈕 */}
