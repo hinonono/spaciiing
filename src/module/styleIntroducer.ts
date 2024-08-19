@@ -6,6 +6,7 @@ import {
 } from "../types/Messages/MessageStyleIntroducer";
 import * as util from "./util";
 import * as typeChecking from "./typeChecking";
+import * as explanation from "./explanation";
 import { semanticTokens } from "./tokens";
 
 export const reception = async (message: MessageStyleIntroducer) => {
@@ -122,17 +123,34 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
       if (paint.type === "SOLID") {
         const solidPaint = paint as SolidPaint;
 
-        const explanationItem = util.createExplanationItem(
+        // const explanationItem = util.createExplanationItem(
+        //   member.name.split("/").pop() || "",
+        //   member.description,
+        //   fontName,
+        //   "COLOR",
+        //   {
+        //     r: solidPaint.color.r,
+        //     g: solidPaint.color.g,
+        //     b: solidPaint.color.b,
+        //   }
+        // );
+
+        const explanationItem = explanation.createExplanationItem(
+          "STYLE",
           member.name.split("/").pop() || "",
           member.description,
           fontName,
           "COLOR",
-          {
-            r: solidPaint.color.r,
-            g: solidPaint.color.g,
-            b: solidPaint.color.b,
-          }
+          [
+            {
+              r: solidPaint.color.r,
+              g: solidPaint.color.g,
+              b: solidPaint.color.b,
+              a: 1,
+            },
+          ]
         );
+
         explanationItem.primaryAxisSizingMode = "AUTO";
         explanationItem.counterAxisSizingMode = "AUTO";
 
@@ -142,7 +160,17 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   } else if (styleMode === "TEXT") {
     const textStyleList = selectedStyleList as TextStyle[];
     textStyleList.forEach((member) => {
-      const explanationItem = util.createExplanationItem(
+      // const explanationItem = util.createExplanationItem(
+      //   member.name.split("/").pop() || "",
+      //   member.description,
+      //   fontName,
+      //   "TEXT",
+      //   undefined,
+      //   undefined,
+      //   member
+      // );
+      const explanationItem = explanation.createExplanationItem(
+        "STYLE",
         member.name.split("/").pop() || "",
         member.description,
         fontName,
@@ -151,6 +179,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
         undefined,
         member
       );
+
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
 
@@ -161,7 +190,16 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
 
     effectStyleList.forEach((member) => {
       const effects = [...member.effects]; // Create a copy of the readonly array
-      const explanationItem = util.createExplanationItem(
+      // const explanationItem = util.createExplanationItem(
+      //   member.name.split("/").pop() || "",
+      //   member.description,
+      //   fontName,
+      //   "EFFECT",
+      //   undefined,
+      //   effects
+      // );
+      const explanationItem = explanation.createExplanationItem(
+        "STYLE",
         member.name.split("/").pop() || "",
         member.description,
         fontName,
@@ -169,6 +207,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
         undefined,
         effects
       );
+
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
 
@@ -176,7 +215,15 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     });
   }
 
-  const explanationWrapper = util.createExplanationWrapper(
+  // const explanationWrapper = util.createExplanationWrapper(
+  //   explanationItems,
+  //   title == "" ? "Styles" : title,
+  //   "Usage Definition",
+  //   { family: "Inter", style: "Semi Bold" }
+  // );
+
+  const explanationWrapper = explanation.createExplanationWrapper(
+    "STYLE",
     explanationItems,
     title == "" ? "Styles" : title,
     "Usage Definition",
@@ -280,7 +327,17 @@ async function applyStyleIntroducerForVariable(
         throw new Error("Termination due to values of variable is undefined.");
       }
 
-      const explanationItem = util.createExplanationItemForVariable(
+      // const explanationItem = util.createExplanationItemForVariable(
+      //   variable.name.split("/").pop() || "",
+      //   variable.description,
+      //   fontName,
+      //   "COLOR",
+      //   values,
+      //   aliasName
+      // );
+
+      const explanationItem = explanation.createExplanationItem(
+        "VARIABLE",
         variable.name.split("/").pop() || "",
         variable.description,
         fontName,
@@ -288,6 +345,7 @@ async function applyStyleIntroducerForVariable(
         values,
         aliasName
       );
+
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
 
@@ -308,12 +366,21 @@ async function applyStyleIntroducerForVariable(
     throw new Error("Termination due to explanationItems length is 0.");
   }
 
-  const explanationWrapper = util.createExplanationWrapperForVariable(
+  // const explanationWrapper = util.createExplanationWrapperForVariable(
+  //   explanationItems,
+  //   title == "" ? "Variables" : title,
+  //   "Usage Definition",
+  //   modeNames,
+  //   { family: "Inter", style: "Semi Bold" }
+  // );
+
+  const explanationWrapper = explanation.createExplanationWrapper(
+    "VARIABLE",
     explanationItems,
     title == "" ? "Variables" : title,
     "Usage Definition",
-    modeNames,
-    { family: "Inter", style: "Semi Bold" }
+    { family: "Inter", style: "Semi Bold" },
+    modeNames
   );
 
   explanationWrapper.fills = [

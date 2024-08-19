@@ -131,4 +131,36 @@ export const semanticTokens = {
   },
   dividerColor: primitiveTokens.slate[200],
   strokeColor: primitiveTokens.slate[400],
+
+  fontSize: {
+    base: 16,
+    small: 12,
+    large: 20,
+    xlarge: 24,
+    xxlarge: 32,
+  },
+  padding: {
+    xxsmall: 4,
+    xsmall: 8,
+    small: 12,
+    base: 16,
+    large: 24,
+    xlarge: 32,
+  },
+  spacing: {
+    xxsmall: 4,
+    xsmall: 8,
+    small: 12,
+    base: 16,
+    large: 24,
+    xlarge: 32,
+  },
+  cornerRadius: {
+    xxsmall: 4,
+    xsmall: 8,
+    small: 12,
+    base: 16,
+    large: 24,
+    xlarge: 32,
+  },
 };

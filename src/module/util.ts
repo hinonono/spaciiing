@@ -5,6 +5,7 @@ import {
 } from "../types/ColorCollection";
 import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { ResizableNode } from "../types/NodeResizable";
+import { createExplanationTextPropertyItem } from "./explanation";
 import { semanticTokens } from "./tokens";
 
 // 取代原有的 fundamental-module.ts
@@ -423,6 +424,7 @@ function hslToRgba(h: number, s: number, l: number, a: number): RGBA {
 }
 
 /**
+ * @deprecated
  * Creates an explanation item consisting of a title and a description.
  * The item is wrapped in a frame node with specified padding and border properties.
  *
@@ -637,7 +639,9 @@ export function createExplanationItem(
     const effectFrame = figma.createFrame();
     effectFrame.resize(64, 64);
     effectFrame.name = "Effect";
-    effectFrame.fills = [{ type: "SOLID", color: semanticTokens.background.primary }];
+    effectFrame.fills = [
+      { type: "SOLID", color: semanticTokens.background.primary },
+    ];
     effectFrame.cornerRadius = 12;
     effectFrame.effects = effects;
 
@@ -687,6 +691,7 @@ export function createExplanationItem(
 }
 
 /**
+ * @deprecated
  * Creates an explanation item frame for a variable.
  *
  * @param {string} title - The title text for the explanation item.
@@ -872,6 +877,7 @@ export function createExplanationItemForVariable(
 }
 
 /**
+ * @deprecated
  * Creates an explanation wrapper frame containing a title and a list of explanation items.
  *
  * @param {FrameNode[]} explanationItems - An array of frame nodes representing the explanation items.
@@ -942,6 +948,7 @@ export function createExplanationWrapper(
   return wrapperFrame;
 }
 
+/** @deprecated */
 export function createExplanationWrapperForVariable(
   explanationItems: FrameNode[],
   title: string,
@@ -1009,46 +1016,6 @@ export function createExplanationWrapperForVariable(
   return wrapperFrame;
 }
 
-export function createExplanationTextPropertyItem(
-  title: string,
-  value: string,
-  fontName: FontName
-) {
-  const titleNode = createTextNode(title, fontName, 12);
-  titleNode.fills = [
-    { type: "SOLID", color: semanticTokens.background.primary },
-  ];
-  titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
-
-  const valueNode = createTextNode(value, fontName, 12);
-  valueNode.fills = [{ type: "SOLID", color: semanticTokens.text.secondary }];
-  valueNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
-  valueNode.textAlignHorizontal = "RIGHT";
-
-  const wrapper = createAutolayoutFrame(
-    [titleNode, valueNode],
-    0,
-    "HORIZONTAL"
-  );
-  wrapper.name = "Text Property Item";
-  wrapper.layoutGrow = 1;
-  wrapper.paddingTop = 4;
-  wrapper.paddingBottom = 4;
-
-  // 筆畫
-  wrapper.strokes = [{ type: "SOLID", color: semanticTokens.strokeColor }];
-  wrapper.strokeTopWeight = 0;
-  wrapper.strokeBottomWeight = 1;
-  wrapper.strokeLeftWeight = 0;
-  wrapper.strokeRightWeight = 0;
-
-  // Autolayout 內元素排版
-  titleNode.layoutSizingHorizontal = "FILL";
-  valueNode.layoutSizingHorizontal = "FILL";
-
-  return wrapper;
-}
-
 /**
  * Creates a new auto-layout frame and adds the specified layers to it.
  *
@@ -1113,6 +1080,8 @@ export function createTextNode(
   textNode.fontName = fontName;
   if (paint) {
     textNode.fills = paint;
+  } else {
+    textNode.fills = [{ type: "SOLID", color: semanticTokens.text.primary }];
   }
   if (lineHeight) {
     textNode.lineHeight = lineHeight;
