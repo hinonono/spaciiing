@@ -5,6 +5,7 @@ import {
   StyleMode,
 } from "../types/Messages/MessageStyleIntroducer";
 import * as util from "./util";
+import * as typeChecking from "./typeChecking";
 
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
@@ -225,8 +226,6 @@ async function applyStyleIntroducerForVariable(
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
   const fontName = { family: "Inter", style: "Regular" };
-  // create explanation items
-  const explanationItems: FrameNode[] = [];
 
   let localVariables;
   switch (styleMode) {
@@ -240,6 +239,7 @@ async function applyStyleIntroducerForVariable(
     throw new Error("Termination due to styleList is undefined.");
   }
 
+  // 過濾出所選擇的變數
   const selectedVariables = localVariables.filter((variable) =>
     scopes.includes(variable.id)
   );
@@ -248,22 +248,35 @@ async function applyStyleIntroducerForVariable(
   const variableCollectionId =
     selectedVariables[selectedVariables.length - 1].variableCollectionId;
 
+  // create explanation items
+  const explanationItems: FrameNode[] = [];
+
   if (styleMode === "COLOR") {
-    selectedVariables.forEach((variable) => {
-      const values = Object.values(variable.valuesByMode).filter(
-        (value): value is RGBA => {
-          return (
-            typeof value === "object" &&
-            "r" in value &&
-            "g" in value &&
-            "b" in value &&
-            "a" in value
-          );
-        }
-      );
+    for (const variable of selectedVariables) {
+      let aliasName;
+
+      const values = (
+        await Promise.all(
+          Object.values(variable.valuesByMode).map(async (value) => {
+            if (typeChecking.isVariableAliasType(value)) {
+              const aliasVariable = await figma.variables.getVariableByIdAsync(
+                value.id
+              );
+              if (!aliasVariable) {
+                throw new Error("Termination due to aliasVariable is null.");
+              }
+              aliasName = aliasVariable.name;
+              return Object.values(aliasVariable.valuesByMode);
+            }
+            return [value];
+          })
+        )
+      )
+        .flat()
+        .filter(typeChecking.isRGBAType);
 
       if (values.length === 0) {
-        throw new Error("Termination due to values is undefined.");
+        throw new Error("Termination due to values of variable is undefined.");
       }
 
       const explanationItem = util.createExplanationItemForVariable(
@@ -277,7 +290,8 @@ async function applyStyleIntroducerForVariable(
       explanationItem.counterAxisSizingMode = "AUTO";
 
       explanationItems.push(explanationItem);
-    });
+      console.log("Explanation Item", explanationItem);
+    }
   }
 
   const variableCollection =
@@ -287,6 +301,10 @@ async function applyStyleIntroducerForVariable(
   }
 
   const modeNames = variableCollection.modes.map((mode) => mode.name);
+
+  if (explanationItems.length === 0) {
+    throw new Error("Termination due to explanationItems length is 0.");
+  }
 
   const explanationWrapper = util.createExplanationWrapperForVariable(
     explanationItems,

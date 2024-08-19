@@ -13,7 +13,7 @@ export function deepClone(val: unknown) {
 
 export function sendMessageBack(message: object) {
   // console.log("Message sent back");
-  console.log(message);
+  // console.log(message);
   figma.ui.postMessage({
     pluginMessage: message,
   });
@@ -700,6 +700,10 @@ export function createExplanationItemForVariable(
   if (type === "COLOR") {
     if (!color) {
       throw new Error("Color is required for color type.");
+    }
+
+    if (color.length === 0) {
+      throw new Error("Termination due to color.length is 0.");
     }
 
     const hexValues = color.map((color) => rgbToHex(color.r, color.g, color.b));
