@@ -144,7 +144,7 @@ const antDesignOptions: AvailableOption[] = [
     category: ["color"],
     thumbnailColor: "rgb(140,140,140)",
     forms: ["style", "variable"],
-    count: 10,
+    count: 13,
   },
   {
     value: "antDesignNeutralColorDark",
@@ -153,7 +153,7 @@ const antDesignOptions: AvailableOption[] = [
     category: ["color"],
     thumbnailColor: "rgb(140,140,140)",
     forms: ["style", "variable"],
-    count: 10,
+    count: 13,
   },
   {
     value: "antDesignDustRedLight",

@@ -6,6 +6,7 @@ import {
 } from "../types/Messages/MessageStyleIntroducer";
 import * as util from "./util";
 import * as typeChecking from "./typeChecking";
+import { semanticTokens } from "./tokens";
 
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
@@ -185,7 +186,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   explanationWrapper.fills = [
     {
       type: "SOLID",
-      color: { r: 1, g: 1, b: 1 },
+      color: semanticTokens.background.primary,
     },
   ];
 
@@ -284,7 +285,8 @@ async function applyStyleIntroducerForVariable(
         variable.description,
         fontName,
         "COLOR",
-        values
+        values,
+        aliasName
       );
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
@@ -308,7 +310,7 @@ async function applyStyleIntroducerForVariable(
 
   const explanationWrapper = util.createExplanationWrapperForVariable(
     explanationItems,
-    title,
+    title == "" ? "Variables" : title,
     "Usage Definition",
     modeNames,
     { family: "Inter", style: "Semi Bold" }
@@ -317,11 +319,13 @@ async function applyStyleIntroducerForVariable(
   explanationWrapper.fills = [
     {
       type: "SOLID",
-      color: { r: 1, g: 1, b: 1 },
+      color: semanticTokens.background.primary,
     },
   ];
 
-  explanationWrapper.name = `Usage Definition of ${title}`;
+  explanationWrapper.name = `Usage Definition of ${
+    title == "" ? "Variables" : title
+  }`;
 
   // Set corner radius
   explanationWrapper.cornerRadius = 16;

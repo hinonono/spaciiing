@@ -5,6 +5,7 @@ import {
 } from "../types/ColorCollection";
 import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { ResizableNode } from "../types/NodeResizable";
+import { semanticTokens } from "./tokens";
 
 // 取代原有的 fundamental-module.ts
 export function deepClone(val: unknown) {
@@ -681,7 +682,8 @@ export function createExplanationItemForVariable(
   description: string,
   fontName: FontName,
   type: StyleMode,
-  color?: RGBA[]
+  color?: RGBA[],
+  aliasName?: string
 ): FrameNode {
   const baseFontSize = 16;
   const basePadding = 16;
@@ -691,10 +693,43 @@ export function createExplanationItemForVariable(
     description == "" ? "(blank)" : description,
     fontName,
     baseFontSize * 0.75,
-    [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+    [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
 
   let explanationTextsWrapperNode: FrameNode;
+  const itemsToPutInTitleWrapper: SceneNode[] = [];
+
+  if (aliasName) {
+    // 如果aliasName存在，則在titleNode前面加上aliasName
+    const aliasNameNode = createTextNode(
+      aliasName,
+      fontName,
+      baseFontSize * 0.75,
+      [{ type: "SOLID", color: semanticTokens.text.secondary }]
+    );
+    const aliasNameWrapper = createAutolayoutFrame(
+      [aliasNameNode],
+      0,
+      "VERTICAL"
+    );
+    aliasNameWrapper.layoutSizingHorizontal = "HUG";
+    aliasNameWrapper.cornerRadius = 4;
+    aliasNameWrapper.paddingTop = 4;
+    aliasNameWrapper.paddingBottom = 4;
+    aliasNameWrapper.paddingLeft = 8;
+    aliasNameWrapper.paddingRight = 8;
+    aliasNameWrapper.strokes = [
+      { type: "SOLID", color: semanticTokens.strokeColor },
+    ];
+    aliasNameWrapper.strokeWeight = 1;
+    aliasNameWrapper.fills = [
+      { type: "SOLID", color: semanticTokens.background.secondary },
+    ];
+
+    itemsToPutInTitleWrapper.push(aliasNameWrapper);
+  }
+
+  itemsToPutInTitleWrapper.push(titleNode);
 
   // 如果type是COLOR，則在titleNode後面加上顏色碼
   if (type === "COLOR") {
@@ -712,13 +747,14 @@ export function createExplanationItemForVariable(
       hexValues.join(", "),
       fontName,
       baseFontSize * 0.75,
-      [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+      [{ type: "SOLID", color: semanticTokens.text.secondary }]
     );
 
     colorHexNode.textCase = "UPPER";
+    itemsToPutInTitleWrapper.push(colorHexNode);
 
     const titleWrapper = createAutolayoutFrame(
-      [titleNode, colorHexNode],
+      itemsToPutInTitleWrapper,
       4,
       "VERTICAL"
     );
@@ -762,7 +798,7 @@ export function createExplanationItemForVariable(
 
       if (isWhite(color)) {
         colorFrame.strokes = [
-          { type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } },
+          { type: "SOLID", color: semanticTokens.strokeColor },
         ];
         colorFrame.strokeWeight = 1;
       }
@@ -794,7 +830,7 @@ export function createExplanationItemForVariable(
 
   // Set border properties for top edge only
   explanationItemWrapperNode.strokes = [
-    { type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } },
+    { type: "SOLID", color: semanticTokens.dividerColor },
   ];
   explanationItemWrapperNode.strokeWeight = 1;
   explanationItemWrapperNode.strokeTopWeight = 1;
@@ -832,7 +868,7 @@ export function createExplanationWrapper(
     secondaryTitle,
     fontName,
     baseFontSize,
-    [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+    [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
 
   const titleWrapper = createAutolayoutFrame(
@@ -895,7 +931,7 @@ export function createExplanationWrapperForVariable(
     secondaryTitle,
     fontName,
     baseFontSize,
-    [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }]
+    [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
 
   const modesText =
@@ -946,23 +982,19 @@ export function createExplanationWrapperForVariable(
   return wrapperFrame;
 }
 
-// export function isColorCollection(
-//   collection: CollectionExplanationable
-// ): collection is ColorCollection {
-//   return (collection as ColorCollection).members[0]?.color !== undefined;
-// }
-
 export function createExplanationTextPropertyItem(
   title: string,
   value: string,
   fontName: FontName
 ) {
   const titleNode = createTextNode(title, fontName, 12);
-  titleNode.fills = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 } }];
+  titleNode.fills = [
+    { type: "SOLID", color: semanticTokens.background.primary },
+  ];
   titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
 
   const valueNode = createTextNode(value, fontName, 12);
-  valueNode.fills = [{ type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } }];
+  valueNode.fills = [{ type: "SOLID", color: semanticTokens.text.secondary }];
   valueNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
   valueNode.textAlignHorizontal = "RIGHT";
 
@@ -977,7 +1009,7 @@ export function createExplanationTextPropertyItem(
   wrapper.paddingBottom = 4;
 
   // 筆畫
-  wrapper.strokes = [{ type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } }];
+  wrapper.strokes = [{ type: "SOLID", color: semanticTokens.strokeColor }];
   wrapper.strokeTopWeight = 0;
   wrapper.strokeBottomWeight = 1;
   wrapper.strokeLeftWeight = 0;
