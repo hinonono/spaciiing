@@ -3,9 +3,7 @@ import {
   ColorCollection,
   NumberCollection,
 } from "../types/ColorCollection";
-import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { ResizableNode } from "../types/NodeResizable";
-import { createExplanationTextPropertyItem } from "./explanation";
 import { semanticTokens } from "./tokens";
 
 // 取代原有的 fundamental-module.ts
