@@ -324,7 +324,7 @@ export function createExplanationTextPropertyItem(
 ) {
   const titleNode = createTextNode(title, fontName, 12);
   titleNode.fills = [
-    { type: "SOLID", color: semanticTokens.background.primary },
+    { type: "SOLID", color: semanticTokens.text.primary },
   ];
   titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
 
@@ -344,7 +344,7 @@ export function createExplanationTextPropertyItem(
   wrapper.paddingBottom = 4;
 
   // 筆畫
-  wrapper.strokes = [{ type: "SOLID", color: semanticTokens.strokeColor }];
+  wrapper.strokes = [{ type: "SOLID", color: semanticTokens.dividerColor }];
   wrapper.strokeTopWeight = 0;
   wrapper.strokeBottomWeight = 1;
   wrapper.strokeLeftWeight = 0;

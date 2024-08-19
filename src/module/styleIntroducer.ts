@@ -343,6 +343,8 @@ async function applyStyleIntroducerForVariable(
         fontName,
         "COLOR",
         values,
+        undefined,
+        undefined,
         aliasName
       );
 
