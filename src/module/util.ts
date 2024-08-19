@@ -32,6 +32,29 @@ export function isNumberCollection(
   return (collection as NumberCollection).members[0]?.value !== undefined;
 }
 
+export function setStroke(
+  node: FrameNode,
+  color: RGB,
+  weight: { top: number; bottom: number; left: number; right: number }
+) {
+  node.strokes = [{ type: "SOLID", color: color }];
+  node.strokeWeight = weight.top;
+  node.strokeTopWeight = weight.top;
+  node.strokeBottomWeight = weight.bottom;
+  node.strokeLeftWeight = weight.left;
+  node.strokeRightWeight = weight.right;
+}
+
+export function setPadding(
+  node: FrameNode,
+  padding: { top: number; bottom: number; left: number; right: number }
+) {
+  node.paddingTop = padding.top;
+  node.paddingBottom = padding.bottom;
+  node.paddingLeft = padding.left;
+  node.paddingRight = padding.right;
+}
+
 /**
  * Converts RGB values (0-1) to a hexadecimal color string.
  *
@@ -421,16 +444,13 @@ export function createExplanationItem(
   const baseFontSize = 16;
   const basePadding = 16;
   const baseSpacing = 8;
-  const secodaryColor: Paint[] = [
-    { type: "SOLID", color: { r: 0.54, g: 0.54, b: 0.54 } },
-  ];
 
   const titleNode = createTextNode(title, fontName, baseFontSize * 1.25);
   const descriptionNode = createTextNode(
     description == "" ? "(blank)" : description,
     fontName,
     baseFontSize * 0.75,
-    secodaryColor
+    [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
 
   let explanationTextsWrapperNode: FrameNode;
@@ -445,7 +465,7 @@ export function createExplanationItem(
       rgbToHex(color.r, color.g, color.b, true),
       fontName,
       baseFontSize * 0.75,
-      secodaryColor
+      [{ type: "SOLID", color: semanticTokens.text.secondary }]
     );
 
     colorHexNode.textCase = "UPPER";
@@ -596,7 +616,7 @@ export function createExplanationItem(
 
     if (isWhite(color)) {
       colorFrame.strokes = [
-        { type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } },
+        { type: "SOLID", color: semanticTokens.dividerColor },
       ];
       colorFrame.strokeWeight = 1;
     }
@@ -617,7 +637,7 @@ export function createExplanationItem(
     const effectFrame = figma.createFrame();
     effectFrame.resize(64, 64);
     effectFrame.name = "Effect";
-    effectFrame.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+    effectFrame.fills = [{ type: "SOLID", color: semanticTokens.background.primary }];
     effectFrame.cornerRadius = 12;
     effectFrame.effects = effects;
 
@@ -645,20 +665,20 @@ export function createExplanationItem(
   // Set height to hug content
   explanationItemWrapperNode.primaryAxisSizingMode = "AUTO";
 
-  explanationItemWrapperNode.paddingTop = basePadding * 1.5;
-  explanationItemWrapperNode.paddingBottom = basePadding * 1.5;
-  explanationItemWrapperNode.paddingLeft = basePadding / 2;
-  explanationItemWrapperNode.paddingRight = basePadding / 2;
+  setPadding(explanationItemWrapperNode, {
+    top: basePadding * 1.5,
+    bottom: basePadding * 1.5,
+    left: basePadding / 2,
+    right: basePadding / 2,
+  });
 
   // Set border properties for top edge only
-  explanationItemWrapperNode.strokes = [
-    { type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 } },
-  ];
-  explanationItemWrapperNode.strokeWeight = 1;
-  explanationItemWrapperNode.strokeTopWeight = 1;
-  explanationItemWrapperNode.strokeBottomWeight = 0;
-  explanationItemWrapperNode.strokeLeftWeight = 0;
-  explanationItemWrapperNode.strokeRightWeight = 0;
+  setStroke(explanationItemWrapperNode, semanticTokens.dividerColor, {
+    top: 1,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  });
 
   // Center items to the top
   explanationItemWrapperNode.counterAxisAlignItems = "MIN";
@@ -714,14 +734,21 @@ export function createExplanationItemForVariable(
     );
     aliasNameWrapper.layoutSizingHorizontal = "HUG";
     aliasNameWrapper.cornerRadius = 4;
-    aliasNameWrapper.paddingTop = 4;
-    aliasNameWrapper.paddingBottom = 4;
-    aliasNameWrapper.paddingLeft = 8;
-    aliasNameWrapper.paddingRight = 8;
-    aliasNameWrapper.strokes = [
-      { type: "SOLID", color: semanticTokens.strokeColor },
-    ];
-    aliasNameWrapper.strokeWeight = 1;
+
+    setPadding(aliasNameWrapper, {
+      top: 4,
+      bottom: 4,
+      left: 8,
+      right: 8,
+    });
+
+    setStroke(aliasNameWrapper, semanticTokens.strokeColor, {
+      top: 1,
+      bottom: 1,
+      left: 1,
+      right: 1,
+    });
+
     aliasNameWrapper.fills = [
       { type: "SOLID", color: semanticTokens.background.secondary },
     ];
@@ -823,20 +850,20 @@ export function createExplanationItemForVariable(
   // Set height to hug content
   explanationItemWrapperNode.primaryAxisSizingMode = "AUTO";
 
-  explanationItemWrapperNode.paddingTop = basePadding * 1.5;
-  explanationItemWrapperNode.paddingBottom = basePadding * 1.5;
-  explanationItemWrapperNode.paddingLeft = basePadding / 2;
-  explanationItemWrapperNode.paddingRight = basePadding / 2;
+  setPadding(explanationItemWrapperNode, {
+    top: basePadding * 1.5,
+    bottom: basePadding * 1.5,
+    left: basePadding / 2,
+    right: basePadding / 2,
+  });
 
   // Set border properties for top edge only
-  explanationItemWrapperNode.strokes = [
-    { type: "SOLID", color: semanticTokens.dividerColor },
-  ];
-  explanationItemWrapperNode.strokeWeight = 1;
-  explanationItemWrapperNode.strokeTopWeight = 1;
-  explanationItemWrapperNode.strokeBottomWeight = 0;
-  explanationItemWrapperNode.strokeLeftWeight = 0;
-  explanationItemWrapperNode.strokeRightWeight = 0;
+  setStroke(explanationItemWrapperNode, semanticTokens.dividerColor, {
+    top: 1,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  });
 
   // Center items to the top
   explanationItemWrapperNode.counterAxisAlignItems = "MIN";
