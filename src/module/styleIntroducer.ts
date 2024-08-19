@@ -237,9 +237,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     },
   ];
 
-  explanationWrapper.name = `Usage Definition of ${
-    title == "" ? "Styles" : title
-  }`;
+  explanationWrapper.name = `Usage Definition`;
 
   // Set corner radius
   explanationWrapper.cornerRadius = 16;
@@ -392,9 +390,7 @@ async function applyStyleIntroducerForVariable(
     },
   ];
 
-  explanationWrapper.name = `Usage Definition of ${
-    title == "" ? "Variables" : title
-  }`;
+  explanationWrapper.name = `Usage Definition`;
 
   // Set corner radius
   explanationWrapper.cornerRadius = 16;
