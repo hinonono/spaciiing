@@ -37,7 +37,7 @@ export function createExplanationItem(
 ) {
   const titleNode = createTextNode(
     title,
-    fontName,
+    { family: fontName.family, style: "Semi Bold" },
     semanticTokens.fontSize.base * 1.25
   );
   const descriptionNode = createTextNode(
@@ -323,9 +323,7 @@ export function createExplanationTextPropertyItem(
   fontName: FontName
 ) {
   const titleNode = createTextNode(title, fontName, 12);
-  titleNode.fills = [
-    { type: "SOLID", color: semanticTokens.text.primary },
-  ];
+  titleNode.fills = [{ type: "SOLID", color: semanticTokens.text.primary }];
   titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
 
   const valueNode = createTextNode(value, fontName, 12);
@@ -509,16 +507,19 @@ function createAliasNameWrapper(
   fontName: FontName,
   fontSize: number
 ): FrameNode {
-  const aliasNameNode = createTextNode(aliasName, fontName, fontSize, [
-    { type: "SOLID", color: semanticTokens.text.secondary },
-  ]);
+  const aliasNameNode = createTextNode(
+    `→ ${aliasName.replace(/\//g, ".")}`,
+    { family: fontName.family, style: "Semi Bold" },
+    fontSize,
+    [{ type: "SOLID", color: semanticTokens.text.secondary }]
+  );
   const aliasNameWrapper = createAutolayoutFrame(
     [aliasNameNode],
     0,
     "VERTICAL"
   );
   aliasNameWrapper.layoutSizingHorizontal = "HUG";
-  aliasNameWrapper.cornerRadius = 4;
+  aliasNameWrapper.cornerRadius = semanticTokens.cornerRadius.xsmall;
 
   setPadding(aliasNameWrapper, {
     top: 4,
@@ -537,6 +538,8 @@ function createAliasNameWrapper(
   aliasNameWrapper.fills = [
     { type: "SOLID", color: semanticTokens.background.secondary },
   ];
+
+  aliasNameWrapper.name = "Alias Name";
 
   return aliasNameWrapper;
 }
