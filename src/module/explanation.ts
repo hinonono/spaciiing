@@ -33,7 +33,7 @@ export function createExplanationItem(
   colors?: RGBA[],
   effects?: Effect[],
   textStyle?: TextStyle,
-  aliasName?: string
+  aliasNames?: string[]
 ) {
   const titleNode = createTextNode(
     title,
@@ -48,17 +48,31 @@ export function createExplanationItem(
   );
 
   let explanationTextsWrapperNode: FrameNode;
+  let aliasNameWrapperNode: FrameNode = figma.createFrame();
   const itemsToPutInTitleWrapper: SceneNode[] = [];
 
   //當format是VARIABLE時，處理aliasName
-  if (aliasName && format === "VARIABLE") {
-    const aliasNameWrapper = createAliasNameWrapper(
-      aliasName,
-      fontName,
-      semanticTokens.fontSize.base * 0.75
-    );
+  if (aliasNames && format === "VARIABLE") {
+    const aliasNameWrappers: FrameNode[] = [];
+    for (const aliasName of aliasNames) {
+      const aliasNameWrapper = createAliasNameWrapper(
+        aliasName,
+        fontName,
+        semanticTokens.fontSize.base * 0.75
+      );
+      aliasNameWrapper.layoutSizingHorizontal = "HUG";
+      aliasNameWrapper.layoutSizingVertical = "HUG";
+      aliasNameWrappers.push(aliasNameWrapper);
+    }
 
-    itemsToPutInTitleWrapper.push(aliasNameWrapper);
+    aliasNameWrapperNode = createAutolayoutFrame(
+      aliasNameWrappers,
+      semanticTokens.spacing.xsmall,
+      "HORIZONTAL"
+    );
+    aliasNameWrapperNode.name = "Alias Names Wrapper";
+
+    itemsToPutInTitleWrapper.push(aliasNameWrapperNode);
   }
 
   itemsToPutInTitleWrapper.push(titleNode);
@@ -141,6 +155,8 @@ export function createExplanationItem(
   titleNode.layoutSizingHorizontal = "FILL";
   descriptionNode.layoutSizingHorizontal = "FILL";
   explanationTextsWrapperNode.name = "Explanation Item Texts Wrapper";
+  aliasNameWrapperNode.layoutSizingHorizontal = "FILL";
+  aliasNameWrapperNode.layoutSizingVertical = "HUG";
 
   let explanationItemWrapperNode: FrameNode;
   //依據不同的格式處理要放進去的內容（色塊、效果等）
@@ -460,12 +476,12 @@ function createTextPropertiesWrappers(
   paragraphSpacingNode.layoutSizingHorizontal = "FILL";
   textCaseNode.layoutSizingHorizontal = "FILL";
 
-  fontNameNode.layoutSizingVertical = "HUG";
-  fontSizeNode.layoutSizingVertical = "HUG";
-  lineHeightNode.layoutSizingVertical = "HUG";
-  letterSpacingNode.layoutSizingVertical = "HUG";
-  paragraphSpacingNode.layoutSizingVertical = "HUG";
-  textCaseNode.layoutSizingVertical = "HUG";
+  fontNameNode.layoutSizingVertical = "FILL";
+  fontSizeNode.layoutSizingVertical = "FILL";
+  lineHeightNode.layoutSizingVertical = "FILL";
+  letterSpacingNode.layoutSizingVertical = "FILL";
+  paragraphSpacingNode.layoutSizingVertical = "FILL";
+  textCaseNode.layoutSizingVertical = "FILL";
 
   return [tempWrapper1, tempWrapper2, tempWrapper3];
 }

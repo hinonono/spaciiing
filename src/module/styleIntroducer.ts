@@ -299,7 +299,7 @@ async function applyStyleIntroducerForVariable(
 
   if (styleMode === "COLOR") {
     for (const variable of selectedVariables) {
-      let aliasName;
+      const aliasName: string[] = [];
 
       const values = (
         await Promise.all(
@@ -311,7 +311,7 @@ async function applyStyleIntroducerForVariable(
               if (!aliasVariable) {
                 throw new Error("Termination due to aliasVariable is null.");
               }
-              aliasName = aliasVariable.name;
+              aliasName.push(aliasVariable.name);
               return Object.values(aliasVariable.valuesByMode);
             }
             return [value];
