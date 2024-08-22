@@ -48,13 +48,14 @@ export function createExplanationItem(
   );
 
   let explanationTextsWrapperNode: FrameNode;
-  let aliasNameWrapperNode: FrameNode = figma.createFrame();
+  let aliasNameWrapperNode: FrameNode | null = null;
   const itemsToPutInTitleWrapper: SceneNode[] = [];
 
-  //當format是VARIABLE時，處理aliasName
-  if (aliasNames && format === "VARIABLE") {
+  //當format是VARIABLE時，處理aliasNames
+  if (aliasNames && aliasNames.length > 0 && format === "VARIABLE") {
     const aliasNameWrappers: FrameNode[] = [];
     for (const aliasName of aliasNames) {
+      // 每個aliasname都會有一個aliasNameWrapper
       const aliasNameWrapper = createAliasNameWrapper(
         aliasName,
         fontName,
@@ -155,8 +156,11 @@ export function createExplanationItem(
   titleNode.layoutSizingHorizontal = "FILL";
   descriptionNode.layoutSizingHorizontal = "FILL";
   explanationTextsWrapperNode.name = "Explanation Item Texts Wrapper";
-  aliasNameWrapperNode.layoutSizingHorizontal = "FILL";
-  aliasNameWrapperNode.layoutSizingVertical = "HUG";
+
+  if (aliasNameWrapperNode) {
+    aliasNameWrapperNode.layoutSizingHorizontal = "FILL";
+    aliasNameWrapperNode.layoutSizingVertical = "HUG";
+  }
 
   let explanationItemWrapperNode: FrameNode;
   //依據不同的格式處理要放進去的內容（色塊、效果等）
@@ -172,11 +176,22 @@ export function createExplanationItem(
       colorFrames.push(colorFrame);
     });
 
+    // 將色塊們包裝入一個AutolayoutFrame中
+    const swatchesWrapper = createAutolayoutFrame(
+      colorFrames,
+      semanticTokens.spacing.xsmall,
+      "HORIZONTAL"
+    );
+    swatchesWrapper.name = "Swatches Wrapper";
+
     const item = createAutolayoutFrame(
-      [...colorFrames, explanationTextsWrapperNode],
+      [swatchesWrapper, explanationTextsWrapperNode],
       semanticTokens.spacing.base,
       "HORIZONTAL"
     );
+
+    swatchesWrapper.layoutSizingHorizontal = "HUG";
+    swatchesWrapper.layoutSizingVertical = "HUG";
 
     explanationItemWrapperNode = item;
     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
