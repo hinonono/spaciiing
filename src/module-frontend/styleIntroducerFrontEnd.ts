@@ -6,7 +6,7 @@ export const buildNestedStructure = (
   const root: NestedStructure = {};
 
   data.forEach(({ id, name }) => {
-    const parts = name.split(/[-/]/).map((part) => part.trim());
+    const parts = name.split("/").map((part) => part.trim());
     let currentLevel = root;
 
     parts.forEach((part, index) => {
