@@ -17,3 +17,7 @@ export function isVariableAliasType(value: VariableValue): value is VariableAlia
     typeof (value as VariableAlias).id === "string"
   );
 }
+
+export function isFloatType(value: VariableValue): value is number {
+  return typeof value === "number";
+}

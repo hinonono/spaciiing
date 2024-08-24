@@ -33,6 +33,7 @@ export function createExplanationItem(
   colors?: RGBA[],
   effects?: Effect[],
   textStyle?: TextStyle,
+  numbers?: number[],
   aliasNames?: string[]
 ) {
   const titleNode = createTextNode(
@@ -207,6 +208,37 @@ export function createExplanationItem(
       semanticTokens.spacing.base,
       "HORIZONTAL"
     );
+
+    explanationItemWrapperNode = item;
+    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+  } else if (styleMode === "FLOAT") {
+    // 處理數字樣式
+    if (!numbers) {
+      throw new Error("Number is required for float type.");
+    }
+
+    const numberFrames: FrameNode[] = [];
+    numbers.forEach((number) => {
+      const numberFrame = createNumberFrame(number, fontName);
+      numberFrames.push(numberFrame);
+    });
+
+    // 將數字框框們包裝入一個AutolayoutFrame中
+    const swatchesWrapper = createAutolayoutFrame(
+      numberFrames,
+      semanticTokens.spacing.xsmall,
+      "HORIZONTAL"
+    );
+    swatchesWrapper.name = "Numbers Wrapper";
+
+    const item = createAutolayoutFrame(
+      [swatchesWrapper, explanationTextsWrapperNode],
+      semanticTokens.spacing.base,
+      "HORIZONTAL"
+    );
+
+    swatchesWrapper.layoutSizingHorizontal = "HUG";
+    swatchesWrapper.layoutSizingVertical = "HUG";
 
     explanationItemWrapperNode = item;
     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
@@ -402,6 +434,43 @@ function createColorFrame(color: RGBA): FrameNode {
   }
 
   return colorFrame;
+}
+
+function createNumberFrame(number: number, fontName: FontName): FrameNode {
+  // Create the text node
+  const numberTextNode = createTextNode(
+    number.toString(),
+    fontName,
+    semanticTokens.fontSize.base
+  );
+  numberTextNode.lineHeight = {
+    value: semanticTokens.fontSize.base,
+    unit: "PIXELS",
+  };
+  numberTextNode.textAlignHorizontal = "CENTER";
+
+  // Create the frame
+  const numberFrame = figma.createFrame();
+  numberFrame.name = "Number";
+  numberFrame.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+  numberFrame.cornerRadius = semanticTokens.cornerRadius.small;
+  numberFrame.strokes = [{ type: "SOLID", color: semanticTokens.strokeColor }];
+  numberFrame.strokeWeight = 1;
+
+  // Set layout mode for centering
+  numberFrame.layoutMode = "VERTICAL"; // Vertical stack layout
+  numberFrame.primaryAxisAlignItems = "CENTER"; // Center horizontally
+  numberFrame.counterAxisAlignItems = "CENTER"; // Center vertically
+  numberFrame.paddingLeft = 0;
+  numberFrame.paddingRight = 0;
+  numberFrame.paddingTop = 0;
+  numberFrame.paddingBottom = 0;
+  numberFrame.resize(64, 48);
+
+  // Add the text node to the frame
+  numberFrame.appendChild(numberTextNode);
+
+  return numberFrame;
 }
 
 function createEffectFrame(effects: Effect[]): FrameNode {

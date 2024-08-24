@@ -3,6 +3,8 @@ import {
   ExternalMessageUpdatePaintStyleList,
   MessageStyleIntroducer,
   StyleMode,
+  StyleModeForFigmaStyle,
+  StyleModeForFigmaVariable,
 } from "../types/Messages/MessageStyleIntroducer";
 import * as util from "./util";
 import * as typeChecking from "./typeChecking";
@@ -12,6 +14,12 @@ import { semanticTokens } from "./tokens";
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
     if (message.form === "STYLE") {
+      if (!isStyleModeForFigmaStyle(message.styleMode)) {
+        throw new Error(
+          `Invalid styleMode: styleMode must be of type StyleModeForFigmaStyle. Current type is ${message.styleMode}`
+        );
+      }
+
       const styleList = await getStyleList(message.styleMode);
 
       const externalMessage: ExternalMessageUpdatePaintStyleList = {
@@ -23,8 +31,14 @@ export const reception = async (message: MessageStyleIntroducer) => {
       };
       util.sendMessageBack(externalMessage);
     } else if (message.form === "VARIABLE") {
+      if (!isStyleModeForFigmaVariable(message.styleMode)) {
+        throw new Error(
+          `Invalid styleMode: styleMode must be of type StyleModeForFigmaVariable. Current type is ${message.styleMode}`
+        );
+      }
+
       // 获取变量列表
-      const variableList = await getVariableList();
+      const variableList = await getVariableList(message.styleMode);
       const externalMessage: ExternalMessageUpdatePaintStyleList = {
         module: "StyleIntroducer",
         mode: "UpdateStyleList",
@@ -45,8 +59,22 @@ export const reception = async (message: MessageStyleIntroducer) => {
   }
 };
 
+// Type guard function for StyleModeForFigmaStyle
+function isStyleModeForFigmaStyle(
+  mode: StyleMode
+): mode is StyleModeForFigmaStyle {
+  return mode === "COLOR" || mode === "EFFECT" || mode === "TEXT";
+}
+
+// Type guard function for StyleModeForFigmaVariable
+function isStyleModeForFigmaVariable(
+  mode: StyleMode
+): mode is StyleModeForFigmaVariable {
+  return mode === "COLOR" || mode === "FLOAT";
+}
+
 async function getStyleList(
-  styleType: StyleMode
+  styleType: StyleModeForFigmaStyle
 ): Promise<StyleListItemFrontEnd[]> {
   let styleList;
   switch (styleType) {
@@ -69,8 +97,16 @@ async function getStyleList(
   }));
 }
 
-async function getVariableList(): Promise<StyleListItemFrontEnd[]> {
-  const variableList = await figma.variables.getLocalVariablesAsync("COLOR");
+async function getVariableList(
+  styleType: StyleModeForFigmaVariable
+): Promise<StyleListItemFrontEnd[]> {
+  let variableList: Variable[] | null = null;
+
+  if (styleType === "COLOR") {
+    variableList = await figma.variables.getLocalVariablesAsync("COLOR");
+  } else {
+    variableList = await figma.variables.getLocalVariablesAsync("FLOAT");
+  }
 
   return variableList.map((variable) => ({
     id: variable.id,
@@ -148,7 +184,11 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
               b: solidPaint.color.b,
               a: 1,
             },
-          ]
+          ],
+          undefined,
+          undefined,
+          undefined,
+          undefined
         );
 
         explanationItem.primaryAxisSizingMode = "AUTO";
@@ -177,7 +217,9 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
         "TEXT",
         undefined,
         undefined,
-        member
+        member,
+        undefined,
+        undefined
       );
 
       explanationItem.primaryAxisSizingMode = "AUTO";
@@ -205,7 +247,10 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
         fontName,
         "EFFECT",
         undefined,
-        effects
+        effects,
+        undefined,
+        undefined,
+        undefined
       );
 
       explanationItem.primaryAxisSizingMode = "AUTO";
@@ -278,6 +323,9 @@ async function applyStyleIntroducerForVariable(
     case "COLOR":
       localVariables = await figma.variables.getLocalVariablesAsync("COLOR");
       break;
+    case "FLOAT":
+      localVariables = await figma.variables.getLocalVariablesAsync("FLOAT");
+      break;
     default:
       throw new Error("Invalid style type");
   }
@@ -325,15 +373,6 @@ async function applyStyleIntroducerForVariable(
         throw new Error("Termination due to values of variable is undefined.");
       }
 
-      // const explanationItem = util.createExplanationItemForVariable(
-      //   variable.name.split("/").pop() || "",
-      //   variable.description,
-      //   fontName,
-      //   "COLOR",
-      //   values,
-      //   aliasName
-      // );
-
       const explanationItem = explanation.createExplanationItem(
         "VARIABLE",
         variable.name.split("/").pop() || "",
@@ -343,6 +382,55 @@ async function applyStyleIntroducerForVariable(
         values,
         undefined,
         undefined,
+        undefined,
+        aliasName
+      );
+
+      explanationItem.primaryAxisSizingMode = "AUTO";
+      explanationItem.counterAxisSizingMode = "AUTO";
+
+      explanationItems.push(explanationItem);
+      console.log("Explanation Item", explanationItem);
+    }
+  } else if (styleMode === "FLOAT") {
+    for (const variable of selectedVariables) {
+      const aliasName: string[] = [];
+
+      const values = (
+        await Promise.all(
+          Object.values(variable.valuesByMode).map(async (value) => {
+            if (typeChecking.isVariableAliasType(value)) {
+              const aliasVariable = await figma.variables.getVariableByIdAsync(
+                value.id
+              );
+              if (!aliasVariable) {
+                throw new Error("Termination due to aliasVariable is null.");
+              }
+              aliasName.push(aliasVariable.name);
+              return Object.values(aliasVariable.valuesByMode);
+            }
+            return [value];
+          })
+        )
+      )
+        .flat()
+        .filter(typeChecking.isFloatType);
+
+      if (values.length === 0) {
+        throw new Error("Termination due to values of variable is undefined.");
+      }
+
+      // Variable模式，建立數字用的說明物件
+      const explanationItem = explanation.createExplanationItem(
+        "VARIABLE",
+        variable.name.split("/").pop() || "",
+        variable.description,
+        fontName,
+        "FLOAT",
+        undefined,
+        undefined,
+        undefined,
+        values,
         aliasName
       );
 

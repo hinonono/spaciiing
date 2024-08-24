@@ -171,6 +171,13 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             <option key="COLOR" value="COLOR">
               {t("term:color")}
             </option>
+            {form === "VARIABLE" && (
+              <>
+                <option key="FLOAT" value="FLOAT">
+                  {t("term:float")}
+                </option>
+              </>
+            )}
             {form === "STYLE" && (
               <>
                 <option key="EFFECT" value="EFFECT">
