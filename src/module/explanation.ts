@@ -437,12 +437,20 @@ function createColorFrame(color: RGBA): FrameNode {
 }
 
 function createNumberFrame(number: number, fontName: FontName): FrameNode {
-  // Create the text node
+  let limitedNumber: string;
+
+  if (Number.isInteger(number)) {
+    limitedNumber = number.toString(); // Keep whole numbers as they are
+  } else {
+    limitedNumber = number.toFixed(2); // Limit to 2 decimal places for non-integers
+  }
+
   const numberTextNode = createTextNode(
-    number.toString(),
+    limitedNumber,
     fontName,
     semanticTokens.fontSize.base
   );
+
   numberTextNode.lineHeight = {
     value: semanticTokens.fontSize.base,
     unit: "PIXELS",
