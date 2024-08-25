@@ -276,6 +276,10 @@
      -moz-user-select: none;
           user-select: none;
 }
+.custom-checkbox-group .container:hover {
+  background-color: var(--figma-color-bg-secondary);
+  border-radius: var(--border-radius-med);
+}
 .custom-checkbox-group .container input {
   position: absolute;
   opacity: 0;
@@ -294,7 +298,7 @@
 .checkmark {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 4;
   height: 18px;
   width: 18px;
   border: 2px solid var(--figma-color-border);
