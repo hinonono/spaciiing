@@ -651,6 +651,14 @@ const tailwindOptions: AvailableOption[] = [
     forms: ["variable"],
     count: 35,
   },
+  {
+    value: "tailwindShadow",
+    label: "Shadow",
+    brands: ["tailwind"],
+    category: ["effect"],
+    forms: ["style"],
+    count: 7,
+  },
 ];
 
 const bootstrapOptions: AvailableOption[] = [

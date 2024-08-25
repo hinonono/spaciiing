@@ -15,6 +15,7 @@ import {
   m3ElevationLightData,
   iosDefaultDropShadowData,
   antDesignDropShadowData,
+  tailwindShadowData,
 } from "../assets/effects";
 import {
   tailwindBorderData,
@@ -173,6 +174,7 @@ const m3ElevationLight: EffectCollection =
   m3ElevationLightData as EffectCollection;
 const m3ElevationDark: EffectCollection =
   m3ElevationDarkData as EffectCollection;
+const tailwindShadow: EffectCollection = tailwindShadowData as EffectCollection;
 
 // 字型資料
 const iosTypographyLarge: TypographyCollection = iosTypographyLargeData;
@@ -367,6 +369,9 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
       break;
     case "tailwindRose":
       generateColorStyle(tailwindRose, "none");
+      break;
+    case "tailwindShadow":
+      generateEffectStyle(tailwindShadow);
       break;
     case "bootstrapBlue":
       generateColorStyle(bootstrapBlue, "none");

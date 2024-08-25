@@ -91,6 +91,7 @@ export type InstantiaterTarget =
   | "tailwindFontSize"
   | "tailwindOpacity"
   | "tailwindSize"
+  | "tailwindShadow"
   // Bootstrap
   | "bootstrapBlue"
   | "bootstrapIndigo"
