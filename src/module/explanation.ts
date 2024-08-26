@@ -422,11 +422,15 @@ function createColorFrame(color: RGBA): FrameNode {
   const colorFrame = figma.createFrame();
   colorFrame.resize(64, 64);
   colorFrame.name = "Swatch";
-  colorFrame.fills = [
-    { type: "SOLID", color: { r: color.r, g: color.g, b: color.b } },
-  ];
+  // colorFrame.fills = [
+  //   { type: "SOLID", color: { r: color.r, g: color.g, b: color.b } },
+  // ];
+  const newPaint = figma.util.solidPaint(color);
+  colorFrame.fills = [newPaint];
+
   colorFrame.cornerRadius = semanticTokens.cornerRadius.small;
-  colorFrame.opacity = color.a;
+  // colorFrame.fills[0].opacity = color.a;
+  // colorFrame.opacity = color.a;
 
   if (isWhite(color)) {
     colorFrame.strokes = [{ type: "SOLID", color: semanticTokens.strokeColor }];
@@ -588,19 +592,27 @@ function createColorHexNode(
 
   if (format === "STYLE" && colors.length == 1) {
     const color = colors[0];
-
+    let text = rgbToHex(color.r, color.g, color.b, true);
+    if (color.a !== 1) {
+      // 標註透明度
+      text = `${text}(${Math.round(color.a * 100)}%)`;
+    }
+  
     // 處理樣式樣式
-    colorHexNode = createTextNode(
-      rgbToHex(color.r, color.g, color.b, true),
-      fontName,
-      fontSize,
-      [{ type: "SOLID", color: semanticTokens.text.secondary }]
-    );
+    colorHexNode = createTextNode(text, fontName, fontSize, [
+      { type: "SOLID", color: semanticTokens.text.secondary },
+    ]);
   } else {
     // 處理變數樣式
-    const hexValues = colors.map((color) =>
-      rgbToHex(color.r, color.g, color.b)
-    );
+    const hexValues = colors.map((color) => {
+      let hex = rgbToHex(color.r, color.g, color.b, true);
+      if (color.a !== 1) {
+        // 標註透明度
+        hex = `${hex}(${Math.round(color.a * 100)}%)`;
+      }
+      return hex;
+    });
+  
     colorHexNode = createTextNode(hexValues.join(", "), fontName, fontSize, [
       { type: "SOLID", color: semanticTokens.text.secondary },
     ]);
