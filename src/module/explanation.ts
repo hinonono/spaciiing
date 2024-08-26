@@ -113,6 +113,29 @@ export function createExplanationItem(
       "VERTICAL"
     );
     titleWrapper.layoutSizingHorizontal = "FILL";
+  } else if (styleMode === "FLOAT") {
+    if (!numbers) {
+      throw new Error("Number is required for number type.");
+    }
+
+    if (numbers.length === 0) {
+      throw new Error("Termination due to number.length is 0.");
+    }
+
+    const titleWrapper = createAutolayoutFrame(
+      itemsToPutInTitleWrapper,
+      semanticTokens.spacing.xsmall,
+      "VERTICAL"
+    );
+    titleWrapper.name = "Explanation Item Title Wrapper";
+    titleNode.layoutSizingHorizontal = "FILL";
+
+    explanationTextsWrapperNode = createAutolayoutFrame(
+      [titleWrapper, descriptionNode],
+      semanticTokens.spacing.base,
+      "VERTICAL"
+    );
+    titleWrapper.layoutSizingHorizontal = "FILL";
   } else if (styleMode === "TEXT") {
     // 處理文字樣式
     if (!textStyle) {
@@ -597,7 +620,7 @@ function createColorHexNode(
       // 標註透明度
       text = `${text}(${Math.round(color.a * 100)}%)`;
     }
-  
+
     // 處理樣式樣式
     colorHexNode = createTextNode(text, fontName, fontSize, [
       { type: "SOLID", color: semanticTokens.text.secondary },
@@ -612,7 +635,7 @@ function createColorHexNode(
       }
       return hex;
     });
-  
+
     colorHexNode = createTextNode(hexValues.join(", "), fontName, fontSize, [
       { type: "SOLID", color: semanticTokens.text.secondary },
     ]);
