@@ -493,3 +493,19 @@ export function createTextNode(
   }
   return textNode;
 }
+
+/**
+ * Formats a number to two decimal places if it has decimals;
+ * otherwise, returns the number as a string without any decimal places.
+ *
+ * @param {number} value - The number to format.
+ * @returns {string} - The formatted number as a string. If the number is an integer,
+ * it is returned without any decimal places. If it has decimals, it is formatted to two decimal places.
+ */
+export function formatNumberToTwoDecimals(value: number): string {
+  if (Math.floor(value) === value) {
+    return value.toString(); // If the value is an integer, return it as is
+  } else {
+    return value.toFixed(2); // If the value has decimals, format to 2 decimal places
+  }
+}

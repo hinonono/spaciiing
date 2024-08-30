@@ -7,6 +7,7 @@ import {
   rgbToHex,
   setPadding,
   setStroke,
+  formatNumberToTwoDecimals,
 } from "./util";
 
 /**
@@ -540,27 +541,37 @@ function createTextPropertiesWrappers(
   );
   const fontSizeNode = createExplanationTextPropertyItem(
     "Font Size",
-    `${textStyle.fontSize}`,
+    formatNumberToTwoDecimals(textStyle.fontSize),
     fontName
   );
 
   const lineHeightNode = createExplanationTextPropertyItem(
     "Line Height",
     `${
-      textStyle.lineHeight.unit == "AUTO" ? "Auto" : textStyle.lineHeight.value
+      textStyle.lineHeight.unit == "AUTO"
+        ? "Auto"
+        : formatNumberToTwoDecimals(textStyle.lineHeight.value)
     }`,
     fontName
   );
 
+  const formattedLetterSpacing = formatNumberToTwoDecimals(
+    textStyle.letterSpacing.value
+  );
+
   const letterSpacingNode = createExplanationTextPropertyItem(
     "Letter Spacing",
-    `${textStyle.letterSpacing.value}`,
+    formattedLetterSpacing,
     fontName
+  );
+
+  const formattedParagraphSpacing = formatNumberToTwoDecimals(
+    textStyle.paragraphSpacing
   );
 
   const paragraphSpacingNode = createExplanationTextPropertyItem(
     "Paragraph Spacing",
-    `${textStyle.paragraphSpacing}`,
+    formattedParagraphSpacing,
     fontName
   );
 
