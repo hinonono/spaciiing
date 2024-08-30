@@ -392,8 +392,16 @@ export function createExplanationWrapper(
   wrapperFrame.primaryAxisSizingMode = "AUTO"; // This makes the height hug the content
   wrapperFrame.counterAxisSizingMode = "FIXED"; // This ensures the width is fixed
 
+  let frameWidth = 640;
+
+  if (modes) {
+    if (modes.length > 2) {
+      frameWidth = 640 * (modes.length / 2);
+    }
+  }
+
   // Set the fixed width and initial height
-  wrapperFrame.resize(640, wrapperFrame.height);
+  wrapperFrame.resize(frameWidth, wrapperFrame.height);
 
   // Ensure explanation items fill the container width
   explanationItems.forEach((item) => {

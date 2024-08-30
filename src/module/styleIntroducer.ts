@@ -290,9 +290,6 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   explanationWrapper.primaryAxisSizingMode = "AUTO"; // This makes the height hug the content
   explanationWrapper.counterAxisSizingMode = "FIXED"; // This ensures the width is fixed
 
-  // Set the fixed width and initial height
-  explanationWrapper.resize(640, explanationWrapper.height);
-
   explanationWrapper.x = viewport.x;
   explanationWrapper.y = viewport.y;
 
@@ -351,7 +348,7 @@ async function applyStyleIntroducerForVariable(
 
       const values = (
         await Promise.all(
-          Object.values(variable.valuesByMode).map(async (value) => {
+          Object.entries(variable.valuesByMode).map(async ([modeId, value]) => {
             if (typeChecking.isVariableAliasType(value)) {
               const aliasVariable = await figma.variables.getVariableByIdAsync(
                 value.id
@@ -360,7 +357,20 @@ async function applyStyleIntroducerForVariable(
                 throw new Error("Termination due to aliasVariable is null.");
               }
               aliasName.push(aliasVariable.name);
-              return Object.values(aliasVariable.valuesByMode);
+
+              const aliasValuesByMode = Object.entries(
+                aliasVariable.valuesByMode
+              );
+              // Check if aliasValuesByMode contains the same modeId
+              const matchedMode = aliasValuesByMode.find(
+                ([aliasModeId]) => aliasModeId === modeId
+              );
+
+              if (matchedMode) {
+                return [matchedMode[1]]; // Return the single value corresponding to the matched modeId
+              } else {
+                return aliasValuesByMode.map(([, aliasValue]) => aliasValue);
+              }
             }
             return [value];
           })
@@ -485,9 +495,6 @@ async function applyStyleIntroducerForVariable(
   // Set the width and height to hug contents
   explanationWrapper.primaryAxisSizingMode = "AUTO"; // This makes the height hug the content
   explanationWrapper.counterAxisSizingMode = "FIXED"; // This ensures the width is fixed
-
-  // Set the fixed width and initial height
-  explanationWrapper.resize(640, explanationWrapper.height);
 
   explanationWrapper.x = viewport.x;
   explanationWrapper.y = viewport.y;
