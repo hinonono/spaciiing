@@ -420,14 +420,16 @@
 .folder-navigator li {
   margin: 0;
 }
-.folder-navigator .container {
+.folder-navigator li .container {
   margin-left: 16px;
   margin-right: 16px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
-.folder-navigator .container:first-child {
+.folder-navigator li:first-child .container {
   margin-top: 16px;
 }
-.folder-navigator .container:last-child {
+.folder-navigator li:last-child .container {
   margin-bottom: 16px;
 }
 

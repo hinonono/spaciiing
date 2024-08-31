@@ -11,20 +11,27 @@
 
     li {
         margin: 0;
-    }
 
-    .container {
-        margin-left: 16px;
-        margin-right: 16px;
+        .container {
+            margin-left: 16px;
+            margin-right: 16px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
 
         &:first-child {
-            margin-top: 16px;
+            .container {
+                margin-top: 16px;
+            }
         }
 
         &:last-child {
-            margin-bottom: 16px;
+            .container {
+                margin-bottom: 16px;
+            }
         }
     }
+
 }
 
 .folder-navigator-items-group {
