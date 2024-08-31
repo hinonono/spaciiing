@@ -2,21 +2,46 @@ import { StyleListItemFrontEnd, NestedStructure } from "../types/General";
 
 export const buildNestedStructure = (
   data: StyleListItemFrontEnd[]
-): NestedStructure => {
+): { structure: NestedStructure | null; errorPath?: string } => {
+  // Return type can be either NestedStructure or null
   const root: NestedStructure = {};
 
-  data.forEach(({ id, name }) => {
-    const parts = name.split("/").map((part) => part.trim());
-    let currentLevel = root;
+  try {
+    data.forEach(({ id, name }) => {
+      const parts = name.split("/").map((part) => part.trim());
+      let currentLevel = root;
 
-    parts.forEach((part, index) => {
-      if (!currentLevel[part]) {
-        currentLevel[part] =
-          index === parts.length - 1 ? { id } : { children: {} };
-      }
-      currentLevel = currentLevel[part].children as NestedStructure;
+      parts.forEach((part, index) => {
+        // Check if the current part exists in the current level of the structure
+        if (!currentLevel[part]) {
+          // If it's the last part, assign an object with the 'id'
+          // Otherwise, create a new level for further nesting
+          currentLevel[part] =
+            index === parts.length - 1 ? { id } : { children: {} };
+        } else if (index === parts.length - 1 && currentLevel[part].id) {
+          // Capture the error path when a duplicate is detected
+          throw new Error(
+            `Duplicate path: ${parts.slice(0, index + 1).join("/")}`
+          );
+        }
+
+        // Move to the next level in the structure
+        currentLevel = currentLevel[part].children as NestedStructure;
+      });
     });
-  });
 
-  return root;
+    return { structure: root };
+  } catch (error: unknown) {
+    console.error(
+      "An error occurred while building the nested structure:",
+      error
+    );
+
+    let errorMessage = "An unknown error occurred.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return { structure: null, errorPath: errorMessage }; // Return the error message
+  }
 };

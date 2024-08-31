@@ -69,16 +69,35 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
 
   const [nestedStructure, setNestedStructure] =
     useState<NestedStructure | null>(null);
+  const [hasError, setHasError] = useState(false); //  state for error tracking
+  const [errorPath, setErrorPath] = useState<string | undefined>(undefined); //  state for error path
 
   useEffect(() => {
-    // console.log("This code is running", styleList);
+    const result = buildNestedStructure(styleList);
 
-    setNestedStructure(buildNestedStructure(styleList));
+    if (result.structure) {
+      setNestedStructure(result.structure);
+      setHasError(false);
+    } else {
+      console.error("Error path:", result.errorPath);
+      setHasError(true);
+      setErrorPath(result.errorPath); // Store the error path for the error message
+    }
   }, [styleList, mode]);
 
   const folderNavigator = () => {
+    if (hasError) {
+      return (
+        <div className="text-color-error p-xsmall">
+          Failed to process the {form} structure. The system encountered a
+          duplicate path: "{errorPath}". Please ensure that each path segment is
+          unique.
+        </div>
+      );
+    }
+
     if (!nestedStructure) {
-      return <div>Loading...</div>;
+      return <div className="text-color-error p-xsmall">Loading...</div>;
     }
 
     return (
@@ -202,6 +221,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
           <FigmaButton
             title={t("module:generate")}
             onClick={applyStyleIntroducer}
+            disabled={hasError}
           />
         </div>
       </div>

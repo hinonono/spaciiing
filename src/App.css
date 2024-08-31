@@ -119,6 +119,10 @@
   color: var(--figma-color-text-secondary);
 }
 
+.text-color-error {
+  color: var(--red);
+}
+
 .pl-xxxsmall {
   padding-left: var(--size-xxxsmall);
 }
@@ -138,8 +142,8 @@
   cursor: pointer;
   color: var(--white);
 }
-.button--primary:hover {
-  background-color: #0084DC;
+.button--primary:disabled {
+  cursor: not-allowed;
 }
 .button--secondary {
   background-color: transparent;
@@ -151,6 +155,7 @@
   background-color: var(--figma-color-bg-secondary);
 }
 .button--secondary:disabled {
+  cursor: not-allowed;
   border-color: var(--button-disabled);
   color: var(--button-disabled);
 }
@@ -164,6 +169,7 @@
   padding: 0;
 }
 .button--grain:disabled {
+  cursor: not-allowed;
   color: var(--button-disabled);
 }
 
