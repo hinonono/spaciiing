@@ -142,8 +142,14 @@
   cursor: pointer;
   color: var(--white);
 }
+.button--primary:hover {
+  background-color: #0084DC;
+}
 .button--primary:disabled {
   cursor: not-allowed;
+}
+.button--primary:disabled:hover {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 .button--secondary {
   background-color: transparent;

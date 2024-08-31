@@ -11,12 +11,15 @@
         color: var(--white);
 
         &:hover {
-            // background-color: #0084DC;
+            background-color: #0084DC;
         }
 
         &:disabled {
             cursor: not-allowed;
 
+            &:hover {
+                background-color: rgb(0, 0, 0, 0.3);
+            }
         }
     }
 
