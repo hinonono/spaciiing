@@ -24,7 +24,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
 
   return (
     <div className="title-bar">
-      {isDevelopment && <div className="banner">現在正執行開發者模式</div>}
+      
       <div className="content-wrap">
         <h5 className="func-title">{title.toUpperCase()}</h5>
         {children && <div className="title-bar-children">{children}</div>}

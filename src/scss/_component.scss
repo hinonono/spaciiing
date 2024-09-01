@@ -148,6 +148,12 @@
     background-color: #f6caff;
     padding: 0.5rem 1rem;
 
+    &--development-mode {
+        background-color: #eb2d2d;
+        color: white;
+        text-align: center;
+    }
+
     .message-primary {
         font-size: 1.25rem;
         font-weight: 600;

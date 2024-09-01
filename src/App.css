@@ -676,6 +676,11 @@
   background-color: #f6caff;
   padding: 0.5rem 1rem;
 }
+.banner--development-mode {
+  background-color: #eb2d2d;
+  color: white;
+  text-align: center;
+}
 .banner .message-primary {
   font-size: 1.25rem;
   font-weight: 600;
