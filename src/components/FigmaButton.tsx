@@ -2,7 +2,7 @@ import React from "react";
 import { capitalizeWords } from "../module/util";
 
 interface FigmaButtonProps {
-  buttonType?: "primary" | "secondary" | "tertiary" | "grain";
+  buttonType?: "primary" | "secondary" | "tertiary" | "grain" | "special";
   buttonHeight?: "small" | "medium" | "large" | "xlarge";
   fontSize?: "xsmall" | "small" | "large" | "xlarge";
   title: string;

@@ -5,11 +5,16 @@ import { capitalizeWords } from "../module/util";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
+import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
 
 const Setting: React.FC = () => {
   // Context
-  const { licenseManagement, setShowActivateModal, setShowCTSubscribe } =
-    useAppContext();
+  const {
+    licenseManagement,
+    setLicenseManagement,
+    setShowActivateModal,
+    setShowCTSubscribe,
+  } = useAppContext();
 
   const { t, i18n } = useTranslation(["common", "settings", "license"]);
 
@@ -95,9 +100,19 @@ const Setting: React.FC = () => {
                 setShowActivateModal(true);
               }}
             />
-            {licenseManagement.tier != "PAID" && (
+            {licenseManagement.tier === "PAID" && (
+              <FigmaButton
+                title={t("license:eraseLicense")}
+                buttonType="secondary"
+                onClick={() => {
+                  licenseManagementFrontEnd.eraseLicense(setLicenseManagement);
+                }}
+              />
+            )}
+            {licenseManagement.tier !== "PAID" && (
               <FigmaButton
                 title={t("license:subscribeNow")}
+                buttonType="special"
                 onClick={paymentsUtil.navigateToPurchasePage}
               />
             )}
@@ -108,7 +123,7 @@ const Setting: React.FC = () => {
           <div className="grid">
             <div className="membership-block">
               <p className="color--secondary">{t("settings:version")}</p>
-              <span>15</span>
+              <span>16</span>
             </div>
             <div className="membership-block">
               <p className="color--secondary">

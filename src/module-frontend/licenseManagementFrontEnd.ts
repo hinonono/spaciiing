@@ -7,7 +7,10 @@ import {
 import * as util from "../module/util";
 import * as paymentsUtil from "./paymentsUtil";
 import { SalesConfig } from "../types/SalesConfig";
-import { ExternalMessageLicenseManagement, MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
+import {
+  ExternalMessageLicenseManagement,
+  MessageLicenseManagement,
+} from "../types/Messages/MessageLicenseManagement";
 
 export const licenseManagementHandler = (
   message: ExternalMessageLicenseManagement,
@@ -83,6 +86,33 @@ export const handleSubscriptionStatus = (
   }
 
   return newLicense;
+};
+
+export const eraseLicense = (
+  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
+) => {
+  const resetedLicense: LicenseManagement = {
+    tier: "FREE",
+    isLicenseActive: false,
+    licenseKey: "",
+    sessionExpiredAt: "",
+    recurrence: "",
+  };
+
+  const message: MessageLicenseManagement = {
+    license: resetedLicense,
+    module: "LicenseManagement",
+    phase: "Actual",
+    direction: "Inner",
+    action: "UPDATE",
+  };
+  parent.postMessage(
+    {
+      pluginMessage: message,
+    },
+    "*"
+  );
+  setLicenseManagement(resetedLicense);
 };
 
 const licenseVerifyHandler = async (
@@ -192,7 +222,7 @@ export function shouldShowBanner(
         ? "SALE"
         : "NORMAL";
     }
-  } 
+  }
 
   // Return false if the date is not within range or conditions are not met
   return "NORMAL";

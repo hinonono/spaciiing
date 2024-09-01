@@ -104,6 +104,7 @@ const SubscriptionModal: React.FC = () => {
     setShowActivateModal(false);
     setError(null);
     setLicenseKey("");
+    setResponse(null);
   };
   const handleOpenActivateModal = () => {
     setShowCTSubscribe(true);
@@ -113,6 +114,7 @@ const SubscriptionModal: React.FC = () => {
     setShowActivateModal(false);
     setLicenseKey("");
     setError(null);
+    setResponse(null);
   };
 
   return (
