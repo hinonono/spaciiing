@@ -6,7 +6,14 @@ export function reception(message: MessageResize) {
 }
 
 function resize(width: number, height: number) {
-  const newWidth = width < 380 ? 380 : width;
-  const newHeight = height < 500 ? 500 : height;
+  const minWidth = 240;
+  const minHeight = 320;
+
+  const maxWidth = minWidth * 3;
+  const maxHeight = minHeight * 2;
+
+  const newWidth = Math.round(Math.max(minWidth, Math.min(width, maxWidth)));
+  const newHeight = Math.round(Math.max(minHeight, Math.min(height, maxHeight)));
+
   figma.ui.resize(newWidth, newHeight);
 }
