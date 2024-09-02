@@ -134,8 +134,9 @@
 .button {
   height: var(--cy-button-height-medium);
   border-radius: var(--cy-border-radius-large);
+  position: relative;
 }
-.button span {
+.button span:not(.chevron-left) {
   min-width: 30px;
 }
 .button--primary {
@@ -475,18 +476,6 @@
 .button-folder:hover {
   background-color: var(--color-bg-selected);
 }
-.button-folder .chevron {
-  /* Add this block */
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: solid var(--figma-color-text-secondary);
-  border-width: 0 1.5px 1.5px 0;
-  display: inline-block;
-  padding: 3px;
-  transform: rotate(315deg);
-}
 
 .tooltip {
   position: relative;
@@ -740,6 +729,32 @@
 
 .width-auto {
   width: auto;
+}
+
+.chevron-right {
+  /* Add this block */
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: solid var(--figma-color-text-secondary);
+  border-width: 0 1.5px 1.5px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(315deg);
+}
+
+.chevron-left {
+  /* Add this block */
+  position: absolute;
+  left: 4px;
+  top: 12px;
+  transform: translateY(-50%);
+  border: solid var(--figma-color-bg-brand);
+  border-width: 0 1.5px 1.5px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
 }
 
 body {

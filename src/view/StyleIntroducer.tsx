@@ -97,7 +97,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     }
 
     if (!nestedStructure) {
-      return <div className="text-color-error p-xsmall">Loading...</div>;
+      return <div className="text-color-primary p-xsmall">Loading...</div>;
     }
 
     return (
@@ -116,7 +116,9 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       title: "",
       scopes: [],
     });
-    // 當form或Mode改變時，傳送初始化訊息
+    setMode("COLOR");
+    setNestedStructure(null);
+    // 當form改變時，傳送初始化訊息
     const message: MessageStyleIntroducer = {
       form: form,
       styleMode: mode,
@@ -131,7 +133,30 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       },
       "*"
     );
-  }, [form, mode]);
+  }, [form]);
+
+  useEffect(() => {
+    setSelectedScopes({
+      title: "",
+      scopes: [],
+    });
+    setNestedStructure(null);
+    // 當Mode改變時，傳送初始化訊息
+    const message: MessageStyleIntroducer = {
+      form: form,
+      styleMode: mode,
+      module: "StyleIntroducer",
+      phase: "Init",
+      direction: "Inner",
+    };
+
+    parent.postMessage(
+      {
+        pluginMessage: message,
+      },
+      "*"
+    );
+  }, [mode]);
 
   return (
     <div>

@@ -114,6 +114,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
               fontSize="small"
               buttonType="grain"
               hasMargin={false}
+              showChevron={true}
             />
           )}
         </div>
@@ -153,7 +154,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
                   className="button-reset button-folder"
                 >
                   {key}
-                  <span className="chevron"></span>
+                  <span className="chevron-right"></span>
                 </button>
               ) : (
                 <label

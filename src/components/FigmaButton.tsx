@@ -12,6 +12,7 @@ interface FigmaButtonProps {
   svg?: React.ReactNode;
   hasTopBottomMargin?: boolean;
   hasMargin?: boolean;
+  showChevron?: boolean;
 }
 
 const FigmaButton: React.FC<FigmaButtonProps> = ({
@@ -25,6 +26,7 @@ const FigmaButton: React.FC<FigmaButtonProps> = ({
   svg,
   hasTopBottomMargin = true,
   hasMargin = true,
+  showChevron = false,
 }) => {
   return (
     <div className="flex">
@@ -38,6 +40,7 @@ const FigmaButton: React.FC<FigmaButtonProps> = ({
       >
         {svg && <div className="icon-24">{svg}</div>}
         <span>{capitalizeWords(title)}</span>
+        {showChevron && <span className="chevron-left"></span>}
       </button>
     </div>
   );

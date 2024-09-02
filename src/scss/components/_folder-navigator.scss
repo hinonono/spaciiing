@@ -80,16 +80,5 @@
         background-color: var(--color-bg-selected);
     }
 
-    .chevron {
-        /* Add this block */
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        border: solid var(--figma-color-text-secondary);
-        border-width: 0 1.5px 1.5px 0;
-        display: inline-block;
-        padding: 3px;
-        transform: rotate(315deg);
-    }
+    
 }

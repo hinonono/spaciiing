@@ -1,9 +1,12 @@
 .button {
     height: var(--cy-button-height-medium);
     border-radius: var(--cy-border-radius-large);
+    position: relative;
 
     span {
-        min-width: 30px;
+        &:not(.chevron-left) {
+            min-width: 30px;
+        }
     }
 
     &--primary {

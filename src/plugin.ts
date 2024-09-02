@@ -38,7 +38,7 @@ import { MessageRenamer } from "./types/Messages/MessageRenamer";
 import { ExternalMessage } from "./types/Messages/ExternalMessage";
 
 figma.showUI(__html__, { themeColors: true });
-figma.ui.resize(380, 500);
+figma.ui.resize(360, 480);
 
 figma.ui.onmessage = (message: Message) => {
   // console.log(message);
