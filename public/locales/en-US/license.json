@@ -28,5 +28,6 @@
   "endIn": "End in",
   "validForFirstBillingCycle": "Valid for first billing cycle.",
   "50percentOff": "Now 50% OFF",
-  "30percentOff": "Now 30% OFF"
+  "30percentOff": "Now 30% OFF",
+  "eraseLicense": "Erase License from this device"
 }

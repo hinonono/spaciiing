@@ -28,5 +28,6 @@
   "endIn": "结束于",
   "validForFirstBillingCycle": "适用于首个订阅循环",
   "50percentOff": "订阅现省50%",
-  "30percentOff": "订阅现省30%"
+  "30percentOff": "订阅现省30%",
+  "eraseLicense": "擦除此装置的授权"
 }
