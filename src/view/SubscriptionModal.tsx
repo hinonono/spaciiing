@@ -188,7 +188,7 @@ const SubscriptionModal: React.FC = () => {
               <FigmaButton
                 buttonType="special"
                 title={t("license:tryItFree")}
-                onClick={paymentsUtil.navigateToPurchasePage}
+                onClick={paymentsUtil.navigateToCheckOutPage}
               />
             </div>
             <h4>{t("license:howYourFreeTrialWorks")}</h4>
