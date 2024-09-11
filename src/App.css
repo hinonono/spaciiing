@@ -7,6 +7,8 @@
   --fg-focus: #0d99ff;
   --cy-border-light: #d5d5d5;
   --cy-border-dark: #a0a0a0;
+  --cy-border-radius-xxxlarge: 14px;
+  --cy-border-radius-xxlarge: 12px;
   --cy-border-radius-xlarge: 10px;
   --cy-border-radius-large: 8px;
   --cy-border-radius-medium: 6px;
@@ -542,6 +544,73 @@
   color: white;
 }
 
+.free-trial-graph {
+  padding: 16px;
+  border: 1px solid var(--figma-color-border);
+  min-height: 240px;
+  height: 240px;
+  border-radius: var(--border-radius-large);
+}
+.free-trial-graph .vertical-step-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 0px;
+}
+.free-trial-graph .vertical-step-container h4 {
+  padding-top: 0;
+  margin-top: 0;
+}
+.free-trial-graph .step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  position: relative;
+}
+.free-trial-graph .step:last-child {
+  margin-bottom: 0;
+}
+.free-trial-graph .step-icon {
+  font-size: 16px;
+  color: white;
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 10px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+}
+.free-trial-graph .step-content {
+  margin-left: 50px;
+}
+.free-trial-graph .step-content h3 {
+  margin-bottom: 5px;
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+}
+.free-trial-graph .step-content p {
+  color: var(--figma-color-text-secondary);
+}
+.free-trial-graph .vertical-step-container::before {
+  content: "";
+  position: absolute;
+  width: 32px;
+  height: 100%;
+  background: linear-gradient(180deg, #8d41ff 25%, #00c6ff 85%, #e4e4e4);
+  top: -4px;
+  left: -4px;
+  border-radius: 9999px;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
 .boder-none {
   border: none;
 }
@@ -670,8 +739,12 @@
   color: white;
   text-align: center;
 }
+.banner button {
+  width: -moz-fit-content;
+  width: fit-content;
+}
 .banner .message-primary {
-  font-size: 1.25rem;
+  font-size: 1.17rem;
   font-weight: 600;
 }
 .banner .message-secondary {
@@ -729,6 +802,10 @@
 
 .width-auto {
   width: auto;
+}
+
+.free-trial-modal .cta-message {
+  font-size: 14px;
 }
 
 .chevron-right {
@@ -1115,7 +1192,6 @@ button {
   background-color: #bb90ff;
   width: -moz-fit-content;
   width: fit-content;
-  cursor: pointer;
 }
 
 .title-bar {
@@ -1204,6 +1280,10 @@ button {
   opacity: 0;
 }
 
+.modal-content {
+  position: relative;
+}
+
 .modal.show {
   display: block;
   /* Show the modal */
@@ -1242,7 +1322,7 @@ span {
 }
 
 h2 {
-  margin: 1rem 0rem;
+  margin: 0.5rem 0rem;
 }
 
 h3 {
@@ -1251,15 +1331,14 @@ h3 {
 
 h4 {
   margin: 0.3rem 0rem;
-  border-top: 1px solid var(--figma-color-border);
   padding-top: 0.5rem;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 p {
   font-size: var(--font-size-small);
   margin-top: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   line-height: 150%;
 }
 
@@ -1277,7 +1356,7 @@ li {
   padding: 16px;
   border: 1px solid var(--figma-color-border);
   overflow-y: scroll;
-  border-radius: var(--cy-border-radius-xlarge);
+  border-radius: var(--cy-border-radius-xxxlarge);
   min-width: calc(100% - 32px);
   max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);

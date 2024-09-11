@@ -364,7 +364,6 @@ button {
     font-size: var(--font-size-small);
     background-color: #bb90ff;
     width: fit-content;
-    cursor: pointer;
 }
 
 .title-bar {
@@ -461,6 +460,10 @@ button {
     opacity: 0;
 }
 
+.modal-content {
+    position: relative;
+}
+
 .modal.show {
     display: block;
     /* Show the modal */
@@ -502,7 +505,7 @@ span {
 }
 
 h2 {
-    margin: 1rem 0rem;
+    margin: 0.5rem 0rem;
 }
 
 h3 {
@@ -511,15 +514,15 @@ h3 {
 
 h4 {
     margin: 0.3rem 0rem;
-    border-top: 1px solid var(--figma-color-border);
+    // border-top: 1px solid var(--figma-color-border);
     padding-top: 0.5rem;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 p {
     font-size: var(--font-size-small);
     margin-top: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     line-height: 150%;
 }
 
@@ -537,7 +540,7 @@ li {
     padding: 16px;
     border: 1px solid var(--figma-color-border);
     overflow-y: scroll;
-    border-radius: var(--cy-border-radius-xlarge);
+    border-radius: var(--cy-border-radius-xxxlarge);
     min-width: calc(100% - 32px);
     max-width: calc(100% - 32px);
     max-height: calc(100% - 32px);

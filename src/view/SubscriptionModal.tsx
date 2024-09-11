@@ -167,13 +167,7 @@ const SubscriptionModal: React.FC = () => {
             )}
             <div>
               {!response ? (
-                licenseManagement.tier != "PAID" ? (
-                  <FigmaButton
-                    buttonType="secondary"
-                    title={t("license:back")}
-                    onClick={handleCloseActivateModal}
-                  />
-                ) : null
+                licenseManagement.tier != "PAID" ? null : null
               ) : (
                 <FigmaButton
                   title={t("license:finish")}
@@ -184,20 +178,50 @@ const SubscriptionModal: React.FC = () => {
           </div>
         )}
         {!showActivateModal && (
-          <div>
-            <div className="badge">{t("license:pro")}</div>
-            <h2>{t("license:subscribeToUnlock")}</h2>
-            <p>{t("license:youHaveNoActiveLicense")}</p>
+          <div className="free-trial-modal">
+            {/* <div className="badge">{t("license:pro")}</div> */}
+            <h2>{t("license:trySevenDaysFree")}</h2>
+            <p className="text-color-secondary cta-message">
+              {t("license:unleashYourProductivity")}
+            </p>
             <div className="mt-xsmall">
               <FigmaButton
-                title={t("license:subscribeNow")}
+                buttonType="special"
+                title={t("license:tryItFree")}
                 onClick={paymentsUtil.navigateToPurchasePage}
               />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("license:activateLicense")}
-                onClick={handleOpenActivateModal}
-              />
+            </div>
+            <h4>{t("license:howYourFreeTrialWorks")}</h4>
+            <div className="free-trial-graph hide-scrollbar-vertical">
+              <div className="vertical-step-container">
+                <div className="step">
+                  <div className="step-icon">🔒</div>
+                  <div className="step-content">
+                    <h4>Today</h4>
+                    <p>Get instant access to all pro features.</p>
+                  </div>
+                </div>
+                <div className="step">
+                  <div className="step-icon">🔔</div>
+                  <div className="step-content">
+                    <h4>Day 5</h4>
+                    <p>
+                      We'll sent you an email to remind you that your trial is
+                      ending soon.
+                    </p>
+                  </div>
+                </div>
+                <div className="step">
+                  <div className="step-icon">⭐</div>
+                  <div className="step-content">
+                    <h4>Day 7</h4>
+                    <p>
+                      Your subscription starts. Cancel before that to avoid
+                      payment.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -12,7 +12,11 @@
 @import "./components/folder-navigator";
 @import "./components/tooltip";
 @import "./components/tab-bar";
+@import "./components/free-trial-graph";
 
+h2 {
+    font-size: 1.4rem;
+}
 
 .boder-none {
     border: none;
@@ -153,9 +157,13 @@
         color: white;
         text-align: center;
     }
+    
+    button {
+        width: fit-content;
+    }
 
     .message-primary {
-        font-size: 1.25rem;
+        font-size: 1.17rem; //equivalent to h3 font size
         font-weight: 600;
     }
 
@@ -225,6 +233,12 @@
 
 .width-auto {
     width: auto;
+}
+
+.free-trial-modal {
+    .cta-message {
+        font-size: 14px;
+    }
 }
 
 @import "./components/chevron"

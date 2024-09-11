@@ -1,0 +1,71 @@
+.free-trial-graph {
+    padding: 16px;
+    border: 1px solid var(--figma-color-border);
+    min-height: 240px;
+    height: 240px;
+    border-radius: var(--border-radius-large);
+
+    .vertical-step-container {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        padding-left: 0px;
+
+        h4 {
+            padding-top: 0;
+            margin-top: 0;
+        }
+    }
+
+    .step {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .step:last-child {
+        margin-bottom: 0;
+    }
+
+    .step-icon {
+        font-size: 16px;
+        color: white;
+        background-color: #ffffff;
+        border-radius: 50%;
+        padding: 10px;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 0;
+    }
+
+    .step-content {
+        margin-left: 50px;
+    }
+
+    .step-content h3 {
+        margin-bottom: 5px;
+        font-size: 18px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .step-content p {
+        color: var(--figma-color-text-secondary);
+    }
+
+    .vertical-step-container::before {
+        content: "";
+        position: absolute;
+        width: 32px;
+        height: 100%;
+        background: linear-gradient(180deg, #8d41ff 25%, #00c6ff 85%, #e4e4e4);
+        top: -4px;
+        left: -4px;
+        border-radius: 9999px;
+    }
+}
