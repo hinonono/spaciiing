@@ -195,30 +195,24 @@ const SubscriptionModal: React.FC = () => {
             <div className="free-trial-graph hide-scrollbar-vertical">
               <div className="vertical-step-container">
                 <div className="step">
-                  <div className="step-icon">🔒</div>
+                  <div className="step-icon">🔓</div>
                   <div className="step-content">
-                    <h4>Today</h4>
-                    <p>Get instant access to all pro features.</p>
+                    <h4>{t("license:today")}</h4>
+                    <p>{t("license:todayMessage")}</p>
                   </div>
                 </div>
                 <div className="step">
                   <div className="step-icon">🔔</div>
                   <div className="step-content">
-                    <h4>Day 5</h4>
-                    <p>
-                      We'll sent you an email to remind you that your trial is
-                      ending soon.
-                    </p>
+                    <h4>{t("license:dayFive")}</h4>
+                    <p>{t("license:dayFiveMessage")}</p>
                   </div>
                 </div>
                 <div className="step">
                   <div className="step-icon">⭐</div>
                   <div className="step-content">
-                    <h4>Day 7</h4>
-                    <p>
-                      Your subscription starts. Cancel before that to avoid
-                      payment.
-                    </p>
+                    <h4>{t("license:daySeven")}</h4>
+                    <p>{t("license:daySevenMessage")}</p>
                   </div>
                 </div>
               </div>
