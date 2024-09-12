@@ -179,7 +179,6 @@ const SubscriptionModal: React.FC = () => {
         )}
         {!showActivateModal && (
           <div className="free-trial-modal">
-            {/* <div className="badge">{t("license:pro")}</div> */}
             <h2>{t("license:trySevenDaysFree")}</h2>
             <p className="text-color-secondary cta-message">
               {t("license:unleashYourProductivity")}
@@ -190,9 +189,12 @@ const SubscriptionModal: React.FC = () => {
                 title={t("license:tryItFree")}
                 onClick={paymentsUtil.navigateToCheckOutPage}
               />
+              <p className="mt-xxxsmall text-center text-color-tertiary">
+                7 days free, then $4.99/month.
+              </p>
             </div>
-            <h4>{t("license:howYourFreeTrialWorks")}</h4>
-            <div className="free-trial-graph hide-scrollbar-vertical">
+            {/* <h4>{t("license:howYourFreeTrialWorks")}</h4> */}
+            <div className="free-trial-graph">
               <div className="vertical-step-container">
                 <div className="step">
                   <div className="step-icon">🔓</div>

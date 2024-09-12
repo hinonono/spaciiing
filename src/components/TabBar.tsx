@@ -36,7 +36,9 @@ interface TabBarProps {
 }
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
-  const isDevelopment = process.env.REACT_APP_ENV === "development";
+  const isDevelopment =
+    process.env.REACT_APP_ENV === "development" ||
+    process.env.REACT_APP_ENV === "developmentfree";
   const { licenseManagement } = useAppContext();
 
   // Reference to the scrollable container element
@@ -134,7 +136,11 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="tabs">
-      {isDevelopment && <div className="banner banner--development-mode">現在正執行開發者模式</div>}
+      {isDevelopment && (
+        <div className="banner banner--development-mode">
+          現在正執行開發者模式
+        </div>
+      )}
       <SaleBannerWrapper licenseManagement={licenseManagement} />
       <div
         className="tab-bar scroll-container hide-scrollbar-horizontal"

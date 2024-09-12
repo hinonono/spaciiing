@@ -111,7 +111,7 @@ const Setting: React.FC = () => {
             )}
             {licenseManagement.tier !== "PAID" && (
               <FigmaButton
-                title={t("license:subscribeNow")}
+                title={t("license:seeAllPlans")}
                 buttonType="special"
                 onClick={paymentsUtil.navigateToPurchasePage}
               />
