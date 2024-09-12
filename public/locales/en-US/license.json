@@ -40,5 +40,6 @@
   "dayFive": "Day 5",
   "dayFiveMessage": "We'll sent you an email to remind you that your trial is ending soon.",
   "daySeven": "Day 7",
-  "daySevenMessage": "Your subscription starts. Cancel before that to avoid payment."
+  "daySevenMessage": "Your subscription starts. Cancel before that to avoid payment.",
+  "seeAllPlans": "See all plans"
 }

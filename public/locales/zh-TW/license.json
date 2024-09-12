@@ -32,7 +32,7 @@
   "eraseLicense": "清除此裝置的授權",
   "howYourFreeTrialWorks": "免費試用機制說明",
   "trySevenDaysFree": "免費試用所有功能7天",
-  "unleashYourProductivity": "透過10多種專業工具釋放您的設計生產力。",
+  "unleashYourProductivity": "透過10種以上專業工具釋放您的設計生產力。",
   "tryItFree": "免費試用",
   "tryAllFeaturesSevenDaysFree": "免費試用所有功能7天",
   "today": "今天",
@@ -40,5 +40,6 @@
   "dayFive": "第5天",
   "dayFiveMessage": "我們會向您發送電子郵件，提醒您的試用即將結束。",
   "daySeven": "第7天",
-  "daySevenMessage": "您的訂閱開始。請在此之前取消以避免付款請求。"
+  "daySevenMessage": "您的訂閱開始。在此之前取消以避免付款請求。",
+  "seeAllPlans": "查看所有方案"
 }
