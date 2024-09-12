@@ -114,15 +114,19 @@
 }
 
 .text-color-primary {
-  color: var(--figma-color-text);
+  color: var(--figma-color-text) !important;
 }
 
 .text-color-secondary {
-  color: var(--figma-color-text-secondary);
+  color: var(--figma-color-text-secondary) !important;
+}
+
+.text-color-tertiary {
+  color: var(--figma-color-text-tertiary) !important;
 }
 
 .text-color-error {
-  color: var(--red);
+  color: var(--red) !important;
 }
 
 .pl-xxxsmall {
@@ -548,8 +552,10 @@
   padding: 16px;
   border: 1px solid var(--figma-color-border);
   min-height: 240px;
-  height: 240px;
+  height: -moz-fit-content;
+  height: fit-content;
   border-radius: var(--border-radius-large);
+  overflow-y: hidden;
 }
 .free-trial-graph .vertical-step-container {
   display: flex;
@@ -560,6 +566,16 @@
 .free-trial-graph .vertical-step-container h4 {
   padding-top: 0;
   margin-top: 0;
+}
+.free-trial-graph .vertical-step-container::before {
+  content: "";
+  position: absolute;
+  width: 32px;
+  height: 120%;
+  background: linear-gradient(180deg, #8d41ff 25%, #f6c2e8 85%, #e4e4e4);
+  top: -4px;
+  left: -4px;
+  border-radius: 9999px;
 }
 .free-trial-graph .step {
   display: flex;
@@ -595,16 +611,6 @@
 }
 .free-trial-graph .step-content p {
   color: var(--figma-color-text-secondary);
-}
-.free-trial-graph .vertical-step-container::before {
-  content: "";
-  position: absolute;
-  width: 32px;
-  height: 100%;
-  background: linear-gradient(180deg, #8d41ff 25%, #00c6ff 85%, #e4e4e4);
-  top: -4px;
-  left: -4px;
-  border-radius: 9999px;
 }
 
 h2 {
@@ -735,8 +741,8 @@ h2 {
   padding: 0.5rem 1rem;
 }
 .banner--development-mode {
-  background-color: #eb2d2d;
-  color: white;
+  background-color: #a0ff41;
+  color: rgb(0, 0, 0);
   text-align: center;
 }
 .banner button {
@@ -1363,6 +1369,9 @@ li {
   margin: 16px;
   transition: all 0.5s ease-in-out;
   transform: translateY(10px);
+}
+.modal-content p {
+  color: var(--figma-color-text-secondary);
 }
 
 .close-wrap {

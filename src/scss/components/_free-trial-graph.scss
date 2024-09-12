@@ -2,8 +2,9 @@
     padding: 16px;
     border: 1px solid var(--figma-color-border);
     min-height: 240px;
-    height: 240px;
+    height: fit-content;
     border-radius: var(--border-radius-large);
+    overflow-y: hidden;
 
     .vertical-step-container {
         display: flex;
@@ -15,6 +16,17 @@
             padding-top: 0;
             margin-top: 0;
         }
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 32px;
+            height: 120%;
+            background: linear-gradient(180deg, #8d41ff 25%, #f6c2e8 85%, #e4e4e4);
+            top: -4px;
+            left: -4px;
+            border-radius: 9999px;
+        }
     }
 
     .step {
@@ -22,10 +34,10 @@
         align-items: flex-start;
         margin-bottom: 10px;
         position: relative;
-    }
 
-    .step:last-child {
-        margin-bottom: 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     .step-icon {
@@ -45,27 +57,16 @@
 
     .step-content {
         margin-left: 50px;
-    }
 
-    .step-content h3 {
-        margin-bottom: 5px;
-        font-size: 18px;
-        color: #333;
-        font-weight: bold;
-    }
+        h3 {
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
 
-    .step-content p {
-        color: var(--figma-color-text-secondary);
-    }
-
-    .vertical-step-container::before {
-        content: "";
-        position: absolute;
-        width: 32px;
-        height: 100%;
-        background: linear-gradient(180deg, #8d41ff 25%, #00c6ff 85%, #e4e4e4);
-        top: -4px;
-        left: -4px;
-        border-radius: 9999px;
+        p {
+            color: var(--figma-color-text-secondary);
+        }
     }
 }
