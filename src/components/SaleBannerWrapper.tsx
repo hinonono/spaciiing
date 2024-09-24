@@ -50,6 +50,9 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
       console.log(licenseManagement);
 
       console.log("should" + shouldShowBanner);
+    } else {
+      // 當用戶的狀態是付費用戶時，直接不顯示Banner
+      setShouldShowBanner("NONE");
     }
   }, [config, licenseManagement]);
 
