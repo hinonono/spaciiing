@@ -157,7 +157,7 @@ h2 {
         color: rgb(0, 0, 0);
         text-align: center;
     }
-    
+
     button {
         width: fit-content;
     }
@@ -238,6 +238,26 @@ h2 {
 .free-trial-modal {
     .cta-message {
         font-size: 14px;
+    }
+}
+
+.about-spaciiing {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0.4rem;
+    grid-row-gap: 0.4rem;
+
+    &>.block1 {
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+    &>.block2 {
+        grid-area: 1 / 2 / 2 / 3;
+    }
+
+    &>.block3 {
+        grid-area: 2 / 1 / 3 / 3;
     }
 }
 

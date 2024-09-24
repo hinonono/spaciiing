@@ -28,12 +28,6 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
   >("NONE");
 
   useEffect(() => {
-    setShouldShowBanner(
-      LicenseManagementFrontEnd.shouldShowBanner(config, licenseManagement)
-    );
-  }, [config, licenseManagement]);
-
-  useEffect(() => {
     // Assuming configData is a valid JSON object as defined in the config.json file
     setConfig({
       targetKey: flashSaleData.targetKey,
@@ -45,6 +39,19 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
       showCountdown: flashSaleData.showCountdown,
     });
   }, []);
+
+  useEffect(() => {
+    if (licenseManagement.tier !== "PAID") {
+      setShouldShowBanner(
+        LicenseManagementFrontEnd.shouldShowBanner(config, licenseManagement)
+      );
+
+      console.log(config);
+      console.log(licenseManagement);
+
+      console.log("should" + shouldShowBanner);
+    }
+  }, [config, licenseManagement]);
 
   if (shouldShowBanner === "NONE") {
     return null;
