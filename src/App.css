@@ -1376,7 +1376,6 @@ li {
 .modal-content {
   background-color: var(--figma-color-bg);
   padding: 16px;
-  border: 1px solid var(--figma-color-border);
   overflow-y: scroll;
   border-radius: var(--cy-border-radius-xxxlarge);
   min-width: calc(100% - 32px);
