@@ -48,11 +48,9 @@ const Setting: React.FC = () => {
           <div>
             {licenseManagement.tier == "PAID" ? (
               <div className="membership-block pro">
-                <p className="color--secondary">{t("license:currentPlan")}</p>
+                <p className="color--secondary">{t("license:currenTier")}</p>
                 <span>
-                  {licenseManagement.tier === "PAID"
-                    ? t("license:paid")
-                    : t("license:free")}
+                  {t("license:paid")}
                   {licenseManagement.recurrence != undefined ? (
                     <div>({capitalizeWords(licenseManagement.recurrence)})</div>
                   ) : null}
