@@ -190,7 +190,7 @@ const SubscriptionModal: React.FC = () => {
                 onClick={paymentsUtil.navigateToCheckOutPage}
               />
               <p className="mt-xxxsmall text-center text-color-tertiary">
-                7 days free, then $4.99/month.
+                7 days free, then $4.99 / mo.
               </p>
             </div>
             {/* <h4>{t("license:howYourFreeTrialWorks")}</h4> */}
