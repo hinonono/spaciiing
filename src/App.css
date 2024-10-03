@@ -438,6 +438,10 @@
   margin-top: 8px;
   margin-bottom: 8px;
 }
+.folder-navigator li .container:hover {
+  background-color: var(--figma-color-bg-secondary);
+  border-radius: var(--border-radius-med);
+}
 .folder-navigator li:first-child .container {
   margin-top: 16px;
 }

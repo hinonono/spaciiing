@@ -120,7 +120,7 @@
   "short": "短",
   "medium": "中",
   "long": "長",
-  "howManyIconsToBeGenerated": "生成圖飄數量",
+  "howManyIconsToBeGenerated": "生成圖標數量",
   "size": "大小",
   "spacingValue": "間距值",
   "clipboard": "剪貼簿",
@@ -164,5 +164,6 @@
   "moduleCatalogueDesc": "從您的樣式或變數建立型錄。",
   "form": "形態",
   "type": "類型",
-  "home": "首頁"
+  "home": "首頁",
+  "quantity": "數量"
 }

@@ -164,5 +164,6 @@
   "moduleCatalogueDesc": "スタイルやバリアブルからカタログを作成します。",
   "form": "フォーム",
   "type": "タイプ",
-  "home": "ホーム"
+  "home": "ホーム",
+  "quantity": "数"
 }

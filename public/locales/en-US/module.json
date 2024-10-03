@@ -164,5 +164,6 @@
   "moduleCatalogueDesc": "Create catalogue from your styles or variables.",
   "form": "Form",
   "type": "Type",
-  "home": "Home"
+  "home": "Home",
+  "quantity": "Quantity"
 }

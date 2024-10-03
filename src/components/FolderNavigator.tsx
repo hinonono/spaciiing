@@ -102,6 +102,18 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
     (key) => !currentStructure[key].children
   );
 
+  const countLeafNodes = (structure: NestedStructure): number => {
+    return Object.values(structure).reduce((count, item) => {
+      if (item.children) {
+        return count + countLeafNodes(item.children as NestedStructure);
+      } else {
+        return count + 1;
+      }
+    }, 0);
+  };
+
+  const leafNodeCount = countLeafNodes(currentStructure);
+
   return (
     <div>
       <div className="folder-navigator-header">
@@ -124,7 +136,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
             : currentPath[currentPath.length - 1]}
         </div>
         <div>
-          {isLeafNodeDisplayed && (
+          {isLeafNodeDisplayed && leafNodeCount > 1 && (
             <FigmaButton
               title={
                 Object.keys(currentStructure).every((key) =>
