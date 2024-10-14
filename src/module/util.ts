@@ -57,11 +57,6 @@ export function readEditorPreference(): EditorPreference {
     const decodedEditorPreference = JSON.parse(
       editorPreference
     ) as EditorPreference;
-    decodedEditorPreference.magicObjects = {
-      noteId: "",
-      tagId: "",
-      sectionId: "",
-    };
 
     return decodedEditorPreference;
   } else {

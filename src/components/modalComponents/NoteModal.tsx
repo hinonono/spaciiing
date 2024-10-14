@@ -67,7 +67,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
       <h3>{t("module:fileOrganizingObjectSetting")}</h3>
       <div>
         <h4>{t("module:note")}</h4>
-        {editorPreference.magicObjects.noteId == undefined ? (
+        {editorPreference.magicObjects.noteId == "" ? (
           <span className="note">{t("module:noteHasNotBeenMemorized")}</span>
         ) : (
           <span className="note">
@@ -86,7 +86,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
       </div>
       <div className="mt-small">
         <h4>{t("module:designStatusTag")}</h4>
-        {editorPreference.magicObjects.noteId == undefined ? (
+        {editorPreference.magicObjects.tagId == "" ? (
           <span className="note">
             {t("module:designStatusTagHasNotBeenMemorized")}
           </span>
@@ -107,7 +107,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
       </div>
       <div className="mt-small">
         <h4>{t("module:titleSection")}</h4>
-        {editorPreference.magicObjects.noteId == undefined ? (
+        {editorPreference.magicObjects.sectionId == "" ? (
           <span className="note">
             {t("module:titleSectionHasNotBeenMemorized")}
           </span>
