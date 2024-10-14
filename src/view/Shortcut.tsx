@@ -26,7 +26,7 @@ const Shortcut: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { magicalObject, licenseManagement, setShowCTSubscribe } =
+  const { licenseManagement, setShowCTSubscribe, editorPreference } =
     useAppContext();
 
   // icon
@@ -52,14 +52,14 @@ const Shortcut: React.FC = () => {
   // 設計狀態標籤
   const [showDesignStatusTagModal, setShowDesignStatusTagModal] =
     useState(false);
-  const handleOpenDesignStatusTagModal = () =>
-    setShowDesignStatusTagModal(true);
+  // const handleOpenDesignStatusTagModal = () =>
+  //   setShowDesignStatusTagModal(true);
   const handleCloseDesignStatusTagModal = () =>
     setShowDesignStatusTagModal(false);
 
   // 標題區塊
   const [showTitleSectionModal, setShowTitleSectionModal] = useState(false);
-  const handleOpenTitleSectionModal = () => setShowTitleSectionModal(true);
+  // const handleOpenTitleSectionModal = () => setShowTitleSectionModal(true);
   const handleCloseTitleSectionModal = () => setShowTitleSectionModal(false);
 
   // Find and replace in selection for text
@@ -85,19 +85,19 @@ const Shortcut: React.FC = () => {
       case "generateNote":
         Object.assign(message, {
           member: "note",
-          componentId: magicalObject.noteId,
+          componentId: editorPreference.magicObjects.noteId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       case "generateDesignStatusTag":
         Object.assign(message, {
           member: "designStatusTag",
-          componentId: magicalObject.designStatusTagId,
+          componentId: editorPreference.magicObjects.tagId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       case "generateTitleSection":
         Object.assign(message, {
           member: "titleSection",
-          componentId: magicalObject.titleSectionId,
+          componentId: editorPreference.magicObjects.sectionId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       default:
@@ -230,7 +230,9 @@ const Shortcut: React.FC = () => {
                   onClick={() => {
                     applyShortcut("generateNote");
                   }}
-                  disabled={magicalObject.noteId == "" ? true : false}
+                  disabled={
+                    editorPreference.magicObjects.noteId == "" ? true : false
+                  }
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
                 />
@@ -242,7 +244,7 @@ const Shortcut: React.FC = () => {
                     applyShortcut("generateDesignStatusTag");
                   }}
                   disabled={
-                    magicalObject.designStatusTagId == "" ? true : false
+                    editorPreference.magicObjects.tagId == "" ? true : false
                   }
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
@@ -254,7 +256,9 @@ const Shortcut: React.FC = () => {
                   onClick={() => {
                     applyShortcut("generateTitleSection");
                   }}
-                  disabled={magicalObject.titleSectionId == "" ? true : false}
+                  disabled={
+                    editorPreference.magicObjects.sectionId == "" ? true : false
+                  }
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
                 />

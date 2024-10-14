@@ -4,6 +4,7 @@ import {
   NumberCollection,
 } from "../types/ColorCollection";
 import { EditorPreference } from "../types/EditorPreference";
+import { ExternalMessageUpdateEditorPreference } from "../types/Messages/MessageEditorPreference";
 import { Module } from "../types/Module";
 import { ResizableNode } from "../types/NodeResizable";
 import { semanticTokens } from "./tokens";
@@ -41,6 +42,64 @@ export function saveEditorPreference(
     }`
   );
   console.log(editorPreference);
+}
+
+/**
+ * Reads the editor preference from the root plugin data.
+ *
+ * @returns {EditorPreference} The decoded editor preference if it exists, otherwise a new empty EditorPreference object.
+ */
+export function readEditorPreference(): EditorPreference {
+  const editorPreference = figma.root.getPluginData("editor-preference");
+
+  if (editorPreference) {
+    // 當之前已建立過Preference物件時，進行解碼
+    const decodedEditorPreference = JSON.parse(
+      editorPreference
+    ) as EditorPreference;
+    decodedEditorPreference.magicObjects = {
+      noteId: "",
+      tagId: "",
+      sectionId: "",
+    };
+
+    return decodedEditorPreference;
+  } else {
+    // 當之前未建立過Preference物件時，新建一個
+    const createdEditorPreference: EditorPreference = {
+      magicObjects: {
+        noteId: "",
+        tagId: "",
+        sectionId: "",
+      },
+    };
+
+    return createdEditorPreference;
+  }
+}
+
+/**
+ * Updates the editor preference by sending the updated preference back as a message.
+ *
+ * @param {EditorPreference} editorPreference - The updated editor preference to send.
+ * @param {Module} [source] - Optional source of the call, used for logging purposes.
+ */
+export function updateEditorPreference(
+  editorPreference: EditorPreference,
+  source?: Module
+) {
+  const message: ExternalMessageUpdateEditorPreference = {
+    editorPreference: editorPreference,
+    module: "PluginSetting",
+    mode: "UpdateEditorPreference",
+    phase: "Init",
+  };
+  sendMessageBack(message);
+  console.log(
+    `😍使用者偏好已更新至前端，呼叫自${
+      source !== undefined ? String(source) : "未知"
+    }`
+  );
 }
 
 export function isColorCollection(

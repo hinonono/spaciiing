@@ -2,9 +2,7 @@ import { ExternalMessageUpdateFrame } from "../types/Messages/MessageMemorizer";
 import * as util from "./util";
 import * as licenseManagement from "./licenseManagement";
 import * as localization from "./localization";
-import { ExternalMessageUpdateCustomSpacing } from "../types/Messages/MessageSpaciiing";
-import { EditorPreference } from "../types/EditorPreference";
-import { ExternalMessageUpdateEditorPreference } from "../types/Messages/MessageEditorPreference";
+// import { ExternalMessageUpdateEditorPreference } from "../types/Messages/MessageEditorPreference";
 
 export async function init() {
   // 檢查License狀態
@@ -12,20 +10,10 @@ export async function init() {
   await localization.initLocalization();
 
   // V20：新版
-  const editorPreference = figma.root.getPluginData("editor-preference");
-  const decodedEditorPreference = JSON.parse(
-    editorPreference
-  ) as EditorPreference;
-  const message: ExternalMessageUpdateEditorPreference = {
-    editorPreference: decodedEditorPreference,
-    module: "PluginSetting",
-    mode: "UpdateEditorPreference",
-    phase: "Init",
-  };
-  console.log("🧐INII");
-  console.log(message.editorPreference);
+  const editorPreference = util.readEditorPreference();
+  console.log(editorPreference);
 
-  util.sendMessageBack(message);
+  util.updateEditorPreference(editorPreference, "Init");
 
   //
   const storedWidth = figma.currentPage.getPluginData("memorized-object-width");
@@ -33,9 +21,9 @@ export async function init() {
     "memorized-object-height"
   );
   const storedName = figma.currentPage.getPluginData("memorized-object-name");
-  const storedSpacing = figma.currentPage.getPluginData(
-    "recent-custom-spacing"
-  );
+  // const storedSpacing = figma.currentPage.getPluginData(
+  //   "recent-custom-spacing"
+  // );
 
   if (storedWidth != "" && storedHeight != "") {
     // Send the updated frame size back
@@ -64,13 +52,13 @@ export async function init() {
     util.sendMessageBack(message);
   }
 
-  if (storedSpacing != undefined) {
-    const message: ExternalMessageUpdateCustomSpacing = {
-      spacing: storedSpacing,
-      module: "Spaciiing",
-      phase: "Actual",
-    };
+  // if (storedSpacing != undefined) {
+  //   const message: ExternalMessageUpdateCustomSpacing = {
+  //     spacing: storedSpacing,
+  //     module: "Spaciiing",
+  //     phase: "Actual",
+  //   };
 
-    util.sendMessageBack(message);
-  }
+  //   util.sendMessageBack(message);
+  // }
 }

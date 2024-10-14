@@ -20,8 +20,13 @@ const DesignStatusTagModal: React.FC<DesignStatusTagModalProps> = ({
   handleCloseDesignStatusTagModal,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { magicalObject, licenseManagement, setShowCTSubscribe } =
-    useAppContext();
+  const {
+    magicalObject,
+    licenseManagement,
+    setShowCTSubscribe,
+    editorPreference,
+    setEditorPreference,
+  } = useAppContext();
 
   const applyMemorizeDesignStatusTag = (action: ShortcutAction) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {

@@ -93,7 +93,13 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [showActivateModal, setShowActivateModal] = useState(false);
 
   // V20：Editor Preference整合
-  const [editorPreference, setEditorPreference] = useState<EditorPreference>({});
+  const [editorPreference, setEditorPreference] = useState<EditorPreference>({
+    magicObjects: {
+      noteId: "",
+      tagId: "",
+      sectionId: ""
+    },
+  });
 
   // 模組用
   const [lastCustomSpacing, setLastCustomSpacing] = useState<string>("");

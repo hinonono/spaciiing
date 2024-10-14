@@ -5,7 +5,10 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MagicalObjectMembers } from "../../types/MagicalObject";
-import { ShortcutAction, MessageShortcutUpdateMagicalObjectSingle } from "../../types/Messages/MessageShortcut";
+import {
+  ShortcutAction,
+  MessageShortcutUpdateMagicalObjectSingle,
+} from "../../types/Messages/MessageShortcut";
 
 interface NoteModalProps {
   showNoteModal: boolean;
@@ -17,8 +20,12 @@ const NoteModal: React.FC<NoteModalProps> = ({
   handleCloseNoteModal,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { magicalObject, licenseManagement, setShowCTSubscribe } =
-    useAppContext();
+  const {
+    // magicalObject,
+    licenseManagement,
+    setShowCTSubscribe,
+    editorPreference,
+  } = useAppContext();
 
   const applyMemorize = (
     action: ShortcutAction,
@@ -43,6 +50,8 @@ const NoteModal: React.FC<NoteModalProps> = ({
       direction: "Inner",
       phase: "Actual",
       member: member,
+      shouldSaveEditorPreference: true,
+      editorPreference: editorPreference,
     };
 
     parent.postMessage(
@@ -58,11 +67,12 @@ const NoteModal: React.FC<NoteModalProps> = ({
       <h3>{t("module:fileOrganizingObjectSetting")}</h3>
       <div>
         <h4>{t("module:note")}</h4>
-        {magicalObject.noteId == "" ? (
+        {editorPreference.magicObjects.noteId == undefined ? (
           <span className="note">{t("module:noteHasNotBeenMemorized")}</span>
         ) : (
           <span className="note">
-            {t("module:objectIsMemorizedWithId")} {magicalObject.noteId}
+            {t("module:objectIsMemorizedWithId")}{" "}
+            {editorPreference.magicObjects.noteId}
           </span>
         )}
         <FigmaButton
@@ -76,14 +86,14 @@ const NoteModal: React.FC<NoteModalProps> = ({
       </div>
       <div className="mt-small">
         <h4>{t("module:designStatusTag")}</h4>
-        {magicalObject.designStatusTagId == "" ? (
+        {editorPreference.magicObjects.noteId == undefined ? (
           <span className="note">
             {t("module:designStatusTagHasNotBeenMemorized")}
           </span>
         ) : (
           <span className="note">
             {t("module:objectIsMemorizedWithId")}
-            {magicalObject.designStatusTagId}
+            {editorPreference.magicObjects.tagId}
           </span>
         )}
         <FigmaButton
@@ -97,13 +107,14 @@ const NoteModal: React.FC<NoteModalProps> = ({
       </div>
       <div className="mt-small">
         <h4>{t("module:titleSection")}</h4>
-        {magicalObject.titleSectionId == "" ? (
+        {editorPreference.magicObjects.noteId == undefined ? (
           <span className="note">
             {t("module:titleSectionHasNotBeenMemorized")}
           </span>
         ) : (
           <span className="note">
-            {t("module:objectIsMemorizedWithId")} {magicalObject.titleSectionId}
+            {t("module:objectIsMemorizedWithId")}{" "}
+            {editorPreference.magicObjects.sectionId}
           </span>
         )}
         <FigmaButton

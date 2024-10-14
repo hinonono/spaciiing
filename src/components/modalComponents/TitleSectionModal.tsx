@@ -4,7 +4,10 @@ import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
-import { ShortcutAction, MessageShortcutUpdateMagicalObjectSingle } from "../../types/Messages/MessageShortcut";
+import {
+  ShortcutAction,
+  MessageShortcutUpdateMagicalObjectSingle,
+} from "../../types/Messages/MessageShortcut";
 
 interface TitleSectionModalProps {
   showTitleSectionModal: boolean;
@@ -16,8 +19,13 @@ const TitleSectionModal: React.FC<TitleSectionModalProps> = ({
   handleCloseTitleSectionModal,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { magicalObject, licenseManagement, setShowCTSubscribe } =
-    useAppContext();
+  const {
+    magicalObject,
+    licenseManagement,
+    setShowCTSubscribe,
+    editorPreference,
+    setEditorPreference,
+  } = useAppContext();
 
   const applyMemorizeTitleSection = (action: ShortcutAction) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {

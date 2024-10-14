@@ -45,13 +45,19 @@ export function executeShortcut(message: MessageShortcut) {
         generateIconTemplate(message as MessageShortcutGenerateIconTemplate);
         break;
       case "memorizeNote":
-        memorizeSelectedNodeId("note");
+        if (message.editorPreference) {
+          memorizeSelectedNodeId("note");
+        }
         break;
       case "memorizeTitleSection":
-        memorizeSelectedNodeId("titleSection");
+        if (message.editorPreference) {
+          memorizeSelectedNodeId("titleSection");
+        }
         break;
       case "memorizeDesignStatusTag":
-        memorizeSelectedNodeId("designStatusTag");
+        if (message.editorPreference) {
+          memorizeSelectedNodeId("designStatusTag");
+        }
         break;
       case "generateNote":
         generateMagicalObjectMember(
@@ -302,38 +308,60 @@ function memorizeSelectedNodeId(member: MagicalObjectMembers) {
     return;
   }
 
-  const pluginDataKey = "magical-object";
-  const data = figma.root.getPluginData(pluginDataKey);
-  if (data != "") {
-    // 有找到設置的magical object
-    const mo = JSON.parse(data) as MagicalObject;
-
-    switch (member) {
-      case "note":
-        mo.noteId = selectedNode.id;
-        break;
-      case "designStatusTag":
-        mo.designStatusTagId = selectedNode.id;
-        break;
-      case "titleSection":
-        mo.titleSectionId = selectedNode.id;
-        break;
-      default:
-        break;
-    }
-
-    const message: ExternalMessageUpdateMagicalObject = {
-      magicalObject: mo,
-      module: "Shortcut",
-      direction: "Outer",
-      phase: "Actual",
-    };
-
-    util.sendMessageBack(message);
-
-    figma.root.setPluginData(pluginDataKey, JSON.stringify(mo));
-    figma.notify(`✅ ID Set to ${selectedNode.id}`);
+  // 新版
+  const editorPreference = util.readEditorPreference();
+  switch (member) {
+    case "note":
+      editorPreference.magicObjects.noteId = selectedNode.id;
+      break;
+    case "designStatusTag":
+      editorPreference.magicObjects.tagId = selectedNode.id;
+      break;
+    case "titleSection":
+      editorPreference.magicObjects.sectionId = selectedNode.id;
+      break;
+    default:
+      break;
   }
+  util.saveEditorPreference(editorPreference, "Shortcut");
+  util.updateEditorPreference(editorPreference);
+  figma.notify(
+    `✅ The id is memorized successfully from object ${selectedNode.name}`
+  );
+
+  // about to delete
+  // const pluginDataKey = "magical-object";
+  // const data = figma.root.getPluginData(pluginDataKey);
+  // if (data != "") {
+  //   // 有找到設置的magical object
+  //   const mo = JSON.parse(data) as MagicalObject;
+
+  //   switch (member) {
+  //     case "note":
+  //       mo.noteId = selectedNode.id;
+  //       break;
+  //     case "designStatusTag":
+  //       mo.designStatusTagId = selectedNode.id;
+  //       break;
+  //     case "titleSection":
+  //       mo.titleSectionId = selectedNode.id;
+  //       break;
+  //     default:
+  //       break;
+  //   }
+
+  //   const message: ExternalMessageUpdateMagicalObject = {
+  //     magicalObject: mo,
+  //     module: "Shortcut",
+  //     direction: "Outer",
+  //     phase: "Actual",
+  //   };
+
+  //   util.sendMessageBack(message);
+
+  //   figma.root.setPluginData(pluginDataKey, JSON.stringify(mo));
+  //   figma.notify(`✅ ID Set to ${selectedNode.id}`);
+  // }
 }
 
 function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
