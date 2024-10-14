@@ -44,8 +44,8 @@ const CoreLayer: React.FC = () => {
     setMemorizedObjectWidth,
     setVariableCollectionList,
     setvariableCollectionModes,
-    setMagicalObject,
-    magicalObject,
+    // setMagicalObject,
+    // magicalObject,
     setLicenseManagement,
     setCustomCodeExecutionResults,
     virtualProfileGroups,
@@ -99,7 +99,7 @@ const CoreLayer: React.FC = () => {
             }
             break;
           case "Shortcut":
-            magicalObjectHandler(message as ExternalMessageUpdateMagicalObject);
+            // magicalObjectHandler(message as ExternalMessageUpdateMagicalObject);
             break;
           case "VirtualProfile":
             virtualProfileHandler(
@@ -234,28 +234,28 @@ const CoreLayer: React.FC = () => {
   };
 
   const shortcutWillEnd = () => {
-    const message: MessageShortcutUpdateMagicalObject = {
-      magicalObject: magicalObject,
-      action: "updateMagicalObject",
-      module: "Shortcut",
-      direction: "Inner",
-      phase: "WillEnd",
-    };
-    setMagicalObject(magicalObject);
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    // const message: MessageShortcutUpdateMagicalObject = {
+    //   magicalObject: magicalObject,
+    //   action: "updateMagicalObject",
+    //   module: "Shortcut",
+    //   direction: "Inner",
+    //   phase: "WillEnd",
+    // };
+    // setMagicalObject(magicalObject);
+    // parent.postMessage(
+    //   {
+    //     pluginMessage: message,
+    //   },
+    //   "*"
+    // );
   };
 
   // Magical Object
-  const magicalObjectHandler = (
-    message: ExternalMessageUpdateMagicalObject
-  ) => {
-    setMagicalObject(message.magicalObject);
-  };
+  // const magicalObjectHandler = (
+  //   message: ExternalMessageUpdateMagicalObject
+  // ) => {
+  //   setMagicalObject(message.magicalObject);
+  // };
 
   // Virtual Profile
   const initVirtualProfile = () => {

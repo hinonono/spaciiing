@@ -1,6 +1,6 @@
 import * as util from "./util";
 import * as spaciiing from "./spaciiing";
-import { MagicalObject, MagicalObjectMembers } from "../types/MagicalObject";
+import { MagicalObjectMembers } from "../types/MagicalObject";
 import {
   ExternalMessageUpdateMagicalObject,
   MessageShortcut,
@@ -88,23 +88,21 @@ export function executeShortcut(message: MessageShortcut) {
 }
 
 function initShortcut() {
-  const pluginDataKey = "magical-object";
-  const data = figma.root.getPluginData(pluginDataKey);
-
-  if (data == "") {
-    //
-  } else {
-    // 有找到設置的magical object
-    const mo = JSON.parse(data) as MagicalObject;
-    const message: ExternalMessageUpdateMagicalObject = {
-      magicalObject: mo,
-      module: "Shortcut",
-      direction: "Outer",
-      phase: "Init",
-    };
-
-    util.sendMessageBack(message);
-  }
+  // const pluginDataKey = "magical-object";
+  // const data = figma.root.getPluginData(pluginDataKey);
+  // if (data == "") {
+  //   //
+  // } else {
+  //   // 有找到設置的magical object
+  //   const mo = JSON.parse(data) as MagicalObject;
+  //   const message: ExternalMessageUpdateMagicalObject = {
+  //     magicalObject: mo,
+  //     module: "Shortcut",
+  //     direction: "Outer",
+  //     phase: "Init",
+  //   };
+  //   util.sendMessageBack(message);
+  // }
 }
 
 function shortcutWillEnd(message: MessageShortcutUpdateMagicalObject) {

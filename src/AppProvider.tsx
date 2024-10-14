@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { VirtualProfileGroup } from "./types/VirtualProfile";
-import { MagicalObject } from "./types/MagicalObject";
+// import { MagicalObject } from "./types/MagicalObject";
 import { LicenseManagement } from "./types/LicenseManagement";
 import { StyleListItemFrontEnd } from "./types/General";
 import {
@@ -40,8 +40,8 @@ interface AppContextType {
   setVirtualProfileGroups: React.Dispatch<
     React.SetStateAction<VirtualProfileGroup[]>
   >;
-  magicalObject: MagicalObject;
-  setMagicalObject: React.Dispatch<React.SetStateAction<MagicalObject>>;
+  // magicalObject: MagicalObject;
+  // setMagicalObject: React.Dispatch<React.SetStateAction<MagicalObject>>;
   licenseManagement: LicenseManagement;
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>;
   showCTSubscribe: boolean;
@@ -71,11 +71,11 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
-const mo: MagicalObject = {
-  noteId: "",
-  designStatusTagId: "",
-  titleSectionId: "",
-};
+// const mo: MagicalObject = {
+//   noteId: "",
+//   designStatusTagId: "",
+//   titleSectionId: "",
+// };
 
 const lm: LicenseManagement = {
   tier: "FREE",
@@ -118,7 +118,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   >([]);
 
   //
-  const [magicalObject, setMagicalObject] = useState<MagicalObject>(mo);
+  // const [magicalObject, setMagicalObject] = useState<MagicalObject>(mo);
   const [licenseManagement, setLicenseManagement] =
     useState<LicenseManagement>(lm);
 
@@ -144,8 +144,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setVariableCollectionList,
         variableCollectionModes,
         setvariableCollectionModes,
-        magicalObject,
-        setMagicalObject,
+        // magicalObject,
+        // setMagicalObject,
         licenseManagement,
         setLicenseManagement,
         showCTSubscribe,
