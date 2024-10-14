@@ -6,7 +6,7 @@ export type SpacingMode = "horizontal" | "vertical";
 
 export interface MessageSpaciiing extends Message {
   mode: SpacingMode;
-  spacing: string;
+  spacing: number;
   useCustomValue: boolean;
   addAutolayout: boolean;
 }

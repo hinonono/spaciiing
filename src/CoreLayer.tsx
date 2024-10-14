@@ -36,6 +36,7 @@ const CoreLayer: React.FC = () => {
   const { i18n } = useTranslation();
   //
   const {
+    setEditorPreference,
     setLastCustomSpacing,
     setMemorizedObjectHeight,
     setMemorizedObjectName,
@@ -330,7 +331,21 @@ const CoreLayer: React.FC = () => {
   // Spaciiing
   const SpaciiingHandler = (message: ExternalMessageUpdateCustomSpacing) => {
     const spacing = message.spacing;
+
+    // 即將刪除
     setLastCustomSpacing(spacing);
+
+    // Convert to number and check if it's a valid number
+    const spacingNumber = Number(spacing);
+
+    if (!isNaN(spacingNumber)) {
+      setEditorPreference((prevPreference) => ({
+        ...prevPreference,
+        spacing: spacingNumber,
+      }));
+    } else {
+      console.warn("Invalid spacing value. Expected a number.");
+    }
   };
 
   const MemorizerHandler = (message: ExternalMessageUpdateFrame) => {

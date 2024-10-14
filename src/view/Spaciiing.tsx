@@ -32,11 +32,23 @@ const SpaciiingView: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { lastCustomSpacing, setLastCustomSpacing } = useAppContext();
-  // const [customValue, setCustomValue] = useState<string>("");
+  const {
+    lastCustomSpacing,
+    setLastCustomSpacing,
+    editorPreference,
+    setEditorPreference,
+  } = useAppContext();
+
+  // 水平或垂直模式
   const [mode, setMode] = useState<SpacingMode>("vertical");
-  const [multiply, setMultiply] = useState<number>(1);
+
+  // 倍率
+  const [multiplier, setMultiplier] = useState<number>(1);
+
+  // 間距值
   const [space, setSpace] = useState<string | number>(0);
+  const [enteredCustomSpacing, setEnteredCustomSpacing] = useState<number>(0);
+
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = (event: {
@@ -48,7 +60,19 @@ const SpaciiingView: React.FC = () => {
   const handleCustomValueChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setLastCustomSpacing(event.target.value);
+    const value = event.target.value;
+
+    const numberValue = Number(value);
+
+    if (!isNaN(numberValue)) {
+      // 即將刪除
+      setLastCustomSpacing(value);
+
+      // 新版
+      setEnteredCustomSpacing(numberValue);
+    } else {
+      console.warn("Invalid number input");
+    }
   };
 
   useEffect(() => {
@@ -76,21 +100,34 @@ const SpaciiingView: React.FC = () => {
   };
 
   const applySpacing = () => {
-    let spacing = "0";
-    let useCustomValue = false;
+    // let spacing = "0";
+    // let useCustomValue = false;
 
-    if (space === "custom") {
-      spacing = lastCustomSpacing === "" ? "0" : lastCustomSpacing;
-      useCustomValue = lastCustomSpacing === "" ? false : true;
+    // if (space === "custom") {
+    //   spacing = lastCustomSpacing === "" ? "0" : lastCustomSpacing;
+    //   useCustomValue = lastCustomSpacing === "" ? false : true;
+    // } else {
+    //   spacing = Number(space) * multiplier;
+    // }
+
+    let finalSpacing: number;
+    let useCustomValue: boolean;
+
+    if (typeof space === "string") {
+      // 使用者選擇了自定義間距
+      finalSpacing = enteredCustomSpacing;
+      useCustomValue = true;
     } else {
-      spacing = String(Number(space) * multiply);
+      // 預設間距
+      finalSpacing = space * multiplier;
+      useCustomValue = false;
     }
 
     const message: MessageSpaciiing = {
       module: "Spaciiing",
-      mode,
-      spacing,
-      useCustomValue,
+      mode: mode,
+      spacing: finalSpacing,
+      useCustomValue: useCustomValue,
       addAutolayout: isChecked,
       direction: "Inner",
       phase: "Actual",
@@ -161,8 +198,8 @@ const SpaciiingView: React.FC = () => {
                     name="sp-multiply"
                     id={`multiply_Option${value}`}
                     value={value}
-                    checked={multiply === value}
-                    onChange={() => setMultiply(value)}
+                    checked={multiplier === value}
+                    onChange={() => setMultiplier(value)}
                   />
                   <label htmlFor={`multiply_Option${value}`}>{value}</label>
                 </React.Fragment>
@@ -190,7 +227,7 @@ const SpaciiingView: React.FC = () => {
                   >
                     {typeof item.value === "string"
                       ? t(item.nameKey)
-                      : item.value * multiply}
+                      : item.value * multiplier}
                   </label>
                 </React.Fragment>
               ))}

@@ -7,9 +7,15 @@ import {
   ExternalVariableCollection,
   ExternalVariableMode,
 } from "./types/Messages/MessageVariableEditor";
+import { EditorPreference } from "./types/EditorPreference";
 
 // #region Definition
 interface AppContextType {
+  // V20：新的editor preference物件，統一管理相關的偏好值
+  editorPreference: EditorPreference;
+  setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;
+
+  // V20：部分舊的屬性即將統一被editor preference物件取代
   lastCustomSpacing: string;
   setLastCustomSpacing: React.Dispatch<React.SetStateAction<string>>;
   memorizedObjectWidth: number | undefined;
@@ -30,8 +36,6 @@ interface AppContextType {
   setvariableCollectionModes: React.Dispatch<
     React.SetStateAction<ExternalVariableMode[]>
   >;
-  // virtualProfile: VirtualProfile;
-  // setVirtualProfile: React.Dispatch<React.SetStateAction<VirtualProfile>>;
   virtualProfileGroups: VirtualProfileGroup[];
   setVirtualProfileGroups: React.Dispatch<
     React.SetStateAction<VirtualProfileGroup[]>
@@ -88,6 +92,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
 
+  // V20：Editor Preference整合
+  const [editorPreference, setEditorPreference] = useState<EditorPreference>({});
+
   // 模組用
   const [lastCustomSpacing, setLastCustomSpacing] = useState<string>("");
   const [memorizedObjectWidth, setMemorizedObjectWidth] = useState<number>();
@@ -117,6 +124,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <AppContext.Provider
       value={{
+        editorPreference,
+        setEditorPreference,
         lastCustomSpacing,
         setLastCustomSpacing,
         memorizedObjectWidth,
