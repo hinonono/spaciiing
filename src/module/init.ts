@@ -3,12 +3,26 @@ import * as util from "./util";
 import * as licenseManagement from "./licenseManagement";
 import * as localization from "./localization";
 import { ExternalMessageUpdateCustomSpacing } from "../types/Messages/MessageSpaciiing";
+import { EditorPreference } from "../types/EditorPreference";
+import { ExternalMessageUpdateEditorPreference } from "../types/Messages/MessageEditorPreference";
 
 export async function init() {
   // 檢查License狀態
   await licenseManagement.initLicenseCheck();
   await localization.initLocalization();
 
+  // V20：新版
+  const editorPreference = figma.root.getPluginData(
+    "editor-preference"
+  ) as EditorPreference;
+  const message: ExternalMessageUpdateEditorPreference = {
+    editorPreference: editorPreference,
+    module: "PluginSetting",
+    phase: "Init",
+  };
+  util.sendMessageBack(message);
+
+  //
   const storedWidth = figma.currentPage.getPluginData("memorized-object-width");
   const storedHeight = figma.currentPage.getPluginData(
     "memorized-object-height"
@@ -17,10 +31,6 @@ export async function init() {
   const storedSpacing = figma.currentPage.getPluginData(
     "recent-custom-spacing"
   );
-
-  // console.log(
-  //   `Init Value [w${storedWidth}][h${storedHeight}][name${storedName}][spacing${storedSpacing}]`
-  // );
 
   if (storedWidth != "" && storedHeight != "") {
     // Send the updated frame size back

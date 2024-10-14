@@ -3,6 +3,8 @@ import {
   ColorCollection,
   NumberCollection,
 } from "../types/ColorCollection";
+import { EditorPreference } from "../types/EditorPreference";
+import { Module } from "../types/Module";
 import { ResizableNode } from "../types/NodeResizable";
 import { semanticTokens } from "./tokens";
 
@@ -17,6 +19,24 @@ export function sendMessageBack(message: object) {
   figma.ui.postMessage({
     pluginMessage: message,
   });
+}
+
+/**
+ * Saves the editor preference to the current page's plugin data.
+ *
+ * @param {EditorPreference} editorPreference - The editor preference to save.
+ * @param {Module} [source] - Optional source of the call, used for logging purposes.
+ */
+export function saveEditorPreference(
+  editorPreference: EditorPreference,
+  source?: Module
+) {
+  figma.root.setPluginData("editor-preference", String(editorPreference));
+  console.log(
+    `😍使用者偏好已儲存，呼叫自${
+      source !== undefined ? String(source) : "未知"
+    }`
+  );
 }
 
 export function isColorCollection(

@@ -11,7 +11,8 @@ export type ExternalMode =
   | "UpdateCustomCodeExecutionResults"
   | "PullVirtualProfile"
   | "UpdateLicense"
-  | "UpdateStyleList";
+  | "UpdateStyleList"
+  | "UpdateEditorPreference";
 export interface ExternalMessage extends Message {
   mode?: ExternalMode;
 }

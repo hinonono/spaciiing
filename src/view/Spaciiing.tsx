@@ -32,8 +32,12 @@ const SpaciiingView: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { lastCustomSpacing, setLastCustomSpacing, setEditorPreference } =
-    useAppContext();
+  const {
+    // lastCustomSpacing,
+    // setLastCustomSpacing,
+    editorPreference,
+    setEditorPreference,
+  } = useAppContext();
 
   // 水平或垂直模式
   const [mode, setMode] = useState<SpacingMode>("vertical");
@@ -65,7 +69,7 @@ const SpaciiingView: React.FC = () => {
 
     if (!isNaN(numberValue)) {
       // 即將刪除
-      setLastCustomSpacing(value);
+      // setLastCustomSpacing(value);
 
       // 新版
       setEditorPreference((prevPreference) => ({
@@ -101,7 +105,7 @@ const SpaciiingView: React.FC = () => {
   }, []);
 
   const updateMemorizedSpacing = (spacing: string) => {
-    setLastCustomSpacing(spacing);
+    // setLastCustomSpacing(spacing);
 
     const numberValue = Number(spacing);
 
@@ -114,16 +118,6 @@ const SpaciiingView: React.FC = () => {
   };
 
   const applySpacing = () => {
-    // let spacing = "0";
-    // let useCustomValue = false;
-
-    // if (space === "custom") {
-    //   spacing = lastCustomSpacing === "" ? "0" : lastCustomSpacing;
-    //   useCustomValue = lastCustomSpacing === "" ? false : true;
-    // } else {
-    //   spacing = Number(space) * multiplier;
-    // }
-
     let finalSpacing: number;
     let useCustomValue: boolean;
 
@@ -145,6 +139,8 @@ const SpaciiingView: React.FC = () => {
       addAutolayout: isChecked,
       direction: "Inner",
       phase: "Actual",
+      shouldSaveEditorPreference: true,
+      editorPreference: editorPreference,
     };
 
     parent.postMessage(
@@ -253,7 +249,7 @@ const SpaciiingView: React.FC = () => {
                     id="sp-space-custom"
                     className="textarea"
                     rows={1}
-                    value={lastCustomSpacing}
+                    value={editorPreference.spacing}
                     onChange={handleCustomValueChange}
                     placeholder={t("module:customValueNumbersOnly")}
                   />

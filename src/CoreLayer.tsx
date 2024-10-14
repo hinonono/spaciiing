@@ -28,6 +28,7 @@ import {
   ExternalMessageUpdateVariableCollectionMode,
   ExternalMessageUpdateCustomCodeExecutionResults,
 } from "./types/Messages/MessageVariableEditor";
+import { ExternalMessageUpdateEditorPreference } from "./types/Messages/MessageEditorPreference";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
@@ -116,6 +117,13 @@ const CoreLayer: React.FC = () => {
               updateStyleListHandler(message as ExternalMessageUpdateStyleList);
             }
             break;
+          case "PluginSetting":
+            if (message.mode === "UpdateEditorPreference") {
+              updateEditorPreferenceHandler(
+                message as ExternalMessageUpdateEditorPreference
+              );
+            }
+            break;
           default:
             break;
         }
@@ -186,6 +194,12 @@ const CoreLayer: React.FC = () => {
       },
       "*"
     );
+  };
+
+  const updateEditorPreferenceHandler = (
+    message: ExternalMessageUpdateEditorPreference
+  ) => {
+    setEditorPreference(message.editorPreference);
   };
 
   const updateStyleListHandler = (message: ExternalMessageUpdateStyleList) => {
