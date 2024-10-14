@@ -9,9 +9,9 @@ export async function initLocalization() {
   const KEY = "preferred-language";
   const preferredLanguage = await figma.clientStorage.getAsync(KEY);
 
-  console.log("P LANG");
+  // console.log("P LANG");
 
-  console.log(preferredLanguage);
+  // console.log(preferredLanguage);
 
   if (preferredLanguage) {
     // 如果有偏好語言的話，載入

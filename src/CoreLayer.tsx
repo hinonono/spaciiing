@@ -76,7 +76,7 @@ const CoreLayer: React.FC = () => {
             localizationHandler(message as ExternalMessageLocalization);
             break;
           case "Spaciiing":
-            SpaciiingHandler(message as ExternalMessageUpdateCustomSpacing);
+            // SpaciiingHandler(message as ExternalMessageUpdateCustomSpacing);
             break;
           case "Memorizer":
             MemorizerHandler(message as ExternalMessageUpdateFrame);
@@ -199,7 +199,10 @@ const CoreLayer: React.FC = () => {
   const updateEditorPreferenceHandler = (
     message: ExternalMessageUpdateEditorPreference
   ) => {
-    setEditorPreference(message.editorPreference);
+    console.log("接收了EP！");
+    console.log(message.editorPreference);
+
+    setEditorPreference((prevPreference) => message.editorPreference);
   };
 
   const updateStyleListHandler = (message: ExternalMessageUpdateStyleList) => {

@@ -12,14 +12,19 @@ export async function init() {
   await localization.initLocalization();
 
   // V20：新版
-  const editorPreference = figma.root.getPluginData(
-    "editor-preference"
+  const editorPreference = figma.root.getPluginData("editor-preference");
+  const decodedEditorPreference = JSON.parse(
+    editorPreference
   ) as EditorPreference;
   const message: ExternalMessageUpdateEditorPreference = {
-    editorPreference: editorPreference,
+    editorPreference: decodedEditorPreference,
     module: "PluginSetting",
+    mode: "UpdateEditorPreference",
     phase: "Init",
   };
+  console.log("🧐INII");
+  console.log(message.editorPreference);
+
   util.sendMessageBack(message);
 
   //

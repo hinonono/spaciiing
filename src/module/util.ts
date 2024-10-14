@@ -31,12 +31,16 @@ export function saveEditorPreference(
   editorPreference: EditorPreference,
   source?: Module
 ) {
-  figma.root.setPluginData("editor-preference", String(editorPreference));
+  figma.root.setPluginData(
+    "editor-preference",
+    JSON.stringify(editorPreference)
+  );
   console.log(
     `😍使用者偏好已儲存，呼叫自${
       source !== undefined ? String(source) : "未知"
     }`
   );
+  console.log(editorPreference);
 }
 
 export function isColorCollection(

@@ -6,7 +6,6 @@ import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import {
   SpacingMode,
-  ExternalMessageUpdateCustomSpacing,
   MessageSpaciiing,
 } from "../types/Messages/MessageSpaciiing";
 
@@ -32,12 +31,7 @@ const SpaciiingView: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const {
-    // lastCustomSpacing,
-    // setLastCustomSpacing,
-    editorPreference,
-    setEditorPreference,
-  } = useAppContext();
+  const { editorPreference, setEditorPreference } = useAppContext();
 
   // 水平或垂直模式
   const [mode, setMode] = useState<SpacingMode>("vertical");
@@ -68,10 +62,6 @@ const SpaciiingView: React.FC = () => {
     const numberValue = Number(value);
 
     if (!isNaN(numberValue)) {
-      // 即將刪除
-      // setLastCustomSpacing(value);
-
-      // 新版
       setEditorPreference((prevPreference) => ({
         ...prevPreference,
         spacing: numberValue,
@@ -85,37 +75,14 @@ const SpaciiingView: React.FC = () => {
   };
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data.pluginMessage) {
-        const value: Array<ExternalMessageUpdateCustomSpacing> = Object.values(
-          event.data.pluginMessage
-        );
-        const message = value[0];
-
-        updateMemorizedSpacing(message.spacing);
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
-  }, []);
-
-  const updateMemorizedSpacing = (spacing: string) => {
-    // setLastCustomSpacing(spacing);
-
-    const numberValue = Number(spacing);
-
-    if (!isNaN(numberValue)) {
-      setEditorPreference((prevPreference) => ({
-        ...prevPreference,
-        spacing: numberValue,
-      }));
+    if (editorPreference.spacing) {
+      setEnteredCustomSpacing(editorPreference.spacing);
+      console.log(
+        "entered custom spacing updateed to",
+        editorPreference.spacing
+      );
     }
-  };
+  }, [editorPreference]);
 
   const applySpacing = () => {
     let finalSpacing: number;
@@ -249,7 +216,7 @@ const SpaciiingView: React.FC = () => {
                     id="sp-space-custom"
                     className="textarea"
                     rows={1}
-                    value={editorPreference.spacing}
+                    value={enteredCustomSpacing}
                     onChange={handleCustomValueChange}
                     placeholder={t("module:customValueNumbersOnly")}
                   />
