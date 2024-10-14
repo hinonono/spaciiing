@@ -32,12 +32,8 @@ const SpaciiingView: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const {
-    lastCustomSpacing,
-    setLastCustomSpacing,
-    editorPreference,
-    setEditorPreference,
-  } = useAppContext();
+  const { lastCustomSpacing, setLastCustomSpacing, setEditorPreference } =
+    useAppContext();
 
   // 水平或垂直模式
   const [mode, setMode] = useState<SpacingMode>("vertical");
@@ -50,6 +46,9 @@ const SpaciiingView: React.FC = () => {
   const [enteredCustomSpacing, setEnteredCustomSpacing] = useState<number>(0);
 
   const [isChecked, setIsChecked] = useState(false);
+
+  const [customSpacingFieldNote, setCustomSpacingFieldNote] =
+    useState<string>("");
 
   const handleCheckboxChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
@@ -69,9 +68,15 @@ const SpaciiingView: React.FC = () => {
       setLastCustomSpacing(value);
 
       // 新版
+      setEditorPreference((prevPreference) => ({
+        ...prevPreference,
+        spacing: numberValue,
+      }));
       setEnteredCustomSpacing(numberValue);
+
+      setCustomSpacingFieldNote("");
     } else {
-      console.warn("Invalid number input");
+      setCustomSpacingFieldNote("Invalid number input");
     }
   };
 
@@ -97,6 +102,15 @@ const SpaciiingView: React.FC = () => {
 
   const updateMemorizedSpacing = (spacing: string) => {
     setLastCustomSpacing(spacing);
+
+    const numberValue = Number(spacing);
+
+    if (!isNaN(numberValue)) {
+      setEditorPreference((prevPreference) => ({
+        ...prevPreference,
+        spacing: numberValue,
+      }));
+    }
   };
 
   const applySpacing = () => {
@@ -243,6 +257,9 @@ const SpaciiingView: React.FC = () => {
                     onChange={handleCustomValueChange}
                     placeholder={t("module:customValueNumbersOnly")}
                   />
+                  {customSpacingFieldNote && (
+                    <span className="note error">{customSpacingFieldNote}</span>
+                  )}
                 </div>
                 <div className="mt-xxsmall">
                   <span className="note">
