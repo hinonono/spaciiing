@@ -34,7 +34,6 @@ const CoreLayer: React.FC = () => {
   //
   const {
     setEditorPreference,
-    setLastCustomSpacing,
     setMemorizedObjectHeight,
     setMemorizedObjectName,
     setMemorizedObjectWidth,

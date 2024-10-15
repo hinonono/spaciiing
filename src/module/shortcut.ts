@@ -1,6 +1,6 @@
 import * as util from "./util";
 import * as spaciiing from "./spaciiing";
-import { MagicalObjectMembers } from "../types/MagicalObject";
+import { MagicObjectMembers } from "../types/MagicObject";
 import {
   MessageShortcut,
   MessageShortcutFindAndReplace,
@@ -13,10 +13,6 @@ export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
     figma.notify(`❌ The "phase" property of the message is not set.`);
     return;
-  }
-
-  if (message.phase == "Init") {
-    initShortcut();
   }
 
   if (message.phase == "Actual") {
@@ -256,7 +252,7 @@ async function updateDateText(node: SceneNode) {
   }
 }
 
-function memorizeSelectedNodeId(member: MagicalObjectMembers) {
+function memorizeSelectedNodeId(member: MagicObjectMembers) {
   const selection = util.getCurrentSelection();
 
   if (selection.length !== 1) {

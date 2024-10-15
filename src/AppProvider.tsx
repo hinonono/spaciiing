@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { VirtualProfileGroup } from "./types/VirtualProfile";
-// import { MagicalObject } from "./types/MagicalObject";
 import { LicenseManagement } from "./types/LicenseManagement";
 import { StyleListItemFrontEnd } from "./types/General";
 import {
@@ -16,8 +15,8 @@ interface AppContextType {
   setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;
 
   // V20：部分舊的屬性即將統一被editor preference物件取代
-  lastCustomSpacing: string;
-  setLastCustomSpacing: React.Dispatch<React.SetStateAction<string>>;
+  // lastCustomSpacing: string;
+  // setLastCustomSpacing: React.Dispatch<React.SetStateAction<string>>;
   memorizedObjectWidth: number | undefined;
   setMemorizedObjectWidth: React.Dispatch<
     React.SetStateAction<number | undefined>
@@ -40,8 +39,8 @@ interface AppContextType {
   setVirtualProfileGroups: React.Dispatch<
     React.SetStateAction<VirtualProfileGroup[]>
   >;
-  // magicalObject: MagicalObject;
-  // setMagicalObject: React.Dispatch<React.SetStateAction<MagicalObject>>;
+
+  // 其他
   licenseManagement: LicenseManagement;
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>;
   showCTSubscribe: boolean;
@@ -96,7 +95,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   });
 
   // 模組用
-  const [lastCustomSpacing, setLastCustomSpacing] = useState<string>("");
+  // const [lastCustomSpacing, setLastCustomSpacing] = useState<string>("");
   const [memorizedObjectWidth, setMemorizedObjectWidth] = useState<number>();
   const [memorizedObjectHeight, setMemorizedObjectHeight] = useState<number>();
   const [memorizedObjectName, setMemorizedObjectName] = useState<string>("");
@@ -124,8 +123,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       value={{
         editorPreference,
         setEditorPreference,
-        lastCustomSpacing,
-        setLastCustomSpacing,
         memorizedObjectWidth,
         setMemorizedObjectWidth,
         memorizedObjectHeight,

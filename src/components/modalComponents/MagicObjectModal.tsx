@@ -4,7 +4,7 @@ import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
-import { MagicalObjectMembers } from "../../types/MagicalObject";
+import { MagicObjectMembers } from "../../types/MagicObject";
 import {
   ShortcutAction,
   MessageShortcutUpdateMagicalObjectSingle,
@@ -29,7 +29,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
 
   const applyMemorize = (
     action: ShortcutAction,
-    member: MagicalObjectMembers
+    member: MagicObjectMembers
   ) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);

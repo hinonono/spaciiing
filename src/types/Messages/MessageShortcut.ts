@@ -1,4 +1,4 @@
-import { MagicalObjectMembers } from "../MagicalObject";
+import { MagicObjectMembers } from "../MagicObject";
 import { Message } from "./Message";
 
 export type ShortcutAction =
@@ -27,7 +27,7 @@ export interface MessageShortcutGenerateIconTemplate extends MessageShortcut {
 }
 export interface MessageShortcutUpdateMagicalObjectSingle
   extends MessageShortcut {
-  member: MagicalObjectMembers;
+  member: MagicObjectMembers;
 }
 export interface MessageShortcutGenerateMagicalObjectMember
   extends MessageShortcutUpdateMagicalObjectSingle {
