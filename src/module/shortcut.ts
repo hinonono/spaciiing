@@ -2,12 +2,10 @@ import * as util from "./util";
 import * as spaciiing from "./spaciiing";
 import { MagicalObjectMembers } from "../types/MagicalObject";
 import {
-  // ExternalMessageUpdateMagicalObject,
   MessageShortcut,
   MessageShortcutFindAndReplace,
   MessageShortcutGenerateIconTemplate,
   MessageShortcutGenerateMagicalObjectMember,
-  // MessageShortcutUpdateMagicalObject,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 
@@ -81,37 +79,7 @@ export function executeShortcut(message: MessageShortcut) {
         break;
     }
   }
-
-  if (message.phase == "WillEnd") {
-    // shortcutWillEnd(message as MessageShortcutUpdateMagicalObject);
-  }
 }
-
-function initShortcut() {
-  // const pluginDataKey = "magical-object";
-  // const data = figma.root.getPluginData(pluginDataKey);
-  // if (data == "") {
-  //   //
-  // } else {
-  //   // 有找到設置的magical object
-  //   const mo = JSON.parse(data) as MagicalObject;
-  //   const message: ExternalMessageUpdateMagicalObject = {
-  //     magicalObject: mo,
-  //     module: "Shortcut",
-  //     direction: "Outer",
-  //     phase: "Init",
-  //   };
-  //   util.sendMessageBack(message);
-  // }
-}
-
-// function shortcutWillEnd(message: MessageShortcutUpdateMagicalObject) {
-//   console.log("Shorcut will End.");
-
-//   const pluginDataKey = "magical-object";
-//   const mo = message.magicalObject;
-//   figma.root.setPluginData(pluginDataKey, JSON.stringify(mo));
-// }
 
 async function findAndReplaceInSelection(
   message: MessageShortcutFindAndReplace
@@ -326,40 +294,6 @@ function memorizeSelectedNodeId(member: MagicalObjectMembers) {
   figma.notify(
     `✅ The id is memorized successfully from object ${selectedNode.name}`
   );
-
-  // about to delete
-  // const pluginDataKey = "magical-object";
-  // const data = figma.root.getPluginData(pluginDataKey);
-  // if (data != "") {
-  //   // 有找到設置的magical object
-  //   const mo = JSON.parse(data) as MagicalObject;
-
-  //   switch (member) {
-  //     case "note":
-  //       mo.noteId = selectedNode.id;
-  //       break;
-  //     case "designStatusTag":
-  //       mo.designStatusTagId = selectedNode.id;
-  //       break;
-  //     case "titleSection":
-  //       mo.titleSectionId = selectedNode.id;
-  //       break;
-  //     default:
-  //       break;
-  //   }
-
-  //   const message: ExternalMessageUpdateMagicalObject = {
-  //     magicalObject: mo,
-  //     module: "Shortcut",
-  //     direction: "Outer",
-  //     phase: "Actual",
-  //   };
-
-  //   util.sendMessageBack(message);
-
-  //   figma.root.setPluginData(pluginDataKey, JSON.stringify(mo));
-  //   figma.notify(`✅ ID Set to ${selectedNode.id}`);
-  // }
 }
 
 function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
