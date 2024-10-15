@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "./AppProvider";
-import { Message } from "./types/Messages/Message";
 import { ExternalMessage } from "./types/Messages/ExternalMessage";
-import {
-  ExternalMessageUpdateVirtualProfile,
-} from "./types/Messages/MessageVirtualProfile";
+import { ExternalMessageUpdateVirtualProfile } from "./types/Messages/MessageVirtualProfile";
 import * as licenseManagementFrontEnd from "./module-frontend/licenseManagementFrontEnd";
 import SubscriptionModal from "./view/SubscriptionModal";
 import TabBar from "./components/TabBar";
 import { useTranslation } from "react-i18next";
-import {
-  ExternalMessageUpdatePaintStyleList as ExternalMessageUpdateStyleList,
-} from "./types/Messages/MessageStyleIntroducer";
+import { ExternalMessageUpdatePaintStyleList as ExternalMessageUpdateStyleList } from "./types/Messages/MessageStyleIntroducer";
 import { ExternalMessageLocalization } from "./types/Messages/MessageLocalization";
 import { ExternalMessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { ExternalMessageUpdateFrame } from "./types/Messages/MessageMemorizer";
@@ -22,12 +17,11 @@ import {
   ExternalMessageUpdateCustomCodeExecutionResults,
 } from "./types/Messages/MessageVariableEditor";
 import { ExternalMessageUpdateEditorPreference } from "./types/Messages/MessageEditorPreference";
-import { initStyleIntroducer } from "./module-frontend/styleIntroducerFrontEnd";
 import {
-  initVirtualProfile,
   virtualProfileHandler,
   virtualProfileWillEnd,
 } from "./module-frontend/virtualProfileFrontEnd";
+import { activeTabController } from "./module-frontend/tabController";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
@@ -146,25 +140,8 @@ const CoreLayer: React.FC = () => {
       variableEditorWillEnd();
     }
 
-    switch (activeTab) {
-      case "VariableEditor":
-        initVariableEditor();
-        break;
-      case "Instantiater":
-        initVariableEditor();
-        break;
-      case "Shortcut":
-        initShortcut();
-        break;
-      case "VirtualProfile":
-        initVirtualProfile();
-        break;
-      case "StyleIntroducer":
-        initStyleIntroducer();
-        break;
-      default:
-        break;
-    }
+    // 處理當前活躍中的頁籤以進行初始化
+    activeTabController(activeTab);
 
     // Update prevTab to the current activeTab after handling the effect
     setPrevTab(activeTab);
@@ -193,37 +170,7 @@ const CoreLayer: React.FC = () => {
     i18n.changeLanguage(message.lang);
   };
 
-  // Shortcut
-  const initShortcut = () => {
-    const message: Message = {
-      module: "Shortcut",
-      phase: "Init",
-      direction: "Inner",
-    };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  };
-
   // Variable Editor
-  const initVariableEditor = () => {
-    const message: Message = {
-      module: "VariableEditor",
-      phase: "Init",
-      direction: "Inner",
-    };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  };
 
   const UpdateVariableCollectionList = (
     message: ExternalMessageUpdateVariableCollectionList
