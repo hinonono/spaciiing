@@ -71,12 +71,6 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
-// const mo: MagicalObject = {
-//   noteId: "",
-//   designStatusTagId: "",
-//   titleSectionId: "",
-// };
-
 const lm: LicenseManagement = {
   tier: "FREE",
   recurrence: "",
@@ -117,8 +111,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     VirtualProfileGroup[]
   >([]);
 
-  //
-  // const [magicalObject, setMagicalObject] = useState<MagicalObject>(mo);
   const [licenseManagement, setLicenseManagement] =
     useState<LicenseManagement>(lm);
 
@@ -144,8 +136,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setVariableCollectionList,
         variableCollectionModes,
         setvariableCollectionModes,
-        // magicalObject,
-        // setMagicalObject,
         licenseManagement,
         setLicenseManagement,
         showCTSubscribe,
