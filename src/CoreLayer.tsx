@@ -22,6 +22,12 @@ import {
   virtualProfileWillEnd,
 } from "./module-frontend/virtualProfileFrontEnd";
 import { activeTabController } from "./module-frontend/tabController";
+import {
+  updateCustomCodeExecutionResults,
+  UpdateVariableCollectionList,
+  UpdateVariableCollectionMode,
+  variableEditorWillEnd,
+} from "./module-frontend/variableEditorFrontEnd";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
@@ -76,17 +82,20 @@ const CoreLayer: React.FC = () => {
           case "VariableEditor":
             if (message.mode === "UpdateVariableCollectionList") {
               UpdateVariableCollectionList(
-                message as ExternalMessageUpdateVariableCollectionList
+                message as ExternalMessageUpdateVariableCollectionList,
+                setVariableCollectionList
               );
             }
             if (message.mode === "UpdateVariableCollectionMode") {
               UpdateVariableCollectionMode(
-                message as ExternalMessageUpdateVariableCollectionMode
+                message as ExternalMessageUpdateVariableCollectionMode,
+                setvariableCollectionModes
               );
             }
             if (message.mode === "UpdateCustomCodeExecutionResults") {
               updateCustomCodeExecutionResults(
-                message as ExternalMessageUpdateCustomCodeExecutionResults
+                message as ExternalMessageUpdateCustomCodeExecutionResults,
+                setCustomCodeExecutionResults
               );
             }
             break;
@@ -137,7 +146,7 @@ const CoreLayer: React.FC = () => {
     }
 
     if (prevTab === "VariableEditor" && activeTab !== "VariableEditor") {
-      variableEditorWillEnd();
+      variableEditorWillEnd(setCustomCodeExecutionResults);
     }
 
     // 處理當前活躍中的頁籤以進行初始化
@@ -171,28 +180,6 @@ const CoreLayer: React.FC = () => {
   };
 
   // Variable Editor
-
-  const UpdateVariableCollectionList = (
-    message: ExternalMessageUpdateVariableCollectionList
-  ) => {
-    setVariableCollectionList(message.collections);
-  };
-
-  const UpdateVariableCollectionMode = (
-    message: ExternalMessageUpdateVariableCollectionMode
-  ) => {
-    setvariableCollectionModes(message.modes);
-  };
-
-  const updateCustomCodeExecutionResults = (
-    message: ExternalMessageUpdateCustomCodeExecutionResults
-  ) => {
-    setCustomCodeExecutionResults(message.results);
-  };
-
-  const variableEditorWillEnd = () => {
-    setCustomCodeExecutionResults([]);
-  };
 
   const MemorizerHandler = (message: ExternalMessageUpdateFrame) => {
     switch (message.mode) {
