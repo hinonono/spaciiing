@@ -8,7 +8,7 @@ import {
   FramerModal,
   IconTemplateModal,
   LoremIpsumModal,
-  NoteModal,
+  MagicObjectModal,
   // TitleSectionModal,
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
@@ -128,9 +128,9 @@ const Shortcut: React.FC = () => {
             <p>{t("module:generateNoteDesignStatusTagDesc")}</p>
           </div>
         </Modal>
-        <NoteModal
-          showNoteModal={showNoteModal}
-          handleCloseNoteModal={handleCloseNoteModal}
+        <MagicObjectModal
+          showModal={showNoteModal}
+          handleCloseModal={handleCloseNoteModal}
         />
         {/* <DesignStatusTagModal
           showDesignStatusTagModal={showDesignStatusTagModal}

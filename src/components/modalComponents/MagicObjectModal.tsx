@@ -10,14 +10,14 @@ import {
   MessageShortcutUpdateMagicalObjectSingle,
 } from "../../types/Messages/MessageShortcut";
 
-interface NoteModalProps {
-  showNoteModal: boolean;
-  handleCloseNoteModal: () => void;
+interface MagicObjectModalProps {
+  showModal: boolean;
+  handleCloseModal: () => void;
 }
 
-const NoteModal: React.FC<NoteModalProps> = ({
-  showNoteModal,
-  handleCloseNoteModal,
+const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
+  showModal,
+  handleCloseModal,
 }) => {
   const { t } = useTranslation(["module"]);
   const {
@@ -63,7 +63,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
   };
 
   return (
-    <Modal show={showNoteModal} handleClose={handleCloseNoteModal}>
+    <Modal show={showModal} handleClose={handleCloseModal}>
       <h3>{t("module:fileOrganizingObjectSetting")}</h3>
       <div>
         <h4>{t("module:note")}</h4>
@@ -130,4 +130,4 @@ const NoteModal: React.FC<NoteModalProps> = ({
   );
 };
 
-export default NoteModal;
+export default MagicObjectModal;
