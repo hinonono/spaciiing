@@ -1,8 +1,8 @@
 {
-  "subscriptionSectionTitle": "您的訂閱",
-  "paid": "已付費",
-  "free": "免費",
-  "currenTier": "目前方案",
+  "subscriptionSectionTitle": "管理訂閱",
+  "paid": "付費用戶",
+  "free": "免費用戶",
+  "currenTier": "方案",
   "licenseStatus": "授權狀態",
   "licenseActive": "啟用",
   "licenseInactive": "未啟用",
