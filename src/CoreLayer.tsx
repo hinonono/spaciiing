@@ -21,12 +21,14 @@ import {
   virtualProfileHandler,
   virtualProfileWillEnd,
 } from "./module-frontend/virtualProfileFrontEnd";
-import { activeTabController } from "./module-frontend/tabController";
+import {
+  activeTabController,
+  tabWillEndController,
+} from "./module-frontend/tabController";
 import {
   updateCustomCodeExecutionResults,
   UpdateVariableCollectionList,
   UpdateVariableCollectionMode,
-  variableEditorWillEnd,
 } from "./module-frontend/variableEditorFrontEnd";
 
 // #region Actual File Content
@@ -141,18 +143,12 @@ const CoreLayer: React.FC = () => {
 
   // #region WillEnd
   useEffect(() => {
-    if (prevTab === "VirtualProfile" && activeTab !== "VirtualProfile") {
-      virtualProfileWillEnd(virtualProfileGroups, setVirtualProfileGroups);
-    }
-
-    if (prevTab === "VariableEditor" && activeTab !== "VariableEditor") {
-      variableEditorWillEnd(setCustomCodeExecutionResults);
-    }
+    // 處理生命週期即將結束的頁籤進行相關動作
+    tabWillEndController(prevTab, activeTab);
 
     // 處理當前活躍中的頁籤以進行初始化
     activeTabController(activeTab);
 
-    // Update prevTab to the current activeTab after handling the effect
     setPrevTab(activeTab);
   }, [activeTab]);
 
