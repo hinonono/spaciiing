@@ -17,10 +17,6 @@ import {
 import { ExternalMessageLocalization } from "./types/Messages/MessageLocalization";
 import { ExternalMessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { ExternalMessageUpdateFrame } from "./types/Messages/MessageMemorizer";
-// import {
-//   ExternalMessageUpdateMagicalObject,
-//   MessageShortcutUpdateMagicalObject,
-// } from "./types/Messages/MessageShortcut";
 import { ExternalMessageUpdateCustomSpacing } from "./types/Messages/MessageSpaciiing";
 import { Module } from "./types/Module";
 import {
@@ -44,8 +40,6 @@ const CoreLayer: React.FC = () => {
     setMemorizedObjectWidth,
     setVariableCollectionList,
     setvariableCollectionModes,
-    // setMagicalObject,
-    // magicalObject,
     setLicenseManagement,
     setCustomCodeExecutionResults,
     virtualProfileGroups,
@@ -76,7 +70,6 @@ const CoreLayer: React.FC = () => {
             localizationHandler(message as ExternalMessageLocalization);
             break;
           case "Spaciiing":
-            // SpaciiingHandler(message as ExternalMessageUpdateCustomSpacing);
             break;
           case "Memorizer":
             MemorizerHandler(message as ExternalMessageUpdateFrame);
@@ -99,7 +92,6 @@ const CoreLayer: React.FC = () => {
             }
             break;
           case "Shortcut":
-            // magicalObjectHandler(message as ExternalMessageUpdateMagicalObject);
             break;
           case "VirtualProfile":
             virtualProfileHandler(
@@ -143,11 +135,6 @@ const CoreLayer: React.FC = () => {
     if (prevTab === "VirtualProfile" && activeTab !== "VirtualProfile") {
       // Call virtualProfileWillEnd only when switching away from VirtualProfile
       virtualProfileWillEnd();
-    }
-
-    if (prevTab === "Shortcut" && activeTab !== "Shortcut") {
-      // Call virtualProfileWillEnd only when switching away from VirtualProfile
-      shortcutWillEnd();
     }
 
     if (prevTab === "VariableEditor" && activeTab !== "VariableEditor") {
@@ -232,30 +219,6 @@ const CoreLayer: React.FC = () => {
       "*"
     );
   };
-
-  const shortcutWillEnd = () => {
-    // const message: MessageShortcutUpdateMagicalObject = {
-    //   magicalObject: magicalObject,
-    //   action: "updateMagicalObject",
-    //   module: "Shortcut",
-    //   direction: "Inner",
-    //   phase: "WillEnd",
-    // };
-    // setMagicalObject(magicalObject);
-    // parent.postMessage(
-    //   {
-    //     pluginMessage: message,
-    //   },
-    //   "*"
-    // );
-  };
-
-  // Magical Object
-  // const magicalObjectHandler = (
-  //   message: ExternalMessageUpdateMagicalObject
-  // ) => {
-  //   setMagicalObject(message.magicalObject);
-  // };
 
   // Virtual Profile
   const initVirtualProfile = () => {
@@ -343,26 +306,6 @@ const CoreLayer: React.FC = () => {
 
   const variableEditorWillEnd = () => {
     setCustomCodeExecutionResults([]);
-  };
-
-  // Spaciiing
-  const SpaciiingHandler = (message: ExternalMessageUpdateCustomSpacing) => {
-    const spacing = message.spacing;
-
-    // 即將刪除
-    setLastCustomSpacing(spacing);
-
-    // Convert to number and check if it's a valid number
-    const spacingNumber = Number(spacing);
-
-    if (!isNaN(spacingNumber)) {
-      setEditorPreference((prevPreference) => ({
-        ...prevPreference,
-        spacing: spacingNumber,
-      }));
-    } else {
-      console.warn("Invalid spacing value. Expected a number.");
-    }
   };
 
   const MemorizerHandler = (message: ExternalMessageUpdateFrame) => {
