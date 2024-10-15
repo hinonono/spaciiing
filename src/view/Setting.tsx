@@ -52,7 +52,7 @@ const Setting: React.FC = () => {
                 <span>
                   {t("license:paid")}
                   {licenseManagement.recurrence != undefined ? (
-                    <div>({capitalizeWords(licenseManagement.recurrence)})</div>
+                    <>({capitalizeWords(licenseManagement.recurrence)})</>
                   ) : null}
                 </span>
               </div>
@@ -121,7 +121,7 @@ const Setting: React.FC = () => {
           <div className="about-spaciiing">
             <div className="membership-block block1">
               <p className="color--secondary">{t("settings:version")}</p>
-              <span>19</span>
+              <span>20</span>
             </div>
             <div className="membership-block block2">
               <p className="color--secondary">
@@ -152,13 +152,6 @@ const Setting: React.FC = () => {
               </span>
             </div>
           </div>
-          {/* <div className="mt-xxsmall"></div>
-          <span className="note">
-            {t("settings:forBugReportOrSupport")}{" "}
-            <a href="mailto:contact@hsiehchengyi.com" target="_blank">
-              contact@hsiehchengyi.com
-            </a>
-          </span> */}
         </div>
       </div>
     </div>
