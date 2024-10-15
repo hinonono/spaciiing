@@ -3,13 +3,11 @@ import { TitleBar, FigmaButton, SectionTitle } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import {
-  // DesignStatusTagModal,
   FindAndReplaceModal,
   FramerModal,
   IconTemplateModal,
   LoremIpsumModal,
   MagicObjectModal,
-  // TitleSectionModal,
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -44,23 +42,11 @@ const Shortcut: React.FC = () => {
   const handleOpenFramerModal = () => setShowFramerModal(true);
   const handleCloseFramerModal = () => setShowFramerModal(false);
 
-  // 備忘錄
-  const [showNoteModal, setShowNoteModal] = useState(false);
-  const handleOpenNoteModal = () => setShowNoteModal(true);
-  const handleCloseNoteModal = () => setShowNoteModal(false);
+  // 神奇物件彈窗
+  const [showMagicObjectModal, setShowMagicObjectModal] = useState(false);
+  const handleOpenMagicObjectModal = () => setShowMagicObjectModal(true);
+  const handleCloseMagicObjectModal = () => setShowMagicObjectModal(false);
 
-  // 設計狀態標籤
-  const [showDesignStatusTagModal, setShowDesignStatusTagModal] =
-    useState(false);
-  // const handleOpenDesignStatusTagModal = () =>
-  //   setShowDesignStatusTagModal(true);
-  const handleCloseDesignStatusTagModal = () =>
-    setShowDesignStatusTagModal(false);
-
-  // 標題區塊
-  const [showTitleSectionModal, setShowTitleSectionModal] = useState(false);
-  // const handleOpenTitleSectionModal = () => setShowTitleSectionModal(true);
-  const handleCloseTitleSectionModal = () => setShowTitleSectionModal(false);
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -129,17 +115,9 @@ const Shortcut: React.FC = () => {
           </div>
         </Modal>
         <MagicObjectModal
-          showModal={showNoteModal}
-          handleCloseModal={handleCloseNoteModal}
+          showModal={showMagicObjectModal}
+          handleCloseModal={handleCloseMagicObjectModal}
         />
-        {/* <DesignStatusTagModal
-          showDesignStatusTagModal={showDesignStatusTagModal}
-          handleCloseDesignStatusTagModal={handleCloseDesignStatusTagModal}
-        />
-        <TitleSectionModal
-          showTitleSectionModal={showTitleSectionModal}
-          handleCloseTitleSectionModal={handleCloseTitleSectionModal}
-        /> */}
         <IconTemplateModal
           showIconModal={showIconModal}
           handleCloseIconModal={handleCloseIconModal}
@@ -220,7 +198,7 @@ const Shortcut: React.FC = () => {
               <SectionTitle
                 title={t("module:fileOrganizingObject")}
                 actionTitle={t("module:setting")}
-                action={handleOpenNoteModal}
+                action={handleOpenMagicObjectModal}
               />
               <div className="grid mt-xxxsmall">
                 <FigmaButton
