@@ -1,4 +1,4 @@
-import { useAppContext } from "../AppProvider";
+import { AppContextType } from "../AppProvider";
 import { StyleListItemFrontEnd, NestedStructure } from "../types/General";
 import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { MessageStyleIntroducer } from "../types/Messages/MessageStyleIntroducer";
@@ -67,13 +67,22 @@ export function initStyleIntroducer() {
   );
 }
 
-export function styleIntroducerHandler(message: ExternalMessage) {
+export function styleIntroducerHandler(
+  message: ExternalMessage,
+  appContext: AppContextType
+) {
   if (message.mode === "UpdateStyleList" && message.phase == "Init") {
-    updateStyleListHandler(message as ExternalMessageUpdateStyleList);
+    updateStyleListHandler(
+      message as ExternalMessageUpdateStyleList,
+      appContext
+    );
   }
 }
 
-const updateStyleListHandler = (message: ExternalMessageUpdateStyleList) => {
-  const { setStyleList } = useAppContext();
+const updateStyleListHandler = (
+  message: ExternalMessageUpdateStyleList,
+  appContext: AppContextType
+) => {
+  const { setStyleList } = appContext;
   setStyleList(message.styleList);
 };

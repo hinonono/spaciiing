@@ -1,6 +1,6 @@
 // 用於管理Tab的切換行為
 
-import { useAppContext } from "../AppProvider";
+import { AppContextType } from "../AppProvider";
 import { Module } from "../types/Module";
 import { initShortcut } from "./shortcutFronEnd";
 import { initStyleIntroducer } from "./styleIntroducerFrontEnd";
@@ -13,7 +13,16 @@ import {
   virtualProfileWillEnd,
 } from "./virtualProfileFrontEnd";
 
-export function activeTabController(activeTab: Module) {
+export function tabController(
+  activeTab: Module,
+  prevTab: Module | null,
+  appContext: AppContextType
+) {
+  tabWillEndController(activeTab, prevTab, appContext);
+  activeTabController(activeTab);
+}
+
+function activeTabController(activeTab: Module) {
   switch (activeTab) {
     case "Init":
       // Handle Init case
@@ -72,11 +81,12 @@ export function activeTabController(activeTab: Module) {
   }
 }
 
-export function tabWillEndController(
+function tabWillEndController(
+  activeTab: Module,
   prevTab: Module | null,
-  activeTab: Module
+  appContext: AppContextType
 ) {
-  const { virtualProfileGroups } = useAppContext();
+  const { virtualProfileGroups } = appContext;
 
   switch (prevTab) {
     case "Init":
@@ -126,12 +136,12 @@ export function tabWillEndController(
       break;
     case "VariableEditor":
       if (activeTab !== "VariableEditor") {
-        variableEditorWillEnd();
+        variableEditorWillEnd(appContext);
       }
       break;
     case "VirtualProfile":
       if (activeTab !== "VirtualProfile") {
-        virtualProfileWillEnd(virtualProfileGroups);
+        virtualProfileWillEnd(virtualProfileGroups, appContext);
       }
       break;
     case "SelectionFilter":

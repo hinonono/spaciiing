@@ -9,7 +9,7 @@ import {
 import { EditorPreference } from "./types/EditorPreference";
 
 // #region Definition
-interface AppContextType {
+export interface AppContextType {
   // V20：新的editor preference物件，統一管理相關的偏好值
   editorPreference: EditorPreference;
   setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;

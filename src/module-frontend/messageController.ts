@@ -1,4 +1,4 @@
-import { useAppContext } from "../AppProvider";
+import { AppContextType } from "../AppProvider";
 import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { Message } from "../types/Messages/Message";
 import { ExternalMessageLocalization } from "../types/Messages/MessageLocalization";
@@ -15,34 +15,43 @@ import { ExternalMessageLicenseManagement } from "../types/Messages/MessageLicen
 import { licenseManagementHandler } from "./licenseManagementFrontEnd";
 import { styleIntroducerHandler } from "./styleIntroducerFrontEnd";
 import { pluginSettingHandler } from "./pluginSetting";
+import { i18n } from "i18next";
 
-export function messageController(message: Message) {
+export function messageController(
+  message: Message,
+  appContext: AppContextType,
+  i18n: i18n
+) {
   switch (message.phase) {
     case "WillEnd":
-      messageWillEndController(message);
+      messageWillEndController(message, appContext);
       break;
     default:
-      messageActualController(message);
+      messageActualController(message, appContext, i18n);
       break;
   }
 }
 
-function messageActualController(message: Message) {
+function messageActualController(
+  message: Message,
+  appContext: AppContextType,
+  i18n: i18n
+) {
   const { module } = message;
-  const { setLicenseManagement } = useAppContext();
+  const { setLicenseManagement } = appContext;
 
   switch (module) {
     case "Init":
       // Handle Init case
       break;
     case "Localization":
-      localizationHandler(message as ExternalMessageLocalization);
+      localizationHandler(message as ExternalMessageLocalization, i18n);
       break;
     case "Spaciiing":
       // Handle Spaciiing case
       break;
     case "Memorizer":
-      memorizerHandler(message as ExternalMessageUpdateFrame);
+      memorizerHandler(message as ExternalMessageUpdateFrame, appContext);
       break;
     case "Shortcut":
       break;
@@ -58,16 +67,19 @@ function messageActualController(message: Message) {
       // Handle Renamer case
       break;
     case "VariableEditor":
-      variableEditorHandler(message);
+      variableEditorHandler(message, appContext);
       break;
     case "VirtualProfile":
-      virtualProfileHandler(message as ExternalMessageUpdateVirtualProfile);
+      virtualProfileHandler(
+        message as ExternalMessageUpdateVirtualProfile,
+        appContext
+      );
       break;
     case "SelectionFilter":
       // Handle SelectionFilter case
       break;
     case "PluginSetting":
-      pluginSettingHandler(message);
+      pluginSettingHandler(message, appContext);
       break;
     case "LicenseManagement":
       licenseManagementHandler(
@@ -82,7 +94,7 @@ function messageActualController(message: Message) {
       // Handle Resize case
       break;
     case "StyleIntroducer":
-      styleIntroducerHandler(message);
+      styleIntroducerHandler(message, appContext);
       break;
     default:
       // Handle unknown case
@@ -90,13 +102,16 @@ function messageActualController(message: Message) {
   }
 }
 
-function messageWillEndController(message: ExternalMessage) {
+function messageWillEndController(
+  message: ExternalMessage,
+  appContext: AppContextType
+) {
   if (message.phase !== "WillEnd") {
     throw new Error("Unexpected message phase");
   }
 
   const { module } = message;
-  const { virtualProfileGroups } = useAppContext();
+  const { virtualProfileGroups } = appContext;
 
   switch (module) {
     case "Init":
@@ -127,7 +142,7 @@ function messageWillEndController(message: ExternalMessage) {
     case "VariableEditor":
       break;
     case "VirtualProfile":
-      virtualProfileWillEnd(virtualProfileGroups);
+      virtualProfileWillEnd(virtualProfileGroups, appContext);
       break;
     case "SelectionFilter":
       // Handle SelectionFilter case
