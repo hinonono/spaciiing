@@ -17,10 +17,10 @@ import {
 import { ExternalMessageLocalization } from "./types/Messages/MessageLocalization";
 import { ExternalMessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { ExternalMessageUpdateFrame } from "./types/Messages/MessageMemorizer";
-import {
-  ExternalMessageUpdateMagicalObject,
-  MessageShortcutUpdateMagicalObject,
-} from "./types/Messages/MessageShortcut";
+// import {
+//   ExternalMessageUpdateMagicalObject,
+//   MessageShortcutUpdateMagicalObject,
+// } from "./types/Messages/MessageShortcut";
 import { ExternalMessageUpdateCustomSpacing } from "./types/Messages/MessageSpaciiing";
 import { Module } from "./types/Module";
 import {

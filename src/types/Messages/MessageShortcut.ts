@@ -1,4 +1,4 @@
-import { MagicalObject, MagicalObjectMembers } from "../MagicalObject";
+import { MagicalObjectMembers } from "../MagicalObject";
 import { Message } from "./Message";
 import { ExternalMessage } from "./ExternalMessage";
 
@@ -26,9 +26,9 @@ export interface MessageShortcutGenerateIconTemplate extends MessageShortcut {
   system: number;
   quantity: number;
 }
-export interface MessageShortcutUpdateMagicalObject extends MessageShortcut {
-  magicalObject: MagicalObject;
-}
+// export interface MessageShortcutUpdateMagicalObject extends MessageShortcut {
+//   magicalObject: MagicalObject;
+// }
 export interface MessageShortcutUpdateMagicalObjectSingle
   extends MessageShortcut {
   member: MagicalObjectMembers;
@@ -43,6 +43,6 @@ export interface MessageShortcutFindAndReplace extends MessageShortcut {
   keepOriginalLayerName: boolean;
 }
 
-export interface ExternalMessageUpdateMagicalObject extends ExternalMessage {
-  magicalObject: MagicalObject;
-}
+// export interface ExternalMessageUpdateMagicalObject extends ExternalMessage {
+//   magicalObject: MagicalObject;
+// }

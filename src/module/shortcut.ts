@@ -2,12 +2,12 @@ import * as util from "./util";
 import * as spaciiing from "./spaciiing";
 import { MagicalObjectMembers } from "../types/MagicalObject";
 import {
-  ExternalMessageUpdateMagicalObject,
+  // ExternalMessageUpdateMagicalObject,
   MessageShortcut,
   MessageShortcutFindAndReplace,
   MessageShortcutGenerateIconTemplate,
   MessageShortcutGenerateMagicalObjectMember,
-  MessageShortcutUpdateMagicalObject,
+  // MessageShortcutUpdateMagicalObject,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 
@@ -83,7 +83,7 @@ export function executeShortcut(message: MessageShortcut) {
   }
 
   if (message.phase == "WillEnd") {
-    shortcutWillEnd(message as MessageShortcutUpdateMagicalObject);
+    // shortcutWillEnd(message as MessageShortcutUpdateMagicalObject);
   }
 }
 
@@ -105,13 +105,13 @@ function initShortcut() {
   // }
 }
 
-function shortcutWillEnd(message: MessageShortcutUpdateMagicalObject) {
-  console.log("Shorcut will End.");
+// function shortcutWillEnd(message: MessageShortcutUpdateMagicalObject) {
+//   console.log("Shorcut will End.");
 
-  const pluginDataKey = "magical-object";
-  const mo = message.magicalObject;
-  figma.root.setPluginData(pluginDataKey, JSON.stringify(mo));
-}
+//   const pluginDataKey = "magical-object";
+//   const mo = message.magicalObject;
+//   figma.root.setPluginData(pluginDataKey, JSON.stringify(mo));
+// }
 
 async function findAndReplaceInSelection(
   message: MessageShortcutFindAndReplace

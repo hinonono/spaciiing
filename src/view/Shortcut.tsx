@@ -3,13 +3,13 @@ import { TitleBar, FigmaButton, SectionTitle } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import {
-  DesignStatusTagModal,
+  // DesignStatusTagModal,
   FindAndReplaceModal,
   FramerModal,
   IconTemplateModal,
   LoremIpsumModal,
   NoteModal,
-  TitleSectionModal,
+  // TitleSectionModal,
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -132,14 +132,14 @@ const Shortcut: React.FC = () => {
           showNoteModal={showNoteModal}
           handleCloseNoteModal={handleCloseNoteModal}
         />
-        <DesignStatusTagModal
+        {/* <DesignStatusTagModal
           showDesignStatusTagModal={showDesignStatusTagModal}
           handleCloseDesignStatusTagModal={handleCloseDesignStatusTagModal}
         />
         <TitleSectionModal
           showTitleSectionModal={showTitleSectionModal}
           handleCloseTitleSectionModal={handleCloseTitleSectionModal}
-        />
+        /> */}
         <IconTemplateModal
           showIconModal={showIconModal}
           handleCloseIconModal={handleCloseIconModal}
