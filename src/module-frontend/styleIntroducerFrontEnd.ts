@@ -1,5 +1,8 @@
+import { useAppContext } from "../AppProvider";
 import { StyleListItemFrontEnd, NestedStructure } from "../types/General";
+import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { MessageStyleIntroducer } from "../types/Messages/MessageStyleIntroducer";
+import { ExternalMessageUpdatePaintStyleList as ExternalMessageUpdateStyleList } from "../types/Messages/MessageStyleIntroducer";
 
 export const buildNestedStructure = (
   data: StyleListItemFrontEnd[]
@@ -63,3 +66,14 @@ export function initStyleIntroducer() {
     "*"
   );
 }
+
+export function styleIntroducerHandler(message: ExternalMessage) {
+  if (message.mode === "UpdateStyleList" && message.phase == "Init") {
+    updateStyleListHandler(message as ExternalMessageUpdateStyleList);
+  }
+}
+
+const updateStyleListHandler = (message: ExternalMessageUpdateStyleList) => {
+  const { setStyleList } = useAppContext();
+  setStyleList(message.styleList);
+};

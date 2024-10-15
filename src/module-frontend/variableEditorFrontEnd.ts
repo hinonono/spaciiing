@@ -1,4 +1,5 @@
 import { useAppContext } from "../AppProvider";
+import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { Message } from "../types/Messages/Message";
 import {
   ExternalMessageUpdateCustomCodeExecutionResults,
@@ -45,4 +46,22 @@ export function updateCustomCodeExecutionResults(
 export function variableEditorWillEnd() {
   const { setCustomCodeExecutionResults } = useAppContext();
   setCustomCodeExecutionResults([]);
+}
+
+export function variableEditorHandler(message: ExternalMessage) {
+  if (message.mode === "UpdateVariableCollectionList") {
+    UpdateVariableCollectionList(
+      message as ExternalMessageUpdateVariableCollectionList
+    );
+  }
+  if (message.mode === "UpdateVariableCollectionMode") {
+    UpdateVariableCollectionMode(
+      message as ExternalMessageUpdateVariableCollectionMode
+    );
+  }
+  if (message.mode === "UpdateCustomCodeExecutionResults") {
+    updateCustomCodeExecutionResults(
+      message as ExternalMessageUpdateCustomCodeExecutionResults
+    );
+  }
 }
