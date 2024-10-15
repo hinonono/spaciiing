@@ -1,5 +1,5 @@
 {
-  "allOptions": "选择全部选项",
+  "allOptions": "全选",
   "image": "图像",
   "text": "文字",
   "frame": "画框",
@@ -16,7 +16,7 @@
   "star": "星形",
   "vector": "向量图形",
   "allScopes": "选中全部",
-  "allFills": "选中所有与填色相关的选项",
+  "allFills": "填色",
   "frameFill": "画框填色",
   "shapeFill": "图形填色",
   "textFill": "文字填色",
