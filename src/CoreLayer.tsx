@@ -4,7 +4,6 @@ import { Message } from "./types/Messages/Message";
 import { ExternalMessage } from "./types/Messages/ExternalMessage";
 import {
   ExternalMessageUpdateVirtualProfile,
-  MessageVirtualProfileWholeObject,
 } from "./types/Messages/MessageVirtualProfile";
 import * as licenseManagementFrontEnd from "./module-frontend/licenseManagementFrontEnd";
 import SubscriptionModal from "./view/SubscriptionModal";
@@ -12,12 +11,10 @@ import TabBar from "./components/TabBar";
 import { useTranslation } from "react-i18next";
 import {
   ExternalMessageUpdatePaintStyleList as ExternalMessageUpdateStyleList,
-  MessageStyleIntroducer,
 } from "./types/Messages/MessageStyleIntroducer";
 import { ExternalMessageLocalization } from "./types/Messages/MessageLocalization";
 import { ExternalMessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { ExternalMessageUpdateFrame } from "./types/Messages/MessageMemorizer";
-import { ExternalMessageUpdateCustomSpacing } from "./types/Messages/MessageSpaciiing";
 import { Module } from "./types/Module";
 import {
   ExternalMessageUpdateVariableCollectionList,
@@ -25,6 +22,12 @@ import {
   ExternalMessageUpdateCustomCodeExecutionResults,
 } from "./types/Messages/MessageVariableEditor";
 import { ExternalMessageUpdateEditorPreference } from "./types/Messages/MessageEditorPreference";
+import { initStyleIntroducer } from "./module-frontend/styleIntroducerFrontEnd";
+import {
+  initVirtualProfile,
+  virtualProfileHandler,
+  virtualProfileWillEnd,
+} from "./module-frontend/virtualProfileFrontEnd";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
@@ -57,7 +60,10 @@ const CoreLayer: React.FC = () => {
           // Do
           switch (message.module) {
             case "VirtualProfile":
-              virtualProfileWillEnd();
+              virtualProfileWillEnd(
+                virtualProfileGroups,
+                setVirtualProfileGroups
+              );
               break;
             default:
               break;
@@ -94,7 +100,8 @@ const CoreLayer: React.FC = () => {
             break;
           case "VirtualProfile":
             virtualProfileHandler(
-              message as ExternalMessageUpdateVirtualProfile
+              message as ExternalMessageUpdateVirtualProfile,
+              setVirtualProfileGroups
             );
             break;
           case "LicenseManagement":
@@ -132,8 +139,7 @@ const CoreLayer: React.FC = () => {
   // #region WillEnd
   useEffect(() => {
     if (prevTab === "VirtualProfile" && activeTab !== "VirtualProfile") {
-      // Call virtualProfileWillEnd only when switching away from VirtualProfile
-      virtualProfileWillEnd();
+      virtualProfileWillEnd(virtualProfileGroups, setVirtualProfileGroups);
     }
 
     if (prevTab === "VariableEditor" && activeTab !== "VariableEditor") {
@@ -165,22 +171,6 @@ const CoreLayer: React.FC = () => {
   }, [activeTab]);
 
   // #region StyleIntroducer
-  const initStyleIntroducer = () => {
-    const message: MessageStyleIntroducer = {
-      styleSelection: undefined,
-      form: "STYLE",
-      styleMode: "COLOR",
-      module: "StyleIntroducer",
-      phase: "Init",
-    };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  };
 
   const updateEditorPreferenceHandler = (
     message: ExternalMessageUpdateEditorPreference
@@ -188,7 +178,7 @@ const CoreLayer: React.FC = () => {
     console.log("接收了EP！");
     console.log(message.editorPreference);
 
-    setEditorPreference((prevPreference) => message.editorPreference);
+    setEditorPreference(() => message.editorPreference);
   };
 
   const updateStyleListHandler = (message: ExternalMessageUpdateStyleList) => {
@@ -210,56 +200,6 @@ const CoreLayer: React.FC = () => {
       phase: "Init",
       direction: "Inner",
     };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  };
-
-  // Virtual Profile
-  const initVirtualProfile = () => {
-    const message: Message = {
-      module: "VirtualProfile",
-      phase: "Init",
-      direction: "Inner",
-    };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  };
-
-  const virtualProfileHandler = (
-    message: ExternalMessageUpdateVirtualProfile
-  ) => {
-    // console.log("VirtualProfileHandler");
-    // console.log(message.virtualProfile);
-
-    // setVirtualProfile(message.virtualProfile);
-
-    if (message.virtualProfileGroups) {
-      console.log("VirtualProfileHandler GROUPS");
-      console.log(message.virtualProfileGroups);
-      setVirtualProfileGroups(message.virtualProfileGroups);
-    }
-  };
-
-  const virtualProfileWillEnd = () => {
-    const message: MessageVirtualProfileWholeObject = {
-      module: "VirtualProfile",
-      phase: "WillEnd",
-      direction: "Inner",
-      // virtualProfile: virtualProfile,
-      virtualProfileGroups: virtualProfileGroups,
-    };
-    // setVirtualProfile(virtualProfile);
-    setVirtualProfileGroups(virtualProfileGroups);
 
     parent.postMessage(
       {

@@ -1,4 +1,5 @@
 import { StyleListItemFrontEnd, NestedStructure } from "../types/General";
+import { MessageStyleIntroducer } from "../types/Messages/MessageStyleIntroducer";
 
 export const buildNestedStructure = (
   data: StyleListItemFrontEnd[]
@@ -45,3 +46,20 @@ export const buildNestedStructure = (
     return { structure: null, errorPath: errorMessage }; // Return the error message
   }
 };
+
+export function initStyleIntroducer() {
+  const message: MessageStyleIntroducer = {
+    styleSelection: undefined,
+    form: "STYLE",
+    styleMode: "COLOR",
+    module: "StyleIntroducer",
+    phase: "Init",
+  };
+
+  parent.postMessage(
+    {
+      pluginMessage: message,
+    },
+    "*"
+  );
+}

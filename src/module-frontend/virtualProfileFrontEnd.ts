@@ -45,6 +45,11 @@ import {
   zhCN_vpdata_product,
   zhCN_vpdata_stock,
 } from "../assets/virtual-profile/zh-CN";
+import {
+  ExternalMessageUpdateVirtualProfile,
+  MessageVirtualProfileWholeObject,
+} from "../types/Messages/MessageVirtualProfile";
+import { Message } from "../types/Messages/Message";
 
 const getCorrespondingJson = (
   dataType: SupportedPresetVirtualProfileCategory,
@@ -150,3 +155,53 @@ export const transformJsonToGroup = (
     })),
   };
 };
+
+export function initVirtualProfile() {
+  const message: Message = {
+    module: "VirtualProfile",
+    phase: "Init",
+    direction: "Inner",
+  };
+
+  parent.postMessage(
+    {
+      pluginMessage: message,
+    },
+    "*"
+  );
+}
+
+export function virtualProfileHandler(
+  message: ExternalMessageUpdateVirtualProfile,
+  setVirtualProfileGroups: React.Dispatch<
+    React.SetStateAction<VirtualProfileGroup[]>
+  >
+) {
+  if (message.virtualProfileGroups) {
+    console.log("VirtualProfileHandler GROUPS");
+    console.log(message.virtualProfileGroups);
+    setVirtualProfileGroups(message.virtualProfileGroups);
+  }
+}
+
+export function virtualProfileWillEnd(
+  virtualProfileGroups: VirtualProfileGroup[],
+  setVirtualProfileGroups: React.Dispatch<
+    React.SetStateAction<VirtualProfileGroup[]>
+  >
+) {
+  const message: MessageVirtualProfileWholeObject = {
+    module: "VirtualProfile",
+    phase: "WillEnd",
+    direction: "Inner",
+    virtualProfileGroups: virtualProfileGroups,
+  };
+  setVirtualProfileGroups(virtualProfileGroups);
+
+  parent.postMessage(
+    {
+      pluginMessage: message,
+    },
+    "*"
+  );
+}
