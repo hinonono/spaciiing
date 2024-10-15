@@ -77,10 +77,6 @@ const SpaciiingView: React.FC = () => {
   useEffect(() => {
     if (editorPreference.spacing) {
       setEnteredCustomSpacing(editorPreference.spacing);
-      console.log(
-        "entered custom spacing updateed to",
-        editorPreference.spacing
-      );
     }
   }, [editorPreference]);
 

@@ -99,7 +99,6 @@ figma.ui.onmessage = (message: Message) => {
 
 // Function to execute before the plugin is closed
 const handlePluginClose = () => {
-  console.log("Plugin is about to be closed.");
 
   const message: ExternalMessage = {
     module: "VirtualProfile",
