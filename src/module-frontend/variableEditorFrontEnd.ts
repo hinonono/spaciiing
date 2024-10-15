@@ -1,10 +1,9 @@
+import { useAppContext } from "../AppProvider";
 import { Message } from "../types/Messages/Message";
 import {
   ExternalMessageUpdateCustomCodeExecutionResults,
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
-  ExternalVariableCollection,
-  ExternalVariableMode,
 } from "../types/Messages/MessageVariableEditor";
 
 export function initVariableEditor() {
@@ -23,32 +22,27 @@ export function initVariableEditor() {
 }
 
 export function UpdateVariableCollectionList(
-  message: ExternalMessageUpdateVariableCollectionList,
-  setVariableCollectionList: React.Dispatch<
-    React.SetStateAction<ExternalVariableCollection[]>
-  >
+  message: ExternalMessageUpdateVariableCollectionList
 ) {
+  const { setVariableCollectionList } = useAppContext();
   setVariableCollectionList(message.collections);
 }
 
 export function UpdateVariableCollectionMode(
-  message: ExternalMessageUpdateVariableCollectionMode,
-  setvariableCollectionModes: React.Dispatch<
-    React.SetStateAction<ExternalVariableMode[]>
-  >
+  message: ExternalMessageUpdateVariableCollectionMode
 ) {
+  const { setvariableCollectionModes } = useAppContext();
   setvariableCollectionModes(message.modes);
 }
 
 export function updateCustomCodeExecutionResults(
-  message: ExternalMessageUpdateCustomCodeExecutionResults,
-  setCustomCodeExecutionResults: React.Dispatch<React.SetStateAction<string[]>>
+  message: ExternalMessageUpdateCustomCodeExecutionResults
 ) {
+  const { setCustomCodeExecutionResults } = useAppContext();
   setCustomCodeExecutionResults(message.results);
 }
 
-export function variableEditorWillEnd(
-  setCustomCodeExecutionResults: React.Dispatch<React.SetStateAction<string[]>>
-) {
+export function variableEditorWillEnd() {
+  const { setCustomCodeExecutionResults } = useAppContext();
   setCustomCodeExecutionResults([]);
 }

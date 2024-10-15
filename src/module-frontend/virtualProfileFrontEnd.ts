@@ -50,6 +50,7 @@ import {
   MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
 import { Message } from "../types/Messages/Message";
+import { useAppContext } from "../AppProvider";
 
 const getCorrespondingJson = (
   dataType: SupportedPresetVirtualProfileCategory,
@@ -172,11 +173,10 @@ export function initVirtualProfile() {
 }
 
 export function virtualProfileHandler(
-  message: ExternalMessageUpdateVirtualProfile,
-  setVirtualProfileGroups: React.Dispatch<
-    React.SetStateAction<VirtualProfileGroup[]>
-  >
+  message: ExternalMessageUpdateVirtualProfile
 ) {
+  const { setVirtualProfileGroups } = useAppContext();
+
   if (message.virtualProfileGroups) {
     console.log("VirtualProfileHandler GROUPS");
     console.log(message.virtualProfileGroups);
@@ -185,11 +185,9 @@ export function virtualProfileHandler(
 }
 
 export function virtualProfileWillEnd(
-  virtualProfileGroups: VirtualProfileGroup[],
-  setVirtualProfileGroups: React.Dispatch<
-    React.SetStateAction<VirtualProfileGroup[]>
-  >
+  virtualProfileGroups: VirtualProfileGroup[]
 ) {
+  const { setVirtualProfileGroups } = useAppContext();
   const message: MessageVirtualProfileWholeObject = {
     module: "VirtualProfile",
     phase: "WillEnd",

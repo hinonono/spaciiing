@@ -17,10 +17,7 @@ import {
   ExternalMessageUpdateCustomCodeExecutionResults,
 } from "./types/Messages/MessageVariableEditor";
 import { ExternalMessageUpdateEditorPreference } from "./types/Messages/MessageEditorPreference";
-import {
-  virtualProfileHandler,
-  virtualProfileWillEnd,
-} from "./module-frontend/virtualProfileFrontEnd";
+import { virtualProfileHandler } from "./module-frontend/virtualProfileFrontEnd";
 import {
   activeTabController,
   tabWillEndController,
@@ -30,6 +27,9 @@ import {
   UpdateVariableCollectionList,
   UpdateVariableCollectionMode,
 } from "./module-frontend/variableEditorFrontEnd";
+import {
+  messageController,
+} from "./module-frontend/messageController";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
@@ -42,12 +42,7 @@ const CoreLayer: React.FC = () => {
     setMemorizedObjectHeight,
     setMemorizedObjectName,
     setMemorizedObjectWidth,
-    setVariableCollectionList,
-    setvariableCollectionModes,
     setLicenseManagement,
-    setCustomCodeExecutionResults,
-    virtualProfileGroups,
-    setVirtualProfileGroups,
     setStyleList,
   } = useAppContext();
 
@@ -58,19 +53,7 @@ const CoreLayer: React.FC = () => {
         const message = event.data.pluginMessage
           .pluginMessage as ExternalMessage;
 
-        if (message.phase == "WillEnd") {
-          // Do
-          switch (message.module) {
-            case "VirtualProfile":
-              virtualProfileWillEnd(
-                virtualProfileGroups,
-                setVirtualProfileGroups
-              );
-              break;
-            default:
-              break;
-          }
-        }
+        messageController(message);
 
         switch (message.module) {
           case "Localization":
@@ -84,20 +67,17 @@ const CoreLayer: React.FC = () => {
           case "VariableEditor":
             if (message.mode === "UpdateVariableCollectionList") {
               UpdateVariableCollectionList(
-                message as ExternalMessageUpdateVariableCollectionList,
-                setVariableCollectionList
+                message as ExternalMessageUpdateVariableCollectionList
               );
             }
             if (message.mode === "UpdateVariableCollectionMode") {
               UpdateVariableCollectionMode(
-                message as ExternalMessageUpdateVariableCollectionMode,
-                setvariableCollectionModes
+                message as ExternalMessageUpdateVariableCollectionMode
               );
             }
             if (message.mode === "UpdateCustomCodeExecutionResults") {
               updateCustomCodeExecutionResults(
-                message as ExternalMessageUpdateCustomCodeExecutionResults,
-                setCustomCodeExecutionResults
+                message as ExternalMessageUpdateCustomCodeExecutionResults
               );
             }
             break;
@@ -105,8 +85,7 @@ const CoreLayer: React.FC = () => {
             break;
           case "VirtualProfile":
             virtualProfileHandler(
-              message as ExternalMessageUpdateVirtualProfile,
-              setVirtualProfileGroups
+              message as ExternalMessageUpdateVirtualProfile
             );
             break;
           case "LicenseManagement":

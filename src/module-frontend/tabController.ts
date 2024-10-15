@@ -76,11 +76,7 @@ export function tabWillEndController(
   prevTab: Module | null,
   activeTab: Module
 ) {
-  const {
-    virtualProfileGroups,
-    setVirtualProfileGroups,
-    setCustomCodeExecutionResults,
-  } = useAppContext();
+  const { virtualProfileGroups } = useAppContext();
 
   switch (prevTab) {
     case "Init":
@@ -130,12 +126,12 @@ export function tabWillEndController(
       break;
     case "VariableEditor":
       if (activeTab !== "VariableEditor") {
-        variableEditorWillEnd(setCustomCodeExecutionResults);
+        variableEditorWillEnd();
       }
       break;
     case "VirtualProfile":
       if (activeTab !== "VirtualProfile") {
-        virtualProfileWillEnd(virtualProfileGroups, setVirtualProfileGroups);
+        virtualProfileWillEnd(virtualProfileGroups);
       }
       break;
     case "SelectionFilter":
