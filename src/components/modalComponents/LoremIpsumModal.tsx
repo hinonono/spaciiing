@@ -30,6 +30,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
 
   // const [lang, setLang] = useState<LoremSupportedLang>("en");
   const [length, setLength] = useState<LoremLength>("short");
+  const [shouldSavePreference, setShouldSavePreference] = useState(false);
 
   const generateLorem = (length: LoremLength) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
@@ -42,6 +43,8 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
       length,
       direction: "Inner",
       phase: "Actual",
+      shouldSaveEditorPreference: shouldSavePreference,
+      editorPreference: editorPreference,
     };
 
     parent.postMessage(
@@ -53,6 +56,9 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
   };
 
   const handleLoremChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (shouldSavePreference == false) {
+      setShouldSavePreference(true);
+    }
     setEditorPreference((prevPreference) => ({
       ...prevPreference,
       lorem: event.target.value,
@@ -61,16 +67,6 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
 
   return (
     <Modal show={show} handleClose={handleClose}>
-      <div className="mt-xxsmall">
-        <SectionTitle title={t("module:text")} />
-        <textarea
-          className="textarea font-size-xlarge"
-          rows={1}
-          value={editorPreference.lorem}
-          onChange={handleLoremChange}
-          placeholder={t("module:text")}
-        />
-      </div>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:length")} />
         <SegmentedControl
@@ -83,6 +79,17 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
           <SegmentedControl.Option label="module:long" value="long" />
         </SegmentedControl>
       </div>
+      <div className="mt-xxsmall">
+        <SectionTitle title={t("module:text")} />
+        <textarea
+          className="textarea font-size-xlarge"
+          rows={5}
+          value={editorPreference.lorem}
+          onChange={handleLoremChange}
+          placeholder={t("module:text")}
+        />
+      </div>
+
       <div className="mt-xxsmall"></div>
       <FigmaButton
         title={t("module:generate")}

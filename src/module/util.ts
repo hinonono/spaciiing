@@ -47,6 +47,19 @@ export function saveEditorPreference(
   console.log(editorPreference);
 }
 
+function createEditorPreference(): EditorPreference {
+  const createdEditorPreference: EditorPreference = {
+    magicObjects: {
+      noteId: "",
+      tagId: "",
+      sectionId: "",
+    },
+    lorem: loremText.en,
+  };
+
+  return createdEditorPreference;
+}
+
 /**
  * Reads the editor preference from the root plugin data.
  *
@@ -55,18 +68,11 @@ export function saveEditorPreference(
 export function readEditorPreference(): EditorPreference {
   const editorPreference = figma.root.getPluginData("editor-preference");
 
-  if (!editorPreference || isDevelopment) {
-    console.log("新建立了preference檔案！");
-
+  if (!editorPreference) {
     // 當之前未建立過Preference物件時，新建一個
-    const createdEditorPreference: EditorPreference = {
-      magicObjects: {
-        noteId: "",
-        tagId: "",
-        sectionId: "",
-      },
-      lorem: loremText.en,
-    };
+    const createdEditorPreference: EditorPreference = createEditorPreference();
+
+    saveEditorPreference(createdEditorPreference);
 
     return createdEditorPreference;
   } else {
