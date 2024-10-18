@@ -117,6 +117,27 @@ const SpaciiingView: React.FC = () => {
 
   const multipliers = [1, 2, 3, 4, 5];
 
+  const [column, setColumn] = useState<number>();
+  const [row, setRow] = useState<number>();
+
+  const handleColumnChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const n = Number(event.target.value);
+
+    if (!isNaN(n)) {
+      setColumn(n);
+    }
+  };
+
+  const handleRowChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const n = Number(event.target.value);
+
+    if (!isNaN(n)) {
+      setRow(n);
+    }
+  };
+
   return (
     <div>
       <Modal
@@ -130,6 +151,7 @@ const SpaciiingView: React.FC = () => {
       </Modal>
       <TitleBar title="Spaciiing" onClick={handleOpenExplanationModal} />
       <div className="content">
+        {/* 模式 */}
         <div>
           <SectionTitle title={t("module:mode")} />
           <SegmentedControl
@@ -156,6 +178,34 @@ const SpaciiingView: React.FC = () => {
             />
           </SegmentedControl>
         </div>
+        {/* 格線專用UI */}
+        {mode === "grid" && (
+          <div className="mt-xxsmall">
+            <div className="grid">
+              <div>
+                <SectionTitle title={t("term:column")} />
+                <textarea
+                  className="textarea font-size-xlarge"
+                  rows={1}
+                  value={column}
+                  onChange={handleColumnChange}
+                  placeholder={t("module:customValueNumbersOnly")}
+                />
+              </div>
+              <div>
+                <SectionTitle title={t("term:row")} />
+                <textarea
+                  className="textarea font-size-xlarge"
+                  rows={1}
+                  value={row}
+                  onChange={handleRowChange}
+                  placeholder={t("module:customValueNumbersOnly")}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        {/* 倍率 */}
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:multiplySpacingBy")} />
           <div className="flex flex-row">
@@ -176,6 +226,7 @@ const SpaciiingView: React.FC = () => {
             </SegmentedControl>
           </div>
         </div>
+        {/* 間距值 */}
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:spacingValue")} />
           <div className="flex flex-row">

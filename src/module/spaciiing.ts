@@ -29,12 +29,14 @@ export function useSpacing(message: MessageSpaciiing) {
     util.saveEditorPreference(message.editorPreference, "Spaciiing");
   }
 
-  applySpacingToLayers(
-    selectedLayers,
-    spacing,
-    message.mode,
-    message.addAutolayout
-  );
+  if (message.mode !== "grid") {
+    applySpacingToLayers(
+      selectedLayers,
+      spacing,
+      message.mode,
+      message.addAutolayout
+    );
+  }
 }
 
 /**
