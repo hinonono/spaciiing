@@ -13,15 +13,15 @@ import SegmentedControl from "../components/SegmentedControl";
 const SpacingValue: {
   nameKey: string;
   value: number | string;
-  translate: boolean;
+  translatable: boolean;
 }[] = [
-  { nameKey: "0", value: 0, translate: false },
-  { nameKey: "8", value: 8, translate: false },
-  { nameKey: "16", value: 16, translate: false },
-  { nameKey: "20", value: 20, translate: false },
-  { nameKey: "24", value: 24, translate: false },
-  { nameKey: "32", value: 32, translate: false },
-  { nameKey: "term:custom", value: "custom", translate: true },
+  { nameKey: "0", value: 0, translatable: false },
+  { nameKey: "8", value: 8, translatable: false },
+  { nameKey: "16", value: 16, translatable: false },
+  { nameKey: "20", value: 20, translatable: false },
+  { nameKey: "24", value: 24, translatable: false },
+  { nameKey: "32", value: 32, translatable: false },
+  { nameKey: "term:custom", value: "custom", translatable: true },
 ];
 
 const SpaciiingView: React.FC = () => {
@@ -170,51 +170,34 @@ const SpaciiingView: React.FC = () => {
                 <SegmentedControl.Option
                   value={String(singleMultiplier)}
                   label={String(singleMultiplier)}
+                  translatable={false}
                 />
               ))}
             </SegmentedControl>
-            {/* <div className="custom-segmented-control">
-              {[1, 2, 3, 4, 5].map((value) => (
-                <React.Fragment key={value}>
-                  <input
-                    type="radio"
-                    name="sp-multiply"
-                    id={`multiply_Option${value}`}
-                    value={value}
-                    checked={multiplier === value}
-                    onChange={() => setMultiplier(value)}
-                  />
-                  <label htmlFor={`multiply_Option${value}`}>{value}</label>
-                </React.Fragment>
-              ))}
-            </div> */}
           </div>
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:spacingValue")} />
           <div className="flex flex-row">
-            <div className="custom-segmented-control">
+            <SegmentedControl
+              inputName="prevalue"
+              value={String(space)}
+              onChange={(newSpace) => {
+                setSpace(newSpace);
+              }}
+            >
               {SpacingValue.map((item) => (
-                <React.Fragment key={item.value}>
-                  <input
-                    type="radio"
-                    name="sp-space"
-                    id={`default_Option${item.value}`}
-                    value={item.value}
-                    checked={space === item.value}
-                    onChange={() => setSpace(item.value)}
-                  />
-                  <label
-                    className="sp-c-space"
-                    htmlFor={`default_Option${item.value}`}
-                  >
-                    {typeof item.value === "string"
-                      ? t(item.nameKey)
-                      : item.value * multiplier}
-                  </label>
-                </React.Fragment>
+                <SegmentedControl.Option
+                  value={String(item.value)}
+                  label={
+                    typeof item.value === "string"
+                      ? String(item.nameKey)
+                      : String(item.value * multiplier)
+                  }
+                  translatable={item.translatable}
+                />
               ))}
-            </div>
+            </SegmentedControl>
             {space === "custom" && (
               <div className="width-100">
                 <div className="width-100 mt-xxsmall">

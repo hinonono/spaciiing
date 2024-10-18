@@ -35,10 +35,16 @@ interface OptionProps {
   value: string;
   label: string;
   icon?: React.ReactNode;
+  translatable?: boolean;
 }
 
 // Define the Child Component (Option)
-SegmentedControl.Option = ({ value, label, icon }: OptionProps) => {
+SegmentedControl.Option = ({
+  value,
+  label,
+  icon,
+  translatable = true,
+}: OptionProps) => {
   const { inputName, selectedOption, onChange, t } = useContext(
     SegmentedControlContext
   );
@@ -55,7 +61,7 @@ SegmentedControl.Option = ({ value, label, icon }: OptionProps) => {
       />
       <label htmlFor={`option-${inputName}_${value}`}>
         {icon && <div className="icon-24">{icon}</div>}
-        {t(label)}
+        {translatable ? t(label) : label}
       </label>
     </React.Fragment>
   );
