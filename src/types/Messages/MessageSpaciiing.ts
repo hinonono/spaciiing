@@ -9,6 +9,7 @@ export interface MessageSpaciiing extends Message {
   spacing: number;
   useCustomValue: boolean;
   addAutolayout: boolean;
+  gridColumn?: number;
 }
 
 export interface ExternalMessageUpdateCustomSpacing extends ExternalMessage {

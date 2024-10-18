@@ -44,6 +44,18 @@ const SpaciiingView: React.FC = () => {
   const [space, setSpace] = useState<string | number>(0);
   const [enteredCustomSpacing, setEnteredCustomSpacing] = useState<number>(0);
 
+  // 格線
+  const [column, setColumn] = useState<number>(0);
+  const handleColumnChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const n = Number(event.target.value);
+
+    if (!isNaN(n)) {
+      setColumn(n);
+    }
+  };
+
   const [isChecked, setIsChecked] = useState(false);
 
   const [customSpacingFieldNote, setCustomSpacingFieldNote] =
@@ -75,6 +87,8 @@ const SpaciiingView: React.FC = () => {
     }
   };
 
+  const multipliers = [1, 2, 3, 4, 5];
+
   useEffect(() => {
     if (editorPreference.spacing) {
       setEnteredCustomSpacing(editorPreference.spacing);
@@ -95,46 +109,45 @@ const SpaciiingView: React.FC = () => {
       useCustomValue = false;
     }
 
-    const message: MessageSpaciiing = {
-      module: "Spaciiing",
-      mode: mode,
-      spacing: finalSpacing,
-      useCustomValue: useCustomValue,
-      addAutolayout: isChecked,
-      direction: "Inner",
-      phase: "Actual",
-      shouldSaveEditorPreference: true,
-      editorPreference: editorPreference,
-    };
+    if (mode === "grid") {
+      const message: MessageSpaciiing = {
+        module: "Spaciiing",
+        mode: mode,
+        spacing: finalSpacing,
+        useCustomValue: useCustomValue,
+        addAutolayout: isChecked,
+        direction: "Inner",
+        phase: "Actual",
+        shouldSaveEditorPreference: true,
+        editorPreference: editorPreference,
+        gridColumn: column,
+      };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  };
+      parent.postMessage(
+        {
+          pluginMessage: message,
+        },
+        "*"
+      );
+    } else {
+      const message: MessageSpaciiing = {
+        module: "Spaciiing",
+        mode: mode,
+        spacing: finalSpacing,
+        useCustomValue: useCustomValue,
+        addAutolayout: isChecked,
+        direction: "Inner",
+        phase: "Actual",
+        shouldSaveEditorPreference: true,
+        editorPreference: editorPreference,
+      };
 
-  const multipliers = [1, 2, 3, 4, 5];
-
-  const [column, setColumn] = useState<number>();
-  const [row, setRow] = useState<number>();
-
-  const handleColumnChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const n = Number(event.target.value);
-
-    if (!isNaN(n)) {
-      setColumn(n);
-    }
-  };
-
-  const handleRowChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const n = Number(event.target.value);
-
-    if (!isNaN(n)) {
-      setRow(n);
+      parent.postMessage(
+        {
+          pluginMessage: message,
+        },
+        "*"
+      );
     }
   };
 
@@ -189,16 +202,6 @@ const SpaciiingView: React.FC = () => {
                   rows={1}
                   value={column}
                   onChange={handleColumnChange}
-                  placeholder={t("module:customValueNumbersOnly")}
-                />
-              </div>
-              <div>
-                <SectionTitle title={t("term:row")} />
-                <textarea
-                  className="textarea font-size-xlarge"
-                  rows={1}
-                  value={row}
-                  onChange={handleRowChange}
                   placeholder={t("module:customValueNumbersOnly")}
                 />
               </div>

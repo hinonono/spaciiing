@@ -25,7 +25,6 @@ export function useSpacing(message: MessageSpaciiing) {
 
   // Save custom spacing value if applicable
   if (message.shouldSaveEditorPreference && message.editorPreference) {
-    // figma.currentPage.setPluginData("recent-custom-spacing", String(spacing));
     util.saveEditorPreference(message.editorPreference, "Spaciiing");
   }
 
