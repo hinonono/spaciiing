@@ -28,7 +28,20 @@ export function useSpacing(message: MessageSpaciiing) {
     util.saveEditorPreference(message.editorPreference, "Spaciiing");
   }
 
-  if (message.mode !== "grid") {
+  if (message.mode === "grid") {
+    if (message.gridColumn === undefined) {
+      throw new Error("The gridColumn is not specified.");
+    }
+
+    applySpacingToLayers(
+      selectedLayers,
+      spacing,
+      "horizontal",
+      message.addAutolayout,
+      false,
+      message.gridColumn
+    );
+  } else {
     applySpacingToLayers(
       selectedLayers,
       spacing,
@@ -53,7 +66,8 @@ export function applySpacingToLayers(
   spacing: number,
   mode: "vertical" | "horizontal",
   addAutolayout: boolean,
-  returnFinalFrame: boolean = false
+  returnFinalFrame: boolean = false,
+  column?: number
 ): FrameNode | void {
   // Ensure at least 2 layers are selected
   if (layers.length < 2) {
@@ -104,18 +118,24 @@ export function applySpacingToLayers(
   const selectionPosition = util.getSelectionPosition(layers);
 
   if (addAutolayout) {
-    // Create a new frame with autolayout
-    const autolayoutFrame = figma.createFrame();
+    const autolayoutFrame = util.createAutolayoutFrame(
+      layers,
+      spacing,
+      isVerticalMode ? "VERTICAL" : "HORIZONTAL"
+    );
 
-    // Set the autolayout properties
-    autolayoutFrame.layoutMode = isVerticalMode ? "VERTICAL" : "HORIZONTAL";
-    autolayoutFrame.itemSpacing = spacing;
+    // // Create a new frame with autolayout
+    // const autolayoutFrame = figma.createFrame();
 
-    // Add the selected layers to the autolayout frame
-    layers.forEach((layer) => {
-      figma.currentPage.appendChild(autolayoutFrame);
-      autolayoutFrame.appendChild(layer);
-    });
+    // // Set the autolayout properties
+    // autolayoutFrame.layoutMode = isVerticalMode ? "VERTICAL" : "HORIZONTAL";
+    // autolayoutFrame.itemSpacing = spacing;
+
+    // // Add the selected layers to the autolayout frame
+    // layers.forEach((layer) => {
+    //   figma.currentPage.appendChild(autolayoutFrame);
+    //   autolayoutFrame.appendChild(layer);
+    // });
 
     // Resize the autolayout frame to fit its contents
     autolayoutFrame.resize(
@@ -125,9 +145,6 @@ export function applySpacingToLayers(
 
     autolayoutFrame.x = selectionPosition.x;
     autolayoutFrame.y = selectionPosition.y;
-
-    // Ensure no fill is applied to the autolayout frame
-    autolayoutFrame.fills = [];
 
     // Select the autolayout frame
     figma.currentPage.selection = [autolayoutFrame];
