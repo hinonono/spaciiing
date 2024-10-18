@@ -8,6 +8,7 @@ import {
   SpacingMode,
   MessageSpaciiing,
 } from "../types/Messages/MessageSpaciiing";
+import SegmentedControl from "../components/SegmentedControl";
 
 const SpacingValue: {
   nameKey: string;
@@ -114,6 +115,8 @@ const SpaciiingView: React.FC = () => {
     );
   };
 
+  const multipliers = [1, 2, 3, 4, 5];
+
   return (
     <div>
       <Modal
@@ -129,41 +132,48 @@ const SpaciiingView: React.FC = () => {
       <div className="content">
         <div>
           <SectionTitle title={t("module:mode")} />
-          <div className="custom-segmented-control">
-            <input
-              type="radio"
-              name="sp-mode"
-              id="mode_Option1"
+          <SegmentedControl
+            inputName="mode"
+            value={mode}
+            onChange={(newMode: string) => {
+              setMode(newMode as SpacingMode);
+            }}
+          >
+            <SegmentedControl.Option
               value="vertical"
-              checked={mode === "vertical"}
-              onChange={() => setMode("vertical")}
+              label="module:vertical"
+              icon={<SvgVertical color="var(--figma-color-text)" />}
             />
-            <label htmlFor="mode_Option1">
-              <div className="icon-24">
-                <SvgVertical color="var(--figma-color-text)" />
-              </div>
-              {t("module:vertical")}
-            </label>
-            <input
-              type="radio"
-              name="sp-mode"
-              id="mode_Option2"
+            <SegmentedControl.Option
               value="horizontal"
-              checked={mode === "horizontal"}
-              onChange={() => setMode("horizontal")}
+              label="module:horizontal"
+              icon={<SvgHorizontal color="var(--figma-color-text)" />}
             />
-            <label htmlFor="mode_Option2">
-              <div className="icon-24">
-                <SvgHorizontal color="var(--figma-color-text)" />
-              </div>
-              {t("module:horizontal")}
-            </label>
-          </div>
+            <SegmentedControl.Option
+              value="grid"
+              label="module:grid"
+              icon={<SvgHorizontal color="var(--figma-color-text)" />}
+            />
+          </SegmentedControl>
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:multiplySpacingBy")} />
           <div className="flex flex-row">
-            <div className="custom-segmented-control">
+            <SegmentedControl
+              inputName="multiply"
+              value={String(multiplier)}
+              onChange={(newMultiplier) => {
+                setMultiplier(Number(newMultiplier));
+              }}
+            >
+              {multipliers.map((singleMultiplier) => (
+                <SegmentedControl.Option
+                  value={String(singleMultiplier)}
+                  label={String(singleMultiplier)}
+                />
+              ))}
+            </SegmentedControl>
+            {/* <div className="custom-segmented-control">
               {[1, 2, 3, 4, 5].map((value) => (
                 <React.Fragment key={value}>
                   <input
@@ -177,7 +187,7 @@ const SpaciiingView: React.FC = () => {
                   <label htmlFor={`multiply_Option${value}`}>{value}</label>
                 </React.Fragment>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="mt-xxsmall">
