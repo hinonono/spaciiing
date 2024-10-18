@@ -1,0 +1,71 @@
+{
+  "brand": "Polaris",
+  "name": "Font Size",
+  "members": [
+    {
+      "name": "275",
+      "value": 11,
+      "description": ""
+    },
+    {
+      "name": "300",
+      "value": 12,
+      "description": ""
+    },
+    {
+      "name": "325",
+      "value": 13,
+      "description": ""
+    },
+    {
+      "name": "350",
+      "value": 14,
+      "description": ""
+    },
+    {
+      "name": "400",
+      "value": 16,
+      "description": ""
+    },
+    {
+      "name": "450",
+      "value": 18,
+      "description": ""
+    },
+    {
+      "name": "500",
+      "value": 20,
+      "description": ""
+    },
+    {
+      "name": "550",
+      "value": 22,
+      "description": ""
+    },
+    {
+      "name": "600",
+      "value": 24,
+      "description": ""
+    },
+    {
+      "name": "750",
+      "value": 30,
+      "description": ""
+    },
+    {
+      "name": "800",
+      "value": 32,
+      "description": ""
+    },
+    {
+      "name": "900",
+      "value": 36,
+      "description": ""
+    },
+    {
+      "name": "1000",
+      "value": 40,
+      "description": ""
+    }
+  ]
+}

@@ -1,8 +1,5 @@
 import { LicenseManagement } from "../types/LicenseManagement";
-import {
-  ExternalMessageLicenseManagement,
-  MessageLicenseManagement,
-} from "../types/Message";
+import { ExternalMessageLicenseManagement, MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
 import * as util from "./util";
 
 export async function initLicenseCheck() {

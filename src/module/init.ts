@@ -1,25 +1,28 @@
-import { ExternalMessageUpdateCustomSpacing } from "./../types/Message";
-import { ExternalMessageUpdateFrame } from "../types/Message";
+import { ExternalMessageUpdateFrame } from "../types/Messages/MessageMemorizer";
 import * as util from "./util";
 import * as licenseManagement from "./licenseManagement";
 import * as localization from "./localization";
+// import { ExternalMessageUpdateEditorPreference } from "../types/Messages/MessageEditorPreference";
 
 export async function init() {
   // 檢查License狀態
   await licenseManagement.initLicenseCheck();
   await localization.initLocalization();
 
+  // V20：新版
+  const editorPreference = util.readEditorPreference();
+  console.log(editorPreference);
+
+  util.updateEditorPreference(editorPreference, "Init");
+
+  //
   const storedWidth = figma.currentPage.getPluginData("memorized-object-width");
   const storedHeight = figma.currentPage.getPluginData(
     "memorized-object-height"
   );
   const storedName = figma.currentPage.getPluginData("memorized-object-name");
-  const storedSpacing = figma.currentPage.getPluginData(
-    "recent-custom-spacing"
-  );
-
-  // console.log(
-  //   `Init Value [w${storedWidth}][h${storedHeight}][name${storedName}][spacing${storedSpacing}]`
+  // const storedSpacing = figma.currentPage.getPluginData(
+  //   "recent-custom-spacing"
   // );
 
   if (storedWidth != "" && storedHeight != "") {
@@ -49,14 +52,13 @@ export async function init() {
     util.sendMessageBack(message);
   }
 
-  if (storedSpacing != undefined) {
-    // console.log("customSpacing = " + storedSpacing);
-    const message: ExternalMessageUpdateCustomSpacing = {
-      spacing: storedSpacing,
-      module: "Spaciiing",
-      phase: "Actual",
-    };
+  // if (storedSpacing != undefined) {
+  //   const message: ExternalMessageUpdateCustomSpacing = {
+  //     spacing: storedSpacing,
+  //     module: "Spaciiing",
+  //     phase: "Actual",
+  //   };
 
-    util.sendMessageBack(message);
-  }
+  //   util.sendMessageBack(message);
+  // }
 }

@@ -1,0 +1,71 @@
+{
+  "brand": "Carbon",
+  "name": "Spacing",
+  "members": [
+    {
+      "name": "01",
+      "value": 2,
+      "description": ""
+    },
+    {
+      "name": "02",
+      "value": 4,
+      "description": ""
+    },
+    {
+      "name": "03",
+      "value": 8,
+      "description": ""
+    },
+    {
+      "name": "04",
+      "value": 12,
+      "description": ""
+    },
+    {
+      "name": "05",
+      "value": 16,
+      "description": ""
+    },
+    {
+      "name": "06",
+      "value": 24,
+      "description": ""
+    },
+    {
+      "name": "07",
+      "value": 32,
+      "description": ""
+    },
+    {
+      "name": "08",
+      "value": 40,
+      "description": ""
+    },
+    {
+      "name": "09",
+      "value": 48,
+      "description": ""
+    },
+    {
+      "name": "10",
+      "value": 64,
+      "description": ""
+    },
+    {
+      "name": "11",
+      "value": 80,
+      "description": ""
+    },
+    {
+      "name": "12",
+      "value": 96,
+      "description": ""
+    },
+    {
+      "name": "13",
+      "value": 160,
+      "description": ""
+    }
+  ]
+}

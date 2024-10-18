@@ -1,6 +1,6 @@
-import { MessageLoremGenerator } from "../types/Message";
 import * as util from "./util";
 import loremText from "../assets/loremText.json";
+import { MessageLoremGenerator } from "../types/Messages/MessageLoremGenerator";
 
 export async function makeLorem(message: MessageLoremGenerator) {
   const { lang, length } = message;

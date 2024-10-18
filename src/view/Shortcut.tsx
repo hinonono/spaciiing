@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import { TitleBar, FigmaButton, SectionTitle } from "../components";
-import {
-  MessageShortcutGenerateMagicalObjectMember,
-  ShortcutAction,
-} from "../types/Message";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import {
-  DesignStatusTagModal,
   FindAndReplaceModal,
   FramerModal,
   IconTemplateModal,
   LoremIpsumModal,
-  NoteModal,
-  TitleSectionModal,
+  MagicObjectModal,
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import {
+  ShortcutAction,
+  MessageShortcutGenerateMagicalObjectMember,
+} from "../types/Messages/MessageShortcut";
 
 const Shortcut: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -26,7 +24,7 @@ const Shortcut: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { magicalObject, licenseManagement, setShowCTSubscribe } =
+  const { licenseManagement, setShowCTSubscribe, editorPreference } =
     useAppContext();
 
   // icon
@@ -44,23 +42,11 @@ const Shortcut: React.FC = () => {
   const handleOpenFramerModal = () => setShowFramerModal(true);
   const handleCloseFramerModal = () => setShowFramerModal(false);
 
-  // 備忘錄
-  const [showNoteModal, setShowNoteModal] = useState(false);
-  const handleOpenNoteModal = () => setShowNoteModal(true);
-  const handleCloseNoteModal = () => setShowNoteModal(false);
+  // 神奇物件彈窗
+  const [showMagicObjectModal, setShowMagicObjectModal] = useState(false);
+  const handleOpenMagicObjectModal = () => setShowMagicObjectModal(true);
+  const handleCloseMagicObjectModal = () => setShowMagicObjectModal(false);
 
-  // 設計狀態標籤
-  const [showDesignStatusTagModal, setShowDesignStatusTagModal] =
-    useState(false);
-  const handleOpenDesignStatusTagModal = () =>
-    setShowDesignStatusTagModal(true);
-  const handleCloseDesignStatusTagModal = () =>
-    setShowDesignStatusTagModal(false);
-
-  // 標題區塊
-  const [showTitleSectionModal, setShowTitleSectionModal] = useState(false);
-  const handleOpenTitleSectionModal = () => setShowTitleSectionModal(true);
-  const handleCloseTitleSectionModal = () => setShowTitleSectionModal(false);
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -85,19 +71,19 @@ const Shortcut: React.FC = () => {
       case "generateNote":
         Object.assign(message, {
           member: "note",
-          componentId: magicalObject.noteId,
+          componentId: editorPreference.magicObjects.noteId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       case "generateDesignStatusTag":
         Object.assign(message, {
           member: "designStatusTag",
-          componentId: magicalObject.designStatusTagId,
+          componentId: editorPreference.magicObjects.tagId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       case "generateTitleSection":
         Object.assign(message, {
           member: "titleSection",
-          componentId: magicalObject.titleSectionId,
+          componentId: editorPreference.magicObjects.sectionId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       default:
@@ -128,17 +114,9 @@ const Shortcut: React.FC = () => {
             <p>{t("module:generateNoteDesignStatusTagDesc")}</p>
           </div>
         </Modal>
-        <NoteModal
-          showNoteModal={showNoteModal}
-          handleCloseNoteModal={handleCloseNoteModal}
-        />
-        <DesignStatusTagModal
-          showDesignStatusTagModal={showDesignStatusTagModal}
-          handleCloseDesignStatusTagModal={handleCloseDesignStatusTagModal}
-        />
-        <TitleSectionModal
-          showTitleSectionModal={showTitleSectionModal}
-          handleCloseTitleSectionModal={handleCloseTitleSectionModal}
+        <MagicObjectModal
+          showModal={showMagicObjectModal}
+          handleCloseModal={handleCloseMagicObjectModal}
         />
         <IconTemplateModal
           showIconModal={showIconModal}
@@ -220,7 +198,7 @@ const Shortcut: React.FC = () => {
               <SectionTitle
                 title={t("module:fileOrganizingObject")}
                 actionTitle={t("module:setting")}
-                action={handleOpenNoteModal}
+                action={handleOpenMagicObjectModal}
               />
               <div className="grid mt-xxxsmall">
                 <FigmaButton
@@ -230,7 +208,9 @@ const Shortcut: React.FC = () => {
                   onClick={() => {
                     applyShortcut("generateNote");
                   }}
-                  disabled={magicalObject.noteId == "" ? true : false}
+                  disabled={
+                    editorPreference.magicObjects.noteId == "" ? true : false
+                  }
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
                 />
@@ -242,7 +222,7 @@ const Shortcut: React.FC = () => {
                     applyShortcut("generateDesignStatusTag");
                   }}
                   disabled={
-                    magicalObject.designStatusTagId == "" ? true : false
+                    editorPreference.magicObjects.tagId == "" ? true : false
                   }
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
@@ -254,7 +234,9 @@ const Shortcut: React.FC = () => {
                   onClick={() => {
                     applyShortcut("generateTitleSection");
                   }}
-                  disabled={magicalObject.titleSectionId == "" ? true : false}
+                  disabled={
+                    editorPreference.magicObjects.sectionId == "" ? true : false
+                  }
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
                 />
@@ -268,6 +250,16 @@ const Shortcut: React.FC = () => {
                   id={"shortcut-color-to-label-hex"}
                   onClick={() => {
                     applyShortcut("colorToLabelHEX");
+                  }}
+                  buttonHeight="xlarge"
+                  hasTopBottomMargin={false}
+                />
+                <FigmaButton
+                  buttonType="secondary"
+                  title={t("module:hexValueWithTransparency")}
+                  id={"shortcut-color-to-label-hex-transparent"}
+                  onClick={() => {
+                    applyShortcut("colorToLabelHEXWithTransparency");
                   }}
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}

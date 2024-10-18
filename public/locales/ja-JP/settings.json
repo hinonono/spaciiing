@@ -3,5 +3,7 @@
   "preferredLanguage": "優先する言語",
   "about": "このプラグインについて",
   "version": "バージョン",
-  "forBugReportOrSupport": "お問い合わせ先"
+  "forBugReportOrSupport": "お問い合わせ先",
+  "provideFeedback": "ご意見箱",
+  "feedbackForm": "ご意見フォーム"
 }

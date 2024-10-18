@@ -1,5 +1,5 @@
 {
-  "allOptions": "ALL_OPTIONS",
+  "allOptions": "Select all options",
   "image": "IMAGE",
   "text": "TEXT",
   "frame": "FRAME",
@@ -41,5 +41,14 @@
   "boolean": "Boolean",
   "color": "Color",
   "float": "Float",
-  "string": "String"
+  "string": "String",
+  "style": "Style",
+  "variable": "Variable",
+  "back": "Back",
+  "selectAll": "Select All",
+  "unselectAll": "Unselect All",
+  "other": "Other",
+  "effect": "Effect",
+  "typography": "Typography",
+  "learnMore": "Learn More"
 }

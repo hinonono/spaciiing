@@ -1,5 +1,6 @@
+import { Dimension } from "../types/General";
 import { LicenseManagement } from "../types/LicenseManagement";
-import { Dimension, MessageAspectRatio } from "../types/Message";
+import { MessageAspectRatio } from "../types/Messages/MessageAspectRatio";
 
 export const applyAspectRatio = (
   widthRatio: number,
@@ -41,7 +42,7 @@ export const resolveContextMenuPos = (
   outerContainerRect: DOMRect
 ): { left: number; top: number } => {
   let menuX = x - outerContainerRect.left;
-  let menuY = y - outerContainerRect.top;
+  const menuY = y - outerContainerRect.top;
 
   if (x + 120 > outerContainerRect.width) {
     menuX = x - outerContainerRect.left - 120;

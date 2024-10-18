@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton } from "../components";
-import {
-  MessageMemorizer,
-  MemorizerAction,
-  MemorizerMode,
-  AvailableMemorizeOptions,
-} from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import {
+  MemorizerMode,
+  AvailableMemorizeOptions,
+  MemorizerAction,
+  MessageMemorizer,
+} from "../types/Messages/MessageMemorizer";
 
 const Shortcut: React.FC = () => {
   const { t } = useTranslation(["module"]);

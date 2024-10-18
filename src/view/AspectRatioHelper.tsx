@@ -4,7 +4,7 @@ import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { SvgVertical, SvgHorizontal, SvgAR16to9, SvgAR9to16, SvgAR4to3, SvgAR3to4, SvgAR3to2, SvgAR2to3, SvgAR1to1 } from "../assets/icons";
-import { Dimension } from "../types/Message";
+import { Dimension } from "../types/General";
 import {
   checkProFeatureAccessibleForUser,
   applyAspectRatio,

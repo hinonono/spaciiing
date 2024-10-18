@@ -1,8 +1,6 @@
 {
   "modulePresetLibrary": "プリセットライブラリ",
   "modulePresetLibraryDesc": "有名なデザインシステムからスタイルまたはバリアブルを作成します。",
-  "style": "スタイル",
-  "variable": "バリアブル",
   "collection": "コレクション",
   "selectAnOption": "オプションを選択してください",
   "generateUsageDefinition": "使用定義を生成",
@@ -19,8 +17,7 @@
   "variableScope": "バリアブルのスコープ",
   "variableScopeDesc": "バリアブルが適用されるスコープを選択してください。",
   "codeEditor": "コードエディター",
-  "codeEditorDesc1": "コードは「name」と「value」プロパティを持つオブジェクトごとに要素として含む配列である必要があります。以下のボタンをクリックしてサンプルコードを生成します。複数回クリックして複数のバリアブルを作成します。",
-  "codeEditorDesc2": "以下のボタンをクリックしてサンプルコードを生成します。複数回クリックして複数のバリアブルを作成します。",
+  "codeEditorDesc1": "このコードは、Design Tokens Community Group が提供する標準に従った JSON 形式である必要があります。",
   "createANewCollection": "新しいコレクションを作成",
   "createANewMode": "新しいモードを作成",
   "default": "デフォルト",
@@ -37,6 +34,7 @@
   "text": "テキスト",
   "findAndReplace": "検索と置換",
   "hexValue": "Hex値",
+  "hexValueWithTransparency": "Hex値と透明度",
   "rgbValue": "RGB値",
   "rgbaValue": "RGBA値",
   "colorValueToTextLabel": "塗り色数値からテキストを作成",
@@ -161,5 +159,11 @@
   "length": "長さ",
   "addItem": "アイテムを追加",
   "delete": "削除",
-  "duplicate": "複製"
+  "duplicate": "複製",
+  "moduleCatalogue": "カタログ",
+  "moduleCatalogueDesc": "スタイルやバリアブルからカタログを作成します。",
+  "form": "フォーム",
+  "type": "タイプ",
+  "home": "ホーム",
+  "quantity": "数"
 }

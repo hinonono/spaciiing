@@ -1,5 +1,5 @@
 {
-  "allOptions": "すべてを選択",
+  "allOptions": "すべてのオプションを選択",
   "image": "画像",
   "text": "テキスト",
   "frame": "フレーム",
@@ -41,5 +41,14 @@
   "boolean": "ブーリアン",
   "color": "カラー",
   "float": "数値",
-  "string": "文字列"
+  "string": "文字列",
+  "style": "スタイル",
+  "variable": "バリアブル",
+  "back": "戻る",
+  "selectAll": "すべてを選択",
+  "unselectAll": "すべての選択を解除",
+  "other": "その他",
+  "effect": "エフェクト",
+  "typography": "タイポグラフィ",
+  "learnMore": "さらに詳しく"
 }

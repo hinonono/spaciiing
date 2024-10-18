@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { TitleBar, FigmaButton, SectionTitle } from "../components";
-import {
-  MessageGetAvailableCollectionMode,
-  MessageVariableEditorExecuteCode,
-} from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import MonacoCodeEditor from "../components/MonacoCodeEditor";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import { exampleCodeBase } from "../components/ExampleVariableCreationCode";
+import {
+  MessageGetAvailableCollectionMode,
+  MessageVariableEditorExecuteCode,
+} from "../types/Messages/MessageVariableEditor";
 
 interface KeyAndScope {
   nameKey: string;
@@ -96,12 +97,6 @@ const VariableEditor: React.FC = () => {
 
   const [defaultNewCollectionName, setDefaultNewCollectionName] =
     useState("New Collection");
-  const [destination, setDestination] = useState("new");
-  const [dataType, setDataType] = useState<VariableResolvedDataType>("COLOR");
-  const [variableMode, setVariableMode] = useState("");
-  const [variableScope, setVariableScope] = useState<VariableScope[]>(
-    VariableScopesNew[dataType].members.map((item) => item.scope)
-  );
 
   const {
     variableCollectionList,
@@ -112,15 +107,32 @@ const VariableEditor: React.FC = () => {
     setCustomCodeExecutionResults,
   } = useAppContext();
   const [code, setCode] = useState<string>("");
-  const [timesExampleCodeBtnClicked, setTimesExampleCodeBtnClicked] =
-    useState(0);
+
+  const [destination, setDestination] = useState("new");
+  useEffect(() => {
+    if (variableCollectionList.length > 0 && destination === "new") {
+      setDestination(variableCollectionList[0].id);
+    }
+  }, [variableCollectionList]);
+
+  const [dataType, setDataType] = useState<VariableResolvedDataType>("COLOR");
+
+  const [variableMode, setVariableMode] = useState("");
+  useEffect(() => {
+    if (variableCollectionModes.length > 0 && variableMode === "") {
+      setVariableMode(variableCollectionModes[0].modeId);
+    }
+  }, [variableCollectionModes]);
+
+  const [variableScope, setVariableScope] = useState<VariableScope[]>(
+    VariableScopesNew[dataType].members.map((item) => item.scope)
+  );
 
   useEffect(() => {
     setVariableScope(
       VariableScopesNew[dataType].members.map((item) => item.scope)
     );
     setCode("");
-    setTimesExampleCodeBtnClicked(0);
   }, [dataType]);
 
   useEffect(() => {
@@ -204,13 +216,13 @@ const VariableEditor: React.FC = () => {
     setCustomCodeExecutionResults([]);
 
     const message: MessageVariableEditorExecuteCode = {
-      dataType: dataType,
-      destination: destination,
+      variableResolvedDataType: dataType,
+      variableCollectionId: destination,
       code: code,
       module: "VariableEditor",
       direction: "Inner",
-      scope: variableScope,
-      mode: variableMode,
+      variableScope: variableScope,
+      variableMode: variableMode,
       intent: "executeCode",
       phase: "Actual",
       newCollectionName: defaultNewCollectionName,
@@ -224,63 +236,15 @@ const VariableEditor: React.FC = () => {
     );
   };
 
-  const exampleCodeBase = {
-    COLOR: `{
-    "name": "example ${timesExampleCodeBtnClicked + 1}",
-    "value": "#FFFFFF",
-    "opacity": 1
-  }`,
-    FLOAT: `{
-    "name": "example ${timesExampleCodeBtnClicked + 1}",
-    "value": 24
-  }`,
-    STRING: `{
-    "name": "example ${timesExampleCodeBtnClicked + 1}",
-    "value": "string value"
-  }`,
-    BOOLEAN: `{
-    "name": "example ${timesExampleCodeBtnClicked + 1}",
-    "value": true
-  }`,
-  };
-
   const exampleCode = {
-    COLOR: `[
-  ${exampleCodeBase["COLOR"]}
-]
-`,
-    FLOAT: `[
-  ${exampleCodeBase["FLOAT"]}
-]
-`,
-    STRING: `[
-  ${exampleCodeBase["STRING"]}
-]
-`,
-    BOOLEAN: `[
-  ${exampleCodeBase["BOOLEAN"]}
-]
-`,
+    COLOR: exampleCodeBase["COLOR"],
+    FLOAT: exampleCodeBase["FLOAT"],
+    STRING: exampleCodeBase["STRING"],
+    BOOLEAN: exampleCodeBase["BOOLEAN"],
   };
 
   const generateExampleCodeSnippet = () => {
-    const newTimesClicked = timesExampleCodeBtnClicked + 1;
-    setTimesExampleCodeBtnClicked(newTimesClicked);
-
-    if (newTimesClicked === 1) {
-      setCode(exampleCode[dataType]);
-    } else {
-      try {
-        const currentCode = JSON.parse(code);
-        const newExampleCode = JSON.parse(exampleCodeBase[dataType]);
-        if (Array.isArray(currentCode)) {
-          const updatedCode = [...currentCode, newExampleCode];
-          setCode(JSON.stringify(updatedCode, null, 2));
-        }
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-      }
-    }
+    setCode(exampleCode[dataType]);
   };
 
   return (
@@ -292,7 +256,7 @@ const VariableEditor: React.FC = () => {
         <div>
           <h3>{t("module:moduleVariableGenerator")}</h3>
           <p>{t("module:moduleVariableGeneratorDesc")}</p>
-          <h4>Destination</h4>
+          <h4>{t("module:destination")}</h4>
           <p>
             {t("module:destinationDesc1")}
             <br />
@@ -413,14 +377,6 @@ const VariableEditor: React.FC = () => {
         <div className="mt-xsmall">
           <SectionTitle title={t("module:codeEditor")} />
           <div className="width-100">
-            <div>
-              <span className="note">
-                {t("module:codeEditorDesc1")}
-                <br />
-                <br />
-                {t("module:codeEditorDesc2")}
-              </span>
-            </div>
             <div className="mt-xxsmall">
               <MonacoCodeEditor code={code} setCode={setCode} />
             </div>
@@ -442,9 +398,8 @@ const VariableEditor: React.FC = () => {
               buttonType="secondary"
               title={t("module:codeExampleFor") + dataType}
               id={"variable-editor-example-code-snippet"}
-              onClick={() => {
-                generateExampleCodeSnippet();
-              }}
+              onClick={generateExampleCodeSnippet}
+              disabled={code.trim() !== ""}
             />
             <FigmaButton
               title={t("module:execute")}

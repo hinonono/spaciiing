@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import SectionTitle from "../SectionTitle";
 import FigmaButton from "../FigmaButton";
-import {
-  LoremLength,
-  LoremSupportedLang,
-  MessageLoremGenerator,
-} from "../../types/Message";
 import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
+import {
+  LoremSupportedLang,
+  LoremLength,
+  MessageLoremGenerator,
+} from "../../types/Messages/MessageLoremGenerator";
 
 interface LoremIpsumModalProps {
   show: boolean;

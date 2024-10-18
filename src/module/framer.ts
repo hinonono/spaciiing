@@ -1,4 +1,5 @@
-import { MessageFramer } from "../types/Message";
+
+import { MessageFramer } from "../types/Messages/MessageFramer";
 import * as util from "./util";
 
 export function useEqual(message: MessageFramer) {

@@ -1,8 +1,6 @@
 {
   "modulePresetLibrary": "Preset Library",
   "modulePresetLibraryDesc": "Create style or variables from well known design systems.",
-  "style": "Style",
-  "variable": "Variable",
   "collection": "Collection",
   "selectAnOption": "Select an option",
   "generateUsageDefinition": "Generate usage definition",
@@ -19,8 +17,7 @@
   "variableScope": "Variable Scope",
   "variableScopeDesc": "Select which scope will the variable being created apply.",
   "codeEditor": "Code Editor",
-  "codeEditorDesc1": "The code should be an array, each element being an object with \"name\" and \"value\" properties to create a variable. Click the button below to generate example code. Click multiple times to create multiple variables.",
-  "codeEditorDesc2": "Click the button below to generate example code. Click multiple times to create multiple variables.",
+  "codeEditorDesc1": "The code should be json format, following the standard provided by the Design Tokens Community Group.",
   "createANewCollection": "Create a new collection",
   "createANewMode": "Create a new mode",
   "default": "Default",
@@ -37,6 +34,7 @@
   "text": "Text",
   "findAndReplace": "Find and Replace",
   "hexValue": "Hex value",
+  "hexValueWithTransparency": "Hex value with transparency",
   "rgbValue": "RGB value",
   "rgbaValue": "RGBA value",
   "colorValueToTextLabel": "Color value to text label",
@@ -161,5 +159,11 @@
   "length": "Length",
   "addItem": "Add Item",
   "delete": "Delete",
-  "duplicate": "Duplicate"
+  "duplicate": "Duplicate",
+  "moduleCatalogue": "Catalogue",
+  "moduleCatalogueDesc": "Create catalogue from your styles or variables.",
+  "form": "Form",
+  "type": "Type",
+  "home": "Home",
+  "quantity": "Quantity"
 }

@@ -1,8 +1,6 @@
 {
   "modulePresetLibrary": "预设样式库",
   "modulePresetLibraryDesc": "从知名设计系统中创建样式或变量。",
-  "style": "样式",
-  "variable": "变量",
   "collection": "集合",
   "selectAnOption": "选择一个选项",
   "generateUsageDefinition": "生成使用定义",
@@ -19,8 +17,7 @@
   "variableScope": "变量范围",
   "variableScopeDesc": "选择变量的应用范围。",
   "codeEditor": "代码编辑器",
-  "codeEditorDesc1": "代码应为一个数组，每个元素是一个带有“name”和“value”属性的对象，用来创建变量。点击下方按钮生成示例代码。多次点击可创建多个变量。",
-  "codeEditorDesc2": "点击下方按钮生成示例代码。多次点击可创建多个变量。",
+  "codeEditorDesc1": "代码应为JSON格式，并遵照由Design Tokens Community Group所提供的标准。",
   "createANewCollection": "创建新集合",
   "createANewMode": "创建新模式",
   "default": "默认",
@@ -37,6 +34,7 @@
   "text": "文本",
   "findAndReplace": "查找和替换",
   "hexValue": "十六进制值",
+  "hexValueWithTransparency": "十六进制值和透明度",
   "rgbValue": "RGB 值",
   "rgbaValue": "RGB 值",
   "colorValueToTextLabel": "颜色值至文本标签",
@@ -161,5 +159,11 @@
   "length": "长度",
   "addItem": "添加项目",
   "delete": "删除",
-  "duplicate": "复制"
+  "duplicate": "复制",
+  "moduleCatalogue": "目录",
+  "moduleCatalogueDesc": "从您的样式或变量创建目录。",
+  "form": "形态",
+  "type": "类型",
+  "home": "首页",
+  "quantity": "数量"
 }

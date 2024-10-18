@@ -1,0 +1,44 @@
+.tab-bar {
+    display: flex;
+    justify-content: flex-start;
+    background-color: var(--tab-bar-bg);
+    z-index: 2;
+    overflow: scroll;
+    padding: 4px;
+    border-bottom: 1px solid var(--figma-color-border);
+
+    .tab {
+        position: relative;
+        /* Needed for absolute positioning of hover-text */
+
+        &:hover {
+            .hover-text {
+                display: block;
+                /* Show text on hover */
+            }
+        }
+    }
+
+    button {
+        padding: 4px 4px;
+        margin: 0;
+        background-color: var(--tab-bar-bg);
+        color: white;
+        cursor: pointer;
+        border: 0;
+        width: auto;
+        border-radius: var(--cy-border-radius-large);
+
+        &:hover {
+            background-color: var(--figma-color-bg-secondary);
+        }
+
+        &.active {
+            background-color: var(--figma-color-bg-brand);
+            color: white;
+
+        }
+    }
+
+
+}

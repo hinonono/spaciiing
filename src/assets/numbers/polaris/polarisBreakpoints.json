@@ -1,0 +1,26 @@
+{
+  "brand": "Polaris",
+  "name": "Breakpoints",
+  "members": [
+    {
+      "name": "sm",
+      "value": 490,
+      "description": ""
+    },
+    {
+      "name": "md",
+      "value": 768,
+      "description": ""
+    },
+    {
+      "name": "lg",
+      "value": 1040,
+      "description": ""
+    },
+    {
+      "name": "xl",
+      "value": 1440,
+      "description": ""
+    }
+  ]
+}

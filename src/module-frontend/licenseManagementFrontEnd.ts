@@ -4,13 +4,13 @@ import {
   LicenseResponseError,
   LicenseResponseSuccess,
 } from "./../types/LicenseManagement";
-import {
-  ExternalMessageLicenseManagement,
-  MessageLicenseManagement,
-} from "../types/Message";
 import * as util from "../module/util";
 import * as paymentsUtil from "./paymentsUtil";
 import { SalesConfig } from "../types/SalesConfig";
+import {
+  ExternalMessageLicenseManagement,
+  MessageLicenseManagement,
+} from "../types/Messages/MessageLicenseManagement";
 
 export const licenseManagementHandler = (
   message: ExternalMessageLicenseManagement,
@@ -86,6 +86,33 @@ export const handleSubscriptionStatus = (
   }
 
   return newLicense;
+};
+
+export const eraseLicense = (
+  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
+) => {
+  const resetedLicense: LicenseManagement = {
+    tier: "FREE",
+    isLicenseActive: false,
+    licenseKey: "",
+    sessionExpiredAt: "",
+    recurrence: "",
+  };
+
+  const message: MessageLicenseManagement = {
+    license: resetedLicense,
+    module: "LicenseManagement",
+    phase: "Actual",
+    direction: "Inner",
+    action: "UPDATE",
+  };
+  parent.postMessage(
+    {
+      pluginMessage: message,
+    },
+    "*"
+  );
+  setLicenseManagement(resetedLicense);
 };
 
 const licenseVerifyHandler = async (
@@ -171,10 +198,10 @@ export function hasDatePassed(dateString: string) {
 export function shouldShowBanner(
   config: SalesConfig,
   licenseManagement: LicenseManagement
-): boolean {
+): "NONE" | "NORMAL" | "SALE" {
   // Return false if the license tier is "PAID"
   if (licenseManagement.tier === "PAID") {
-    return false;
+    return "NONE";
   }
 
   const startDate = new Date(config.startDate);
@@ -186,14 +213,17 @@ export function shouldShowBanner(
 
   if (isWithinDateRange) {
     if (config.type === "ALL") {
-      return true; // Always return true for "ALL" type
+      return "SALE";
     } else if (config.type === "SPECIFIC_KEY") {
       // Check if the config type is "SPECIFIC_KEY"
-      // Return true if the license key matches the target key
-      return licenseManagement.licenseKey === config.targetKey;
+      // Return "SALE" if the license key matches the target key
+      // Return "NORMAL" if the license key does not match the target key
+      return licenseManagement.licenseKey === config.targetKey
+        ? "SALE"
+        : "NORMAL";
     }
   }
 
   // Return false if the date is not within range or conditions are not met
-  return false;
+  return "NORMAL";
 }

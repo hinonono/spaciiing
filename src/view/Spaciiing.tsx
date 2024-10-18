@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton } from "../components";
-import {
-  ExternalMessageUpdateCustomSpacing,
-  MessageSpaciiing,
-  SpacingMode,
-} from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import { SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
+import {
+  SpacingMode,
+  MessageSpaciiing,
+} from "../types/Messages/MessageSpaciiing";
 
 const SpacingValue: {
   nameKey: string;
@@ -32,12 +31,22 @@ const SpaciiingView: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { lastCustomSpacing, setLastCustomSpacing } = useAppContext();
-  // const [customValue, setCustomValue] = useState<string>("");
+  const { editorPreference, setEditorPreference } = useAppContext();
+
+  // 水平或垂直模式
   const [mode, setMode] = useState<SpacingMode>("vertical");
-  const [multiply, setMultiply] = useState<number>(1);
+
+  // 倍率
+  const [multiplier, setMultiplier] = useState<number>(1);
+
+  // 間距值
   const [space, setSpace] = useState<string | number>(0);
+  const [enteredCustomSpacing, setEnteredCustomSpacing] = useState<number>(0);
+
   const [isChecked, setIsChecked] = useState(false);
+
+  const [customSpacingFieldNote, setCustomSpacingFieldNote] =
+    useState<string>("");
 
   const handleCheckboxChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
@@ -48,52 +57,53 @@ const SpaciiingView: React.FC = () => {
   const handleCustomValueChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setLastCustomSpacing(event.target.value);
+    const value = event.target.value;
+
+    const numberValue = Number(value);
+
+    if (!isNaN(numberValue)) {
+      setEditorPreference((prevPreference) => ({
+        ...prevPreference,
+        spacing: numberValue,
+      }));
+      setEnteredCustomSpacing(numberValue);
+
+      setCustomSpacingFieldNote("");
+    } else {
+      setCustomSpacingFieldNote("Invalid number input");
+    }
   };
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data.pluginMessage) {
-        const value: Array<ExternalMessageUpdateCustomSpacing> = Object.values(
-          event.data.pluginMessage
-        );
-        const message = value[0];
-
-        updateMemorizedSpacing(message.spacing);
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
-  }, []);
-
-  const updateMemorizedSpacing = (spacing: string) => {
-    setLastCustomSpacing(spacing);
-  };
+    if (editorPreference.spacing) {
+      setEnteredCustomSpacing(editorPreference.spacing);
+    }
+  }, [editorPreference]);
 
   const applySpacing = () => {
-    let spacing = "0";
-    let useCustomValue = false;
+    let finalSpacing: number;
+    let useCustomValue: boolean;
 
-    if (space === "custom") {
-      spacing = lastCustomSpacing === "" ? "0" : lastCustomSpacing;
-      useCustomValue = lastCustomSpacing === "" ? false : true;
+    if (typeof space === "string") {
+      // 使用者選擇了自定義間距
+      finalSpacing = enteredCustomSpacing;
+      useCustomValue = true;
     } else {
-      spacing = String(Number(space) * multiply);
+      // 預設間距
+      finalSpacing = space * multiplier;
+      useCustomValue = false;
     }
 
     const message: MessageSpaciiing = {
       module: "Spaciiing",
-      mode,
-      spacing,
-      useCustomValue,
+      mode: mode,
+      spacing: finalSpacing,
+      useCustomValue: useCustomValue,
       addAutolayout: isChecked,
       direction: "Inner",
       phase: "Actual",
+      shouldSaveEditorPreference: true,
+      editorPreference: editorPreference,
     };
 
     parent.postMessage(
@@ -161,8 +171,8 @@ const SpaciiingView: React.FC = () => {
                     name="sp-multiply"
                     id={`multiply_Option${value}`}
                     value={value}
-                    checked={multiply === value}
-                    onChange={() => setMultiply(value)}
+                    checked={multiplier === value}
+                    onChange={() => setMultiplier(value)}
                   />
                   <label htmlFor={`multiply_Option${value}`}>{value}</label>
                 </React.Fragment>
@@ -190,7 +200,7 @@ const SpaciiingView: React.FC = () => {
                   >
                     {typeof item.value === "string"
                       ? t(item.nameKey)
-                      : item.value * multiply}
+                      : item.value * multiplier}
                   </label>
                 </React.Fragment>
               ))}
@@ -202,10 +212,13 @@ const SpaciiingView: React.FC = () => {
                     id="sp-space-custom"
                     className="textarea"
                     rows={1}
-                    value={lastCustomSpacing}
+                    value={enteredCustomSpacing}
                     onChange={handleCustomValueChange}
                     placeholder={t("module:customValueNumbersOnly")}
                   />
+                  {customSpacingFieldNote && (
+                    <span className="note error">{customSpacingFieldNote}</span>
+                  )}
                 </div>
                 <div className="mt-xxsmall">
                   <span className="note">

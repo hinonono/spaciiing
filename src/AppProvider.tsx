@@ -1,16 +1,22 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { VirtualProfileGroup } from "./types/VirtualProfile";
-import { MagicalObject } from "./types/MagicalObject";
+import { LicenseManagement } from "./types/LicenseManagement";
+import { StyleListItemFrontEnd } from "./types/General";
 import {
   ExternalVariableCollection,
   ExternalVariableMode,
-} from "./types/Message";
-import { LicenseManagement } from "./types/LicenseManagement";
+} from "./types/Messages/MessageVariableEditor";
+import { EditorPreference } from "./types/EditorPreference";
 
 // #region Definition
-interface AppContextType {
-  lastCustomSpacing: string;
-  setLastCustomSpacing: React.Dispatch<React.SetStateAction<string>>;
+export interface AppContextType {
+  // V20：新的editor preference物件，統一管理相關的偏好值
+  editorPreference: EditorPreference;
+  setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;
+
+  // V20：部分舊的屬性即將統一被editor preference物件取代
+  // lastCustomSpacing: string;
+  // setLastCustomSpacing: React.Dispatch<React.SetStateAction<string>>;
   memorizedObjectWidth: number | undefined;
   setMemorizedObjectWidth: React.Dispatch<
     React.SetStateAction<number | undefined>
@@ -29,14 +35,12 @@ interface AppContextType {
   setvariableCollectionModes: React.Dispatch<
     React.SetStateAction<ExternalVariableMode[]>
   >;
-  // virtualProfile: VirtualProfile;
-  // setVirtualProfile: React.Dispatch<React.SetStateAction<VirtualProfile>>;
   virtualProfileGroups: VirtualProfileGroup[];
   setVirtualProfileGroups: React.Dispatch<
     React.SetStateAction<VirtualProfileGroup[]>
   >;
-  magicalObject: MagicalObject;
-  setMagicalObject: React.Dispatch<React.SetStateAction<MagicalObject>>;
+
+  // 其他
   licenseManagement: LicenseManagement;
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>;
   showCTSubscribe: boolean;
@@ -45,6 +49,8 @@ interface AppContextType {
   setShowActivateModal: React.Dispatch<React.SetStateAction<boolean>>;
   customCodeExecutionResults: string[];
   setCustomCodeExecutionResults: React.Dispatch<React.SetStateAction<string[]>>;
+  styleList: StyleListItemFrontEnd[];
+  setStyleList: React.Dispatch<React.SetStateAction<StyleListItemFrontEnd[]>>;
 }
 
 // Create a context with an initial undefined value
@@ -64,40 +70,6 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
-// const vp: VirtualProfile = {
-//   name: "",
-//   nickname: "",
-//   gender: "",
-//   birthday: "",
-//   email: "",
-//   cardNum: "",
-//   landlineNum: "",
-//   phoneNum: "",
-//   address: "",
-//   companyName: "",
-//   companyAddress: "",
-//   companyPhoneNum: "",
-//   custom1: "",
-//   custom2: "",
-//   custom3: "",
-//   age: "",
-//   country: "",
-//   city: "",
-//   expirationDate: "",
-//   cvv: "",
-//   cardNetwork: "",
-//   username: "",
-//   userId: "",
-//   jobTitle: "",
-//   industry: "",
-// };
-
-const mo: MagicalObject = {
-  noteId: "",
-  designStatusTagId: "",
-  titleSectionId: "",
-};
-
 const lm: LicenseManagement = {
   tier: "FREE",
   recurrence: "",
@@ -113,8 +85,17 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
 
+  // V20：Editor Preference整合
+  const [editorPreference, setEditorPreference] = useState<EditorPreference>({
+    magicObjects: {
+      noteId: "",
+      tagId: "",
+      sectionId: ""
+    },
+  });
+
   // 模組用
-  const [lastCustomSpacing, setLastCustomSpacing] = useState<string>("");
+  // const [lastCustomSpacing, setLastCustomSpacing] = useState<string>("");
   const [memorizedObjectWidth, setMemorizedObjectWidth] = useState<number>();
   const [memorizedObjectHeight, setMemorizedObjectHeight] = useState<number>();
   const [memorizedObjectName, setMemorizedObjectName] = useState<string>("");
@@ -124,15 +105,11 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [variableCollectionModes, setvariableCollectionModes] = useState<
     ExternalVariableMode[]
   >([]);
-
-  //
-  // const [virtualProfile, setVirtualProfile] = useState<VirtualProfile>(vp);
+  const [styleList, setStyleList] = useState<StyleListItemFrontEnd[]>([]);
   const [virtualProfileGroups, setVirtualProfileGroups] = useState<
     VirtualProfileGroup[]
   >([]);
 
-  //
-  const [magicalObject, setMagicalObject] = useState<MagicalObject>(mo);
   const [licenseManagement, setLicenseManagement] =
     useState<LicenseManagement>(lm);
 
@@ -144,8 +121,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <AppContext.Provider
       value={{
-        lastCustomSpacing,
-        setLastCustomSpacing,
+        editorPreference,
+        setEditorPreference,
         memorizedObjectWidth,
         setMemorizedObjectWidth,
         memorizedObjectHeight,
@@ -156,10 +133,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setVariableCollectionList,
         variableCollectionModes,
         setvariableCollectionModes,
-        // virtualProfile,
-        // setVirtualProfile,
-        magicalObject,
-        setMagicalObject,
         licenseManagement,
         setLicenseManagement,
         showCTSubscribe,
@@ -170,6 +143,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setCustomCodeExecutionResults,
         virtualProfileGroups,
         setVirtualProfileGroups,
+        styleList,
+        setStyleList,
       }}
     >
       {children}

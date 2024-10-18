@@ -1,0 +1,76 @@
+{
+  "brand": "Polaris",
+  "name": "Border Radius",
+  "members": [
+    {
+      "name": "0",
+      "value": 0,
+      "description": ""
+    },
+    {
+      "name": "050",
+      "value": 2,
+      "description": ""
+    },
+    {
+      "name": "100",
+      "value": 4,
+      "description": ""
+    },
+    {
+      "name": "150",
+      "value": 6,
+      "description": ""
+    },
+    {
+      "name": "200",
+      "value": 8,
+      "description": ""
+    },
+    {
+      "name": "300",
+      "value": 12,
+      "description": ""
+    },
+    {
+      "name": "400",
+      "value": 16,
+      "description": ""
+    },
+    {
+      "name": "500",
+      "value": 20,
+      "description": ""
+    },
+    {
+      "name": "750",
+      "value": 30,
+      "description": ""
+    },
+    {
+      "name": "full",
+      "value": 9999,
+      "description": ""
+    },
+    {
+      "name": "width-0165",
+      "value": 0.66,
+      "description": ""
+    },
+    {
+      "name": "width-025",
+      "value": 1,
+      "description": ""
+    },
+    {
+      "name": "width-050",
+      "value": 2,
+      "description": ""
+    },
+    {
+      "name": "width-100",
+      "value": 4,
+      "description": ""
+    }
+  ]
+}

@@ -2,6 +2,18 @@
     text-align: center;
 }
 
+.text-color-primary {
+    color: var(--figma-color-text) !important;
+}
+
 .text-color-secondary {
-    color: var(--figma-color-text-secondary);
+    color: var(--figma-color-text-secondary) !important;
+}
+
+.text-color-tertiary {
+    color: var(--figma-color-text-tertiary) !important;
+}
+
+.text-color-error {
+    color: var(--red) !important;
 }

@@ -1,0 +1,21 @@
+{
+  "brand": "Ant Design",
+  "name": "Padding",
+  "members": [
+    {
+      "name": "padding",
+      "value": 16,
+      "description": "Control the padding of the element."
+    },
+    {
+      "name": "paddingLG",
+      "value": 24,
+      "description": "Control the large padding of the element."
+    },
+    {
+      "name": "paddingXS",
+      "value": 8,
+      "description": "Control the extra small padding of the element."
+    }
+  ]
+}

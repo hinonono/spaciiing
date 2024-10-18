@@ -1,24 +1,18 @@
-import { MessageShortcutFindAndReplace } from "./../types/Message";
 import * as util from "./util";
+import * as spaciiing from "./spaciiing";
+import { MagicObjectMembers } from "../types/MagicObject";
 import {
-  ExternalMessageUpdateMagicalObject,
   MessageShortcut,
+  MessageShortcutFindAndReplace,
   MessageShortcutGenerateIconTemplate,
   MessageShortcutGenerateMagicalObjectMember,
-  MessageShortcutUpdateMagicalObject,
-  SpacingMode,
-} from "../types/Message";
-import * as spaciiing from "./spaciiing";
-import { MagicalObject, MagicalObjectMembers } from "../types/MagicalObject";
+} from "../types/Messages/MessageShortcut";
+import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
     figma.notify(`❌ The "phase" property of the message is not set.`);
     return;
-  }
-
-  if (message.phase == "Init") {
-    initShortcut();
   }
 
   if (message.phase == "Actual") {
@@ -28,6 +22,9 @@ export function executeShortcut(message: MessageShortcut) {
         break;
       case "colorToLabelHEX":
         generateLabelFromObjectFillColor("HEX");
+        break;
+      case "colorToLabelHEXWithTransparency":
+        generateLabelFromObjectFillColor("HEX_WITH_TRANSPARENCY");
         break;
       case "colorToLabelRGB":
         generateLabelFromObjectFillColor("RGB");
@@ -42,13 +39,19 @@ export function executeShortcut(message: MessageShortcut) {
         generateIconTemplate(message as MessageShortcutGenerateIconTemplate);
         break;
       case "memorizeNote":
-        memorizeSelectedNodeId("note");
+        if (message.editorPreference) {
+          memorizeSelectedNodeId("note");
+        }
         break;
       case "memorizeTitleSection":
-        memorizeSelectedNodeId("titleSection");
+        if (message.editorPreference) {
+          memorizeSelectedNodeId("titleSection");
+        }
         break;
       case "memorizeDesignStatusTag":
-        memorizeSelectedNodeId("designStatusTag");
+        if (message.editorPreference) {
+          memorizeSelectedNodeId("designStatusTag");
+        }
         break;
       case "generateNote":
         generateMagicalObjectMember(
@@ -72,38 +75,6 @@ export function executeShortcut(message: MessageShortcut) {
         break;
     }
   }
-
-  if (message.phase == "WillEnd") {
-    shortcutWillEnd(message as MessageShortcutUpdateMagicalObject);
-  }
-}
-
-function initShortcut() {
-  const pluginDataKey = "magical-object";
-  const data = figma.root.getPluginData(pluginDataKey);
-
-  if (data == "") {
-    //
-  } else {
-    // 有找到設置的magical object
-    const mo = JSON.parse(data) as MagicalObject;
-    const message: ExternalMessageUpdateMagicalObject = {
-      magicalObject: mo,
-      module: "Shortcut",
-      direction: "Outer",
-      phase: "Init",
-    };
-
-    util.sendMessageBack(message);
-  }
-}
-
-function shortcutWillEnd(message: MessageShortcutUpdateMagicalObject) {
-  console.log("Shorcut will End.");
-
-  const pluginDataKey = "magical-object";
-  const mo = message.magicalObject;
-  figma.root.setPluginData(pluginDataKey, JSON.stringify(mo));
 }
 
 async function findAndReplaceInSelection(
@@ -281,7 +252,7 @@ async function updateDateText(node: SceneNode) {
   }
 }
 
-function memorizeSelectedNodeId(member: MagicalObjectMembers) {
+function memorizeSelectedNodeId(member: MagicObjectMembers) {
   const selection = util.getCurrentSelection();
 
   if (selection.length !== 1) {
@@ -299,38 +270,26 @@ function memorizeSelectedNodeId(member: MagicalObjectMembers) {
     return;
   }
 
-  const pluginDataKey = "magical-object";
-  const data = figma.root.getPluginData(pluginDataKey);
-  if (data != "") {
-    // 有找到設置的magical object
-    const mo = JSON.parse(data) as MagicalObject;
-
-    switch (member) {
-      case "note":
-        mo.noteId = selectedNode.id;
-        break;
-      case "designStatusTag":
-        mo.designStatusTagId = selectedNode.id;
-        break;
-      case "titleSection":
-        mo.titleSectionId = selectedNode.id;
-        break;
-      default:
-        break;
-    }
-
-    const message: ExternalMessageUpdateMagicalObject = {
-      magicalObject: mo,
-      module: "Shortcut",
-      direction: "Outer",
-      phase: "Actual",
-    };
-
-    util.sendMessageBack(message);
-
-    figma.root.setPluginData(pluginDataKey, JSON.stringify(mo));
-    figma.notify(`✅ ID Set to ${selectedNode.id}`);
+  // 新版
+  const editorPreference = util.readEditorPreference();
+  switch (member) {
+    case "note":
+      editorPreference.magicObjects.noteId = selectedNode.id;
+      break;
+    case "designStatusTag":
+      editorPreference.magicObjects.tagId = selectedNode.id;
+      break;
+    case "titleSection":
+      editorPreference.magicObjects.sectionId = selectedNode.id;
+      break;
+    default:
+      break;
   }
+  util.saveEditorPreference(editorPreference, "Shortcut");
+  util.updateEditorPreference(editorPreference);
+  figma.notify(
+    `✅ The id is memorized successfully from object ${selectedNode.name}`
+  );
 }
 
 function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
@@ -409,7 +368,9 @@ function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
   spaciiing.applySpacingToLayers(results, spacing, mode, addAutolayout, false);
 }
 
-async function generateLabelFromObjectFillColor(type: "HEX" | "RGB" | "RGBA") {
+async function generateLabelFromObjectFillColor(
+  type: "HEX" | "RGB" | "RGBA" | "HEX_WITH_TRANSPARENCY"
+) {
   const selection = figma.currentPage.selection;
 
   if (selection.length === 0) {
@@ -459,6 +420,14 @@ async function generateLabelFromObjectFillColor(type: "HEX" | "RGB" | "RGBA") {
               "❌ Unable to generate rgba text label due to null opacity."
             );
           }
+        } else if (type === "HEX_WITH_TRANSPARENCY") {
+          label = util.rgbToHexWithTransparency(
+            rectColor.color.r,
+            rectColor.color.g,
+            rectColor.color.b,
+            rectColor.opacity ?? 1
+          );
+          createTextLabel(selectedNode, label, "HEX_WITH_TRANSPARENCY_LABEL");
         }
       }
     }
@@ -550,7 +519,7 @@ async function convertSelectionToTextStyles() {
       }
 
       const newTextStyle = figma.createTextStyle();
-      newTextStyle.name = node.characters.substring(0, 30); // Limiting the name length
+      newTextStyle.name = node.characters;
       newTextStyle.fontSize = node.fontSize;
       newTextStyle.textDecoration = "NONE";
       newTextStyle.fontName = node.fontName;

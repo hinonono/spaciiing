@@ -20,8 +20,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, children }) => {
               <SvgCross color="var(--tooltip-icon)" />
             </div>
           </div>
-
-          {children}
+          <div>{children}</div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 {
-  "allOptions": "全部选项",
+  "allOptions": "选择全部选项",
   "image": "图像",
   "text": "文字",
   "frame": "画框",
@@ -41,5 +41,14 @@
   "boolean": "布林值",
   "color": "颜色",
   "float": "浮点值",
-  "string": "字符串"
+  "string": "字符串",
+  "style": "样式",
+  "variable": "变量",
+  "back": "返回",
+  "selectAll": "全选",
+  "unselectAll": "取消全选",
+  "other": "其他",
+  "effect": "效果",
+  "typography": "版式",
+  "learnMore": "暸解更多"
 }

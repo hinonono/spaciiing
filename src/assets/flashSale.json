@@ -1,9 +1,9 @@
 {
   "targetKey": "",
-  "startDate": "2024-08-01T00:00:00+08:00",
-  "endDate": "2024-08-31T23:59:59+08:00",
-  "messageKey": "30percentOff",
-  "url": "https://hsiehchengyi.gumroad.com/l/spaciiing-pro/RELEASE_CAMPAIGN",
+  "startDate": "2024-10-01T00:00:00+08:00",
+  "endDate": "2024-10-31T23:59:59+08:00",
+  "messageKey": "50percentOff",
+  "url": "https://hsiehchengyi.gumroad.com/l/spaciiing-pro/SURPRISE2024",
   "type": "ALL",
   "showCountdown": false
 }
