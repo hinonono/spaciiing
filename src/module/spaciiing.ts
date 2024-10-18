@@ -30,7 +30,7 @@ export function useSpacing(message: MessageSpaciiing) {
 
   if (message.mode === "grid") {
     if (message.gridColumn === undefined) {
-      throw new Error("The gridColumn is not specified.");
+      throw new Error("The gridColumn is unspecified.");
     }
 
     applySpacingToLayers(
@@ -79,37 +79,72 @@ export function applySpacingToLayers(
   const isVerticalMode = mode === "vertical";
   const axis = isVerticalMode ? "y" : "x";
 
-  // Sort selected layers based on the chosen axis
-  layers.sort(compareWithAxis(axis));
-
   // Adjust the positions of the layers
-  for (let i = 0; i < layers.length - 1; i++) {
-    const currentLayer = layers[i];
-    const nextLayer = layers[i + 1];
+  if (column && mode === "horizontal") {
+    let currentColumn = 1;
+    let currentRow = 0;
 
-    // Calculate the offset considering rotation
-    const currentLayerBounds = currentLayer.absoluteBoundingBox;
-    const nextLayerBounds = nextLayer.absoluteBoundingBox;
+    for (let i = 0; i < layers.length; i++) {
+      const currentLayer = layers[i];
+      const currentLayerBounds = currentLayer.absoluteBoundingBox;
 
-    if (!currentLayerBounds || !nextLayerBounds) {
-      figma.notify("❌ One of the layers has no bounding box.");
-      return;
+      if (!currentLayerBounds) {
+        figma.notify("❌ One of the layers has no bounding box.");
+        return;
+      }
+
+      if (currentColumn > column) {
+        // Move to the next row
+        currentColumn = 1;
+        currentRow += 1;
+      }
+
+      if (currentColumn === 1 && currentRow > 0) {
+        // Position the first item in the new row
+        const previousRowLayer = layers[i - column];
+        currentLayer.y = previousRowLayer.y + previousRowLayer.height + spacing;
+        currentLayer.x = layers[0].x; // Align with the first column
+      } else if (currentColumn > 1) {
+        // Position subsequent items in the current row
+        const previousLayer = layers[i - 1];
+        currentLayer.x = previousLayer.x + previousLayer.width + spacing;
+        currentLayer.y = previousLayer.y;
+      }
+
+      currentColumn += 1;
     }
+  } else {
+    // Sort selected layers based on the chosen axis
+    layers.sort(compareWithAxis(axis));
 
-    const offset = isVerticalMode
-      ? currentLayerBounds.y +
-        currentLayerBounds.height +
-        spacing -
-        nextLayerBounds.y
-      : currentLayerBounds.x +
-        currentLayerBounds.width +
-        spacing -
-        nextLayerBounds.x;
+    for (let i = 0; i < layers.length - 1; i++) {
+      const currentLayer = layers[i];
+      const nextLayer = layers[i + 1];
 
-    if (isVerticalMode) {
-      nextLayer.y += offset;
-    } else {
-      nextLayer.x += offset;
+      // Calculate the offset considering rotation
+      const currentLayerBounds = currentLayer.absoluteBoundingBox;
+      const nextLayerBounds = nextLayer.absoluteBoundingBox;
+
+      if (!currentLayerBounds || !nextLayerBounds) {
+        figma.notify("❌ One of the layers has no bounding box.");
+        return;
+      }
+
+      const offset = isVerticalMode
+        ? currentLayerBounds.y +
+          currentLayerBounds.height +
+          spacing -
+          nextLayerBounds.y
+        : currentLayerBounds.x +
+          currentLayerBounds.width +
+          spacing -
+          nextLayerBounds.x;
+
+      if (isVerticalMode) {
+        nextLayer.y += offset;
+      } else {
+        nextLayer.x += offset;
+      }
     }
   }
 
@@ -124,24 +159,22 @@ export function applySpacingToLayers(
       isVerticalMode ? "VERTICAL" : "HORIZONTAL"
     );
 
-    // // Create a new frame with autolayout
-    // const autolayoutFrame = figma.createFrame();
-
-    // // Set the autolayout properties
-    // autolayoutFrame.layoutMode = isVerticalMode ? "VERTICAL" : "HORIZONTAL";
-    // autolayoutFrame.itemSpacing = spacing;
-
-    // // Add the selected layers to the autolayout frame
-    // layers.forEach((layer) => {
-    //   figma.currentPage.appendChild(autolayoutFrame);
-    //   autolayoutFrame.appendChild(layer);
-    // });
-
     // Resize the autolayout frame to fit its contents
-    autolayoutFrame.resize(
-      selectionBoundingBox.width,
-      selectionBoundingBox.height
-    );
+    if (column && mode === "horizontal") {
+      autolayoutFrame.resize(
+        selectionBoundingBox.width,
+        selectionBoundingBox.height
+      );
+      autolayoutFrame.itemSpacing = spacing;
+      autolayoutFrame.counterAxisSpacing = spacing;
+
+      autolayoutFrame.layoutWrap = "WRAP";
+    } else {
+      autolayoutFrame.resize(
+        selectionBoundingBox.width,
+        selectionBoundingBox.height
+      );
+    }
 
     autolayoutFrame.x = selectionPosition.x;
     autolayoutFrame.y = selectionPosition.y;

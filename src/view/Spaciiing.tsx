@@ -45,14 +45,20 @@ const SpaciiingView: React.FC = () => {
   const [enteredCustomSpacing, setEnteredCustomSpacing] = useState<number>(0);
 
   // 格線
-  const [column, setColumn] = useState<number>(0);
+  const [columnFieldNote, setColumnFieldNote] = useState("");
+  const [column, setColumn] = useState<number>(2);
   const handleColumnChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const n = Number(event.target.value);
 
     if (!isNaN(n)) {
-      setColumn(n);
+      if (n < 2) {
+        setColumnFieldNote("The value should be larger than 2.");
+      } else {
+        setColumn(n);
+        setColumnFieldNote("");
+      }
     }
   };
 
@@ -194,7 +200,7 @@ const SpaciiingView: React.FC = () => {
         {/* 格線專用UI */}
         {mode === "grid" && (
           <div className="mt-xxsmall">
-            <div className="grid">
+            <div>
               <div>
                 <SectionTitle title={t("term:column")} />
                 <textarea
@@ -204,6 +210,9 @@ const SpaciiingView: React.FC = () => {
                   onChange={handleColumnChange}
                   placeholder={t("module:customValueNumbersOnly")}
                 />
+                {columnFieldNote && (
+                  <span className="note error">{columnFieldNote}</span>
+                )}
               </div>
             </div>
           </div>
@@ -237,7 +246,11 @@ const SpaciiingView: React.FC = () => {
               inputName="prevalue"
               value={String(space)}
               onChange={(newSpace) => {
-                setSpace(newSpace);
+                if (!isNaN(Number(newSpace))) {
+                  setSpace(Number(newSpace));
+                } else {
+                  setSpace(newSpace);
+                }
               }}
             >
               {SpacingValue.map((item) => (
