@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton } from "../components";
 import { useAppContext } from "../AppProvider";
-import { SvgHorizontal, SvgVertical } from "../assets/icons";
+import { SvgGrid, SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import {
@@ -54,7 +54,7 @@ const SpaciiingView: React.FC = () => {
 
     if (!isNaN(n)) {
       if (n < 2) {
-        setColumnFieldNote("The value should be larger than 2.");
+        setColumnFieldNote(t("module:shouldLargeThanTwo"));
       } else {
         setColumn(n);
         setColumnFieldNote("");
@@ -193,7 +193,7 @@ const SpaciiingView: React.FC = () => {
             <SegmentedControl.Option
               value="grid"
               label="module:grid"
-              icon={<SvgHorizontal color="var(--figma-color-text)" />}
+              icon={<SvgGrid color="var(--figma-color-text)" />}
             />
           </SegmentedControl>
         </div>

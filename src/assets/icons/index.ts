@@ -11,6 +11,7 @@ export { default as SvgCatalogue } from "./SvgCatalogue";
 export { default as SvgCross } from "./SvgCross";
 export { default as SvgVertical } from "./SvgVertical";
 export { default as SvgHorizontal } from "./SvgHorizontal";
+export { default as SvgGrid } from "./SvgGrid";
 export { default as SvgInfo } from "./SvgInfo";
 export { default as SvgSetting } from "./SvgSetting";
 
