@@ -3,12 +3,23 @@ import { useAppContext } from "../AppProvider";
 import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
-import { SvgVertical, SvgHorizontal, SvgAR16to9, SvgAR9to16, SvgAR4to3, SvgAR3to4, SvgAR3to2, SvgAR2to3, SvgAR1to1 } from "../assets/icons";
+import {
+  SvgVertical,
+  SvgHorizontal,
+  SvgAR16to9,
+  SvgAR9to16,
+  SvgAR4to3,
+  SvgAR3to4,
+  SvgAR3to2,
+  SvgAR2to3,
+  SvgAR1to1,
+} from "../assets/icons";
 import { Dimension } from "../types/General";
 import {
   checkProFeatureAccessibleForUser,
   applyAspectRatio,
 } from "../module-frontend/utilFrontEnd";
+import SegmentedControl from "../components/SegmentedControl";
 
 interface AspectRatioHelperProps {}
 type AspectRatioOptions =
@@ -124,9 +135,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
       >
         <div>
           <h3>{t("module:moduleAspectRatioHelper")}</h3>
-          <p>
-            {t("module:moduleAspectRatioHelperDesc")}
-          </p>
+          <p>{t("module:moduleAspectRatioHelperDesc")}</p>
           <h4>{t("module:commonlyUsedAspectRatio")}</h4>
           <ul>
             {aspectRatioOptionsUI.map((option) => (
@@ -146,36 +155,24 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
         <div>
           <SectionTitle title={t("module:lockDimension")} />
           <div className="flex flex-row">
-            <div className="custom-segmented-control">
-              <input
-                type="radio"
-                name="aspect-lock-dimension"
-                id="mode_width"
+            <SegmentedControl
+              inputName="dimension"
+              value={lockedDimension}
+              onChange={(newDimension) =>
+                setLockedDimension(newDimension as Dimension)
+              }
+            >
+              <SegmentedControl.Option
                 value="width"
-                checked={lockedDimension === "width"}
-                onChange={() => setLockedDimension("width")}
+                label="module:width"
+                icon={<SvgHorizontal color="var(--figma-color-text)" />}
               />
-              <label htmlFor="mode_width">
-                <div className="icon-24">
-                  <SvgHorizontal color="var(--figma-color-text)" />
-                </div>
-                {t("module:width")}
-              </label>
-              <input
-                type="radio"
-                name="aspect-lock-dimension"
-                id="mode_height"
+              <SegmentedControl.Option
                 value="height"
-                checked={lockedDimension === "height"}
-                onChange={() => setLockedDimension("height")}
+                label="module:height"
+                icon={<SvgVertical color="var(--figma-color-text)" />}
               />
-              <label htmlFor="mode_height">
-                <div className="icon-24">
-                  <SvgVertical color="var(--figma-color-text)" />
-                </div>
-                {t("module:height")}
-              </label>
-            </div>
+            </SegmentedControl>
           </div>
         </div>
         <div className="mt-xsmall">
