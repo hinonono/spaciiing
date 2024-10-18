@@ -81,7 +81,14 @@ export function readEditorPreference(): EditorPreference {
       editorPreference
     ) as EditorPreference;
 
-    return decodedEditorPreference;
+    // Merge with default preferences to ensure all properties are present
+    const defaultEditorPreference = createEditorPreference();
+    const mergedEditorPreference = {
+      ...defaultEditorPreference,
+      ...decodedEditorPreference,
+    };
+
+    return mergedEditorPreference;
   }
 }
 
