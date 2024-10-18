@@ -8,6 +8,9 @@ import { ExternalMessageUpdateEditorPreference } from "../types/Messages/Message
 import { Module } from "../types/Module";
 import { ResizableNode } from "../types/NodeResizable";
 import { semanticTokens } from "./tokens";
+import loremText from "../assets/loremText.json";
+
+const isDevelopment = process.env.REACT_APP_ENV === "development";
 
 // 取代原有的 fundamental-module.ts
 export function deepClone(val: unknown) {
@@ -52,14 +55,9 @@ export function saveEditorPreference(
 export function readEditorPreference(): EditorPreference {
   const editorPreference = figma.root.getPluginData("editor-preference");
 
-  if (editorPreference) {
-    // 當之前已建立過Preference物件時，進行解碼
-    const decodedEditorPreference = JSON.parse(
-      editorPreference
-    ) as EditorPreference;
+  if (!editorPreference || isDevelopment) {
+    console.log("新建立了preference檔案！");
 
-    return decodedEditorPreference;
-  } else {
     // 當之前未建立過Preference物件時，新建一個
     const createdEditorPreference: EditorPreference = {
       magicObjects: {
@@ -67,9 +65,17 @@ export function readEditorPreference(): EditorPreference {
         tagId: "",
         sectionId: "",
       },
+      lorem: loremText.en,
     };
 
     return createdEditorPreference;
+  } else {
+    // 當之前已建立過Preference物件時，進行解碼
+    const decodedEditorPreference = JSON.parse(
+      editorPreference
+    ) as EditorPreference;
+
+    return decodedEditorPreference;
   }
 }
 

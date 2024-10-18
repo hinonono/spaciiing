@@ -1,6 +1,7 @@
 export interface EditorPreference {
   spacing?: number;
   magicObjects: MagicObjects;
+  lorem: string; //預設寫英文
 }
 
 interface MagicObjects {

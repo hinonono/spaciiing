@@ -3,11 +3,11 @@ import loremText from "../assets/loremText.json";
 import { MessageLoremGenerator } from "../types/Messages/MessageLoremGenerator";
 
 export async function makeLorem(message: MessageLoremGenerator) {
-  const { lang, length } = message;
+  const { length } = message;
 
-  const textContentMap: { [key: string]: string } = loremText;
+  // const textContentMap: { [key: string]: string } = loremText;
 
-  let textContent: string = textContentMap[lang];
+  let textContent: string = util.readEditorPreference().lorem;
 
   switch (length) {
     case "short":

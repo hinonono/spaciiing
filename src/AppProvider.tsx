@@ -90,8 +90,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     magicObjects: {
       noteId: "",
       tagId: "",
-      sectionId: ""
+      sectionId: "",
     },
+    lorem: "",
   });
 
   // 模組用
