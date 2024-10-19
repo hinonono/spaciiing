@@ -38,7 +38,7 @@
   "rgbValue": "RGB値",
   "rgbaValue": "RGBA値",
   "colorValueToTextLabel": "塗り色数値からテキストを作成",
-  "loremIpsumText": "Lorem ipsumテキスト",
+  "loremIpsumText": "Lorem ipsum テキスト",
   "createTextStyleFromSelection": "選択範囲からテキストスタイルを作成",
   "fileOrganizingObject": "ファイル整理オブジェクト",
   "fileOrganizingObjectSetting": "ファイル整理オブジェクト設定",

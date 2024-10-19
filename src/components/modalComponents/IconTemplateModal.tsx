@@ -210,7 +210,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
         <SectionTitle title={t("module:quantity")} />
         <div className="width-100 mt-xxsmall">
           <textarea
-            className="textarea"
+            className="textarea font-size-xlarge"
             rows={1}
             value={quantity}
             onChange={handleCustomValueChange}

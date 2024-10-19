@@ -38,7 +38,7 @@
   "rgbValue": "RGB值",
   "rgbaValue": "RGBA值",
   "colorValueToTextLabel": "顏色數值至文字標籤",
-  "loremIpsumText": "Lorem ipsum 文字標籤",
+  "loremIpsumText": "Lorem ipsum 文字",
   "createTextStyleFromSelection": "從選中文字建立樣式",
   "fileOrganizingObject": "檔案管理物件",
   "fileOrganizingObjectSetting": "檔案管理物件設定",
