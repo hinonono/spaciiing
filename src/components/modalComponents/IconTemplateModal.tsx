@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import SectionTitle from "../SectionTitle";
@@ -31,8 +31,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
     setEditorPreference,
   } = useAppContext();
 
-  // const [size, setSize] = useState("24");
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState("1");
 
   // 新版：無論設定的尺寸，使用內側框與外側框來定義要產生的Icon
   const [tempIconSize, setTempIconSize] = useState("24");
@@ -44,6 +43,8 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   const [customOuterFrame, setCustomOuterFrame] = useState("24");
 
   const [customFrameFieldNote, setCustomFrameFieldNote] = useState("");
+
+  const [isPreferenceUpdated, setIsPreferenceUpdated] = useState(false);
 
   const handleCustomValueChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -81,7 +82,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
       return;
     }
 
-    if (action != "generateIconTemplate") {
+    if (action !== "generateIconTemplate") {
       return;
     }
 
@@ -89,17 +90,27 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
       setInnerFrame(Number(customInnerFrame));
       setOuterFrame(Number(customOuterFrame));
 
-      setEditorPreference((prevPreference) => ({
-        ...prevPreference,
-        iconFrame: {
-          innerFrame: innerFrame,
-          outerFrame: outerFrame,
-        },
-      }));
+      setEditorPreference((prevPreference) => {
+        const updatedPreference = {
+          ...prevPreference,
+          iconFrame: {
+            innerFrame: innerFrame,
+            outerFrame: outerFrame,
+          },
+        };
+        setIsPreferenceUpdated(true);
+        return updatedPreference;
+      });
+    } else {
+      setIsPreferenceUpdated(true);
+    }
+  };
 
+  useEffect(() => {
+    if (isPreferenceUpdated) {
       const message: MessageShortcutGenerateIconTemplate = {
         module: "Shortcut",
-        action: action,
+        action: "generateIconTemplate",
         direction: "Inner",
         phase: "Actual",
         innerFrame: innerFrame,
@@ -115,30 +126,16 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
         },
         "*"
       );
-    } else {
-      const message: MessageShortcutGenerateIconTemplate = {
-        module: "Shortcut",
-        action: action,
-        direction: "Inner",
-        phase: "Actual",
-        innerFrame: innerFrame,
-        outerFrame: outerFrame,
-        quantity: Number(quantity),
-      };
 
-      parent.postMessage(
-        {
-          pluginMessage: message,
-        },
-        "*"
-      );
+      setIsPreferenceUpdated(false);
     }
-  };
+  }, [isPreferenceUpdated, editorPreference, innerFrame, outerFrame, quantity]);
 
   const handleCustomInnerFrameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     if (isStringNumber(event.target.value)) {
+      setInnerFrame(Number(event.target.value));
       setCustomInnerFrame(event.target.value);
       setCustomFrameFieldNote("");
     } else {
@@ -150,6 +147,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     if (isStringNumber(event.target.value)) {
+      setOuterFrame(Number(event.target.value));
       setCustomOuterFrame(event.target.value);
       setCustomFrameFieldNote("");
     } else {
@@ -178,15 +176,6 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
           />
           <SegmentedControl.Option value="custom" label="term:custom" />
         </SegmentedControl>
-        {/* <select
-          name="size"
-          className="custom-select"
-          value={size}
-          onChange={(e) => setSize(e.target.value)}
-        >
-          <option value="24">24px</option>
-          <option value="48">48px</option>
-        </select> */}
       </div>
       {tempIconSize === "custom" && (
         <div className="mt-xxsmall">
