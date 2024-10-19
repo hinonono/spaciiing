@@ -552,6 +552,8 @@ function makeOverlay() {
       // Name the rectangle as "Overlay"
       rectangle.name = "Overlay";
 
+      rectangle.constraints = { horizontal: "STRETCH", vertical: "STRETCH" };
+
       // Lock the rectangle to prevent accidental modifications
       rectangle.locked = true;
 
