@@ -462,63 +462,65 @@ async function generateLabelFromObjectFillColor(
         const rectColor = fills[0] as SolidPaint;
         let label: string | null = null;
 
-        if (type === "HEX") {
-          label = util.rgbToHex(
-            rectColor.color.r,
-            rectColor.color.g,
-            rectColor.color.b
-          );
-
-          const textNode = util.createTextNode(label, fontName, 16);
-          textNode.name = type + "_LABEL";
-          textNode.x = selectedNode.x;
-          textNode.y = selectedNode.y + selectedNode.height + 16;
-          figma.currentPage.appendChild(textNode);
-        } else if (type === "RGB") {
-          label = util.rgbToRGB255(
-            rectColor.color.r,
-            rectColor.color.g,
-            rectColor.color.b
-          );
-          const textNode = util.createTextNode(label, fontName, 16);
-          textNode.name = type + "_LABEL";
-          textNode.x = selectedNode.x;
-          textNode.y = selectedNode.y + selectedNode.height + 16;
-          figma.currentPage.appendChild(textNode);
-        } else if (type === "RGBA") {
-          if (rectColor.opacity != null) {
-            label = util.rgbToRGBA255(
+        switch (type) {
+          case "HEX":
+            label = util.rgbToHex(
+              rectColor.color.r,
+              rectColor.color.g,
+              rectColor.color.b
+            );
+            break;
+          case "RGB":
+            label = util.rgbToRGB255(
+              rectColor.color.r,
+              rectColor.color.g,
+              rectColor.color.b
+            );
+            break;
+          case "RGBA":
+            if (rectColor.opacity != null) {
+              label = util.rgbToRGBA255(
+                rectColor.color.r,
+                rectColor.color.g,
+                rectColor.color.b,
+                rectColor.opacity
+              );
+            } else {
+              figma.notify(
+                "❌ Unable to generate rgba text label due to null opacity."
+              );
+              continue;
+            }
+            break;
+          case "HEX_WITH_TRANSPARENCY":
+            label = util.rgbToHexWithTransparency(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b,
-              rectColor.opacity
+              rectColor.opacity ?? 1
             );
-            const textNode = util.createTextNode(label, fontName, 16);
-            textNode.name = type + "_LABEL";
-            textNode.x = selectedNode.x;
-            textNode.y = selectedNode.y + selectedNode.height + 16;
-            figma.currentPage.appendChild(textNode);
-          } else {
-            figma.notify(
-              "❌ Unable to generate rgba text label due to null opacity."
-            );
-          }
-        } else if (type === "HEX_WITH_TRANSPARENCY") {
-          label = util.rgbToHexWithTransparency(
-            rectColor.color.r,
-            rectColor.color.g,
-            rectColor.color.b,
-            rectColor.opacity ?? 1
-          );
-          const textNode = util.createTextNode(label, fontName, 16);
-          textNode.name = type + "_LABEL";
-          textNode.x = selectedNode.x;
-          textNode.y = selectedNode.y + selectedNode.height + 16;
-          figma.currentPage.appendChild(textNode);
+            break;
+        }
+
+        if (label) {
+          createAndPlaceTextNode(label, type, selectedNode, fontName);
         }
       }
     }
   }
+}
+
+function createAndPlaceTextNode(
+  label: string,
+  type: string,
+  selectedNode: SceneNode,
+  fontName: FontName
+) {
+  const textNode = util.createTextNode(label, fontName, 16);
+  textNode.name = `${type}_LABEL`;
+  textNode.x = selectedNode.x;
+  textNode.y = selectedNode.y + selectedNode.height + 16;
+  figma.currentPage.appendChild(textNode);
 }
 
 /**
