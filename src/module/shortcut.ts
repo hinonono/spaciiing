@@ -441,13 +441,14 @@ async function generateLabelFromObjectFillColor(
   type: "HEX" | "RGB" | "RGBA" | "HEX_WITH_TRANSPARENCY"
 ) {
   const selection = figma.currentPage.selection;
+  const fontName = { family: "Inter", style: "Regular" };
 
   if (selection.length === 0) {
     figma.notify("❌ Please select at least one object with fill color.");
     return;
   }
 
-  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+  await figma.loadFontAsync(fontName);
 
   for (const selectedNode of selection) {
     if ("fills" in selectedNode) {
@@ -467,14 +468,23 @@ async function generateLabelFromObjectFillColor(
             rectColor.color.g,
             rectColor.color.b
           );
-          createTextLabel(selectedNode, label, "HEX_LABEL");
+
+          const textNode = util.createTextNode(label, fontName, 16);
+          textNode.name = type + "_LABEL";
+          textNode.x = selectedNode.x;
+          textNode.y = selectedNode.y + selectedNode.height + 16;
+          figma.currentPage.appendChild(textNode);
         } else if (type === "RGB") {
           label = util.rgbToRGB255(
             rectColor.color.r,
             rectColor.color.g,
             rectColor.color.b
           );
-          createTextLabel(selectedNode, label, "RGB_LABEL");
+          const textNode = util.createTextNode(label, fontName, 16);
+          textNode.name = type + "_LABEL";
+          textNode.x = selectedNode.x;
+          textNode.y = selectedNode.y + selectedNode.height + 16;
+          figma.currentPage.appendChild(textNode);
         } else if (type === "RGBA") {
           if (rectColor.opacity != null) {
             label = util.rgbToRGBA255(
@@ -483,7 +493,11 @@ async function generateLabelFromObjectFillColor(
               rectColor.color.b,
               rectColor.opacity
             );
-            createTextLabel(selectedNode, label, "RGBA_LABEL");
+            const textNode = util.createTextNode(label, fontName, 16);
+            textNode.name = type + "_LABEL";
+            textNode.x = selectedNode.x;
+            textNode.y = selectedNode.y + selectedNode.height + 16;
+            figma.currentPage.appendChild(textNode);
           } else {
             figma.notify(
               "❌ Unable to generate rgba text label due to null opacity."
@@ -496,21 +510,15 @@ async function generateLabelFromObjectFillColor(
             rectColor.color.b,
             rectColor.opacity ?? 1
           );
-          createTextLabel(selectedNode, label, "HEX_WITH_TRANSPARENCY_LABEL");
+          const textNode = util.createTextNode(label, fontName, 16);
+          textNode.name = type + "_LABEL";
+          textNode.x = selectedNode.x;
+          textNode.y = selectedNode.y + selectedNode.height + 16;
+          figma.currentPage.appendChild(textNode);
         }
       }
     }
   }
-}
-
-function createTextLabel(node: SceneNode, text: string, labelName: string) {
-  const textNode = figma.createText();
-  textNode.fontSize = 16;
-  textNode.characters = text;
-  textNode.name = labelName;
-  textNode.x = node.x;
-  textNode.y = node.y + node.height + 16;
-  figma.currentPage.appendChild(textNode);
 }
 
 /**
@@ -519,7 +527,7 @@ function createTextLabel(node: SceneNode, text: string, labelName: string) {
 function makeOverlay() {
   // Get the current selection of nodes
   const selection = util.getCurrentSelection();
-  
+
   // Iterate over each selected item
   selection.forEach((selectedItem) => {
     // Check if the selected item is a frame
