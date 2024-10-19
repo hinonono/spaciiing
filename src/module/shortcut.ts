@@ -513,36 +513,42 @@ function createTextLabel(node: SceneNode, text: string, labelName: string) {
   figma.currentPage.appendChild(textNode);
 }
 
+/**
+ * Creates an overlay on top of each selected frame.
+ */
 function makeOverlay() {
-  const storedWidth = figma.currentPage.getPluginData("memorized-object-width");
-  const storedHeight = figma.currentPage.getPluginData(
-    "memorized-object-height"
-  );
+  // Get the current selection of nodes
+  const selection = util.getCurrentSelection();
+  
+  // Iterate over each selected item
+  selection.forEach((selectedItem) => {
+    // Check if the selected item is a frame
+    if (selectedItem.type === "FRAME") {
+      // Create a new rectangle node
+      const rectangle = figma.createRectangle();
 
-  const selection = figma.currentPage.selection;
-  if (selection.length === 1 && selection[0].type === "FRAME") {
-    const selectedFrame = selection[0];
-    const rectangle = figma.createRectangle();
+      // Set the rectangle size to match the frame size
+      rectangle.resize(selectedItem.width, selectedItem.height);
 
-    if (storedWidth != undefined && storedHeight != undefined) {
-      rectangle.resize(Number(storedWidth), Number(storedHeight));
-    } else {
-      rectangle.resize(375, 812);
+      // Position the rectangle at the top-left corner of the frame
+      rectangle.x = 0;
+      rectangle.y = 0;
+
+      // Set the fill color and opacity of the rectangle
+      rectangle.fills = [
+        { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 0.5 },
+      ];
+
+      // Name the rectangle as "Overlay"
+      rectangle.name = "Overlay";
+
+      // Lock the rectangle to prevent accidental modifications
+      rectangle.locked = true;
+
+      // Append the rectangle as a child of the selected frame
+      selectedItem.appendChild(rectangle);
     }
-
-    rectangle.x = 0;
-    rectangle.y = 0;
-    rectangle.fills = [
-      { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 0.5 },
-    ];
-    rectangle.name = "Overlay";
-    rectangle.locked = true;
-
-    selectedFrame.appendChild(rectangle);
-  } else {
-    // No frame selected or multiple items selected
-    console.log("Please select a single frame.");
-  }
+  });
 }
 
 async function convertSelectionToTextStyles() {
