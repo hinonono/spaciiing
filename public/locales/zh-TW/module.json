@@ -29,7 +29,7 @@
   "generateHEXorRGBDesc": "要建立 HEX 或 RGB 值文字標籤，您需要選擇具有填充顏色的圖層。",
   "generateNoteDesignStatusTag": "建立筆記、設計狀態標籤、標題區段",
   "generateNoteDesignStatusTagDesc": "要建立筆記、設計狀態標籤或標題區段，您需要將模板組件複製到您的文件中，然後使用設定視窗中的“記憶”按鈕。對象記憶後，通過選擇一個或多個畫框並單擊建立按鈕，您可以開始建立這些組件實例。默認情況下，當前日期將自動填充到組件中。",
-  "frame": "畫框",
+  "frame": "框",
   "createShadowOverlay": "建立陰影覆蓋",
   "text": "文字",
   "findAndReplace": "尋找與取代",
