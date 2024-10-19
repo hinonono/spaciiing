@@ -17,7 +17,8 @@ export type ShortcutAction =
   | "generateDesignStatusTag"
   | "generateTitleSection"
   | "findAndReplace"
-  | "unifyText";
+  | "unifyText"
+  | "createAutoLayoutIndividually";
 
 export interface MessageShortcut extends Message {
   action: ShortcutAction;

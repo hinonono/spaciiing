@@ -75,9 +75,34 @@ export function executeShortcut(message: MessageShortcut) {
       case "unifyText":
         unifyText(message as MessageUnifyText);
         break;
+      case "createAutoLayoutIndividually":
+        createAutoLayoutIndividually();
+        break;
       default:
         break;
     }
+  }
+}
+
+function createAutoLayoutIndividually() {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No layers selected. Please select at least 1 layers.");
+    return;
+  }
+
+  for (let i = 0; i < selection.length; i++) {
+    const item = selection[i];
+    const originalX = item.x;
+    const originalY = item.y;
+
+    const autoLayoutFrame = util.createAutolayoutFrame([item], 0, "HORIZONTAL");
+    autoLayoutFrame.resize(item.width, item.height);
+    autoLayoutFrame.x = originalX;
+    autoLayoutFrame.y = originalY;
+
+    figma.currentPage.appendChild(autoLayoutFrame);
   }
 }
 
@@ -90,7 +115,9 @@ function unifyText(message: MessageUnifyText) {
   const selection = util.getCurrentSelection();
 
   // Filter selection to only include text nodes
-  const textNodes = selection.filter((node) => node.type === "TEXT") as TextNode[];
+  const textNodes = selection.filter(
+    (node) => node.type === "TEXT"
+  ) as TextNode[];
 
   if (textNodes.length === 0) {
     figma.notify("❌ No text nodes selected. Please select some text nodes.");

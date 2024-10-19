@@ -54,7 +54,6 @@ export const resolveContextMenuPos = (
   };
 };
 
-
 export const isStringNumber = (str: string): boolean => {
   return !isNaN(Number(str));
-}
+};

@@ -16,6 +16,7 @@ import {
   ShortcutAction,
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
+import { createAutoLayoutIndividually } from "../module-frontend/shortcutFronEnd";
 
 const Shortcut: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -305,15 +306,20 @@ const Shortcut: React.FC = () => {
                 <FigmaButton
                   buttonType="secondary"
                   title={t("module:loremIpsumText")}
-                  id={"shortcut-generate-lorem-ipsum-text"}
                   onClick={handleOpenLoremModal}
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
                 />
                 <FigmaButton
                   buttonType="secondary"
+                  title={t("module:createAutoLayoutIndividually")}
+                  onClick={createAutoLayoutIndividually}
+                  buttonHeight="xlarge"
+                  hasTopBottomMargin={false}
+                />
+                <FigmaButton
+                  buttonType="secondary"
                   title={t("module:iconTemplate")}
-                  id={"shortcut-generate-icon-template"}
                   onClick={handleOpenIconModal}
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
