@@ -167,5 +167,8 @@
   "form": "形態",
   "type": "類型",
   "home": "首頁",
-  "quantity": "數量"
+  "quantity": "數量",
+  "invalidNumberInput": "無效的數字輸入。",
+  "innerFrame": "內框架",
+  "outerFrame": "外框架"
 }

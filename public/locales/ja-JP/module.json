@@ -167,5 +167,8 @@
   "form": "フォーム",
   "type": "タイプ",
   "home": "ホーム",
-  "quantity": "数"
+  "quantity": "数",
+  "invalidNumberInput": "無効な数値入力です。",
+  "innerFrame": "内枠",
+  "outerFrame": "外枠"
 }

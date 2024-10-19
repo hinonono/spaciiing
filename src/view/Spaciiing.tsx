@@ -89,7 +89,7 @@ const SpaciiingView: React.FC = () => {
 
       setCustomSpacingFieldNote("");
     } else {
-      setCustomSpacingFieldNote("Invalid number input");
+      setCustomSpacingFieldNote(t("module:invalidNumberInput"));
     }
   };
 

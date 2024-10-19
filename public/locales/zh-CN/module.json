@@ -167,5 +167,8 @@
   "form": "形态",
   "type": "类型",
   "home": "首页",
-  "quantity": "数量"
+  "quantity": "数量",
+  "invalidNumberInput": "无效的数字输入。",
+  "innerFrame": "内框架",
+  "outerFrame": "外框架"
 }

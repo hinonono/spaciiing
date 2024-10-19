@@ -167,5 +167,8 @@
   "form": "Form",
   "type": "Type",
   "home": "Home",
-  "quantity": "Quantity"
+  "quantity": "Quantity",
+  "invalidNumberInput": "Invalid number input.",
+  "innerFrame": "Inner Frame",
+  "outerFrame": "Outer Frame"
 }

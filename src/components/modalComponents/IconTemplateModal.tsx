@@ -139,7 +139,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
       setCustomInnerFrame(event.target.value);
       setCustomFrameFieldNote("");
     } else {
-      setCustomFrameFieldNote("Invalid number input.");
+      setCustomFrameFieldNote(t("module:invalidNumberInput"));
     }
   };
 
@@ -151,7 +151,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
       setCustomOuterFrame(event.target.value);
       setCustomFrameFieldNote("");
     } else {
-      setCustomFrameFieldNote("Invalid number input.");
+      setCustomFrameFieldNote(t("module:invalidNumberInput"));
     }
   };
 
