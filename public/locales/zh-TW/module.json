@@ -170,5 +170,7 @@
   "quantity": "數量",
   "invalidNumberInput": "無效的數字輸入。",
   "innerFrame": "內框架",
-  "outerFrame": "外框架"
+  "outerFrame": "外框架",
+  "unifyText": "統一文字",
+  "createAutoLayoutIndividually": "個別建立自動佈局"
 }

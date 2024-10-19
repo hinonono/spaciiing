@@ -170,5 +170,7 @@
   "quantity": "数",
   "invalidNumberInput": "無効な数値入力です。",
   "innerFrame": "内枠",
-  "outerFrame": "外枠"
+  "outerFrame": "外枠",
+   "unifyText": "テキストを統一",
+   "createAutoLayoutIndividually": "オートレイアウトを個別に作成"
 }

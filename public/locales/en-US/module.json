@@ -170,5 +170,7 @@
   "quantity": "Quantity",
   "invalidNumberInput": "Invalid number input.",
   "innerFrame": "Inner Frame",
-  "outerFrame": "Outer Frame"
+  "outerFrame": "Outer Frame",
+  "unifyText": "Unify Text",
+  "createAutoLayoutIndividually": "Create auto layout individually"
 }
