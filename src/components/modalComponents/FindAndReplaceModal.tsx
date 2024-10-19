@@ -8,13 +8,13 @@ import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFron
 import { ShortcutAction, MessageShortcutFindAndReplace } from "../../types/Messages/MessageShortcut";
 
 interface FindAndReplaceModalProps {
-  showFindAndReplaceModal: boolean;
-  handleCloseFindAndReplaceModal: () => void;
+  show: boolean;
+  handleClose: () => void;
 }
 
 const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
-  showFindAndReplaceModal,
-  handleCloseFindAndReplaceModal,
+  show,
+  handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
@@ -67,8 +67,8 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
 
   return (
     <Modal
-      show={showFindAndReplaceModal}
-      handleClose={handleCloseFindAndReplaceModal}
+      show={show}
+      handleClose={handleClose}
     >
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:findInSelection")} />

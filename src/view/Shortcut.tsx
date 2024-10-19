@@ -8,6 +8,7 @@ import {
   IconTemplateModal,
   LoremIpsumModal,
   MagicObjectModal,
+  UnifyTextModal,
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -47,6 +48,10 @@ const Shortcut: React.FC = () => {
   const handleOpenMagicObjectModal = () => setShowMagicObjectModal(true);
   const handleCloseMagicObjectModal = () => setShowMagicObjectModal(false);
 
+  // 統一文字彈窗
+  const [showUnifyTextModal, setShowUnifyTextModal] = useState(false);
+  const handleOpenUnifyTextModal = () => setShowUnifyTextModal(true);
+  const handleCloseUnifyTextModal = () => setShowUnifyTextModal(false);
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -114,21 +119,25 @@ const Shortcut: React.FC = () => {
             <p>{t("module:generateNoteDesignStatusTagDesc")}</p>
           </div>
         </Modal>
+        <UnifyTextModal
+          show={showUnifyTextModal}
+          handleClose={handleCloseUnifyTextModal}
+        />
         <MagicObjectModal
-          showModal={showMagicObjectModal}
-          handleCloseModal={handleCloseMagicObjectModal}
+          show={showMagicObjectModal}
+          handleClose={handleCloseMagicObjectModal}
         />
         <IconTemplateModal
-          showIconModal={showIconModal}
-          handleCloseIconModal={handleCloseIconModal}
+          show={showIconModal}
+          handleClose={handleCloseIconModal}
         />
         <FramerModal
-          showFramerModal={showFramerModal}
-          handleCloseFramerModal={handleCloseFramerModal}
+          show={showFramerModal}
+          handleClose={handleCloseFramerModal}
         />
         <FindAndReplaceModal
-          showFindAndReplaceModal={showFindAndReplaceModal}
-          handleCloseFindAndReplaceModal={handleCloseFindAndReplaceModal}
+          show={showFindAndReplaceModal}
+          handleClose={handleCloseFindAndReplaceModal}
         />
         <LoremIpsumModal
           show={showLoremModal}
@@ -174,7 +183,6 @@ const Shortcut: React.FC = () => {
                 <FigmaButton
                   buttonType="secondary"
                   title={t("module:findAndReplace")}
-                  id={"shortcut-find-and-replace-in-selection"}
                   onClick={handleOpenFindAndReplaceModal}
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
@@ -182,10 +190,16 @@ const Shortcut: React.FC = () => {
                 <FigmaButton
                   buttonType="secondary"
                   title={t("module:createTextStyleFromSelection")}
-                  id={"shortcut-generate-text-style-from-selection"}
                   onClick={() => {
                     applyShortcut("convertSelectionToTextStyles");
                   }}
+                  buttonHeight="xlarge"
+                  hasTopBottomMargin={false}
+                />
+                <FigmaButton
+                  buttonType="secondary"
+                  title={t("module:unifyText")}
+                  onClick={handleOpenUnifyTextModal}
                   buttonHeight="xlarge"
                   hasTopBottomMargin={false}
                 />

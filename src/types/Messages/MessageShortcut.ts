@@ -16,10 +16,14 @@ export type ShortcutAction =
   | "generateNote"
   | "generateDesignStatusTag"
   | "generateTitleSection"
-  | "findAndReplace";
+  | "findAndReplace"
+  | "unifyText";
 
 export interface MessageShortcut extends Message {
   action: ShortcutAction;
+}
+export interface MessageUnifyText extends MessageShortcut {
+  targetTextContent: string;
 }
 export interface MessageShortcutGenerateIconTemplate extends MessageShortcut {
   innerFrame: number;

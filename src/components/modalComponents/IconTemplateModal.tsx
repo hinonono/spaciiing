@@ -15,13 +15,13 @@ import {
 import SegmentedControl from "../SegmentedControl";
 
 interface IconTemplateModalProps {
-  showIconModal: boolean;
-  handleCloseIconModal: () => void;
+  show: boolean;
+  handleClose: () => void;
 }
 
 const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
-  showIconModal,
-  handleCloseIconModal,
+  show,
+  handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
   const {
@@ -156,7 +156,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   };
 
   return (
-    <Modal show={showIconModal} handleClose={handleCloseIconModal}>
+    <Modal show={show} handleClose={handleClose}>
       <div>
         <SectionTitle title={t("module:size")} />
         <SegmentedControl

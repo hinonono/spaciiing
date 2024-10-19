@@ -6,6 +6,7 @@ import {
   MessageShortcutFindAndReplace,
   MessageShortcutGenerateIconTemplate,
   MessageShortcutGenerateMagicalObjectMember,
+  MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 
@@ -71,10 +72,38 @@ export function executeShortcut(message: MessageShortcut) {
       case "findAndReplace":
         findAndReplaceInSelection(message as MessageShortcutFindAndReplace);
         break;
+      case "unifyText":
+        unifyText(message as MessageUnifyText);
+        break;
       default:
         break;
     }
   }
+}
+
+/**
+ * Function to unify text content across selected text nodes.
+ * @param {MessageUnifyText} message - The message containing the target text content.
+ */
+function unifyText(message: MessageUnifyText) {
+  const targetTextContent = message.targetTextContent;
+  const selection = util.getCurrentSelection();
+
+  // Filter selection to only include text nodes
+  const textNodes = selection.filter((node) => node.type === "TEXT") as TextNode[];
+
+  if (textNodes.length === 0) {
+    figma.notify("❌ No text nodes selected. Please select some text nodes.");
+    return;
+  }
+
+  // Load fonts and update text content
+  textNodes.forEach(async (textNode) => {
+    await figma.loadFontAsync(textNode.fontName as FontName);
+    textNode.characters = targetTextContent;
+  });
+
+  figma.notify(`✅ Text content updated for ${textNodes.length} text node(s).`);
 }
 
 async function findAndReplaceInSelection(
