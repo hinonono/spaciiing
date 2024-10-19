@@ -93,6 +93,10 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       sectionId: "",
     },
     lorem: "",
+    iconFrame: {
+      innerFrame: 0,
+      outerFrame: 0,
+    },
   });
 
   // 模組用

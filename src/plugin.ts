@@ -43,6 +43,17 @@ figma.ui.resize(360, 480);
 figma.ui.onmessage = (message: Message) => {
   // console.log(message);
 
+  if (
+    message.shouldSaveEditorPreference &&
+    message.shouldSaveEditorPreference == true
+  ) {
+    if (message.editorPreference) {
+      util.saveEditorPreference(message.editorPreference);
+    } else {
+      throw new Error("Missing Editor Preference.");
+    }
+  }
+
   switch (message.module) {
     case "Init":
       init.init();
@@ -99,7 +110,6 @@ figma.ui.onmessage = (message: Message) => {
 
 // Function to execute before the plugin is closed
 const handlePluginClose = () => {
-
   const message: ExternalMessage = {
     module: "VirtualProfile",
     direction: "Outer",

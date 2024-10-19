@@ -22,7 +22,8 @@ export interface MessageShortcut extends Message {
   action: ShortcutAction;
 }
 export interface MessageShortcutGenerateIconTemplate extends MessageShortcut {
-  system: number;
+  innerFrame: number;
+  outerFrame: number;
   quantity: number;
 }
 export interface MessageShortcutUpdateMagicalObjectSingle

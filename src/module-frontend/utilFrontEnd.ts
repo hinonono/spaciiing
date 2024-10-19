@@ -53,3 +53,8 @@ export const resolveContextMenuPos = (
     top: menuY,
   };
 };
+
+
+export const isStringNumber = (str: string): boolean => {
+  return !isNaN(Number(str));
+}

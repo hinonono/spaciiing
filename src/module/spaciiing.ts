@@ -23,11 +23,6 @@ export function useSpacing(message: MessageSpaciiing) {
     return;
   }
 
-  // Save custom spacing value if applicable
-  if (message.shouldSaveEditorPreference && message.editorPreference) {
-    util.saveEditorPreference(message.editorPreference, "Spaciiing");
-  }
-
   if (message.mode === "grid") {
     if (message.gridColumn === undefined) {
       throw new Error("The gridColumn is unspecified.");

@@ -55,6 +55,10 @@ function createEditorPreference(): EditorPreference {
       sectionId: "",
     },
     lorem: loremText.en,
+    iconFrame: {
+      innerFrame: 20,
+      outerFrame: 24,
+    },
   };
 
   return createdEditorPreference;

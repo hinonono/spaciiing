@@ -2,11 +2,7 @@ import * as util from "./util";
 import { MessageLoremGenerator } from "../types/Messages/MessageLoremGenerator";
 
 export async function makeLorem(message: MessageLoremGenerator) {
-  const { length, shouldSaveEditorPreference, editorPreference } = message;
-
-  if (shouldSaveEditorPreference && editorPreference) {
-    util.saveEditorPreference(editorPreference, "LoremGenerator");
-  }
+  const { length } = message;
 
   let textContent: string = util.readEditorPreference().lorem;
 

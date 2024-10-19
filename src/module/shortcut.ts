@@ -293,64 +293,70 @@ function memorizeSelectedNodeId(member: MagicObjectMembers) {
 }
 
 function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
-  const system = message.system;
+  const receivedInnerFrame = message.innerFrame;
+  const receivedOuterFrame = message.outerFrame;
   const quantity = message.quantity;
+
   const viewport = util.getCurrentViewport();
 
+  const outerFrameSize = Math.max(receivedInnerFrame, receivedOuterFrame);
+  const innerFrameSize = Math.min(receivedInnerFrame, receivedOuterFrame);
+
   // Determine inner frame size based on system
-  let innerFrameSize;
-  if (system === 24) {
-    innerFrameSize = 20;
-  } else if (system === 48) {
-    innerFrameSize = 40;
-  } else {
-    console.error("Unsupported system size. Only 24 and 48 are supported.");
-    return;
-  }
+  // let innerFrameSize;
+  // if (system === 24) {
+  //   innerFrameSize = 20;
+  // } else if (system === 48) {
+  //   innerFrameSize = 40;
+  // } else {
+  //   console.error("Unsupported system size. Only 24 and 48 are supported.");
+  //   return;
+  // }
 
   const results = [];
 
   // Generate the components
   for (let i = 0; i < quantity; i++) {
     // Create the outer frame
-    const outerFrame = figma.createFrame();
-    outerFrame.resize(system, system);
-    outerFrame.name = `Outer Frame ${i + 1}`;
-    outerFrame.x = viewport.x;
-    outerFrame.y = viewport.y;
+    const outerFrameNode = figma.createFrame();
+
+    outerFrameNode.resize(outerFrameSize, outerFrameSize);
+    outerFrameNode.name = `Outer Frame ${i + 1}`;
+    outerFrameNode.x = viewport.x;
+    outerFrameNode.y = viewport.y;
 
     // Create the inner frame
-    const innerFrame = figma.createFrame();
-    innerFrame.resize(innerFrameSize, innerFrameSize);
-    innerFrame.name = `CONTENT`;
+    const innerFrameNode = figma.createFrame();
+    innerFrameNode.resize(innerFrameSize, innerFrameSize);
+    innerFrameNode.name = `Container`;
 
     // Center the inner frame within the outer frame
-    innerFrame.x = (outerFrame.width - innerFrame.width) / 2;
-    innerFrame.y = (outerFrame.height - innerFrame.height) / 2;
+    innerFrameNode.x = (outerFrameNode.width - innerFrameNode.width) / 2;
+    innerFrameNode.y = (outerFrameNode.height - innerFrameNode.height) / 2;
 
     // Set constraints for the inner frame to scale on both sides
-    innerFrame.constraints = {
+    innerFrameNode.constraints = {
       horizontal: "SCALE",
       vertical: "SCALE",
     };
 
     // Add the inner frame to the outer frame
-    outerFrame.appendChild(innerFrame);
+    outerFrameNode.appendChild(innerFrameNode);
 
     // Create a component from the outer frame
     const component = figma.createComponent();
-    component.resize(outerFrame.width, outerFrame.height);
-    component.name = `Icon${system}/${i + 1}`;
+    component.resize(outerFrameNode.width, outerFrameNode.height);
+    component.name = `Icon${outerFrameSize}/${i + 1}`;
     component.x = viewport.x;
     component.y = viewport.y;
 
     // Move the outer frame's children to the component
-    while (outerFrame.children.length > 0) {
-      component.appendChild(outerFrame.children[0]);
+    while (outerFrameNode.children.length > 0) {
+      component.appendChild(outerFrameNode.children[0]);
     }
 
     // Remove the empty outer frame
-    outerFrame.remove();
+    outerFrameNode.remove();
 
     results.push(component);
   }
@@ -365,7 +371,14 @@ function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
   const mode: SpacingMode = "horizontal";
   const addAutolayout = false;
 
-  spaciiing.applySpacingToLayers(results, spacing, mode, addAutolayout, false);
+  spaciiing.applySpacingToLayers(
+    results,
+    spacing,
+    mode,
+    addAutolayout,
+    false,
+    5
+  );
 }
 
 async function generateLabelFromObjectFillColor(
