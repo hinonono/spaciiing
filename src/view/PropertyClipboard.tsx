@@ -14,7 +14,12 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   const { t } = useTranslation(["module"]);
 
   // 功能說明彈窗
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const {
+    licenseManagement,
+    setShowCTSubscribe,
+    editorPreference,
+    setEditorPreference,
+  } = useAppContext();
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
@@ -28,11 +33,11 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
 
     const message: MessagePropertyClipboard = {
       action: "setReferenceObject",
-      module: "Memorizer",
+      module: "PropertyClipboard",
       phase: "Actual",
       direction: "Inner",
     };
-    
+
     parent.postMessage(
       {
         pluginMessage: message,

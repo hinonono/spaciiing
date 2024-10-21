@@ -32,10 +32,12 @@ import * as localization from "./module/localization";
 import * as aspectRatioHelper from "./module/aspectRatioHelper";
 import * as resize from "./module/resize";
 import * as styleIntroducer from "./module/styleIntroducer";
+import * as propertyClipboard from "./module/propertyClipboard";
 import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
 import { MessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { MessageRenamer } from "./types/Messages/MessageRenamer";
 import { ExternalMessage } from "./types/Messages/ExternalMessage";
+import { MessagePropertyClipboard } from "./types/Messages/MessagePropertyClipboard";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(360, 480);
@@ -69,6 +71,9 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "Memorizer":
       memorizer.useQuickAction(message as MessageMemorizer);
+      break;
+    case "PropertyClipboard":
+      propertyClipboard.reception(message as MessagePropertyClipboard);
       break;
     case "Shortcut":
       shortcut.executeShortcut(message as MessageShortcut);
