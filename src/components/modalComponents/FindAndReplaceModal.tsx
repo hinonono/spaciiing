@@ -72,7 +72,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
     >
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:findInSelection")} />
-        <div className="width-100 mt-xxsmall">
+        <div className="width-100">
           <textarea
             className="textarea"
             rows={1}
@@ -84,7 +84,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       </div>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:replace")} />
-        <div className="width-100 mt-xxsmall">
+        <div className="width-100">
           <textarea
             className="textarea"
             rows={1}

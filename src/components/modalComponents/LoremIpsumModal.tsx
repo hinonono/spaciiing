@@ -82,7 +82,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:text")} />
         <textarea
-          className="textarea font-size-xlarge"
+          className="textarea"
           rows={5}
           value={editorPreference.lorem}
           onChange={handleLoremChange}

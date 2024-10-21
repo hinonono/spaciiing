@@ -377,9 +377,7 @@ const VariableEditor: React.FC = () => {
         <div className="mt-xsmall">
           <SectionTitle title={t("module:codeEditor")} />
           <div className="width-100">
-            <div className="mt-xxsmall">
               <MonacoCodeEditor code={code} setCode={setCode} />
-            </div>
             {customCodeExecutionResults.length > 0 && (
               <div className="mt-xxsmall custom-checkbox-group scope-group hide-scrollbar-vertical">
                 <ul>

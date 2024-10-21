@@ -199,7 +199,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
           <div className="border-1 padding-16 border-radius-large">
             <div className="grid">
               <div>
-                <SectionTitle title={t("term:widthRatio")} />
+                <SectionTitle title={t("module:widthRatio")} />
                 <textarea
                   className="textarea font-size-xlarge"
                   rows={1}
@@ -209,7 +209,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
                 />
               </div>
               <div>
-                <SectionTitle title={t("term:heightRatio")} />
+                <SectionTitle title={t("module:heightRatio")} />
                 <textarea
                   className="textarea font-size-xlarge"
                   rows={1}
