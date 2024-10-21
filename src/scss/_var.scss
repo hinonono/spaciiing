@@ -1,7 +1,9 @@
 :root {
-    --variable-background: rgba(255, 139, 29, .2);
-    --variable-text-primary: rgba(176, 65, 0, 1);
-    --variable-text-secondary: rgba(176, 65, 0, .6);
+    --variable-background: #fcf2f6;
+    /* L97 S50*/
+    --variable-text-primary: #c2488a;
+    /* L58 S600*/
+
     --tooltip-icon: #7f7f7f;
     --button-disabled: #cacaca;
 
@@ -30,9 +32,11 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --variable-background: rgba(255, 139, 29, .3);
-        --variable-text-primary: rgba(255, 162, 107, 1);
-        --variable-text-secondary: rgba(255, 162, 107, .8);
+        --variable-background: #682f4c;
+        /* L39 S900*/
+        --variable-text-primary: #fce8f1;
+        /* L95 S100*/
+
         --tooltip-icon: #bfbfbf;
         --button-disabled: #656565;
 

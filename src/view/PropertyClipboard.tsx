@@ -59,116 +59,159 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       <div className="content">
         {/* 已記憶 */}
         <div>
-          <SectionTitle title={"Copy property from"} />
-          <div className="flex variable-list border-1 flex flex-justify-center align-items-center">
+          <SectionTitle title={"Copy from"} />
+          <div className="flex variable-list flex flex-justify-center align-items-center">
             <div>
               <span className="note">{t("module:nothingInsideClipboard")}</span>
             </div>
           </div>
-        </div>
-        {/* 長度與寬度 */}
-        <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header">
-            <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {"Dimension"}
-            </div>
-            <div>
-              <FigmaButton
-                title={"Apply"}
-                onClick={() => {}}
-                buttonHeight="small"
-                fontSize="small"
-                buttonType="grain"
-                hasMargin={false}
-              />
-            </div>
+          <div className="variable flex flex-justify-center align-items-center">
+            <span className="text-primary">{"Layer Name"}</span>
           </div>
-          <div className="padding-16 grid border-1-top">
+          <div className="grid mt-xxsmall">
             <FigmaButton
               buttonType="secondary"
-              title={"Width"}
+              title={"Memorize"}
               onClick={() => {}}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
             <FigmaButton
               buttonType="secondary"
-              title={"Height"}
+              title={"Locate"}
               onClick={() => {}}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
           </div>
         </div>
-        {/* 筆畫 */}
-        <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header">
-            <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {"Stroke"}
+        <div className="mt-xsmall">
+          <SectionTitle title={"Paste"} />
+          {/* 長度與寬度 */}
+          <div className="list-view">
+            <div className="list-view-header property-clipboard-header">
+              <div></div>
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {"Size"}
+              </div>
+              <div>
+                <FigmaButton
+                  title={"Apply"}
+                  onClick={() => {}}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
+              </div>
             </div>
-            <div>
+            <div className="padding-16 grid border-1-top">
               <FigmaButton
-                title={"Apply"}
+                buttonType="secondary"
+                title={"Width"}
                 onClick={() => {}}
-                buttonHeight="small"
-                fontSize="small"
-                buttonType="grain"
-                hasMargin={false}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Height"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
               />
             </div>
           </div>
-          <div className="padding-16 grid border-1-top">
-            <FigmaButton
-              buttonType="secondary"
-              title={"Color"}
-              onClick={() => {}}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={"Opacity"}
-              onClick={() => {}}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={"Position"}
-              onClick={() => {}}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={"Weight"}
-              onClick={() => {}}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={"Stroke Style"}
-              onClick={() => {}}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={"Join"}
-              onClick={() => {}}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={"Miter Angle"}
-              onClick={() => {}}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
+          {/* 筆畫 */}
+          <div className="list-view mt-xsmall">
+            <div className="list-view-header property-clipboard-header">
+              <div></div>
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {"Stroke"}
+              </div>
+              <div>
+                <FigmaButton
+                  title={"Apply"}
+                  onClick={() => {}}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
+              </div>
+            </div>
+            <div className="padding-16 grid border-1-top">
+              <FigmaButton
+                buttonType="secondary"
+                title={"Color"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Opacity"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Position"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Weight"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Stroke Style"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Dash"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Gap"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Dash Cap"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Join"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Miter Angle"}
+                onClick={() => {}}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
           </div>
         </div>
       </div>
