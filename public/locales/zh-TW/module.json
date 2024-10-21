@@ -91,8 +91,7 @@
   "heightAbbreviation": "高",
   "nameAbbreviation": "名稱",
   "memorize": "記憶",
-  "width": "寬度",
-  "height": "高度",
+
   "name": "名稱",
   "moduleSpaciiing": "Spaciiing",
   "moduleSpaciiingDesc": "一鍵設定元素之間的間距。",
@@ -156,7 +155,6 @@
   "presetAspectRatio": "預設寬高比",
   "widthRatio": "寬度比",
   "heightRatio": "高度比",
-  "other": "其他",
   "language": "語言",
   "length": "長度",
   "addItem": "新增項目",
@@ -172,5 +170,6 @@
   "innerFrame": "內框架",
   "outerFrame": "外框架",
   "unifyText": "統一文字",
-  "createAutoLayoutIndividually": "個別建立自動佈局"
+  "createAutoLayoutIndividually": "個別建立自動佈局",
+  "copyFrom": "複製自"
 }

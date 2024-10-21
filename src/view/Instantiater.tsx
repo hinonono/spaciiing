@@ -237,7 +237,7 @@ const Instantiater: React.FC = () => {
               <option value="typography">{t("term:typography")}</option>
             )}
             {categoryOptionsCount.other > 1 && (
-              <option value="other">{t("term:other")}</option>
+              <option value="other">{t("term:others")}</option>
             )}
           </select>
           <div className="mt-xxsmall"></div>

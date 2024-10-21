@@ -164,12 +164,12 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
             >
               <SegmentedControl.Option
                 value="width"
-                label="module:width"
+                label="term:width"
                 icon={<SvgHorizontal color="var(--figma-color-text)" />}
               />
               <SegmentedControl.Option
                 value="height"
-                label="module:height"
+                label="term:height"
                 icon={<SvgVertical color="var(--figma-color-text)" />}
               />
             </SegmentedControl>
@@ -199,7 +199,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
           <div className="border-1 padding-16 border-radius-large">
             <div className="grid">
               <div>
-                <SectionTitle title={t("module:widthRatio")} />
+                <SectionTitle title={t("term:widthRatio")} />
                 <textarea
                   className="textarea font-size-xlarge"
                   rows={1}
@@ -209,7 +209,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
                 />
               </div>
               <div>
-                <SectionTitle title={t("module:heightRatio")} />
+                <SectionTitle title={t("term:heightRatio")} />
                 <textarea
                   className="textarea font-size-xlarge"
                   rows={1}

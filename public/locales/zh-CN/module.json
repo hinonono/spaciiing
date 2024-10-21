@@ -91,8 +91,7 @@
   "heightAbbreviation": "高",
   "nameAbbreviation": "名",
   "memorize": "记忆",
-  "width": "宽度",
-  "height": "高度",
+
   "name": "名称",
   "moduleSpaciiing": "间距",
   "moduleSpaciiingDesc": "只需点击一次即可设置元素之间的间距。",
@@ -156,7 +155,6 @@
   "presetAspectRatio": "预设宽高比",
   "widthRatio": "宽比",
   "heightRatio": "高比",
-  "other": "其他",
   "language": "语言",
   "length": "长度",
   "addItem": "添加项目",
@@ -172,5 +170,6 @@
   "innerFrame": "内框架",
   "outerFrame": "外框架",
   "unifyText": "统一文本",
-  "createAutoLayoutIndividually": "单独创建自动布局"
+  "createAutoLayoutIndividually": "单独创建自动布局",
+  "copyFrom": "复制自"
 }

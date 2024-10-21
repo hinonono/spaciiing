@@ -19,7 +19,7 @@ import {
 import { createAutoLayoutIndividually } from "../module-frontend/shortcutFronEnd";
 
 const Shortcut: React.FC = () => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -311,7 +311,7 @@ const Shortcut: React.FC = () => {
               />
             </div>
             <div className="mt-xsmall"></div>
-            <SectionTitle title={t("module:other")} />
+            <SectionTitle title={t("term:otherss")} />
             <div className="grid mt-xxxsmall">
               <FigmaButton
                 buttonType="secondary"

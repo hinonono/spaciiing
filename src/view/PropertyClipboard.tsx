@@ -11,7 +11,7 @@ interface PropertyClipboardProps {}
 
 const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   // 多語言化
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
   const { licenseManagement, setShowCTSubscribe, editorPreference } =
@@ -86,7 +86,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       <div className="content">
         {/* 已記憶 */}
         <div>
-          <SectionTitle title={"Copy from"} />
+          <SectionTitle title={t("module:copyFrom")} />
           {editorPreference.referenceObject ? (
             <div className="variable flex flex-justify-center align-items-center">
               <span className="text-primary">
@@ -105,7 +105,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           <div className="mt-xxsmall">
             <FigmaButton
               buttonType="secondary"
-              title={"Memorize"}
+              title={t("module:memorize")}
               onClick={setReferenceObject}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
@@ -113,17 +113,17 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           </div>
         </div>
         <div className="mt-xsmall">
-          <SectionTitle title={"Paste"} />
+          <SectionTitle title={t("term:paste")} />
           {/* 長度與寬度 */}
           <div className="list-view">
             <div className="list-view-header property-clipboard-header">
               <div></div>
               <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {"Size"}
+                {t("term:size")}
               </div>
               <div>
                 <FigmaButton
-                  title={"Apply"}
+                  title={t("module:apply")}
                   onClick={() => {
                     pastePropertyToObject(["HEIGHT", "WIDTH"]);
                   }}
@@ -137,7 +137,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="padding-16 grid border-1-top">
               <FigmaButton
                 buttonType="secondary"
-                title={"Width"}
+                title={t("term:width")}
                 onClick={() => {
                   pastePropertyToObject(["WIDTH"]);
                 }}
@@ -146,7 +146,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Height"}
+                title={t("term:height")}
                 onClick={() => {
                   pastePropertyToObject(["HEIGHT"]);
                 }}
@@ -160,11 +160,11 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="list-view-header property-clipboard-header">
               <div></div>
               <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {"Stroke"}
+                {t("term:stroke")}
               </div>
               <div>
                 <FigmaButton
-                  title={"Apply"}
+                  title={t("module:apply")}
                   onClick={() => {
                     pastePropertyToObject([
                       "STROKES",
@@ -188,7 +188,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="padding-16 grid border-1-top">
               <FigmaButton
                 buttonType="secondary"
-                title={"Color"}
+                title={t("term:color")}
                 onClick={() => {
                   pastePropertyToObject(["STROKES"]);
                 }}
@@ -197,7 +197,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Position"}
+                title={t("term:position")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_ALIGN"]);
                 }}
@@ -206,7 +206,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Weight"}
+                title={t("term:strokeWeight")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_WEIGHT"]);
                 }}
@@ -215,7 +215,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Stroke Style"}
+                title={t("term:strokeStyle")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_STYLE"]);
                 }}
@@ -224,7 +224,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Dash"}
+                title={t("term:strokeDash")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_DASH"]);
                 }}
@@ -233,7 +233,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Gap"}
+                title={t("term:strokeGap")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_GAP"]);
                 }}
@@ -242,7 +242,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Dash Cap"}
+                title={t("term:dashCap")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_CAP"]);
                 }}
@@ -251,7 +251,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Join"}
+                title={t("term:join")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_JOIN"]);
                 }}
@@ -260,7 +260,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Miter Angle"}
+                title={t("term:miterAngle")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_MITER_LIMIT"]);
                 }}
@@ -274,14 +274,14 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="list-view-header property-clipboard-header">
               <div></div>
               <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {"Others"}
+                {t("term:others")}
               </div>
               <div></div>
             </div>
             <div className="padding-16 grid border-1-top">
               <FigmaButton
                 buttonType="secondary"
-                title={"Export Settings"}
+                title={t("term:exportSettings")}
                 onClick={() => {
                   pastePropertyToObject(["EXPORT_SETTINGS"]);
                 }}

@@ -91,8 +91,7 @@
   "heightAbbreviation": "H",
   "nameAbbreviation": "NAME",
   "memorize": "Memorize",
-  "width": "Width",
-  "height": "Height",
+
   "name": "Name",
   "moduleSpaciiing": "Spaciiing",
   "moduleSpaciiingDesc": "Set spacing between elements with just one click.",
@@ -156,7 +155,6 @@
   "presetAspectRatio": "Preset aspect ratio",
   "widthRatio": "Width Ratio",
   "heightRatio": "Height Ratio",
-  "other": "Other",
   "language": "Language",
   "length": "Length",
   "addItem": "Add Item",
@@ -172,5 +170,6 @@
   "innerFrame": "Inner Frame",
   "outerFrame": "Outer Frame",
   "unifyText": "Unify Text",
-  "createAutoLayoutIndividually": "Create auto layout individually"
+  "createAutoLayoutIndividually": "Create auto layout individually",
+  "copyFrom": "Copy from"
 }
