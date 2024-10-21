@@ -311,7 +311,7 @@ const Shortcut: React.FC = () => {
               />
             </div>
             <div className="mt-xsmall"></div>
-            <SectionTitle title={t("term:otherss")} />
+            <SectionTitle title={t("term:others")} />
             <div className="grid mt-xxxsmall">
               <FigmaButton
                 buttonType="secondary"
