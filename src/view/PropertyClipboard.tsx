@@ -269,6 +269,27 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
             </div>
           </div>
+          {/* 其他 */}
+          <div className="list-view mt-xsmall">
+            <div className="list-view-header property-clipboard-header">
+              <div></div>
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {"Others"}
+              </div>
+              <div></div>
+            </div>
+            <div className="padding-16 grid border-1-top">
+              <FigmaButton
+                buttonType="secondary"
+                title={"Export Settings"}
+                onClick={() => {
+                  pastePropertyToObject(["EXPORT_SETTINGS"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

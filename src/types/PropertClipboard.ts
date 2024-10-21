@@ -9,4 +9,5 @@ export type PropertyClipboardSupportedProperty =
   | "STROKE_GAP"
   | "STROKE_CAP"
   | "STROKE_JOIN"
-  | "STROKE_MITER_LIMIT";
+  | "STROKE_MITER_LIMIT"
+  | "EXPORT_SETTINGS";

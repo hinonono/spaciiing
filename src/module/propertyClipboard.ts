@@ -125,6 +125,9 @@ function pastePropertyToObject(
     case "STROKE_MITER_LIMIT":
       setSelectionStrokeMiterLimit(referenceObject);
       break;
+    case "EXPORT_SETTINGS":
+      setSelectionExportSettings(referenceObject);
+      break;
     default:
       figma.notify(`Unsupported property type: ${property}`);
       break;
@@ -241,7 +244,7 @@ function setSelectionStrokeStyle(referenceObject: CopyPastableNode) {
       object.dashPattern = referenceObject.dashPattern;
     } else {
       figma.notify(
-        `❌ Object of type ${object.type} does not support stroke alignment.`
+        `❌ Object of type ${object.type} does not support stroke style.`
       );
     }
   });
@@ -276,7 +279,7 @@ function setSelectionStrokeDash(referenceObject: CopyPastableNode) {
       }
     } else {
       figma.notify(
-        `❌ Object of type ${object.type} does not support stroke alignment.`
+        `❌ Object of type ${object.type} does not support stroke dash.`
       );
     }
   });
@@ -311,7 +314,7 @@ function setSelectionStrokeGap(referenceObject: CopyPastableNode) {
       }
     } else {
       figma.notify(
-        `❌ Object of type ${object.type} does not support stroke alignment.`
+        `❌ Object of type ${object.type} does not support stroke gap.`
       );
     }
   });
@@ -373,6 +376,23 @@ function setSelectionStrokeMiterLimit(referenceObject: CopyPastableNode) {
       figma.notify(
         `❌ Object of type ${object.type} does not support stroke miter limit.`
       );
+    }
+  });
+}
+
+function setSelectionExportSettings(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("exportSettings" in object) {
+      object.exportSettings = referenceObject.exportSettings;
+    } else {
+      figma.notify(`❌ Object does not support export settings.`);
     }
   });
 }
