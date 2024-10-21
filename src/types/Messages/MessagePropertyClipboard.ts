@@ -8,5 +8,4 @@ export interface MessagePropertyClipboard extends Message {
 
 export type PropertyClipboardAction =
   | "setReferenceObject"
-  | "locateReferenceObject"
   | "pastePropertyToObject";

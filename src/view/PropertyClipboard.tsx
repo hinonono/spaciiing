@@ -42,21 +42,29 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
     );
   };
 
-  const locateReferenceObject = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
-    }
-  };
-
   // 貼上指定的屬性至所選擇的物件
   const pastePropertyToObject = (
-    property: PropertyClipboardSupportedProperty
+    property: PropertyClipboardSupportedProperty[]
   ) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
+
+    const message: MessagePropertyClipboard = {
+      action: "pastePropertyToObject",
+      module: "PropertyClipboard",
+      phase: "Actual",
+      direction: "Inner",
+      property: property,
+    };
+
+    parent.postMessage(
+      {
+        pluginMessage: message,
+      },
+      "*"
+    );
   };
 
   return (
@@ -94,15 +102,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               </div>
             </div>
           )}
-          <div className="grid mt-xxsmall">
-            <FigmaButton
-              buttonType="secondary"
-              title={"Locate"}
-              onClick={locateReferenceObject}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-              disabled={editorPreference.referenceObject ? false : true}
-            />
+          <div className="mt-xxsmall">
             <FigmaButton
               buttonType="secondary"
               title={"Memorize"}
@@ -125,7 +125,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 <FigmaButton
                   title={"Apply"}
                   onClick={() => {
-                    pastePropertyToObject("ALL_SIZE");
+                    pastePropertyToObject(["HEIGHT", "WIDTH"]);
                   }}
                   buttonHeight="small"
                   fontSize="small"
@@ -139,7 +139,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Width"}
                 onClick={() => {
-                  pastePropertyToObject("WIDTH");
+                  pastePropertyToObject(["WIDTH"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -148,7 +148,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Height"}
                 onClick={() => {
-                  pastePropertyToObject("HEIGHT");
+                  pastePropertyToObject(["HEIGHT"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
