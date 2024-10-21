@@ -4,6 +4,8 @@ import { useAppContext } from "../AppProvider";
 import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
+import { MessagePropertyClipboard } from "../types/Messages/MessagePropertyClipboard";
 
 interface PropertyClipboardProps {}
 
@@ -18,11 +20,25 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 記憶所選取的物件作為參考目標
-  const memorizeSelectedObject = () => {
+  const setReferenceObject = () => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
     }
+
+    const message: MessagePropertyClipboard = {
+      action: "setReferenceObject",
+      module: "Memorizer",
+      phase: "Actual",
+      direction: "Inner",
+    };
+    
+    parent.postMessage(
+      {
+        pluginMessage: message,
+      },
+      "*"
+    );
   };
 
   const locateReferenceObject = () => {
@@ -33,7 +49,9 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   };
 
   // 貼上指定的屬性至所選擇的物件
-  const pastePropertyToSelectedObject = () => {
+  const pastePropertyToObject = (
+    property: PropertyClipboardSupportedProperty
+  ) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
@@ -71,15 +89,15 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           <div className="grid mt-xxsmall">
             <FigmaButton
               buttonType="secondary"
-              title={"Memorize"}
-              onClick={() => {}}
+              title={"Locate"}
+              onClick={locateReferenceObject}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
             <FigmaButton
               buttonType="secondary"
-              title={"Locate"}
-              onClick={() => {}}
+              title={"Memorize"}
+              onClick={setReferenceObject}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
@@ -97,7 +115,9 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               <div>
                 <FigmaButton
                   title={"Apply"}
-                  onClick={() => {}}
+                  onClick={() => {
+                    pastePropertyToObject("ALL_SIZE");
+                  }}
                   buttonHeight="small"
                   fontSize="small"
                   buttonType="grain"
@@ -109,14 +129,18 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               <FigmaButton
                 buttonType="secondary"
                 title={"Width"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject("WIDTH");
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
               <FigmaButton
                 buttonType="secondary"
                 title={"Height"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject("HEIGHT");
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />

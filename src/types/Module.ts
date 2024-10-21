@@ -15,4 +15,5 @@ export type Module =
   | "LicenseManagement"
   | "AspectRatioHelper"
   | "Resize"
-  | "StyleIntroducer";
+  | "StyleIntroducer"
+  | "PropertyClipboard";

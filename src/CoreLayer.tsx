@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<Module>("Memorizer");
+  const [activeTab, setActiveTab] = useState<Module>("PropertyClipboard");
   const [prevTab, setPrevTab] = useState<Module | null>(null);
 
   const appContext = useAppContext();
