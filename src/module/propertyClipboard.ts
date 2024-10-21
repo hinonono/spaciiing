@@ -107,6 +107,24 @@ function pastePropertyToObject(
     case "STROKE_WEIGHT":
       setSelectionStrokeWeight(referenceObject);
       break;
+    case "STROKE_STYLE":
+      setSelectionStrokeStyle(referenceObject);
+      break;
+    case "STROKE_DASH":
+      setSelectionStrokeDash(referenceObject);
+      break;
+    case "STROKE_GAP":
+      setSelectionStrokeGap(referenceObject);
+      break;
+    case "STROKE_CAP":
+      setSelectionStrokeCap(referenceObject);
+      break;
+    case "STROKE_JOIN":
+      setSelectionStrokeJoin(referenceObject);
+      break;
+    case "STROKE_MITER_LIMIT":
+      setSelectionStrokeMiterLimit(referenceObject);
+      break;
     default:
       figma.notify(`Unsupported property type: ${property}`);
       break;
@@ -204,6 +222,156 @@ function setSelectionStrokeAlign(referenceObject: CopyPastableNode) {
     } else {
       figma.notify(
         `❌ Object of type ${object.type} does not support stroke alignment.`
+      );
+    }
+  });
+}
+
+function setSelectionStrokeStyle(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("dashPattern" in object) {
+      // Check if the object has strokeAlign property
+      object.dashPattern = referenceObject.dashPattern;
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support stroke alignment.`
+      );
+    }
+  });
+}
+
+function setSelectionStrokeDash(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("dashPattern" in object) {
+      // Check if the object has strokeAlign property
+      if (referenceObject.dashPattern.length === 2) {
+        if (object.dashPattern.length === 2) {
+          const objectGap = object.dashPattern[1];
+          const referenceDash = referenceObject.dashPattern[0];
+
+          object.dashPattern = [referenceDash, objectGap];
+        } else {
+          figma.notify(
+            `⚠️ Some object uses custom dash and gap value, please apply "Stroke Style" instead.`
+          );
+        }
+      } else {
+        figma.notify(
+          `⚠️ The reference object uses custom dash and gap value, please apply "Stroke Style" instead.`
+        );
+      }
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support stroke alignment.`
+      );
+    }
+  });
+}
+
+function setSelectionStrokeGap(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("dashPattern" in object) {
+      // Check if the object has strokeAlign property
+      if (referenceObject.dashPattern.length === 2) {
+        if (object.dashPattern.length === 2) {
+          const objectDash = object.dashPattern[0];
+          const referenceGap = referenceObject.dashPattern[1];
+
+          object.dashPattern = [objectDash, referenceGap];
+        } else {
+          figma.notify(
+            `⚠️ Some object uses custom dash and gap value, please apply "Stroke Style" instead.`
+          );
+        }
+      } else {
+        figma.notify(
+          `⚠️ The reference object uses custom dash and gap value, please apply "Stroke Style" instead.`
+        );
+      }
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support stroke alignment.`
+      );
+    }
+  });
+}
+
+function setSelectionStrokeCap(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("strokeCap" in object) {
+      // Check if the object has strokeCap property
+      object.strokeCap = referenceObject.strokeCap;
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support stroke cap.`
+      );
+    }
+  });
+}
+
+function setSelectionStrokeJoin(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("strokeJoin" in object) {
+      // Check if the object has strokeJoin property
+      object.strokeJoin = referenceObject.strokeJoin;
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support stroke join.`
+      );
+    }
+  });
+}
+
+function setSelectionStrokeMiterLimit(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("strokeMiterLimit" in object) {
+      // Check if the object has strokeMiterLimit property
+      object.strokeMiterLimit = referenceObject.strokeMiterLimit;
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support stroke miter limit.`
       );
     }
   });

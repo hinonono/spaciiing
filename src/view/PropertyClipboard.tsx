@@ -165,7 +165,19 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               <div>
                 <FigmaButton
                   title={"Apply"}
-                  onClick={() => {}}
+                  onClick={() => {
+                    pastePropertyToObject([
+                      "STROKES",
+                      "STROKE_ALIGN",
+                      "STROKE_WEIGHT",
+                      "STROKE_STYLE",
+                      "STROKE_DASH",
+                      "STROKE_GAP",
+                      "STROKE_CAP",
+                      "STROKE_JOIN",
+                      "STROKE_MITER_LIMIT",
+                    ]);
+                  }}
                   buttonHeight="small"
                   fontSize="small"
                   buttonType="grain"
@@ -204,42 +216,54 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               <FigmaButton
                 buttonType="secondary"
                 title={"Stroke Style"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKE_STYLE"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
               <FigmaButton
                 buttonType="secondary"
                 title={"Dash"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKE_DASH"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
               <FigmaButton
                 buttonType="secondary"
                 title={"Gap"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKE_GAP"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
               <FigmaButton
                 buttonType="secondary"
                 title={"Dash Cap"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKE_CAP"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
               <FigmaButton
                 buttonType="secondary"
                 title={"Join"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKE_JOIN"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
               <FigmaButton
                 buttonType="secondary"
                 title={"Miter Angle"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKE_MITER_LIMIT"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
