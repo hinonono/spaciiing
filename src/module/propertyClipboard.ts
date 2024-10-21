@@ -98,6 +98,15 @@ function pastePropertyToObject(
     case "HEIGHT":
       setSelectionHeight(referenceObject);
       break;
+    case "STROKES":
+      setSelectionStrokes(referenceObject);
+      break;
+    case "STROKE_ALIGN":
+      setSelectionStrokeAlign(referenceObject);
+      break;
+    case "STROKE_WEIGHT":
+      setSelectionStrokeWeight(referenceObject);
+      break;
     default:
       figma.notify(`Unsupported property type: ${property}`);
       break;
@@ -136,6 +145,66 @@ function setSelectionHeight(referenceObject: CopyPastableNode) {
       object.resize(object.width, referenceObject.height);
     } else {
       figma.notify(`❌ Object of type ${object.type} cannot be resized.`);
+    }
+  });
+}
+
+function setSelectionStrokes(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("strokes" in object) {
+      // Check if the object has strokes property
+      object.strokes = referenceObject.strokes;
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support strokes.`
+      );
+    }
+  });
+}
+
+function setSelectionStrokeWeight(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("strokeWeight" in object) {
+      // Check if the object has strokeWeight property
+      object.strokeWeight = referenceObject.strokeWeight;
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support stroke weight.`
+      );
+    }
+  });
+}
+
+function setSelectionStrokeAlign(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("strokeAlign" in object) {
+      // Check if the object has strokeAlign property
+      object.strokeAlign = referenceObject.strokeAlign;
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support stroke alignment.`
+      );
     }
   });
 }

@@ -177,28 +177,27 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               <FigmaButton
                 buttonType="secondary"
                 title={"Color"}
-                onClick={() => {}}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={"Opacity"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKES"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
               <FigmaButton
                 buttonType="secondary"
                 title={"Position"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKE_ALIGN"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
               <FigmaButton
                 buttonType="secondary"
                 title={"Weight"}
-                onClick={() => {}}
+                onClick={() => {
+                  pastePropertyToObject(["STROKE_WEIGHT"]);
+                }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />

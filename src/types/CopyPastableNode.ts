@@ -3,7 +3,6 @@ export type CopyPastableNode =
   | ComponentSetNode
   | EllipseNode
   | FrameNode
-  | GroupNode
   | InstanceNode
   | LineNode
   | PolygonNode
