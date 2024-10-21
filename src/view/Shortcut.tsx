@@ -152,64 +152,75 @@ const Shortcut: React.FC = () => {
       />
       <div className="content">
         <div>
-          <div>
-            <h3>{t("module:frame")}</h3>
-            <div className="border-1 padding-16 border-radius-large">
-              <div className="grid mt-xxxsmall">
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:createShadowOverlay")}
-                  id={"shortcut-overlay"}
-                  onClick={() => {
-                    applyShortcut("makeFrameOverlay");
-                  }}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:alignToFrameEdge")}
-                  id={"shortcut-framer"}
-                  onClick={handleOpenFramerModal}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
+          {/* 框 */}
+          <div className="list-view mt-xsmall">
+            <div className="list-view-header flex flex-justify-center">
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {t("module:frame")}
               </div>
             </div>
-          </div>
-          <div className="mt-small">
-            <h3>{t("module:text")}</h3>
-            <div className="border-1 padding-16 border-radius-large">
-              <div className="grid mt-xxxsmall">
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:findAndReplace")}
-                  onClick={handleOpenFindAndReplaceModal}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:createTextStyleFromSelection")}
-                  onClick={() => {
-                    applyShortcut("convertSelectionToTextStyles");
-                  }}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:unifyText")}
-                  onClick={handleOpenUnifyTextModal}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-              </div>
+            <div className="padding-16 grid border-1-top">
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:createShadowOverlay")}
+                id={"shortcut-overlay"}
+                onClick={() => {
+                  applyShortcut("makeFrameOverlay");
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:alignToFrameEdge")}
+                id={"shortcut-framer"}
+                onClick={handleOpenFramerModal}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
             </div>
           </div>
-          <div className="mt-small">
-            <h3>{t("module:generate")}</h3>
-            <div className="border-1 padding-16 border-radius-large">
+          {/* 文字 */}
+          <div className="list-view mt-xsmall">
+            <div className="list-view-header flex flex-justify-center">
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {t("module:text")}
+              </div>
+            </div>
+            <div className="padding-16 grid border-1-top">
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:findAndReplace")}
+                onClick={handleOpenFindAndReplaceModal}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:createTextStyleFromSelection")}
+                onClick={() => {
+                  applyShortcut("convertSelectionToTextStyles");
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:unifyText")}
+                onClick={handleOpenUnifyTextModal}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
+          </div>
+          {/* 生成 */}
+          <div className="list-view mt-xsmall">
+            <div className="list-view-header flex flex-justify-center">
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {t("module:generate")}
+              </div>
+            </div>
+            <div className="padding-16 border-1-top">
               <SectionTitle
                 title={t("module:fileOrganizingObject")}
                 actionTitle={t("module:setting")}

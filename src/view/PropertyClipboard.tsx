@@ -25,6 +25,13 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
     }
   };
 
+  const locateReferenceObject = () => {
+    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+      setShowCTSubscribe(true);
+      return;
+    }
+  };
+
   // 貼上指定的屬性至所選擇的物件
   const pastePropertyToSelectedObject = () => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {

@@ -13,6 +13,7 @@
 @import "./components/tooltip";
 @import "./components/tab-bar";
 @import "./components/free-trial-graph";
+@import "./components/list-view";
 
 h2 {
     font-size: 1.4rem;
@@ -32,6 +33,10 @@ h2 {
 
 .margin-0 {
     margin: 0;
+}
+
+.bg-color-secondary {
+    background-color: var(--figma-color-bg-secondary);
 }
 
 .scope-group {

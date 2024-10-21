@@ -616,6 +616,17 @@
   color: var(--figma-color-text-secondary);
 }
 
+.list-view {
+  border-radius: var(--cy-border-radius-large);
+  border: 1px solid var(--cy-border-light);
+  overflow: hidden;
+}
+.list-view-header {
+  padding: 8px;
+  min-height: 48px;
+  background-color: var(--figma-color-bg-secondary);
+}
+
 h2 {
   font-size: 1.4rem;
 }
@@ -634,6 +645,10 @@ h2 {
 
 .margin-0 {
   margin: 0;
+}
+
+.bg-color-secondary {
+  background-color: var(--figma-color-bg-secondary);
 }
 
 .scope-group {
