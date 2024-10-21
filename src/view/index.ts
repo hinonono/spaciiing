@@ -1,5 +1,4 @@
 export { default as Spaciiing } from "./Spaciiing";
-export { default as Memorizer } from "./Memorizer";
 export { default as Renamer } from "./Renamer";
 export { default as Instantiater } from "./Instantiater";
 export { default as Shortcut } from "./Shortcut";

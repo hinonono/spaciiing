@@ -2,7 +2,6 @@ export type Module =
   | "Init"
   | "Localization"
   | "Spaciiing"
-  | "Memorizer"
   | "Shortcut"
   | "Framer"
   | "LoremGenerator"

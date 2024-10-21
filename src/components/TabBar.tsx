@@ -16,7 +16,6 @@ import {
 import TabButton from "./TabButton";
 import {
   Instantiater,
-  Memorizer,
   Renamer,
   SelectionFilter,
   Setting,

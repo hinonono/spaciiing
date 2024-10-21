@@ -33,7 +33,7 @@ function activeTabController(activeTab: Module) {
     case "Spaciiing":
       // Handle Spaciiing case
       break;
-    case "Memorizer":
+    case "PropertyClipboard":
       // Handle Memorizer case
       break;
     case "Shortcut":
@@ -104,8 +104,8 @@ function tabWillEndController(
         // Do something when leaving Spaciiing tab
       }
       break;
-    case "Memorizer":
-      if (activeTab !== "Memorizer") {
+    case "PropertyClipboard":
+      if (activeTab !== "PropertyClipboard") {
         // Do something when leaving Memorizer tab
       }
       break;

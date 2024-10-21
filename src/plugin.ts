@@ -10,7 +10,6 @@ import { MessageVariableEditor } from "./types/Messages/MessageVariableEditor";
 import { MessageInstantiater } from "./types/Messages/MessageInstantiater";
 import { MessageLoremGenerator } from "./types/Messages/MessageLoremGenerator";
 import { MessageFramer } from "./types/Messages/MessageFramer";
-import { MessageMemorizer } from "./types/Messages/MessageMemorizer";
 import { MessageSpaciiing } from "./types/Messages/MessageSpaciiing";
 import { MessageShortcut } from "./types/Messages/MessageShortcut";
 
@@ -18,7 +17,6 @@ import { MessageShortcut } from "./types/Messages/MessageShortcut";
 import * as init from "./module/init";
 import * as spaciiing from "./module/spaciiing";
 import * as framer from "./module/framer";
-import * as memorizer from "./module/memorizer";
 import * as shortcut from "./module/shortcut";
 import * as lorem from "./module/loremGenerator";
 import * as instantiater from "./module/instantiater";
@@ -68,9 +66,6 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "Framer":
       framer.useEqual(message as MessageFramer);
-      break;
-    case "Memorizer":
-      memorizer.useQuickAction(message as MessageMemorizer);
       break;
     case "PropertyClipboard":
       propertyClipboard.reception(message as MessagePropertyClipboard);

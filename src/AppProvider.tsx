@@ -14,19 +14,6 @@ export interface AppContextType {
   editorPreference: EditorPreference;
   setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;
 
-  // V20：部分舊的屬性即將統一被editor preference物件取代
-  // lastCustomSpacing: string;
-  // setLastCustomSpacing: React.Dispatch<React.SetStateAction<string>>;
-  memorizedObjectWidth: number | undefined;
-  setMemorizedObjectWidth: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-  memorizedObjectHeight: number | undefined;
-  setMemorizedObjectHeight: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-  memorizedObjectName: string;
-  setMemorizedObjectName: React.Dispatch<React.SetStateAction<string>>;
   variableCollectionList: ExternalVariableCollection[];
   setVariableCollectionList: React.Dispatch<
     React.SetStateAction<ExternalVariableCollection[]>
@@ -100,10 +87,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   });
 
   // 模組用
-  // const [lastCustomSpacing, setLastCustomSpacing] = useState<string>("");
-  const [memorizedObjectWidth, setMemorizedObjectWidth] = useState<number>();
-  const [memorizedObjectHeight, setMemorizedObjectHeight] = useState<number>();
-  const [memorizedObjectName, setMemorizedObjectName] = useState<string>("");
+
   const [variableCollectionList, setVariableCollectionList] = useState<
     ExternalVariableCollection[]
   >([]);
@@ -128,12 +112,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       value={{
         editorPreference,
         setEditorPreference,
-        memorizedObjectWidth,
-        setMemorizedObjectWidth,
-        memorizedObjectHeight,
-        setMemorizedObjectHeight,
-        memorizedObjectName,
-        setMemorizedObjectName,
         variableCollectionList,
         setVariableCollectionList,
         variableCollectionModes,
