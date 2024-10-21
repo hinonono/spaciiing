@@ -26,6 +26,7 @@ import {
   VirtualProfile,
   AspectRatioHelper,
   StyleIntroducer,
+  PropertyClipboard
 } from "../view";
 import { useAppContext } from "../AppProvider";
 import SaleBannerWrapper from "./SaleBannerWrapper";
@@ -112,7 +113,7 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
       case "VariableEditor":
         return <VariableEditor />;
       case "Memorizer":
-        return <Memorizer />;
+        return <PropertyClipboard />;
       case "Renamer":
         return <Renamer />;
       case "AspectRatioHelper":

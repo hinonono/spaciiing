@@ -9,3 +9,4 @@ export { default as Setting } from "./Setting";
 export { default as SelectionFilter } from "./SelectionFilter";
 export { default as AspectRatioHelper } from "./AspectRatioHelper";
 export { default as StyleIntroducer } from "./StyleIntroducer";
+export { default as PropertyClipboard } from "./PropertyClipboard";
