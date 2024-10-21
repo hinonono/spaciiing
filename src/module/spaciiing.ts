@@ -95,9 +95,20 @@ export function applySpacingToLayers(
       }
 
       if (currentColumn === 1 && currentRow > 0) {
+        // Find the object with the largest height in the previous row
+        let maxHeight = 0;
+        for (let j = i - column; j < i; j++) {
+          const previousRowLayer = layers[j];
+          const previousRowLayerBounds = previousRowLayer.absoluteBoundingBox;
+          if (
+            previousRowLayerBounds &&
+            previousRowLayerBounds.height > maxHeight
+          ) {
+            maxHeight = previousRowLayerBounds.height;
+          }
+        }
         // Position the first item in the new row
-        const previousRowLayer = layers[i - column];
-        currentLayer.y = previousRowLayer.y + previousRowLayer.height + spacing;
+        currentLayer.y = layers[i - column].y + maxHeight + spacing;
         currentLayer.x = layers[0].x; // Align with the first column
       } else if (currentColumn > 1) {
         // Position subsequent items in the current row
