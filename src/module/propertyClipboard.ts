@@ -18,7 +18,7 @@ function setReferenceObject() {
   const selection = util.getCurrentSelection();
 
   if (selection.length !== 1) {
-    figma.notify("Please select exactly one object.");
+    figma.notify("❌ Please select exactly one object.");
     return;
   }
 

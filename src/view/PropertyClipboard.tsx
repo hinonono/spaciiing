@@ -14,12 +14,8 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   const { t } = useTranslation(["module"]);
 
   // 功能說明彈窗
-  const {
-    licenseManagement,
-    setShowCTSubscribe,
-    editorPreference,
-    setEditorPreference,
-  } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, editorPreference } =
+    useAppContext();
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
@@ -83,14 +79,21 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         {/* 已記憶 */}
         <div>
           <SectionTitle title={"Copy from"} />
-          <div className="flex variable-list flex flex-justify-center align-items-center">
-            <div>
-              <span className="note">{t("module:nothingInsideClipboard")}</span>
+          {editorPreference.referenceObject ? (
+            <div className="variable flex flex-justify-center align-items-center">
+              <span className="text-primary">
+                {`${editorPreference.referenceObject.name} (ID: ${editorPreference.referenceObject.id})`}
+              </span>
             </div>
-          </div>
-          <div className="variable flex flex-justify-center align-items-center">
-            <span className="text-primary">{"Layer Name"}</span>
-          </div>
+          ) : (
+            <div className="flex variable-list flex flex-justify-center align-items-center">
+              <div>
+                <span className="note">
+                  {t("module:nothingInsideClipboard")}
+                </span>
+              </div>
+            </div>
+          )}
           <div className="grid mt-xxsmall">
             <FigmaButton
               buttonType="secondary"
@@ -98,6 +101,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               onClick={locateReferenceObject}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
+              disabled={editorPreference.referenceObject ? false : true}
             />
             <FigmaButton
               buttonType="secondary"
