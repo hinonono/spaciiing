@@ -87,11 +87,7 @@
   "modulePropertyClipboard": "屬性剪貼簿",
   "modulePropertyClipboardDesc": "記憶所選對象的特定屬性，然後將其套用到另一個對象（或多個對象）上。",
   "nothingInsideClipboard": "剪貼簿中沒有內容。",
-  "widthAbbreviation": "寬",
-  "heightAbbreviation": "高",
-  "nameAbbreviation": "名稱",
   "memorize": "記憶",
-
   "name": "名稱",
   "moduleSpaciiing": "Spaciiing",
   "moduleSpaciiingDesc": "一鍵設定元素之間的間距。",

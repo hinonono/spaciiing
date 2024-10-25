@@ -87,11 +87,7 @@
   "modulePropertyClipboard": "属性剪贴板",
   "modulePropertyClipboardDesc": "记住选择对象的特定属性，然后将其应用到另一对象。",
   "nothingInsideClipboard": "剪贴板内没有内容。",
-  "widthAbbreviation": "宽",
-  "heightAbbreviation": "高",
-  "nameAbbreviation": "名",
   "memorize": "记忆",
-
   "name": "名称",
   "moduleSpaciiing": "间距",
   "moduleSpaciiingDesc": "只需点击一次即可设置元素之间的间距。",
