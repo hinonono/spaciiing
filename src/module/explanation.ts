@@ -433,15 +433,12 @@ export function createExplanationTextPropertyItem(
   );
   wrapper.name = "Text Property Item";
   wrapper.layoutGrow = 1;
-  wrapper.paddingTop = 4;
-  wrapper.paddingBottom = 4;
-
-  // 筆畫
-  wrapper.strokes = [{ type: "SOLID", color: semanticTokens.dividerColor }];
-  wrapper.strokeTopWeight = 0;
-  wrapper.strokeBottomWeight = 1;
-  wrapper.strokeLeftWeight = 0;
-  wrapper.strokeRightWeight = 0;
+  wrapper.verticalPadding = 6;
+  wrapper.horizontalPadding = 12;
+  wrapper.fills = [
+    { type: "SOLID", color: semanticTokens.background.secondary },
+  ];
+  wrapper.cornerRadius = semanticTokens.cornerRadius.xsmall;
 
   // Autolayout 內元素排版
   titleNode.layoutSizingHorizontal = "FILL";
@@ -583,19 +580,19 @@ function createTextPropertiesWrappers(
 
   const tempWrapper1 = createAutolayoutFrame(
     [fontNameNode, fontSizeNode],
-    semanticTokens.spacing.base,
+    semanticTokens.spacing.xsmall,
     "HORIZONTAL"
   );
 
   const tempWrapper2 = createAutolayoutFrame(
     [lineHeightNode, letterSpacingNode],
-    semanticTokens.spacing.base,
+    semanticTokens.spacing.xsmall,
     "HORIZONTAL"
   );
 
   const tempWrapper3 = createAutolayoutFrame(
     [paragraphSpacingNode, textCaseNode],
-    semanticTokens.spacing.base,
+    semanticTokens.spacing.xsmall,
     "HORIZONTAL"
   );
 
