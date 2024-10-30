@@ -164,5 +164,6 @@ export const semanticTokens = {
     base: 16,
     large: 24,
     xlarge: 32,
+    infinite: 999,
   },
 };

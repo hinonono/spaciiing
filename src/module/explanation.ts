@@ -198,6 +198,12 @@ export function createExplanationItem(
     const colorFrames: FrameNode[] = [];
     colors.forEach((color) => {
       const colorFrame = createColorFrame(color);
+
+      if (format === "STYLE") {
+        colorFrame.cornerRadius = semanticTokens.cornerRadius.infinite;
+      } else {
+        colorFrame.cornerRadius = semanticTokens.cornerRadius.small;
+      }
       colorFrames.push(colorFrame);
     });
 
@@ -477,15 +483,8 @@ function createColorFrame(color: RGBA): FrameNode {
   const colorFrame = figma.createFrame();
   colorFrame.resize(64, 64);
   colorFrame.name = "Swatch";
-  // colorFrame.fills = [
-  //   { type: "SOLID", color: { r: color.r, g: color.g, b: color.b } },
-  // ];
   const newPaint = figma.util.solidPaint(color);
   colorFrame.fills = [newPaint];
-
-  colorFrame.cornerRadius = semanticTokens.cornerRadius.small;
-  // colorFrame.fills[0].opacity = color.a;
-  // colorFrame.opacity = color.a;
 
   if (isWhite(color)) {
     colorFrame.strokes = [{ type: "SOLID", color: semanticTokens.strokeColor }];
