@@ -7,7 +7,7 @@ import {
   rgbToHex,
   setPadding,
   setStroke,
-  formatNumberToTwoDecimals,
+  formatNumberToDecimals,
 } from "./util";
 
 /**
@@ -55,26 +55,7 @@ export function createExplanationItem(
 
   //當format是VARIABLE時，處理aliasNames
   if (aliasNames && aliasNames.length > 0 && format === "VARIABLE") {
-    const aliasNameWrappers: FrameNode[] = [];
-    for (const aliasName of aliasNames) {
-      // 每個aliasname都會有一個aliasNameWrapper
-      const aliasNameWrapper = createAliasNameWrapper(
-        aliasName,
-        fontName,
-        semanticTokens.fontSize.base * 0.75
-      );
-      aliasNameWrapper.layoutSizingHorizontal = "HUG";
-      aliasNameWrapper.layoutSizingVertical = "HUG";
-      aliasNameWrappers.push(aliasNameWrapper);
-    }
-
-    aliasNameWrapperNode = createAutolayoutFrame(
-      aliasNameWrappers,
-      semanticTokens.spacing.xsmall,
-      "HORIZONTAL"
-    );
-    aliasNameWrapperNode.name = "Alias Names Wrapper";
-
+    aliasNameWrapperNode = handleAliasNameWrapperNode(aliasNames, fontName);
     itemsToPutInTitleWrapper.push(aliasNameWrapperNode);
   }
 
@@ -166,8 +147,34 @@ export function createExplanationItem(
     );
 
     titleWrapper.layoutSizingHorizontal = "FILL";
+  } else if (styleMode === "EFFECT") {
+    // 處理效果樣式
+    if (!effects) {
+      throw new Error("Effects is required for effect type.");
+    }
+
+    const effectWrappers = createEffectPropertiesWrappers(effects, fontName);
+
+    const titleWrapper = createAutolayoutFrame(
+      [titleNode, ...effectWrappers],
+      semanticTokens.spacing.large,
+      "VERTICAL"
+    );
+    titleWrapper.name = "Explanation Item Title Wrapper";
+    titleNode.layoutSizingHorizontal = "FILL";
+    effectWrappers.forEach((wrapper) => {
+      wrapper.layoutSizingHorizontal = "FILL";
+    });
+
+    explanationTextsWrapperNode = createAutolayoutFrame(
+      [titleWrapper, descriptionNode],
+      semanticTokens.spacing.base,
+      "VERTICAL"
+    );
+
+    titleWrapper.layoutSizingHorizontal = "FILL";
   } else {
-    // 預設 或 類型是EFFECT
+    // 預設
     explanationTextsWrapperNode = createAutolayoutFrame(
       [titleNode, descriptionNode],
       semanticTokens.spacing.base,
@@ -444,7 +451,7 @@ export function createExplanationWrapper(
   return wrapperFrame;
 }
 
-export function createExplanationTextPropertyItem(
+export function createExplanationSinglePropertyItem(
   title: string,
   value: string,
   fontName: FontName
@@ -463,7 +470,7 @@ export function createExplanationTextPropertyItem(
     0,
     "HORIZONTAL"
   );
-  wrapper.name = "Text Property Item";
+  wrapper.name = "Single Property";
   wrapper.layoutGrow = 1;
   wrapper.verticalPadding = 6;
   wrapper.horizontalPadding = 12;
@@ -556,48 +563,50 @@ function createTextPropertiesWrappers(
   textStyle: TextStyle,
   fontName: FontName
 ): FrameNode[] {
-  const fontNameNode = createExplanationTextPropertyItem(
+  const fontNameNode = createExplanationSinglePropertyItem(
     "Font Name",
     `${textStyle.fontName.family} ${textStyle.fontName.style}`,
     fontName
   );
-  const fontSizeNode = createExplanationTextPropertyItem(
+  const fontSizeNode = createExplanationSinglePropertyItem(
     "Font Size",
-    formatNumberToTwoDecimals(textStyle.fontSize),
+    formatNumberToDecimals(textStyle.fontSize, 2),
     fontName
   );
 
-  const lineHeightNode = createExplanationTextPropertyItem(
+  const lineHeightNode = createExplanationSinglePropertyItem(
     "Line Height",
     `${
       textStyle.lineHeight.unit == "AUTO"
         ? "Auto"
-        : formatNumberToTwoDecimals(textStyle.lineHeight.value)
+        : formatNumberToDecimals(textStyle.lineHeight.value, 2)
     }`,
     fontName
   );
 
-  const formattedLetterSpacing = formatNumberToTwoDecimals(
-    textStyle.letterSpacing.value
+  const formattedLetterSpacing = formatNumberToDecimals(
+    textStyle.letterSpacing.value,
+    2
   );
 
-  const letterSpacingNode = createExplanationTextPropertyItem(
+  const letterSpacingNode = createExplanationSinglePropertyItem(
     "Letter Spacing",
     formattedLetterSpacing,
     fontName
   );
 
-  const formattedParagraphSpacing = formatNumberToTwoDecimals(
-    textStyle.paragraphSpacing
+  const formattedParagraphSpacing = formatNumberToDecimals(
+    textStyle.paragraphSpacing,
+    2
   );
 
-  const paragraphSpacingNode = createExplanationTextPropertyItem(
+  const paragraphSpacingNode = createExplanationSinglePropertyItem(
     "Paragraph Spacing",
     formattedParagraphSpacing,
     fontName
   );
 
-  const textCaseNode = createExplanationTextPropertyItem(
+  const textCaseNode = createExplanationSinglePropertyItem(
     "Text Case",
     `${textStyle.textCase}`,
     fontName
@@ -621,29 +630,170 @@ function createTextPropertiesWrappers(
     "HORIZONTAL"
   );
 
-  tempWrapper1.name = "Text Property Items Wrapper";
-  tempWrapper2.name = "Text Property Items Wrapper";
-  tempWrapper3.name = "Text Property Items Wrapper";
+  [tempWrapper1, tempWrapper2, tempWrapper3].forEach((n) => {
+    n.name = "Properties";
+    n.layoutSizingVertical = "HUG";
+    n.layoutSizingHorizontal = "FILL";
+  });
 
-  tempWrapper1.layoutSizingVertical = "HUG";
-  tempWrapper2.layoutSizingVertical = "HUG";
-  tempWrapper3.layoutSizingVertical = "HUG";
-
-  fontNameNode.layoutSizingHorizontal = "FILL";
-  fontSizeNode.layoutSizingHorizontal = "FILL";
-  lineHeightNode.layoutSizingHorizontal = "FILL";
-  letterSpacingNode.layoutSizingHorizontal = "FILL";
-  paragraphSpacingNode.layoutSizingHorizontal = "FILL";
-  textCaseNode.layoutSizingHorizontal = "FILL";
-
-  fontNameNode.layoutSizingVertical = "FILL";
-  fontSizeNode.layoutSizingVertical = "FILL";
-  lineHeightNode.layoutSizingVertical = "FILL";
-  letterSpacingNode.layoutSizingVertical = "FILL";
-  paragraphSpacingNode.layoutSizingVertical = "FILL";
-  textCaseNode.layoutSizingVertical = "FILL";
+  [
+    fontNameNode,
+    fontSizeNode,
+    lineHeightNode,
+    letterSpacingNode,
+    paragraphSpacingNode,
+    textCaseNode,
+  ].forEach((n) => {
+    n.layoutSizingHorizontal = "FILL";
+    n.layoutSizingVertical = "FILL";
+  });
 
   return [tempWrapper1, tempWrapper2, tempWrapper3];
+}
+
+function createEffectPropertiesWrappers(
+  effects: Effect[],
+  fontName: FontName
+): FrameNode[] {
+  let results: FrameNode[] = [];
+
+  for (let i = 0; i < effects.length; i++) {
+    const effect = effects[i];
+    let countNode: TextNode;
+
+    if (effect.type === "DROP_SHADOW") {
+      countNode = createTextNode(
+        `Layer ${i + 1} - Drop Shadow`,
+        { family: fontName.family, style: "Semi Bold" },
+        semanticTokens.fontSize.small,
+        [{ type: "SOLID", color: semanticTokens.text.secondary }]
+      );
+    } else if (effect.type === "INNER_SHADOW") {
+      countNode = createTextNode(
+        `Layer ${i + 1} - Inner Shadow`,
+        { family: fontName.family, style: "Semi Bold" },
+        semanticTokens.fontSize.small,
+        [{ type: "SOLID", color: semanticTokens.text.secondary }]
+      );
+    } else if (effect.type === "BACKGROUND_BLUR") {
+      countNode = createTextNode(
+        `Layer ${i + 1} - Background Blur`,
+        { family: fontName.family, style: "Semi Bold" },
+        semanticTokens.fontSize.small,
+        [{ type: "SOLID", color: semanticTokens.text.secondary }]
+      );
+    } else {
+      countNode = createTextNode(
+        `Layer ${i + 1} - Layer Blur`,
+        { family: fontName.family, style: "Semi Bold" },
+        semanticTokens.fontSize.small,
+        [{ type: "SOLID", color: semanticTokens.text.secondary }]
+      );
+    }
+
+    let effectWrapper = createAutolayoutFrame(
+      [countNode],
+      semanticTokens.spacing.xsmall,
+      "VERTICAL"
+    );
+    countNode.layoutSizingHorizontal = "FILL";
+
+    if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
+      // 處理陰影類型的properties
+      const colorNode = createExplanationSinglePropertyItem(
+        "Color",
+        rgbToHex(effect.color.r, effect.color.g, effect.color.b),
+        fontName
+      );
+      const opacityNode = createExplanationSinglePropertyItem(
+        "Opacity",
+        `${formatNumberToDecimals(effect.color.a * 100)}%`,
+        fontName
+      );
+      const xNode = createExplanationSinglePropertyItem(
+        "X",
+        `${effect.offset.x}`,
+        fontName
+      );
+      const yNode = createExplanationSinglePropertyItem(
+        "Y",
+        `${effect.offset.y}`,
+        fontName
+      );
+      const blurNode = createExplanationSinglePropertyItem(
+        "Blur",
+        `${effect.radius}`,
+        fontName
+      );
+      const spreadNode = createExplanationSinglePropertyItem(
+        "Spread",
+        effect.spread ? `${effect.spread}` : "0",
+        fontName
+      );
+
+      const tempWrapper1 = createAutolayoutFrame(
+        [colorNode, opacityNode],
+        semanticTokens.spacing.xsmall,
+        "HORIZONTAL"
+      );
+      const tempWrapper2 = createAutolayoutFrame(
+        [xNode, yNode, blurNode, spreadNode],
+        semanticTokens.spacing.xsmall,
+        "HORIZONTAL"
+      );
+
+      [colorNode, opacityNode, xNode, yNode, blurNode, spreadNode].forEach(
+        (n) => {
+          n.layoutSizingHorizontal = "FILL";
+          n.layoutSizingVertical = "FILL";
+        }
+      );
+
+      effectWrapper.appendChild(tempWrapper1);
+      effectWrapper.appendChild(tempWrapper2);
+
+      [tempWrapper1, tempWrapper2].forEach((n) => {
+        n.name = "Properties";
+        n.layoutSizingVertical = "HUG";
+        n.layoutSizingHorizontal = "FILL";
+      });
+    } else {
+      // 處理blur類型的properties
+      const blurNode = createExplanationSinglePropertyItem(
+        "Blur",
+        `${effect.radius}`,
+        fontName
+      );
+      const placeHolderNode = createExplanationSinglePropertyItem(
+        "Place Holder",
+        "0",
+        fontName
+      );
+      placeHolderNode.opacity = 0;
+
+      const tempWrapper1 = createAutolayoutFrame(
+        [blurNode, placeHolderNode],
+        semanticTokens.spacing.xsmall,
+        "HORIZONTAL"
+      );
+      [blurNode, placeHolderNode].forEach((n) => {
+        n.layoutSizingHorizontal = "FILL";
+        n.layoutSizingVertical = "FILL";
+      });
+
+      effectWrapper.appendChild(tempWrapper1);
+
+      [tempWrapper1].forEach((n) => {
+        n.name = "Properties";
+        n.layoutSizingVertical = "HUG";
+        n.layoutSizingHorizontal = "FILL";
+      });
+    }
+
+    results.push(effectWrapper);
+  }
+
+  return results;
 }
 
 function createColorHexNode(
@@ -726,4 +876,39 @@ function createAliasNameWrapper(
   aliasNameWrapper.name = "Alias Name";
 
   return aliasNameWrapper;
+}
+
+/**
+ * Creates a wrapper frame node containing individual alias name wrappers for each alias in the aliasNames array.
+ * @param {string[]} aliasNames - List of alias names to be wrapped.
+ * @param {FontName} fontName - The font to be used for each alias name.
+ * @returns {FrameNode} - A FrameNode containing all alias name wrappers arranged in an auto-layout frame.
+ */
+function handleAliasNameWrapperNode(
+  aliasNames: string[],
+  fontName: FontName
+): FrameNode {
+  let aliasNameWrapperNode: FrameNode;
+  const aliasNameWrappers: FrameNode[] = [];
+
+  for (const aliasName of aliasNames) {
+    // 每個aliasname都會有一個aliasNameWrapper
+    const aliasNameWrapper = createAliasNameWrapper(
+      aliasName,
+      fontName,
+      semanticTokens.fontSize.base * 0.75
+    );
+    aliasNameWrapper.layoutSizingHorizontal = "HUG";
+    aliasNameWrapper.layoutSizingVertical = "HUG";
+    aliasNameWrappers.push(aliasNameWrapper);
+  }
+
+  aliasNameWrapperNode = createAutolayoutFrame(
+    aliasNameWrappers,
+    semanticTokens.spacing.xsmall,
+    "HORIZONTAL"
+  );
+  aliasNameWrapperNode.name = "Alias Names Wrapper";
+
+  return aliasNameWrapperNode;
 }
