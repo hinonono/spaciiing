@@ -633,7 +633,6 @@ function createTextPropertiesWrappers(
   [tempWrapper1, tempWrapper2, tempWrapper3].forEach((n) => {
     n.name = "Properties";
     n.layoutSizingVertical = "HUG";
-    n.layoutSizingHorizontal = "FILL";
   });
 
   [
@@ -696,6 +695,7 @@ function createEffectPropertiesWrappers(
       semanticTokens.spacing.xsmall,
       "VERTICAL"
     );
+    effectWrapper.name = "Effects"
     countNode.layoutSizingHorizontal = "FILL";
 
     if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
