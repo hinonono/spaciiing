@@ -325,6 +325,26 @@ export function createExplanationWrapper(
 ): FrameNode {
   const itemsToPutInTitleWrapper: SceneNode[] = [];
 
+  const currentDate = new Date();
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+
+  const formattedDate = `Created at ${currentDate
+    .toLocaleString("en-US", options)
+    .replace(",", "")}`;
+
+  const createdDateNode = createTextNode(
+    formattedDate,
+    fontName,
+    semanticTokens.fontSize.xsmall,
+    [{ type: "SOLID", color: semanticTokens.text.tertiary }]
+  );
   const titleNode = createTextNode(
     title,
     fontName,
@@ -337,6 +357,7 @@ export function createExplanationWrapper(
     [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
 
+  itemsToPutInTitleWrapper.push(createdDateNode);
   itemsToPutInTitleWrapper.push(secondaryTitleNode);
   itemsToPutInTitleWrapper.push(titleNode);
 
@@ -364,6 +385,11 @@ export function createExplanationWrapper(
     semanticTokens.spacing.xsmall,
     "VERTICAL"
   );
+
+  createdDateNode.textAlignHorizontal = "RIGHT";
+  createdDateNode.layoutSizingHorizontal = "FILL";
+  titleNode.layoutSizingHorizontal = "FILL";
+  secondaryTitleNode.layoutSizingHorizontal = "FILL";
 
   const itemsFrame = createAutolayoutFrame(explanationItems, 0, "VERTICAL");
   itemsFrame.clipsContent = false;

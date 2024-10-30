@@ -128,13 +128,15 @@ export const semanticTokens = {
   text: {
     primary: primitiveTokens.slate[950],
     secondary: primitiveTokens.slate[500],
+    tertiary: primitiveTokens.slate[400],
   },
   dividerColor: primitiveTokens.slate[200],
   strokeColor: primitiveTokens.slate[400],
 
   fontSize: {
-    base: 16,
+    xsmall: 8,
     small: 12,
+    base: 16,
     large: 20,
     xlarge: 24,
     xxlarge: 32,
