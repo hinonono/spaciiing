@@ -1,5 +1,8 @@
 import { CopyPastableNode } from "../types/CopyPastableNode";
-import { MessagePropertyClipboard } from "../types/Messages/MessagePropertyClipboard";
+import {
+  MessagePropertyClipboard,
+  PasteBehavior,
+} from "../types/Messages/MessagePropertyClipboard";
 import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import * as util from "./util";
 
@@ -45,6 +48,11 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
     return;
   }
 
+  if (!message.behavior) {
+    figma.notify("❌ Paste behavior is missing from message.");
+    return;
+  }
+
   const editorPreference = util.readEditorPreference();
 
   if (!editorPreference.referenceObject) {
@@ -83,13 +91,18 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
 
   for (let i = 0; i < message.property.length; i++) {
     const element = message.property[i];
-    pastePropertyToObject(element, referenceObjectNode as CopyPastableNode);
+    pastePropertyToObject(
+      element,
+      referenceObjectNode as CopyPastableNode,
+      message.behavior
+    );
   }
 }
 
 function pastePropertyToObject(
   property: PropertyClipboardSupportedProperty,
-  referenceObject: CopyPastableNode
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
 ) {
   switch (property) {
     case "WIDTH":
@@ -134,16 +147,16 @@ function pastePropertyToObject(
       setSelectionStrokeMiterLimit(referenceObject);
       break;
     case "FILL_SOLID":
-      setSelectionSolidFill(referenceObject);
+      setSelectionSolidFill(referenceObject, behavior);
       break;
     case "FILL_GRADIENT":
-      setSelectionGradientFill(referenceObject);
+      setSelectionGradientFill(referenceObject, behavior);
       break;
     case "FILL_IMAGE":
-      setSelectionImageFill(referenceObject);
+      setSelectionImageFill(referenceObject, behavior);
       break;
     case "FILL_VIDEO":
-      setSelectionVideoFill(referenceObject);
+      setSelectionVideoFill(referenceObject, behavior);
       break;
     case "EXPORT_SETTINGS":
       setSelectionExportSettings(referenceObject);
@@ -231,7 +244,10 @@ function setSelectionBlendMode(referenceObject: CopyPastableNode) {
   });
 }
 
-function setSelectionSolidFill(referenceObject: CopyPastableNode) {
+function setSelectionSolidFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -258,7 +274,11 @@ function setSelectionSolidFill(referenceObject: CopyPastableNode) {
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
       // Apply only the array of solid fills
-      object.fills = [...object.fills, ...solidFills];
+      if (behavior === "pasteToIncrement") {
+        object.fills = [...object.fills, ...solidFills];
+      } else {
+        object.fills = solidFills;
+      }
     } else {
       // Notify if the object cannot have fills applied
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
@@ -266,7 +286,10 @@ function setSelectionSolidFill(referenceObject: CopyPastableNode) {
   });
 }
 
-function setSelectionGradientFill(referenceObject: CopyPastableNode) {
+function setSelectionGradientFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -298,14 +321,21 @@ function setSelectionGradientFill(referenceObject: CopyPastableNode) {
   // Loop through the selection to apply only the gradient fills array
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
-      object.fills = [...object.fills, ...gradientFills];
+      if (behavior === "pasteToIncrement") {
+        object.fills = [...object.fills, ...gradientFills];
+      } else {
+        object.fills = gradientFills;
+      }
     } else {
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
     }
   });
 }
 
-function setSelectionImageFill(referenceObject: CopyPastableNode) {
+function setSelectionImageFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -331,14 +361,21 @@ function setSelectionImageFill(referenceObject: CopyPastableNode) {
   // Loop through the selection to apply only the image fills array
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
-      object.fills = [...object.fills, ...imageFills];
+      if (behavior === "pasteToIncrement") {
+        object.fills = [...object.fills, ...imageFills];
+      } else {
+        object.fills = imageFills;
+      }
     } else {
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
     }
   });
 }
 
-function setSelectionVideoFill(referenceObject: CopyPastableNode) {
+function setSelectionVideoFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -364,7 +401,11 @@ function setSelectionVideoFill(referenceObject: CopyPastableNode) {
   // Loop through the selection to apply only the video fills array
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
-      object.fills = [...object.fills, ...videoFills];
+      if (behavior === "pasteToIncrement") {
+        object.fills = [...object.fills, ...videoFills];
+      } else {
+        object.fills = videoFills;
+      }
     } else {
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
     }

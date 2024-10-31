@@ -5,7 +5,10 @@ import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
-import { MessagePropertyClipboard } from "../types/Messages/MessagePropertyClipboard";
+import {
+  MessagePropertyClipboard,
+  PasteBehavior,
+} from "../types/Messages/MessagePropertyClipboard";
 
 interface PropertyClipboardProps {}
 
@@ -19,6 +22,21 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
+
+  // 行為彈窗
+  const [pasteBehavior, setPasteBehavior] =
+    useState<PasteBehavior>("pasteToIncrement");
+
+  // 用於需要事先指定貼上行為時，才會帶入的貼上屬性
+  const [pasteProperties, setPasteProperties] = useState<
+    PropertyClipboardSupportedProperty[]
+  >([]);
+
+  const [showBehaviorModal, setShowBehaviorModal] = useState(false);
+  const handleCloseBehaviorModal = () => {
+    setShowBehaviorModal(false);
+    setPasteProperties([]);
+  };
 
   // 記憶所選取的物件作為參考目標
   const setReferenceObject = () => {
@@ -57,6 +75,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       phase: "Actual",
       direction: "Inner",
       property: property,
+      behavior: pasteBehavior,
     };
 
     parent.postMessage(
@@ -65,6 +84,22 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       },
       "*"
     );
+  };
+
+  // Function to open the modal with the specific function to execute
+  const openModalWithProperties = (
+    properties: PropertyClipboardSupportedProperty[]
+  ) => {
+    setPasteProperties(properties);
+    setShowBehaviorModal(true); // Open the modal
+  };
+
+  // Function to handle confirmation and execute the stored function
+  const handleConfirm = () => {
+    if (pasteProperties) {
+      pastePropertyToObject(pasteProperties); // Execute the specific function
+    }
+    handleCloseBehaviorModal(); // Close the modal
   };
 
   return (
@@ -76,6 +111,33 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         <div>
           <h3>{t("module:modulePropertyClipboard")}</h3>
           <p>{t("module:modulePropertyClipboardDesc")}</p>
+        </div>
+      </Modal>
+      <Modal show={showBehaviorModal} handleClose={handleCloseBehaviorModal}>
+        <div>
+          <h3>{"Specify paste behavior"}</h3>
+          <div className="padding-16 grid mt-xsmall">
+            <FigmaButton
+              buttonType="secondary"
+              title={"Paste to replace"}
+              onClick={() => {
+                setPasteBehavior("pasteToReplace");
+                handleConfirm();
+              }}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+            <FigmaButton
+              buttonType="primary"
+              title={"Paste to increment"}
+              onClick={() => {
+                setPasteBehavior("pasteToIncrement");
+                handleConfirm();
+              }}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+          </div>
         </div>
       </Modal>
       <TitleBar
@@ -239,7 +301,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Solid fill"}
                 onClick={() => {
-                  pastePropertyToObject(["FILL_SOLID"]);
+                  openModalWithProperties(["FILL_SOLID"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
