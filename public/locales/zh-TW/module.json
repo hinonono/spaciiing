@@ -82,6 +82,7 @@
   "saveYourChangeDesc": "默認情況下，外掛程式將自動保存您的變更。然而由於外掛程式 API 的限制，有時可能無法自動保存您的更改。<br /><br />為避免您的變更遺失，建議您隨時使用頁面頂部的儲存按鈕進行儲存。",
   "save": "儲存",
   "apply": "套用",
+  "applyAll": "套用全部",
   "title": "標題",
   "value": "值",
   "modulePropertyClipboard": "屬性剪貼簿",

@@ -82,6 +82,7 @@
   "saveYourChangeDesc": "默认情况下，插件会自动保存您的更改。但是，由于插件 API 的限制，有时您的更改可能无法自动保存。<br/> <br/>为避免任何更改的丢失，建议始终使用页面顶部的保存按钮。",
   "save": "保存",
   "apply": "应用",
+  "applyAll": "应用全部",
   "title": "标题",
   "value": "值",
   "modulePropertyClipboard": "属性剪贴板",

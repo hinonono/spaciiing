@@ -82,6 +82,7 @@
   "saveYourChangeDesc": "By default, the plugin will automatically save your changes. However, due to limitations of the plugin API, there might be occasions when your changes cannot be saved automatically.<br /><br />To avoid any loss of your changes, it is recommended to always use the save button at the top of the page.",
   "save": "Save",
   "apply": "Apply",
+  "applyAll": "Apply all",
   "title": "Title",
   "value": "Value",
   "modulePropertyClipboard": "Property Clipboard",

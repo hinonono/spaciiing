@@ -123,7 +123,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               </div>
               <div>
                 <FigmaButton
-                  title={t("module:apply")}
+                  title={t("module:applyAll")}
                   onClick={() => {
                     pastePropertyToObject(["HEIGHT", "WIDTH"]);
                   }}
@@ -164,7 +164,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               </div>
               <div>
                 <FigmaButton
-                  title={t("module:apply")}
+                  title={t("module:applyAll")}
                   onClick={() => {
                     pastePropertyToObject([
                       "STROKES",
