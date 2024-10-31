@@ -236,165 +236,48 @@ function setSelectionAllFills(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
 ) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  // Check if fills exist and filter only solid fills
-  const fills = referenceObject.fills as readonly Paint[] | undefined;
-  if (!fills || fills.length === 0) {
-    figma.notify("❌ Reference object has no fills.");
-    return;
-  }
-
-  // Loop through the selection to apply only the solid fills array
-  selection.forEach((object) => {
-    if ("fills" in object && Array.isArray(object.fills)) {
-      if (behavior === "pasteToIncrement") {
-        object.fills = [...object.fills, ...fills];
-      } else {
-        object.fills = fills;
-      }
-    } else {
-      // Notify if the object cannot have fills applied
-      figma.notify(`❌ Object of type ${object.type} does not support fills.`);
-    }
-  });
+  applyFillToSelection(referenceObject, behavior, "ALL");
 }
 
 function setSelectionSolidFill(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
 ) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  // Check if fills exist and filter only solid fills
-  const fills = referenceObject.fills as readonly Paint[] | undefined;
-  if (!fills) {
-    figma.notify("❌ Reference object has no fills.");
-    return;
-  }
-
-  const solidFills = fills.filter((fill) => fill.type === "SOLID");
-
-  // If there are no solid fills, notify the user and return
-  if (solidFills.length === 0) {
-    figma.notify("❌ Reference object does not contain any solid fills.");
-    return;
-  }
-
-  // Loop through the selection to apply only the solid fills array
-  selection.forEach((object) => {
-    if ("fills" in object && Array.isArray(object.fills)) {
-      if (behavior === "pasteToIncrement") {
-        object.fills = [...object.fills, ...solidFills];
-      } else {
-        object.fills = solidFills;
-      }
-    } else {
-      // Notify if the object cannot have fills applied
-      figma.notify(`❌ Object of type ${object.type} does not support fills.`);
-    }
-  });
+  applyFillToSelection(referenceObject, behavior, "SOLID");
 }
 
 function setSelectionGradientFill(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
 ) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  // Check if fills exist and filter only gradient fills
-  const fills = referenceObject.fills as readonly Paint[] | undefined;
-  if (!fills) {
-    figma.notify("❌ Reference object has no fills.");
-    return;
-  }
-
-  const gradientFills = fills.filter(
-    (fill) =>
-      fill.type === "GRADIENT_LINEAR" ||
-      fill.type === "GRADIENT_RADIAL" ||
-      fill.type === "GRADIENT_ANGULAR" ||
-      fill.type === "GRADIENT_DIAMOND"
-  );
-
-  // If there are no gradient fills, notify the user and return
-  if (gradientFills.length === 0) {
-    figma.notify("❌ Reference object does not contain any gradient fills.");
-    return;
-  }
-
-  // Loop through the selection to apply only the gradient fills array
-  selection.forEach((object) => {
-    if ("fills" in object && Array.isArray(object.fills)) {
-      if (behavior === "pasteToIncrement") {
-        object.fills = [...object.fills, ...gradientFills];
-      } else {
-        object.fills = gradientFills;
-      }
-    } else {
-      figma.notify(`❌ Object of type ${object.type} does not support fills.`);
-    }
-  });
+  applyFillToSelection(referenceObject, behavior, "GRADIENT");
 }
 
 function setSelectionImageFill(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
 ) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  // Check if fills exist and filter only image fills
-  const fills = referenceObject.fills as readonly Paint[] | undefined;
-  if (!fills) {
-    figma.notify("❌ Reference object has no fills.");
-    return;
-  }
-
-  const imageFills = fills.filter((fill) => fill.type === "IMAGE");
-
-  // If there are no image fills, notify the user and return
-  if (imageFills.length === 0) {
-    figma.notify("❌ Reference object does not contain any image fills.");
-    return;
-  }
-
-  // Loop through the selection to apply only the image fills array
-  selection.forEach((object) => {
-    if ("fills" in object && Array.isArray(object.fills)) {
-      if (behavior === "pasteToIncrement") {
-        object.fills = [...object.fills, ...imageFills];
-      } else {
-        object.fills = imageFills;
-      }
-    } else {
-      figma.notify(`❌ Object of type ${object.type} does not support fills.`);
-    }
-  });
+  applyFillToSelection(referenceObject, behavior, "IMAGE");
 }
 
 function setSelectionVideoFill(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
+) {
+  applyFillToSelection(referenceObject, behavior, "VIDEO");
+}
+
+/**
+ * 用於降低重複性code，指定要將何種填色套用
+ * @param referenceObject
+ * @param behavior
+ * @param specifiedFill
+ * @returns
+ */
+function applyFillToSelection(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior,
+  specifiedFill: "ALL" | "SOLID" | "GRADIENT" | "IMAGE" | "VIDEO"
 ) {
   const selection = util.getCurrentSelection();
 
@@ -410,11 +293,26 @@ function setSelectionVideoFill(
     return;
   }
 
-  const videoFills = fills.filter((fill) => fill.type === "VIDEO");
+  let filteredFills: Paint[];
+  if (specifiedFill === "ALL") {
+    filteredFills = [...fills];
+  } else if (specifiedFill === "GRADIENT") {
+    filteredFills = fills.filter(
+      (fill) =>
+        fill.type === "GRADIENT_LINEAR" ||
+        fill.type === "GRADIENT_RADIAL" ||
+        fill.type === "GRADIENT_ANGULAR" ||
+        fill.type === "GRADIENT_DIAMOND"
+    );
+  } else {
+    filteredFills = fills.filter((fill) => fill.type === specifiedFill);
+  }
 
   // If there are no video fills, notify the user and return
-  if (videoFills.length === 0) {
-    figma.notify("❌ Reference object does not contain any video fills.");
+  if (filteredFills.length === 0) {
+    figma.notify(
+      `❌ Reference object does not contain any ${specifiedFill.toLowerCase()} type of fills.`
+    );
     return;
   }
 
@@ -422,9 +320,9 @@ function setSelectionVideoFill(
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
       if (behavior === "pasteToIncrement") {
-        object.fills = [...object.fills, ...videoFills];
+        object.fills = [...object.fills, ...filteredFills];
       } else {
-        object.fills = videoFills;
+        object.fills = filteredFills;
       }
     } else {
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
@@ -624,32 +522,7 @@ function setSelectionAllEffects(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
 ) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  const effects = referenceObject.effects as readonly Effect[] | undefined;
-  if (!effects || effects.length === 0) {
-    figma.notify("❌ Reference object has no effects.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("effects" in object && Array.isArray(object.effects)) {
-      if (behavior === "pasteToIncrement") {
-        object.effects = [...object.effects, ...effects];
-      } else {
-        object.effects = effects;
-      }
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support effects.`
-      );
-    }
-  });
+  applyEffectToSelection(referenceObject, behavior, "ALL");
 }
 
 function setSelectionInnerShadow(
@@ -680,10 +553,18 @@ function setSelectionBackgroundBlur(
   applyEffectToSelection(referenceObject, behavior, "BACKGROUND_BLUR");
 }
 
+/**
+ * 用於降低重複性code，指定要套用何種效果
+ * @param referenceObject
+ * @param behavior
+ * @param specifiedEffect
+ * @returns
+ */
 function applyEffectToSelection(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior,
   specifiedEffect:
+    | "ALL"
     | "DROP_SHADOW"
     | "INNER_SHADOW"
     | "LAYER_BLUR"
@@ -702,9 +583,15 @@ function applyEffectToSelection(
     return;
   }
 
-  const filteredEffects = effects.filter(
-    (effect) => effect.type === specifiedEffect
-  );
+  let filteredEffects: Effect[];
+
+  if (specifiedEffect === "ALL") {
+    filteredEffects = [...effects];
+  } else {
+    filteredEffects = effects.filter(
+      (effect) => effect.type === specifiedEffect
+    );
+  }
 
   if (filteredEffects.length === 0) {
     figma.notify(
