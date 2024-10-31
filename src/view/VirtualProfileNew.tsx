@@ -455,7 +455,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }}
         className="context-menu"
       >
-        {!childId && <li onClick={() => addChildToRow(rowId)}>{t("module:addItem")}</li>}
+        {!childId && (
+          <li onClick={() => addChildToRow(rowId)}>{t("module:addItem")}</li>
+        )}
         <li
           onClick={() =>
             childId
@@ -466,7 +468,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           {t("module:duplicate")}
         </li>
         {childId ? (
-          <li onClick={() => deleteChild(rowId!, childId)}>{t("module:delete")}</li>
+          <li onClick={() => deleteChild(rowId!, childId)}>
+            {t("module:delete")}
+          </li>
         ) : (
           <li onClick={() => deleteRow(rowId!)}>{t("module:delete")}</li>
         )}
@@ -578,9 +582,12 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-jusify-spacebetween virtual-profile-toolbar">
+        <div className="flex flex-justify-spacebetween virtual-profile-toolbar">
           <div>
-            <button className="button-reset" onClick={toggleAll}>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={toggleAll}
+            >
               <div className="icon-24 icon-hover">
                 {!isFolderCollapsed ? (
                   <SvgExpand color="var(--figma-color-text)" />
@@ -590,9 +597,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               </div>
             </button>
           </div>
-          <div>
+          <div className="flex flex-row">
             <button
-              className="button-reset"
+              className="button-reset margin-0 width-auto"
               onClick={saveVirtualProfile}
               disabled={
                 virtualProfileGroups == previousVirtualProfile ? true : false
@@ -609,19 +616,25 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               </div>
             </button>
             <button
-              className="button-reset"
+              className="button-reset margin-0 width-auto"
               onClick={(e) => handleAdditionalContextMenu(e)}
             >
               <div className="icon-24 icon-hover">
                 <SvgAddFromPreset color="var(--figma-color-text)" />
               </div>
             </button>
-            <button className="button-reset" onClick={addTitleRow}>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={addTitleRow}
+            >
               <div className="icon-24 icon-hover">
                 <SvgAddFolder color="var(--figma-color-text)" />
               </div>
             </button>
-            <button className="button-reset" onClick={addRecordToLastTitle}>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={addRecordToLastTitle}
+            >
               <div className="icon-24 icon-hover">
                 <SvgAdd color="var(--figma-color-text)" />
               </div>
@@ -659,7 +672,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                         </div>
                         <div>
                           <input
-                            className="cy-input text-center"
+                            className="cy-input text-center font-weight-bold"
                             type="text"
                             value={row.title}
                             onChange={(e) =>

@@ -1,0 +1,101 @@
+{
+  "brand": "Polaris",
+  "name": "Space",
+  "members": [
+    {
+      "name": "0",
+      "value": 0,
+      "description": ""
+    },
+    {
+      "name": "025",
+      "value": 1,
+      "description": ""
+    },
+    {
+      "name": "050",
+      "value": 2,
+      "description": ""
+    },
+    {
+      "name": "100",
+      "value": 4,
+      "description": ""
+    },
+    {
+      "name": "150",
+      "value": 6,
+      "description": ""
+    },
+    {
+      "name": "200",
+      "value": 8,
+      "description": ""
+    },
+    {
+      "name": "300",
+      "value": 12,
+      "description": ""
+    },
+    {
+      "name": "400",
+      "value": 16,
+      "description": ""
+    },
+    {
+      "name": "500",
+      "value": 20,
+      "description": ""
+    },
+    {
+      "name": "600",
+      "value": 24,
+      "description": ""
+    },
+    {
+      "name": "700",
+      "value": 28,
+      "description": ""
+    },
+    {
+      "name": "800",
+      "value": 32,
+      "description": ""
+    },
+    {
+      "name": "1000",
+      "value": 40,
+      "description": ""
+    },
+    {
+      "name": "1200",
+      "value": 48,
+      "description": ""
+    },
+    {
+      "name": "1600",
+      "value": 64,
+      "description": ""
+    },
+    {
+      "name": "2000",
+      "value": 80,
+      "description": ""
+    },
+    {
+      "name": "2400",
+      "value": 96,
+      "description": ""
+    },
+    {
+      "name": "2800",
+      "value": 112,
+      "description": ""
+    },
+    {
+      "name": "3200",
+      "value": 128,
+      "description": ""
+    }
+  ]
+}

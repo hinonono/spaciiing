@@ -1,17 +1,17 @@
+import * as util from "./util";
 import {
   ExternalMessageLocalization,
   MessageLocalization,
-} from "../types/Message";
-import * as util from "./util";
+} from "../types/Messages/MessageLocalization";
 
 export async function initLocalization() {
   // 檢查用戶的Client Storage是否有儲存license key
   const KEY = "preferred-language";
   const preferredLanguage = await figma.clientStorage.getAsync(KEY);
 
-  console.log("P LANG");
+  // console.log("P LANG");
 
-  console.log(preferredLanguage);
+  // console.log(preferredLanguage);
 
   if (preferredLanguage) {
     // 如果有偏好語言的話，載入

@@ -3,5 +3,7 @@
   "preferredLanguage": "首选语言",
   "about": "关于",
   "version": "版本",
-  "forBugReportOrSupport": "如需报告错误或获取支持，请联系"
+  "forBugReportOrSupport": "报告错误/获取支持",
+  "provideFeedback": "意见反馈",
+  "feedbackForm": "反馈表单"
 }

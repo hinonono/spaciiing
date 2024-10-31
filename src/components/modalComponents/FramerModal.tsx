@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { SvgVertical, SvgHorizontal } from "../../assets/icons";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
-import { MessageFramer, FramerMode } from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
+import { FramerMode, MessageFramer } from "../../types/Messages/MessageFramer";
 
 interface FramerModalProps {
-  showFramerModal: boolean;
-  handleCloseFramerModal: () => void;
+  show: boolean;
+  handleClose: () => void;
 }
 
 const FramerModal: React.FC<FramerModalProps> = ({
-  showFramerModal,
-  handleCloseFramerModal,
+  show,
+  handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
@@ -48,7 +48,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
   };
 
   return (
-    <Modal show={showFramerModal} handleClose={handleCloseFramerModal}>
+    <Modal show={show} handleClose={handleClose}>
       <div>
         <div>
           <div className="section-title">{t("module:mode")}</div>
@@ -93,7 +93,11 @@ const FramerModal: React.FC<FramerModalProps> = ({
           </div>
         </div>
         <div className="mt-xxsmall"></div>
-        <FigmaButton title={t("module:apply")} id={"eq-apply"} onClick={applyFramer} />
+        <FigmaButton
+          title={t("module:apply")}
+          id={"eq-apply"}
+          onClick={applyFramer}
+        />
       </div>
     </Modal>
   );

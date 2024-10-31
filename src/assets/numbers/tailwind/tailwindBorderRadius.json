@@ -1,0 +1,51 @@
+{
+  "brand": "Tailwind",
+  "name": "Border Radius",
+  "members": [
+    {
+      "name": "rounded-none",
+      "value": 0,
+      "description": ""
+    },
+    {
+      "name": "rounded-sm",
+      "value": 2,
+      "description": ""
+    },
+    {
+      "name": "rounded",
+      "value": 4,
+      "description": ""
+    },
+    {
+      "name": "rounded-md",
+      "value": 6,
+      "description": ""
+    },
+    {
+      "name": "rounded-lg",
+      "value": 8,
+      "description": ""
+    },
+    {
+      "name": "rounded-xl",
+      "value": 12,
+      "description": ""
+    },
+    {
+      "name": "rounded-2xl",
+      "value": 16,
+      "description": ""
+    },
+    {
+      "name": "rounded-3xl",
+      "value": 20,
+      "description": ""
+    },
+    {
+      "name": "rounded-full",
+      "value": 9999,
+      "description": ""
+    }
+  ]
+}

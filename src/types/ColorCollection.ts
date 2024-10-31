@@ -47,4 +47,16 @@ export interface ColorCollection extends BaseCollection {
 export type CollectionExplanationable =
   | ColorCollection
   | EffectCollection
-  | TypographyCollection;
+  | TypographyCollection
+  | NumberCollection;
+
+// 數值
+export interface NumberCollection extends BaseCollection {
+  members: CustomNumber[];
+}
+
+interface CustomNumber {
+  name: string;
+  value: number;
+  description: string;
+}

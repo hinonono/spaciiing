@@ -70,16 +70,10 @@ pre {
     padding: 4px 8px;
     background-color: var(--variable-background);
     border-radius: var(--cy-border-radius-large);
-    margin: 4px;
+    padding: 16px;
 
     .text-primary {
         color: var(--variable-text-primary);
-    }
-
-    .text-secondary {
-        color: var(--variable-text-secondary);
-        margin-right: 4px;
-        text-transform: uppercase;
     }
 }
 
@@ -166,8 +160,28 @@ input {
     }
 }
 
+@mixin indent-level($level) {
+    margin-left: $level * 1.8rem;
+}
+
 .indent-level-1 {
-    margin-left: 1.8rem;
+    @include indent-level(1);
+}
+
+.indent-level-2 {
+    @include indent-level(2);
+}
+
+.indent-level-3 {
+    @include indent-level(3);
+}
+
+.indent-level-4 {
+    @include indent-level(4);
+}
+
+.indent-level-5 {
+    @include indent-level(5);
 }
 
 .text-decoration-none {
@@ -344,7 +358,6 @@ button {
     font-size: var(--font-size-small);
     background-color: #bb90ff;
     width: fit-content;
-    cursor: pointer;
 }
 
 .title-bar {
@@ -411,39 +424,15 @@ button {
 
 
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-
-    .tooltiptext {
-        visibility: hidden;
-        width: 120px;
-        background-color: var(--figma-color-text);
-        color: var(--figma-color-bg);
-        text-align: center;
-        border-radius: var(--cy-border-radius-medium);
-        padding: 5px 0;
-        font-size: var(--font-size-small);
-        box-shadow: var(--shadow-floating-window);
-        opacity: 0;
-        // transform: translateY(4px);
-        // transition: opacity 0.4s ease, transform 0.3s ease;
-
-        /* Position the tooltip */
-        position: absolute;
-        z-index: 1;
-        top: 110%;
-        left: 50%;
-        margin-left: -60px;
-        z-index: 3;
-    }
-
-    &:hover .tooltiptext {
-        visibility: visible;
-        opacity: 1;
-        transform: translateY(0);
-    }
+.floating-text {
+    position: fixed;
+    background-color: var(--figma-color-text);
+    color: var(--figma-color-bg);
+    padding: 8px 12px;
+    border-radius: var(--cy-border-radius-medium);
+    pointer-events: none;
+    z-index: 1000;
+    white-space: nowrap;
 }
 
 
@@ -463,6 +452,10 @@ button {
     /* Black w/ opacity */
     transition: all 0.5s ease-in-out;
     opacity: 0;
+}
+
+.modal-content {
+    position: relative;
 }
 
 .modal.show {
@@ -506,7 +499,7 @@ span {
 }
 
 h2 {
-    margin: 1rem 0rem;
+    margin: 0.5rem 0rem;
 }
 
 h3 {
@@ -515,15 +508,15 @@ h3 {
 
 h4 {
     margin: 0.3rem 0rem;
-    border-top: 1px solid var(--figma-color-border);
+    // border-top: 1px solid var(--figma-color-border);
     padding-top: 0.5rem;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 p {
     font-size: var(--font-size-small);
     margin-top: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     line-height: 150%;
 }
 
@@ -539,9 +532,8 @@ li {
 .modal-content {
     background-color: var(--figma-color-bg);
     padding: 16px;
-    border: 1px solid var(--figma-color-border);
     overflow-y: scroll;
-    border-radius: var(--cy-border-radius-xlarge);
+    border-radius: var(--cy-border-radius-xxxlarge);
     min-width: calc(100% - 32px);
     max-width: calc(100% - 32px);
     max-height: calc(100% - 32px);
@@ -549,6 +541,9 @@ li {
     transition: all 0.5s ease-in-out;
     transform: translateY(10px);
 
+    p {
+        color: var(--figma-color-text-secondary);
+    }
 }
 
 .close-wrap {
@@ -752,6 +747,10 @@ li {
 .disable-mtmb {
     margin-top: 0rem;
     margin-bottom: 0rem;
+}
+
+.font-weight-bold {
+    font-weight: bold;
 }
 
 

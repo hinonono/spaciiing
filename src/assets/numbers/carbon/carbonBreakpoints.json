@@ -1,0 +1,31 @@
+{
+  "brand": "Carbon",
+  "name": "Breakpoints",
+  "members": [
+    {
+      "name": "Small",
+      "value": 320,
+      "description": "Columns: 4, Size: 80px(25%), Padding: 16px, Margin: 0"
+    },
+    {
+      "name": "Medium",
+      "value": 672,
+      "description": "Columns: 8, Size: 80px(12.5%), Padding: 16px, Margin: 16px"
+    },
+    {
+      "name": "Large",
+      "value": 1056,
+      "description": "Columns: 16, Size: 64px(6.25%), Padding: 16px, Margin: 16px"
+    },
+    {
+      "name": "X-Large",
+      "value": 1312,
+      "description": "Columns: 16, Size: 80px(6.25%), Padding: 16px, Margin: 16px"
+    },
+    {
+      "name": "Max",
+      "value": 1584,
+      "description": "Columns: 16, Size: 96px(6.25%), Padding: 16px, Margin: 24px"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "brand": "Tailwind",
+  "name": "Font Size",
+  "members": [
+    {
+      "name": "text-xs",
+      "value": 12,
+      "description": ""
+    },
+    {
+      "name": "text-sm",
+      "value": 14,
+      "description": ""
+    },
+    {
+      "name": "text-base",
+      "value": 16,
+      "description": ""
+    },
+    {
+      "name": "text-lg",
+      "value": 18,
+      "description": ""
+    },
+    {
+      "name": "text-xl",
+      "value": 20,
+      "description": ""
+    },
+    {
+      "name": "text-2xl",
+      "value": 24,
+      "description": ""
+    },
+    {
+      "name": "text-3xl",
+      "value": 30,
+      "description": ""
+    },
+    {
+      "name": "text-4xl",
+      "value": 36,
+      "description": ""
+    },
+    {
+      "name": "text-5xl",
+      "value": 48,
+      "description": ""
+    },
+    {
+      "name": "text-6xl",
+      "value": 60,
+      "description": ""
+    },
+    {
+      "name": "text-7xl",
+      "value": 72,
+      "description": ""
+    },
+    {
+      "name": "text-8xl",
+      "value": 96,
+      "description": ""
+    },
+    {
+      "name": "text-9xl",
+      "value": 128,
+      "description": ""
+    }
+  ]
+}

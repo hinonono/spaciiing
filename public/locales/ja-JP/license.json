@@ -1,6 +1,5 @@
 {
-  "subscriptionSectionTitle": "あなたの購読",
-  "currentPlan": "現在のプラン",
+  "subscriptionSectionTitle": "購読設定",
   "paid": "有料プラン",
   "free": "無料プラン",
   "currenTier": "プラン",
@@ -27,6 +26,19 @@
   "subscribe": "購読する",
   "endIn": "あと",
   "validForFirstBillingCycle": "最初のサブスクリプションサイクルのみに適用されます",
-  "50percentOff": "今なら50%OFF",
-  "30percentOff": "今なら30%OFF"
+  "50percentOff": "今なら50%OFF!",
+  "30percentOff": "今なら30%OFF!",
+  "eraseLicense": "このデバイスのライセンスを解除する",
+  "trySevenDaysFree": "全ての機能を7日間無料でお試し",
+  "unleashYourProductivity": "10種類以上のプロフェッショナルツールで生産性を解放。",
+  "tryItFree": "無料でお試し",
+  "tryAllFeaturesSevenDaysFree": "全ての機能を7日間無料でお試し",
+  "today": "今日",
+  "todayMessage": "すぐに全てのプロ機能にアクセスできます。",
+  "dayFive": "5日目",
+  "dayFiveMessage": "トライアルが間もなく終了することをお知らせするメールをお送りします。",
+  "daySeven": "7日目",
+  "daySevenMessage": "購読が開始されます。その前にキャンセルすれば、料金が発生することはございません。",
+  "seeAllPlans": "全てのプランを見る",
+  "limitedOffer": "期間限定"
 }

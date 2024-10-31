@@ -1,0 +1,181 @@
+{
+  "brand": "Tailwind",
+  "name": "Size",
+  "members": [
+    {
+      "name": "0",
+      "value": 0,
+      "description": ""
+    },
+    {
+      "name": "px",
+      "value": 1,
+      "description": ""
+    },
+    {
+      "name": "0-5",
+      "value": 2,
+      "description": ""
+    },
+    {
+      "name": "1",
+      "value": 4,
+      "description": ""
+    },
+    {
+      "name": "1-5",
+      "value": 6,
+      "description": ""
+    },
+    {
+      "name": "2",
+      "value": 8,
+      "description": ""
+    },
+    {
+      "name": "2-5",
+      "value": 10,
+      "description": ""
+    },
+    {
+      "name": "3",
+      "value": 12,
+      "description": ""
+    },
+    {
+      "name": "3-5",
+      "value": 14,
+      "description": ""
+    },
+    {
+      "name": "4",
+      "value": 16,
+      "description": ""
+    },
+    {
+      "name": "5",
+      "value": 20,
+      "description": ""
+    },
+    {
+      "name": "6",
+      "value": 24,
+      "description": ""
+    },
+    {
+      "name": "7",
+      "value": 28,
+      "description": ""
+    },
+    {
+      "name": "8",
+      "value": 32,
+      "description": ""
+    },
+    {
+      "name": "9",
+      "value": 36,
+      "description": ""
+    },
+    {
+      "name": "10",
+      "value": 40,
+      "description": ""
+    },
+    {
+      "name": "11",
+      "value": 44,
+      "description": ""
+    },
+    {
+      "name": "12",
+      "value": 48,
+      "description": ""
+    },
+    {
+      "name": "14",
+      "value": 56,
+      "description": ""
+    },
+    {
+      "name": "16",
+      "value": 64,
+      "description": ""
+    },
+    {
+      "name": "20",
+      "value": 80,
+      "description": ""
+    },
+    {
+      "name": "24",
+      "value": 96,
+      "description": ""
+    },
+    {
+      "name": "28",
+      "value": 112,
+      "description": ""
+    },
+    {
+      "name": "32",
+      "value": 128,
+      "description": ""
+    },
+    {
+      "name": "36",
+      "value": 144,
+      "description": ""
+    },
+    {
+      "name": "40",
+      "value": 160,
+      "description": ""
+    },
+    {
+      "name": "44",
+      "value": 176,
+      "description": ""
+    },
+    {
+      "name": "48",
+      "value": 192,
+      "description": ""
+    },
+    {
+      "name": "52",
+      "value": 208,
+      "description": ""
+    },
+    {
+      "name": "56",
+      "value": 224,
+      "description": ""
+    },
+    {
+      "name": "60",
+      "value": 240,
+      "description": ""
+    },
+    {
+      "name": "64",
+      "value": 256,
+      "description": ""
+    },
+    {
+      "name": "72",
+      "value": 288,
+      "description": ""
+    },
+    {
+      "name": "80",
+      "value": 320,
+      "description": ""
+    },
+    {
+      "name": "96",
+      "value": 384,
+      "description": ""
+    }
+  ]
+}

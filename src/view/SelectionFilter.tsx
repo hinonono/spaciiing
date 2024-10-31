@@ -5,7 +5,7 @@ import { NodeFilterable } from "../types/NodeFilterable";
 import {
   AdditionalFilterOptions,
   MessageSelectionFilter,
-} from "../types/Message";
+} from "../types/Messages/MessageSelectionFilter";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";

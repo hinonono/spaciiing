@@ -1,4 +1,5 @@
-import { MessageSelectionFilter } from "../types/Message";
+
+import { MessageSelectionFilter } from "../types/Messages/MessageSelectionFilter";
 import * as util from "./util";
 
 export function reception(message: MessageSelectionFilter) {

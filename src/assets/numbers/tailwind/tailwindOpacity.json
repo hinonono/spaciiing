@@ -1,0 +1,111 @@
+{
+  "brand": "Tailwind",
+  "name": "Opacity",
+  "members": [
+    {
+      "name": "0",
+      "value": 0,
+      "description": ""
+    },
+    {
+      "name": "5",
+      "value": 0.05,
+      "description": ""
+    },
+    {
+      "name": "10",
+      "value": 0.1,
+      "description": ""
+    },
+    {
+      "name": "15",
+      "value": 0.15,
+      "description": ""
+    },
+    {
+      "name": "20",
+      "value": 0.2,
+      "description": ""
+    },
+    {
+      "name": "25",
+      "value": 0.25,
+      "description": ""
+    },
+    {
+      "name": "30",
+      "value": 0.3,
+      "description": ""
+    },
+    {
+      "name": "35",
+      "value": 0.35,
+      "description": ""
+    },
+    {
+      "name": "40",
+      "value": 0.4,
+      "description": ""
+    },
+    {
+      "name": "45",
+      "value": 0.45,
+      "description": ""
+    },
+    {
+      "name": "50",
+      "value": 0.5,
+      "description": ""
+    },
+    {
+      "name": "55",
+      "value": 0.55,
+      "description": ""
+    },
+    {
+      "name": "60",
+      "value": 0.6,
+      "description": ""
+    },
+    {
+      "name": "65",
+      "value": 0.65,
+      "description": ""
+    },
+    {
+      "name": "70",
+      "value": 0.7,
+      "description": ""
+    },
+    {
+      "name": "75",
+      "value": 0.75,
+      "description": ""
+    },
+    {
+      "name": "80",
+      "value": 0.8,
+      "description": ""
+    },
+    {
+      "name": "85",
+      "value": 0.85,
+      "description": ""
+    },
+    {
+      "name": "90",
+      "value": 0.9,
+      "description": ""
+    },
+    {
+      "name": "95",
+      "value": 0.95,
+      "description": ""
+    },
+    {
+      "name": "100",
+      "value": 1,
+      "description": ""
+    }
+  ]
+}

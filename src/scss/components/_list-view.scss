@@ -1,0 +1,12 @@
+.list-view {
+    border-radius: var(--cy-border-radius-large);
+    border: 1px solid var(--cy-border-light);
+    overflow: hidden;
+
+    &-header {
+        padding: 8px;
+        min-height: 48px;
+        background-color: var(--figma-color-bg-secondary);
+        font-weight: bold;
+    }
+}

@@ -1,0 +1,18 @@
+export type Module =
+  | "Init"
+  | "Localization"
+  | "Spaciiing"
+  | "Shortcut"
+  | "Framer"
+  | "LoremGenerator"
+  | "Instantiater"
+  | "Renamer"
+  | "VariableEditor"
+  | "VirtualProfile"
+  | "SelectionFilter"
+  | "PluginSetting"
+  | "LicenseManagement"
+  | "AspectRatioHelper"
+  | "Resize"
+  | "StyleIntroducer"
+  | "PropertyClipboard";

@@ -1,9 +1,12 @@
 .button {
     height: var(--cy-button-height-medium);
     border-radius: var(--cy-border-radius-large);
+    position: relative;
 
     span {
-        min-width: 30px;
+        &:not(.chevron-left) {
+            min-width: 30px;
+        }
     }
 
     &--primary {
@@ -12,6 +15,14 @@
 
         &:hover {
             background-color: #0084DC;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+
+            &:hover {
+                background-color: rgb(0, 0, 0, 0.3);
+            }
         }
     }
 
@@ -26,6 +37,7 @@
         }
 
         &:disabled {
+            cursor: not-allowed;
             border-color: var(--button-disabled);
             color: var(--button-disabled);
         }
@@ -37,18 +49,23 @@
         color: var(--figma-color-bg-brand);
         cursor: pointer;
         text-decoration: none;
-        font-weight: bold;
+        // font-weight: bold;
         font-size: var(--font-size-small);
         padding: 0;
 
         &:disabled {
+            cursor: not-allowed;
             color: var(--button-disabled);
         }
     }
 }
 
 .button-reset {
-    all: unset;
-    display: inline-block;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
     cursor: pointer;
+    outline: inherit;
 }

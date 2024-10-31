@@ -5,19 +5,18 @@ import {
   CustomVariableCodeNumber,
 } from "../types/CustomVariableCode";
 import {
+  MessageVariableEditor,
+  MessageGetAvailableCollectionMode,
+  MessageVariableEditorExecuteCode,
   ExternalMessageUpdateCustomCodeExecutionResults,
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
-  MessageGetAvailableCollectionMode,
-  MessageVariableEditor,
-  MessageVariableEditorExecuteCode,
-} from "../types/Message";
+} from "../types/Messages/MessageVariableEditor";
 import * as util from "./util";
 
 export function reception(message: MessageVariableEditor) {
   if (message.phase == undefined) {
     console.log("沒有設定訊息的phase !");
-
     return;
   }
 
@@ -39,18 +38,6 @@ export function reception(message: MessageVariableEditor) {
         break;
     }
   }
-
-  // Do other things
-}
-
-function isCustomVariableCodeColor(
-  variable:
-    | CustomVariableCodeNumber
-    | CustomVariableCodeString
-    | CustomVariableCodeBool
-    | CustomVariableCodeColor
-): variable is CustomVariableCodeColor {
-  return "opacity" in variable && typeof variable.opacity === "number";
 }
 
 async function handleVariableCreation<
@@ -65,85 +52,88 @@ async function handleVariableCreation<
   message: MessageVariableEditorExecuteCode,
   existingVariables: Variable[]
 ) {
-  // 儲存執行時產生的log文字
   const executionResults: Array<string> = [];
 
   for (const item of parsedCode) {
-    // Check if the variable already exists
-    const existingVariable = existingVariables.find(
-      (v: Variable) => v.name === item.name
-    );
+    console.log(item);
 
-    let value: string | number | boolean | RGB | RGBA | null = item.value;
-    if (message.dataType === "COLOR") {
-      // 檢查傳入的型別以縮減範圍，存取opacity屬性
-      if (isCustomVariableCodeColor(item)) {
-        value = util.hexToRgba(item.value, item.opacity);
-      }
-    }
-
-    if (existingVariable) {
-      // Handle the case where the variable already exists
+    if (existingVariables.some((v) => v.name === item.name)) {
       executionResults.push(
         `❌ Variable with name "${item.name}" already exists. Skipping creation.`
       );
-    } else {
-      try {
-        // Create a new variable if it doesn't already exist
-        const variable = figma.variables.createVariable(
-          item.name,
-          collection,
-          message.dataType
-        );
-
-        if (message.scope.includes("ALL_SCOPES")) {
-          variable.scopes = ["ALL_SCOPES"];
-        } else if (message.scope.includes("ALL_FILLS")) {
-          // Remove "FRAME_FILL", "SHAPE_FILL", and "TEXT_FILL" from message.scope
-          variable.scopes = message.scope.filter(
-            (scope) =>
-              !["FRAME_FILL", "SHAPE_FILL", "TEXT_FILL"].includes(scope)
-          );
-        } else {
-          variable.scopes = message.scope;
-        }
-
-        if (message.mode != "") {
-          if (value != null) {
-            variable.setValueForMode(message.mode, value);
-          } else {
-            executionResults.push(
-              `❌ Execute error when creation ${item.name} due to null value.`
-            );
-          }
-        } else {
-          if (value != null) {
-            const modeId = collection.modes[0].modeId;
-            variable.setValueForMode(modeId, value);
-          } else {
-            executionResults.push(
-              `❌ Execute error when creation ${item.name} due to null value.`
-            );
-          }
-        }
-
-        executionResults.push(
-          `✅ Variable with name "${item.name}" created successfully.`
-        );
-      } catch (error) {
-        executionResults.push(
-          `❌ Error creating variable with name "${item.name}":` + String(error)
-        );
-        console.error(
-          `❌ Error creating variable with name "${item.name}":`,
-          error
-        );
-      }
+      continue;
     }
+
+    const result = await createVariable(item, collection, message);
+    executionResults.push(result);
   }
 
   updateVariableCollectionListMessage();
   returnExecutionResults(executionResults);
+}
+
+async function createVariable(
+  item:
+    | CustomVariableCodeNumber
+    | CustomVariableCodeString
+    | CustomVariableCodeBool
+    | CustomVariableCodeColor,
+  collection: VariableCollection,
+  message: MessageVariableEditorExecuteCode
+): Promise<string> {
+  let value: string | number | boolean | RGB | RGBA | null = item.value;
+
+  if (message.variableResolvedDataType === "COLOR") {
+    value = util.parseColorToRgba(item.value as string, 1);
+    if (!value) {
+      return `❌ Invalid color format for variable "${item.name}". Skipping creation.`;
+    }
+  }
+
+  try {
+    const variable = figma.variables.createVariable(
+      item.name,
+      collection,
+      message.variableResolvedDataType
+    );
+
+    variable.scopes = getScopesForVariable(message);
+
+    if (message.variableMode === "") {
+      return `❌ Error creating variable due to no mode selected.`;
+    }
+
+    const modeId = collection.modes[0].modeId;
+    variable.setValueForMode(modeId, value);
+
+    return `✅ Variable with name "${item.name}" created successfully.`;
+  } catch (error) {
+    console.error(
+      `❌ Error creating variable with name "${item.name}":`,
+      error
+    );
+    return (
+      `❌ Error creating variable with name "${item.name}":` + String(error)
+    );
+  }
+}
+
+function getScopesForVariable(
+  message: MessageVariableEditorExecuteCode
+): VariableScope[] {
+  if (message.variableScope.includes("ALL_SCOPES")) {
+    return ["ALL_SCOPES"];
+  }
+
+  if (message.variableScope.includes("ALL_FILLS")) {
+    return message.variableScope.filter(
+      (scope) => !["FRAME_FILL", "SHAPE_FILL", "TEXT_FILL"].includes(scope)
+    );
+  }
+
+  return message.variableResolvedDataType !== "BOOLEAN"
+    ? message.variableScope
+    : [];
 }
 
 function returnExecutionResults(results: Array<string>) {
@@ -198,7 +188,10 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
     figma.notify("❌ The content of custom code must not be empty.");
     return;
   }
-  if (message.destination == "" || message.destination == "new") {
+  if (
+    message.variableCollectionId == "" ||
+    message.variableCollectionId == "new"
+  ) {
     if (message.newCollectionName != undefined) {
       collection = figma.variables.createVariableCollection(
         message.newCollectionName
@@ -208,11 +201,11 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
     }
   } else {
     collection = await figma.variables.getVariableCollectionByIdAsync(
-      message.destination
+      message.variableCollectionId
     );
     if (collection == null) {
       figma.notify(
-        "❌ Cannot find correspoding variable collection by ID provided."
+        "❌ Cannot find corresponding variable collection by ID provided."
       );
       return;
     }
@@ -220,9 +213,56 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
 
   const existingVariables = await findExistingVariables(collection.variableIds);
 
-  switch (message.dataType) {
+  interface FlattenedVariable {
+    name: string;
+    value: string | number | boolean;
+    opacity?: number;
+  }
+
+  type NestedVariable = {
+    [key: string]: NestedVariable | FlattenedVariable;
+  };
+
+  /**
+   * Recursively flattens a nested variable object into an array of flattened variables.
+   * Each flattened variable includes its full path as the name.
+   *
+   * @param obj - The nested variable object to flatten.
+   * @param parentKey - The parent key to prepend to each variable's key.
+   * @returns An array of flattened variables.
+   */
+  const flattenVariables = (
+    obj: NestedVariable,
+    parentKey = ""
+  ): FlattenedVariable[] => {
+    // Object.keys(obj) returns an array of the object's own enumerable property names.
+    // reduce is used to iterate over each key in the array and accumulate the results into a single array.
+    return Object.keys(obj).reduce<FlattenedVariable[]>((acc, key) => {
+      // Construct the new key by appending the current key to the parent key, separated by a slash.
+      const newKey = parentKey ? `${parentKey}/${key}` : key;
+      const value = obj[key];
+
+      // If the value is an object and does not contain a 'value' property, it means it's a nested object.
+      // Recursively flatten the nested object and append the results to the accumulator.
+      if (typeof value === "object" && !("value" in value)) {
+        acc.push(...flattenVariables(value as NestedVariable, newKey));
+      } else {
+        // If the value is not a nested object, add it to the accumulator with the constructed key as its name.
+        acc.push({ ...(value as FlattenedVariable), name: newKey });
+      }
+
+      // Return the accumulator for the next iteration.
+      return acc;
+    }, []);
+  };
+
+  const flattenedCode = flattenVariables(
+    JSON.parse(message.code) as NestedVariable
+  );
+
+  switch (message.variableResolvedDataType) {
     case "BOOLEAN":
-      parsedCode = JSON.parse(message.code) as CustomVariableCodeBool[];
+      parsedCode = flattenedCode as CustomVariableCodeBool[];
       await handleVariableCreation(
         parsedCode,
         collection,
@@ -231,7 +271,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
       );
       break;
     case "COLOR":
-      parsedCode = JSON.parse(message.code) as CustomVariableCodeColor[];
+      parsedCode = flattenedCode as CustomVariableCodeColor[];
       await handleVariableCreation(
         parsedCode,
         collection,
@@ -240,7 +280,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
       );
       break;
     case "FLOAT":
-      parsedCode = JSON.parse(message.code) as CustomVariableCodeNumber[];
+      parsedCode = flattenedCode as CustomVariableCodeNumber[];
       await handleVariableCreation(
         parsedCode,
         collection,
@@ -249,7 +289,7 @@ async function executeCode(message: MessageVariableEditorExecuteCode) {
       );
       break;
     case "STRING":
-      parsedCode = JSON.parse(message.code) as CustomVariableCodeString[];
+      parsedCode = flattenedCode as CustomVariableCodeString[];
       await handleVariableCreation(
         parsedCode,
         collection,

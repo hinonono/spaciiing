@@ -4,9 +4,14 @@ export const navigateToPurchasePage = () => {
   window.open("https://hsiehchengyi.gumroad.com/l/spaciiing-pro", "_blank"); // Replace with your desired URL
 };
 
-export async function verifyLicenseKey(
-  licenseKey: string
-) {
+export const navigateToCheckOutPage = () => {
+  window.open(
+    "https://app.gumroad.com/checkout?product=xyjsy&option=8LhOD0wJakerUsuuL0H3jw%3D%3D&recurrence=monthly&quantity=1",
+    "_blank"
+  ); // Replace with your desired URL
+};
+
+export async function verifyLicenseKey(licenseKey: string) {
   const data = {
     access_token: "Cxuf3E0O7Tlb6O6Yp5f6EpNan1kWD1SUDzAnj0x61HY",
     product_id: "i5iN91_Nnx8Frr_mPRS32A==",

@@ -1,27 +1,22 @@
 // 屬性
-import {
-  MessageFramer,
-  MessageSpaciiing,
-  MessageMemorizer,
-  MessageLoremGenerator,
-  MessageInstantiater,
-  Message,
-  MessageShortcut,
-  MessageRenamer,
-  MessageVariableEditor,
-  MessageVirtualProfile,
-  ExternalMessage,
-  MessageSelectionFilter,
-  MessageLicenseManagement,
-  MessageLocalization,
-  MessageAspectRatio,
-} from "./types/Message";
+import { Message } from "./types/Messages/Message";
+
+import { MessageResize } from "./types/Messages/MessageResize";
+import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";
+import { MessageLocalization } from "./types/Messages/MessageLocalization";
+import { MessageSelectionFilter } from "./types/Messages/MessageSelectionFilter";
+import { MessageVirtualProfile } from "./types/Messages/MessageVirtualProfile";
+import { MessageVariableEditor } from "./types/Messages/MessageVariableEditor";
+import { MessageInstantiater } from "./types/Messages/MessageInstantiater";
+import { MessageLoremGenerator } from "./types/Messages/MessageLoremGenerator";
+import { MessageFramer } from "./types/Messages/MessageFramer";
+import { MessageSpaciiing } from "./types/Messages/MessageSpaciiing";
+import { MessageShortcut } from "./types/Messages/MessageShortcut";
 
 // 功能模組
 import * as init from "./module/init";
 import * as spaciiing from "./module/spaciiing";
 import * as framer from "./module/framer";
-import * as memorizer from "./module/memorizer";
 import * as shortcut from "./module/shortcut";
 import * as lorem from "./module/loremGenerator";
 import * as instantiater from "./module/instantiater";
@@ -33,12 +28,31 @@ import * as util from "./module/util";
 import * as licenseManagement from "./module/licenseManagement";
 import * as localization from "./module/localization";
 import * as aspectRatioHelper from "./module/aspectRatioHelper";
+import * as resize from "./module/resize";
+import * as styleIntroducer from "./module/styleIntroducer";
+import * as propertyClipboard from "./module/propertyClipboard";
+import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
+import { MessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
+import { MessageRenamer } from "./types/Messages/MessageRenamer";
+import { ExternalMessage } from "./types/Messages/ExternalMessage";
+import { MessagePropertyClipboard } from "./types/Messages/MessagePropertyClipboard";
 
 figma.showUI(__html__, { themeColors: true });
-figma.ui.resize(380, 500);
+figma.ui.resize(360, 480);
 
 figma.ui.onmessage = (message: Message) => {
-  console.log(message);
+  // console.log(message);
+
+  if (
+    message.shouldSaveEditorPreference &&
+    message.shouldSaveEditorPreference == true
+  ) {
+    if (message.editorPreference) {
+      util.saveEditorPreference(message.editorPreference);
+    } else {
+      throw new Error("Missing Editor Preference.");
+    }
+  }
 
   switch (message.module) {
     case "Init":
@@ -53,8 +67,8 @@ figma.ui.onmessage = (message: Message) => {
     case "Framer":
       framer.useEqual(message as MessageFramer);
       break;
-    case "Memorizer":
-      memorizer.useQuickAction(message as MessageMemorizer);
+    case "PropertyClipboard":
+      propertyClipboard.reception(message as MessagePropertyClipboard);
       break;
     case "Shortcut":
       shortcut.executeShortcut(message as MessageShortcut);
@@ -83,6 +97,12 @@ figma.ui.onmessage = (message: Message) => {
     case "AspectRatioHelper":
       aspectRatioHelper.reception(message as MessageAspectRatio);
       break;
+    case "Resize":
+      resize.reception(message as MessageResize);
+      break;
+    case "StyleIntroducer":
+      styleIntroducer.reception(message as MessageStyleIntroducer);
+      break;
     default:
       break;
   }
@@ -90,8 +110,6 @@ figma.ui.onmessage = (message: Message) => {
 
 // Function to execute before the plugin is closed
 const handlePluginClose = () => {
-  console.log("Plugin is about to be closed.");
-
   const message: ExternalMessage = {
     module: "VirtualProfile",
     direction: "Outer",

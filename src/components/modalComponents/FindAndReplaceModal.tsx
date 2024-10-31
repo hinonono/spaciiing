@@ -2,22 +2,19 @@ import React, { useState } from "react";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import SectionTitle from "../SectionTitle";
-import {
-  MessageShortcutFindAndReplace,
-  ShortcutAction,
-} from "../../types/Message";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
+import { ShortcutAction, MessageShortcutFindAndReplace } from "../../types/Messages/MessageShortcut";
 
 interface FindAndReplaceModalProps {
-  showFindAndReplaceModal: boolean;
-  handleCloseFindAndReplaceModal: () => void;
+  show: boolean;
+  handleClose: () => void;
 }
 
 const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
-  showFindAndReplaceModal,
-  handleCloseFindAndReplaceModal,
+  show,
+  handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
@@ -70,12 +67,12 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
 
   return (
     <Modal
-      show={showFindAndReplaceModal}
-      handleClose={handleCloseFindAndReplaceModal}
+      show={show}
+      handleClose={handleClose}
     >
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:findInSelection")} />
-        <div className="width-100 mt-xxsmall">
+        <div className="width-100">
           <textarea
             className="textarea"
             rows={1}
@@ -87,7 +84,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       </div>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:replace")} />
-        <div className="width-100 mt-xxsmall">
+        <div className="width-100">
           <textarea
             className="textarea"
             rows={1}

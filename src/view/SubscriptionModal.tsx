@@ -9,11 +9,11 @@ import {
   LicenseResponse,
   LicenseResponseSuccess,
 } from "../types/LicenseManagement";
-import { MessageLicenseManagement } from "../types/Message";
 import { useAppContext } from "../AppProvider";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { handleSubscriptionStatus } from "../module-frontend/licenseManagementFrontEnd";
+import { MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
 
 const SubscriptionModal: React.FC = () => {
   const { licenseManagement } = useAppContext();
@@ -104,6 +104,7 @@ const SubscriptionModal: React.FC = () => {
     setShowActivateModal(false);
     setError(null);
     setLicenseKey("");
+    setResponse(null);
   };
   const handleOpenActivateModal = () => {
     setShowCTSubscribe(true);
@@ -113,6 +114,7 @@ const SubscriptionModal: React.FC = () => {
     setShowActivateModal(false);
     setLicenseKey("");
     setError(null);
+    setResponse(null);
   };
 
   return (
@@ -165,13 +167,7 @@ const SubscriptionModal: React.FC = () => {
             )}
             <div>
               {!response ? (
-                licenseManagement.tier != "PAID" ? (
-                  <FigmaButton
-                    buttonType="secondary"
-                    title={t("license:back")}
-                    onClick={handleCloseActivateModal}
-                  />
-                ) : null
+                licenseManagement.tier != "PAID" ? null : null
               ) : (
                 <FigmaButton
                   title={t("license:finish")}
@@ -182,20 +178,46 @@ const SubscriptionModal: React.FC = () => {
           </div>
         )}
         {!showActivateModal && (
-          <div>
-            <div className="badge">{t("license:pro")}</div>
-            <h2>{t("license:subscribeToUnlock")}</h2>
-            <p>{t("license:youHaveNoActiveLicense")}</p>
+          <div className="free-trial-modal">
+            <h2>{t("license:trySevenDaysFree")}</h2>
+            <p className="text-color-secondary cta-message">
+              {t("license:unleashYourProductivity")}
+            </p>
             <div className="mt-xsmall">
               <FigmaButton
-                title={t("license:subscribeNow")}
-                onClick={paymentsUtil.navigateToPurchasePage}
+                buttonType="special"
+                title={t("license:tryItFree")}
+                onClick={paymentsUtil.navigateToCheckOutPage}
               />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("license:activateLicense")}
-                onClick={handleOpenActivateModal}
-              />
+              <p className="mt-xxxsmall text-center text-color-tertiary">
+                7 days free, then $4.99 / mo.
+              </p>
+            </div>
+            {/* <h4>{t("license:howYourFreeTrialWorks")}</h4> */}
+            <div className="free-trial-graph">
+              <div className="vertical-step-container">
+                <div className="step">
+                  <div className="step-icon">🔓</div>
+                  <div className="step-content">
+                    <h4>{t("license:today")}</h4>
+                    <p>{t("license:todayMessage")}</p>
+                  </div>
+                </div>
+                <div className="step">
+                  <div className="step-icon">🔔</div>
+                  <div className="step-content">
+                    <h4>{t("license:dayFive")}</h4>
+                    <p>{t("license:dayFiveMessage")}</p>
+                  </div>
+                </div>
+                <div className="step">
+                  <div className="step-icon">⭐</div>
+                  <div className="step-content">
+                    <h4>{t("license:daySeven")}</h4>
+                    <p>{t("license:daySevenMessage")}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}

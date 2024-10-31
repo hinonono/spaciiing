@@ -1,6 +1,5 @@
-import { LocalizationService } from "../services/LocalizationService";
-import { Dimension, MessageAspectRatio } from "../types/Message";
-import { notify } from "./pluginNotificationHelper";
+import { Dimension } from "../types/General";
+import { MessageAspectRatio } from "../types/Messages/MessageAspectRatio";
 import * as util from "./util";
 
 export function reception(message: MessageAspectRatio) {
@@ -12,8 +11,6 @@ export function reception(message: MessageAspectRatio) {
     );
   }
 }
-
-
 
 function adjustNodeAspectRatio(
   widthRatio: number,
@@ -29,7 +26,7 @@ function adjustNodeAspectRatio(
     //     notify("noNodesSelected", langCode, "ERROR");
     //   }
     // });
-    figma.notify("No nodes selected.")
+    figma.notify("No nodes selected.");
     return;
   }
 

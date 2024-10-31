@@ -1,9 +1,9 @@
 import {
-  InstantiateForm,
-  InstantiaterCategory,
-  InstantiaterSupportedBrand,
   InstantiaterTarget,
-} from "../types/Message";
+  InstantiaterSupportedBrand,
+  InstantiaterCategory,
+  InstantiateForm,
+} from "../types/Messages/MessageInstantiater";
 
 type AvailableOption = {
   value: InstantiaterTarget;
@@ -144,7 +144,7 @@ const antDesignOptions: AvailableOption[] = [
     category: ["color"],
     thumbnailColor: "rgb(140,140,140)",
     forms: ["style", "variable"],
-    count: 10,
+    count: 13,
   },
   {
     value: "antDesignNeutralColorDark",
@@ -153,7 +153,7 @@ const antDesignOptions: AvailableOption[] = [
     category: ["color"],
     thumbnailColor: "rgb(140,140,140)",
     forms: ["style", "variable"],
-    count: 10,
+    count: 13,
   },
   {
     value: "antDesignDustRedLight",
@@ -379,6 +379,38 @@ const antDesignOptions: AvailableOption[] = [
     forms: ["style"],
     count: 12,
   },
+  {
+    value: "antDesignBreakpoints",
+    label: "Breakpoints",
+    brands: ["antDesign"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 6,
+  },
+  {
+    value: "antDesignFontSize",
+    label: "Font size",
+    brands: ["antDesign"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 6,
+  },
+  {
+    value: "antDesignLineHeight",
+    label: "Line height",
+    brands: ["antDesign"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 6,
+  },
+  {
+    value: "antDesignPadding",
+    label: "Padding",
+    brands: ["antDesign"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 3,
+  },
 ];
 
 const tailwindOptions: AvailableOption[] = [
@@ -571,6 +603,62 @@ const tailwindOptions: AvailableOption[] = [
     forms: ["style", "variable"],
     count: 11,
   },
+  {
+    value: "tailwindBorder",
+    label: "Border",
+    brands: ["tailwind"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 5,
+  },
+  {
+    value: "tailwindBorderRadius",
+    label: "Border radius",
+    brands: ["tailwind"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 9,
+  },
+  {
+    value: "tailwindContainer",
+    label: "Container",
+    brands: ["tailwind"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 5,
+  },
+  {
+    value: "tailwindFontSize",
+    label: "Font size",
+    brands: ["tailwind"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 13,
+  },
+  {
+    value: "tailwindOpacity",
+    label: "Opacity",
+    brands: ["tailwind"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 21,
+  },
+  {
+    value: "tailwindSize",
+    label: "Size",
+    brands: ["tailwind"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 35,
+  },
+  {
+    value: "tailwindShadow",
+    label: "Shadow",
+    brands: ["tailwind"],
+    category: ["effect"],
+    forms: ["style"],
+    count: 7,
+  },
 ];
 
 const bootstrapOptions: AvailableOption[] = [
@@ -672,6 +760,22 @@ const bootstrapOptions: AvailableOption[] = [
     thumbnailColor: "rgb(173, 181, 189)", // Gray 500
     forms: ["style", "variable"],
     count: 9,
+  },
+  {
+    value: "bootstrapBorderRadius",
+    label: "Border radius",
+    brands: ["bootstrap"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 6,
+  },
+  {
+    value: "bootstrapBreakpoints",
+    label: "Breakpoints",
+    brands: ["bootstrap"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 5,
   },
 ];
 
@@ -784,6 +888,62 @@ const polarisOptions: AvailableOption[] = [
     forms: ["style", "variable"],
     count: 16,
   },
+  {
+    value: "polarisBorderRadius",
+    label: "Border radius",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 14,
+  },
+  {
+    value: "polarisBreakpoints",
+    label: "Breakpoints",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 4,
+  },
+  {
+    value: "polarisFontSize",
+    label: "Font size",
+    brands: ["polaris"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 13,
+  },
+  {
+    value: "polarisHeight",
+    label: "Height",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 19,
+  },
+  {
+    value: "polarisWidth",
+    label: "Width",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 19,
+  },
+  {
+    value: "polarisLineHeight",
+    label: "Line height",
+    brands: ["polaris"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 8,
+  },
+  {
+    value: "polarisSpace",
+    label: "Space",
+    brands: ["polaris"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 19,
+  },
 ];
 
 const carbonOptions: AvailableOption[] = [
@@ -895,6 +1055,30 @@ const carbonOptions: AvailableOption[] = [
     forms: ["style", "variable"],
     count: 10,
   },
+  {
+    value: "carbonBreakpoints",
+    label: "Breakpoints",
+    brands: ["carbon"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 5,
+  },
+  {
+    value: "carbonSpacing",
+    label: "Spacing",
+    brands: ["carbon"],
+    category: ["other"],
+    forms: ["variable"],
+    count: 13,
+  },
+  {
+    value: "carbonTypographyScale",
+    label: "Typography scale",
+    brands: ["carbon"],
+    category: ["typography"],
+    forms: ["variable"],
+    count: 17,
+  },
 ];
 
 /**
@@ -913,7 +1097,7 @@ const allOptions: AvailableOption[] = [
       "polaris",
       "carbon",
     ],
-    category: ["color", "effect", "typography"],
+    category: ["color", "effect", "typography", "other"],
     forms: ["style", "variable"],
   },
   ...iosOptions,

@@ -13,7 +13,7 @@ const SaleBanner: React.FC<SaleBannerProps> = ({
   targetDate,
   messageKey,
   url,
-  showCountdown
+  showCountdown,
 }) => {
   const { t } = useTranslation(["license"]);
 
@@ -30,12 +30,18 @@ const SaleBanner: React.FC<SaleBannerProps> = ({
   const bannerMessage = t(`license:${messageKey}`);
 
   return (
-    <div className="banner flex flex-jusify-spacebetween align-items-center">
+    <div className="banner flex flex-justify-spacebetween align-items-center">
       <div className="frame-group">
-        {showCountdown && (
+        {showCountdown ? (
           <div className="flex flex-row align-items-center">
             <span className="font-size-small message-secondary">
               {t("license:endIn")} {timeLeftString}
+            </span>
+          </div>
+        ) : (
+          <div className="flex flex-row align-items-center">
+            <span className="font-size-small message-secondary">
+              {t("license:limitedOffer")}
             </span>
           </div>
         )}
@@ -46,7 +52,8 @@ const SaleBanner: React.FC<SaleBannerProps> = ({
       </div>
       <a className="text-decoration-none" href={url} target="_blank">
         <button className="button button--special">
-          {t("license:subscribe")}
+          <s>$4.99</s>
+          <span className="ml-xxxsmall"> $2.49 / mo.</span>
         </button>
       </a>
     </div>

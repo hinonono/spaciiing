@@ -1,0 +1,31 @@
+{
+  "brand": "Tailwind",
+  "name": "Border",
+  "members": [
+    {
+      "name": "0",
+      "value": 0,
+      "description": ""
+    },
+    {
+      "name": "1",
+      "value": 1,
+      "description": ""
+    },
+    {
+      "name": "2",
+      "value": 2,
+      "description": ""
+    },
+    {
+      "name": "4",
+      "value": 4,
+      "description": ""
+    },
+    {
+      "name": "8",
+      "value": 8,
+      "description": ""
+    }
+  ]
+}

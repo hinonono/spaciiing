@@ -1,15 +1,20 @@
 import React from "react";
-import { TitleBar, FigmaButton, SectionTitle } from "../components";
+import { TitleBar, FigmaButton } from "../components";
 import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import { capitalizeWords } from "../module/util";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
-import { MessageLocalization } from "../types/Message";
+import { MessageLocalization } from "../types/Messages/MessageLocalization";
+import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
 
 const Setting: React.FC = () => {
   // Context
-  const { licenseManagement, setShowActivateModal, setShowCTSubscribe } =
-    useAppContext();
+  const {
+    licenseManagement,
+    setLicenseManagement,
+    setShowActivateModal,
+    setShowCTSubscribe,
+  } = useAppContext();
 
   const { t, i18n } = useTranslation(["common", "settings", "license"]);
 
@@ -37,9 +42,67 @@ const Setting: React.FC = () => {
     <div>
       <TitleBar title={t("settings:moduleName")} showInfoIcon={false} />
       <div className="content">
+        {/*  訂閱 */}
         <div>
-          <h3>{t("settings:moduleName")}</h3>
-          <SectionTitle title={t("settings:preferredLanguage")} />
+          <h3>{t("license:subscriptionSectionTitle")}</h3>
+          <div>
+            {licenseManagement.tier == "PAID" ? (
+              <div className="membership-block pro">
+                <p className="color--secondary">{t("license:currenTier")}</p>
+                <span>
+                  {t("license:paid")}
+                  {licenseManagement.recurrence != undefined ? (
+                    <>({capitalizeWords(licenseManagement.recurrence)})</>
+                  ) : null}
+                </span>
+              </div>
+            ) : (
+              <div className="membership-block">
+                <p className="color--secondary">{t("license:currenTier")}</p>
+                <span>{t("license:free")}</span>
+              </div>
+            )}
+          </div>
+          <div className="mt-xxsmall">
+            {licenseManagement.tier !== "FREE" && (
+              <span className="note">
+                {t("license:licenseStatus")}:{" "}
+                {licenseManagement.isLicenseActive == true
+                  ? t("license:licenseActive")
+                  : t("license:licenseInactive")}
+              </span>
+            )}
+          </div>
+          <div className="mt-xsmall grid">
+            <FigmaButton
+              buttonType="secondary"
+              title={t("license:activateLicense")}
+              onClick={() => {
+                setShowCTSubscribe(true);
+                setShowActivateModal(true);
+              }}
+            />
+            {licenseManagement.tier === "PAID" && (
+              <FigmaButton
+                title={t("license:eraseLicense")}
+                buttonType="secondary"
+                onClick={() => {
+                  licenseManagementFrontEnd.eraseLicense(setLicenseManagement);
+                }}
+              />
+            )}
+            {licenseManagement.tier !== "PAID" && (
+              <FigmaButton
+                title={t("license:seeAllPlans")}
+                buttonType="special"
+                onClick={paymentsUtil.navigateToPurchasePage}
+              />
+            )}
+          </div>
+        </div>
+        {/* 偏好語言 */}
+        <div className="mt-large">
+          <h3>{t("settings:preferredLanguage")}</h3>
           <select
             id="brand_select"
             className="custom-select"
@@ -52,72 +115,43 @@ const Setting: React.FC = () => {
             <option value="zhCN">简体中文</option>
           </select>
         </div>
+        {/* 關於本Plugin */}
         <div className="mt-large">
-          <h3>{t("license:subscriptionSectionTitle")}</h3>
-          <div className="grid">
-            {licenseManagement.tier == "PAID" ? (
-              <div className="membership-block pro">
-                <p className="color--secondary">{t("license:currentPlan")}</p>
-                <span>
-                  {licenseManagement.tier === "PAID"
-                    ? t("license:paid")
-                    : t("license:free")}
-                  {licenseManagement.recurrence != undefined ? (
-                    <div>({capitalizeWords(licenseManagement.recurrence)})</div>
-                  ) : null}
-                </span>
-              </div>
-            ) : (
-              <div className="membership-block">
-                <p className="color--secondary">{t("license:currenTier")}</p>
-                <span>{t("license:free")}</span>
-              </div>
-            )}
-            <div className="membership-block">
-              <p className="color--secondary">{t("license:licenseStatus")}</p>
+          <h3>{t("settings:about")}</h3>
+          <div className="about-spaciiing">
+            <div className="membership-block block1">
+              <p className="color--secondary">{t("settings:version")}</p>
+              <span>19</span>
+            </div>
+            <div className="membership-block block2">
+              <p className="color--secondary">
+                {t("settings:provideFeedback")}
+              </p>
               <span>
-                {licenseManagement.isLicenseActive == true
-                  ? t("license:licenseActive")
-                  : t("license:licenseInactive")}
+                <a
+                  className="text-color-primary"
+                  href="https://forms.gle/jFgzJfs1nw259Kgk8"
+                  target="_blank"
+                >
+                  {t("settings:feedbackForm")}
+                </a>
+              </span>
+            </div>
+            <div className="membership-block block3">
+              <p className="color--secondary">
+                {t("settings:forBugReportOrSupport")}
+              </p>
+              <span>
+                <a
+                  className="text-color-primary"
+                  href="mailto:contact@hsiehchengyi.com"
+                  target="_blank"
+                >
+                  contact@hsiehchengyi.com
+                </a>
               </span>
             </div>
           </div>
-          <div className="mt-xxsmall">
-            <span className="note">{t("license:licenseNote")}</span>
-          </div>
-
-          <div className="mt-xsmall">
-            <FigmaButton
-              buttonType="secondary"
-              title={t("license:activateLicense")}
-              onClick={() => {
-                setShowCTSubscribe(true);
-                setShowActivateModal(true);
-              }}
-            />
-            {licenseManagement.tier != "PAID" && (
-              <FigmaButton
-                title={t("license:subscribeNow")}
-                onClick={paymentsUtil.navigateToPurchasePage}
-              />
-            )}
-          </div>
-        </div>
-        <div className="mt-large">
-          <h3>{t("settings:about")}</h3>
-          <div className="grid">
-            <div className="membership-block">
-              <p className="color--secondary">{t("settings:version")}</p>
-              <span>14</span>
-            </div>
-          </div>
-          <div className="mt-xxsmall"></div>
-          <span className="note">
-            {t("settings:forBugReportOrSupport")}{" "}
-            <a href="mailto:contact@hsiehchengyi.com" target="_blank">
-              contact@hsiehchengyi.com
-            </a>
-          </span>
         </div>
       </div>
     </div>

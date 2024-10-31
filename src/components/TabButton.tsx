@@ -1,11 +1,11 @@
 import React from "react";
-import { ModuleType } from "../types/Message";
+import { Module } from "../types/Module";
 import { SVGprops } from "../types/SVGprops";
 
 interface TabButtonProps {
-  activeTab: ModuleType;
-  tabName: ModuleType;
-  setActiveTab: (value: React.SetStateAction<ModuleType>) => void;
+  activeTab: Module;
+  tabName: Module;
+  setActiveTab: (value: React.SetStateAction<Module>) => void;
   SvgComponent: React.FC<SVGprops>;
 }
 
