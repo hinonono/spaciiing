@@ -168,5 +168,8 @@
   "outerFrame": "Outer Frame",
   "unifyText": "Unify Text",
   "createAutoLayoutIndividually": "Create auto layout individually",
-  "copyFrom": "Copy from"
+  "copyFrom": "Copy from",
+  "pastePreference": "How would you like to paste?",
+  "replaceStyle": "Replace existing style",
+  "addToExistingStyle": "Add on top of existing style"
 }

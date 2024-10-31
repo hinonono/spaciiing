@@ -65,5 +65,15 @@
   "dashCap": "線端",
   "join": "結合",
   "miterAngle": "マイター結合の角度",
-  "exportSettings": "エクスポート設定"
+  "exportSettings": "エクスポート設定",
+  "appearance": "外観",
+  "blendMode": "ブレンドモード",
+  "solidFill": "単色塗り",
+  "gradientFill": "グラデーション塗り",
+  "imageFill": "画像塗り",
+  "videoFill": "動画塗り",
+  "innerShadow": "インナーシャドウ",
+  "dropShadow": "ドロップシャドウ",
+  "layerBlur": "レイヤーブラー",
+  "backgroundBlur": "背景のぼかし"
 }

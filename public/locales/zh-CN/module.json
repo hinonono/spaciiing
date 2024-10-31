@@ -168,5 +168,8 @@
   "outerFrame": "外框架",
   "unifyText": "统一文本",
   "createAutoLayoutIndividually": "单独创建自动布局",
-  "copyFrom": "复制自"
+  "copyFrom": "复制自",
+  "pastePreference": "您希望如何粘贴？",
+  "replaceStyle": "覆盖现有样式",
+  "addToExistingStyle": "新增于现有样式之上"
 }

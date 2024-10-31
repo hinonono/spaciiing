@@ -131,18 +131,18 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       </Modal>
       <Modal show={showBehaviorModal} handleClose={handleCloseBehaviorModal}>
         <div>
-          <h3>{"Specify paste behavior"}</h3>
+          <h3>{t("module:pastePreference")}</h3>
           <div className="grid mt-xsmall">
             <FigmaButton
               buttonType="secondary"
-              title={"Paste to replace"}
+              title={t("module:replaceStyle")}
               onClick={() => handleBehaviorChangeAndConfirm("pasteToReplace")}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
             <FigmaButton
               buttonType="primary"
-              title={"Paste to increment"}
+              title={t("module:addToExistingStyle")}
               onClick={() => handleBehaviorChangeAndConfirm("pasteToIncrement")}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
@@ -232,7 +232,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="list-view-header property-clipboard-header">
               <div></div>
               <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {"Appearance"}
+                {t("term:appearance")}
               </div>
               <div>
                 <FigmaButton
@@ -254,7 +254,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="padding-16 grid border-1-top">
               <FigmaButton
                 buttonType="secondary"
-                title={"Opacity"}
+                title={t("term:opacity")}
                 onClick={() => {
                   pastePropertyToObject(["LAYER_OPACITY"]);
                 }}
@@ -263,7 +263,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Corner radius"}
+                title={t("term:cornerRadius")}
                 onClick={() => {
                   pastePropertyToObject(["LAYER_CORNER_RADIUS"]);
                 }}
@@ -272,7 +272,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Blend mode"}
+                title={t("term:blendMode")}
                 onClick={() => {
                   pastePropertyToObject(["LAYER_BLEND_MODE"]);
                 }}
@@ -304,7 +304,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="padding-16 grid border-1-top">
               <FigmaButton
                 buttonType="secondary"
-                title={"Solid fill"}
+                title={t("term:solidFill")}
                 onClick={() => {
                   openModalWithProperties(["FILL_SOLID"]);
                 }}
@@ -313,7 +313,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Gradient fill"}
+                title={t("term:gradientFill")}
                 onClick={() => {
                   openModalWithProperties(["FILL_GRADIENT"]);
                 }}
@@ -322,7 +322,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Image fill"}
+                title={t("term:imageFill")}
                 onClick={() => {
                   openModalWithProperties(["FILL_IMAGE"]);
                 }}
@@ -331,7 +331,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Video fill"}
+                title={t("term:videoFill")}
                 onClick={() => {
                   openModalWithProperties(["FILL_VIDEO"]);
                 }}
@@ -477,7 +477,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="padding-16 grid border-1-top">
               <FigmaButton
                 buttonType="secondary"
-                title={"Inner shadow"}
+                title={t("term:innerShadow")}
                 onClick={() => {
                   openModalWithProperties(["EFFECT_INNER_SHADOW"]);
                 }}
@@ -486,7 +486,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Drop shadow"}
+                title={t("term:dropShadow")}
                 onClick={() => {
                   openModalWithProperties(["EFFECT_DROP_SHADOW"]);
                 }}
@@ -495,7 +495,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Layer blur"}
+                title={t("term:layerBlur")}
                 onClick={() => {
                   openModalWithProperties(["EFFECT_LAYER_BLUR"]);
                 }}
@@ -504,7 +504,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
               <FigmaButton
                 buttonType="secondary"
-                title={"Background blur"}
+                title={t("term:backgroundBlur")}
                 onClick={() => {
                   openModalWithProperties(["EFFECT_BACKGROUND_BLUR"]);
                 }}
