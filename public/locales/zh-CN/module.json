@@ -86,7 +86,7 @@
   "value": "值",
   "modulePropertyClipboard": "属性剪贴板",
   "modulePropertyClipboardDesc": "记住选择对象的特定属性，然后将其应用到另一对象。",
-  "nothingInsideClipboard": "剪贴板内没有内容。",
+  "selectLayerAsReference": "请选择一个图层作为参考以粘贴其属性。",
   "memorize": "记忆",
   "name": "名称",
   "moduleSpaciiing": "间距",

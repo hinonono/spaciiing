@@ -86,7 +86,7 @@
   "value": "Value",
   "modulePropertyClipboard": "Property Clipboard",
   "modulePropertyClipboardDesc": "Memorize specific property of selected object, then apply it to another object(s).",
-  "nothingInsideClipboard": "There is nothing inside the clipboard.",
+  "selectLayerAsReference": "Select a layer as reference to paste its property.",
   "memorize": "Memorize",
   "name": "Name",
   "moduleSpaciiing": "Spaciiing",

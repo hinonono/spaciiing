@@ -86,7 +86,7 @@
   "value": "値",
   "modulePropertyClipboard": "プロパティクリップボード",
   "modulePropertyClipboardDesc": "選択したオブジェクトの特定のプロパティを記憶し、別のオブジェクトに適用します。",
-  "nothingInsideClipboard": "クリップボードには何もありません。",
+  "selectLayerAsReference": "参照するレイヤーを選択してください」",
   "memorize": "記憶する",
   "name": "名前",
   "moduleSpaciiing": "Spaciiing",

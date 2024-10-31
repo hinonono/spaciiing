@@ -86,7 +86,7 @@
   "value": "值",
   "modulePropertyClipboard": "屬性剪貼簿",
   "modulePropertyClipboardDesc": "記憶所選對象的特定屬性，然後將其套用到另一個對象（或多個對象）上。",
-  "nothingInsideClipboard": "剪貼簿中沒有內容。",
+  "selectLayerAsReference": "請選擇一個圖層作為參考以貼上其屬性。",
   "memorize": "記憶",
   "name": "名稱",
   "moduleSpaciiing": "Spaciiing",

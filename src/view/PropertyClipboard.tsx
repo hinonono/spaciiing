@@ -97,7 +97,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             <div className="flex variable-list flex flex-justify-center align-items-center">
               <div>
                 <span className="note">
-                  {t("module:nothingInsideClipboard")}
+                  {t("module:selectLayerAsReference")}
                 </span>
               </div>
             </div>
