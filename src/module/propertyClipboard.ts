@@ -256,7 +256,7 @@ function setSelectionSolidFill(referenceObject: CopyPastableNode) {
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
       // Apply only the array of solid fills
-      object.fills = solidFills;
+      object.fills = [...object.fills, ...solidFills];
     } else {
       // Notify if the object cannot have fills applied
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
@@ -296,7 +296,7 @@ function setSelectionGradientFill(referenceObject: CopyPastableNode) {
   // Loop through the selection to apply only the gradient fills array
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
-      object.fills = gradientFills;
+      object.fills = [...object.fills, ...gradientFills];
     } else {
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
     }
@@ -329,7 +329,7 @@ function setSelectionImageFill(referenceObject: CopyPastableNode) {
   // Loop through the selection to apply only the image fills array
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
-      object.fills = imageFills;
+      object.fills = [...object.fills, ...imageFills];
     } else {
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
     }
@@ -362,7 +362,7 @@ function setSelectionVideoFill(referenceObject: CopyPastableNode) {
   // Loop through the selection to apply only the video fills array
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
-      object.fills = videoFills;
+      object.fills = [...object.fills, ...videoFills];
     } else {
       figma.notify(`❌ Object of type ${object.type} does not support fills.`);
     }
