@@ -465,12 +465,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 <FigmaButton
                   title={t("module:applyAll")}
                   onClick={() => {
-                    pastePropertyToObject([
-                      "EFFECT_INNER_SHADOW",
-                      "EFFECT_DROP_SHADOW",
-                      "EFFECT_LAYER_BLUR",
-                      "EFFECT_BACKGROUND_BLUR",
-                    ]);
+                    openModalWithProperties(["EFFECT_ALL"]);
                   }}
                   buttonHeight="small"
                   fontSize="small"
@@ -484,7 +479,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Inner shadow"}
                 onClick={() => {
-                  pastePropertyToObject(["EFFECT_INNER_SHADOW"]);
+                  openModalWithProperties(["EFFECT_INNER_SHADOW"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -493,7 +488,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Drop shadow"}
                 onClick={() => {
-                  pastePropertyToObject(["EFFECT_DROP_SHADOW"]);
+                  openModalWithProperties(["EFFECT_DROP_SHADOW"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -502,7 +497,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Layer blur"}
                 onClick={() => {
-                  pastePropertyToObject(["EFFECT_LAYER_BLUR"]);
+                  openModalWithProperties(["EFFECT_LAYER_BLUR"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -511,7 +506,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Background blur"}
                 onClick={() => {
-                  pastePropertyToObject(["EFFECT_BACKGROUND_BLUR"]);
+                  openModalWithProperties(["EFFECT_BACKGROUND_BLUR"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}

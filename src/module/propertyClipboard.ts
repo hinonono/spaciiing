@@ -147,7 +147,7 @@ function pastePropertyToObject(
       setSelectionStrokeMiterLimit(referenceObject);
       break;
     case "FILL_ALL":
-      setSelectionAllFill(referenceObject, behavior);
+      setSelectionAllFills(referenceObject, behavior);
       break;
     case "FILL_SOLID":
       setSelectionSolidFill(referenceObject, behavior);
@@ -160,6 +160,21 @@ function pastePropertyToObject(
       break;
     case "FILL_VIDEO":
       setSelectionVideoFill(referenceObject, behavior);
+      break;
+    case "EFFECT_ALL":
+      setSelectionAllEffects(referenceObject, behavior);
+      break;
+    case "EFFECT_INNER_SHADOW":
+      setSelectionInnerShadow(referenceObject, behavior);
+      break;
+    case "EFFECT_DROP_SHADOW":
+      setSelectionDropShadow(referenceObject, behavior);
+      break;
+    case "EFFECT_LAYER_BLUR":
+      setSelectionLayerBlur(referenceObject, behavior);
+      break;
+    case "EFFECT_BACKGROUND_BLUR":
+      setSelectionBackgroundBlur(referenceObject, behavior);
       break;
     case "EXPORT_SETTINGS":
       setSelectionExportSettings(referenceObject);
@@ -247,7 +262,7 @@ function setSelectionBlendMode(referenceObject: CopyPastableNode) {
   });
 }
 
-function setSelectionAllFill(
+function setSelectionAllFills(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
 ) {
@@ -706,6 +721,198 @@ function setSelectionExportSettings(referenceObject: CopyPastableNode) {
       object.exportSettings = referenceObject.exportSettings;
     } else {
       figma.notify(`❌ Object does not support export settings.`);
+    }
+  });
+}
+
+function setSelectionAllEffects(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  const effects = referenceObject.effects as readonly Effect[] | undefined;
+  if (!effects || effects.length === 0) {
+    figma.notify("❌ Reference object has no effects.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("effects" in object && Array.isArray(object.effects)) {
+      if (behavior === "pasteToIncrement") {
+        object.effects = [...object.effects, ...effects];
+      } else {
+        object.effects = effects;
+      }
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support effects.`
+      );
+    }
+  });
+}
+
+function setSelectionInnerShadow(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  const effects = referenceObject.effects as readonly Effect[] | undefined;
+  if (!effects) {
+    figma.notify("❌ Reference object has no effects.");
+    return;
+  }
+
+  const innerShadows = effects.filter(
+    (effect) => effect.type === "INNER_SHADOW"
+  );
+
+  if (innerShadows.length === 0) {
+    figma.notify("❌ Reference object does not contain any inner shadows.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("effects" in object && Array.isArray(object.effects)) {
+      if (behavior === "pasteToIncrement") {
+        object.effects = [...object.effects, ...innerShadows];
+      } else {
+        object.effects = innerShadows;
+      }
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support effects.`
+      );
+    }
+  });
+}
+
+function setSelectionDropShadow(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  const effects = referenceObject.effects as readonly Effect[] | undefined;
+  if (!effects) {
+    figma.notify("❌ Reference object has no effects.");
+    return;
+  }
+
+  const dropShadows = effects.filter((effect) => effect.type === "DROP_SHADOW");
+
+  if (dropShadows.length === 0) {
+    figma.notify("❌ Reference object does not contain any drop shadows.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("effects" in object && Array.isArray(object.effects)) {
+      if (behavior === "pasteToIncrement") {
+        object.effects = [...object.effects, ...dropShadows];
+      } else {
+        object.effects = dropShadows;
+      }
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support effects.`
+      );
+    }
+  });
+}
+
+function setSelectionLayerBlur(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  const effects = referenceObject.effects as readonly Effect[] | undefined;
+  if (!effects) {
+    figma.notify("❌ Reference object has no effects.");
+    return;
+  }
+
+  const layerBlurs = effects.filter((effect) => effect.type === "LAYER_BLUR");
+
+  if (layerBlurs.length === 0) {
+    figma.notify("❌ Reference object does not contain any layer blur.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("effects" in object && Array.isArray(object.effects)) {
+      if (behavior === "pasteToIncrement") {
+        object.effects = [...object.effects, ...layerBlurs];
+      } else {
+        object.effects = layerBlurs;
+      }
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support effects.`
+      );
+    }
+  });
+}
+
+function setSelectionBackgroundBlur(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  const effects = referenceObject.effects as readonly Effect[] | undefined;
+  if (!effects) {
+    figma.notify("❌ Reference object has no effects.");
+    return;
+  }
+
+  const backgroundBlurs = effects.filter(
+    (effect) => effect.type === "BACKGROUND_BLUR"
+  );
+
+  if (backgroundBlurs.length === 0) {
+    figma.notify("❌ Reference object does not contain any background blur.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("effects" in object && Array.isArray(object.effects)) {
+      if (behavior === "pasteToIncrement") {
+        object.effects = [...object.effects, ...backgroundBlurs];
+      } else {
+        object.effects = backgroundBlurs;
+      }
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support effects.`
+      );
     }
   });
 }

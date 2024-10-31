@@ -18,6 +18,7 @@ export type PropertyClipboardSupportedProperty =
   | "STROKE_CAP"
   | "STROKE_JOIN"
   | "STROKE_MITER_LIMIT"
+  | "EFFECT_ALL"
   | "EFFECT_INNER_SHADOW"
   | "EFFECT_DROP_SHADOW"
   | "EFFECT_LAYER_BLUR"
