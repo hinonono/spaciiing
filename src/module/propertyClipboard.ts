@@ -184,13 +184,6 @@ function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
 
   selection.forEach((object) => {
     if (
-      util.isNodeSupportCornerRadius(object) &&
-      util.isNodeSupportCornerRadius(referenceObject)
-    ) {
-      // Applies full radius and smoothing if supported by both
-      object.cornerRadius = referenceObject.cornerRadius;
-      object.cornerSmoothing = referenceObject.cornerSmoothing;
-    } else if (
       util.isNodeSupportSingleCornerRadius(object) &&
       util.isNodeSupportSingleCornerRadius(referenceObject)
     ) {
@@ -199,6 +192,15 @@ function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
       object.topRightRadius = referenceObject.topRightRadius;
       object.bottomRightRadius = referenceObject.bottomRightRadius;
       object.bottomLeftRadius = referenceObject.bottomLeftRadius;
+    } else if (
+      util.isNodeSupportCornerRadius(object) &&
+      util.isNodeSupportCornerRadius(referenceObject)
+    ) {
+      // Applies full radius and smoothing if supported by both
+      console.log("Here I am");
+
+      object.cornerRadius = referenceObject.cornerRadius;
+      object.cornerSmoothing = referenceObject.cornerSmoothing;
     } else {
       // Informs user if corner radius is not supported
       figma.notify(
