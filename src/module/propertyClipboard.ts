@@ -273,11 +273,12 @@ function setSelectionSolidFill(
   // Loop through the selection to apply only the solid fills array
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
-      // Apply only the array of solid fills
       if (behavior === "pasteToIncrement") {
-        object.fills = [...object.fills, ...solidFills];
+        // Use a new array with a fresh copy of the current fills plus solidFills
+        object.fills = [...(object.fills || []), ...solidFills];
       } else {
-        object.fills = solidFills;
+        // Replace the entire fills array with a new copy of solidFills
+        object.fills = [...solidFills];
       }
     } else {
       // Notify if the object cannot have fills applied
