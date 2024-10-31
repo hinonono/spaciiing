@@ -1,6 +1,13 @@
 export type PropertyClipboardSupportedProperty =
   | "WIDTH"
   | "HEIGHT"
+  | "LAYER_OPACITY"
+  | "LAYER_CORNER_RADIUS"
+  | "LAYER_BLEND_MODE"
+  | "FILL_SOLID"
+  | "FILL_GRADIENT"
+  | "FILL_IMAGE"
+  | "FILL_VIDEO"
   | "STROKES"
   | "STROKE_ALIGN"
   | "STROKE_WEIGHT"
@@ -10,4 +17,8 @@ export type PropertyClipboardSupportedProperty =
   | "STROKE_CAP"
   | "STROKE_JOIN"
   | "STROKE_MITER_LIMIT"
+  | "EFFECT_INNER_SHADOW"
+  | "EFFECT_DROP_SHADOW"
+  | "EFFECT_LAYER_BLUR"
+  | "EFFECT_BACKGROUND_BLUR"
   | "EXPORT_SETTINGS";

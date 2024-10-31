@@ -155,6 +155,124 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
             </div>
           </div>
+          {/* 外觀 */}
+          <div className="list-view  mt-xsmall">
+            <div className="list-view-header property-clipboard-header">
+              <div></div>
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {"Appearance"}
+              </div>
+              <div>
+                <FigmaButton
+                  title={t("module:applyAll")}
+                  onClick={() => {
+                    pastePropertyToObject([
+                      "LAYER_OPACITY",
+                      "LAYER_CORNER_RADIUS",
+                      "LAYER_BLEND_MODE",
+                    ]);
+                  }}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
+              </div>
+            </div>
+            <div className="padding-16 grid border-1-top">
+              <FigmaButton
+                buttonType="secondary"
+                title={"Opacity"}
+                onClick={() => {
+                  pastePropertyToObject(["LAYER_OPACITY"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Corner radius"}
+                onClick={() => {
+                  pastePropertyToObject(["LAYER_CORNER_RADIUS"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Blend mode"}
+                onClick={() => {
+                  pastePropertyToObject(["LAYER_BLEND_MODE"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
+          </div>
+          {/* 填色 */}
+          <div className="list-view  mt-xsmall">
+            <div className="list-view-header property-clipboard-header">
+              <div></div>
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {t("term:allFills")}
+              </div>
+              <div>
+                <FigmaButton
+                  title={t("module:applyAll")}
+                  onClick={() => {
+                    pastePropertyToObject([
+                      "FILL_SOLID",
+                      "FILL_GRADIENT",
+                      "FILL_IMAGE",
+                      "FILL_VIDEO",
+                    ]);
+                  }}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
+              </div>
+            </div>
+            <div className="padding-16 grid border-1-top">
+              <FigmaButton
+                buttonType="secondary"
+                title={"Solid fill"}
+                onClick={() => {
+                  pastePropertyToObject(["FILL_SOLID"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Gradient fill"}
+                onClick={() => {
+                  pastePropertyToObject(["FILL_GRADIENT"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Image fill"}
+                onClick={() => {
+                  pastePropertyToObject(["FILL_IMAGE"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Video fill"}
+                onClick={() => {
+                  pastePropertyToObject(["FILL_VIDEO"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
+          </div>
           {/* 筆畫 */}
           <div className="list-view mt-xsmall">
             <div className="list-view-header property-clipboard-header">
@@ -263,6 +381,70 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 title={t("term:miterAngle")}
                 onClick={() => {
                   pastePropertyToObject(["STROKE_MITER_LIMIT"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
+          </div>
+          {/* 效果 */}
+          <div className="list-view  mt-xsmall">
+            <div className="list-view-header property-clipboard-header">
+              <div></div>
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                {t("term:effect")}
+              </div>
+              <div>
+                <FigmaButton
+                  title={t("module:applyAll")}
+                  onClick={() => {
+                    pastePropertyToObject([
+                      "EFFECT_INNER_SHADOW",
+                      "EFFECT_DROP_SHADOW",
+                      "EFFECT_LAYER_BLUR",
+                      "EFFECT_BACKGROUND_BLUR",
+                    ]);
+                  }}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
+              </div>
+            </div>
+            <div className="padding-16 grid border-1-top">
+              <FigmaButton
+                buttonType="secondary"
+                title={"Inner shadow"}
+                onClick={() => {
+                  pastePropertyToObject(["EFFECT_INNER_SHADOW"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Drop shadow"}
+                onClick={() => {
+                  pastePropertyToObject(["EFFECT_DROP_SHADOW"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Layer blur"}
+                onClick={() => {
+                  pastePropertyToObject(["EFFECT_LAYER_BLUR"]);
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={"Background blur"}
+                onClick={() => {
+                  pastePropertyToObject(["EFFECT_BACKGROUND_BLUR"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
