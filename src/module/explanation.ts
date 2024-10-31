@@ -42,6 +42,7 @@ export function createExplanationItem(
     { family: fontName.family, style: "Semi Bold" },
     semanticTokens.fontSize.base * 1.25
   );
+
   const descriptionNode = createTextNode(
     description == "" ? "(blank)" : description,
     fontName,
@@ -86,7 +87,7 @@ export function createExplanationItem(
       "VERTICAL"
     );
     colorHexNode.layoutSizingHorizontal = "FILL";
-    titleWrapper.name = "Explanation Item Title Wrapper";
+    titleWrapper.name = "Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
 
     explanationTextsWrapperNode = createAutolayoutFrame(
@@ -109,7 +110,7 @@ export function createExplanationItem(
       semanticTokens.spacing.xsmall,
       "VERTICAL"
     );
-    titleWrapper.name = "Explanation Item Title Wrapper";
+    titleWrapper.name = "Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
 
     explanationTextsWrapperNode = createAutolayoutFrame(
@@ -134,7 +135,7 @@ export function createExplanationItem(
       semanticTokens.padding.xsmall,
       "VERTICAL"
     );
-    titleWrapper.name = "Explanation Item Title Wrapper";
+    titleWrapper.name = "Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
     textPropertiesWrappers.forEach((wrapper) => {
       wrapper.layoutSizingHorizontal = "FILL";
@@ -160,7 +161,7 @@ export function createExplanationItem(
       semanticTokens.spacing.large,
       "VERTICAL"
     );
-    titleWrapper.name = "Explanation Item Title Wrapper";
+    titleWrapper.name = "Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
     effectWrappers.forEach((wrapper) => {
       wrapper.layoutSizingHorizontal = "FILL";
@@ -187,7 +188,7 @@ export function createExplanationItem(
 
   titleNode.layoutSizingHorizontal = "FILL";
   descriptionNode.layoutSizingHorizontal = "FILL";
-  explanationTextsWrapperNode.name = "Explanation Item Texts Wrapper";
+  explanationTextsWrapperNode.name = "Info Wrapper";
 
   if (aliasNameWrapperNode) {
     aliasNameWrapperNode.layoutSizingHorizontal = "FILL";
@@ -398,6 +399,7 @@ export function createExplanationWrapper(
     semanticTokens.spacing.xsmall,
     "VERTICAL"
   );
+  titleWrapper.name = "Title Wrapper";
 
   createdDateNode.textAlignHorizontal = "RIGHT";
   createdDateNode.layoutSizingHorizontal = "FILL";
@@ -405,6 +407,7 @@ export function createExplanationWrapper(
   secondaryTitleNode.layoutSizingHorizontal = "FILL";
 
   const itemsFrame = createAutolayoutFrame(explanationItems, 0, "VERTICAL");
+  itemsFrame.name = "Explanation Items";
   itemsFrame.clipsContent = false;
   itemsFrame.layoutSizingHorizontal = "HUG";
   itemsFrame.layoutSizingVertical = "HUG";
@@ -695,7 +698,7 @@ function createEffectPropertiesWrappers(
       semanticTokens.spacing.xsmall,
       "VERTICAL"
     );
-    effectWrapper.name = "Effects"
+    effectWrapper.name = "Effects";
     countNode.layoutSizingHorizontal = "FILL";
 
     if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
