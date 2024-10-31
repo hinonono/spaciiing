@@ -98,6 +98,14 @@ function pastePropertyToObject(
     case "HEIGHT":
       setSelectionHeight(referenceObject);
       break;
+    case "LAYER_OPACITY":
+      setSelectionOpacity(referenceObject);
+      break;
+    case "LAYER_CORNER_RADIUS":
+      setSelectionCornerRadius(referenceObject);
+      break;
+    case "LAYER_BLEND_MODE":
+      setSelectionBlendMode(referenceObject);
     case "STROKES":
       setSelectionStrokes(referenceObject);
       break;
@@ -132,6 +140,81 @@ function pastePropertyToObject(
       figma.notify(`Unsupported property type: ${property}`);
       break;
   }
+}
+
+// Set opacity of selected layers from the reference object
+function setSelectionOpacity(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("opacity" in object) {
+      // Check if the object has an opacity property
+      object.opacity = referenceObject.opacity;
+    } else {
+      figma.notify(`❌ Object of type ${object.type} cannot have opacity set.`);
+    }
+  });
+}
+
+// Set corner radius of selected layers from the reference object
+function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if (
+      util.isNodeSupportCornerRadius(object) &&
+      util.isNodeSupportCornerRadius(referenceObject)
+    ) {
+      // Applies full radius and smoothing if supported by both
+      object.cornerRadius = referenceObject.cornerRadius;
+      object.cornerSmoothing = referenceObject.cornerSmoothing;
+    } else if (
+      util.isNodeSupportSingleCornerRadius(object) &&
+      util.isNodeSupportSingleCornerRadius(referenceObject)
+    ) {
+      // Applies single corner radii if both support single corners
+      object.topLeftRadius = referenceObject.topLeftRadius;
+      object.topRightRadius = referenceObject.topRightRadius;
+      object.bottomRightRadius = referenceObject.bottomRightRadius;
+      object.bottomLeftRadius = referenceObject.bottomLeftRadius;
+    } else {
+      // Informs user if corner radius is not supported
+      figma.notify(
+        `❌ Object of type ${object.type} cannot have corner radius set.`
+      );
+    }
+  });
+}
+
+// Set blend mode of selected layers from the reference object
+function setSelectionBlendMode(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if ("blendMode" in object) {
+      // Check if the object has a blendMode property
+      object.blendMode = referenceObject.blendMode;
+    } else {
+      figma.notify(
+        `❌ Object of type ${object.type} cannot have blend mode set.`
+      );
+    }
+  });
 }
 
 function setSelectionWidth(referenceObject: CopyPastableNode) {

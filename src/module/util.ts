@@ -9,6 +9,8 @@ import { Module } from "../types/Module";
 import { ResizableNode } from "../types/NodeResizable";
 import { semanticTokens } from "./tokens";
 import loremText from "../assets/loremText.json";
+import { CornerRadiusNode } from "../types/NodeCornerRadius";
+import { SingleCornerRadiusNode } from "../types/NodeSingleCornerRadius";
 
 const isDevelopment = process.env.REACT_APP_ENV === "development";
 
@@ -612,4 +614,31 @@ export function formatNumberToDecimals(
   } else {
     return value.toFixed(decimal); // If the value has decimals, format to 2 decimal places
   }
+}
+
+export function isNodeSupportSingleCornerRadius(
+  node: SceneNode
+): node is SingleCornerRadiusNode {
+  return (
+    node.type === "COMPONENT" ||
+    node.type === "COMPONENT_SET" ||
+    node.type === "FRAME" ||
+    node.type === "INSTANCE" ||
+    node.type === "RECTANGLE"
+  );
+}
+
+export function isNodeSupportCornerRadius(
+  node: SceneNode
+): node is CornerRadiusNode {
+  return (
+    node.type === "BOOLEAN_OPERATION" ||
+    node.type === "COMPONENT" ||
+    node.type === "COMPONENT_SET" ||
+    node.type === "FRAME" ||
+    node.type === "INSTANCE" ||
+    node.type === "RECTANGLE" ||
+    node.type === "STAR" ||
+    node.type === "VECTOR"
+  );
 }
