@@ -121,7 +121,7 @@ const Setting: React.FC = () => {
           <div className="about-spaciiing">
             <div className="membership-block block1">
               <p className="color--secondary">{t("settings:version")}</p>
-              <span>19</span>
+              <span>20</span>
             </div>
             <div className="membership-block block2">
               <p className="color--secondary">

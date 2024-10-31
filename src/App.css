@@ -287,7 +287,7 @@
 .custom-checkbox-group .container {
   display: block;
   position: relative;
-  padding: 7px 0px;
+  padding: 10px 0px;
   padding-left: 28px;
   cursor: pointer;
   font-size: var(--font-size-small);
@@ -317,7 +317,7 @@
 
 .checkmark {
   position: absolute;
-  top: 2;
+  top: 6;
   left: 4;
   height: 18px;
   width: 18px;
@@ -437,12 +437,12 @@
 .folder-navigator li .container {
   margin-left: 16px;
   margin-right: 16px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 .folder-navigator li .container:hover {
   background-color: var(--figma-color-bg-secondary);
-  border-radius: var(--border-radius-med);
+  border-radius: var(--cy-border-radius-medium);
 }
 .folder-navigator li:first-child .container {
   margin-top: 16px;
