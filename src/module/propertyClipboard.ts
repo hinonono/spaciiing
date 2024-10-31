@@ -187,21 +187,7 @@ function pastePropertyToObject(
 
 // Set opacity of selected layers from the reference object
 function setSelectionOpacity(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("opacity" in object) {
-      // Check if the object has an opacity property
-      object.opacity = referenceObject.opacity;
-    } else {
-      figma.notify(`❌ Object of type ${object.type} cannot have opacity set.`);
-    }
-  });
+  applyPropertyToSelection(referenceObject, "opacity");
 }
 
 // Set corner radius of selected layers from the reference object
@@ -243,23 +229,7 @@ function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
 
 // Set blend mode of selected layers from the reference object
 function setSelectionBlendMode(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("blendMode" in object) {
-      // Check if the object has a blendMode property
-      object.blendMode = referenceObject.blendMode;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} cannot have blend mode set.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "blendMode");
 }
 
 function setSelectionAllFills(
@@ -499,83 +469,19 @@ function setSelectionHeight(referenceObject: CopyPastableNode) {
 }
 
 function setSelectionStrokes(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokes" in object) {
-      // Check if the object has strokes property
-      object.strokes = referenceObject.strokes;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support strokes.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokes");
 }
 
 function setSelectionStrokeWeight(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeWeight" in object) {
-      // Check if the object has strokeWeight property
-      object.strokeWeight = referenceObject.strokeWeight;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke weight.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeWeight");
 }
 
 function setSelectionStrokeAlign(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeAlign" in object) {
-      // Check if the object has strokeAlign property
-      object.strokeAlign = referenceObject.strokeAlign;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke alignment.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeAlign");
 }
 
 function setSelectionStrokeStyle(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("dashPattern" in object) {
-      // Check if the object has strokeAlign property
-      object.dashPattern = referenceObject.dashPattern;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke style.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "dashPattern");
 }
 
 function setSelectionStrokeDash(referenceObject: CopyPastableNode) {
@@ -649,66 +555,51 @@ function setSelectionStrokeGap(referenceObject: CopyPastableNode) {
 }
 
 function setSelectionStrokeCap(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeCap" in object) {
-      // Check if the object has strokeCap property
-      object.strokeCap = referenceObject.strokeCap;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke cap.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeCap");
 }
 
 function setSelectionStrokeJoin(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeJoin" in object) {
-      // Check if the object has strokeJoin property
-      object.strokeJoin = referenceObject.strokeJoin;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke join.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeJoin");
 }
 
 function setSelectionStrokeMiterLimit(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeMiterLimit" in object) {
-      // Check if the object has strokeMiterLimit property
-      object.strokeMiterLimit = referenceObject.strokeMiterLimit;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke miter limit.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeMiterLimit");
 }
 
 function setSelectionExportSettings(referenceObject: CopyPastableNode) {
+  applyPropertyToSelection(referenceObject, "exportSettings");
+}
+
+/**
+ * Applies a specified property from a reference object to all currently selected objects.
+ *
+ * This function dynamically copies a property (e.g., `strokeMiterLimit`, `opacity`)
+ * from the `referenceObject` to each object in the current selection. It also supports
+ * optional notifications when the selected object does not support the specified property.
+ *
+ * @param referenceObject - The object from which to copy the property value.
+ *                          This object must contain the property specified by `propertyName`.
+ * @param propertyName - The name of the property to apply to the selected objects.
+ *                       This should be a key of `CopyPastableNode`, e.g., `"strokeMiterLimit"`, `"opacity"`, etc.
+ * @param notifyUnsupported - A boolean flag indicating whether to notify the user if a
+ *                            selected object does not support the specified property.
+ *                            Defaults to `true`.
+ *
+ * Example usage:
+ * ```typescript
+ * applyPropertyToSelection(referenceObject, "strokeMiterLimit");
+ * ```
+ *
+ * - If `propertyName` exists on both the `referenceObject` and the selected objects,
+ *   the property will be applied.
+ * - If `notifyUnsupported` is `true` and a selected object does not support the property,
+ *   a notification will be displayed to the user.
+ */
+function applyPropertyToSelection(
+  referenceObject: CopyPastableNode,
+  propertyName: keyof CopyPastableNode,
+  notifyUnsupported: boolean = true
+) {
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -716,11 +607,15 @@ function setSelectionExportSettings(referenceObject: CopyPastableNode) {
     return;
   }
 
+  // Loop through the selection to apply the property
   selection.forEach((object) => {
-    if ("exportSettings" in object) {
-      object.exportSettings = referenceObject.exportSettings;
-    } else {
-      figma.notify(`❌ Object does not support export settings.`);
+    if (propertyName in object) {
+      // @ts-ignore: Ignore TS error for dynamic property assignment
+      object[propertyName] = referenceObject[propertyName];
+    } else if (notifyUnsupported) {
+      figma.notify(
+        `❌ Object of type ${object.type} does not support ${propertyName}.`
+      );
     }
   });
 }
