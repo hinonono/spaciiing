@@ -4,6 +4,7 @@ export type PropertyClipboardSupportedProperty =
   | "LAYER_OPACITY"
   | "LAYER_CORNER_RADIUS"
   | "LAYER_BLEND_MODE"
+  | "FILL_ALL"
   | "FILL_SOLID"
   | "FILL_GRADIENT"
   | "FILL_IMAGE"

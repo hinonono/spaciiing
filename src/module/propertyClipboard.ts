@@ -146,6 +146,9 @@ function pastePropertyToObject(
     case "STROKE_MITER_LIMIT":
       setSelectionStrokeMiterLimit(referenceObject);
       break;
+    case "FILL_ALL":
+      setSelectionAllFill(referenceObject, behavior);
+      break;
     case "FILL_SOLID":
       setSelectionSolidFill(referenceObject, behavior);
       break;
@@ -244,6 +247,39 @@ function setSelectionBlendMode(referenceObject: CopyPastableNode) {
   });
 }
 
+function setSelectionAllFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  // Check if fills exist and filter only solid fills
+  const fills = referenceObject.fills as readonly Paint[] | undefined;
+  if (!fills || fills.length === 0) {
+    figma.notify("❌ Reference object has no fills.");
+    return;
+  }
+
+  // Loop through the selection to apply only the solid fills array
+  selection.forEach((object) => {
+    if ("fills" in object && Array.isArray(object.fills)) {
+      if (behavior === "pasteToIncrement") {
+        object.fills = [...object.fills, ...fills];
+      } else {
+        object.fills = fills;
+      }
+    } else {
+      // Notify if the object cannot have fills applied
+      figma.notify(`❌ Object of type ${object.type} does not support fills.`);
+    }
+  });
+}
+
 function setSelectionSolidFill(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
@@ -274,11 +310,9 @@ function setSelectionSolidFill(
   selection.forEach((object) => {
     if ("fills" in object && Array.isArray(object.fills)) {
       if (behavior === "pasteToIncrement") {
-        // Use a new array with a fresh copy of the current fills plus solidFills
-        object.fills = [...(object.fills || []), ...solidFills];
+        object.fills = [...object.fills, ...solidFills];
       } else {
-        // Replace the entire fills array with a new copy of solidFills
-        object.fills = [...solidFills];
+        object.fills = solidFills;
       }
     } else {
       // Notify if the object cannot have fills applied

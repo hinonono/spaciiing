@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
 import { FigmaButton, SectionTitle, TitleBar } from "../components";
@@ -84,6 +84,8 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       },
       "*"
     );
+
+    console.log(pasteBehavior);
   };
 
   // Function to open the modal with the specific function to execute
@@ -101,6 +103,20 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
     }
     handleCloseBehaviorModal(); // Close the modal
   };
+  const [shouldConfirm, setShouldConfirm] = useState(false);
+
+  // Effect to handle confirm after pasteBehavior updates
+  useEffect(() => {
+    if (shouldConfirm) {
+      handleConfirm();
+      setShouldConfirm(false); // Reset shouldConfirm after executing
+    }
+  }, [pasteBehavior, shouldConfirm]);
+
+  const handleBehaviorChangeAndConfirm = (newBehavior: PasteBehavior) => {
+    setPasteBehavior(newBehavior);
+    setShouldConfirm(true); // Set to confirm after behavior updates
+  };
 
   return (
     <div>
@@ -116,24 +132,18 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       <Modal show={showBehaviorModal} handleClose={handleCloseBehaviorModal}>
         <div>
           <h3>{"Specify paste behavior"}</h3>
-          <div className="padding-16 grid mt-xsmall">
+          <div className="grid mt-xsmall">
             <FigmaButton
               buttonType="secondary"
               title={"Paste to replace"}
-              onClick={() => {
-                setPasteBehavior("pasteToReplace");
-                handleConfirm();
-              }}
+              onClick={() => handleBehaviorChangeAndConfirm("pasteToReplace")}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
             <FigmaButton
               buttonType="primary"
               title={"Paste to increment"}
-              onClick={() => {
-                setPasteBehavior("pasteToIncrement");
-                handleConfirm();
-              }}
+              onClick={() => handleBehaviorChangeAndConfirm("pasteToIncrement")}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
@@ -282,12 +292,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 <FigmaButton
                   title={t("module:applyAll")}
                   onClick={() => {
-                    pastePropertyToObject([
-                      "FILL_SOLID",
-                      "FILL_GRADIENT",
-                      "FILL_IMAGE",
-                      "FILL_VIDEO",
-                    ]);
+                    openModalWithProperties(["FILL_ALL"]);
                   }}
                   buttonHeight="small"
                   fontSize="small"
@@ -310,7 +315,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Gradient fill"}
                 onClick={() => {
-                  pastePropertyToObject(["FILL_GRADIENT"]);
+                  openModalWithProperties(["FILL_GRADIENT"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -319,7 +324,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Image fill"}
                 onClick={() => {
-                  pastePropertyToObject(["FILL_IMAGE"]);
+                  openModalWithProperties(["FILL_IMAGE"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -328,7 +333,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={"Video fill"}
                 onClick={() => {
-                  pastePropertyToObject(["FILL_VIDEO"]);
+                  openModalWithProperties(["FILL_VIDEO"]);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
