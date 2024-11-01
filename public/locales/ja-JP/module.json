@@ -169,7 +169,7 @@
   "unifyText": "テキストを統一",
   "createAutoLayoutIndividually": "オートレイアウトを個別に作成",
   "copyFrom": "コピー元",
-  "pastePreference": "どのように貼り付けますか？",
+  "pastePreference": "貼り付け方法を選択してください",
   "replaceStyle": "既存のスタイルを置き換える",
   "addToExistingStyle": "既存のスタイルに追加する"
 }

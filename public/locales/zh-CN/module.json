@@ -164,12 +164,12 @@
   "home": "首页",
   "quantity": "数量",
   "invalidNumberInput": "无效的数字输入。",
-  "innerFrame": "内框架",
-  "outerFrame": "外框架",
+  "innerFrame": "内框",
+  "outerFrame": "外框",
   "unifyText": "统一文本",
   "createAutoLayoutIndividually": "单独创建自动布局",
   "copyFrom": "复制自",
-  "pastePreference": "您希望如何粘贴？",
+  "pastePreference": "选择粘贴方式",
   "replaceStyle": "覆盖现有样式",
   "addToExistingStyle": "新增于现有样式之上"
 }
