@@ -299,7 +299,7 @@ async function updateDateText(node: SceneNode) {
     const textNode = node as TextNode;
 
     await figma.loadFontAsync(textNode.fontName as FontName);
-    textNode.characters = util.getFormattedDate();
+    textNode.characters = util.getFormattedDate("shortDate");
     textNode.locked = true;
   } else if ("children" in node) {
     for (const child of node.children) {

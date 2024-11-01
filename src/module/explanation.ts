@@ -1,3 +1,4 @@
+import { util } from "webpack";
 import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { semanticTokens } from "./tokens";
 import {
@@ -8,6 +9,7 @@ import {
   setPadding,
   setStroke,
   formatNumberToDecimals,
+  getFormattedDate,
 } from "./util";
 
 /**
@@ -338,23 +340,10 @@ export function createExplanationWrapper(
   modes?: string[]
 ): FrameNode {
   const itemsToPutInTitleWrapper: SceneNode[] = [];
-
-  const currentDate = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  };
-
-  const formattedDate = `Created at ${currentDate
-    .toLocaleString("en-US", options)
-    .replace(",", "")}`;
+  const dateString = `Created at ${getFormattedDate("fullDateTime")}`;
 
   const createdDateNode = createTextNode(
-    formattedDate,
+    dateString,
     fontName,
     semanticTokens.fontSize.xsmall,
     [{ type: "SOLID", color: semanticTokens.text.tertiary }]
