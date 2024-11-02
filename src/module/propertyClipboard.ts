@@ -274,7 +274,7 @@ function setSelectionVideoFill(
  * @param specifiedFill
  * @returns
  */
-function applyFillToSelection(
+async function applyFillToSelection(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior,
   specifiedFill: "ALL" | "SOLID" | "GRADIENT" | "IMAGE" | "VIDEO"
@@ -316,18 +316,40 @@ function applyFillToSelection(
     return;
   }
 
-  // Loop through the selection to apply only the video fills array
-  selection.forEach((object) => {
-    if ("fills" in object && Array.isArray(object.fills)) {
-      if (behavior === "pasteToIncrement") {
-        object.fills = [...object.fills, ...filteredFills];
+  if (
+    referenceObject.fillStyleId !== "" &&
+    typeof referenceObject.fillStyleId === "string"
+  ) {
+    // 當Fill style有連結的時候
+    for (const object of selection) {
+      if ("fills" in object && Array.isArray(object.fills)) {
+        try {
+          await object.setFillStyleIdAsync(referenceObject.fillStyleId);
+        } catch (error) {
+          figma.notify(`❌ Failed to apply fill style to ${object.type}`);
+        }
       } else {
-        object.fills = filteredFills;
+        figma.notify(
+          `❌ Object of type ${object.type} does not support fill style id.`
+        );
       }
-    } else {
-      figma.notify(`❌ Object of type ${object.type} does not support fills.`);
     }
-  });
+  } else {
+    // Loop through the selection to apply only the video fills array
+    selection.forEach((object) => {
+      if ("fills" in object && Array.isArray(object.fills)) {
+        if (behavior === "pasteToIncrement") {
+          object.fills = [...object.fills, ...filteredFills];
+        } else {
+          object.fills = filteredFills;
+        }
+      } else {
+        figma.notify(
+          `❌ Object of type ${object.type} does not support fills.`
+        );
+      }
+    });
+  }
 }
 
 function setSelectionWidth(referenceObject: CopyPastableNode) {
@@ -560,7 +582,7 @@ function setSelectionBackgroundBlur(
  * @param specifiedEffect
  * @returns
  */
-function applyEffectToSelection(
+async function applyEffectToSelection(
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior,
   specifiedEffect:
@@ -602,17 +624,39 @@ function applyEffectToSelection(
     return;
   }
 
-  selection.forEach((object) => {
-    if ("effects" in object && Array.isArray(object.effects)) {
-      if (behavior === "pasteToIncrement") {
-        object.effects = [...object.effects, ...filteredEffects];
+  // Apply effectStyleId if available, otherwise apply effects directly
+  if (
+    referenceObject.effectStyleId !== "" &&
+    typeof referenceObject.effectStyleId === "string"
+  ) {
+    // When effect style has a valid linked ID
+    for (const object of selection) {
+      if ("effects" in object && Array.isArray(object.effects)) {
+        try {
+          await object.setEffectStyleIdAsync(referenceObject.effectStyleId);
+        } catch (error) {
+          figma.notify(`❌ Failed to apply effect style to ${object.type}`);
+        }
       } else {
-        object.effects = filteredEffects;
+        figma.notify(
+          `❌ Object of type ${object.type} does not support pasting effect style.`
+        );
       }
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support effects.`
-      );
     }
-  });
+  } else {
+    // Apply filtered effects directly to each selected object
+    for (const object of selection) {
+      if ("effects" in object && Array.isArray(object.effects)) {
+        if (behavior === "pasteToIncrement") {
+          object.effects = [...object.effects, ...filteredEffects];
+        } else {
+          object.effects = filteredEffects;
+        }
+      } else {
+        figma.notify(
+          `❌ Object of type ${object.type} does not support pasting effects.`
+        );
+      }
+    }
+  }
 }
