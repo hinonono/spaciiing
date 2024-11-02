@@ -170,6 +170,6 @@
   "createAutoLayoutIndividually": "单独创建自动布局",
   "copyFrom": "复制自",
   "pastePreference": "选择粘贴方式",
-  "replaceStyle": "覆盖现有样式",
-  "addToExistingStyle": "新增于现有样式之上"
+  "replaceStyle": "取代已有样式",
+  "addToExistingStyle": "新增于已有样式之上"
 }

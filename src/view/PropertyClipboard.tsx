@@ -135,15 +135,15 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           <div className="grid mt-xsmall">
             <FigmaButton
               buttonType="secondary"
-              title={t("module:replaceStyle")}
-              onClick={() => handleBehaviorChangeAndConfirm("pasteToReplace")}
+              title={t("module:addToExistingStyle")}
+              onClick={() => handleBehaviorChangeAndConfirm("pasteToIncrement")}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
             <FigmaButton
               buttonType="primary"
-              title={t("module:addToExistingStyle")}
-              onClick={() => handleBehaviorChangeAndConfirm("pasteToIncrement")}
+              title={t("module:replaceStyle")}
+              onClick={() => handleBehaviorChangeAndConfirm("pasteToReplace")}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
