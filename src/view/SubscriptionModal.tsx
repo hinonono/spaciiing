@@ -189,7 +189,7 @@ const SubscriptionModal: React.FC = () => {
               <span className="note mt-xxxsmall text-center text-color-tertiary">
                 7 days free, then $4.99 / mo.
               </span>
-              <div className="grid">
+              <div className="grid mt-xxxsmall">
                 <FigmaButton
                   buttonType="secondary"
                   title={t("term:faq")}
