@@ -902,6 +902,10 @@ pre {
   text-wrap: wrap;
 }
 
+span {
+  display: block;
+}
+
 .tab-content {
   position: relative;
   z-index: 1;
@@ -1268,6 +1272,11 @@ button {
   gap: 0.4rem;
 }
 
+@media (max-width: 320px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
 .button--tertiary {
   background-color: rgba(24, 160, 251, 0.15);
   color: var(--figma-color-bg-brand);
