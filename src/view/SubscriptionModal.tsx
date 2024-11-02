@@ -14,10 +14,12 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { handleSubscriptionStatus } from "../module-frontend/licenseManagementFrontEnd";
 import { MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
+import FreeTrialGraph from "../components/FreeTrialGraph";
+import { scrollToElement } from "../module-frontend/utilFrontEnd";
 
 const SubscriptionModal: React.FC = () => {
   const { licenseManagement } = useAppContext();
-  const { t } = useTranslation(["license"]);
+  const { t } = useTranslation(["license", "term"]);
 
   const isOnline = useNetworkStatus();
   // 金鑰輸入
@@ -184,40 +186,34 @@ const SubscriptionModal: React.FC = () => {
               {t("license:unleashYourProductivity")}
             </p>
             <div className="mt-xsmall">
-              <FigmaButton
-                buttonType="special"
-                title={t("license:tryItFree")}
-                onClick={paymentsUtil.navigateToCheckOutPage}
-              />
-              <p className="mt-xxxsmall text-center text-color-tertiary">
+              <span className="note mt-xxxsmall text-center text-color-tertiary">
                 7 days free, then $4.99 / mo.
-              </p>
-            </div>
-            {/* <h4>{t("license:howYourFreeTrialWorks")}</h4> */}
-            <div className="free-trial-graph">
-              <div className="vertical-step-container">
-                <div className="step">
-                  <div className="step-icon">🔓</div>
-                  <div className="step-content">
-                    <h4>{t("license:today")}</h4>
-                    <p>{t("license:todayMessage")}</p>
-                  </div>
-                </div>
-                <div className="step">
-                  <div className="step-icon">🔔</div>
-                  <div className="step-content">
-                    <h4>{t("license:dayFive")}</h4>
-                    <p>{t("license:dayFiveMessage")}</p>
-                  </div>
-                </div>
-                <div className="step">
-                  <div className="step-icon">⭐</div>
-                  <div className="step-content">
-                    <h4>{t("license:daySeven")}</h4>
-                    <p>{t("license:daySevenMessage")}</p>
-                  </div>
-                </div>
+              </span>
+              <div className="grid">
+                <FigmaButton
+                  buttonType="secondary"
+                  title={t("term:faq")}
+                  onClick={() => {
+                    scrollToElement("free-trial-faq");
+                  }}
+                  hasTopBottomMargin={false}
+                />
+                <FigmaButton
+                  buttonType="special"
+                  title={t("license:tryItFree")}
+                  onClick={paymentsUtil.navigateToCheckOutPage}
+                  hasTopBottomMargin={false}
+                />
               </div>
+            </div>
+            <FreeTrialGraph />
+            <div id="free-trial-faq" className="mt-xsmall">
+              <h3>{t("license:supportAndSubscriptionInfo")}</h3>
+              <p>{t("license:supportAndSubscriptionInfoAnswer")}</p>
+              <h3 className="mt-xsmall">
+                {t("license:howRecurringPaymentsWork")}
+              </h3>
+              <p>{t("license:howRecurringPaymentsWorkAnswer")}</p>
             </div>
           </div>
         )}

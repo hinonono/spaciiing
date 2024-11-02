@@ -57,3 +57,10 @@ export const resolveContextMenuPos = (
 export const isStringNumber = (str: string): boolean => {
   return !isNaN(Number(str));
 };
+
+export const scrollToElement = (id: string) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
