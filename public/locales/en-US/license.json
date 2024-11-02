@@ -31,7 +31,7 @@
   "eraseLicense": "Erase License from this device",
   "trySevenDaysFree": "Try 7 Days Free",
   "unleashYourProductivity": "Unleash your productivity with over 10 professional tools.",
-  "tryItFree": "Try It Free",
+  "tryItFree": "Start free trial through Gumroad",
   "tryAllFeaturesSevenDaysFree": "Try all features free for 7 days",
   "today": "Today",
   "todayMessage": "Get instant access to all pro features.",
@@ -40,5 +40,9 @@
   "daySeven": "Day 7",
   "daySevenMessage": "Your subscription starts. Cancel before that to avoid payment.",
   "seeAllPlans": "See all plans",
-  "limitedOffer": "Limited Offer"
+  "limitedOffer": "Limited Offer",
+  "supportAndSubscriptionInfo": "Subscription and Support Information",
+  "supportAndSubscriptionInfoAnswer": "Your subscription and payment information will be securely managed by Gumroad, a popular digital marketplace service provider with over 13 years of experience. If you have any questions regarding your subscription, please feel free to contact support@gumroad.com via email. For support related to this plugin, please contact contact@hsiehchengyi.com via email.",
+  "howRecurringPaymentsWork": "How Recurring Payments Work",
+  "howRecurringPaymentsWorkAnswer": "You will receive an email receipt from Gumroad every month or year, depending on your subscription plan. Each receipt will include detailed payment information and links to manage your subscription settings, such as updating your plan or canceling the subscription entirely."
 }
