@@ -36,7 +36,7 @@
   "today": "Today",
   "todayMessage": "Get instant access to all pro features.",
   "dayFive": "Day 5",
-  "dayFiveMessage": "We'll sent you an email to remind you that your trial is ending soon. Please check emails sent from gumroad.",
+  "dayFiveMessage": "We'll sent you an email to remind you that your trial is ending soon. Please check emails sent from Gumroad.",
   "daySeven": "Day 7",
   "daySevenMessage": "Your subscription starts. Cancel before that to avoid payment.",
   "seeAllPlans": "See all plans",
@@ -44,5 +44,6 @@
   "supportAndSubscriptionInfo": "Subscription and Support Information",
   "supportAndSubscriptionInfoAnswer": "Your subscription and payment information will be securely managed by Gumroad, a popular digital marketplace service provider with over 13 years of experience. If you have any questions regarding your subscription, please feel free to contact support@gumroad.com via email. For support related to this plugin, please contact contact@hsiehchengyi.com via email.",
   "howRecurringPaymentsWork": "How Recurring Payments Work",
-  "howRecurringPaymentsWorkAnswer": "You will receive an email receipt from Gumroad every month or year, depending on your subscription plan. Each receipt will include detailed payment information and links to manage your subscription settings, such as updating your plan or canceling the subscription entirely."
+  "howRecurringPaymentsWorkAnswer": "You will receive an email receipt from Gumroad every month or year, depending on your subscription plan. Each receipt will include detailed payment information and links to manage your subscription settings, such as updating your plan or canceling the subscription entirely.",
+  "noHiddenFees": "You are able to cancel your memebership at anytime with only one click and come with no hidden fees."
 }

@@ -185,11 +185,14 @@ const SubscriptionModal: React.FC = () => {
             <p className="text-color-secondary cta-message">
               {t("license:unleashYourProductivity")}
             </p>
+            <span className="note mt-xxxsmall text-color-secondary">
+              {t("license:noHiddenFees")}
+            </span>
             <div className="mt-xsmall">
               <span className="note mt-xxxsmall text-center text-color-tertiary">
                 7 days free, then $4.99 / mo.
               </span>
-              <div className="grid mt-xxxsmall">
+              <div className="mt-xxxsmall">
                 <FigmaButton
                   buttonType="secondary"
                   title={t("term:faq")}
@@ -202,7 +205,6 @@ const SubscriptionModal: React.FC = () => {
                   buttonType="special"
                   title={t("license:tryItFree")}
                   onClick={paymentsUtil.navigateToCheckOutPage}
-                  hasTopBottomMargin={false}
                 />
               </div>
             </div>
@@ -213,7 +215,10 @@ const SubscriptionModal: React.FC = () => {
               <h3 className="mt-xsmall">
                 {t("license:howRecurringPaymentsWork")}
               </h3>
-              <p>{t("license:howRecurringPaymentsWorkAnswer")}</p>
+              <p>
+                {t("license:howRecurringPaymentsWorkAnswer")}
+                {t("license:noHiddenFees")}
+              </p>
             </div>
           </div>
         )}
