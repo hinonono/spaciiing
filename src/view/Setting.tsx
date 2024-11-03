@@ -6,6 +6,7 @@ import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
+import info from "../assets/info.json";
 
 const Setting: React.FC = () => {
   // Context
@@ -121,7 +122,7 @@ const Setting: React.FC = () => {
           <div className="about-spaciiing">
             <div className="membership-block block1">
               <p className="color--secondary">{t("settings:version")}</p>
-              <span>20</span>
+              <span>{info.version}</span>
             </div>
             <div className="membership-block block2">
               <p className="color--secondary">
