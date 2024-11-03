@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
 import info from "../assets/info.json";
+import { SvgExternalLink } from "../assets/icons";
 
 const Setting: React.FC = () => {
   // Context
@@ -97,6 +98,8 @@ const Setting: React.FC = () => {
                 title={t("license:seeAllPlans")}
                 buttonType="special"
                 onClick={paymentsUtil.navigateToPurchasePage}
+                svgPosition="right"
+                svg={<SvgExternalLink color="white"/>}
               />
             )}
           </div>
