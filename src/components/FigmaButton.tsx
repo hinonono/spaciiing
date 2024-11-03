@@ -10,6 +10,7 @@ interface FigmaButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   svg?: React.ReactNode;
+  svgPosition?: "left" | "right";
   hasTopBottomMargin?: boolean;
   hasMargin?: boolean;
   showChevron?: boolean;
@@ -24,6 +25,7 @@ const FigmaButton: React.FC<FigmaButtonProps> = ({
   onClick,
   disabled = false,
   svg,
+  svgPosition = "left",
   hasTopBottomMargin = true,
   hasMargin = true,
   showChevron = false,
@@ -38,8 +40,9 @@ const FigmaButton: React.FC<FigmaButtonProps> = ({
         onClick={onClick}
         disabled={disabled}
       >
-        {svg && <div className="icon-24">{svg}</div>}
+        {svg && svgPosition === "left" && <div className="icon-24">{svg}</div>}
         <span>{capitalizeWords(title)}</span>
+        {svg && svgPosition === "right" && <div className="icon-20">{svg}</div>}
         {showChevron && <span className="chevron-left"></span>}
       </button>
     </div>

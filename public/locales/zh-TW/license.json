@@ -31,7 +31,7 @@
   "eraseLicense": "清除此裝置的授權",
   "trySevenDaysFree": "免費試用所有功能7天",
   "unleashYourProductivity": "利用超過10種以上專業工具全面釋放您的設計生產力。",
-  "tryItFree": "透過Gumroad開始免費試用",
+  "tryItFree": "前往Gumroad啟動免費試用",
   "tryAllFeaturesSevenDaysFree": "免費試用所有功能7天",
   "today": "今天",
   "todayMessage": "立即解鎖所有PRO功能。",
@@ -45,5 +45,6 @@
   "supportAndSubscriptionInfoAnswer": "您的訂閱和付款資訊將由具有超過 13 年經驗的知名數位市場服務提供商 Gumroad 安全地管理。如果您對訂閱有任何疑問或需要支援，可隨時透過電子郵件聯絡 support@gumroad.com。若需關於本外掛程式的支援，請透過電子郵件聯絡 contact@hsiehchengyi.com。",
   "howRecurringPaymentsWork": "透過Gumroad的定期付款運作方式",
   "howRecurringPaymentsWorkAnswer": "取決於您的訂閱方案，您將每月或每年收到來自 Gumroad 的電子郵件收據。每份收據都包含詳細的付款資訊以及管理訂閱設置的連結，用於更新方案或完全取消訂閱。",
-  "noHiddenFees": "取消訂閱可在任何時候一鍵取消，無需任何額外步驟或任何隱藏費用。"
+  "noHiddenFees": "取消訂閱可在任何時候一鍵取消，無需任何額外步驟或任何隱藏費用。",
+  "monthlyPriceDesc": "前7天免費，然後每月$MONTHLY_PRICE$。"
 }

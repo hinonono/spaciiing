@@ -45,5 +45,6 @@
   "supportAndSubscriptionInfoAnswer": "お客様の購読および支払い情報は、13年以上の経験を持つデジタルマーケットプレイスサービスプロバイダーであるGumroadによって安全に管理されます。購読に関してご質問がある場合は、support@gumroad.comまでメールでお問い合わせください。このプラグインに関連するサポートについては、contact@hsiehchengyi.comまでメールでご連絡ください。",
   "howRecurringPaymentsWork": "Gumroadでの定期支払いの仕組み",
   "howRecurringPaymentsWorkAnswer": "ご契約の購読プランに応じて、毎月または毎年、Gumroadからの領収書がメールで届きます。各領収書には、詳細な支払い情報や、プランの更新、または購読の完全なキャンセルなど、購読設定を管理するリンクが含まれています。",
-  "noHiddenFees": "ご契約中の購読プランは、いつでもワンクリックで簡単にキャンセルできます。キャンセル時に隠れた費用などは一切発生しません。"
+  "noHiddenFees": "ご契約中の購読プランは、いつでもワンクリックで簡単にキャンセルできます。キャンセル時に隠れた費用などは一切発生しません。",
+  "monthlyPriceDesc": "7日間無料でお試し、その後毎月$MONTHLY_PRICE$。"
 }

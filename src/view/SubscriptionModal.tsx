@@ -16,6 +16,8 @@ import { handleSubscriptionStatus } from "../module-frontend/licenseManagementFr
 import { MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
 import FreeTrialGraph from "../components/FreeTrialGraph";
 import { scrollToElement } from "../module-frontend/utilFrontEnd";
+import info from "../assets/info.json";
+import { SvgExternalLink } from "../assets/icons";
 
 const SubscriptionModal: React.FC = () => {
   const { licenseManagement } = useAppContext();
@@ -186,25 +188,28 @@ const SubscriptionModal: React.FC = () => {
               {t("license:unleashYourProductivity")}
             </p>
             <span className="note mt-xxxsmall text-color-secondary">
+              {t("license:monthlyPriceDesc").replace(
+                "$MONTHLY_PRICE$",
+                "$" + info.price.monthly
+              )}
               {t("license:noHiddenFees")}
             </span>
             <div className="mt-xsmall">
-              <span className="note mt-xxxsmall text-center text-color-tertiary">
-                7 days free, then $4.99 / mo.
-              </span>
               <div className="mt-xxxsmall">
+                <FigmaButton
+                  buttonType="special"
+                  title={t("license:tryItFree")}
+                  onClick={paymentsUtil.navigateToCheckOutPage}
+                  hasTopBottomMargin={false}
+                  svgPosition={"right"}
+                  svg={<SvgExternalLink color="white" />}
+                />
                 <FigmaButton
                   buttonType="secondary"
                   title={t("term:faq")}
                   onClick={() => {
                     scrollToElement("free-trial-faq");
                   }}
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="special"
-                  title={t("license:tryItFree")}
-                  onClick={paymentsUtil.navigateToCheckOutPage}
                 />
               </div>
             </div>
