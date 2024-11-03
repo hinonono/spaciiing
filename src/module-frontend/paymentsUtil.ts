@@ -5,10 +5,12 @@ export const navigateToPurchasePage = () => {
 };
 
 export const navigateToCheckOutPage = () => {
-  window.open(
-    "https://app.gumroad.com/checkout?product=xyjsy&option=8LhOD0wJakerUsuuL0H3jw%3D%3D&recurrence=monthly&quantity=1",
-    "_blank"
-  ); // Replace with your desired URL
+  // window.open(
+  //   "https://app.gumroad.com/checkout?product=xyjsy&option=8LhOD0wJakerUsuuL0H3jw%3D%3D&recurrence=monthly&quantity=1",
+  //   "_blank"
+  // ); // Replace with your desired URL
+
+  window.open("https://hsiehchengyi.gumroad.com/l/spaciiing-pro", "_blank"); // Replace with your desired URL
 };
 
 export async function verifyLicenseKey(licenseKey: string) {
