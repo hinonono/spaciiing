@@ -44,6 +44,6 @@
   "supportAndSubscriptionInfoAnswer": "您的订阅和付款信息将由具有超过13年经验的知名数字市场服务提供商 Gumroad 安全管理。如果您对订阅有任何疑问或需要获取支持，可随时通过电子邮件联系 support@gumroad.com。若需关于本插件的支持，请通过电子邮件联系 contact@hsiehchengyi.com。",
   "howRecurringPaymentsWork": "通过Gumroad的定期付款运作方式",
   "howRecurringPaymentsWorkAnswer": "取决于您的订阅方案，您将每月或每年收到来自 Gumroad 的电子邮件收据。每份收据都包含详细的付款信息以及管理订阅设置的链接，用於更新方案或完全取消订阅。",
-  "noHiddenFees": "取消订阅可在任何时候一键取消，无须任何额外步骤或任何隐藏费用。",
+  "noHiddenFees": "您可在任何时候取消订阅或退出免费试用，无须任何额外步骤或任何隐藏费用。",
   "monthlyPriceDesc": "首7天免费，然后每月$MONTHLY_PRICE$。"
 }
