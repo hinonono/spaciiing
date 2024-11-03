@@ -598,9 +598,14 @@ function createTextPropertiesWrappers(
     fontName
   );
 
+  const textCaseString = textStyle.textCase;
+  const formattedTextCaseString =
+    textCaseString.charAt(0).toUpperCase() +
+    textCaseString.slice(1).toLowerCase();
+
   const textCaseNode = createExplanationSinglePropertyItem(
     "Text Case",
-    `${textStyle.textCase}`,
+    `${formattedTextCaseString}`,
     fontName
   );
 
