@@ -32,7 +32,6 @@
   "trySevenDaysFree": "Try 7 Days Free",
   "unleashYourProductivity": "Unleash your productivity with over 10 professional tools.",
   "tryItFree": "Start free trial through Gumroad",
-  "tryAllFeaturesSevenDaysFree": "Try all features free for 7 days",
   "today": "Today",
   "todayMessage": "Get instant access to all pro features.",
   "dayFive": "Day 5",
@@ -45,6 +44,6 @@
   "supportAndSubscriptionInfoAnswer": "Your subscription and payment information will be securely managed by Gumroad, a popular digital marketplace service provider with over 13 years of experience. If you have any questions regarding your subscription, please feel free to contact support@gumroad.com via email. For support related to this plugin, please contact contact@hsiehchengyi.com via email.",
   "howRecurringPaymentsWork": "How Recurring Payments Work",
   "howRecurringPaymentsWorkAnswer": "You will receive an email receipt from Gumroad every month or year, depending on your subscription plan. Each receipt will include detailed payment information and links to manage your subscription settings, such as updating your plan or canceling the subscription entirely.",
-  "noHiddenFees": "You are able to cancel your memebership at anytime with only one click and come with no hidden fees.",
+  "noHiddenFees": "You can cancel your membership at any time with just one click, with no hidden fees.",
   "monthlyPriceDesc": "7 days free, then $MONTHLY_PRICE$ / mo."
 }
