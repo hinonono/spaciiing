@@ -187,7 +187,10 @@ const SubscriptionModal: React.FC = () => {
             <h2>{t("license:trySevenDaysFree")}</h2>
             {/* Plan block */}
             <div>
-              <SubscriptionPlanBlock plan={"yearly"} />
+              <SubscriptionPlanBlock
+                plan={"yearly"}
+                additionalClass={["subscription-block-yearly"]}
+              />
             </div>
             <div className="mt-xxsmall">
               <SubscriptionPlanBlock plan={"monthly"} />

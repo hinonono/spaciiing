@@ -360,7 +360,7 @@ button {
     border-radius: var(--cy-border-radius-large);
     color: white;
     font-size: var(--font-size-small);
-    background-color: #bb90ff;
+    background-color: var(--cy-purple-400);
     width: fit-content;
 }
 
@@ -742,7 +742,7 @@ li {
 
     &.pro {
         color: var(--white);
-        background-color: #bb90ff;
+        background-color: var(--cy-purple-400);
     }
 
     p {
@@ -766,6 +766,17 @@ li {
 .subscription-plan-title {
     color: var(--figma-color-text);
     font-size: 1rem;
+}
+
+.subscription-block-yearly {
+    border: 2px solid var(--cy-purple-600);
+    background-color: var(--cy-purple-100);
+}
+
+@media (prefers-color-scheme: dark) {
+    .subscription-block-yearly {
+        background-color: var(--cy-purple-950);
+    }
 }
 
 

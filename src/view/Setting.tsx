@@ -52,10 +52,13 @@ const Setting: React.FC = () => {
               <div className="membership-block pro">
                 <p className="color--secondary">{t("license:currenTier")}</p>
                 <span>
-                  {t("license:paid")}
-                  {licenseManagement.recurrence != undefined ? (
+                  {/* {t("license:paid")} */}
+                  {licenseManagement.recurrence === "monthly"
+                    ? t("license:monthly")
+                    : t("license:yearly")}
+                  {/* {licenseManagement.recurrence != undefined ? (
                     <>({capitalizeWords(licenseManagement.recurrence)})</>
-                  ) : null}
+                  ) : null} */}
                 </span>
               </div>
             ) : (
@@ -97,9 +100,9 @@ const Setting: React.FC = () => {
               <FigmaButton
                 title={t("license:seeAllPlans")}
                 buttonType="special"
-                onClick={paymentsUtil.navigateToPurchasePage}
-                svgPosition="right"
-                svg={<SvgExternalLink color="white"/>}
+                onClick={() => {
+                  setShowCTSubscribe(true);
+                }}
               />
             )}
           </div>

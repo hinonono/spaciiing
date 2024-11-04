@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --variable-background: #fcf2f6;
   /* L97 S50*/
@@ -21,6 +22,19 @@
   --cy-button-height-medium: 36px;
   --cy-button-height-small: 32px;
   --color-bg-selected: #e5f4ff;
+  /* spaciiing色盤 color palette */
+  /* cy-purple */
+  --cy-purple-50: #f6f4ff;
+  --cy-purple-100: #efebff;
+  --cy-purple-200: #e0d7ff;
+  --cy-purple-300: #c3afff;
+  --cy-purple-400: #ac8aff;
+  --cy-purple-500: #9a67fe;
+  --cy-purple-600: #8d41ff;
+  --cy-purple-700: #7522dd;
+  --cy-purple-800: #6317bd;
+  --cy-purple-900: #52169f;
+  --cy-purple-950: #370f6c;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -732,6 +746,9 @@ h2 {
   font-size: var(--font-size-xsmall);
   color: var(--figma-color-text-secondary);
 }
+.note-xlarge {
+  font-size: var(--font-size-xlarge);
+}
 .note.error {
   color: var(--figma-color-text-danger);
 }
@@ -784,7 +801,7 @@ h2 {
 }
 
 .banner {
-  background-color: #f9ddff;
+  background-color: var(--cy-purple-100);
   padding: 0.5rem 1rem;
 }
 .banner--development-mode {
@@ -1237,7 +1254,7 @@ button {
   border-radius: var(--cy-border-radius-large);
   color: white;
   font-size: var(--font-size-small);
-  background-color: #bb90ff;
+  background-color: var(--cy-purple-400);
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -1573,7 +1590,7 @@ li {
 }
 .membership-block.pro {
   color: var(--white);
-  background-color: #bb90ff;
+  background-color: var(--cy-purple-400);
 }
 .membership-block p {
   margin-bottom: 1rem;
@@ -1597,4 +1614,14 @@ li {
   font-size: 1rem;
 }
 
+.subscription-block-yearly {
+  border: 2px solid var(--cy-purple-600);
+  background-color: var(--cy-purple-100);
+}
+
+@media (prefers-color-scheme: dark) {
+  .subscription-block-yearly {
+    background-color: var(--cy-purple-950);
+  }
+}
 /*# sourceMappingURL=App.css.map */

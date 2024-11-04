@@ -98,6 +98,10 @@ h2 {
     font-size: var(--font-size-xsmall);
     color: var(--figma-color-text-secondary);
 
+    &-xlarge {
+        font-size: var(--font-size-xlarge);
+    }
+
     &.error {
         color: var(--figma-color-text-danger);
     }
@@ -155,7 +159,7 @@ h2 {
 }
 
 .banner {
-    background-color: #f9ddff;
+    background-color: var(--cy-purple-100);
     padding: 0.5rem 1rem;
 
     &--development-mode {
