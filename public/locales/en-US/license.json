@@ -30,8 +30,8 @@
   "30percentOff": "Now 30% OFF!",
   "eraseLicense": "Erase License from this device",
   "trySevenDaysFree": "Try 7 Days Free",
-  "unleashYourProductivity": "Unleash your productivity with over 10 professional tools.",
-  "tryItFree": "Start free trial through Gumroad",
+  "unleashYourProductivity": "Unleash your productivity.",
+  "tryItFree": "Subscribe through Gumroad",
   "today": "Today",
   "todayMessage": "Get instant access to all pro features.",
   "dayFive": "Day 5",
@@ -45,5 +45,10 @@
   "howRecurringPaymentsWork": "How Recurring Payments Work",
   "howRecurringPaymentsWorkAnswer": "You will receive an email receipt from Gumroad every month or year, depending on your subscription plan. Each receipt will include detailed payment information and links to manage your subscription settings, such as updating your plan or canceling the subscription entirely.",
   "noHiddenFees": "You can cancel your membership or opt out of the free trial at any time with just one click, with no hidden fees.",
-  "monthlyPriceDesc": "7 days free, then $MONTHLY_PRICE$ / mo."
+  "monthlyPriceDesc": "7 days free, then $MONTHLY_PRICE$ per month.",
+  "yearlyPriceDesc": "7 days free, then $YEARLY_PRICE$ per month in average.",
+  "monthly": "Monthly",
+  "yearly": "Yearly",
+  "savePercent": "Save $PERCENT$",
+  "freeTrialWorks": "How free trial works"
 }

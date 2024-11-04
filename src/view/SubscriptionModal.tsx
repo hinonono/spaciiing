@@ -18,6 +18,7 @@ import FreeTrialGraph from "../components/FreeTrialGraph";
 import { scrollToElement } from "../module-frontend/utilFrontEnd";
 import info from "../assets/info.json";
 import { SvgExternalLink } from "../assets/icons";
+import SubscriptionPlanBlock from "../components/SubscriptionPlanBlock";
 
 const SubscriptionModal: React.FC = () => {
   const { licenseManagement } = useAppContext();
@@ -184,38 +185,22 @@ const SubscriptionModal: React.FC = () => {
         {!showActivateModal && (
           <div className="free-trial-modal">
             <h2>{t("license:trySevenDaysFree")}</h2>
-            <p className="text-color-secondary cta-message">
-              {t("license:unleashYourProductivity")}
-            </p>
-            <span className="note mt-xxxsmall text-color-secondary">
-              {t("license:monthlyPriceDesc").replace(
-                "$MONTHLY_PRICE$",
-                "$" + info.price.monthly
-              )}
+            {/* Plan block */}
+            <div>
+              <SubscriptionPlanBlock plan={"yearly"} />
+            </div>
+            <div className="mt-xxsmall">
+              <SubscriptionPlanBlock plan={"monthly"} />
+            </div>
+            <span className="note mt-xxxsmall">
               {t("license:noHiddenFees")}
             </span>
-            <div className="mt-xsmall">
-              <div className="mt-xxxsmall">
-                <FigmaButton
-                  buttonType="special"
-                  title={t("license:tryItFree")}
-                  onClick={paymentsUtil.navigateToCheckOutPage}
-                  hasTopBottomMargin={false}
-                  svgPosition={"right"}
-                  svg={<SvgExternalLink color="white" />}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("term:faq")}
-                  onClick={() => {
-                    scrollToElement("free-trial-faq");
-                  }}
-                />
-              </div>
-            </div>
-            <FreeTrialGraph />
             <div id="free-trial-faq" className="mt-xsmall">
-              <h3>{t("license:supportAndSubscriptionInfo")}</h3>
+              <h3>{t("license:freeTrialWorks")}</h3>
+              <FreeTrialGraph />
+              <h3 className="mt-xsmall">
+                {t("license:supportAndSubscriptionInfo")}
+              </h3>
               <p>{t("license:supportAndSubscriptionInfoAnswer")}</p>
               <h3 className="mt-xsmall">
                 {t("license:howRecurringPaymentsWork")}

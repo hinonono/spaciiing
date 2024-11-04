@@ -784,7 +784,7 @@ h2 {
 }
 
 .banner {
-  background-color: #f6caff;
+  background-color: #f9ddff;
   padding: 0.5rem 1rem;
 }
 .banner--development-mode {
@@ -1253,13 +1253,6 @@ button {
   justify-content: center;
   align-items: center;
 }
-.title-bar .banner {
-  background-color: #ff5c84;
-  color: black;
-  display: flex;
-  justify-content: center;
-  padding: 4px;
-}
 .title-bar h5 {
   color: var(--figma-color-text);
   margin: 0;
@@ -1597,6 +1590,11 @@ li {
 
 .font-weight-bold {
   font-weight: bold;
+}
+
+.subscription-plan-title {
+  color: var(--figma-color-text);
+  font-size: 1rem;
 }
 
 /*# sourceMappingURL=App.css.map */

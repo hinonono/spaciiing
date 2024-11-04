@@ -7,7 +7,7 @@ const FreeTrialGraph: React.FC<FreeTrialGraphProps> = () => {
   const { t } = useTranslation(["license"]);
 
   return (
-    <div className="free-trial-graph mt-xsmall">
+    <div className="free-trial-graph">
       <div className="vertical-step-container">
         <div className="step">
           <div className="step-icon">🔓</div>

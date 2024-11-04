@@ -4,13 +4,20 @@ export const navigateToPurchasePage = () => {
   window.open("https://hsiehchengyi.gumroad.com/l/spaciiing-pro", "_blank"); // Replace with your desired URL
 };
 
-export const navigateToCheckOutPage = () => {
-  // window.open(
-  //   "https://app.gumroad.com/checkout?product=xyjsy&option=8LhOD0wJakerUsuuL0H3jw%3D%3D&recurrence=monthly&quantity=1",
-  //   "_blank"
-  // ); // Replace with your desired URL
+export const navigateToCheckOutPage = (plan: "monthly" | "yearly") => {
+  if (plan === "monthly") {
+    window.open(
+      "https://app.gumroad.com/checkout?product=xyjsy&option=8LhOD0wJakerUsuuL0H3jw%3D%3D&recurrence=monthly&quantity=1",
+      "_blank"
+    );
+  } else {
+    window.open(
+      "https://app.gumroad.com/checkout?product=xyjsy&option=8LhOD0wJakerUsuuL0H3jw%3D%3D&recurrence=yearly&quantity=1",
+      "_blank"
+    );
+  }
 
-  window.open("https://hsiehchengyi.gumroad.com/l/spaciiing-pro", "_blank"); // Replace with your desired URL
+  // window.open("https://hsiehchengyi.gumroad.com/l/spaciiing-pro", "_blank");
 };
 
 export async function verifyLicenseKey(licenseKey: string) {

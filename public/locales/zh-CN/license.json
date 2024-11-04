@@ -30,8 +30,8 @@
   "30percentOff": "订阅现省30%！",
   "eraseLicense": "擦除此装置的授权",
   "trySevenDaysFree": "免费试用所有功能7天",
-  "unleashYourProductivity": "利用超过10种以上专业工具全面释放您的设计生产力。",
-  "tryItFree": "前往Gumroad啟動免费试用",
+  "unleashYourProductivity": "全面释放您的设计生产力。",
+  "tryItFree": "在Gumroad上订阅",
   "today": "今天",
   "todayMessage": "立即取用所有专业功能。",
   "dayFive": "第5天",
@@ -45,5 +45,10 @@
   "howRecurringPaymentsWork": "通过Gumroad的定期付款运作方式",
   "howRecurringPaymentsWorkAnswer": "取决于您的订阅方案，您将每月或每年收到来自 Gumroad 的电子邮件收据。每份收据都包含详细的付款信息以及管理订阅设置的链接，用於更新方案或完全取消订阅。",
   "noHiddenFees": "您可在任何时候取消订阅或退出免费试用，无须任何额外步骤或任何隐藏费用。",
-  "monthlyPriceDesc": "首7天免费，然后每月$MONTHLY_PRICE$。"
+  "monthlyPriceDesc": "首7天免费，然后每月$MONTHLY_PRICE$。",
+  "yearlyPriceDesc": "首7天免费，然后平均每月$YEARLY_PRICE$。",
+  "monthly": "月订阅",
+  "yearly": "年订阅",
+  "savePercent": "节省 $PERCENT$",
+  "freeTrialWorks": "免费试用说明"
 }
