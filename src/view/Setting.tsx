@@ -6,8 +6,7 @@ import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
-import info from "../assets/info.json";
-import { SvgExternalLink } from "../assets/icons";
+import info from "../info.json";
 
 const Setting: React.FC = () => {
   // Context

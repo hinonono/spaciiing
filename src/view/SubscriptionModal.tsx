@@ -14,8 +14,9 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { handleSubscriptionStatus } from "../module-frontend/licenseManagementFrontEnd";
 import { MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
-import FreeTrialGraph from "../components/FreeTrialGraph";
-import SubscriptionPlanBlock from "../components/SubscriptionPlanBlock";
+import NewFreeTrialView from "../components/temp/freeTrialView/NewFreeTrialView";
+import info from "../info.json";
+import LegacyFreeTrialView from "../components/temp/freeTrialView/LegacyFreeTrialView";
 
 const SubscriptionModal: React.FC = () => {
   const { licenseManagement } = useAppContext();
@@ -119,6 +120,14 @@ const SubscriptionModal: React.FC = () => {
     setResponse(null);
   };
 
+  const freeTrialViewHandler = () => {
+    if (info.featureFlag.newFreeTrialView) {
+      return <NewFreeTrialView />;
+    } else {
+      return <LegacyFreeTrialView />;
+    }
+  };
+
   return (
     <Modal show={showCTSubscribe} handleClose={handleCloseCTSubscribe}>
       <div>
@@ -179,45 +188,7 @@ const SubscriptionModal: React.FC = () => {
             </div>
           </div>
         )}
-        {!showActivateModal && (
-          <div className="free-trial-modal">
-            <h2>{t("license:trySevenDaysFree")}</h2>
-            {/* Plan block */}
-            <div>
-              <SubscriptionPlanBlock
-                plan={"yearly"}
-                additionalClass={[
-                  "subscription-block",
-                  "subscription-block-yearly",
-                ]}
-              />
-            </div>
-            <div className="mt-xxsmall">
-              <SubscriptionPlanBlock
-                plan={"monthly"}
-                additionalClass={["subscription-block"]}
-              />
-            </div>
-            <span className="note mt-xxxsmall">
-              {t("license:noHiddenFees")}
-            </span>
-            <div id="free-trial-faq" className="mt-xsmall">
-              <h3>{t("license:freeTrialWorks")}</h3>
-              <FreeTrialGraph />
-              <h3 className="mt-xsmall">
-                {t("license:supportAndSubscriptionInfo")}
-              </h3>
-              <p>{t("license:supportAndSubscriptionInfoAnswer")}</p>
-              <h3 className="mt-xsmall">
-                {t("license:howRecurringPaymentsWork")}
-              </h3>
-              <p>
-                {t("license:howRecurringPaymentsWorkAnswer")}
-                {t("license:noHiddenFees")}
-              </p>
-            </div>
-          </div>
-        )}
+        {!showActivateModal && freeTrialViewHandler()}
       </div>
     </Modal>
   );

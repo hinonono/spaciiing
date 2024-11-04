@@ -5,5 +5,8 @@
     "monthly": "4.99",
     "yearly": "47.89",
     "yearlyAvg": "3.99"
+  },
+  "featureFlag": {
+    "newFreeTrialView": false
   }
 }

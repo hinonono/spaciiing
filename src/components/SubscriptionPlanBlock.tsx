@@ -3,7 +3,7 @@ import FigmaButton from "./FigmaButton";
 import { SvgExternalLink } from "../assets/icons";
 import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import { useTranslation } from "react-i18next";
-import info from "../assets/info.json";
+import info from "../info.json";
 
 interface SubscriptionPlanBlockProps {
   plan: "monthly" | "yearly";
