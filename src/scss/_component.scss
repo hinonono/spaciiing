@@ -1,3 +1,4 @@
+@import "./components/element-default";
 @import "./components/input";
 @import "./components/segmented-control";
 @import "./components/text";
@@ -15,6 +16,9 @@
 @import "./components/free-trial-graph";
 @import "./components/list-view";
 @import "./components/chevron";
+@import "./components/typography";
+@import "./components/border";
+@import "./components/subscription";
 
 h2 {
     font-size: 1.4rem;
@@ -28,9 +32,7 @@ h2 {
     border-radius: 0;
 }
 
-.border-1-top {
-    border-top: 1px solid var(--cy-border-light);
-}
+
 
 .margin-0 {
     margin: 0;
@@ -97,6 +99,7 @@ h2 {
 .note {
     font-size: var(--font-size-xsmall);
     color: var(--figma-color-text-secondary);
+    display: block;
 
     &-xlarge {
         font-size: var(--font-size-xlarge);
@@ -115,9 +118,7 @@ h2 {
     }
 }
 
-.border-1 {
-    border: 1px solid var(--figma-color-border);
-}
+
 
 .padding-16 {
     padding: 16px;

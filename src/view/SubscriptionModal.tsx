@@ -15,9 +15,6 @@ import { useTranslation } from "react-i18next";
 import { handleSubscriptionStatus } from "../module-frontend/licenseManagementFrontEnd";
 import { MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
 import FreeTrialGraph from "../components/FreeTrialGraph";
-import { scrollToElement } from "../module-frontend/utilFrontEnd";
-import info from "../assets/info.json";
-import { SvgExternalLink } from "../assets/icons";
 import SubscriptionPlanBlock from "../components/SubscriptionPlanBlock";
 
 const SubscriptionModal: React.FC = () => {
@@ -189,11 +186,17 @@ const SubscriptionModal: React.FC = () => {
             <div>
               <SubscriptionPlanBlock
                 plan={"yearly"}
-                additionalClass={["subscription-block-yearly"]}
+                additionalClass={[
+                  "subscription-block",
+                  "subscription-block-yearly",
+                ]}
               />
             </div>
             <div className="mt-xxsmall">
-              <SubscriptionPlanBlock plan={"monthly"} />
+              <SubscriptionPlanBlock
+                plan={"monthly"}
+                additionalClass={["subscription-block"]}
+              />
             </div>
             <span className="note mt-xxxsmall">
               {t("license:noHiddenFees")}

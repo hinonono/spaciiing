@@ -1,0 +1,23 @@
+.subscription-plan-title {
+    color: var(--figma-color-text);
+    font-size: 1rem;
+}
+
+.subscription-block {
+    span {
+        display: block;
+    }
+
+    &-yearly {
+        border: 2px solid var(--cy-purple-600);
+        background-color: var(--cy-purple-100);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .subscription-block {
+        &-yearly {
+            background-color: var(--cy-purple-950);
+        }
+    }
+}
