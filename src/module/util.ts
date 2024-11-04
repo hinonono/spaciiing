@@ -603,10 +603,13 @@ export function createTextNode(
  * @returns {string} - The formatted number as a string. If the number is an integer,
  * it is returned without any decimal places. If it has decimals, it is formatted to two decimal places.
  */
-export function formatNumberToTwoDecimals(value: number): string {
+export function formatNumberToDecimals(
+  value: number,
+  decimal: number = 0
+): string {
   if (Math.floor(value) === value) {
     return value.toString(); // If the value is an integer, return it as is
   } else {
-    return value.toFixed(2); // If the value has decimals, format to 2 decimal places
+    return value.toFixed(decimal); // If the value has decimals, format to 2 decimal places
   }
 }
