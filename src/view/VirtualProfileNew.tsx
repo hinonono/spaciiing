@@ -584,7 +584,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex flex-justify-spacebetween virtual-profile-toolbar">
           <div>
-            <button className="button-reset margin-0 width-auto" onClick={toggleAll}>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={toggleAll}
+            >
               <div className="icon-24 icon-hover">
                 {!isFolderCollapsed ? (
                   <SvgExpand color="var(--figma-color-text)" />
@@ -620,12 +623,18 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                 <SvgAddFromPreset color="var(--figma-color-text)" />
               </div>
             </button>
-            <button className="button-reset margin-0 width-auto" onClick={addTitleRow}>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={addTitleRow}
+            >
               <div className="icon-24 icon-hover">
                 <SvgAddFolder color="var(--figma-color-text)" />
               </div>
             </button>
-            <button className="button-reset margin-0 width-auto" onClick={addRecordToLastTitle}>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={addRecordToLastTitle}
+            >
               <div className="icon-24 icon-hover">
                 <SvgAdd color="var(--figma-color-text)" />
               </div>
@@ -663,7 +672,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                         </div>
                         <div>
                           <input
-                            className="cy-input text-center"
+                            className="cy-input text-center font-weight-bold"
                             type="text"
                             value={row.title}
                             onChange={(e) =>

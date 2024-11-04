@@ -8,6 +8,9 @@ import { ExternalMessageUpdateEditorPreference } from "../types/Messages/Message
 import { Module } from "../types/Module";
 import { ResizableNode } from "../types/NodeResizable";
 import { semanticTokens } from "./tokens";
+import loremText from "../assets/loremText.json";
+
+const isDevelopment = process.env.REACT_APP_ENV === "development";
 
 // 取代原有的 fundamental-module.ts
 export function deepClone(val: unknown) {
@@ -44,6 +47,23 @@ export function saveEditorPreference(
   console.log(editorPreference);
 }
 
+function createEditorPreference(): EditorPreference {
+  const createdEditorPreference: EditorPreference = {
+    magicObjects: {
+      noteId: "",
+      tagId: "",
+      sectionId: "",
+    },
+    lorem: loremText.en,
+    iconFrame: {
+      innerFrame: 20,
+      outerFrame: 24,
+    },
+  };
+
+  return createdEditorPreference;
+}
+
 /**
  * Reads the editor preference from the root plugin data.
  *
@@ -52,24 +72,27 @@ export function saveEditorPreference(
 export function readEditorPreference(): EditorPreference {
   const editorPreference = figma.root.getPluginData("editor-preference");
 
-  if (editorPreference) {
+  if (!editorPreference) {
+    // 當之前未建立過Preference物件時，新建一個
+    const createdEditorPreference: EditorPreference = createEditorPreference();
+
+    saveEditorPreference(createdEditorPreference);
+
+    return createdEditorPreference;
+  } else {
     // 當之前已建立過Preference物件時，進行解碼
     const decodedEditorPreference = JSON.parse(
       editorPreference
     ) as EditorPreference;
 
-    return decodedEditorPreference;
-  } else {
-    // 當之前未建立過Preference物件時，新建一個
-    const createdEditorPreference: EditorPreference = {
-      magicObjects: {
-        noteId: "",
-        tagId: "",
-        sectionId: "",
-      },
+    // Merge with default preferences to ensure all properties are present
+    const defaultEditorPreference = createEditorPreference();
+    const mergedEditorPreference = {
+      ...defaultEditorPreference,
+      ...decodedEditorPreference,
     };
 
-    return createdEditorPreference;
+    return mergedEditorPreference;
   }
 }
 

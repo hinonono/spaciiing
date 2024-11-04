@@ -13,6 +13,7 @@ import {
   InstantiaterType,
   MessageInstantiater,
 } from "../types/Messages/MessageInstantiater";
+import SegmentedControl from "../components/SegmentedControl";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -162,28 +163,14 @@ const Instantiater: React.FC = () => {
       <div className="content">
         <div>
           <SectionTitle title={t("module:generateAs")} />
-          <div className="custom-segmented-control">
-            <input
-              type="radio"
-              name="instantiater-form"
-              id="instantiater-form-style"
-              value="style"
-              checked={form === "style"}
-              onChange={() => setForm("style")}
-            />
-            <label htmlFor="instantiater-form-style">{t("term:style")}</label>
-            <input
-              type="radio"
-              name="instantiater-form"
-              id="instantiater-form-variable"
-              value="variable"
-              checked={form === "variable"}
-              onChange={() => setForm("variable")}
-            />
-            <label htmlFor="instantiater-form-variable">
-              {t("term:variable")}
-            </label>
-          </div>
+          <SegmentedControl
+            inputName="form"
+            value={form}
+            onChange={(newForm) => setForm(newForm as InstantiateForm)}
+          >
+            <SegmentedControl.Option value="style" label="term:style" />
+            <SegmentedControl.Option value="variable" label="term:variable" />
+          </SegmentedControl>
         </div>
         {/* Destination */}
         {form === "variable" && (
@@ -250,7 +237,7 @@ const Instantiater: React.FC = () => {
               <option value="typography">{t("term:typography")}</option>
             )}
             {categoryOptionsCount.other > 1 && (
-              <option value="other">{t("term:other")}</option>
+              <option value="other">{t("term:others")}</option>
             )}
           </select>
           <div className="mt-xxsmall"></div>

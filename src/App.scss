@@ -70,16 +70,10 @@ pre {
     padding: 4px 8px;
     background-color: var(--variable-background);
     border-radius: var(--cy-border-radius-large);
-    margin: 4px;
+    padding: 16px;
 
     .text-primary {
         color: var(--variable-text-primary);
-    }
-
-    .text-secondary {
-        color: var(--variable-text-secondary);
-        margin-right: 4px;
-        text-transform: uppercase;
     }
 }
 
@@ -753,6 +747,10 @@ li {
 .disable-mtmb {
     margin-top: 0rem;
     margin-bottom: 0rem;
+}
+
+.font-weight-bold {
+    font-weight: bold;
 }
 
 

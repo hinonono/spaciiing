@@ -1,6 +1,19 @@
 export interface EditorPreference {
   spacing?: number;
   magicObjects: MagicObjects;
+  lorem: string; //預設寫英文
+  iconFrame: IconFrame;
+  referenceObject?: ReferenceObject;
+}
+
+interface IconFrame {
+  innerFrame: number;
+  outerFrame: number;
+}
+
+interface ReferenceObject {
+  name: string;
+  id: string;
 }
 
 interface MagicObjects {

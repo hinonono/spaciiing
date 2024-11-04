@@ -8,13 +8,13 @@ import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFron
 import { FramerMode, MessageFramer } from "../../types/Messages/MessageFramer";
 
 interface FramerModalProps {
-  showFramerModal: boolean;
-  handleCloseFramerModal: () => void;
+  show: boolean;
+  handleClose: () => void;
 }
 
 const FramerModal: React.FC<FramerModalProps> = ({
-  showFramerModal,
-  handleCloseFramerModal,
+  show,
+  handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
@@ -48,7 +48,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
   };
 
   return (
-    <Modal show={showFramerModal} handleClose={handleCloseFramerModal}>
+    <Modal show={show} handleClose={handleClose}>
       <div>
         <div>
           <div className="section-title">{t("module:mode")}</div>

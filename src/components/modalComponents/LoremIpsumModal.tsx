@@ -6,10 +6,10 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import {
-  LoremSupportedLang,
   LoremLength,
   MessageLoremGenerator,
 } from "../../types/Messages/MessageLoremGenerator";
+import SegmentedControl from "../SegmentedControl";
 
 interface LoremIpsumModalProps {
   show: boolean;
@@ -21,12 +21,18 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
   handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const {
+    licenseManagement,
+    setShowCTSubscribe,
+    editorPreference,
+    setEditorPreference,
+  } = useAppContext();
 
-  const [lang, setLang] = useState<LoremSupportedLang>("en");
+  // const [lang, setLang] = useState<LoremSupportedLang>("en");
   const [length, setLength] = useState<LoremLength>("short");
+  const [shouldSavePreference, setShouldSavePreference] = useState(false);
 
-  const generateLorem = (lang: LoremSupportedLang, length: LoremLength) => {
+  const generateLorem = (length: LoremLength) => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
       setShowCTSubscribe(true);
       return;
@@ -34,10 +40,11 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
 
     const message: MessageLoremGenerator = {
       module: "LoremGenerator",
-      lang,
       length,
       direction: "Inner",
       phase: "Actual",
+      shouldSaveEditorPreference: shouldSavePreference,
+      editorPreference: editorPreference,
     };
 
     parent.postMessage(
@@ -48,41 +55,47 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
     );
   };
 
+  const handleLoremChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (shouldSavePreference == false) {
+      setShouldSavePreference(true);
+    }
+    setEditorPreference((prevPreference) => ({
+      ...prevPreference,
+      lorem: event.target.value,
+    }));
+  };
+
   return (
     <Modal show={show} handleClose={handleClose}>
       <div className="mt-xxsmall">
-        <SectionTitle title={t("module:language")} />
-        <select
-          name="lang"
-          className="custom-select"
-          id="lang_select"
-          value={lang}
-          onChange={(e) => setLang(e.target.value as LoremSupportedLang)}
+        <SectionTitle title={t("module:length")} />
+        <SegmentedControl
+          inputName="length"
+          value={length}
+          onChange={(newLength) => setLength(newLength as LoremLength)}
         >
-          <option value="en">English</option>
-          <option value="zh-tw">繁體中文</option>
-        </select>
+          <SegmentedControl.Option label="module:short" value="short" />
+          <SegmentedControl.Option label="module:medium" value="medium" />
+          <SegmentedControl.Option label="module:long" value="long" />
+        </SegmentedControl>
       </div>
       <div className="mt-xxsmall">
-        <SectionTitle title={t("module:length")} />
-        <select
-          name="length"
-          className="custom-select"
-          id="length_select"
-          value={length}
-          onChange={(e) => setLength(e.target.value as LoremLength)}
-        >
-          <option value="short">{t("module:short")}</option>
-          <option value="medium">{t("module:medium")}</option>
-          <option value="long">{t("module:long")}</option>
-        </select>
+        <SectionTitle title={t("module:text")} />
+        <textarea
+          className="textarea"
+          rows={5}
+          value={editorPreference.lorem}
+          onChange={handleLoremChange}
+          placeholder={t("module:text")}
+        />
       </div>
+
       <div className="mt-xxsmall"></div>
       <FigmaButton
         title={t("module:generate")}
         id={"lorem-apply"}
         onClick={() => {
-          generateLorem(lang, length);
+          generateLorem(length);
         }}
       />
     </Modal>

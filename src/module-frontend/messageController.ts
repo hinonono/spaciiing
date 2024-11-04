@@ -2,10 +2,8 @@ import { AppContextType } from "../AppProvider";
 import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { Message } from "../types/Messages/Message";
 import { ExternalMessageLocalization } from "../types/Messages/MessageLocalization";
-import { ExternalMessageUpdateFrame } from "../types/Messages/MessageMemorizer";
 import { ExternalMessageUpdateVirtualProfile } from "../types/Messages/MessageVirtualProfile";
 import { localizationHandler } from "./localizationFrontEnd";
-import { memorizerHandler } from "./memorizerFrontEnd";
 import { variableEditorHandler } from "./variableEditorFrontEnd";
 import {
   virtualProfileHandler,
@@ -50,8 +48,7 @@ function messageActualController(
     case "Spaciiing":
       // Handle Spaciiing case
       break;
-    case "Memorizer":
-      memorizerHandler(message as ExternalMessageUpdateFrame, appContext);
+    case "PropertyClipboard":
       break;
     case "Shortcut":
       break;
@@ -123,7 +120,7 @@ function messageWillEndController(
     case "Spaciiing":
       // Handle Spaciiing case
       break;
-    case "Memorizer":
+    case "PropertyClipboard":
       // Handle Memorizer case
       break;
     case "Shortcut":

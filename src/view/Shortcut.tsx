@@ -8,6 +8,7 @@ import {
   IconTemplateModal,
   LoremIpsumModal,
   MagicObjectModal,
+  UnifyTextModal,
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -15,9 +16,10 @@ import {
   ShortcutAction,
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
+import { createAutoLayoutIndividually } from "../module-frontend/shortcutFronEnd";
 
 const Shortcut: React.FC = () => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -47,6 +49,10 @@ const Shortcut: React.FC = () => {
   const handleOpenMagicObjectModal = () => setShowMagicObjectModal(true);
   const handleCloseMagicObjectModal = () => setShowMagicObjectModal(false);
 
+  // 統一文字彈窗
+  const [showUnifyTextModal, setShowUnifyTextModal] = useState(false);
+  const handleOpenUnifyTextModal = () => setShowUnifyTextModal(true);
+  const handleCloseUnifyTextModal = () => setShowUnifyTextModal(false);
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -114,21 +120,25 @@ const Shortcut: React.FC = () => {
             <p>{t("module:generateNoteDesignStatusTagDesc")}</p>
           </div>
         </Modal>
+        <UnifyTextModal
+          show={showUnifyTextModal}
+          handleClose={handleCloseUnifyTextModal}
+        />
         <MagicObjectModal
-          showModal={showMagicObjectModal}
-          handleCloseModal={handleCloseMagicObjectModal}
+          show={showMagicObjectModal}
+          handleClose={handleCloseMagicObjectModal}
         />
         <IconTemplateModal
-          showIconModal={showIconModal}
-          handleCloseIconModal={handleCloseIconModal}
+          show={showIconModal}
+          handleClose={handleCloseIconModal}
         />
         <FramerModal
-          showFramerModal={showFramerModal}
-          handleCloseFramerModal={handleCloseFramerModal}
+          show={showFramerModal}
+          handleClose={handleCloseFramerModal}
         />
         <FindAndReplaceModal
-          showFindAndReplaceModal={showFindAndReplaceModal}
-          handleCloseFindAndReplaceModal={handleCloseFindAndReplaceModal}
+          show={showFindAndReplaceModal}
+          handleClose={handleCloseFindAndReplaceModal}
         />
         <LoremIpsumModal
           show={showLoremModal}
@@ -141,170 +151,189 @@ const Shortcut: React.FC = () => {
         isProFeature={true}
       />
       <div className="content">
-        <div>
-          <div>
-            <h3>{t("module:frame")}</h3>
-            <div className="border-1 padding-16 border-radius-large">
-              <div className="grid mt-xxxsmall">
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:createShadowOverlay")}
-                  id={"shortcut-overlay"}
-                  onClick={() => {
-                    applyShortcut("makeFrameOverlay");
-                  }}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:alignToFrameEdge")}
-                  id={"shortcut-framer"}
-                  onClick={handleOpenFramerModal}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-              </div>
+        {/* 框 */}
+        <div className="list-view mt-xsmall">
+          <div className="list-view-header flex flex-justify-center">
+            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+              {t("module:frame")}
             </div>
           </div>
-          <div className="mt-small">
-            <h3>{t("module:text")}</h3>
-            <div className="border-1 padding-16 border-radius-large">
-              <div className="grid mt-xxxsmall">
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:findAndReplace")}
-                  id={"shortcut-find-and-replace-in-selection"}
-                  onClick={handleOpenFindAndReplaceModal}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:createTextStyleFromSelection")}
-                  id={"shortcut-generate-text-style-from-selection"}
-                  onClick={() => {
-                    applyShortcut("convertSelectionToTextStyles");
-                  }}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-              </div>
+          <div className="padding-16 grid border-1-top">
+            <FigmaButton
+              buttonType="secondary"
+              title={t("module:createShadowOverlay")}
+              id={"shortcut-overlay"}
+              onClick={() => {
+                applyShortcut("makeFrameOverlay");
+              }}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+            <FigmaButton
+              buttonType="secondary"
+              title={t("module:alignToFrameEdge")}
+              id={"shortcut-framer"}
+              onClick={handleOpenFramerModal}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+          </div>
+        </div>
+        {/* 文字 */}
+        <div className="list-view mt-xsmall">
+          <div className="list-view-header flex flex-justify-center">
+            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+              {t("module:text")}
             </div>
           </div>
-          <div className="mt-small">
-            <h3>{t("module:generate")}</h3>
-            <div className="border-1 padding-16 border-radius-large">
-              <SectionTitle
-                title={t("module:fileOrganizingObject")}
-                actionTitle={t("module:setting")}
-                action={handleOpenMagicObjectModal}
+          <div className="padding-16 grid border-1-top">
+            <FigmaButton
+              buttonType="secondary"
+              title={t("module:findAndReplace")}
+              onClick={handleOpenFindAndReplaceModal}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+            <FigmaButton
+              buttonType="secondary"
+              title={t("module:createTextStyleFromSelection")}
+              onClick={() => {
+                applyShortcut("convertSelectionToTextStyles");
+              }}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+            <FigmaButton
+              buttonType="secondary"
+              title={t("module:unifyText")}
+              onClick={handleOpenUnifyTextModal}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+          </div>
+        </div>
+        {/* 生成 */}
+        <div className="list-view mt-xsmall">
+          <div className="list-view-header flex flex-justify-center">
+            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+              {t("module:generate")}
+            </div>
+          </div>
+          <div className="padding-16 border-1-top">
+            <SectionTitle
+              title={t("module:fileOrganizingObject")}
+              actionTitle={t("module:setting")}
+              action={handleOpenMagicObjectModal}
+            />
+            <div className="grid mt-xxxsmall">
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:note")}
+                id={"shortcut-generate-note"}
+                onClick={() => {
+                  applyShortcut("generateNote");
+                }}
+                disabled={
+                  editorPreference.magicObjects.noteId == "" ? true : false
+                }
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
               />
-              <div className="grid mt-xxxsmall">
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:note")}
-                  id={"shortcut-generate-note"}
-                  onClick={() => {
-                    applyShortcut("generateNote");
-                  }}
-                  disabled={
-                    editorPreference.magicObjects.noteId == "" ? true : false
-                  }
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:designStatusTag")}
-                  id={"shortcut-generate-design-status-tag"}
-                  onClick={() => {
-                    applyShortcut("generateDesignStatusTag");
-                  }}
-                  disabled={
-                    editorPreference.magicObjects.tagId == "" ? true : false
-                  }
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:titleSection")}
-                  id={"shortcut-generate-title-section"}
-                  onClick={() => {
-                    applyShortcut("generateTitleSection");
-                  }}
-                  disabled={
-                    editorPreference.magicObjects.sectionId == "" ? true : false
-                  }
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-              </div>
-              <div className="mt-xsmall"></div>
-              <SectionTitle title={t("module:colorValueToTextLabel")} />
-              <div className="grid mt-xxxsmall">
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:hexValue")}
-                  id={"shortcut-color-to-label-hex"}
-                  onClick={() => {
-                    applyShortcut("colorToLabelHEX");
-                  }}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:hexValueWithTransparency")}
-                  id={"shortcut-color-to-label-hex-transparent"}
-                  onClick={() => {
-                    applyShortcut("colorToLabelHEXWithTransparency");
-                  }}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:rgbValue")}
-                  id={"shortcut-color-to-label-rgb"}
-                  onClick={() => {
-                    applyShortcut("colorToLabelRGB");
-                  }}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:rgbaValue")}
-                  id={"shortcut-color-to-label-rgba"}
-                  onClick={() => {
-                    applyShortcut("colorToLabelRGBA");
-                  }}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-              </div>
-              <div className="mt-xsmall"></div>
-              <SectionTitle title={t("module:other")} />
-              <div className="grid mt-xxxsmall">
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:loremIpsumText")}
-                  id={"shortcut-generate-lorem-ipsum-text"}
-                  onClick={handleOpenLoremModal}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-                <FigmaButton
-                  buttonType="secondary"
-                  title={t("module:iconTemplate")}
-                  id={"shortcut-generate-icon-template"}
-                  onClick={handleOpenIconModal}
-                  buttonHeight="xlarge"
-                  hasTopBottomMargin={false}
-                />
-              </div>
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:designStatusTag")}
+                id={"shortcut-generate-design-status-tag"}
+                onClick={() => {
+                  applyShortcut("generateDesignStatusTag");
+                }}
+                disabled={
+                  editorPreference.magicObjects.tagId == "" ? true : false
+                }
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:titleSection")}
+                id={"shortcut-generate-title-section"}
+                onClick={() => {
+                  applyShortcut("generateTitleSection");
+                }}
+                disabled={
+                  editorPreference.magicObjects.sectionId == "" ? true : false
+                }
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
+            <div className="mt-xsmall"></div>
+            <SectionTitle title={t("module:colorValueToTextLabel")} />
+            <div className="grid mt-xxxsmall">
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:hexValue")}
+                id={"shortcut-color-to-label-hex"}
+                onClick={() => {
+                  applyShortcut("colorToLabelHEX");
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:hexValueWithTransparency")}
+                id={"shortcut-color-to-label-hex-transparent"}
+                onClick={() => {
+                  applyShortcut("colorToLabelHEXWithTransparency");
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:rgbValue")}
+                id={"shortcut-color-to-label-rgb"}
+                onClick={() => {
+                  applyShortcut("colorToLabelRGB");
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:rgbaValue")}
+                id={"shortcut-color-to-label-rgba"}
+                onClick={() => {
+                  applyShortcut("colorToLabelRGBA");
+                }}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
+            <div className="mt-xsmall"></div>
+            <SectionTitle title={t("term:others")} />
+            <div className="grid mt-xxxsmall">
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:loremIpsumText")}
+                onClick={handleOpenLoremModal}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:createAutoLayoutIndividually")}
+                onClick={createAutoLayoutIndividually}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:iconTemplate")}
+                onClick={handleOpenIconModal}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
             </div>
           </div>
         </div>

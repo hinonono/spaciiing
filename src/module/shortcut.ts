@@ -6,6 +6,7 @@ import {
   MessageShortcutFindAndReplace,
   MessageShortcutGenerateIconTemplate,
   MessageShortcutGenerateMagicalObjectMember,
+  MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 
@@ -71,10 +72,65 @@ export function executeShortcut(message: MessageShortcut) {
       case "findAndReplace":
         findAndReplaceInSelection(message as MessageShortcutFindAndReplace);
         break;
+      case "unifyText":
+        unifyText(message as MessageUnifyText);
+        break;
+      case "createAutoLayoutIndividually":
+        createAutoLayoutIndividually();
+        break;
       default:
         break;
     }
   }
+}
+
+function createAutoLayoutIndividually() {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No layers selected. Please select at least 1 layers.");
+    return;
+  }
+
+  for (let i = 0; i < selection.length; i++) {
+    const item = selection[i];
+    const originalX = item.x;
+    const originalY = item.y;
+
+    const autoLayoutFrame = util.createAutolayoutFrame([item], 0, "HORIZONTAL");
+    autoLayoutFrame.resize(item.width, item.height);
+    autoLayoutFrame.x = originalX;
+    autoLayoutFrame.y = originalY;
+
+    figma.currentPage.appendChild(autoLayoutFrame);
+  }
+}
+
+/**
+ * Function to unify text content across selected text nodes.
+ * @param {MessageUnifyText} message - The message containing the target text content.
+ */
+function unifyText(message: MessageUnifyText) {
+  const targetTextContent = message.targetTextContent;
+  const selection = util.getCurrentSelection();
+
+  // Filter selection to only include text nodes
+  const textNodes = selection.filter(
+    (node) => node.type === "TEXT"
+  ) as TextNode[];
+
+  if (textNodes.length === 0) {
+    figma.notify("❌ No text nodes selected. Please select some text nodes.");
+    return;
+  }
+
+  // Load fonts and update text content
+  textNodes.forEach(async (textNode) => {
+    await figma.loadFontAsync(textNode.fontName as FontName);
+    textNode.characters = targetTextContent;
+  });
+
+  figma.notify(`✅ Text content updated for ${textNodes.length} text node(s).`);
 }
 
 async function findAndReplaceInSelection(
@@ -293,64 +349,70 @@ function memorizeSelectedNodeId(member: MagicObjectMembers) {
 }
 
 function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
-  const system = message.system;
+  const receivedInnerFrame = message.innerFrame;
+  const receivedOuterFrame = message.outerFrame;
   const quantity = message.quantity;
+
   const viewport = util.getCurrentViewport();
 
+  const outerFrameSize = Math.max(receivedInnerFrame, receivedOuterFrame);
+  const innerFrameSize = Math.min(receivedInnerFrame, receivedOuterFrame);
+
   // Determine inner frame size based on system
-  let innerFrameSize;
-  if (system === 24) {
-    innerFrameSize = 20;
-  } else if (system === 48) {
-    innerFrameSize = 40;
-  } else {
-    console.error("Unsupported system size. Only 24 and 48 are supported.");
-    return;
-  }
+  // let innerFrameSize;
+  // if (system === 24) {
+  //   innerFrameSize = 20;
+  // } else if (system === 48) {
+  //   innerFrameSize = 40;
+  // } else {
+  //   console.error("Unsupported system size. Only 24 and 48 are supported.");
+  //   return;
+  // }
 
   const results = [];
 
   // Generate the components
   for (let i = 0; i < quantity; i++) {
     // Create the outer frame
-    const outerFrame = figma.createFrame();
-    outerFrame.resize(system, system);
-    outerFrame.name = `Outer Frame ${i + 1}`;
-    outerFrame.x = viewport.x;
-    outerFrame.y = viewport.y;
+    const outerFrameNode = figma.createFrame();
+
+    outerFrameNode.resize(outerFrameSize, outerFrameSize);
+    outerFrameNode.name = `Outer Frame ${i + 1}`;
+    outerFrameNode.x = viewport.x;
+    outerFrameNode.y = viewport.y;
 
     // Create the inner frame
-    const innerFrame = figma.createFrame();
-    innerFrame.resize(innerFrameSize, innerFrameSize);
-    innerFrame.name = `CONTENT`;
+    const innerFrameNode = figma.createFrame();
+    innerFrameNode.resize(innerFrameSize, innerFrameSize);
+    innerFrameNode.name = `Container`;
 
     // Center the inner frame within the outer frame
-    innerFrame.x = (outerFrame.width - innerFrame.width) / 2;
-    innerFrame.y = (outerFrame.height - innerFrame.height) / 2;
+    innerFrameNode.x = (outerFrameNode.width - innerFrameNode.width) / 2;
+    innerFrameNode.y = (outerFrameNode.height - innerFrameNode.height) / 2;
 
     // Set constraints for the inner frame to scale on both sides
-    innerFrame.constraints = {
+    innerFrameNode.constraints = {
       horizontal: "SCALE",
       vertical: "SCALE",
     };
 
     // Add the inner frame to the outer frame
-    outerFrame.appendChild(innerFrame);
+    outerFrameNode.appendChild(innerFrameNode);
 
     // Create a component from the outer frame
     const component = figma.createComponent();
-    component.resize(outerFrame.width, outerFrame.height);
-    component.name = `Icon${system}/${i + 1}`;
+    component.resize(outerFrameNode.width, outerFrameNode.height);
+    component.name = `Icon${outerFrameSize}/${i + 1}`;
     component.x = viewport.x;
     component.y = viewport.y;
 
     // Move the outer frame's children to the component
-    while (outerFrame.children.length > 0) {
-      component.appendChild(outerFrame.children[0]);
+    while (outerFrameNode.children.length > 0) {
+      component.appendChild(outerFrameNode.children[0]);
     }
 
     // Remove the empty outer frame
-    outerFrame.remove();
+    outerFrameNode.remove();
 
     results.push(component);
   }
@@ -365,20 +427,28 @@ function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
   const mode: SpacingMode = "horizontal";
   const addAutolayout = false;
 
-  spaciiing.applySpacingToLayers(results, spacing, mode, addAutolayout, false);
+  spaciiing.applySpacingToLayers(
+    results,
+    spacing,
+    mode,
+    addAutolayout,
+    false,
+    5
+  );
 }
 
 async function generateLabelFromObjectFillColor(
   type: "HEX" | "RGB" | "RGBA" | "HEX_WITH_TRANSPARENCY"
 ) {
   const selection = figma.currentPage.selection;
+  const fontName = { family: "Inter", style: "Regular" };
 
   if (selection.length === 0) {
     figma.notify("❌ Please select at least one object with fill color.");
     return;
   }
 
-  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+  await figma.loadFontAsync(fontName);
 
   for (const selectedNode of selection) {
     if ("fills" in selectedNode) {
@@ -392,88 +462,105 @@ async function generateLabelFromObjectFillColor(
         const rectColor = fills[0] as SolidPaint;
         let label: string | null = null;
 
-        if (type === "HEX") {
-          label = util.rgbToHex(
-            rectColor.color.r,
-            rectColor.color.g,
-            rectColor.color.b
-          );
-          createTextLabel(selectedNode, label, "HEX_LABEL");
-        } else if (type === "RGB") {
-          label = util.rgbToRGB255(
-            rectColor.color.r,
-            rectColor.color.g,
-            rectColor.color.b
-          );
-          createTextLabel(selectedNode, label, "RGB_LABEL");
-        } else if (type === "RGBA") {
-          if (rectColor.opacity != null) {
-            label = util.rgbToRGBA255(
+        switch (type) {
+          case "HEX":
+            label = util.rgbToHex(
+              rectColor.color.r,
+              rectColor.color.g,
+              rectColor.color.b
+            );
+            break;
+          case "RGB":
+            label = util.rgbToRGB255(
+              rectColor.color.r,
+              rectColor.color.g,
+              rectColor.color.b
+            );
+            break;
+          case "RGBA":
+            if (rectColor.opacity != null) {
+              label = util.rgbToRGBA255(
+                rectColor.color.r,
+                rectColor.color.g,
+                rectColor.color.b,
+                rectColor.opacity
+              );
+            } else {
+              figma.notify(
+                "❌ Unable to generate rgba text label due to null opacity."
+              );
+              continue;
+            }
+            break;
+          case "HEX_WITH_TRANSPARENCY":
+            label = util.rgbToHexWithTransparency(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b,
-              rectColor.opacity
+              rectColor.opacity ?? 1
             );
-            createTextLabel(selectedNode, label, "RGBA_LABEL");
-          } else {
-            figma.notify(
-              "❌ Unable to generate rgba text label due to null opacity."
-            );
-          }
-        } else if (type === "HEX_WITH_TRANSPARENCY") {
-          label = util.rgbToHexWithTransparency(
-            rectColor.color.r,
-            rectColor.color.g,
-            rectColor.color.b,
-            rectColor.opacity ?? 1
-          );
-          createTextLabel(selectedNode, label, "HEX_WITH_TRANSPARENCY_LABEL");
+            break;
+        }
+
+        if (label) {
+          createAndPlaceTextNode(label, type, selectedNode, fontName);
         }
       }
     }
   }
 }
 
-function createTextLabel(node: SceneNode, text: string, labelName: string) {
-  const textNode = figma.createText();
-  textNode.fontSize = 16;
-  textNode.characters = text;
-  textNode.name = labelName;
-  textNode.x = node.x;
-  textNode.y = node.y + node.height + 16;
+function createAndPlaceTextNode(
+  label: string,
+  type: string,
+  selectedNode: SceneNode,
+  fontName: FontName
+) {
+  const textNode = util.createTextNode(label, fontName, 16);
+  textNode.name = `${type}_LABEL`;
+  textNode.x = selectedNode.x;
+  textNode.y = selectedNode.y + selectedNode.height + 16;
   figma.currentPage.appendChild(textNode);
 }
 
+/**
+ * Creates an overlay on top of each selected frame.
+ */
 function makeOverlay() {
-  const storedWidth = figma.currentPage.getPluginData("memorized-object-width");
-  const storedHeight = figma.currentPage.getPluginData(
-    "memorized-object-height"
-  );
+  // Get the current selection of nodes
+  const selection = util.getCurrentSelection();
 
-  const selection = figma.currentPage.selection;
-  if (selection.length === 1 && selection[0].type === "FRAME") {
-    const selectedFrame = selection[0];
-    const rectangle = figma.createRectangle();
+  // Iterate over each selected item
+  selection.forEach((selectedItem) => {
+    // Check if the selected item is a frame
+    if (selectedItem.type === "FRAME") {
+      // Create a new rectangle node
+      const rectangle = figma.createRectangle();
 
-    if (storedWidth != undefined && storedHeight != undefined) {
-      rectangle.resize(Number(storedWidth), Number(storedHeight));
-    } else {
-      rectangle.resize(375, 812);
+      // Set the rectangle size to match the frame size
+      rectangle.resize(selectedItem.width, selectedItem.height);
+
+      // Position the rectangle at the top-left corner of the frame
+      rectangle.x = 0;
+      rectangle.y = 0;
+
+      // Set the fill color and opacity of the rectangle
+      rectangle.fills = [
+        { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 0.5 },
+      ];
+
+      // Name the rectangle as "Overlay"
+      rectangle.name = "Overlay";
+
+      rectangle.constraints = { horizontal: "STRETCH", vertical: "STRETCH" };
+
+      // Lock the rectangle to prevent accidental modifications
+      rectangle.locked = true;
+
+      // Append the rectangle as a child of the selected frame
+      selectedItem.appendChild(rectangle);
     }
-
-    rectangle.x = 0;
-    rectangle.y = 0;
-    rectangle.fills = [
-      { type: "SOLID", color: { r: 0, g: 0, b: 0 }, opacity: 0.5 },
-    ];
-    rectangle.name = "Overlay";
-    rectangle.locked = true;
-
-    selectedFrame.appendChild(rectangle);
-  } else {
-    // No frame selected or multiple items selected
-    console.log("Please select a single frame.");
-  }
+  });
 }
 
 async function convertSelectionToTextStyles() {

@@ -23,18 +23,27 @@ export function useSpacing(message: MessageSpaciiing) {
     return;
   }
 
-  // Save custom spacing value if applicable
-  if (message.shouldSaveEditorPreference && message.editorPreference) {
-    // figma.currentPage.setPluginData("recent-custom-spacing", String(spacing));
-    util.saveEditorPreference(message.editorPreference, "Spaciiing");
-  }
+  if (message.mode === "grid") {
+    if (message.gridColumn === undefined) {
+      throw new Error("The gridColumn is unspecified.");
+    }
 
-  applySpacingToLayers(
-    selectedLayers,
-    spacing,
-    message.mode,
-    message.addAutolayout
-  );
+    applySpacingToLayers(
+      selectedLayers,
+      spacing,
+      "horizontal",
+      message.addAutolayout,
+      false,
+      message.gridColumn
+    );
+  } else {
+    applySpacingToLayers(
+      selectedLayers,
+      spacing,
+      message.mode,
+      message.addAutolayout
+    );
+  }
 }
 
 /**
@@ -52,7 +61,8 @@ export function applySpacingToLayers(
   spacing: number,
   mode: "vertical" | "horizontal",
   addAutolayout: boolean,
-  returnFinalFrame: boolean = false
+  returnFinalFrame: boolean = false,
+  column?: number
 ): FrameNode | void {
   // Ensure at least 2 layers are selected
   if (layers.length < 2) {
@@ -64,37 +74,83 @@ export function applySpacingToLayers(
   const isVerticalMode = mode === "vertical";
   const axis = isVerticalMode ? "y" : "x";
 
-  // Sort selected layers based on the chosen axis
-  layers.sort(compareWithAxis(axis));
-
   // Adjust the positions of the layers
-  for (let i = 0; i < layers.length - 1; i++) {
-    const currentLayer = layers[i];
-    const nextLayer = layers[i + 1];
+  if (column && mode === "horizontal") {
+    let currentColumn = 1;
+    let currentRow = 0;
 
-    // Calculate the offset considering rotation
-    const currentLayerBounds = currentLayer.absoluteBoundingBox;
-    const nextLayerBounds = nextLayer.absoluteBoundingBox;
+    for (let i = 0; i < layers.length; i++) {
+      const currentLayer = layers[i];
+      const currentLayerBounds = currentLayer.absoluteBoundingBox;
 
-    if (!currentLayerBounds || !nextLayerBounds) {
-      figma.notify("❌ One of the layers has no bounding box.");
-      return;
+      if (!currentLayerBounds) {
+        figma.notify("❌ One of the layers has no bounding box.");
+        return;
+      }
+
+      if (currentColumn > column) {
+        // Move to the next row
+        currentColumn = 1;
+        currentRow += 1;
+      }
+
+      if (currentColumn === 1 && currentRow > 0) {
+        // Find the object with the largest height in the previous row
+        let maxHeight = 0;
+        for (let j = i - column; j < i; j++) {
+          const previousRowLayer = layers[j];
+          const previousRowLayerBounds = previousRowLayer.absoluteBoundingBox;
+          if (
+            previousRowLayerBounds &&
+            previousRowLayerBounds.height > maxHeight
+          ) {
+            maxHeight = previousRowLayerBounds.height;
+          }
+        }
+        // Position the first item in the new row
+        currentLayer.y = layers[i - column].y + maxHeight + spacing;
+        currentLayer.x = layers[0].x; // Align with the first column
+      } else if (currentColumn > 1) {
+        // Position subsequent items in the current row
+        const previousLayer = layers[i - 1];
+        currentLayer.x = previousLayer.x + previousLayer.width + spacing;
+        currentLayer.y = previousLayer.y;
+      }
+
+      currentColumn += 1;
     }
+  } else {
+    // Sort selected layers based on the chosen axis
+    layers.sort(compareWithAxis(axis));
 
-    const offset = isVerticalMode
-      ? currentLayerBounds.y +
-        currentLayerBounds.height +
-        spacing -
-        nextLayerBounds.y
-      : currentLayerBounds.x +
-        currentLayerBounds.width +
-        spacing -
-        nextLayerBounds.x;
+    for (let i = 0; i < layers.length - 1; i++) {
+      const currentLayer = layers[i];
+      const nextLayer = layers[i + 1];
 
-    if (isVerticalMode) {
-      nextLayer.y += offset;
-    } else {
-      nextLayer.x += offset;
+      // Calculate the offset considering rotation
+      const currentLayerBounds = currentLayer.absoluteBoundingBox;
+      const nextLayerBounds = nextLayer.absoluteBoundingBox;
+
+      if (!currentLayerBounds || !nextLayerBounds) {
+        figma.notify("❌ One of the layers has no bounding box.");
+        return;
+      }
+
+      const offset = isVerticalMode
+        ? currentLayerBounds.y +
+          currentLayerBounds.height +
+          spacing -
+          nextLayerBounds.y
+        : currentLayerBounds.x +
+          currentLayerBounds.width +
+          spacing -
+          nextLayerBounds.x;
+
+      if (isVerticalMode) {
+        nextLayer.y += offset;
+      } else {
+        nextLayer.x += offset;
+      }
     }
   }
 
@@ -103,30 +159,31 @@ export function applySpacingToLayers(
   const selectionPosition = util.getSelectionPosition(layers);
 
   if (addAutolayout) {
-    // Create a new frame with autolayout
-    const autolayoutFrame = figma.createFrame();
-
-    // Set the autolayout properties
-    autolayoutFrame.layoutMode = isVerticalMode ? "VERTICAL" : "HORIZONTAL";
-    autolayoutFrame.itemSpacing = spacing;
-
-    // Add the selected layers to the autolayout frame
-    layers.forEach((layer) => {
-      figma.currentPage.appendChild(autolayoutFrame);
-      autolayoutFrame.appendChild(layer);
-    });
+    const autolayoutFrame = util.createAutolayoutFrame(
+      layers,
+      spacing,
+      isVerticalMode ? "VERTICAL" : "HORIZONTAL"
+    );
 
     // Resize the autolayout frame to fit its contents
-    autolayoutFrame.resize(
-      selectionBoundingBox.width,
-      selectionBoundingBox.height
-    );
+    if (column && mode === "horizontal") {
+      autolayoutFrame.resize(
+        selectionBoundingBox.width,
+        selectionBoundingBox.height
+      );
+      autolayoutFrame.itemSpacing = spacing;
+      autolayoutFrame.counterAxisSpacing = spacing;
+
+      autolayoutFrame.layoutWrap = "WRAP";
+    } else {
+      autolayoutFrame.resize(
+        selectionBoundingBox.width,
+        selectionBoundingBox.height
+      );
+    }
 
     autolayoutFrame.x = selectionPosition.x;
     autolayoutFrame.y = selectionPosition.y;
-
-    // Ensure no fill is applied to the autolayout frame
-    autolayoutFrame.fills = [];
 
     // Select the autolayout frame
     figma.currentPage.selection = [autolayoutFrame];

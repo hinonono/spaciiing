@@ -1,7 +1,8 @@
 :root {
-  --variable-background: rgba(255, 139, 29, .2);
-  --variable-text-primary: rgba(176, 65, 0, 1);
-  --variable-text-secondary: rgba(176, 65, 0, .6);
+  --variable-background: #fcf2f6;
+  /* L97 S50*/
+  --variable-text-primary: #c2488a;
+  /* L58 S600*/
   --tooltip-icon: #7f7f7f;
   --button-disabled: #cacaca;
   --fg-focus: #0d99ff;
@@ -24,9 +25,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --variable-background: rgba(255, 139, 29, .3);
-    --variable-text-primary: rgba(255, 162, 107, 1);
-    --variable-text-secondary: rgba(255, 162, 107, .8);
+    --variable-background: #682f4c;
+    /* L39 S900*/
+    --variable-text-primary: #fce8f1;
+    /* L95 S100*/
     --tooltip-icon: #bfbfbf;
     --button-disabled: #656565;
     --fg-focus: #0c8ce9;
@@ -616,6 +618,44 @@
   color: var(--figma-color-text-secondary);
 }
 
+.list-view {
+  border-radius: var(--cy-border-radius-large);
+  border: 1px solid var(--cy-border-light);
+  overflow: hidden;
+}
+.list-view-header {
+  padding: 8px;
+  min-height: 48px;
+  background-color: var(--figma-color-bg-secondary);
+  font-weight: bold;
+}
+
+.chevron-right {
+  /* Add this block */
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: solid var(--figma-color-text-secondary);
+  border-width: 0 1.5px 1.5px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(315deg);
+}
+
+.chevron-left {
+  /* Add this block */
+  position: absolute;
+  left: 4px;
+  top: 12px;
+  transform: translateY(-50%);
+  border: solid var(--figma-color-bg-brand);
+  border-width: 0 1.5px 1.5px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+}
+
 h2 {
   font-size: 1.4rem;
 }
@@ -634,6 +674,10 @@ h2 {
 
 .margin-0 {
   margin: 0;
+}
+
+.bg-color-secondary {
+  background-color: var(--figma-color-bg-secondary);
 }
 
 .scope-group {
@@ -834,30 +878,9 @@ h2 {
   grid-area: 2/1/3/3;
 }
 
-.chevron-right {
-  /* Add this block */
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: solid var(--figma-color-text-secondary);
-  border-width: 0 1.5px 1.5px 0;
-  display: inline-block;
-  padding: 3px;
-  transform: rotate(315deg);
-}
-
-.chevron-left {
-  /* Add this block */
-  position: absolute;
-  left: 4px;
-  top: 12px;
-  transform: translateY(-50%);
-  border: solid var(--figma-color-bg-brand);
-  border-width: 0 1.5px 1.5px 0;
-  display: inline-block;
-  padding: 3px;
-  transform: rotate(135deg);
+.property-clipboard-header {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
 }
 
 body {
@@ -922,15 +945,10 @@ pre {
   padding: 4px 8px;
   background-color: var(--variable-background);
   border-radius: var(--cy-border-radius-large);
-  margin: 4px;
+  padding: 16px;
 }
 .variable .text-primary {
   color: var(--variable-text-primary);
-}
-.variable .text-secondary {
-  color: var(--variable-text-secondary);
-  margin-right: 4px;
-  text-transform: uppercase;
 }
 
 section {
@@ -1566,6 +1584,10 @@ li {
 .disable-mtmb {
   margin-top: 0rem;
   margin-bottom: 0rem;
+}
+
+.font-weight-bold {
+  font-weight: bold;
 }
 
 /*# sourceMappingURL=App.css.map */

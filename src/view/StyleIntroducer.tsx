@@ -6,11 +6,13 @@ import Modal from "../components/Modal";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import {
   MessageStyleIntroducer,
+  StyleForm,
   StyleMode,
 } from "../types/Messages/MessageStyleIntroducer";
 import { NestedStructure, StyleSelection } from "../types/General";
 import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
+import SegmentedControl from "../components/SegmentedControl";
 
 interface StyleIntroducerProps {}
 
@@ -25,7 +27,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 形式：樣式、變數
-  const [form, setForm] = useState<"STYLE" | "VARIABLE">("STYLE");
+  const [form, setForm] = useState<StyleForm>("STYLE");
 
   // 模式：色彩、效果、文字
   const [mode, setMode] = useState<StyleMode>("COLOR");
@@ -179,30 +181,14 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       <div className="content">
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:form")} />
-          <div className="custom-segmented-control">
-            <input
-              type="radio"
-              name="style-introducer-form"
-              value="STYLE"
-              id="style-introducer-form-style"
-              checked={form === "STYLE"}
-              onChange={() => setForm("STYLE")}
-            />
-            <label htmlFor="style-introducer-form-style">
-              {t("term:style")}
-            </label>
-            <input
-              type="radio"
-              name="style-introducer-form"
-              value="VARIABLE"
-              id="style-introducer-form-variable"
-              checked={form === "VARIABLE"}
-              onChange={() => setForm("VARIABLE")}
-            />
-            <label htmlFor="style-introducer-form-variable">
-              {t("term:variable")}
-            </label>
-          </div>
+          <SegmentedControl
+            inputName="form"
+            value={form}
+            onChange={(newForm) => setForm(newForm as StyleForm)}
+          >
+            <SegmentedControl.Option value="STYLE" label="term:style" />
+            <SegmentedControl.Option value="VARIABLE" label="term:variable" />
+          </SegmentedControl>
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:type")} />

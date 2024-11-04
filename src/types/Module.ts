@@ -2,7 +2,6 @@ export type Module =
   | "Init"
   | "Localization"
   | "Spaciiing"
-  | "Memorizer"
   | "Shortcut"
   | "Framer"
   | "LoremGenerator"
@@ -15,4 +14,5 @@ export type Module =
   | "LicenseManagement"
   | "AspectRatioHelper"
   | "Resize"
-  | "StyleIntroducer";
+  | "StyleIntroducer"
+  | "PropertyClipboard";

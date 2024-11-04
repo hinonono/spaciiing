@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton } from "../components";
 import { useAppContext } from "../AppProvider";
-import { SvgHorizontal, SvgVertical } from "../assets/icons";
+import { SvgGrid, SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import {
   SpacingMode,
   MessageSpaciiing,
 } from "../types/Messages/MessageSpaciiing";
+import SegmentedControl from "../components/SegmentedControl";
 
 const SpacingValue: {
   nameKey: string;
   value: number | string;
-  translate: boolean;
+  translatable: boolean;
 }[] = [
-  { nameKey: "0", value: 0, translate: false },
-  { nameKey: "8", value: 8, translate: false },
-  { nameKey: "16", value: 16, translate: false },
-  { nameKey: "20", value: 20, translate: false },
-  { nameKey: "24", value: 24, translate: false },
-  { nameKey: "32", value: 32, translate: false },
-  { nameKey: "term:custom", value: "custom", translate: true },
+  { nameKey: "0", value: 0, translatable: false },
+  { nameKey: "8", value: 8, translatable: false },
+  { nameKey: "16", value: 16, translatable: false },
+  { nameKey: "20", value: 20, translatable: false },
+  { nameKey: "24", value: 24, translatable: false },
+  { nameKey: "32", value: 32, translatable: false },
+  { nameKey: "term:custom", value: "custom", translatable: true },
 ];
 
 const SpaciiingView: React.FC = () => {
@@ -42,6 +43,24 @@ const SpaciiingView: React.FC = () => {
   // 間距值
   const [space, setSpace] = useState<string | number>(0);
   const [enteredCustomSpacing, setEnteredCustomSpacing] = useState<number>(0);
+
+  // 格線
+  const [columnFieldNote, setColumnFieldNote] = useState("");
+  const [column, setColumn] = useState<number>(2);
+  const handleColumnChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const n = Number(event.target.value);
+
+    if (!isNaN(n)) {
+      if (n < 2) {
+        setColumnFieldNote(t("module:shouldLargeThanTwo"));
+      } else {
+        setColumn(n);
+        setColumnFieldNote("");
+      }
+    }
+  };
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -70,9 +89,11 @@ const SpaciiingView: React.FC = () => {
 
       setCustomSpacingFieldNote("");
     } else {
-      setCustomSpacingFieldNote("Invalid number input");
+      setCustomSpacingFieldNote(t("module:invalidNumberInput"));
     }
   };
+
+  const multipliers = [1, 2, 3, 4, 5];
 
   useEffect(() => {
     if (editorPreference.spacing) {
@@ -94,24 +115,46 @@ const SpaciiingView: React.FC = () => {
       useCustomValue = false;
     }
 
-    const message: MessageSpaciiing = {
-      module: "Spaciiing",
-      mode: mode,
-      spacing: finalSpacing,
-      useCustomValue: useCustomValue,
-      addAutolayout: isChecked,
-      direction: "Inner",
-      phase: "Actual",
-      shouldSaveEditorPreference: true,
-      editorPreference: editorPreference,
-    };
+    if (mode === "grid") {
+      const message: MessageSpaciiing = {
+        module: "Spaciiing",
+        mode: mode,
+        spacing: finalSpacing,
+        useCustomValue: useCustomValue,
+        addAutolayout: isChecked,
+        direction: "Inner",
+        phase: "Actual",
+        shouldSaveEditorPreference: true,
+        editorPreference: editorPreference,
+        gridColumn: column,
+      };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+      parent.postMessage(
+        {
+          pluginMessage: message,
+        },
+        "*"
+      );
+    } else {
+      const message: MessageSpaciiing = {
+        module: "Spaciiing",
+        mode: mode,
+        spacing: finalSpacing,
+        useCustomValue: useCustomValue,
+        addAutolayout: isChecked,
+        direction: "Inner",
+        phase: "Actual",
+        shouldSaveEditorPreference: true,
+        editorPreference: editorPreference,
+      };
+
+      parent.postMessage(
+        {
+          pluginMessage: message,
+        },
+        "*"
+      );
+    }
   };
 
   return (
@@ -127,84 +170,101 @@ const SpaciiingView: React.FC = () => {
       </Modal>
       <TitleBar title="Spaciiing" onClick={handleOpenExplanationModal} />
       <div className="content">
+        {/* 模式 */}
         <div>
           <SectionTitle title={t("module:mode")} />
-          <div className="custom-segmented-control">
-            <input
-              type="radio"
-              name="sp-mode"
-              id="mode_Option1"
+          <SegmentedControl
+            inputName="mode"
+            value={mode}
+            onChange={(newMode: string) => {
+              setMode(newMode as SpacingMode);
+            }}
+          >
+            <SegmentedControl.Option
               value="vertical"
-              checked={mode === "vertical"}
-              onChange={() => setMode("vertical")}
+              label="module:vertical"
+              icon={<SvgVertical color="var(--figma-color-text)" />}
             />
-            <label htmlFor="mode_Option1">
-              <div className="icon-24">
-                <SvgVertical color="var(--figma-color-text)" />
-              </div>
-              {t("module:vertical")}
-            </label>
-            <input
-              type="radio"
-              name="sp-mode"
-              id="mode_Option2"
+            <SegmentedControl.Option
               value="horizontal"
-              checked={mode === "horizontal"}
-              onChange={() => setMode("horizontal")}
+              label="module:horizontal"
+              icon={<SvgHorizontal color="var(--figma-color-text)" />}
             />
-            <label htmlFor="mode_Option2">
-              <div className="icon-24">
-                <SvgHorizontal color="var(--figma-color-text)" />
-              </div>
-              {t("module:horizontal")}
-            </label>
-          </div>
+            <SegmentedControl.Option
+              value="grid"
+              label="module:grid"
+              icon={<SvgGrid color="var(--figma-color-text)" />}
+            />
+          </SegmentedControl>
         </div>
+        {/* 格線專用UI */}
+        {mode === "grid" && (
+          <div className="mt-xxsmall">
+            <div>
+              <div>
+                <SectionTitle title={t("term:column")} />
+                <textarea
+                  className="textarea font-size-xlarge"
+                  rows={1}
+                  value={column}
+                  onChange={handleColumnChange}
+                  placeholder={t("module:customValueNumbersOnly")}
+                />
+                {columnFieldNote && (
+                  <span className="note error">{columnFieldNote}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        {/* 倍率 */}
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:multiplySpacingBy")} />
           <div className="flex flex-row">
-            <div className="custom-segmented-control">
-              {[1, 2, 3, 4, 5].map((value) => (
-                <React.Fragment key={value}>
-                  <input
-                    type="radio"
-                    name="sp-multiply"
-                    id={`multiply_Option${value}`}
-                    value={value}
-                    checked={multiplier === value}
-                    onChange={() => setMultiplier(value)}
-                  />
-                  <label htmlFor={`multiply_Option${value}`}>{value}</label>
-                </React.Fragment>
+            <SegmentedControl
+              inputName="multiply"
+              value={String(multiplier)}
+              onChange={(newMultiplier) => {
+                setMultiplier(Number(newMultiplier));
+              }}
+            >
+              {multipliers.map((singleMultiplier) => (
+                <SegmentedControl.Option
+                  value={String(singleMultiplier)}
+                  label={String(singleMultiplier)}
+                  translatable={false}
+                />
               ))}
-            </div>
+            </SegmentedControl>
           </div>
         </div>
+        {/* 間距值 */}
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:spacingValue")} />
           <div className="flex flex-row">
-            <div className="custom-segmented-control">
+            <SegmentedControl
+              inputName="prevalue"
+              value={String(space)}
+              onChange={(newSpace) => {
+                if (!isNaN(Number(newSpace))) {
+                  setSpace(Number(newSpace));
+                } else {
+                  setSpace(newSpace);
+                }
+              }}
+            >
               {SpacingValue.map((item) => (
-                <React.Fragment key={item.value}>
-                  <input
-                    type="radio"
-                    name="sp-space"
-                    id={`default_Option${item.value}`}
-                    value={item.value}
-                    checked={space === item.value}
-                    onChange={() => setSpace(item.value)}
-                  />
-                  <label
-                    className="sp-c-space"
-                    htmlFor={`default_Option${item.value}`}
-                  >
-                    {typeof item.value === "string"
-                      ? t(item.nameKey)
-                      : item.value * multiplier}
-                  </label>
-                </React.Fragment>
+                <SegmentedControl.Option
+                  value={String(item.value)}
+                  label={
+                    typeof item.value === "string"
+                      ? String(item.nameKey)
+                      : String(item.value * multiplier)
+                  }
+                  translatable={item.translatable}
+                />
               ))}
-            </div>
+            </SegmentedControl>
             {space === "custom" && (
               <div className="width-100">
                 <div className="width-100 mt-xxsmall">

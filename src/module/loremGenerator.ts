@@ -1,43 +1,70 @@
 import * as util from "./util";
-import loremText from "../assets/loremText.json";
 import { MessageLoremGenerator } from "../types/Messages/MessageLoremGenerator";
 
 export async function makeLorem(message: MessageLoremGenerator) {
-  const { lang, length } = message;
+  const { length } = message;
 
-  const textContentMap: { [key: string]: string } = loremText;
+  let textContent: string = util.readEditorPreference().lorem;
 
-  let textContent: string = textContentMap[lang];
+  const requiredLength = {
+    short: 100,
+    medium: 200,
+    long: 400,
+  }[length];
 
-  switch (length) {
-    case "short":
-      textContent = textContent.slice(0, 100);
-      break;
-    case "medium":
-      textContent = textContent.slice(0, 200);
-      break;
-    case "long":
-      // use the whole text, no slicing needed
-      break;
-    default:
-      figma.notify("❌ Unknown length type.");
-      return;
+  if (!requiredLength) {
+    figma.notify("❌ Unknown length type.");
+    return;
   }
 
-  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+  // Repeat textContent until it meets the required length
+  while (textContent.length < requiredLength) {
+    textContent += textContent;
+  }
+  textContent = textContent.slice(0, requiredLength);
 
-  // Create a new text node and set its content
-  const textNode = figma.createText();
-  textNode.characters = textContent;
-  textNode.fontSize = 20;
+  const selection = util.getCurrentSelection();
 
-  // Position the text node at the center of the current viewport
-  const viewport = util.getCurrentViewport();
-  textNode.x = viewport.x;
-  textNode.y = viewport.y;
+  if (selection.length === 0) {
+    // 使用者沒有選擇任何物件
+    await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+    const textNode = util.createTextNode(
+      textContent,
+      {
+        family: "Inter",
+        style: "Regular",
+      },
+      16,
+      undefined,
+      {
+        value: 150,
+        unit: "PERCENT",
+      }
+    );
+    textNode.resize(300, textNode.height);
 
-  // Add the text node to the current page
-  figma.currentPage.appendChild(textNode);
+    // Position the text node at the center of the current viewport
+    const viewport = util.getCurrentViewport();
+    textNode.x = viewport.x;
+    textNode.y = viewport.y;
 
-  figma.notify("✅ Lorem text is generated.");
+    // Add the text node to the current page
+    figma.currentPage.appendChild(textNode);
+
+    figma.notify("✅ Lorem text is generated.");
+  } else {
+    // 使用者有選中物件
+    for (let i = 0; i < selection.length; i++) {
+      const element = selection[i];
+      // Check if the selected node is a TextNode
+      if (element.type === "TEXT") {
+        if (element.fontName !== figma.mixed) {
+          await figma.loadFontAsync(element.fontName);
+          element.characters = textContent;
+        } else {
+          figma.notify("❌ Mixed fonts are not supported.");
+        }
+      }
+    }
+  }
 }

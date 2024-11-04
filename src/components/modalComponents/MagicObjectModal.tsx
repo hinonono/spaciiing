@@ -11,13 +11,13 @@ import {
 } from "../../types/Messages/MessageShortcut";
 
 interface MagicObjectModalProps {
-  showModal: boolean;
-  handleCloseModal: () => void;
+  show: boolean;
+  handleClose: () => void;
 }
 
 const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
-  showModal,
-  handleCloseModal,
+  show,
+  handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
   const {
@@ -63,7 +63,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
   };
 
   return (
-    <Modal show={showModal} handleClose={handleCloseModal}>
+    <Modal show={show} handleClose={handleClose}>
       <h3>{t("module:fileOrganizingObjectSetting")}</h3>
       <div>
         <h4>{t("module:note")}</h4>
