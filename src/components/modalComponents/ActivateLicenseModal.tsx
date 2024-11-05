@@ -24,7 +24,7 @@ const ActivateLicenseModal: React.FC<ActivateLicenseModalProps> = () => {
     showActivateModal,
     setShowActivateModal,
     setLicenseManagement,
-    licenseManagement
+    licenseManagement,
   } = useAppContext();
 
   const isOnline = useNetworkStatus();
@@ -34,33 +34,34 @@ const ActivateLicenseModal: React.FC<ActivateLicenseModalProps> = () => {
   const [loading, setLoading] = useState(false);
 
   const handleVerify = async () => {
-    if (licenseKey == "") {
+    if (!licenseKey) {
       setError(t("license:licenseKeyCannotBeNull"));
       return;
     }
     setLoading(true);
     setError(null);
+
     try {
       const response: LicenseResponse = await paymentsUtil.verifyLicenseKey(
         licenseKey
       );
 
-      if (response.success === true) {
-        let newLicense: LicenseManagement = {
+      if (response.success) {
+        const newLicense: LicenseManagement = {
           tier: "UNKNOWN",
           recurrence: "",
           isLicenseActive: false,
-          licenseKey: licenseKey,
+          licenseKey,
           sessionExpiredAt: util.addHours(new Date(), 3).toUTCString(),
         };
 
-        newLicense = handleSubscriptionStatus(
+        const updatedLicense = handleSubscriptionStatus(
           response as LicenseResponseSuccess,
           newLicense
         );
 
         const message: MessageLicenseManagement = {
-          license: newLicense,
+          license: updatedLicense,
           module: "LicenseManagement",
           phase: "Actual",
           direction: "Inner",
@@ -72,8 +73,8 @@ const ActivateLicenseModal: React.FC<ActivateLicenseModalProps> = () => {
           },
           "*"
         );
-        setLicenseManagement(newLicense);
 
+        setLicenseManagement(updatedLicense);
         console.log("License is successfully activated.");
       }
 
@@ -105,62 +106,60 @@ const ActivateLicenseModal: React.FC<ActivateLicenseModalProps> = () => {
     setResponse(null);
   };
 
+  const LicenseKeyInput = () => (
+    <div className="mt-xxsmall">
+      <SectionTitle title={t("module:licenseKey")} />
+      <div className="width-100">
+        <textarea
+          className="textarea"
+          rows={1}
+          value={licenseKey}
+          onChange={(e) => setLicenseKey(e.target.value)}
+          placeholder={t("license:enterYourLicenseKeyHere")}
+        />
+        {response && (
+          <div>
+            <pre className="note success">{t("license:activateSuccess")}</pre>
+          </div>
+        )}
+        {error && (
+          <div>
+            <pre className="note error">{error}</pre>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const ActionButton = () =>
+    !response ? (
+      <FigmaButton
+        title={t("license:proceed")}
+        onClick={handleVerify}
+        disabled={loading}
+      />
+    ) : (
+      <FigmaButton
+        title={t("license:finish")}
+        onClick={handleCloseActivateModal}
+      />
+    );
+
   return (
     <Modal show={showActivateModal} handleClose={handleCloseActivateModal}>
       <div>
         <h3>{t("license:enterLicenseKey")}</h3>
         <p>{t("license:enterLicenseKeyDescription")}</p>
         {isOnline ? (
-          <div>
-            <div className="mt-xxsmall">
-              <SectionTitle title={t("module:licenseKey")} />
-              <div className="width-100">
-                <textarea
-                  className="textarea"
-                  rows={1}
-                  value={licenseKey}
-                  onChange={(e) => setLicenseKey(e.target.value)}
-                  placeholder={t("license:enterYourLicenseKeyHere")}
-                />
-                {response && (
-                  <div>
-                    <pre className="note success">
-                      {t("license:activateSuccess")}
-                    </pre>
-                  </div>
-                )}
-                {error && (
-                  <div>
-                    <pre className="note error">{error}</pre>
-                  </div>
-                )}
-              </div>
+          <>
+            <LicenseKeyInput />
+            <div className="mt-xsmall">
+              <ActionButton />
             </div>
-            {!response && (
-              <div className="mt-xsmall">
-                <FigmaButton
-                  title={t("license:proceed")}
-                  onClick={handleVerify}
-                  disabled={loading}
-                />
-              </div>
-            )}
-          </div>
+          </>
         ) : (
-          <div>
-            <p>{t("license:offlineNotification")}</p>
-          </div>
+          <p>{t("license:offlineNotification")}</p>
         )}
-        <div>
-          {!response ? (
-            licenseManagement.tier != "PAID" ? null : null
-          ) : (
-            <FigmaButton
-              title={t("license:finish")}
-              onClick={handleCloseActivateModal}
-            />
-          )}
-        </div>
       </div>
     </Modal>
   );
