@@ -131,7 +131,7 @@ const SubscriptionModal: React.FC = () => {
   return (
     <Modal show={showCTSubscribe} handleClose={handleCloseCTSubscribe}>
       <div>
-        {showActivateModal && (
+        {/* {showActivateModal && (
           <div>
             <h3>{t("license:enterLicenseKey")}</h3>
             <p>{t("license:enterLicenseKeyDescription")}</p>
@@ -187,7 +187,7 @@ const SubscriptionModal: React.FC = () => {
               )}
             </div>
           </div>
-        )}
+        )} */}
         {!showActivateModal && freeTrialViewHandler()}
       </div>
     </Modal>

@@ -1,7 +1,5 @@
 import React from "react";
 import { TitleBar, FigmaButton } from "../components";
-import * as paymentsUtil from "../module-frontend/paymentsUtil";
-import { capitalizeWords } from "../module/util";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
@@ -51,13 +49,9 @@ const Setting: React.FC = () => {
               <div className="membership-block pro">
                 <p className="color--secondary">{t("license:currenTier")}</p>
                 <span>
-                  {/* {t("license:paid")} */}
                   {licenseManagement.recurrence === "monthly"
                     ? t("license:monthly")
                     : t("license:yearly")}
-                  {/* {licenseManagement.recurrence != undefined ? (
-                    <>({capitalizeWords(licenseManagement.recurrence)})</>
-                  ) : null} */}
                 </span>
               </div>
             ) : (
@@ -82,7 +76,6 @@ const Setting: React.FC = () => {
               buttonType="secondary"
               title={t("license:activateLicense")}
               onClick={() => {
-                setShowCTSubscribe(true);
                 setShowActivateModal(true);
               }}
             />
