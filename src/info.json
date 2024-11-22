@@ -7,6 +7,6 @@
     "yearlyAvg": "3.99"
   },
   "featureFlag": {
-    "newFreeTrialView": false
+    "newFreeTrialView": true
   }
 }
