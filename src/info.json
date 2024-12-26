@@ -1,12 +1,11 @@
 {
   "name": "Spaciiing",
-  "version": "20",
+  "version": "21",
   "price": {
-    "monthly": "4.99",
-    "yearly": "47.89",
-    "yearlyAvg": "3.99"
+    "monthly": "3",
+    "yearly": "36",
+    "yearlyAvg": "3"
   },
   "featureFlag": {
-    "newFreeTrialView": true
   }
 }

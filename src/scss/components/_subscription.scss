@@ -8,7 +8,7 @@
         display: block;
     }
 
-    &-yearly {
+    &-emphasize {
         border: 2px solid var(--cy-purple-600);
         background-color: var(--cy-purple-100);
     }
@@ -16,7 +16,7 @@
 
 @media (prefers-color-scheme: dark) {
     .subscription-block {
-        &-yearly {
+        &-emphasize {
             background-color: var(--cy-purple-950);
         }
     }

@@ -14,16 +14,16 @@ const NewFreeTrialView: React.FC<NewFreeTrialViewProps> = () => {
       {/* Plan block */}
       <div>
         <SubscriptionPlanBlock
-          plan={"yearly"}
-          additionalClass={["subscription-block", "subscription-block-yearly"]}
+          plan={"monthly"}
+          additionalClass={["subscription-block", "subscription-block-emphasize"]}
         />
       </div>
-      <div className="mt-xxsmall">
+      {/* <div className="mt-xxsmall">
         <SubscriptionPlanBlock
           plan={"monthly"}
           additionalClass={["subscription-block"]}
         />
-      </div>
+      </div> */}
       <span className="note mt-xxxsmall">{t("license:noHiddenFees")}</span>
       <div id="free-trial-faq" className="mt-xsmall">
         <h3>{t("license:freeTrialWorks")}</h3>

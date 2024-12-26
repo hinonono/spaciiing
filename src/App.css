@@ -865,13 +865,13 @@ input {
 .subscription-block span {
   display: block;
 }
-.subscription-block-yearly {
+.subscription-block-emphasize {
   border: 2px solid var(--cy-purple-600);
   background-color: var(--cy-purple-100);
 }
 
 @media (prefers-color-scheme: dark) {
-  .subscription-block-yearly {
+  .subscription-block-emphasize {
     background-color: var(--cy-purple-950);
   }
 }

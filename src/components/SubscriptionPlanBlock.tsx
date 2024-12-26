@@ -52,14 +52,14 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
       <div className="mt-xsmall"></div>
       {plan === "monthly" ? (
         <FigmaButton
-          buttonType="secondary"
+          buttonType="special"
           title={t("license:tryItFree")}
           onClick={() => {
             paymentsUtil.navigateToCheckOutPage("monthly");
           }}
           svgPosition={"right"}
           hasTopBottomMargin={false}
-          svg={<SvgExternalLink color="var(--figma-color-text)" />}
+          svg={<SvgExternalLink color="white" />}
         />
       ) : (
         <FigmaButton
