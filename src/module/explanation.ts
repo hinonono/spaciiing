@@ -1,4 +1,4 @@
-import { CatalogueSchema } from "../types/CatalogueShema";
+import { CatalogueItemSchema } from "../types/CatalogueItemShema";
 import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { semanticTokens } from "./tokens";
 import {
@@ -16,7 +16,7 @@ import {
  * Creates an explanation item frame based on the provided format and style mode.
  *
  * @param {("STYLE" | "VARIABLE")} format - The format of the explanation item, either "STYLE" or "VARIABLE".
- * @param {string} id - The if of the style or the variable.
+ * @param {string} id - The id of the style or the variable.
  * @param {string} title - The title text for the explanation item.
  * @param {string} description - The description text for the explanation item.
  * @param {FontName} fontName - The font name for the title and description.
@@ -58,12 +58,12 @@ export function createExplanationItem(
   );
   descriptionNode.name = "Catalogue Description";
 
-  const catalogueSchema: CatalogueSchema = {
+  const catalogueItemSchema: CatalogueItemSchema = {
     format: format,
     id: id,
   }
 
-  descriptionNode.setPluginData("catalogue-schema", JSON.stringify(catalogueSchema));
+  descriptionNode.setPluginData("catalogue-item-schema", JSON.stringify(catalogueItemSchema));
 
 
   let explanationTextsWrapperNode: FrameNode;
