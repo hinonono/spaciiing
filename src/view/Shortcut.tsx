@@ -354,6 +354,15 @@ const Shortcut: React.FC = () => {
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
+            <FigmaButton
+              buttonType="secondary"
+              title={"test"}
+              onClick={() => {
+                applyShortcut("debug");
+              }}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
           </div>
         </div>
       </div>
