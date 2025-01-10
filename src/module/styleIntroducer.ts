@@ -339,6 +339,15 @@ async function applyStyleIntroducerForVariable(
   const variableCollectionId =
     selectedVariables[selectedVariables.length - 1].variableCollectionId;
 
+  const variableCollection =
+    await figma.variables.getVariableCollectionByIdAsync(variableCollectionId);
+  if (!variableCollection) {
+    throw new Error("Termination due to variableCollection is null.");
+  }
+
+  //
+  const modeNames = variableCollection.modes.map((mode) => mode.name);
+
   // create explanation items
   const explanationItems: FrameNode[] = [];
 
@@ -393,7 +402,8 @@ async function applyStyleIntroducerForVariable(
         undefined,
         undefined,
         undefined,
-        aliasName
+        aliasName,
+        modeNames
       );
 
       explanationItem.primaryAxisSizingMode = "AUTO";
@@ -452,25 +462,9 @@ async function applyStyleIntroducerForVariable(
     }
   }
 
-  const variableCollection =
-    await figma.variables.getVariableCollectionByIdAsync(variableCollectionId);
-  if (!variableCollection) {
-    throw new Error("Termination due to variableCollection is null.");
-  }
-
-  const modeNames = variableCollection.modes.map((mode) => mode.name);
-
   if (explanationItems.length === 0) {
     throw new Error("Termination due to explanationItems length is 0.");
   }
-
-  // const explanationWrapper = util.createExplanationWrapperForVariable(
-  //   explanationItems,
-  //   title == "" ? "Variables" : title,
-  //   "Usage Definition",
-  //   modeNames,
-  //   { family: "Inter", style: "Semi Bold" }
-  // );
 
   const explanationWrapper = explanation.createExplanationWrapper(
     "VARIABLE",

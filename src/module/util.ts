@@ -184,10 +184,10 @@ export function rgbToHex(
 
   if (withHashTag) {
     // Concatenate the hex components and prepend a '#'
-    return `#${hexR}${hexG}${hexB}`;
+    return `#${hexR}${hexG}${hexB}`.toUpperCase();
   } else {
     // Concatenate the hex components and prepend a '#'
-    return `${hexR}${hexG}${hexB}`;
+    return `${hexR}${hexG}${hexB}`.toUpperCase();
   }
 }
 

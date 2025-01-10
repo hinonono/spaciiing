@@ -1,4 +1,3 @@
-import { util } from "webpack";
 import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { semanticTokens } from "./tokens";
 import {
@@ -24,6 +23,7 @@ import {
  * @param {Effect[]} [effects] - An optional array of effects for the EFFECT style mode.
  * @param {TextStyle} [textStyle] - An optional text style object for the TEXT style mode.
  * @param {string} [aliasName] - An optional alias name for the VARIABLE format.
+ * @param {string[]} [variableModes] - An optional array of name of modes for the VARIABLE format.
  * @returns {FrameNode} The frame node representing the explanation item.
  * @throws Will throw an error if required parameters for specific style modes are not provided.
  */
@@ -37,7 +37,8 @@ export function createExplanationItem(
   effects?: Effect[],
   textStyle?: TextStyle,
   numbers?: number[],
-  aliasNames?: string[]
+  aliasNames?: string[],
+  variableModes?: string[]
 ) {
   const titleNode = createTextNode(
     title,
@@ -75,20 +76,43 @@ export function createExplanationItem(
       throw new Error("Termination due to color.length is 0.");
     }
 
-    const colorHexNode = createColorHexNode(
-      format,
-      colors,
-      fontName,
-      semanticTokens.fontSize.base * 0.75
-    );
-    itemsToPutInTitleWrapper.push(colorHexNode);
+    let colorHexNode: TextNode | null = null;
+    let colorHexNodes: FrameNode[] = [];
+
+    if (format === "STYLE" && colors.length == 1) {
+      colorHexNode = createStyleColorHexNode(
+        colors,
+        fontName,
+        semanticTokens.fontSize.base * 0.75
+      );
+      itemsToPutInTitleWrapper.push(colorHexNode);
+    } else {
+      const colorHexNodes = createVariableColorHexNodes(colors, fontName, variableModes);
+      itemsToPutInTitleWrapper.push(...colorHexNodes);
+    }
+
 
     const titleWrapper = createAutolayoutFrame(
       itemsToPutInTitleWrapper,
       semanticTokens.spacing.xsmall,
       "VERTICAL"
     );
-    colorHexNode.layoutSizingHorizontal = "FILL";
+
+    // if (colorHexNode) {
+    //   colorHexNode.layoutSizingHorizontal = "FILL";
+    // }
+
+    itemsToPutInTitleWrapper.forEach((node) => {
+      if ("layoutSizingHorizontal" in node) {
+        node.layoutSizingHorizontal = "FILL";
+      }
+      if ("layoutSizingVertical" in node) {
+        node.layoutSizingVertical = "HUG";
+      }
+    });
+
+
+
     titleWrapper.name = "Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
 
@@ -371,8 +395,8 @@ export function createExplanationWrapper(
 
     const modesText =
       modes.length === 1
-        ? `Mode: [${modes[0]}]`
-        : `Modes: [${modes.join(", ")}]`;
+        ? `All Modes: ${modes[0]}`
+        : `All Modes: ${modes.join(", ")}`;
 
     const modesNode = createTextNode(
       modesText,
@@ -428,7 +452,8 @@ export function createExplanationWrapper(
 
   if (modes) {
     if (modes.length > 2) {
-      frameWidth = 640 * (modes.length / 2);
+      const additionalModes = modes.length - 2;
+      frameWidth = 640 + Math.ceil(additionalModes / 2) * 160;
     }
   }
 
@@ -568,10 +593,9 @@ function createTextPropertiesWrappers(
 
   const lineHeightNode = createExplanationSinglePropertyItem(
     "Line Height",
-    `${
-      textStyle.lineHeight.unit == "AUTO"
-        ? "Auto"
-        : formatNumberToDecimals(textStyle.lineHeight.value, 2)
+    `${textStyle.lineHeight.unit == "AUTO"
+      ? "Auto"
+      : formatNumberToDecimals(textStyle.lineHeight.value, 2)
     }`,
     fontName
   );
@@ -793,44 +817,82 @@ function createEffectPropertiesWrappers(
   return results;
 }
 
-function createColorHexNode(
-  format: "STYLE" | "VARIABLE",
+
+/**
+ * Creates a TextNode with a hexadecimal color representation.
+ *
+ * @param {RGBA[]} colors - An array of RGBA color objects. Only the first color is used.
+ * @param {FontName} fontName - The font name to be used for the TextNode.
+ * @param {number} fontSize - The font size to be used for the TextNode.
+ * @returns {TextNode} - A TextNode containing the hexadecimal color representation.
+ *
+ * The function converts the first RGBA color to a hexadecimal string. If the alpha
+ * value is not 1, it appends the alpha percentage to the hex string. It then creates
+ * a TextNode with the hex string, specified font name, and font size. The text case
+ * of the node is set to uppercase.
+ */
+function createStyleColorHexNode(
   colors: RGBA[],
   fontName: FontName,
   fontSize: number
 ): TextNode {
-  let colorHexNode: TextNode;
-
-  if (format === "STYLE" && colors.length == 1) {
-    const color = colors[0];
-    let text = rgbToHex(color.r, color.g, color.b, true);
-    if (color.a !== 1) {
-      // 標註透明度
-      text = `${text}(${Math.round(color.a * 100)}%)`;
-    }
-
-    // 處理樣式樣式
-    colorHexNode = createTextNode(text, fontName, fontSize, [
-      { type: "SOLID", color: semanticTokens.text.secondary },
-    ]);
-  } else {
-    // 處理變數樣式
-    const hexValues = colors.map((color) => {
-      let hex = rgbToHex(color.r, color.g, color.b, true);
-      if (color.a !== 1) {
-        // 標註透明度
-        hex = `${hex}(${Math.round(color.a * 100)}%)`;
-      }
-      return hex;
-    });
-
-    colorHexNode = createTextNode(hexValues.join(", "), fontName, fontSize, [
-      { type: "SOLID", color: semanticTokens.text.secondary },
-    ]);
+  const color = colors[0];
+  let text = rgbToHex(color.r, color.g, color.b, true);
+  if (color.a !== 1) {
+    text = `${text}(${Math.round(color.a * 100)}%)`;
   }
+
+  const colorHexNode = createTextNode(text, fontName, fontSize, [
+    { type: "SOLID", color: semanticTokens.text.secondary },
+  ]);
   colorHexNode.textCase = "UPPER";
 
   return colorHexNode;
+}
+
+/**
+ * Creates an array of FrameNodes, each containing TextNodes with hexadecimal color representations.
+ *
+ * @param {RGBA[]} colors - An array of RGBA color objects.
+ * @param {FontName} fontName - The font name to be used for the TextNodes.
+ * @param {string[]} [variableModes] - An optional array of variable mode strings corresponding to each color.
+ * @returns {FrameNode[]} - An array of FrameNodes, each containing TextNodes with hexadecimal color representations.
+ *
+ * The function converts each RGBA color to a hexadecimal string. If the alpha value is not 1,
+ * it appends the alpha percentage to the hex string. It then creates TextNodes with the hex strings
+ * and specified font name. These TextNodes are grouped into pairs and wrapped in FrameNodes.
+ */
+function createVariableColorHexNodes(
+  colors: RGBA[],
+  fontName: FontName,
+  variableModes?: string[]
+): FrameNode[] {
+  const hexValues = colors.map((color) => {
+    let hex = rgbToHex(color.r, color.g, color.b, true);
+    if (color.a !== 1) {
+      hex = `${hex}(${Math.round(color.a * 100)}%)`;
+    }
+    hex.toUpperCase();
+    return hex;
+  });
+
+  const singlePropertyNodes = hexValues.map((hexValue, i) => {
+    const variableMode = variableModes ? variableModes[i] : "Unknown";
+    const node = createExplanationSinglePropertyItem(variableMode, hexValue, fontName);
+    node.layoutSizingVertical = "HUG";
+
+    return node;
+  });
+
+  const groupedPropertyNodes: FrameNode[] = [];
+  for (let i = 0; i < singlePropertyNodes.length; i += 2) {
+    const pair = singlePropertyNodes.slice(i, i + 2);
+    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+    pairWrapper.name = "Properties";
+    groupedPropertyNodes.push(pairWrapper);
+  }
+
+  return groupedPropertyNodes;
 }
 
 function createAliasNameWrapper(
