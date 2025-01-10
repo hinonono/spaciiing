@@ -171,5 +171,6 @@
   "copyFrom": "コピー元",
   "pastePreference": "貼り付け方法を選択してください",
   "replaceStyle": "既存のスタイルを置き換える",
-  "addToExistingStyle": "既存のスタイルに追加する"
+  "addToExistingStyle": "既存のスタイルに追加する",
+  "updateCatalogueDescBackToFigma": "説明テキストをFigmaへ更新する"
 }

@@ -347,14 +347,14 @@ const Shortcut: React.FC = () => {
           <div className="padding-16 border-1-top grid">
             <FigmaButton
               buttonType="secondary"
-              title={"Update description back to figma"}
+              title={t("module:updateCatalogueDescBackToFigma")}
               onClick={() => {
-                applyShortcut("writeCatalogueDescBackToFigma");
+                applyShortcut("updateCatalogueDescBackToFigma");
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
-            <FigmaButton
+            {/* <FigmaButton
               buttonType="secondary"
               title={"test"}
               onClick={() => {
@@ -362,7 +362,7 @@ const Shortcut: React.FC = () => {
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
-            />
+            /> */}
           </div>
         </div>
       </div>

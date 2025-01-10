@@ -171,5 +171,6 @@
   "copyFrom": "Copy from",
   "pastePreference": "Select paste method",
   "replaceStyle": "Replace existing style",
-  "addToExistingStyle": "Add on top of existing style"
+  "addToExistingStyle": "Add on top of existing style",
+  "updateCatalogueDescBackToFigma": "Update description back to figma"
 }

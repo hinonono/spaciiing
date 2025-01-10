@@ -171,5 +171,6 @@
   "copyFrom": "复制自",
   "pastePreference": "选择粘贴方式",
   "replaceStyle": "取代已有样式",
-  "addToExistingStyle": "新增于已有样式之上"
+  "addToExistingStyle": "新增于已有样式之上",
+  "updateCatalogueDescBackToFigma": "更新Figma原生说明栏位"
 }

@@ -80,7 +80,7 @@ export function executeShortcut(message: MessageShortcut) {
       case "createAutoLayoutIndividually":
         createAutoLayoutIndividually();
         break;
-      case "writeCatalogueDescBackToFigma":
+      case "updateCatalogueDescBackToFigma":
         writeCatalogueDescBackToFigma();
         break;
       case "debug":
