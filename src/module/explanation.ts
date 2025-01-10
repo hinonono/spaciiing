@@ -57,6 +57,7 @@ export function createExplanationItem(
     [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
   descriptionNode.name = "Catalogue Description";
+  descriptionNode.lineHeight = { unit: "PERCENT", value: 150 };
 
   const catalogueItemSchema: CatalogueItemSchema = {
     format: format,
