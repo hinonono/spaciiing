@@ -10,7 +10,7 @@ import {
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 import { writeCatalogueDescBackToFigma } from "./styleIntroducer";
-import { getCatalogueItemRichStyle } from "./styledTextSegments";
+import { getNodeCatalogueItemRichStyle } from "./styledTextSegments";
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -84,7 +84,7 @@ export function executeShortcut(message: MessageShortcut) {
         writeCatalogueDescBackToFigma();
         break;
       case "debug":
-        getCatalogueItemRichStyle(figma.currentPage.selection[0] as TextNode);
+        getNodeCatalogueItemRichStyle(figma.currentPage.selection[0] as TextNode);
         break;
       default:
         break;

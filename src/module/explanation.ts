@@ -11,6 +11,7 @@ import {
   formatNumberToDecimals,
   getFormattedDate,
 } from "./util";
+import * as styledTextSegments from "./styledTextSegments";
 
 /**
  * Creates an explanation item frame based on the provided format and style mode.
@@ -64,7 +65,13 @@ export function createExplanationItem(
     id: id,
   }
 
+  // 將該descriptionNode所連結至的style/variable的id存入其自身的pluginData中
   descriptionNode.setPluginData("catalogue-item-schema", JSON.stringify(catalogueItemSchema));
+
+  const descriptionRichStyle = styledTextSegments.getCatalogueItemRichStyleFromPage(id);
+  if (descriptionRichStyle) {
+    styledTextSegments.applyCatalogueItemRichStyle(descriptionNode, descriptionRichStyle);
+  }
 
 
   let explanationTextsWrapperNode: FrameNode;

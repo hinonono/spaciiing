@@ -9,6 +9,7 @@ import {
 import * as util from "./util";
 import * as typeChecking from "./typeChecking";
 import * as explanation from "./explanation";
+import * as styledTextSegments from "./styledTextSegments";
 import { semanticTokens } from "./tokens";
 import { CatalogueItemSchema } from "../types/CatalogueItemShema";
 
@@ -536,6 +537,11 @@ export async function writeCatalogueDescBackToFigma() {
 
       // Update the style description with the text content of the node
       matchingStyle.description = (node as TextNode).characters;
+
+      // 將使用者在description文字中設定的豐富文字樣式紀錄至該頁的plugin data中
+      const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
+      styledTextSegments.writeCatalogueItemRichStyleToPage(decodedCatalogueItemSchema.id, richStyle);
+
       updatedCount++;
     } else if (decodedCatalogueItemSchema.format === "VARIABLE") {
       const matchingVariable = variableMap.get(decodedCatalogueItemSchema.id);
@@ -547,6 +553,11 @@ export async function writeCatalogueDescBackToFigma() {
 
       // Update the variable description with the text content of the node
       matchingVariable.description = (node as TextNode).characters;
+
+      // 將使用者在description文字中設定的豐富文字樣式紀錄至該頁的plugin data中
+      const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
+      styledTextSegments.writeCatalogueItemRichStyleToPage(decodedCatalogueItemSchema.id, richStyle);
+
       updatedCount++;
     } else {
       figma.notify(`❌ Unsupported format: ${decodedCatalogueItemSchema.format}`);
@@ -569,7 +580,7 @@ export async function writeCatalogueDescBackToFigma() {
       element.layoutSizingHorizontal = "FILL";
     }
   });
-  
+
   wroteBackDateNode.textAlignHorizontal = "RIGHT";
 
   figma.notify(`✅ ${updatedCount} styles/variables has been updated successfully.`);
