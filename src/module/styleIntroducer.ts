@@ -159,20 +159,9 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
       if (paint.type === "SOLID") {
         const solidPaint = paint as SolidPaint;
 
-        // const explanationItem = util.createExplanationItem(
-        //   member.name.split("/").pop() || "",
-        //   member.description,
-        //   fontName,
-        //   "COLOR",
-        //   {
-        //     r: solidPaint.color.r,
-        //     g: solidPaint.color.g,
-        //     b: solidPaint.color.b,
-        //   }
-        // );
-
         const explanationItem = explanation.createExplanationItem(
           "STYLE",
+          member.id,
           member.name.split("/").pop() || "",
           member.description,
           fontName,
@@ -200,17 +189,9 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   } else if (styleMode === "TEXT") {
     const textStyleList = selectedStyleList as TextStyle[];
     textStyleList.forEach((member) => {
-      // const explanationItem = util.createExplanationItem(
-      //   member.name.split("/").pop() || "",
-      //   member.description,
-      //   fontName,
-      //   "TEXT",
-      //   undefined,
-      //   undefined,
-      //   member
-      // );
       const explanationItem = explanation.createExplanationItem(
         "STYLE",
+        member.id,
         member.name.split("/").pop() || "",
         member.description,
         fontName,
@@ -231,17 +212,10 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     const effectStyleList = selectedStyleList as EffectStyle[];
 
     effectStyleList.forEach((member) => {
-      const effects = [...member.effects]; // Create a copy of the readonly array
-      // const explanationItem = util.createExplanationItem(
-      //   member.name.split("/").pop() || "",
-      //   member.description,
-      //   fontName,
-      //   "EFFECT",
-      //   undefined,
-      //   effects
-      // );
+      const effects = [...member.effects];
       const explanationItem = explanation.createExplanationItem(
         "STYLE",
+        member.id,
         member.name.split("/").pop() || "",
         member.description,
         fontName,
@@ -259,13 +233,6 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
       explanationItems.push(explanationItem);
     });
   }
-
-  // const explanationWrapper = util.createExplanationWrapper(
-  //   explanationItems,
-  //   title == "" ? "Styles" : title,
-  //   "Usage Definition",
-  //   { family: "Inter", style: "Semi Bold" }
-  // );
 
   const explanationWrapper = explanation.createExplanationWrapper(
     "STYLE",
@@ -394,6 +361,7 @@ async function applyStyleIntroducerForVariable(
 
       const explanationItem = explanation.createExplanationItem(
         "VARIABLE",
+        variable.id,
         variable.name.split("/").pop() || "",
         variable.description,
         fontName,
@@ -443,6 +411,7 @@ async function applyStyleIntroducerForVariable(
       // Variable模式，建立數字用的說明物件
       const explanationItem = explanation.createExplanationItem(
         "VARIABLE",
+        variable.id,
         variable.name.split("/").pop() || "",
         variable.description,
         fontName,
