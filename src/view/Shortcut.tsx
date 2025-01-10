@@ -337,6 +337,25 @@ const Shortcut: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* 型錄 */}
+        <div className="list-view mt-xsmall">
+          <div className="list-view-header flex flex-justify-center">
+            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+              {t("module:moduleCatalogue")}
+            </div>
+          </div>
+          <div className="padding-16 border-1-top grid">
+            <FigmaButton
+              buttonType="secondary"
+              title={"Update description back to figma"}
+              onClick={() => {
+                applyShortcut("writeCatalogueDescBackToFigma");
+              }}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

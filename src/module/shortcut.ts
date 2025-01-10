@@ -9,6 +9,7 @@ import {
   MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
+import { writeCatalogueDescBackToFigma } from "./styleIntroducer";
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -77,6 +78,9 @@ export function executeShortcut(message: MessageShortcut) {
         break;
       case "createAutoLayoutIndividually":
         createAutoLayoutIndividually();
+        break;
+      case "writeCatalogueDescBackToFigma":
+        writeCatalogueDescBackToFigma();
         break;
       default:
         break;

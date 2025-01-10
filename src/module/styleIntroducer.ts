@@ -10,6 +10,7 @@ import * as util from "./util";
 import * as typeChecking from "./typeChecking";
 import * as explanation from "./explanation";
 import { semanticTokens } from "./tokens";
+import { CatalogueItemSchema } from "../types/CatalogueItemShema";
 
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
@@ -464,4 +465,112 @@ async function applyStyleIntroducerForVariable(
 
   figma.currentPage.appendChild(explanationWrapper);
   figma.currentPage.selection = [explanationWrapper];
+}
+
+// 將型錄的描述寫回Figma的原生欄位
+export async function writeCatalogueDescBackToFigma() {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length !== 1) {
+    figma.notify("❌ Please select only one catalogue frame.");
+    throw new Error("Please select only one catalogue frame.");
+  }
+
+  // Check if the selection is a frame
+  if (selection[0].type !== "FRAME") {
+    figma.notify("❌ Please select a frame.");
+    throw new Error("Please select a frame.");
+  }
+
+  const catalogueFrame = selection[0] as FrameNode;
+
+  const titleWrapper = catalogueFrame.findOne(node => node.name === "Title Wrapper");
+  if (!titleWrapper) {
+    figma.notify("❌ Title Wrapper not found. Please try to regenerate catalogue again.");
+    throw new Error("Title Wrapper not found. Please try to regenerate catalogue again.");
+  } else if (titleWrapper.type !== "FRAME" || !titleWrapper.layoutMode) {
+    throw new Error("Title Wrapper is not an AutoLayout frame.");
+  }
+
+  // Find all text nodes with the required plugin data
+  const descriptionNodes = catalogueFrame.findAllWithCriteria({
+    types: ['TEXT'],
+  }).filter(node => node.getPluginData("catalogue-item-schema"));
+
+  if (descriptionNodes.length === 0) {
+    figma.notify("❌ No description nodes found.");
+    throw new Error("No description nodes found.");
+  }
+
+  const fontsToLoad = [
+    { family: "Inter", style: "Regular" },
+    { family: "Inter", style: "Semi Bold" },
+  ];
+  await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+
+  // Retrieve all styles and variables once
+  const styles = await figma.getLocalPaintStylesAsync();
+  const styleMap = new Map(styles.map(style => [style.id, style]));
+
+  const variables = await figma.variables.getLocalVariablesAsync();
+  const variableMap = new Map(variables.map(variable => [variable.id, variable]));
+
+  let updatedCount = 0;
+
+  // Process each description node
+  descriptionNodes.forEach(node => {
+    if (node.characters === "(blank)") {
+      return; // Skip this node if the text content is "(blank)"
+    }
+
+    const catalogueItemSchema = node.getPluginData("catalogue-item-schema");
+    const decodedCatalogueItemSchema = JSON.parse(catalogueItemSchema) as CatalogueItemSchema;
+
+    if (decodedCatalogueItemSchema.format === "STYLE") {
+      const matchingStyle = styleMap.get(decodedCatalogueItemSchema.id);
+
+      if (!matchingStyle) {
+        figma.notify(`❌ Style with ID ${decodedCatalogueItemSchema.id} not found.`);
+        return; // Skip this node if no matching style
+      }
+
+      // Update the style description with the text content of the node
+      matchingStyle.description = (node as TextNode).characters;
+      updatedCount++;
+    } else if (decodedCatalogueItemSchema.format === "VARIABLE") {
+      const matchingVariable = variableMap.get(decodedCatalogueItemSchema.id);
+
+      if (!matchingVariable) {
+        figma.notify(`❌ Variable with ID ${decodedCatalogueItemSchema.id} not found.`);
+        return; // Skip this node if no matching variable
+      }
+
+      // Update the variable description with the text content of the node
+      matchingVariable.description = (node as TextNode).characters;
+      updatedCount++;
+    } else {
+      figma.notify(`❌ Unsupported format: ${decodedCatalogueItemSchema.format}`);
+    }
+  });
+
+  const dateString = `Update description back to figma at ${util.getFormattedDate("fullDateTime")}`;
+  const wroteBackDateNode = util.createTextNode(
+    dateString,
+    { family: "Inter", style: "Semi Bold" },
+    semanticTokens.fontSize.xsmall,
+    [{ type: "SOLID", color: semanticTokens.text.tertiary }]
+  );
+
+  // Add the wroteBackDateNode to the front of the titleWrapper
+  titleWrapper.insertChild(0, wroteBackDateNode);
+  // Set layoutSizingHorizontal to "FILL" for every child inside titleWrapper
+  titleWrapper.children.forEach((element) => {
+    if ("layoutSizingHorizontal" in element) {
+      element.layoutSizingHorizontal = "FILL";
+    }
+  });
+  
+  wroteBackDateNode.textAlignHorizontal = "RIGHT";
+
+  figma.notify(`✅ ${updatedCount} styles/variables has been updated successfully.`);
 }
