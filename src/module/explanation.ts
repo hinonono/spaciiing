@@ -403,7 +403,7 @@ export function createExplanationWrapper(
   modes?: string[]
 ): FrameNode {
   const itemsToPutInTitleWrapper: SceneNode[] = [];
-  const dateString = isCatalogueItemLinkFeatureEnabled ? `Created at ${getFormattedDate("fullDateTime")}. Catalogue item link feature enabled.` : `Created at ${getFormattedDate("fullDateTime")}`;
+  const dateString = isCatalogueItemLinkFeatureEnabled ? `Created at ${getFormattedDate("fullDateTime")}. Cross catalogue reference enabled.` : `Created at ${getFormattedDate("fullDateTime")}`;
 
   const createdDateNode = createTextNode(
     dateString,

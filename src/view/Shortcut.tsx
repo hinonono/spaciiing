@@ -55,10 +55,7 @@ const Shortcut: React.FC = () => {
   const handleOpenUnifyTextModal = () => setShowUnifyTextModal(true);
   const handleCloseUnifyTextModal = () => setShowUnifyTextModal(false);
 
-  // 型錄功能彈窗
-  const [showCatalogueModal, setShowCatalogueModal] = useState(false);
-  const handleOpenCatalogueModal = () => setShowCatalogueModal(true);
-  const handleCloseCatalogueModal = () => setShowCatalogueModal(false);
+  
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -149,10 +146,6 @@ const Shortcut: React.FC = () => {
         <LoremIpsumModal
           show={showLoremModal}
           handleClose={handleCloseLoremModal}
-        />
-        <CatalogueSettingModal
-          show={showCatalogueModal}
-          handleClose={handleCloseCatalogueModal}
         />
       </div>
       <TitleBar
@@ -378,16 +371,7 @@ const Shortcut: React.FC = () => {
             <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
               {t("module:moduleCatalogue")}
             </div>
-            <div>
-              <FigmaButton
-                  title={t("module:setting")}
-                  onClick={handleOpenCatalogueModal}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
-                />
-            </div>
+            <div></div>
           </div>
           <div className="padding-16 border-1-top grid">
             <FigmaButton

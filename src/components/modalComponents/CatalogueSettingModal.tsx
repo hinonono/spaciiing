@@ -64,20 +64,26 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
 
   return (
     <Modal show={show} handleClose={handleClose}>
-      <div className="mt-xxsmall">
-        <SectionTitle title={t("module:text")} />
-        <textarea
-          className="textarea"
-          rows={5}
-          value={editorPreference.exampleFileUrl}
-          onChange={handleFileUrlChange}
-          placeholder={t("module:text")}
-        />
+      <h3>{t("module:catalogueSetting")}</h3>
+      <div>
+        <h4>{t("module:crossCatalogueIndex")}</h4>
+        <span className="note">
+          {t("module:crossCatalogueIndexDesc")}
+        </span>
+        <div className="mt-xxsmall">
+          <textarea
+            className="textarea"
+            rows={5}
+            value={editorPreference.exampleFileUrl}
+            onChange={handleFileUrlChange}
+            placeholder={t("module:text")}
+          />
+        </div>
       </div>
 
       <div className="mt-xxsmall"></div>
       <FigmaButton
-        title={t("module:generate")}
+        title={t("module:save")}
         onClick={updateExampleFileUrl}
       />
     </Modal>

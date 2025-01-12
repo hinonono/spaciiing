@@ -172,5 +172,8 @@
   "pastePreference": "選擇貼上方式",
   "replaceStyle": "取代已有樣式",
   "addToExistingStyle": "新增於已有樣式之上",
-  "updateCatalogueDescBackToFigma": "更新Figma原生說明欄位"
+  "updateCatalogueDescBackToFigma": "更新Figma原生說明欄位",
+  "catalogueSetting": "型錄設定",
+  "crossCatalogueIndex": "跨型錄參照",
+  "crossCatalogueIndexDesc": "此功能可以讓您輕鬆地在不同型錄之間進行參照，特別適合用於建立變數型錄，且該變數索引了其他變數時。要啟用此功能，請在文件中選擇任何框，然後點擊「複製選取範圍的連結」，接著將複製的連結貼到下方。"
 }
