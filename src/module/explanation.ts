@@ -505,7 +505,7 @@ export function createExplanationSinglePropertyItem(
 
   const wrapper = createAutolayoutFrame(
     [titleNode, valueNode],
-    0,
+    semanticTokens.spacing.xsmall,
     "HORIZONTAL"
   );
   wrapper.name = "Single Property";
@@ -519,7 +519,12 @@ export function createExplanationSinglePropertyItem(
 
   // Autolayout 內元素排版
   titleNode.layoutSizingHorizontal = "FILL";
+  titleNode.layoutSizingVertical = "FILL";
+  titleNode.textAlignVertical = "CENTER";
+
   valueNode.layoutSizingHorizontal = "FILL";
+  valueNode.layoutSizingVertical = "FILL";
+  valueNode.textAlignVertical = "CENTER";
 
   return wrapper;
 }
