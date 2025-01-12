@@ -955,7 +955,7 @@ function createAliasNameWrapper(
   });
 
   aliasNameWrapper.fills = [
-    { type: "SOLID", color: semanticTokens.background.secondary },
+    { type: "SOLID", color: semanticTokens.background.tertiary },
   ];
 
   aliasNameWrapper.name = "Alias Name";

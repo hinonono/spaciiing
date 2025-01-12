@@ -124,6 +124,7 @@ export const semanticTokens = {
   background: {
     primary: primitiveTokens.white,
     secondary: primitiveTokens.slate[50],
+    tertiary: primitiveTokens.slate[200],
   },
   text: {
     primary: primitiveTokens.slate[950],
@@ -132,7 +133,6 @@ export const semanticTokens = {
   },
   dividerColor: primitiveTokens.slate[200],
   strokeColor: primitiveTokens.slate[400],
-
   fontSize: {
     xsmall: 8,
     small: 12,
