@@ -691,7 +691,7 @@ function createTextPropertiesWrappers(
     textCaseNode,
   ].forEach((n) => {
     n.layoutSizingHorizontal = "FILL";
-    n.layoutSizingVertical = "FILL";
+    n.layoutSizingVertical = "HUG";
   });
 
   return [tempWrapper1, tempWrapper2, tempWrapper3];
