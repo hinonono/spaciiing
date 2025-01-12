@@ -565,38 +565,38 @@ export async function writeCatalogueDescBackToFigma() {
 
 async function resolveToActualValue(
   value: any,
-  aliasName: (string | undefined)[] = []
+  aliasNames: (string | undefined)[] = []
 ): Promise<RGBA | null> {
   if (typeChecking.isVariableAliasType(value)) {
     // Fetch the aliased variable
     const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
     if (!aliasVariable) {
       console.warn(`Alias variable with ID ${value.id} not found.`);
+      aliasNames.push(undefined); // Push undefined if alias is not found
       return null;
     }
 
-    // Add the alias variable's name to the aliasName array
-    aliasName.push(aliasVariable.name);
+    // Push the alias name for the top-level variable
+    aliasNames.push(aliasVariable.name);
 
-    // Get the value in the first mode of the alias
+    // Resolve the actual value from the first mode
     const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
     if (!firstModeValue) {
       console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
       return null;
     }
 
-    // Recursively resolve the first mode value
-    return await resolveToActualValue(firstModeValue, aliasName);
-  } else if (typeChecking.isRGBType(value)) {
-    // Normalize RGB to RGBA
-    aliasName.push(undefined);
-    return { ...value, a: 1 };
-  } else if (typeChecking.isRGBAType(value)) {
-    // Return the RGBA value directly
-    aliasName.push(undefined);
-    return value;
+    // Recursively resolve the first mode value without modifying aliasNames further
+    return await resolveToActualValue(firstModeValue);
+  } else if (typeChecking.isRGBType(value) || typeChecking.isRGBAType(value)) {
+    // Push undefined for non-alias values
+    aliasNames.push(undefined);
+
+    // Normalize RGB to RGBA or return RGBA directly
+    return typeChecking.isRGBType(value) ? { ...value, a: 1 } : value;
   } else {
     console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
+    aliasNames.push(undefined); // Handle unexpected value gracefully
     return null;
   }
 }

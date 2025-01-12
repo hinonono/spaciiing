@@ -988,6 +988,8 @@ function createVariableColorHexNodes(
   aliasNames: (string | undefined)[],
   variableModes?: string[],
 ): FrameNode[] {
+  console.log({ colors: colors, fontName: fontName, aliasNames: aliasNames, variableModes: variableModes });
+
   const hexValues = colors.map((color) => {
     let hex = rgbToHex(color.r, color.g, color.b, true);
     if (color.a !== 1) {
