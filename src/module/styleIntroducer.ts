@@ -324,38 +324,15 @@ async function applyStyleIntroducerForVariable(
     for (const variable of selectedVariables) {
       const aliasName: string[] = [];
 
+
       const values = (
         await Promise.all(
-          Object.entries(variable.valuesByMode).map(async ([modeId, value]) => {
-            if (typeChecking.isVariableAliasType(value)) {
-              const aliasVariable = await figma.variables.getVariableByIdAsync(
-                value.id
-              );
-              if (!aliasVariable) {
-                throw new Error("Termination due to aliasVariable is null.");
-              }
-              aliasName.push(aliasVariable.name);
-
-              const aliasValuesByMode = Object.entries(
-                aliasVariable.valuesByMode
-              );
-              // Check if aliasValuesByMode contains the same modeId
-              const matchedMode = aliasValuesByMode.find(
-                ([aliasModeId]) => aliasModeId === modeId
-              );
-
-              if (matchedMode) {
-                return [matchedMode[1]]; // Return the single value corresponding to the matched modeId
-              } else {
-                return aliasValuesByMode.map(([, aliasValue]) => aliasValue);
-              }
-            }
-            return [value];
+          Object.entries(variable.valuesByMode).map(async ([, value]) => {
+            // Start resolving from the current value
+            return await resolveToActualValue(value);
           })
         )
-      )
-        .flat()
-        .filter(typeChecking.isRGBAType);
+      ).filter((v): v is RGBA => v !== null); // Filter out null values
 
       if (values.length === 0) {
         throw new Error("Termination due to values of variable is undefined.");
@@ -584,4 +561,34 @@ export async function writeCatalogueDescBackToFigma() {
   wroteBackDateNode.textAlignHorizontal = "RIGHT";
 
   figma.notify(`✅ ${updatedCount} styles/variables has been updated successfully.`);
+}
+
+async function resolveToActualValue(value: any): Promise<RGBA | null> {
+  if (typeChecking.isVariableAliasType(value)) {
+    // Fetch the aliased variable
+    const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
+    if (!aliasVariable) {
+      console.warn(`Alias variable with ID ${value.id} not found.`);
+      return null;
+    }
+
+    // Get the value in the first mode of the alias
+    const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
+    if (!firstModeValue) {
+      console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
+      return null;
+    }
+
+    // Recursively resolve the first mode value
+    return await resolveToActualValue(firstModeValue);
+  } else if (typeChecking.isRGBType(value)) {
+    // Normalize RGB to RGBA
+    return { ...value, a: 1 };
+  } else if (typeChecking.isRGBAType(value)) {
+    // Return the RGBA value directly
+    return value;
+  } else {
+    console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
+    return null;
+  }
 }
