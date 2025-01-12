@@ -5,3 +5,4 @@ export { default as FramerModal } from "./FramerModal";
 export { default as MagicObjectModal } from "./MagicObjectModal";
 export { default as UnifyTextModal } from "./UnifyTextModal";
 export { default as ActivateLicenseModal } from "./ActivateLicenseModal";
+export { default as CatalogueSettingModal } from "./CatalogueSettingModal";

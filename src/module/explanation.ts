@@ -10,6 +10,7 @@ import {
   setStroke,
   formatNumberToDecimals,
   getFormattedDate,
+  readEditorPreference,
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
 
@@ -408,10 +409,11 @@ export function createExplanationWrapper(
   title: string,
   secondaryTitle: string,
   fontName: FontName,
+  isCatalogueItemLinkFeatureEnabled: boolean = false,
   modes?: string[]
 ): FrameNode {
   const itemsToPutInTitleWrapper: SceneNode[] = [];
-  const dateString = `Created at ${getFormattedDate("fullDateTime")}`;
+  const dateString = isCatalogueItemLinkFeatureEnabled ? `Created at ${getFormattedDate("fullDateTime")}. Catalogue item link feature enabled.` : `Created at ${getFormattedDate("fullDateTime")}`;
 
   const createdDateNode = createTextNode(
     dateString,

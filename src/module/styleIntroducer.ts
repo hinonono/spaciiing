@@ -116,6 +116,19 @@ async function getVariableList(
   }));
 }
 
+// 檢查是否啟用cataloge item link功能
+// 啟用的話，當產生型錄物件時，可以透過alias物件來連結回參照的物件那裡
+function checkCatalogueItemLinkFeatureAvailability(): { availability: boolean, url: string | null } {
+  //是否啟用cataloge item link功能
+  const editorPreference = util.readEditorPreference();
+
+  if (editorPreference.exampleFileUrl) {
+    return { availability: true, url: editorPreference.exampleFileUrl };
+  } else {
+    return { availability: false, url: null };
+  }
+}
+
 async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   const { styleSelection, styleMode } = message;
 
@@ -276,6 +289,9 @@ async function applyStyleIntroducerForVariable(
   const { title, scopes } = styleSelection;
 
   const viewport = util.getCurrentViewport();
+  //是否啟用cataloge item link功能
+  const isCatalogueItemLinkFeatureAvailable = checkCatalogueItemLinkFeatureAvailability();
+
   const fontsToLoad = [
     { family: "Inter", style: "Regular" },
     { family: "Inter", style: "Semi Bold" },
@@ -360,6 +376,11 @@ async function applyStyleIntroducerForVariable(
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
 
+      if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
+        const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
+        styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
+      }
+
       explanationItems.push(explanationItem);
       // console.log("Explanation Item", explanationItem);
     }
@@ -385,30 +406,6 @@ async function applyStyleIntroducerForVariable(
 
       const filteredNumberValues = numberValues.filter((v): v is number => v !== null);
 
-      // const values = (
-      //   await Promise.all(
-      //     Object.values(variable.valuesByMode).map(async (value) => {
-      //       if (typeChecking.isVariableAliasType(value)) {
-      //         const aliasVariable = await figma.variables.getVariableByIdAsync(
-      //           value.id
-      //         );
-      //         if (!aliasVariable) {
-      //           throw new Error("Termination due to aliasVariable is null.");
-      //         }
-      //         aliasName.push(aliasVariable.name);
-      //         return Object.values(aliasVariable.valuesByMode);
-      //       }
-      //       return [value];
-      //     })
-      //   )
-      // )
-      //   .flat()
-      //   .filter(typeChecking.isFloatType);
-
-      // if (values.length === 0) {
-      //   throw new Error("Termination due to values of variable is undefined.");
-      // }
-
       // Variable模式，建立數字用的說明物件
 
       console.log({ filteredNumberValues: filteredNumberValues, modeNames: modeNames });
@@ -428,10 +425,13 @@ async function applyStyleIntroducerForVariable(
         modeNames
       );
 
-
-
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
+
+      if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
+        const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
+        styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
+      }
 
       explanationItems.push(explanationItem);
       // console.log("Explanation Item", explanationItem);
@@ -448,6 +448,7 @@ async function applyStyleIntroducerForVariable(
     title == "" ? "Variables" : title,
     "Usage Definition",
     { family: "Inter", style: "Semi Bold" },
+    isCatalogueItemLinkFeatureAvailable.availability,
     modeNames
   );
 

@@ -20,6 +20,7 @@ export type ShortcutAction =
   | "unifyText"
   | "createAutoLayoutIndividually"
   | "updateCatalogueDescBackToFigma"
+  | "updateExampleFileUrl"
   | "debug";
 
 export interface MessageShortcut extends Message {

@@ -173,3 +173,32 @@ export async function applyCatalogueItemRichStyle(node: TextNode, styles: Return
     });
 
 }
+
+export function writeCatalogueItemUrlToRoot(id: string, url: string) {
+    figma.root.setPluginData(`catalogue-item-url_${id}`, url);
+}
+
+export function getCatalogueItemUrlFromRoot(id: string): string | null {
+    return figma.root.getPluginData(`catalogue-item-url_${id}`) || null;
+}
+
+/**
+ * Generates a modified Figma URL with the updated node ID.
+ *
+ * @param {string} baseUrl - The base Figma URL.
+ * @param {string} nodeId - The node(Frame) ID to be updated in the URL.
+ * @returns {string} - The updated URL with the new node ID.
+ */
+export function generateFigmaUrlWithNodeId(baseUrl: string, nodeId: string): string {
+    console.log("baseUrl", baseUrl, "nodeId", nodeId);
+
+    if (!baseUrl.includes("?node-id=")) {
+        throw new Error("The provided URL does not contain a 'node-id' parameter.");
+    }
+
+    const result = baseUrl.replace(/(\?node-id=)[^&]+/, `$1${nodeId}`);
+    console.log("result", result);
+
+    // Use regex to replace the node-id parameter
+    return result;
+}
