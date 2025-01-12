@@ -489,22 +489,35 @@ export function createExplanationWrapper(
   return wrapperFrame;
 }
 
+/**
+ * Creates an auto-layout frame containing a title and content node.
+ *
+ * @param {string} title - The title text to be displayed.
+ * @param {TextNode | FrameNode} content - The content node to be displayed next to the title.
+ * @param {FontName} fontName - The font name to be used for the title text.
+ * @returns {FrameNode} - An auto-layout frame containing the title and content nodes.
+ *
+ * The function creates a TextNode for the title with specified font and styles.
+ * It then creates an auto-layout frame (wrapper) that contains the title node and the content node.
+ * The wrapper is styled with padding, background color, and corner radius.
+ * The title node and content node are set to fill the available space and align vertically to the center.
+ */
 export function createExplanationSinglePropertyItem(
   title: string,
-  value: string,
+  content: TextNode | FrameNode,
   fontName: FontName
 ) {
   const titleNode = createTextNode(title, fontName, 12);
   titleNode.fills = [{ type: "SOLID", color: semanticTokens.text.primary }];
   titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
 
-  const valueNode = createTextNode(value, fontName, 12);
-  valueNode.fills = [{ type: "SOLID", color: semanticTokens.text.secondary }];
-  valueNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
-  valueNode.textAlignHorizontal = "RIGHT";
+  // const valueNode = createTextNode(value, fontName, 12);
+  // valueNode.fills = [{ type: "SOLID", color: semanticTokens.text.secondary }];
+  // valueNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
+  // valueNode.textAlignHorizontal = "RIGHT";
 
   const wrapper = createAutolayoutFrame(
-    [titleNode, valueNode],
+    [titleNode, content],
     semanticTokens.spacing.xsmall,
     "HORIZONTAL"
   );
@@ -522,9 +535,11 @@ export function createExplanationSinglePropertyItem(
   titleNode.layoutSizingVertical = "FILL";
   titleNode.textAlignVertical = "CENTER";
 
-  valueNode.layoutSizingHorizontal = "FILL";
-  valueNode.layoutSizingVertical = "FILL";
-  valueNode.textAlignVertical = "CENTER";
+  if (content.type === "TEXT") {
+    content.layoutSizingHorizontal = "FILL";
+    content.layoutSizingVertical = "FILL";
+    content.textAlignVertical = "CENTER";
+  }
 
   return wrapper;
 }
@@ -606,95 +621,151 @@ function createTextPropertiesWrappers(
   textStyle: TextStyle,
   fontName: FontName
 ): FrameNode[] {
-  const fontNameNode = createExplanationSinglePropertyItem(
-    "Font Name",
-    `${textStyle.fontName.family} ${textStyle.fontName.style}`,
-    fontName
-  );
-  const fontSizeNode = createExplanationSinglePropertyItem(
-    "Font Size",
-    formatNumberToDecimals(textStyle.fontSize, 2),
-    fontName
-  );
+  const fontNameContent = `${textStyle.fontName.family} ${textStyle.fontName.style}`;
+  const fontSizeContent = formatNumberToDecimals(textStyle.fontSize, 2);
+  const lineHeightContent = textStyle.lineHeight.unit == "AUTO" ? "Auto" : formatNumberToDecimals(textStyle.lineHeight.value, 2);
+  const letterSpacingContent = formatNumberToDecimals(textStyle.letterSpacing.value, 2);
+  const paragraphSpacingContent = formatNumberToDecimals(textStyle.paragraphSpacing, 2);
+  const textCaseContent = textStyle.textCase.charAt(0).toUpperCase() + textStyle.textCase.slice(1).toLowerCase();
 
-  const lineHeightNode = createExplanationSinglePropertyItem(
-    "Line Height",
-    `${textStyle.lineHeight.unit == "AUTO"
-      ? "Auto"
-      : formatNumberToDecimals(textStyle.lineHeight.value, 2)
-    }`,
-    fontName
-  );
+  const textPropertiesToCreate = [
+    {
+      title: "Font Name",
+      content: fontNameContent
+    },
+    {
+      title: "Font Size",
+      content: fontSizeContent,
+    },
+    {
+      title: "Line Height",
+      content: lineHeightContent,
+    },
+    {
+      title: "Letter Spacing",
+      content: letterSpacingContent
+    },
+    {
+      title: "Paragraph Spacing",
+      content: paragraphSpacingContent
+    },
+    {
+      title: "Text Case",
+      content: textCaseContent,
+    }
+  ]
 
-  const formattedLetterSpacing = formatNumberToDecimals(
-    textStyle.letterSpacing.value,
-    2
-  );
+  let textPropertiesNodes: FrameNode[] = [];
 
-  const letterSpacingNode = createExplanationSinglePropertyItem(
-    "Letter Spacing",
-    formattedLetterSpacing,
-    fontName
-  );
+  textPropertiesToCreate.forEach((property) => {
+    const contentNode = createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+    contentNode.textAlignHorizontal = "RIGHT";
 
-  const formattedParagraphSpacing = formatNumberToDecimals(
-    textStyle.paragraphSpacing,
-    2
-  );
-
-  const paragraphSpacingNode = createExplanationSinglePropertyItem(
-    "Paragraph Spacing",
-    formattedParagraphSpacing,
-    fontName
-  );
-
-  const textCaseString = textStyle.textCase;
-  const formattedTextCaseString =
-    textCaseString.charAt(0).toUpperCase() +
-    textCaseString.slice(1).toLowerCase();
-
-  const textCaseNode = createExplanationSinglePropertyItem(
-    "Text Case",
-    `${formattedTextCaseString}`,
-    fontName
-  );
-
-  const tempWrapper1 = createAutolayoutFrame(
-    [fontNameNode, fontSizeNode],
-    semanticTokens.spacing.xsmall,
-    "HORIZONTAL"
-  );
-
-  const tempWrapper2 = createAutolayoutFrame(
-    [lineHeightNode, letterSpacingNode],
-    semanticTokens.spacing.xsmall,
-    "HORIZONTAL"
-  );
-
-  const tempWrapper3 = createAutolayoutFrame(
-    [paragraphSpacingNode, textCaseNode],
-    semanticTokens.spacing.xsmall,
-    "HORIZONTAL"
-  );
-
-  [tempWrapper1, tempWrapper2, tempWrapper3].forEach((n) => {
-    n.name = "Properties";
-    n.layoutSizingVertical = "HUG";
+    const propertyNode = createExplanationSinglePropertyItem(property.title, contentNode, fontName);
+    textPropertiesNodes.push(propertyNode);
   });
 
-  [
-    fontNameNode,
-    fontSizeNode,
-    lineHeightNode,
-    letterSpacingNode,
-    paragraphSpacingNode,
-    textCaseNode,
-  ].forEach((n) => {
+  const groupedPropertyNodes: FrameNode[] = [];
+  for (let i = 0; i < textPropertiesNodes.length; i += 2) {
+    const pair = textPropertiesNodes.slice(i, i + 2);
+    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+    pairWrapper.name = "Properties";
+    pairWrapper.layoutSizingVertical = "HUG";
+
+    groupedPropertyNodes.push(pairWrapper);
+  }
+
+  textPropertiesNodes.forEach((n) => {
     n.layoutSizingHorizontal = "FILL";
     n.layoutSizingVertical = "HUG";
   });
 
-  return [tempWrapper1, tempWrapper2, tempWrapper3];
+
+  // const fontNameNode = createExplanationSinglePropertyItem(
+  //   "Font Name",
+  //   `${textStyle.fontName.family} ${textStyle.fontName.style}`,
+  //   fontName
+  // );
+  // const fontSizeNode = createExplanationSinglePropertyItem(
+  //   "Font Size",
+  //   formatNumberToDecimals(textStyle.fontSize, 2),
+  //   fontName
+  // );
+  // const lineHeightNode = createExplanationSinglePropertyItem(
+  //   "Line Height",
+  //   `${textStyle.lineHeight.unit == "AUTO"
+  //     ? "Auto"
+  //     : formatNumberToDecimals(textStyle.lineHeight.value, 2)
+  //   }`,
+  //   fontName
+  // );
+  // const formattedLetterSpacing = formatNumberToDecimals(
+  //   textStyle.letterSpacing.value,
+  //   2
+  // );
+  // const letterSpacingNode = createExplanationSinglePropertyItem(
+  //   "Letter Spacing",
+  //   formattedLetterSpacing,
+  //   fontName
+  // );
+  // const formattedParagraphSpacing = formatNumberToDecimals(
+  //   textStyle.paragraphSpacing,
+  //   2
+  // );
+  // const paragraphSpacingNode = createExplanationSinglePropertyItem(
+  //   "Paragraph Spacing",
+  //   formattedParagraphSpacing,
+  //   fontName
+  // );
+
+  // const textCaseString = textStyle.textCase;
+  // const formattedTextCaseString =
+  //   textCaseString.charAt(0).toUpperCase() +
+  //   textCaseString.slice(1).toLowerCase();
+
+  // const textCaseNode = createExplanationSinglePropertyItem(
+  //   "Text Case",
+  //   `${formattedTextCaseString}`,
+  //   fontName
+  // );
+
+  // const tempWrapper1 = createAutolayoutFrame(
+  //   [fontNameNode, fontSizeNode],
+  //   semanticTokens.spacing.xsmall,
+  //   "HORIZONTAL"
+  // );
+
+  // const tempWrapper2 = createAutolayoutFrame(
+  //   [lineHeightNode, letterSpacingNode],
+  //   semanticTokens.spacing.xsmall,
+  //   "HORIZONTAL"
+  // );
+
+  // const tempWrapper3 = createAutolayoutFrame(
+  //   [paragraphSpacingNode, textCaseNode],
+  //   semanticTokens.spacing.xsmall,
+  //   "HORIZONTAL"
+  // );
+
+  // [tempWrapper1, tempWrapper2, tempWrapper3].forEach((n) => {
+  //   n.name = "Properties";
+  //   n.layoutSizingVertical = "HUG";
+  // });
+
+  // [
+  //   fontNameNode,
+  //   fontSizeNode,
+  //   lineHeightNode,
+  //   letterSpacingNode,
+  //   paragraphSpacingNode,
+  //   textCaseNode,
+  // ].forEach((n) => {
+  //   n.layoutSizingHorizontal = "FILL";
+  //   n.layoutSizingVertical = "HUG";
+  // });
+
+  // return [tempWrapper1, tempWrapper2, tempWrapper3];
+  return groupedPropertyNodes;
 }
 
 function createEffectPropertiesWrappers(
@@ -747,85 +818,103 @@ function createEffectPropertiesWrappers(
 
     if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
       // 處理陰影類型的properties
-      const colorNode = createExplanationSinglePropertyItem(
-        "Color",
-        rgbToHex(effect.color.r, effect.color.g, effect.color.b),
-        fontName
-      );
-      const opacityNode = createExplanationSinglePropertyItem(
-        "Opacity",
-        `${formatNumberToDecimals(effect.color.a * 100)}%`,
-        fontName
-      );
-      const xNode = createExplanationSinglePropertyItem(
-        "X",
-        `${effect.offset.x}`,
-        fontName
-      );
-      const yNode = createExplanationSinglePropertyItem(
-        "Y",
-        `${effect.offset.y}`,
-        fontName
-      );
-      const blurNode = createExplanationSinglePropertyItem(
-        "Blur",
-        `${effect.radius}`,
-        fontName
-      );
-      const spreadNode = createExplanationSinglePropertyItem(
-        "Spread",
-        effect.spread ? `${effect.spread}` : "0",
-        fontName
-      );
+      const effectPropertiesToCreate = [
+        {
+          title: "Color",
+          content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
+        },
+        {
+          title: "Opacity",
+          content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
+        },
+        {
+          title: "X",
+          content: `${effect.offset.x}`,
+        },
+        {
+          title: "Y",
+          content: `${effect.offset.y}`,
+        },
+        {
+          title: "Blur",
+          content: `${effect.radius}`,
+        },
+        {
+          title: "Spread",
+          content: effect.spread ? `${effect.spread}` : "0",
+        }
+      ]
 
-      const tempWrapper1 = createAutolayoutFrame(
-        [colorNode, opacityNode],
-        semanticTokens.spacing.xsmall,
-        "HORIZONTAL"
-      );
-      const tempWrapper2 = createAutolayoutFrame(
-        [xNode, yNode, blurNode, spreadNode],
-        semanticTokens.spacing.xsmall,
-        "HORIZONTAL"
-      );
+      let effectPropertiesNodes: FrameNode[] = [];
+      effectPropertiesToCreate.forEach((property) => {
+        const contentNode = createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+        contentNode.textAlignHorizontal = "RIGHT";
 
-      [colorNode, opacityNode, xNode, yNode, blurNode, spreadNode].forEach(
+        const propertyNode = createExplanationSinglePropertyItem(property.title, contentNode, fontName);
+        effectPropertiesNodes.push(propertyNode);
+      });
+
+      let groupedPropertyNodes: FrameNode[] = [];
+      // Separate into 2 and 4 elements
+      const firstGroup = effectPropertiesNodes.slice(0, 2);
+      const secondGroup = effectPropertiesNodes.slice(2, 6);
+
+      // Create pairs for the first group (2 elements and 4 elements)
+      const firstGroupWrapper = createAutolayoutFrame(firstGroup, semanticTokens.spacing.xsmall, "HORIZONTAL");
+      const secondGroupWrapper = createAutolayoutFrame(secondGroup, semanticTokens.spacing.xsmall, "HORIZONTAL");
+
+      effectPropertiesNodes.forEach(
         (n) => {
           n.layoutSizingHorizontal = "FILL";
-          n.layoutSizingVertical = "FILL";
+          n.layoutSizingVertical = "HUG";
         }
       );
 
-      effectWrapper.appendChild(tempWrapper1);
-      effectWrapper.appendChild(tempWrapper2);
+      groupedPropertyNodes.push(firstGroupWrapper, secondGroupWrapper);
 
-      [tempWrapper1, tempWrapper2].forEach((n) => {
+      groupedPropertyNodes.forEach((n) => {
+        effectWrapper.appendChild(n);
+
         n.name = "Properties";
         n.layoutSizingVertical = "HUG";
         n.layoutSizingHorizontal = "FILL";
       });
+
     } else {
       // 處理blur類型的properties
-      const blurNode = createExplanationSinglePropertyItem(
-        "Blur",
-        `${effect.radius}`,
-        fontName
-      );
-      const placeHolderNode = createExplanationSinglePropertyItem(
-        "Place Holder",
-        "0",
-        fontName
-      );
-      placeHolderNode.opacity = 0;
+      const effectPropertiesToCreate = [
+        {
+          title: "Blur",
+          content: `${effect.radius}`,
+        },
+        {
+          title: "Place Holder",
+          content: "0",
+        }
+      ]
+
+      let effectPropertiesNodes: FrameNode[] = [];
+      effectPropertiesToCreate.forEach((property) => {
+        const contentNode = createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+        contentNode.textAlignHorizontal = "RIGHT";
+
+        const propertyNode = createExplanationSinglePropertyItem(property.title, contentNode, fontName);
+        if (property.title === "Place Holder") {
+          propertyNode.opacity = 0;
+        }
+
+        effectPropertiesNodes.push(propertyNode);
+      });
 
       const tempWrapper1 = createAutolayoutFrame(
-        [blurNode, placeHolderNode],
+        [...effectPropertiesNodes],
         semanticTokens.spacing.xsmall,
         "HORIZONTAL"
       );
-      [blurNode, placeHolderNode].forEach((n) => {
+
+      effectPropertiesNodes.forEach((n) => {
         n.layoutSizingHorizontal = "FILL";
-        n.layoutSizingVertical = "FILL";
+        n.layoutSizingVertical = "HUG";
       });
 
       effectWrapper.appendChild(tempWrapper1);
@@ -835,6 +924,7 @@ function createEffectPropertiesWrappers(
         n.layoutSizingVertical = "HUG";
         n.layoutSizingHorizontal = "FILL";
       });
+
     }
 
     results.push(effectWrapper);
@@ -904,7 +994,10 @@ function createVariableColorHexNodes(
 
   const singlePropertyNodes = hexValues.map((hexValue, i) => {
     const variableMode = variableModes ? variableModes[i] : "Unknown";
-    const node = createExplanationSinglePropertyItem(variableMode, hexValue, fontName);
+    const hexValueNode = createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+    hexValueNode.textAlignHorizontal = "RIGHT";
+    
+    const node = createExplanationSinglePropertyItem(variableMode, hexValueNode, fontName);
     node.layoutSizingVertical = "HUG";
 
     return node;
