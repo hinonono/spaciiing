@@ -69,7 +69,7 @@ export function writeCatalogueItemRichStyleToPage(id: string, styles: ReturnType
         throw new Error("The size of the encoded styles exceeds the 64 KB limit.");
     }
 
-    figma.currentPage.setPluginData(`catalogue-item-rich-style_${id}`, encodedStyles);
+    figma.root.setPluginData(`catalogue-item-rich-style_${id}`, encodedStyles);
 }
 
 /**
@@ -84,7 +84,7 @@ export function writeCatalogueItemRichStyleToPage(id: string, styles: ReturnType
  * If the data does not exist, it returns null.
  */
 export function getCatalogueItemRichStyleFromPage(id: string): ReturnType<TextNode["getStyledTextSegments"]> | null {
-    const styles = figma.currentPage.getPluginData(`catalogue-item-rich-style_${id}`);
+    const styles = figma.root.getPluginData(`catalogue-item-rich-style_${id}`);
 
     if (styles) {
         const decodedStyle = JSON.parse(styles) as ReturnType<TextNode["getStyledTextSegments"]>;
