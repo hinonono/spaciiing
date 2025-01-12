@@ -515,11 +515,6 @@ export function createExplanationSinglePropertyItem(
   titleNode.fills = [{ type: "SOLID", color: semanticTokens.text.primary }];
   titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
 
-  // const valueNode = createTextNode(value, fontName, 12);
-  // valueNode.fills = [{ type: "SOLID", color: semanticTokens.text.secondary }];
-  // valueNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
-  // valueNode.textAlignHorizontal = "RIGHT";
-
   const wrapper = createAutolayoutFrame(
     [titleNode, content],
     semanticTokens.spacing.xsmall,
@@ -533,6 +528,11 @@ export function createExplanationSinglePropertyItem(
     { type: "SOLID", color: semanticTokens.background.secondary },
   ];
   wrapper.cornerRadius = semanticTokens.cornerRadius.xsmall;
+  wrapper.minHeight = 32;
+
+  if (content.type === "FRAME") {
+    wrapper.paddingRight = 6;
+  }
 
   // Autolayout 內元素排版
   titleNode.layoutSizingHorizontal = "FILL";
@@ -1058,8 +1058,8 @@ function createAliasNameWrapper(
   aliasNameWrapper.cornerRadius = semanticTokens.cornerRadius.xxsmall;
 
   setPadding(aliasNameWrapper, {
-    top: 4,
-    bottom: 4,
+    top: 2,
+    bottom: 2,
     left: 8,
     right: 8,
   });
@@ -1074,6 +1074,9 @@ function createAliasNameWrapper(
 }
 
 /**
+ * @deprecated This function is deprecated and may be removed in future releases.
+ * Use the newer methods for alias name handling if available.
+ *
  * Creates a wrapper frame node containing individual alias name wrappers for each alias in the aliasNames array.
  * @param {string[]} aliasNames - List of alias names to be wrapped.
  * @param {FontName} fontName - The font to be used for each alias name.
