@@ -921,6 +921,7 @@ function createVariableColorHexNodes(
   return groupedPropertyNodes;
 }
 
+// 變數名稱索引專用的樣式
 function createAliasNameWrapper(
   aliasName: string,
   fontName: FontName,
