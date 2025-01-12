@@ -1041,13 +1041,6 @@ function createAliasNameWrapper(
     right: 8,
   });
 
-  setStroke(aliasNameWrapper, semanticTokens.strokeColor, {
-    top: 1,
-    bottom: 1,
-    left: 1,
-    right: 1,
-  });
-
   aliasNameWrapper.fills = [
     { type: "SOLID", color: semanticTokens.background.tertiary },
   ];
