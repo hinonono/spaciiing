@@ -336,7 +336,7 @@ async function applyStyleIntroducerForVariable(
           aliasName.push(aliasVariable.name);
         }
 
-        const color = await resolveToActualValue(value);
+        const color = await resolveToActualRgbaValue(value);
         colorValues.push(color);
       }
 
@@ -361,37 +361,58 @@ async function applyStyleIntroducerForVariable(
       explanationItem.counterAxisSizingMode = "AUTO";
 
       explanationItems.push(explanationItem);
-      console.log("Explanation Item", explanationItem);
+      // console.log("Explanation Item", explanationItem);
     }
   } else if (styleMode === "FLOAT") {
     for (const variable of selectedVariables) {
-      const aliasName: string[] = [];
+      const aliasName: (string | undefined)[] = [];
+      const numberValues: (number | null)[] = [];
 
-      const values = (
-        await Promise.all(
-          Object.values(variable.valuesByMode).map(async (value) => {
-            if (typeChecking.isVariableAliasType(value)) {
-              const aliasVariable = await figma.variables.getVariableByIdAsync(
-                value.id
-              );
-              if (!aliasVariable) {
-                throw new Error("Termination due to aliasVariable is null.");
-              }
-              aliasName.push(aliasVariable.name);
-              return Object.values(aliasVariable.valuesByMode);
-            }
-            return [value];
-          })
-        )
-      )
-        .flat()
-        .filter(typeChecking.isFloatType);
+      for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
+        if (!typeChecking.isVariableAliasType(value)) {
+          aliasName.push(undefined);
+        } else {
+          const aliasVariable = localVariables.find((v) => v.id === value.id);
+          if (!aliasVariable) {
+            throw new Error("Termination due to aliasVariable is null.");
+          }
+          aliasName.push(aliasVariable.name);
+        }
 
-      if (values.length === 0) {
-        throw new Error("Termination due to values of variable is undefined.");
+        const number = await resolveToActualNumberValue(value);
+        numberValues.push(number);
       }
 
+      const filteredNumberValues = numberValues.filter((v): v is number => v !== null);
+
+      // const values = (
+      //   await Promise.all(
+      //     Object.values(variable.valuesByMode).map(async (value) => {
+      //       if (typeChecking.isVariableAliasType(value)) {
+      //         const aliasVariable = await figma.variables.getVariableByIdAsync(
+      //           value.id
+      //         );
+      //         if (!aliasVariable) {
+      //           throw new Error("Termination due to aliasVariable is null.");
+      //         }
+      //         aliasName.push(aliasVariable.name);
+      //         return Object.values(aliasVariable.valuesByMode);
+      //       }
+      //       return [value];
+      //     })
+      //   )
+      // )
+      //   .flat()
+      //   .filter(typeChecking.isFloatType);
+
+      // if (values.length === 0) {
+      //   throw new Error("Termination due to values of variable is undefined.");
+      // }
+
       // Variable模式，建立數字用的說明物件
+
+      console.log({ filteredNumberValues: filteredNumberValues, modeNames: modeNames });
+
       const explanationItem = explanation.createExplanationItem(
         "VARIABLE",
         variable.id,
@@ -402,15 +423,18 @@ async function applyStyleIntroducerForVariable(
         undefined,
         undefined,
         undefined,
-        values,
-        aliasName
+        filteredNumberValues,
+        aliasName,
+        modeNames
       );
+
+
 
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
 
       explanationItems.push(explanationItem);
-      console.log("Explanation Item", explanationItem);
+      // console.log("Explanation Item", explanationItem);
     }
   }
 
@@ -567,7 +591,7 @@ export async function writeCatalogueDescBackToFigma() {
   figma.notify(`✅ ${updatedCount} styles/variables has been updated successfully.`);
 }
 
-async function resolveToActualValue(
+async function resolveToActualRgbaValue(
   value: any
 ): Promise<RGBA | null> {
   if (typeChecking.isVariableAliasType(value)) {
@@ -586,10 +610,38 @@ async function resolveToActualValue(
     }
 
     // Recursively resolve the first mode value without modifying aliasNames further
-    return await resolveToActualValue(firstModeValue);
+    return await resolveToActualRgbaValue(firstModeValue);
   } else if (typeChecking.isRGBType(value) || typeChecking.isRGBAType(value)) {
     // Normalize RGB to RGBA or return RGBA directly
     return typeChecking.isRGBType(value) ? { ...value, a: 1 } : value;
+  } else {
+    console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
+    return null;
+  }
+}
+
+async function resolveToActualNumberValue(
+  value: any
+): Promise<number | null> {
+  if (typeChecking.isVariableAliasType(value)) {
+    // Fetch the aliased variable
+    const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
+    if (!aliasVariable) {
+      console.warn(`Alias variable with ID ${value.id} not found.`);
+      return null;
+    }
+
+    // Resolve the actual value from the first mode
+    const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
+    if (!firstModeValue) {
+      console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
+      return null;
+    }
+
+    // Recursively resolve the first mode value without modifying aliasNames further
+    return await resolveToActualNumberValue(firstModeValue);
+  } else if (typeChecking.isFloatType(value)) {
+    return value;
   } else {
     console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
     return null;

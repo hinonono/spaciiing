@@ -12,7 +12,6 @@ import {
   getFormattedDate,
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
-import { t } from "i18next";
 
 /**
  * Creates an explanation item frame based on the provided format and style mode.
@@ -74,16 +73,8 @@ export function createExplanationItem(
     styledTextSegments.applyCatalogueItemRichStyle(descriptionNode, descriptionRichStyle);
   }
 
-
   let explanationTextsWrapperNode: FrameNode;
-  let aliasNameWrapperNode: FrameNode | null = null;
   const itemsToPutInTitleWrapper: SceneNode[] = [];
-
-  //當format是VARIABLE時，處理aliasNames
-  // if (aliasNames && aliasNames.length > 0 && format === "VARIABLE") {
-  //   aliasNameWrapperNode = handleAliasNameWrapperNode(aliasNames, fontName);
-  //   itemsToPutInTitleWrapper.push(aliasNameWrapperNode);
-  // }
 
   itemsToPutInTitleWrapper.push(titleNode);
 
@@ -99,7 +90,6 @@ export function createExplanationItem(
     }
 
     let colorHexNode: TextNode | null = null;
-    // let colorHexNodes: FrameNode[] = [];
 
     if (format === "STYLE" && colors.length == 1) {
       colorHexNode = createStyleColorHexNode(
@@ -123,10 +113,6 @@ export function createExplanationItem(
       semanticTokens.spacing.xsmall,
       "VERTICAL"
     );
-
-    // if (colorHexNode) {
-    //   colorHexNode.layoutSizingHorizontal = "FILL";
-    // }
 
     itemsToPutInTitleWrapper.forEach((node) => {
       if ("layoutSizingHorizontal" in node) {
@@ -156,11 +142,51 @@ export function createExplanationItem(
       throw new Error("Termination due to number.length is 0.");
     }
 
+    if (!variableModes) {
+      throw new Error("Variable modes are required for number type.");
+    }
+
+    if (format === "VARIABLE") {
+      const singlePropertyNodes: FrameNode[] = [];
+
+      for (let i = 0; i < numbers.length; i++) {
+        const numberTextNode = createTextNode(
+          numbers[i].toString(),
+          fontName,
+          semanticTokens.fontSize.small,
+          [{ type: "SOLID", color: semanticTokens.text.secondary }]
+        );
+        numberTextNode.textAlignHorizontal = "RIGHT";
+
+        const singlePropertyNode = createExplanationSinglePropertyItem(variableModes[i], numberTextNode, fontName);
+        singlePropertyNodes.push(singlePropertyNode);
+      }
+
+      const groupedPropertyNodes: FrameNode[] = [];
+      for (let i = 0; i < singlePropertyNodes.length; i += 2) {
+        const pair = singlePropertyNodes.slice(i, i + 2);
+        const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+        pairWrapper.name = "Properties";
+        groupedPropertyNodes.push(pairWrapper);
+      }
+
+      itemsToPutInTitleWrapper.push(...groupedPropertyNodes);
+    }
+
     const titleWrapper = createAutolayoutFrame(
       itemsToPutInTitleWrapper,
       semanticTokens.spacing.xsmall,
       "VERTICAL"
     );
+    itemsToPutInTitleWrapper.forEach((node) => {
+      if ("layoutSizingHorizontal" in node) {
+        node.layoutSizingHorizontal = "FILL";
+      }
+      if ("layoutSizingVertical" in node) {
+        node.layoutSizingVertical = "HUG";
+      }
+    });
+
     titleWrapper.name = "Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
 
@@ -170,6 +196,7 @@ export function createExplanationItem(
       "VERTICAL"
     );
     titleWrapper.layoutSizingHorizontal = "FILL";
+    titleWrapper.layoutSizingVertical = "HUG";
   } else if (styleMode === "TEXT") {
     // 處理文字樣式
     if (!textStyle) {
@@ -240,11 +267,6 @@ export function createExplanationItem(
   titleNode.layoutSizingHorizontal = "FILL";
   descriptionNode.layoutSizingHorizontal = "FILL";
   explanationTextsWrapperNode.name = "Info Wrapper";
-
-  // if (aliasNameWrapperNode) {
-  //   aliasNameWrapperNode.layoutSizingHorizontal = "FILL";
-  //   aliasNameWrapperNode.layoutSizingVertical = "HUG";
-  // }
 
   let explanationItemWrapperNode: FrameNode;
   //依據不同的格式處理要放進去的內容（色塊、效果等）
@@ -529,6 +551,7 @@ export function createExplanationSinglePropertyItem(
   ];
   wrapper.cornerRadius = semanticTokens.cornerRadius.xsmall;
   wrapper.minHeight = 32;
+  wrapper.layoutSizingVertical = "HUG";
 
   if (content.type === "FRAME") {
     wrapper.paddingRight = 6;
@@ -588,8 +611,9 @@ function createNumberFrame(number: number, fontName: FontName): FrameNode {
   // Create the frame
   const numberFrame = figma.createFrame();
   numberFrame.name = "Number";
-  numberFrame.fills = [{ type: "SOLID", color: semanticTokens.background.secondary }];
+  numberFrame.fills = [{ type: "SOLID", color: semanticTokens.background.primary }];
   numberFrame.cornerRadius = semanticTokens.cornerRadius.small;
+  setStroke(numberFrame, semanticTokens.strokeColor, { top: 1, bottom: 1, left: 1, right: 1 });
 
   // Set layout mode for centering
   numberFrame.layoutMode = "VERTICAL"; // Vertical stack layout
