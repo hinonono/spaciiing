@@ -329,7 +329,7 @@ async function applyStyleIntroducerForVariable(
         await Promise.all(
           Object.entries(variable.valuesByMode).map(async ([, value]) => {
             // Start resolving from the current value
-            return await resolveToActualValue(value);
+            return await resolveToActualValue(value, aliasName);
           })
         )
       ).filter((v): v is RGBA => v !== null); // Filter out null values
@@ -563,7 +563,10 @@ export async function writeCatalogueDescBackToFigma() {
   figma.notify(`✅ ${updatedCount} styles/variables has been updated successfully.`);
 }
 
-async function resolveToActualValue(value: any): Promise<RGBA | null> {
+async function resolveToActualValue(
+  value: any,
+  aliasName: string[] = []
+): Promise<RGBA | null> {
   if (typeChecking.isVariableAliasType(value)) {
     // Fetch the aliased variable
     const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
@@ -571,6 +574,9 @@ async function resolveToActualValue(value: any): Promise<RGBA | null> {
       console.warn(`Alias variable with ID ${value.id} not found.`);
       return null;
     }
+
+    // Add the alias variable's name to the aliasName array
+    aliasName.push(aliasVariable.name);
 
     // Get the value in the first mode of the alias
     const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
@@ -580,7 +586,7 @@ async function resolveToActualValue(value: any): Promise<RGBA | null> {
     }
 
     // Recursively resolve the first mode value
-    return await resolveToActualValue(firstModeValue);
+    return await resolveToActualValue(firstModeValue, aliasName);
   } else if (typeChecking.isRGBType(value)) {
     // Normalize RGB to RGBA
     return { ...value, a: 1 };
