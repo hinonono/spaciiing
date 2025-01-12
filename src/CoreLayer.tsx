@@ -11,7 +11,7 @@ import { ActivateLicenseModal } from "./components/modalComponents";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<Module>("StyleIntroducer");
+  const [activeTab, setActiveTab] = useState<Module>("Spaciiing");
   const [prevTab, setPrevTab] = useState<Module | null>(null);
 
   const appContext = useAppContext();

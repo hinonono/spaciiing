@@ -84,12 +84,31 @@ export function executeShortcut(message: MessageShortcut) {
         writeCatalogueDescBackToFigma();
         break;
       case "debug":
-        getNodeCatalogueItemRichStyle(figma.currentPage.selection[0] as TextNode);
+        debugFunction();
         break;
       default:
         break;
     }
   }
+}
+
+function debugFunction() {
+  const selection = util.getCurrentSelection();
+
+  // Filter selection to only include text nodes
+  const textNodes = selection.filter(
+    (node) => node.type === "TEXT"
+  ) as TextNode[];
+
+  const textNode = textNodes[0];
+
+  textNode.hyperlink = {
+    type: "NODE",
+    value: "800-1002"
+  }
+
+  figma.notify("OK!")
+
 }
 
 function createAutoLayoutIndividually() {

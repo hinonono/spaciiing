@@ -154,32 +154,34 @@ const Shortcut: React.FC = () => {
         isProFeature={true}
       />
       <div className="content">
-        {/* 框 */}
+        {/* 型錄 */}
         <div className="list-view mt-xsmall">
-          <div className="list-view-header flex flex-justify-center">
+          <div className="list-view-header property-clipboard-header flex flex-justify-center">
+            <div></div>
             <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {t("module:frame")}
+              {t("module:moduleCatalogue")}
             </div>
+            <div></div>
           </div>
-          <div className="padding-16 grid border-1-top">
+          <div className="padding-16 border-1-top grid">
             <FigmaButton
               buttonType="secondary"
-              title={t("module:createShadowOverlay")}
-              id={"shortcut-overlay"}
+              title={t("module:updateCatalogueDescBackToFigma")}
               onClick={() => {
-                applyShortcut("makeFrameOverlay");
+                applyShortcut("updateCatalogueDescBackToFigma");
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
-            <FigmaButton
+            {/* <FigmaButton
               buttonType="secondary"
-              title={t("module:alignToFrameEdge")}
-              id={"shortcut-framer"}
-              onClick={handleOpenFramerModal}
+              title={"test"}
+              onClick={() => {
+                applyShortcut("debug");
+              }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
-            />
+            /> */}
           </div>
         </div>
         {/* 文字 */}
@@ -364,34 +366,32 @@ const Shortcut: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* 型錄 */}
+        {/* 框 */}
         <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header flex flex-justify-center">
-            <div></div>
+          <div className="list-view-header flex flex-justify-center">
             <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {t("module:moduleCatalogue")}
+              {t("module:frame")}
             </div>
-            <div></div>
           </div>
-          <div className="padding-16 border-1-top grid">
+          <div className="padding-16 grid border-1-top">
             <FigmaButton
               buttonType="secondary"
-              title={t("module:updateCatalogueDescBackToFigma")}
+              title={t("module:createShadowOverlay")}
+              id={"shortcut-overlay"}
               onClick={() => {
-                applyShortcut("updateCatalogueDescBackToFigma");
+                applyShortcut("makeFrameOverlay");
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
-            {/* <FigmaButton
+            <FigmaButton
               buttonType="secondary"
-              title={"test"}
-              onClick={() => {
-                applyShortcut("debug");
-              }}
+              title={t("module:alignToFrameEdge")}
+              id={"shortcut-framer"}
+              onClick={handleOpenFramerModal}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
-            /> */}
+            />
           </div>
         </div>
       </div>
