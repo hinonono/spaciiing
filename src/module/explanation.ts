@@ -308,7 +308,7 @@ export function createExplanationItem(
 
     const numberFrames: FrameNode[] = [];
     numbers.forEach((number) => {
-      const numberFrame = createNumberFrame(number, fontName);
+      const numberFrame = createNumberFrame(number, { family: fontName.family, style: "Semi Bold" });
       numberFrames.push(numberFrame);
     });
 
@@ -575,7 +575,8 @@ function createNumberFrame(number: number, fontName: FontName): FrameNode {
   const numberTextNode = createTextNode(
     limitedNumber,
     fontName,
-    semanticTokens.fontSize.base
+    semanticTokens.fontSize.base,
+    [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
 
   numberTextNode.lineHeight = {
@@ -587,10 +588,8 @@ function createNumberFrame(number: number, fontName: FontName): FrameNode {
   // Create the frame
   const numberFrame = figma.createFrame();
   numberFrame.name = "Number";
-  numberFrame.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+  numberFrame.fills = [{ type: "SOLID", color: semanticTokens.background.secondary }];
   numberFrame.cornerRadius = semanticTokens.cornerRadius.small;
-  numberFrame.strokes = [{ type: "SOLID", color: semanticTokens.strokeColor }];
-  numberFrame.strokeWeight = 1;
 
   // Set layout mode for centering
   numberFrame.layoutMode = "VERTICAL"; // Vertical stack layout
