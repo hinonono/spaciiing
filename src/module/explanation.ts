@@ -12,6 +12,7 @@ import {
   getFormattedDate,
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
+import { t } from "i18next";
 
 /**
  * Creates an explanation item frame based on the provided format and style mode.
@@ -41,7 +42,7 @@ export function createExplanationItem(
   effects?: Effect[],
   textStyle?: TextStyle,
   numbers?: number[],
-  aliasNames?: string[],
+  aliasNames?: (string | undefined)[],
   variableModes?: string[]
 ) {
   const titleNode = createTextNode(
@@ -79,10 +80,10 @@ export function createExplanationItem(
   const itemsToPutInTitleWrapper: SceneNode[] = [];
 
   //當format是VARIABLE時，處理aliasNames
-  if (aliasNames && aliasNames.length > 0 && format === "VARIABLE") {
-    aliasNameWrapperNode = handleAliasNameWrapperNode(aliasNames, fontName);
-    itemsToPutInTitleWrapper.push(aliasNameWrapperNode);
-  }
+  // if (aliasNames && aliasNames.length > 0 && format === "VARIABLE") {
+  //   aliasNameWrapperNode = handleAliasNameWrapperNode(aliasNames, fontName);
+  //   itemsToPutInTitleWrapper.push(aliasNameWrapperNode);
+  // }
 
   itemsToPutInTitleWrapper.push(titleNode);
 
@@ -98,7 +99,7 @@ export function createExplanationItem(
     }
 
     let colorHexNode: TextNode | null = null;
-    let colorHexNodes: FrameNode[] = [];
+    // let colorHexNodes: FrameNode[] = [];
 
     if (format === "STYLE" && colors.length == 1) {
       colorHexNode = createStyleColorHexNode(
@@ -108,7 +109,11 @@ export function createExplanationItem(
       );
       itemsToPutInTitleWrapper.push(colorHexNode);
     } else {
-      const colorHexNodes = createVariableColorHexNodes(colors, fontName, variableModes);
+      if (!aliasNames) {
+        throw new Error("Alias names are required for variable type.");
+      }
+
+      const colorHexNodes = createVariableColorHexNodes(colors, fontName, aliasNames, variableModes);
       itemsToPutInTitleWrapper.push(...colorHexNodes);
     }
 
@@ -132,8 +137,6 @@ export function createExplanationItem(
       }
     });
 
-
-
     titleWrapper.name = "Title Wrapper";
     titleNode.layoutSizingHorizontal = "FILL";
 
@@ -143,6 +146,7 @@ export function createExplanationItem(
       "VERTICAL"
     );
     titleWrapper.layoutSizingHorizontal = "FILL";
+    titleWrapper.layoutSizingVertical = "HUG";
   } else if (styleMode === "FLOAT") {
     if (!numbers) {
       throw new Error("Number is required for number type.");
@@ -237,10 +241,10 @@ export function createExplanationItem(
   descriptionNode.layoutSizingHorizontal = "FILL";
   explanationTextsWrapperNode.name = "Info Wrapper";
 
-  if (aliasNameWrapperNode) {
-    aliasNameWrapperNode.layoutSizingHorizontal = "FILL";
-    aliasNameWrapperNode.layoutSizingVertical = "HUG";
-  }
+  // if (aliasNameWrapperNode) {
+  //   aliasNameWrapperNode.layoutSizingHorizontal = "FILL";
+  //   aliasNameWrapperNode.layoutSizingVertical = "HUG";
+  // }
 
   let explanationItemWrapperNode: FrameNode;
   //依據不同的格式處理要放進去的內容（色塊、效果等）
@@ -981,7 +985,8 @@ function createStyleColorHexNode(
 function createVariableColorHexNodes(
   colors: RGBA[],
   fontName: FontName,
-  variableModes?: string[]
+  aliasNames: (string | undefined)[],
+  variableModes?: string[],
 ): FrameNode[] {
   const hexValues = colors.map((color) => {
     let hex = rgbToHex(color.r, color.g, color.b, true);
@@ -994,13 +999,31 @@ function createVariableColorHexNodes(
 
   const singlePropertyNodes = hexValues.map((hexValue, i) => {
     const variableMode = variableModes ? variableModes[i] : "Unknown";
-    const hexValueNode = createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
-    hexValueNode.textAlignHorizontal = "RIGHT";
-    
-    const node = createExplanationSinglePropertyItem(variableMode, hexValueNode, fontName);
-    node.layoutSizingVertical = "HUG";
+    const aliasName = aliasNames[i];
 
-    return node;
+    if (aliasName != undefined) {
+      const aliasNameWrapper = createAliasNameWrapper(
+        aliasName,
+        fontName,
+        semanticTokens.fontSize.base * 0.75
+      );
+      aliasNameWrapper.layoutSizingHorizontal = "HUG";
+      aliasNameWrapper.layoutSizingVertical = "HUG";
+
+      const node = createExplanationSinglePropertyItem(variableMode, aliasNameWrapper, fontName);
+      node.layoutSizingVertical = "HUG";
+
+      return node;
+    } else {
+      const hexValueNode = createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+      hexValueNode.textAlignHorizontal = "RIGHT";
+
+      const node = createExplanationSinglePropertyItem(variableMode, hexValueNode, fontName);
+      node.layoutSizingVertical = "HUG";
+
+      return node;
+    }
+
   });
 
   const groupedPropertyNodes: FrameNode[] = [];

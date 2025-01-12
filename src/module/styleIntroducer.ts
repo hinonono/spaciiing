@@ -322,7 +322,7 @@ async function applyStyleIntroducerForVariable(
 
   if (styleMode === "COLOR") {
     for (const variable of selectedVariables) {
-      const aliasName: string[] = [];
+      const aliasName: (string | undefined)[] = [];
 
 
       const values = (
@@ -565,7 +565,7 @@ export async function writeCatalogueDescBackToFigma() {
 
 async function resolveToActualValue(
   value: any,
-  aliasName: string[] = []
+  aliasName: (string | undefined)[] = []
 ): Promise<RGBA | null> {
   if (typeChecking.isVariableAliasType(value)) {
     // Fetch the aliased variable
@@ -589,9 +589,11 @@ async function resolveToActualValue(
     return await resolveToActualValue(firstModeValue, aliasName);
   } else if (typeChecking.isRGBType(value)) {
     // Normalize RGB to RGBA
+    aliasName.push(undefined);
     return { ...value, a: 1 };
   } else if (typeChecking.isRGBAType(value)) {
     // Return the RGBA value directly
+    aliasName.push(undefined);
     return value;
   } else {
     console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
