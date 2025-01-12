@@ -212,19 +212,25 @@ const Shortcut: React.FC = () => {
             />
           </div>
         </div>
-        {/* 生成 */}
+        {/* 檔案管理物件 */}
         <div className="list-view mt-xsmall">
-          <div className="list-view-header flex flex-justify-center">
+          <div className="list-view-header property-clipboard-header flex flex-justify-center">
+            <div></div>
             <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {t("module:generate")}
+              {t("module:fileOrganizingObject")}
+            </div>
+            <div>
+              <FigmaButton
+                  title={t("module:setting")}
+                  onClick={handleOpenMagicObjectModal}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
             </div>
           </div>
           <div className="padding-16 border-1-top">
-            <SectionTitle
-              title={t("module:fileOrganizingObject")}
-              actionTitle={t("module:setting")}
-              action={handleOpenMagicObjectModal}
-            />
             <div className="grid mt-xxxsmall">
               <FigmaButton
                 buttonType="secondary"
@@ -266,9 +272,19 @@ const Shortcut: React.FC = () => {
                 hasTopBottomMargin={false}
               />
             </div>
-            <div className="mt-xsmall"></div>
-            <SectionTitle title={t("module:colorValueToTextLabel")} />
-            <div className="grid mt-xxxsmall">
+          </div>
+        </div>
+        {/* 顏色數值至文字標籤 */}
+        <div className="list-view mt-xsmall">
+          <div className="list-view-header property-clipboard-header flex flex-justify-center">
+            <div></div>
+            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+              {t("module:colorValueToTextLabel")}
+            </div>
+            <div></div>
+          </div>
+          <div className="padding-16 border-1-top">
+          <div className="grid mt-xxxsmall">
               <FigmaButton
                 buttonType="secondary"
                 title={t("module:hexValue")}
@@ -310,8 +326,16 @@ const Shortcut: React.FC = () => {
                 hasTopBottomMargin={false}
               />
             </div>
-            <div className="mt-xsmall"></div>
-            <SectionTitle title={t("term:others")} />
+          </div>
+        </div>
+        {/* 生成 */}
+        <div className="list-view mt-xsmall">
+          <div className="list-view-header flex flex-justify-center">
+            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+              {t("module:generate")}
+            </div>
+          </div>
+          <div className="padding-16 border-1-top">
             <div className="grid mt-xxxsmall">
               <FigmaButton
                 buttonType="secondary"
