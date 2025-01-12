@@ -323,20 +323,24 @@ async function applyStyleIntroducerForVariable(
   if (styleMode === "COLOR") {
     for (const variable of selectedVariables) {
       const aliasName: (string | undefined)[] = [];
+      const colorValues: (RGBA | null)[] = [];
 
+      for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
+        if (!typeChecking.isVariableAliasType(value)) {
+          aliasName.push(undefined);
+        } else {
+          const aliasVariable = localVariables.find((v) => v.id === value.id);
+          if (!aliasVariable) {
+            throw new Error("Termination due to aliasVariable is null.");
+          }
+          aliasName.push(aliasVariable.name);
+        }
 
-      const values = (
-        await Promise.all(
-          Object.entries(variable.valuesByMode).map(async ([, value]) => {
-            // Start resolving from the current value
-            return await resolveToActualValue(value, aliasName);
-          })
-        )
-      ).filter((v): v is RGBA => v !== null); // Filter out null values
-
-      if (values.length === 0) {
-        throw new Error("Termination due to values of variable is undefined.");
+        const color = await resolveToActualValue(value);
+        colorValues.push(color);
       }
+
+      const filteredColorValues = colorValues.filter((v): v is RGBA => v !== null);
 
       const explanationItem = explanation.createExplanationItem(
         "VARIABLE",
@@ -345,7 +349,7 @@ async function applyStyleIntroducerForVariable(
         variable.description,
         fontName,
         "COLOR",
-        values,
+        filteredColorValues,
         undefined,
         undefined,
         undefined,
@@ -564,20 +568,15 @@ export async function writeCatalogueDescBackToFigma() {
 }
 
 async function resolveToActualValue(
-  value: any,
-  aliasNames: (string | undefined)[] = []
+  value: any
 ): Promise<RGBA | null> {
   if (typeChecking.isVariableAliasType(value)) {
     // Fetch the aliased variable
     const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
     if (!aliasVariable) {
       console.warn(`Alias variable with ID ${value.id} not found.`);
-      aliasNames.push(undefined); // Push undefined if alias is not found
       return null;
     }
-
-    // Push the alias name for the top-level variable
-    aliasNames.push(aliasVariable.name);
 
     // Resolve the actual value from the first mode
     const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
@@ -589,14 +588,10 @@ async function resolveToActualValue(
     // Recursively resolve the first mode value without modifying aliasNames further
     return await resolveToActualValue(firstModeValue);
   } else if (typeChecking.isRGBType(value) || typeChecking.isRGBAType(value)) {
-    // Push undefined for non-alias values
-    aliasNames.push(undefined);
-
     // Normalize RGB to RGBA or return RGBA directly
     return typeChecking.isRGBType(value) ? { ...value, a: 1 } : value;
   } else {
     console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
-    aliasNames.push(undefined); // Handle unexpected value gracefully
     return null;
   }
 }
