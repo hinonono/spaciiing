@@ -199,3 +199,17 @@ export function generateFigmaUrlWithNodeId(baseUrl: string, nodeId: string): str
     // Use regex to replace the node-id parameter
     return result;
 }
+
+/**
+ * Extracts the node ID from a Figma URL.
+ *
+ * @param {string} url - The Figma URL containing the node ID.
+ * @returns {string | null} - The extracted node ID, or null if the `node-id` parameter is not found.
+ */
+export function extractNodeIdFromFigmaUrl(url: string): string | null {
+    // Check if the URL contains the `node-id` parameter
+    const match = url.match(/[\?&]node-id=([^&]+)/);
+
+    // If a match is found, return the captured node ID; otherwise, return null
+    return match ? decodeURIComponent(match[1]) : null;
+}

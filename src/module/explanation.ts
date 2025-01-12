@@ -354,7 +354,7 @@ export function createExplanationItem(
     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
   }
 
-  explanationItemWrapperNode.name = "Explanation Item";
+  explanationItemWrapperNode.name = `Explanation Item ${id}`;
   explanationItemWrapperNode.clipsContent = false;
 
   // Set height to hug content
@@ -1136,25 +1136,34 @@ function createAliasNameWrapper(
     [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
 
-  //試著獲取提供的變數ID，檢查是否有寫入過URL
+  // Attempt to resolve the provided variable ID
   if (aliasVariableId) {
     const aliasVariableCatalogueItemUrl = styledTextSegments.getCatalogueItemUrlFromRoot(aliasVariableId);
-    if (aliasVariableCatalogueItemUrl) {
-      console.log(`URL found for ${aliasVariableId}: ${aliasVariableCatalogueItemUrl}`);
 
-      aliasNameNode.hyperlink = {
-        type: "URL",
-        value: aliasVariableCatalogueItemUrl
-      }
-      aliasNameNode.textDecoration = "UNDERLINE";
+    if (!aliasVariableCatalogueItemUrl) {
+      console.warn(`No URL found for ${aliasVariableId}`);
     } else {
-      console.log(`No URL found for ${aliasVariableId}`);
+      const resolvedCatalogueItemId = styledTextSegments.extractNodeIdFromFigmaUrl(aliasVariableCatalogueItemUrl);
+      const resolvedCatalogueItem = figma.currentPage.findOne(
+        (node) => node.id === resolvedCatalogueItemId && node.removed === false
+      );
+
+      // If resolved catalogue item is not found, skip this block only
+      if (resolvedCatalogueItem) {
+        aliasNameNode.hyperlink = {
+          type: "URL",
+          value: aliasVariableCatalogueItemUrl,
+        };
+        aliasNameNode.textDecoration = "UNDERLINE";
+      } else {
+        console.warn(`No resolved CatalogueItem found for ${aliasVariableId}`);
+      }
     }
   } else {
-    console.log(`No aliasVariableId found`);
+    console.warn(`No aliasVariableId provided`);
   }
 
-
+  // Proceed with the rest of the code outside the if-else
   const aliasNameWrapper = createAutolayoutFrame(
     [aliasNameNode],
     0,
