@@ -1,4 +1,4 @@
-import { CatalogueItemSchema } from "../types/CatalogueItemShema";
+import { CatalogueItemDescriptionSchema } from "../types/CatalogueItemShema";
 import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { semanticTokens } from "./tokens";
 import {
@@ -61,7 +61,7 @@ export function createExplanationItem(
   descriptionNode.name = "Catalogue Description";
   descriptionNode.lineHeight = { unit: "PERCENT", value: 150 };
 
-  const catalogueItemSchema: CatalogueItemSchema = {
+  const catalogueItemSchema: CatalogueItemDescriptionSchema = {
     format: format,
     id: id,
   }

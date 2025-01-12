@@ -11,7 +11,7 @@ import * as typeChecking from "./typeChecking";
 import * as explanation from "./explanation";
 import * as styledTextSegments from "./styledTextSegments";
 import { semanticTokens } from "./tokens";
-import { CatalogueItemSchema } from "../types/CatalogueItemShema";
+import { CatalogueItemDescriptionSchema } from "../types/CatalogueItemShema";
 
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
@@ -502,7 +502,7 @@ export async function writeCatalogueDescBackToFigma() {
     }
 
     const catalogueItemSchema = node.getPluginData("catalogue-item-schema");
-    const decodedCatalogueItemSchema = JSON.parse(catalogueItemSchema) as CatalogueItemSchema;
+    const decodedCatalogueItemSchema = JSON.parse(catalogueItemSchema) as CatalogueItemDescriptionSchema;
 
     if (decodedCatalogueItemSchema.format === "STYLE") {
       const matchingStyle = styleMap.get(decodedCatalogueItemSchema.id);
