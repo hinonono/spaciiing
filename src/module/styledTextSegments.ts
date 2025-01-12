@@ -62,7 +62,7 @@ export function getNodeCatalogueItemRichStyle(node: TextNode): ReturnType<TextNo
  * If the size exceeds 64 KB, it throws an error. Otherwise, it saves the serialized styles
  * to the current page's plugin data using the key format `catalogue-item-rich-style_${id}`.
  */
-export function writeCatalogueItemRichStyleToPage(id: string, styles: ReturnType<TextNode["getStyledTextSegments"]>) {
+export function writeCatalogueItemRichStyleToRoot(id: string, styles: ReturnType<TextNode["getStyledTextSegments"]>) {
     const encodedStyles = JSON.stringify(styles);
 
     if (encodedStyles.length > 65536) {
@@ -83,7 +83,7 @@ export function writeCatalogueItemRichStyleToPage(id: string, styles: ReturnType
  * If the data exists, it parses the JSON string into an array of styled text segments and returns it.
  * If the data does not exist, it returns null.
  */
-export function getCatalogueItemRichStyleFromPage(id: string): ReturnType<TextNode["getStyledTextSegments"]> | null {
+export function getCatalogueItemRichStyleFromRoot(id: string): ReturnType<TextNode["getStyledTextSegments"]> | null {
     const styles = figma.root.getPluginData(`catalogue-item-rich-style_${id}`);
 
     if (styles) {

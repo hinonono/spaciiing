@@ -517,7 +517,7 @@ export async function writeCatalogueDescBackToFigma() {
 
       // 將使用者在description文字中設定的豐富文字樣式紀錄至該頁的plugin data中
       const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
-      styledTextSegments.writeCatalogueItemRichStyleToPage(decodedCatalogueItemSchema.id, richStyle);
+      styledTextSegments.writeCatalogueItemRichStyleToRoot(decodedCatalogueItemSchema.id, richStyle);
 
       updatedCount++;
     } else if (decodedCatalogueItemSchema.format === "VARIABLE") {
@@ -533,7 +533,7 @@ export async function writeCatalogueDescBackToFigma() {
 
       // 將使用者在description文字中設定的豐富文字樣式紀錄至該頁的plugin data中
       const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
-      styledTextSegments.writeCatalogueItemRichStyleToPage(decodedCatalogueItemSchema.id, richStyle);
+      styledTextSegments.writeCatalogueItemRichStyleToRoot(decodedCatalogueItemSchema.id, richStyle);
 
       updatedCount++;
     } else {

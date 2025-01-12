@@ -69,7 +69,7 @@ export function createExplanationItem(
   // 將該descriptionNode所連結至的style/variable的id存入其自身的pluginData中
   descriptionNode.setPluginData("catalogue-item-schema", JSON.stringify(catalogueItemSchema));
 
-  const descriptionRichStyle = styledTextSegments.getCatalogueItemRichStyleFromPage(id);
+  const descriptionRichStyle = styledTextSegments.getCatalogueItemRichStyleFromRoot(id);
   if (descriptionRichStyle) {
     styledTextSegments.applyCatalogueItemRichStyle(descriptionNode, descriptionRichStyle);
   }
