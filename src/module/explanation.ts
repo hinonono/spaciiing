@@ -1032,7 +1032,7 @@ function createAliasNameWrapper(
     "VERTICAL"
   );
   aliasNameWrapper.layoutSizingHorizontal = "HUG";
-  aliasNameWrapper.cornerRadius = semanticTokens.cornerRadius.xsmall;
+  aliasNameWrapper.cornerRadius = semanticTokens.cornerRadius.xxsmall;
 
   setPadding(aliasNameWrapper, {
     top: 4,
