@@ -339,17 +339,20 @@ async function applyStyleIntroducerForVariable(
   if (styleMode === "COLOR") {
     for (const variable of selectedVariables) {
       const aliasName: (string | undefined)[] = [];
+      const aliasVariableIds: (string | undefined)[] = [];
       const colorValues: (RGBA | null)[] = [];
 
       for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
         if (!typeChecking.isVariableAliasType(value)) {
           aliasName.push(undefined);
+          aliasVariableIds.push(undefined);
         } else {
           const aliasVariable = localVariables.find((v) => v.id === value.id);
           if (!aliasVariable) {
             throw new Error("Termination due to aliasVariable is null.");
           }
           aliasName.push(aliasVariable.name);
+          aliasVariableIds.push(aliasVariable.id);
         }
 
         const color = await resolveToActualRgbaValue(value);
@@ -357,6 +360,8 @@ async function applyStyleIntroducerForVariable(
       }
 
       const filteredColorValues = colorValues.filter((v): v is RGBA => v !== null);
+
+      console.log({ filteredColorValues: filteredColorValues, modeNames: modeNames, aliasName: aliasName, aliasVariableIds: aliasVariableIds });
 
       const explanationItem = explanation.createExplanationItem(
         "VARIABLE",
@@ -370,7 +375,8 @@ async function applyStyleIntroducerForVariable(
         undefined,
         undefined,
         aliasName,
-        modeNames
+        modeNames,
+        aliasVariableIds
       );
 
       explanationItem.primaryAxisSizingMode = "AUTO";
@@ -387,17 +393,20 @@ async function applyStyleIntroducerForVariable(
   } else if (styleMode === "FLOAT") {
     for (const variable of selectedVariables) {
       const aliasName: (string | undefined)[] = [];
+      const aliasVariableIds: (string | undefined)[] = [];
       const numberValues: (number | null)[] = [];
 
       for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
         if (!typeChecking.isVariableAliasType(value)) {
           aliasName.push(undefined);
+          aliasVariableIds.push(undefined);
         } else {
           const aliasVariable = localVariables.find((v) => v.id === value.id);
           if (!aliasVariable) {
             throw new Error("Termination due to aliasVariable is null.");
           }
           aliasName.push(aliasVariable.name);
+          aliasVariableIds.push(aliasVariable.id);
         }
 
         const number = await resolveToActualNumberValue(value);
@@ -422,7 +431,8 @@ async function applyStyleIntroducerForVariable(
         undefined,
         filteredNumberValues,
         aliasName,
-        modeNames
+        modeNames,
+        aliasVariableIds
       );
 
       explanationItem.primaryAxisSizingMode = "AUTO";

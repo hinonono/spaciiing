@@ -43,7 +43,8 @@ export function createExplanationItem(
   textStyle?: TextStyle,
   numbers?: number[],
   aliasNames?: (string | undefined)[],
-  variableModes?: string[]
+  variableModes?: string[],
+  aliasVariableIds?: (string | undefined)[]
 ) {
   const titleNode = createTextNode(
     title,
@@ -104,7 +105,11 @@ export function createExplanationItem(
         throw new Error("Alias names are required for variable type.");
       }
 
-      const colorHexNodes = createVariableColorHexNodes(colors, fontName, aliasNames, variableModes);
+      if (!aliasVariableIds) {
+        throw new Error("Alias variable ids are required for variable type.");
+      }
+
+      const colorHexNodes = createVariableColorHexNodes(colors, fontName, aliasNames, aliasVariableIds, variableModes);
       itemsToPutInTitleWrapper.push(...colorHexNodes);
     }
 
@@ -148,30 +153,15 @@ export function createExplanationItem(
     }
 
     if (format === "VARIABLE") {
-      const singlePropertyNodes: FrameNode[] = [];
-
-      for (let i = 0; i < numbers.length; i++) {
-        const numberTextNode = createTextNode(
-          numbers[i].toString(),
-          fontName,
-          semanticTokens.fontSize.small,
-          [{ type: "SOLID", color: semanticTokens.text.secondary }]
-        );
-        numberTextNode.textAlignHorizontal = "RIGHT";
-
-        const singlePropertyNode = createExplanationSinglePropertyItem(variableModes[i], numberTextNode, fontName);
-        singlePropertyNodes.push(singlePropertyNode);
+      if (!aliasNames) {
+        throw new Error("Alias names are required for variable type.");
       }
-
-      const groupedPropertyNodes: FrameNode[] = [];
-      for (let i = 0; i < singlePropertyNodes.length; i += 2) {
-        const pair = singlePropertyNodes.slice(i, i + 2);
-        const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-        pairWrapper.name = "Properties";
-        groupedPropertyNodes.push(pairWrapper);
+      if (!aliasVariableIds) {
+        throw new Error("Alias variable ids are required for variable type.");
       }
+      const numberNodes = createVariableNumberNodes(numbers, fontName, aliasNames, aliasVariableIds, variableModes);
 
-      itemsToPutInTitleWrapper.push(...groupedPropertyNodes);
+      itemsToPutInTitleWrapper.push(...numberNodes);
     }
 
     const titleWrapper = createAutolayoutFrame(
@@ -1011,9 +1001,10 @@ function createVariableColorHexNodes(
   colors: RGBA[],
   fontName: FontName,
   aliasNames: (string | undefined)[],
+  aliasVariableIds: (string | undefined)[],
   variableModes?: string[],
 ): FrameNode[] {
-  console.log({ colors: colors, fontName: fontName, aliasNames: aliasNames, variableModes: variableModes });
+  // console.log({ colors: colors, fontName: fontName, aliasNames: aliasNames, variableModes: variableModes });
 
   const hexValues = colors.map((color) => {
     let hex = rgbToHex(color.r, color.g, color.b, true);
@@ -1032,7 +1023,8 @@ function createVariableColorHexNodes(
       const aliasNameWrapper = createAliasNameWrapper(
         aliasName,
         fontName,
-        semanticTokens.fontSize.base * 0.75
+        semanticTokens.fontSize.base * 0.75,
+        aliasVariableIds[i]
       );
       aliasNameWrapper.layoutSizingHorizontal = "HUG";
       aliasNameWrapper.layoutSizingVertical = "HUG";
@@ -1064,11 +1056,78 @@ function createVariableColorHexNodes(
   return groupedPropertyNodes;
 }
 
+function createVariableNumberNodes(
+  numbers: number[],
+  fontName: FontName,
+  aliasNames: (string | undefined)[],
+  aliasVariableIds: (string | undefined)[],
+  variableModes: string[],
+): FrameNode[] {
+  const singlePropertyNodes = numbers.map((number, i) => {
+    const variableMode = variableModes[i];
+    const aliasName = aliasNames[i];
+
+    if (aliasName != undefined) {
+      const aliasNameWrapper = createAliasNameWrapper(
+        aliasName,
+        fontName,
+        semanticTokens.fontSize.base * 0.75,
+        aliasVariableIds[i]
+      );
+      aliasNameWrapper.layoutSizingHorizontal = "HUG";
+      aliasNameWrapper.layoutSizingVertical = "HUG";
+
+      const node = createExplanationSinglePropertyItem(variableMode, aliasNameWrapper, fontName);
+      node.layoutSizingVertical = "HUG";
+
+      return node;
+    } else {
+      const numberNode = createTextNode(
+        number.toString(),
+        fontName,
+        semanticTokens.fontSize.small,
+        [{ type: "SOLID", color: semanticTokens.text.secondary }]
+      );
+      numberNode.textAlignHorizontal = "RIGHT";
+
+      const node = createExplanationSinglePropertyItem(variableMode, numberNode, fontName);
+
+      return node;
+    }
+  });
+
+  // const singlePropertyNodes: FrameNode[] = [];
+
+  // for (let i = 0; i < numbers.length; i++) {
+  //   const numberTextNode = createTextNode(
+  //     numbers[i].toString(),
+  //     fontName,
+  //     semanticTokens.fontSize.small,
+  //     [{ type: "SOLID", color: semanticTokens.text.secondary }]
+  //   );
+  //   numberTextNode.textAlignHorizontal = "RIGHT";
+
+  //   const singlePropertyNode = createExplanationSinglePropertyItem(variableModes[i], numberTextNode, fontName);
+  //   singlePropertyNodes.push(singlePropertyNode);
+  // }
+
+  const groupedPropertyNodes: FrameNode[] = [];
+  for (let i = 0; i < singlePropertyNodes.length; i += 2) {
+    const pair = singlePropertyNodes.slice(i, i + 2);
+    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+    pairWrapper.name = "Properties";
+    groupedPropertyNodes.push(pairWrapper);
+  }
+
+  return groupedPropertyNodes;
+}
+
 // 變數名稱索引專用的樣式
 function createAliasNameWrapper(
   aliasName: string,
   fontName: FontName,
-  fontSize: number
+  fontSize: number,
+  aliasVariableId: string | undefined
 ): FrameNode {
   const aliasNameNode = createTextNode(
     `→ ${aliasName.replace(/\//g, ".")}`,
@@ -1076,6 +1135,26 @@ function createAliasNameWrapper(
     fontSize,
     [{ type: "SOLID", color: semanticTokens.text.secondary }]
   );
+
+  //試著獲取提供的變數ID，檢查是否有寫入過URL
+  if (aliasVariableId) {
+    const aliasVariableCatalogueItemUrl = styledTextSegments.getCatalogueItemUrlFromRoot(aliasVariableId);
+    if (aliasVariableCatalogueItemUrl) {
+      console.log(`URL found for ${aliasVariableId}: ${aliasVariableCatalogueItemUrl}`);
+
+      aliasNameNode.hyperlink = {
+        type: "URL",
+        value: aliasVariableCatalogueItemUrl
+      }
+      aliasNameNode.textDecoration = "UNDERLINE";
+    } else {
+      console.log(`No URL found for ${aliasVariableId}`);
+    }
+  } else {
+    console.log(`No aliasVariableId found`);
+  }
+
+
   const aliasNameWrapper = createAutolayoutFrame(
     [aliasNameNode],
     0,
@@ -1109,31 +1188,31 @@ function createAliasNameWrapper(
  * @param {FontName} fontName - The font to be used for each alias name.
  * @returns {FrameNode} - A FrameNode containing all alias name wrappers arranged in an auto-layout frame.
  */
-function handleAliasNameWrapperNode(
-  aliasNames: string[],
-  fontName: FontName
-): FrameNode {
-  let aliasNameWrapperNode: FrameNode;
-  const aliasNameWrappers: FrameNode[] = [];
+// function handleAliasNameWrapperNode(
+//   aliasNames: string[],
+//   fontName: FontName
+// ): FrameNode {
+//   let aliasNameWrapperNode: FrameNode;
+//   const aliasNameWrappers: FrameNode[] = [];
 
-  for (const aliasName of aliasNames) {
-    // 每個aliasname都會有一個aliasNameWrapper
-    const aliasNameWrapper = createAliasNameWrapper(
-      aliasName,
-      fontName,
-      semanticTokens.fontSize.base * 0.75
-    );
-    aliasNameWrapper.layoutSizingHorizontal = "HUG";
-    aliasNameWrapper.layoutSizingVertical = "HUG";
-    aliasNameWrappers.push(aliasNameWrapper);
-  }
+//   for (const aliasName of aliasNames) {
+//     // 每個aliasname都會有一個aliasNameWrapper
+//     const aliasNameWrapper = createAliasNameWrapper(
+//       aliasName,
+//       fontName,
+//       semanticTokens.fontSize.base * 0.75
+//     );
+//     aliasNameWrapper.layoutSizingHorizontal = "HUG";
+//     aliasNameWrapper.layoutSizingVertical = "HUG";
+//     aliasNameWrappers.push(aliasNameWrapper);
+//   }
 
-  aliasNameWrapperNode = createAutolayoutFrame(
-    aliasNameWrappers,
-    semanticTokens.spacing.xsmall,
-    "HORIZONTAL"
-  );
-  aliasNameWrapperNode.name = "Alias Names Wrapper";
+//   aliasNameWrapperNode = createAutolayoutFrame(
+//     aliasNameWrappers,
+//     semanticTokens.spacing.xsmall,
+//     "HORIZONTAL"
+//   );
+//   aliasNameWrapperNode.name = "Alias Names Wrapper";
 
-  return aliasNameWrapperNode;
-}
+//   return aliasNameWrapperNode;
+// }

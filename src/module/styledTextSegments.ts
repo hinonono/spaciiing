@@ -190,14 +190,11 @@ export function getCatalogueItemUrlFromRoot(id: string): string | null {
  * @returns {string} - The updated URL with the new node ID.
  */
 export function generateFigmaUrlWithNodeId(baseUrl: string, nodeId: string): string {
-    console.log("baseUrl", baseUrl, "nodeId", nodeId);
-
     if (!baseUrl.includes("?node-id=")) {
         throw new Error("The provided URL does not contain a 'node-id' parameter.");
     }
 
     const result = baseUrl.replace(/(\?node-id=)[^&]+/, `$1${nodeId}`);
-    console.log("result", result);
 
     // Use regex to replace the node-id parameter
     return result;
