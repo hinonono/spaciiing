@@ -246,7 +246,7 @@ const Renamer: React.FC = () => {
           <FigmaButton
             title={t("module:cleanUp")}
             id={"renamer-apply"}
-            onClick={applyRenamer}
+            onClick={() => applyRenamer(false)}
           />
         </div>
       </div>

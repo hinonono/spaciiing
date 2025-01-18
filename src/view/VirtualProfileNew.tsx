@@ -672,7 +672,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
             </button>
             <button
               className="button-reset margin-0 width-auto"
-              onClick={() => addTitleRow}
+              onClick={() => addTitleRow(false)}
             >
               <div className="icon-24 icon-hover">
                 <SvgAddFolder color="var(--figma-color-text)" />
@@ -680,7 +680,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
             </button>
             <button
               className="button-reset margin-0 width-auto"
-              onClick={() => addRecordToLastTitle}
+              onClick={() => addRecordToLastTitle(false)}
             >
               <div className="icon-24 icon-hover">
                 <SvgAdd color="var(--figma-color-text)" />

@@ -91,7 +91,7 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
       <div className="mt-xxsmall"></div>
       <FigmaButton
         title={t("module:save")}
-        onClick={updateExampleFileUrl}
+        onClick={() => updateExampleFileUrl(false)}
       />
     </Modal>
   );

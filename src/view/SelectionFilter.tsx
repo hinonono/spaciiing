@@ -254,7 +254,7 @@ const SelectionFilter: React.FC = () => {
           <FigmaButton
             title={t("module:filter")}
             id={"selection-filter-apply"}
-            onClick={applySelectionFilter}
+            onClick={() => applySelectionFilter(false)}
           />
         </div>
       </div>

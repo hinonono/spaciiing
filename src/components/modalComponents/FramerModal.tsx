@@ -102,7 +102,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
         <FigmaButton
           title={t("module:apply")}
           id={"eq-apply"}
-          onClick={applyFramer}
+          onClick={() => applyFramer(false)}
         />
       </div>
     </Modal>

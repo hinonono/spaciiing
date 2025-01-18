@@ -67,7 +67,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
         />
       </div>
       <div className="mt-xxsmall">
-        <FigmaButton title={t("module:execute")} onClick={unifyText} />
+        <FigmaButton title={t("module:execute")} onClick={() => unifyText(false)} />
       </div>
     </Modal>
   );

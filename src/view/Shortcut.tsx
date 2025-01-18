@@ -27,8 +27,7 @@ const Shortcut: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { licenseManagement, setShowCTSubscribe, editorPreference, setFreeUserDelayModalConfig } =
-    useAppContext();
+  const  appContext = useAppContext();
 
   // icon
   const [showIconModal, setShowIconModal] = useState(false);
@@ -65,8 +64,8 @@ const Shortcut: React.FC = () => {
 
   const applyShortcut = (action: ShortcutAction, isRealCall = false) => {
     if (!isRealCall) {
-      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-        setFreeUserDelayModalConfig({
+      if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
+        appContext.setFreeUserDelayModalConfig({
           show: true,
           initialTime: 30, // Adjust the delay time as needed
           onProceed: () => applyShortcut(action, true), // Retry with isRealCall = true
@@ -86,19 +85,19 @@ const Shortcut: React.FC = () => {
       case "generateNote":
         Object.assign(message, {
           member: "note",
-          componentId: editorPreference.magicObjects.noteId,
+          componentId: appContext.editorPreference.magicObjects.noteId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       case "generateDesignStatusTag":
         Object.assign(message, {
           member: "designStatusTag",
-          componentId: editorPreference.magicObjects.tagId,
+          componentId: appContext.editorPreference.magicObjects.tagId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       case "generateTitleSection":
         Object.assign(message, {
           member: "titleSection",
-          componentId: editorPreference.magicObjects.sectionId,
+          componentId: appContext.editorPreference.magicObjects.sectionId,
         } as MessageShortcutGenerateMagicalObjectMember);
         break;
       default:
@@ -251,7 +250,7 @@ const Shortcut: React.FC = () => {
                   applyShortcut("generateNote");
                 }}
                 disabled={
-                  editorPreference.magicObjects.noteId == "" ? true : false
+                  appContext.editorPreference.magicObjects.noteId == "" ? true : false
                 }
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -264,7 +263,7 @@ const Shortcut: React.FC = () => {
                   applyShortcut("generateDesignStatusTag");
                 }}
                 disabled={
-                  editorPreference.magicObjects.tagId == "" ? true : false
+                  appContext.editorPreference.magicObjects.tagId == "" ? true : false
                 }
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -277,7 +276,7 @@ const Shortcut: React.FC = () => {
                   applyShortcut("generateTitleSection");
                 }}
                 disabled={
-                  editorPreference.magicObjects.sectionId == "" ? true : false
+                  appContext.editorPreference.magicObjects.sectionId == "" ? true : false
                 }
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -358,7 +357,7 @@ const Shortcut: React.FC = () => {
               <FigmaButton
                 buttonType="secondary"
                 title={t("module:createAutoLayoutIndividually")}
-                onClick={createAutoLayoutIndividually}
+                onClick={() => createAutoLayoutIndividually(appContext, false)}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />

@@ -409,7 +409,7 @@ const VariableEditor: React.FC = () => {
             <FigmaButton
               title={t("module:execute")}
               id={"variable-editor-execute"}
-              onClick={executeCode}
+              onClick={() => executeCode(false)}
             />
           </div>
         </div>
