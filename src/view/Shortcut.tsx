@@ -27,7 +27,7 @@ const Shortcut: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { licenseManagement, setShowCTSubscribe, editorPreference } =
+  const { licenseManagement, setShowCTSubscribe, editorPreference, setFreeUserDelayModalConfig } =
     useAppContext();
 
   // icon
@@ -63,19 +63,25 @@ const Shortcut: React.FC = () => {
   const handleCloseFindAndReplaceModal = () =>
     setShowFindAndReplaceModal(false);
 
-  const applyShortcut = (action: ShortcutAction) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyShortcut = (action: ShortcutAction, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => applyShortcut(action, true), // Retry with isRealCall = true
+        });
+        return;
+      }
     }
-
+  
     const message = {
       module: "Shortcut",
       action: action,
       direction: "Inner",
       phase: "Actual",
     };
-
+  
     switch (action) {
       case "generateNote":
         Object.assign(message, {
@@ -98,7 +104,7 @@ const Shortcut: React.FC = () => {
       default:
         break;
     }
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
