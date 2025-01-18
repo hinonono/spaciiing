@@ -17,7 +17,7 @@ import SegmentedControl from "../components/SegmentedControl";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
-  const { licenseManagement, setShowCTSubscribe, variableCollectionList } =
+  const { licenseManagement, setShowCTSubscribe, variableCollectionList, setFreeUserDelayModalConfig } =
     useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -100,15 +100,23 @@ const Instantiater: React.FC = () => {
     calculateOptionsCount(selectedBrand); // Initial calculation on component mount
   }, [selectedBrand, form]);
 
-  const applyInstantiater = (type: InstantiaterType) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
+  const applyInstantiater = (type: InstantiaterType, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => applyInstantiater(type, true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
+    }
+  
+    if (selectedTargets == null || selectedTargets.length === 0) {
+      console.warn("No targets selected. Aborting instantiation.");
       return;
     }
-
-    if (selectedTargets == null) {
-      return;
-    }
+  
     const message: MessageInstantiater = {
       module: "Instantiater",
       targets: selectedTargets,
@@ -119,7 +127,7 @@ const Instantiater: React.FC = () => {
       newCollectionName: defaultNewCollectionName,
       phase: "Actual",
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
