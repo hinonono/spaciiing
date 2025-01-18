@@ -39,42 +39,47 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   };
 
   // 記憶所選取的物件作為參考目標
-  const setReferenceObject = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      console.log("🤡 Show wait modal from property clipboard");
-      
-      setFreeUserDelayModalConfig({show: true, initialTime:5, onProceed: setReferenceObjectReal})
-      return;
+  const setReferenceObject = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30,
+          onProceed: () => setReferenceObject(true), // Re-invoke with the real call
+        });
+        return;
+      }
     }
-
-    setReferenceObjectReal();
-  };
-
-  const setReferenceObjectReal = () => {
+  
+    // The real logic for setting the reference object
     const message: MessagePropertyClipboard = {
       action: "setReferenceObject",
       module: "PropertyClipboard",
       phase: "Actual",
       direction: "Inner",
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
       },
       "*"
     );
-  }
+  };
 
   // 貼上指定的屬性至所選擇的物件
   const pastePropertyToObject = (
-    property: PropertyClipboardSupportedProperty[]
+    property: PropertyClipboardSupportedProperty[],
+    isRealCall = false
   ) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setShowCTSubscribe(true); // Show subscription modal for free users
+        return;
+      }
     }
-
+  
+    // Real logic for pasting property to the object
     const message: MessagePropertyClipboard = {
       action: "pastePropertyToObject",
       module: "PropertyClipboard",
@@ -83,15 +88,13 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       property: property,
       behavior: pasteBehavior,
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
       },
       "*"
     );
-
-    console.log(pasteBehavior);
   };
 
   // Function to open the modal with the specific function to execute
