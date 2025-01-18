@@ -19,7 +19,7 @@ interface StyleIntroducerProps {}
 
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
-  const { licenseManagement, setShowCTSubscribe, styleList } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, styleList, setFreeUserDelayModalConfig } = useAppContext();
   const { t } = useTranslation(["common", "settings", "license", "term"]);
 
   // 功能說明彈窗
@@ -38,18 +38,22 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // 模式：色彩、效果、文字
   const [mode, setMode] = useState<StyleMode>("COLOR");
 
-  const applyStyleIntroducer = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyStyleIntroducer = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as necessary
+          onProceed: () => applyStyleIntroducer(true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
     }
-
+  
     if (selectedScopes.scopes.length <= 0) {
       return;
     }
-
-    console.log(selectedScopes);
-
+  
     const message: MessageStyleIntroducer = {
       module: "StyleIntroducer",
       phase: "Actual",
@@ -58,7 +62,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       styleMode: mode,
       styleSelection: selectedScopes,
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
