@@ -19,7 +19,7 @@ interface FilterScopeItem {
 
 const SelectionFilter: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -127,19 +127,25 @@ const SelectionFilter: React.FC = () => {
   };
 
   // 傳送訊息
-  const applySelectionFilter = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applySelectionFilter = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30,
+          onProceed: () => applySelectionFilter(true), // Re-invoke with the real call
+        });
+        return;
+      }
     }
-
+  
     const addtionalOptions: AdditionalFilterOptions = {
       skipLockLayers: skipLockedLayer,
       skipHiddenLayers: skipHiddenLayer,
       findWithName: findWithName,
       findCriteria: findCriteria,
     };
-
+  
     const message: MessageSelectionFilter = {
       filterScopes: selectedScopes,
       module: "SelectionFilter",
@@ -147,7 +153,7 @@ const SelectionFilter: React.FC = () => {
       direction: "Inner",
       additionalFilterOptions: addtionalOptions,
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
