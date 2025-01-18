@@ -17,7 +17,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
   handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setFreeUserDelayModalConfig } = useAppContext();
 
   const [targetTextContent, setTargetTextContent] = useState("");
   const handleTargetTextContentChange = (
@@ -26,12 +26,18 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
     setTargetTextContent(event.target.value);
   };
 
-  const unifyText = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const unifyText = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => unifyText(true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
     }
-
+  
     const message: MessageUnifyText = {
       module: "Shortcut",
       direction: "Inner",
@@ -39,7 +45,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
       targetTextContent: targetTextContent,
       action: "unifyText",
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,

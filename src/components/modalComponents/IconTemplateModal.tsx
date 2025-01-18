@@ -29,6 +29,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
     setShowCTSubscribe,
     editorPreference,
     setEditorPreference,
+    setFreeUserDelayModalConfig
   } = useAppContext();
 
   const [quantity, setQuantity] = useState("1");
@@ -76,20 +77,29 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
     }
   };
 
-  const applyGenerateIconTemplate = (action: ShortcutAction) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyGenerateIconTemplate = (
+    action: ShortcutAction,
+    isRealCall = false
+  ) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => applyGenerateIconTemplate(action, true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
     }
-
+  
     if (action !== "generateIconTemplate") {
       return;
     }
-
+  
     if (tempIconSize === "custom") {
       setInnerFrame(Number(customInnerFrame));
       setOuterFrame(Number(customOuterFrame));
-
+  
       setEditorPreference((prevPreference) => {
         const updatedPreference = {
           ...prevPreference,

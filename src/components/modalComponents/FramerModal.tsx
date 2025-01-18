@@ -17,7 +17,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
   handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
 
   const [selectedFramerMode, setSelectedFramerMode] = useState("topAndBottom");
   const handleChange = (event: {
@@ -26,19 +26,25 @@ const FramerModal: React.FC<FramerModalProps> = ({
     setSelectedFramerMode(event.target.value);
   };
 
-  const applyFramer = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyFramer = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust delay time as needed
+          onProceed: () => applyFramer(true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
     }
-
+  
     const message: MessageFramer = {
       mode: selectedFramerMode as FramerMode,
       module: "Framer",
       direction: "Inner",
       phase: "Actual",
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,

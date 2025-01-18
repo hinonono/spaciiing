@@ -22,33 +22,40 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
     setShowCTSubscribe,
     editorPreference,
     setEditorPreference,
+    setFreeUserDelayModalConfig,
   } = useAppContext();
 
   // const [length, setLength] = useState<LoremLength>("short");
   const [shouldSavePreference, setShouldSavePreference] = useState(false);
 
-  const updateExampleFileUrl = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const updateExampleFileUrl = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => updateExampleFileUrl(true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
     }
-
+  
     const message: MessageShortcut = {
       module: "Shortcut",
       direction: "Inner",
       phase: "Actual",
       shouldSaveEditorPreference: shouldSavePreference,
       editorPreference: editorPreference,
-      action: "updateExampleFileUrl"
+      action: "updateExampleFileUrl",
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
       },
       "*"
     );
-
+  
     handleClose();
   };
 
