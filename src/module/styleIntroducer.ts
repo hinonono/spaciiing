@@ -253,7 +253,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     "STYLE",
     explanationItems,
     title == "" ? "Styles" : title,
-    "Usage Definition",
+    "Catalogue",
     { family: "Inter", style: "Semi Bold" }
   );
 
@@ -264,7 +264,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     },
   ];
 
-  explanationWrapper.name = `Usage Definition`;
+  explanationWrapper.name = `Catalogue`;
 
   // Set corner radius
   explanationWrapper.cornerRadius = 16;
@@ -456,7 +456,7 @@ async function applyStyleIntroducerForVariable(
     "VARIABLE",
     explanationItems,
     title == "" ? "Variables" : title,
-    "Usage Definition",
+    "Catalogue",
     { family: "Inter", style: "Semi Bold" },
     isCatalogueItemLinkFeatureAvailable.availability,
     modeNames
@@ -469,7 +469,7 @@ async function applyStyleIntroducerForVariable(
     },
   ];
 
-  explanationWrapper.name = `Usage Definition`;
+  explanationWrapper.name = `Catalogue`;
 
   // Set corner radius
   explanationWrapper.cornerRadius = 16;

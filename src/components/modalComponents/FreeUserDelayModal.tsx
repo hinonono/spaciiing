@@ -3,13 +3,14 @@ import { useAppContext } from "../../AppProvider";
 import Modal from '../Modal';
 import { useTranslation } from "react-i18next";
 import FigmaButton from "../FigmaButton";
+import SubscriptionPlanBlock from "../SubscriptionPlanBlock";
 
 interface FreeUserDelayModalProps {
 }
 
 const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
   const { freeUserDelayModalConfig, setFreeUserDelayModalConfig } = useAppContext();
-  const { t } = useTranslation(["license", "term"]);
+  const { t } = useTranslation(["module", "license", "term"]);
 
   //Param
   const [timeRemaining, setTimeRemaining] = useState(freeUserDelayModalConfig.initialTime);
@@ -54,18 +55,18 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
   return (
     <Modal show={freeUserDelayModalConfig.show} handleClose={handleCloseFreeUserDelay}>
       <div className="free-trial-modal">
-        <h2>Free User Delay Modal</h2>
-        <span className="note mt-xxxsmall">{t("license:noHiddenFees")}</span>
+        <h2>{t("license:upgradeToSkipWaiting")}</h2>
+        <div>
+          <SubscriptionPlanBlock
+            plan={"monthly"}
+            additionalClass={["subscription-block", "subscription-block-emphasize"]}
+          />
+        </div>
         <div className="mt-xsmall">
-          <h3 className="mt-xsmall">{t("license:supportAndSubscriptionInfo")}</h3>
-          <p>
-            {timeRemaining > 0
-              ? `You need to wait ${timeRemaining} seconds before proceeding.`
-              : "You can now proceed."}
-          </p>
+        <p>{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</p>
           <FigmaButton
               buttonType="secondary"
-              title={"Proceed"}
+              title={t("module:skip")}
               onClick={handleProceedButtonClicked}
               buttonHeight="xlarge"
               hasTopBottomMargin={true}

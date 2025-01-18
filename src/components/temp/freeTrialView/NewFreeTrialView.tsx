@@ -10,7 +10,7 @@ const NewFreeTrialView: React.FC<NewFreeTrialViewProps> = () => {
 
   return (
     <div className="free-trial-modal">
-      <h2>{t("license:trySevenDaysFree")}</h2>
+      <h2>{t("license:upgradeToSkipWaiting")}</h2>
       {/* Plan block */}
       <div>
         <SubscriptionPlanBlock

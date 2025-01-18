@@ -50,5 +50,7 @@
   "monthly": "月額プラン",
   "yearly": "年額プラン",
   "savePercent": "$PERCENT$ 割引",
-  "freeTrialWorks": "無料トライアルの仕組み"
+  "freeTrialWorks": "無料トライアルの仕組み",
+  "freeUsersNeedToWait": "無料プランをご利用中の方は、次のステップに進むまで$TIME_REMAINING$秒お待ちいただく必要があります。有料プランにアップグレードすると、この待ち時間をスキップできます。",
+  "upgradeToSkipWaiting": "有料プランにアップグレードして、待ち時間をスキップ"
 }

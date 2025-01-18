@@ -11,7 +11,7 @@ const NormalBanner: React.FC<NormalBannerProps> = () => {
   return (
     <div className="banner flex flex-justify-spacebetween align-items-center">
       <div className="frame-group">
-        <div className="message-primary">{t("license:trySevenDaysFree")}</div>
+        <div className="message-primary">{t("license:upgradeToSkipWaiting")}</div>
         {/* <div className="note message-secondary mt-xxxsmall">
           {t("license:monthlyPriceDesc").replace(
             "$MONTHLY_PRICE$",
