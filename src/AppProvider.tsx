@@ -7,6 +7,7 @@ import {
   ExternalVariableMode,
 } from "./types/Messages/MessageVariableEditor";
 import { EditorPreference } from "./types/EditorPreference";
+import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
 
 // #region Definition
 export interface AppContextType {
@@ -34,6 +35,12 @@ export interface AppContextType {
   setShowCTSubscribe: React.Dispatch<React.SetStateAction<boolean>>;
   showActivateModal: boolean;
   setShowActivateModal: React.Dispatch<React.SetStateAction<boolean>>;
+
+  // 呼叫免費用戶需要等待秒數Modal
+  freeUserDelayModalConfig: FreeUserDelayModalConfig;
+  setFreeUserDelayModalConfig: React.Dispatch<React.SetStateAction<FreeUserDelayModalConfig>>;
+
+
   customCodeExecutionResults: string[];
   setCustomCodeExecutionResults: React.Dispatch<React.SetStateAction<string[]>>;
   styleList: StyleListItemFrontEnd[];
@@ -71,6 +78,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   // 訂閱呼籲用
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
+  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({show: false, initialTime: 30, onProceed: ()=>{}});
 
   // V20：Editor Preference整合
   const [editorPreference, setEditorPreference] = useState<EditorPreference>({
@@ -120,6 +128,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setLicenseManagement,
         showCTSubscribe,
         setShowCTSubscribe,
+        freeUserDelayModalConfig,
+        setFreeUserDelayModalConfig,
         showActivateModal,
         setShowActivateModal,
         customCodeExecutionResults,

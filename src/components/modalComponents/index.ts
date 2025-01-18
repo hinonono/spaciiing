@@ -6,3 +6,4 @@ export { default as MagicObjectModal } from "./MagicObjectModal";
 export { default as UnifyTextModal } from "./UnifyTextModal";
 export { default as ActivateLicenseModal } from "./ActivateLicenseModal";
 export { default as CatalogueSettingModal } from "./CatalogueSettingModal";
+export { default as FreeUserDelayModal } from "./FreeUserDelayModal";

@@ -17,7 +17,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
-  const { licenseManagement, setShowCTSubscribe, editorPreference } =
+  const { licenseManagement, setShowCTSubscribe, editorPreference, setFreeUserDelayModalConfig } =
     useAppContext();
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -41,10 +41,16 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   // 記憶所選取的物件作為參考目標
   const setReferenceObject = () => {
     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
+      console.log("🤡 Show wait modal from property clipboard");
+      
+      setFreeUserDelayModalConfig({show: true, initialTime:5, onProceed: setReferenceObjectReal})
       return;
     }
 
+    setReferenceObjectReal();
+  };
+
+  const setReferenceObjectReal = () => {
     const message: MessagePropertyClipboard = {
       action: "setReferenceObject",
       module: "PropertyClipboard",
@@ -58,7 +64,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       },
       "*"
     );
-  };
+  }
 
   // 貼上指定的屬性至所選擇的物件
   const pastePropertyToObject = (
