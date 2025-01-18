@@ -74,7 +74,11 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   ) => {
     if (!isRealCall) {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-        setShowCTSubscribe(true); // Show subscription modal for free users
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30,
+          onProceed: () => setReferenceObject(true), // Re-invoke with the real call
+        });
         return;
       }
     }
