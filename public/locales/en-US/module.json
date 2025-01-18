@@ -174,7 +174,7 @@
   "addToExistingStyle": "Add on top of existing style",
   "updateCatalogueDescBackToFigma": "Update description back to figma",
   "catalogueSetting": "Catalogue settings",
-  "crossCatalogueIndex": "Cross catalogue reference",
+  "crossCatalogueIndex": "Cross-catalogue reference",
   "crossCatalogueIndexDesc": "This feature can let you easily reference across different catalogues, especially useful when creating catalogue for alias variables. To enable this feature, please select any frame in the file and click \"copy link to selection\", then paste the copied link below.",
   "skip": "Skip"
 }
