@@ -1012,7 +1012,7 @@ h2 {
   width: fit-content;
 }
 .banner .message-primary {
-  font-size: 1.17rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 .banner .message-secondary {
@@ -1078,19 +1078,8 @@ h2 {
 
 .about-spaciiing {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 0.4rem;
   grid-row-gap: 0.4rem;
-}
-.about-spaciiing > .block1 {
-  grid-area: 1/1/2/2;
-}
-.about-spaciiing > .block2 {
-  grid-area: 1/2/2/3;
-}
-.about-spaciiing > .block3 {
-  grid-area: 2/1/3/3;
 }
 
 .property-clipboard-header {

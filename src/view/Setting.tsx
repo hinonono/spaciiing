@@ -119,6 +119,18 @@ const Setting: React.FC = () => {
           <h3>{t("settings:about")}</h3>
           <div className="about-spaciiing">
             <div className="membership-block block1">
+              <p className="color--secondary">Share Spaciiing on X(Twitter)</p>
+              <span>
+                <a
+                  className="text-color-primary"
+                  href="https://x.com/intent/post?url=https%3A%2F%2Fwww.figma.com%2Fcommunity%2Fplugin%2F1129646367083296027%2Fspaciiing"
+                  target="_blank"
+                >
+                  Share
+                </a>
+              </span>
+            </div>
+            <div className="membership-block block1">
               <p className="color--secondary">{t("settings:version")}</p>
               <span>{info.version}</span>
             </div>

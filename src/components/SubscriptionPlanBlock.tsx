@@ -27,11 +27,8 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
           {t("license:savePercent").replace("$PERCENT$", "20%")}
         </div>
       )}
-      <span
-        className={`subscription-plan-title ${
-          plan === "yearly" && "mt-xxsmall"
-        }`}
-      >
+      <div className="badge">{t("license:pro")}</div>
+      <span className={"subscription-plan-title mt-xxsmall"}>
         {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
       </span>
       {plan === "monthly" ? (

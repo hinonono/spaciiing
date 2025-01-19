@@ -63,7 +63,7 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
           />
         </div>
         <div className="mt-xsmall">
-        <p>{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</p>
+        <span className="note">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</span>
           <FigmaButton
               buttonType="secondary"
               title={t("module:skip")}

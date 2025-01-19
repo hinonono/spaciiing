@@ -23,7 +23,7 @@ const NormalBanner: React.FC<NormalBannerProps> = () => {
         className="button button--special"
         onClick={() => setShowCTSubscribe(true)}
       >
-        {t("term:learnMore")}
+        {t("license:seeAllPlans")}
       </button>
     </div>
   );
