@@ -11,8 +11,9 @@ const NewFreeTrialView: React.FC<NewFreeTrialViewProps> = () => {
   return (
     <div className="free-trial-modal">
       <h2>{t("license:upgradeToSkipWaiting")}</h2>
+      <span className="note">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", "30")}</span>
       {/* Plan block */}
-      <div>
+      <div className="mt-xxsmall">
         <SubscriptionPlanBlock
           plan={"monthly"}
           additionalClass={["subscription-block", "subscription-block-emphasize"]}
