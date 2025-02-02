@@ -354,7 +354,7 @@ export function createExplanationItem(
     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
   }
 
-  explanationItemWrapperNode.name = `Explanation Item ${id}`;
+  explanationItemWrapperNode.name = `Explanation Item`;
   explanationItemWrapperNode.clipsContent = false;
 
   // Set height to hug content

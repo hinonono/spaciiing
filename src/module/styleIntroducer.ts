@@ -526,8 +526,14 @@ export async function writeCatalogueDescBackToFigma() {
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
   // Retrieve all styles and variables once
-  const styles = await figma.getLocalPaintStylesAsync();
-  const styleMap = new Map(styles.map(style => [style.id, style]));
+  const paintStyles = await figma.getLocalPaintStylesAsync();
+  const paintStyleMap = new Map(paintStyles.map(paintStyle => [paintStyle.id, paintStyle]));
+
+  const textStyles = await figma.getLocalTextStylesAsync();
+  const textStyleMap = new Map(textStyles.map(textStyle => [textStyle.id, textStyle]));
+
+  const effectStyles = await figma.getLocalEffectStylesAsync();
+  const effectStyleMap = new Map(effectStyles.map(effectStyle => [effectStyle.id, effectStyle]));
 
   const variables = await figma.variables.getLocalVariablesAsync();
   const variableMap = new Map(variables.map(variable => [variable.id, variable]));
@@ -544,7 +550,10 @@ export async function writeCatalogueDescBackToFigma() {
     const decodedCatalogueItemSchema = JSON.parse(catalogueItemSchema) as CatalogueItemDescriptionSchema;
 
     if (decodedCatalogueItemSchema.format === "STYLE") {
-      const matchingStyle = styleMap.get(decodedCatalogueItemSchema.id);
+      const matchingStyle =
+        paintStyleMap.get(decodedCatalogueItemSchema.id) ||
+        textStyleMap.get(decodedCatalogueItemSchema.id) ||
+        effectStyleMap.get(decodedCatalogueItemSchema.id);
 
       if (!matchingStyle) {
         figma.notify(`❌ Style with ID ${decodedCatalogueItemSchema.id} not found.`);
