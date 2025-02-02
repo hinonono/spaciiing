@@ -434,8 +434,8 @@ export function createExplanationWrapper(
 
     const modesText =
       modes.length === 1
-        ? `All Modes: ${modes[0]}`
-        : `All Modes: ${modes.join(", ")}`;
+        ? `Variable Modes: ${modes[0]}`
+        : `Variable Modes: ${modes.join(", ")}`;
 
     const modesNode = createTextNode(
       modesText,

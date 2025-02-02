@@ -485,6 +485,7 @@ async function applyStyleIntroducerForVariable(
 }
 
 // 將型錄的描述寫回Figma的原生欄位
+// 将型錄的描述写回Figma的原生欄位
 export async function writeCatalogueDescBackToFigma() {
   const selection = util.getCurrentSelection();
 
@@ -493,7 +494,6 @@ export async function writeCatalogueDescBackToFigma() {
     throw new Error("Please select only one catalogue frame.");
   }
 
-  // Check if the selection is a frame
   if (selection[0].type !== "FRAME") {
     figma.notify("❌ Please select a frame.");
     throw new Error("Please select a frame.");
@@ -502,14 +502,11 @@ export async function writeCatalogueDescBackToFigma() {
   const catalogueFrame = selection[0] as FrameNode;
 
   const titleWrapper = catalogueFrame.findOne(node => node.name === "Title Wrapper");
-  if (!titleWrapper) {
+  if (!titleWrapper || titleWrapper.type !== "FRAME" || !titleWrapper.layoutMode) {
     figma.notify("❌ Title Wrapper not found. Please try to regenerate catalogue again.");
-    throw new Error("Title Wrapper not found. Please try to regenerate catalogue again.");
-  } else if (titleWrapper.type !== "FRAME" || !titleWrapper.layoutMode) {
     throw new Error("Title Wrapper is not an AutoLayout frame.");
   }
 
-  // Find all text nodes with the required plugin data
   const descriptionNodes = catalogueFrame.findAllWithCriteria({
     types: ['TEXT'],
   }).filter(node => node.getPluginData("catalogue-item-schema"));
@@ -523,63 +520,43 @@ export async function writeCatalogueDescBackToFigma() {
     { family: "Inter", style: "Regular" },
     { family: "Inter", style: "Semi Bold" },
   ];
-  await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
-
-  // Retrieve all styles and variables once
-  const paintStyles = await figma.getLocalPaintStylesAsync();
-  const paintStyleMap = new Map(paintStyles.map(paintStyle => [paintStyle.id, paintStyle]));
-
-  const textStyles = await figma.getLocalTextStylesAsync();
-  const textStyleMap = new Map(textStyles.map(textStyle => [textStyle.id, textStyle]));
-
-  const effectStyles = await figma.getLocalEffectStylesAsync();
-  const effectStyleMap = new Map(effectStyles.map(effectStyle => [effectStyle.id, effectStyle]));
-
-  const variables = await figma.variables.getLocalVariablesAsync();
-  const variableMap = new Map(variables.map(variable => [variable.id, variable]));
+  await Promise.all(fontsToLoad.map(font => figma.loadFontAsync(font)));
 
   let updatedCount = 0;
 
   // Process each description node
-  descriptionNodes.forEach(node => {
-    if (node.characters === "(blank)") {
-      return; // Skip this node if the text content is "(blank)"
-    }
+  for (const node of descriptionNodes) {
+    if (node.characters === "(blank)") continue; // Skip empty descriptions
 
     const catalogueItemSchema = node.getPluginData("catalogue-item-schema");
     const decodedCatalogueItemSchema = JSON.parse(catalogueItemSchema) as CatalogueItemDescriptionSchema;
 
     if (decodedCatalogueItemSchema.format === "STYLE") {
-      const matchingStyle =
-        paintStyleMap.get(decodedCatalogueItemSchema.id) ||
-        textStyleMap.get(decodedCatalogueItemSchema.id) ||
-        effectStyleMap.get(decodedCatalogueItemSchema.id);
+      const matchingStyle = await getStyleById(decodedCatalogueItemSchema.id);
 
       if (!matchingStyle) {
         figma.notify(`❌ Style with ID ${decodedCatalogueItemSchema.id} not found.`);
-        return; // Skip this node if no matching style
+        continue;
       }
 
       // Update the style description with the text content of the node
       matchingStyle.description = (node as TextNode).characters;
 
-      // 將使用者在description文字中設定的豐富文字樣式紀錄至該頁的plugin data中
       const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
       styledTextSegments.writeCatalogueItemRichStyleToRoot(decodedCatalogueItemSchema.id, richStyle);
 
       updatedCount++;
     } else if (decodedCatalogueItemSchema.format === "VARIABLE") {
-      const matchingVariable = variableMap.get(decodedCatalogueItemSchema.id);
+      const matchingVariable = await getVariableById(decodedCatalogueItemSchema.id);
 
       if (!matchingVariable) {
         figma.notify(`❌ Variable with ID ${decodedCatalogueItemSchema.id} not found.`);
-        return; // Skip this node if no matching variable
+        continue;
       }
 
       // Update the variable description with the text content of the node
       matchingVariable.description = (node as TextNode).characters;
 
-      // 將使用者在description文字中設定的豐富文字樣式紀錄至該頁的plugin data中
       const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
       styledTextSegments.writeCatalogueItemRichStyleToRoot(decodedCatalogueItemSchema.id, richStyle);
 
@@ -587,9 +564,9 @@ export async function writeCatalogueDescBackToFigma() {
     } else {
       figma.notify(`❌ Unsupported format: ${decodedCatalogueItemSchema.format}`);
     }
-  });
+  }
 
-  const dateString = `Update description back to figma at ${util.getFormattedDate("fullDateTime")}`;
+  const dateString = `Update description back to Figma at ${util.getFormattedDate("fullDateTime")}`;
   const wroteBackDateNode = util.createTextNode(
     dateString,
     { family: "Inter", style: "Semi Bold" },
@@ -597,9 +574,7 @@ export async function writeCatalogueDescBackToFigma() {
     [{ type: "SOLID", color: semanticTokens.text.tertiary }]
   );
 
-  // Add the wroteBackDateNode to the front of the titleWrapper
   titleWrapper.insertChild(0, wroteBackDateNode);
-  // Set layoutSizingHorizontal to "FILL" for every child inside titleWrapper
   titleWrapper.children.forEach((element) => {
     if ("layoutSizingHorizontal" in element) {
       element.layoutSizingHorizontal = "FILL";
@@ -608,7 +583,7 @@ export async function writeCatalogueDescBackToFigma() {
 
   wroteBackDateNode.textAlignHorizontal = "RIGHT";
 
-  figma.notify(`✅ ${updatedCount} styles/variables has been updated successfully.`);
+  figma.notify(`✅ ${updatedCount} styles/variables have been updated successfully.`);
 }
 
 async function resolveToActualRgbaValue(
@@ -666,4 +641,43 @@ async function resolveToActualNumberValue(
     console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
     return null;
   }
+}
+
+// Caches to store fetched styles and variables (module-level)
+const paintStyleCache = new Map<string, PaintStyle>();
+const textStyleCache = new Map<string, TextStyle>();
+const effectStyleCache = new Map<string, EffectStyle>();
+const variableCache = new Map<string, Variable>();
+
+// Function to fetch and cache styles on demand
+export async function getStyleById(styleId: string) {
+  // Check in Paint Styles
+  if (paintStyleCache.has(styleId)) return paintStyleCache.get(styleId);
+  const paintStyles = await figma.getLocalPaintStylesAsync();
+  paintStyles.forEach(style => paintStyleCache.set(style.id, style));
+  if (paintStyleCache.has(styleId)) return paintStyleCache.get(styleId);
+
+  // Check in Text Styles
+  if (textStyleCache.has(styleId)) return textStyleCache.get(styleId);
+  const textStyles = await figma.getLocalTextStylesAsync();
+  textStyles.forEach(style => textStyleCache.set(style.id, style));
+  if (textStyleCache.has(styleId)) return textStyleCache.get(styleId);
+
+  // Check in Effect Styles
+  if (effectStyleCache.has(styleId)) return effectStyleCache.get(styleId);
+  const effectStyles = await figma.getLocalEffectStylesAsync();
+  effectStyles.forEach(style => effectStyleCache.set(style.id, style));
+  if (effectStyleCache.has(styleId)) return effectStyleCache.get(styleId);
+
+  return null;
+}
+
+// Function to fetch and cache variables on demand
+export async function getVariableById(variableId: string) {
+  if (variableCache.has(variableId)) return variableCache.get(variableId);
+
+  const variables = await figma.variables.getLocalVariablesAsync();
+  variables.forEach(variable => variableCache.set(variable.id, variable));
+
+  return variableCache.get(variableId);
 }
