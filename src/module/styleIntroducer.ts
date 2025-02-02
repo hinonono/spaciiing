@@ -566,7 +566,7 @@ export async function writeCatalogueDescBackToFigma() {
     }
   }
 
-  const dateString = `Update description back to Figma at ${util.getFormattedDate("fullDateTime")}`;
+  const dateString = `Description updated back to Figma at ${util.getFormattedDate("fullDateTime")}.`;
   const wroteBackDateNode = util.createTextNode(
     dateString,
     { family: "Inter", style: "Semi Bold" },
