@@ -52,7 +52,7 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
           buttonType="special"
           title={t("license:tryItFree")}
           onClick={() => {
-            paymentsUtil.navigateToCheckOutPage("monthly");
+            paymentsUtil.navigateToPurchasePage();
           }}
           svgPosition={"right"}
           hasTopBottomMargin={false}
@@ -63,7 +63,7 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
           buttonType="special"
           title={t("license:tryItFree")}
           onClick={() => {
-            paymentsUtil.navigateToCheckOutPage("yearly");
+            paymentsUtil.navigateToPurchasePage();
           }}
           svgPosition={"right"}
           hasTopBottomMargin={false}
