@@ -79,7 +79,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         setFreeUserDelayModalConfig({
           show: true,
           initialTime: 30,
-          onProceed: () => setReferenceObject(true), // Re-invoke with the real call
+          onProceed: () => pastePropertyToObject(property, true), // Re-invoke with the real call
         });
         return;
       }
