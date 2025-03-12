@@ -8,12 +8,17 @@ import {
 } from "./types/Messages/MessageVariableEditor";
 import { EditorPreference } from "./types/EditorPreference";
 import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
+import { EditorType } from "./types/EditorType";
 
 // #region Definition
 export interface AppContextType {
   // V20：新的editor preference物件，統一管理相關的偏好值
   editorPreference: EditorPreference;
   setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;
+
+  // 判斷用戶在哪個模式下開啟了plugin
+  editorType: EditorType;
+  setEditorType: React.Dispatch<React.SetStateAction<EditorType>>;
 
   variableCollectionList: ExternalVariableCollection[];
   setVariableCollectionList: React.Dispatch<
@@ -78,7 +83,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   // 訂閱呼籲用
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
-  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({show: false, initialTime: 30, onProceed: ()=>{}});
+  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: 30, onProceed: () => { } });
 
   // V20：Editor Preference整合
   const [editorPreference, setEditorPreference] = useState<EditorPreference>({
@@ -93,6 +98,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       outerFrame: 0,
     },
   });
+
+  // 判斷用戶在哪個模式下開啟了plugin
+  const [editorType, setEditorType] = useState<EditorType>("figma");
 
   // 模組用
 
@@ -138,6 +146,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setVirtualProfileGroups,
         styleList,
         setStyleList,
+        editorType,
+        setEditorType,
       }}
     >
       {children}

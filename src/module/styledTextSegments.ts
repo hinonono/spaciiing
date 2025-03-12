@@ -31,6 +31,14 @@ export function getNodeCatalogueItemRichStyle(node: TextNode): ReturnType<TextNo
         "openTypeFeatures",
         "boundVariables",
         "textStyleOverrides",
+        "textDecorationStyle", // Added missing properties
+        "textDecorationOffset", // Added missing properties
+        "textDecorationThickness", // Added missing properties
+        "textDecorationColor", // Added missing properties
+        "textDecorationSkipInk",
+        "listSpacing",
+        "paragraphIndent",
+        "paragraphSpacing"
     ]);
 
     // Serialize to JSON

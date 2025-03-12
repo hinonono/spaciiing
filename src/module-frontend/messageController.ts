@@ -36,11 +36,18 @@ function messageActualController(
   i18n: i18n
 ) {
   const { module } = message;
-  const { setLicenseManagement } = appContext;
+  const { setLicenseManagement, setEditorType } = appContext;
 
   switch (module) {
     case "Init":
       // Handle Init case
+      const castedMessage = message as ExternalMessage;
+      if (castedMessage.editorType) {
+        console.log(castedMessage.editorType, "vmkmvv");
+
+        setEditorType(castedMessage.editorType);
+      }
+
       break;
     case "Localization":
       localizationHandler(message as ExternalMessageLocalization, i18n);

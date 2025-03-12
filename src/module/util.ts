@@ -11,6 +11,8 @@ import { semanticTokens } from "./tokens";
 import loremText from "../assets/loremText.json";
 import { CornerRadiusNode } from "../types/NodeCornerRadius";
 import { SingleCornerRadiusNode } from "../types/NodeSingleCornerRadius";
+import { EditorType } from "../types/EditorType";
+import { ExternalMessage } from "../types/Messages/ExternalMessage";
 
 const isDevelopment = process.env.REACT_APP_ENV === "development";
 
@@ -42,8 +44,7 @@ export function saveEditorPreference(
     JSON.stringify(editorPreference)
   );
   console.log(
-    `😍使用者偏好已儲存，呼叫自${
-      source !== undefined ? String(source) : "未知"
+    `😍使用者偏好已儲存，呼叫自${source !== undefined ? String(source) : "未知"
     }`
   );
   console.log(editorPreference);
@@ -116,10 +117,19 @@ export function updateEditorPreference(
   };
   sendMessageBack(message);
   console.log(
-    `😍使用者偏好已更新至前端，呼叫自${
-      source !== undefined ? String(source) : "未知"
+    `😍使用者偏好已更新至前端，呼叫自${source !== undefined ? String(source) : "未知"
     }`
   );
+}
+
+export function updateEditorType(editorType: EditorType) {
+  const message: ExternalMessage = {
+    module: "Init",
+    direction: "Outer",
+    phase: "Actual",
+    editorType: editorType,
+  };
+  sendMessageBack(message);
 }
 
 export function isColorCollection(

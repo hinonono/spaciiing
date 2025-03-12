@@ -29,6 +29,7 @@ import {
 } from "../view";
 import { useAppContext } from "../AppProvider";
 import SaleBannerWrapper from "./SaleBannerWrapper";
+import { getAvailableTabs } from "./AvailableTabs";
 
 interface TabBarProps {
   activeTab: Module;
@@ -39,7 +40,9 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
   const isDevelopment =
     process.env.REACT_APP_ENV === "development" ||
     process.env.REACT_APP_ENV === "developmentfree";
-  const { licenseManagement } = useAppContext();
+  const { licenseManagement, editorType } = useAppContext();
+
+  const availableTabs = getAvailableTabs(editorType);
 
   // Reference to the scrollable container element
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -150,7 +153,16 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
         onMouseUp={onMouseUp}
         onMouseMove={onMouseMove}
       >
-        <TabButton
+        {availableTabs.map((tab) => (
+          <TabButton
+            key={tab.tabName}
+            activeTab={activeTab}
+            tabName={tab.tabName}
+            setActiveTab={setActiveTab}
+            SvgComponent={tab.svgComponent}
+          />
+        ))}
+        {/* <TabButton
           activeTab={activeTab}
           tabName="Spaciiing"
           setActiveTab={setActiveTab}
@@ -215,7 +227,7 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           tabName="PluginSetting"
           setActiveTab={setActiveTab}
           SvgComponent={SvgSetting}
-        />
+        /> */}
       </div>
       <div className="tab-content">{renderTabContent()}</div>
     </div>
