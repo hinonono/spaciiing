@@ -82,6 +82,7 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
     "STAR",
     "TEXT",
     "VECTOR",
+    "SHAPE_WITH_TEXT",
   ];
 
   if (!allowedTypes.includes(referenceObjectNode.type)) {
