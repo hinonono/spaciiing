@@ -2,14 +2,14 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
 
-interface NormalBannerProps {}
+interface NormalBannerProps { }
 
 const NormalBanner: React.FC<NormalBannerProps> = () => {
   const { t } = useTranslation(["license", "term"]);
   const { setShowCTSubscribe } = useAppContext();
 
   return (
-    <div className="banner flex flex-justify-spacebetween align-items-center">
+    <div className="banner flex flex-justify-space-between align-items-center">
       <div className="frame-group">
         <div className="message-primary">{t("license:upgradeToSkipWaiting")}</div>
         {/* <div className="note message-secondary mt-xxxsmall">

@@ -68,12 +68,12 @@ pre {
 .variable {
     font-size: var(--font-size-small);
     padding: 4px 8px;
-    background-color: var(--variable-background);
+    background-color: var(--figma-color-bg-secondary);
     border-radius: var(--cy-border-radius-large);
     padding: 16px;
 
     .text-primary {
-        color: var(--variable-text-primary);
+        color: var(--figma-color-text);
     }
 }
 
@@ -348,6 +348,7 @@ $base-size: 24px;
 .title-bar {
     width: 100%;
     border-bottom: 1px solid var(--figma-color-border);
+    min-height: 46px;
 
 
     .content-wrap {

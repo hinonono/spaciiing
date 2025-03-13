@@ -10,7 +10,7 @@ import {
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
 
-interface PropertyClipboardProps {}
+interface PropertyClipboardProps { }
 
 const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   // 多語言化
@@ -40,8 +40,8 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
 
   // 記憶所選取的物件作為參考目標
   const setReferenceObject = (isRealCall = false) => {
-    console.log({isRealCall: isRealCall});
-    
+    console.log({ isRealCall: isRealCall });
+
     if (!isRealCall) {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
@@ -52,7 +52,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         return;
       }
     }
-  
+
     // The real logic for setting the reference object
     const message: MessagePropertyClipboard = {
       action: "setReferenceObject",
@@ -60,7 +60,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       phase: "Actual",
       direction: "Inner",
     };
-  
+
     parent.postMessage(
       {
         pluginMessage: message,
@@ -84,7 +84,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         return;
       }
     }
-  
+
     // Real logic for pasting property to the object
     const message: MessagePropertyClipboard = {
       action: "pastePropertyToObject",
@@ -94,7 +94,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       property: property,
       behavior: pasteBehavior,
     };
-  
+
     parent.postMessage(
       {
         pluginMessage: message,
@@ -175,28 +175,34 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         <div>
           <SectionTitle title={t("module:copyFrom")} />
           {editorPreference.referenceObject ? (
-            <div className="variable flex flex-justify-center align-items-center">
+            <div className="variable flex flex-justify-space-between align-items-center">
               <span className="text-primary">
                 {`${editorPreference.referenceObject.name} (ID: ${editorPreference.referenceObject.id})`}
               </span>
+              <FigmaButton
+                buttonType="tertiary"
+                title={t("module:memorize")}
+                onClick={() => setReferenceObject(false)}
+                buttonHeight="small"
+                hasTopBottomMargin={false}
+              />
             </div>
           ) : (
-            <div className="flex variable-list flex flex-justify-center align-items-center">
-              <div>
-                <span className="note">
-                  {t("module:selectLayerAsReference")}
-                </span>
-              </div>
+            <div className="flex variable-list flex flex-justify-space-betweeen align-items-center">
+              <span className="note">
+                {t("module:selectLayerAsReference")}
+              </span>
+              <FigmaButton
+                buttonType="tertiary"
+                title={t("module:memorize")}
+                onClick={() => setReferenceObject(false)}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
             </div>
           )}
           <div className="mt-xxsmall">
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:memorize")}
-              onClick={() => setReferenceObject(false)}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
+
           </div>
         </div>
         <div className="mt-xsmall">

@@ -239,7 +239,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return;
       }
     }
-  
+
     const newRow: VirtualProfileGroup = {
       id: uuidv4(), // Ensure unique ID
       title: `Title`,
@@ -261,18 +261,18 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return;
       }
     }
-  
+
     if (virtualProfileGroups.length === 0) {
       console.warn("No title rows available to add a record");
       return;
     }
-  
+
     const newRecord: VirtualProfileChild = {
       id: uuidv4(),
       content: "Example Content",
       title: "Content Title",
     };
-  
+
     const newRows = [...virtualProfileGroups];
     newRows[newRows.length - 1].children.push(newRecord);
     setVirtualProfileGroups(newRows);
@@ -345,11 +345,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return;
       }
     }
-  
+
     setVirtualProfileGroups(
       virtualProfileGroups.filter((row) => row.id !== rowId)
     );
-  
+
     handleClose();
   };
 
@@ -364,7 +364,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return;
       }
     }
-  
+
     setVirtualProfileGroups(
       virtualProfileGroups.map((row) => {
         if (row.id === rowId) {
@@ -376,7 +376,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       })
     );
-  
+
     handleClose();
   };
 
@@ -391,13 +391,13 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return;
       }
     }
-  
+
     const newChild: VirtualProfileChild = {
       id: uuidv4(), // Generate a unique ID for the new child
       content: "Value",
       title: "Title",
     };
-  
+
     setVirtualProfileGroups(
       virtualProfileGroups.map((row) => {
         if (row.id === rowId) {
@@ -409,7 +409,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return row;
       })
     );
-  
+
     handleClose(); // Close any open context menus or modal dialogs
   };
 
@@ -424,10 +424,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return;
       }
     }
-  
+
     const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
-  
+
     const rowToDuplicate = virtualProfileGroups[rowIndex];
     const duplicatedRow = {
       ...rowToDuplicate,
@@ -437,7 +437,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         id: uuidv4(), // Generate unique IDs for each child in the duplicated row
       })),
     };
-  
+
     const newRows = [...virtualProfileGroups];
     newRows.splice(rowIndex + 1, 0, duplicatedRow);
     setVirtualProfileGroups(newRows);
@@ -459,26 +459,26 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return;
       }
     }
-  
+
     const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
-  
+
     const childIndex = virtualProfileGroups[rowIndex].children.findIndex(
       (child) => child.id === childId
     );
     if (childIndex === -1) return;
-  
+
     const childToDuplicate =
       virtualProfileGroups[rowIndex].children[childIndex];
     const duplicatedChild = {
       ...childToDuplicate,
       id: uuidv4(), // Generate a unique ID for the duplicated child
     };
-  
+
     const newRows = [...virtualProfileGroups];
     newRows[rowIndex].children.splice(childIndex + 1, 0, duplicatedChild);
     setVirtualProfileGroups(newRows);
-  
+
     handleClose();
   };
 
@@ -552,12 +552,12 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return;
       }
     }
-  
+
     const newGroup = transformJsonToGroup(
       category,
       i18n.language as SupportedLangCode
     );
-  
+
     if (newGroup) {
       setVirtualProfileGroups((prevGroups) => [...prevGroups, newGroup]);
     }
@@ -629,7 +629,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-justify-spacebetween virtual-profile-toolbar">
+        <div className="flex flex-justify-space-between virtual-profile-toolbar">
           <div>
             <button
               className="button-reset margin-0 width-auto"
@@ -701,18 +701,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      className={`cy-table-group ${
-                        snapshot.isDragging ? "dragging" : ""
-                      }`}
+                      className={`cy-table-group ${snapshot.isDragging ? "dragging" : ""
+                        }`}
                     >
                       <div
                         className="cy-table-group-header"
                         onContextMenu={(e) => handleContextMenu(e, row.id)}
                       >
                         <div
-                          className={`arrowIcon ${
-                            row.isCollapsed ? "collapsed" : "expanded"
-                          } icon-16`}
+                          className={`arrowIcon ${row.isCollapsed ? "collapsed" : "expanded"
+                            } icon-16`}
                           onClick={() => toggleCollapse(row.id)}
                         >
                           <SvgChevronLeft color="var(--figma-color-text)" />

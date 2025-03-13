@@ -111,12 +111,12 @@ const Instantiater: React.FC = () => {
         return;
       }
     }
-  
+
     if (selectedTargets == null || selectedTargets.length === 0) {
       console.warn("No targets selected. Aborting instantiation.");
       return;
     }
-  
+
     const message: MessageInstantiater = {
       module: "Instantiater",
       targets: selectedTargets,
@@ -127,7 +127,7 @@ const Instantiater: React.FC = () => {
       newCollectionName: defaultNewCollectionName,
       phase: "Actual",
     };
-  
+
     parent.postMessage(
       {
         pluginMessage: message,
@@ -253,13 +253,12 @@ const Instantiater: React.FC = () => {
           <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
             {options.map((option) => (
               <label key={option.value} className={`container`}>
-                <div className="flex flex-row align-items-center flex-justify-spacebetween">
+                <div className="flex flex-row align-items-center flex-justify-space-between">
                   <div className="flex flex-row align-items-center">
                     {option.label !== "ALL" && selectedCat === "color" && (
                       <div
-                        className={`color-thumbnail color-thumbnail-${
-                          form === "style" ? "style" : "variable"
-                        } mr-xxsmall`}
+                        className={`color-thumbnail color-thumbnail-${form === "style" ? "style" : "variable"
+                          } mr-xxsmall`}
                         style={{ background: option.thumbnailColor }}
                       ></div>
                     )}

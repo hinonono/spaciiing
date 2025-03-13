@@ -2,6 +2,7 @@
     height: var(--cy-button-height-medium);
     border-radius: var(--cy-border-radius-large);
     position: relative;
+    min-width: 48px;
 
     span {
         &:not(.chevron-left) {
@@ -12,9 +13,10 @@
     &--primary {
         cursor: pointer;
         color: var(--white);
+        background-color: var(--figma-color-bg-brand) !important;
 
         &:hover {
-            background-color: #0084DC;
+            background-color: var(--figma-color-bg-brand-hover) !important;
         }
 
         &:disabled {
@@ -40,6 +42,32 @@
             cursor: not-allowed;
             border-color: var(--button-disabled);
             color: var(--button-disabled);
+        }
+    }
+
+    &--tertiary {
+        background-color: var(--figma-color-bg) !important;
+        color: var(--figma-color-text) !important;
+        border-color: var(--cy-border-light) !important;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--figma-color-bg-secondary) !important;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            color: var(--button-disabled);
+        }
+
+        &:enabled:focus {
+            text-decoration: none !important;
+        }
+
+        &-destructive {
+            &:enabled:focus {
+                text-decoration: none !important;
+            }
         }
     }
 
