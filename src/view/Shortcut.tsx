@@ -166,7 +166,7 @@ const Shortcut: React.FC = () => {
             buttonHeight="xlarge"
             hasTopBottomMargin={false}
           />
-          <FigmaButton
+          {appContext.editorType === "figma" && (<FigmaButton
             buttonType="secondary"
             title={t("module:createTextStyleFromSelection")}
             onClick={() => {
@@ -174,7 +174,7 @@ const Shortcut: React.FC = () => {
             }}
             buttonHeight="xlarge"
             hasTopBottomMargin={false}
-          />
+          />)}
           <FigmaButton
             buttonType="secondary"
             title={t("module:unifyText")}
