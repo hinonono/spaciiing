@@ -1,5 +1,29 @@
-export function applyArrowCreator() {
+import { ConnectPointPositionPair } from "../types/ArrowCreator";
+import { CYStroke } from "../types/CYStroke";
+import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
 
+export function applyArrowCreator(
+    safeMargin: number,
+    connectPointPositionPair: ConnectPointPositionPair,
+    stroke: CYStroke
+) {
+    console.log("applyArrowCreator Frontend");
+
+    const message: MessageArrowCreator = {
+        safeMargin: safeMargin,
+        connectPointPositionPair: connectPointPositionPair,
+        stroke: stroke,
+        module: "ArrowCreator",
+        phase: "Actual",
+        direction: "Inner",
+    };
+
+    parent.postMessage(
+        {
+            pluginMessage: message,
+        },
+        "*"
+    );
 }
 
 export const strokePointStyles = [

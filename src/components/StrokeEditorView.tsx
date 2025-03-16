@@ -3,12 +3,17 @@ import SectionTitle from './SectionTitle';
 import { t } from 'i18next';
 import { strokePointStyles, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
 import ColorThumbnailView from './ColorThumbnailView';
+import { CYStroke } from '../types/CYStroke';
 
 interface StrokeEditorViewProps {
-
+  stroke: CYStroke;
+  setStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
 }
 
-const StrokeEditorView: React.FC<StrokeEditorViewProps> = () => {
+const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
+  stroke,
+  setStroke
+}) => {
   // 色彩與透明度
   const [colorHex, setColorHex] = useState<string>("000000"); // Ensure default color is valid
   const [editingColorHex, setEditingColorHex] = useState<string>(colorHex);

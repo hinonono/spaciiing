@@ -4,9 +4,10 @@ import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
 import { FigmaButton, SectionTitle, StrokeEditorView, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
-import { ConnectPointPosition, StrokeMode } from '../types/ArrowCreator';
+import { ConnectPointPosition, ConnectPointPositionPair, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator } from '../module-frontend/arrowCreatorFrontEnd';
 import { ConnectPointSelectorView } from '../components';
+import { CYStroke } from '../types/CYStroke';
 
 
 interface ArrowCreatorProps {
@@ -25,6 +26,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   // 連接點
   const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>("centerRight");
   const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>("centerLeft");
+  const [connectPointPositionPair, setConnectPointPositionPair] = useState<ConnectPointPositionPair>({ start: startItemConnectPointPosition, end: endItemConnectPointPosition });
+
 
   // 安全間距
   const [safeMargin, setSafeMargin] = useState<number>(0);
@@ -60,6 +63,16 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   // 筆畫模式
   const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
 
+  // 筆畫本體
+  const [stroke, setStroke] = useState<CYStroke>({
+    color: "000000",
+    opacity: 100,
+    strokeWeight: 1,
+    cornerRadius: 0,
+    startPointCap: "NONE",
+    endPointCap: "NONE",
+  });
+
   const renderEditorBasedOnStrokeMode = () => {
     if (strokeMode === "freeform") {
       return (
@@ -81,7 +94,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             </div>
           </div>
           <div className="padding-16 border-1-top">
-            <StrokeEditorView />
+            <StrokeEditorView stroke={stroke} setStroke={setStroke} />
           </div>
         </div>
       )
@@ -169,7 +182,13 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           </div>
           <FigmaButton
             title={t("module:execute")}
-            onClick={applyArrowCreator}
+            onClick={() => {
+              applyArrowCreator(
+                safeMargin,
+                connectPointPositionPair,
+                stroke
+              )
+            }}
           />
         </div>
       </div>
