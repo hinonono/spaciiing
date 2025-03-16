@@ -1,0 +1,68 @@
+.connect-point-container {
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    gap: 48px;
+    /* Ensures a fixed distance between the two boxes */
+    width: 100%;
+    height: 150px;
+    background-color: var(--figma-color-bg-secondary);
+    padding: 16px;
+    border-radius: 8px;
+
+    .connect-item {
+        position: relative;
+        width: 96px;
+        height: 96px;
+        background-color: white;
+        border-radius: 12px;
+
+        .connect-point {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #e2e2e2;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+
+            &.topCenter {
+                top: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            &.bottomCenter {
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            &.centerLeft {
+                left: -8px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            &.centerRight {
+                right: -8px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            &.selected {
+                background-color: var(--figma-color-bg-brand);
+                border: 2px solid white;
+            }
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .connect-point-container {
+        .connect-item {
+            background-color: var(--figma-color-bg-tertiary);
+        }
+    }
+}

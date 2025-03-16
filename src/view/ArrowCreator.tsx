@@ -4,8 +4,9 @@ import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
 import { FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
-import { StrokeMode } from '../types/ArrowCreator';
+import { ConnectPointPosition, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator } from '../module-frontend/arrowCreatorFrontEnd';
+import ConnectPointSelectorView from '../components/ConnectPointSelectorView';
 
 
 interface ArrowCreatorProps {
@@ -20,6 +21,10 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
+
+  // 連接點
+  const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>("centerRight");
+  const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>("centerLeft");
 
   // 是否建立註解框
   const [createAnnotationBox, setCreateAnnotationBox] = useState(false);
@@ -53,8 +58,14 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
       <div className="content">
         <div>
           <SectionTitle title={"Connect point"} />
+          <ConnectPointSelectorView
+            startItemConnectPointPosition={startItemConnectPointPosition}
+            setStartItemConnectPointPosition={setStartItemConnectPointPosition}
+            endItemConnectPointPosition={endItemConnectPointPosition}
+            setEndItemConnectPointPosition={setEndItemConnectPointPosition}
+          />
         </div>
-        <div>
+        <div className='mt-xsmall'>
           <SectionTitle title={"Stroke"} />
           <SegmentedControl
             inputName="mode"
@@ -73,21 +84,23 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             />
           </SegmentedControl>
         </div>
-        <div className="custom-checkbox-group mt-xsmall">
-          <label className="container">
-            {"Create annotation box"}
-            <input
-              type="checkbox"
-              checked={createAnnotationBox}
-              onChange={handleCheckboxChange}
-            />
-            <span className="checkmark"></span>
-          </label>
+        <div className="mt-xsmall">
+          <div className="custom-checkbox-group">
+            <label className="container">
+              {"Create annotation box"}
+              <input
+                type="checkbox"
+                checked={createAnnotationBox}
+                onChange={handleCheckboxChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+          </div>
+          <FigmaButton
+            title={t("module:execute")}
+            onClick={applyArrowCreator}
+          />
         </div>
-        <FigmaButton
-          title={t("module:execute")}
-          onClick={applyArrowCreator}
-        />
       </div>
     </div>
   );
