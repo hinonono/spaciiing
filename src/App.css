@@ -989,6 +989,7 @@ input {
 .textarea:hover {
   border: 0px;
   outline: 1.5px solid rgba(0, 0, 0, 0.1);
+  color: var(--figma-color-text);
 }
 .textarea:active, .textarea:focus {
   outline: 1.5px solid var(--figma-color-bg-brand);
