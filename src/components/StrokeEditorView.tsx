@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionTitle from './SectionTitle';
 import { t } from 'i18next';
 import { strokePointStyles, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
@@ -9,17 +9,20 @@ interface StrokeEditorViewProps {
 }
 
 const StrokeEditorView: React.FC<StrokeEditorViewProps> = () => {
-
   // 色彩與透明度
-  const [color, setColor] = useState<string>("rgb(0,0,0)");
-  const handleColorChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const value = event.target.value;
-    setColor(value);
-  }
+  const [colorHex, setColorHex] = useState<string>("000000"); // Ensure default color is valid
+  const [editingColorHex, setEditingColorHex] = useState<string>(colorHex);
+
+  const handleColorChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setEditingColorHex(event.target.value); // Update temporary state while editing
+  };
+
+  const handleColorBlur = () => {
+    setColorHex(editingColorHex); // Update actual color after editing is finished
+  };
 
   const [opacity, setOpacity] = useState<number>(100);
+  const [editingOpacity, setEditingOpacity] = useState<number>(opacity);
   const handleOpacityChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -27,8 +30,12 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = () => {
     const numberValue = Number(value);
 
     if (!isNaN(numberValue)) {
-      setOpacity(numberValue);
+      setEditingOpacity(numberValue);
     }
+  }
+
+  const handleOpacityBlur = () => {
+    setOpacity(editingOpacity);
   }
 
   // 筆畫粗細
@@ -82,23 +89,36 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = () => {
     <div>
       <div>
         <SectionTitle title="Color" titleType="secondary" />
-        <div className="grid">
+        <div className="color-selector-wrapper">
           <div className="color-selector">
-            <ColorThumbnailView color={color} opacity={opacity} size={16} type={'square'} extraClassName='mr-xxxsmall'/>
+            <ColorThumbnailView color={`#${colorHex}`} opacity={opacity / 100} size={16} type={'square'} extraClassName='mr-xxxsmall' />
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
-              value={color}
+              value={editingColorHex}
               onChange={handleColorChange}
+              onBlur={handleColorBlur} // Update color when user finishes editing
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Prevents line break
+                }
+              }}
             />
           </div>
-          <div className="width-100">
+          <div className="color-selector">
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
               value={opacity}
               onChange={handleOpacityChange}
+              onBlur={handleOpacityBlur}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Prevents line break
+                }
+              }}
             />
+            <span className='text-color-secondary'>%</span>
           </div>
         </div>
       </div>

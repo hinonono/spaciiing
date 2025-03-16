@@ -1,8 +1,13 @@
-.color-selector {
-    display: flex;
-    align-items: center;
-    background-color: var(--figma-color-bg-secondary);
-    padding: var(--size-xxsmall) var(--size-xxxsmall) var(--size-xxsmall) var(--size-xxsmall);
+.color-selector-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2px;
+    border-radius: var(--cy-border-radius-large);
+    overflow: hidden;
+
+    span {
+        font-size: 11px;
+    }
 
     &:hover {
         color: var(--figma-color-text);
@@ -20,6 +25,13 @@
         outline: 1.5px solid var(--figma-color-bg-brand);
         /* Highlight border */
     }
+}
+
+.color-selector {
+    display: flex;
+    align-items: center;
+    background-color: var(--figma-color-bg-secondary);
+    padding: var(--size-xxsmall) var(--size-xxsmall) var(--size-xxsmall) var(--size-xxsmall);
 
     .textarea {
         padding: 0;
