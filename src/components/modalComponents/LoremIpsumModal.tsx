@@ -26,18 +26,25 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
     setShowCTSubscribe,
     editorPreference,
     setEditorPreference,
+    setFreeUserDelayModalConfig
   } = useAppContext();
 
   // const [lang, setLang] = useState<LoremSupportedLang>("en");
   const [length, setLength] = useState<LoremLength>("short");
   const [shouldSavePreference, setShouldSavePreference] = useState(false);
 
-  const generateLorem = (length: LoremLength) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const generateLorem = (length: LoremLength, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => generateLorem(length, true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
     }
-
+  
     const message: MessageLoremGenerator = {
       module: "LoremGenerator",
       length,
@@ -46,7 +53,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
       shouldSaveEditorPreference: shouldSavePreference,
       editorPreference: editorPreference,
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,

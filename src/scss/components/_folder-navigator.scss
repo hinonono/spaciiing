@@ -15,12 +15,12 @@
         .container {
             margin-left: 16px;
             margin-right: 16px;
-            margin-top: 8px;
-            margin-bottom: 8px;
+            margin-top: 0px;
+            margin-bottom: 0px;
 
             &:hover {
                 background-color: var(--figma-color-bg-secondary);
-                border-radius: var(--border-radius-med);
+                border-radius: var(--cy-border-radius-medium);
             }
         }
 
@@ -85,5 +85,5 @@
         background-color: var(--color-bg-selected);
     }
 
-    
+
 }

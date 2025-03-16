@@ -33,7 +33,7 @@ type AspectRatioOptions =
   | "custom";
 
 const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
@@ -118,12 +118,20 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
   const applyAspectRatioHandler = (
     widthRatio: number,
     heightRatio: number,
-    isCustom: boolean
+    isCustom: boolean,
+    isRealCall = false
   ) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => applyAspectRatioHandler(widthRatio, heightRatio, isCustom, true), // Retry with isRealCall = true
+        });
+        return;
+      }
     }
+  
     applyAspectRatio(widthRatio, heightRatio, isCustom, lockedDimension);
   };
 

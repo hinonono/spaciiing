@@ -65,5 +65,16 @@
   "dashCap": "Dash cap",
   "join": "Join",
   "miterAngle": "Miter angle",
-  "exportSettings": "Export settings"
+  "exportSettings": "Export settings",
+  "appearance": "Appearance",
+  "blendMode": "Blend mode",
+  "solidFill": "Solid fill",
+  "gradientFill": "Gradient fill",
+  "imageFill": "Image fill",
+  "videoFill": "Video fill",
+  "innerShadow": "Inner shadow",
+  "dropShadow": "Drop shadow",
+  "layerBlur": "Layer blur",
+  "backgroundBlur": "Background blur",
+  "faq": "FAQ"
 }

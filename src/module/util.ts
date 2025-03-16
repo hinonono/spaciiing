@@ -9,6 +9,10 @@ import { Module } from "../types/Module";
 import { ResizableNode } from "../types/NodeResizable";
 import { semanticTokens } from "./tokens";
 import loremText from "../assets/loremText.json";
+import { CornerRadiusNode } from "../types/NodeCornerRadius";
+import { SingleCornerRadiusNode } from "../types/NodeSingleCornerRadius";
+import { EditorType } from "../types/EditorType";
+import { ExternalMessage } from "../types/Messages/ExternalMessage";
 
 const isDevelopment = process.env.REACT_APP_ENV === "development";
 
@@ -40,8 +44,7 @@ export function saveEditorPreference(
     JSON.stringify(editorPreference)
   );
   console.log(
-    `😍使用者偏好已儲存，呼叫自${
-      source !== undefined ? String(source) : "未知"
+    `😍使用者偏好已儲存，呼叫自${source !== undefined ? String(source) : "未知"
     }`
   );
   console.log(editorPreference);
@@ -114,10 +117,19 @@ export function updateEditorPreference(
   };
   sendMessageBack(message);
   console.log(
-    `😍使用者偏好已更新至前端，呼叫自${
-      source !== undefined ? String(source) : "未知"
+    `😍使用者偏好已更新至前端，呼叫自${source !== undefined ? String(source) : "未知"
     }`
   );
+}
+
+export function updateEditorType(editorType: EditorType) {
+  const message: ExternalMessage = {
+    module: "Init",
+    direction: "Outer",
+    phase: "Actual",
+    editorType: editorType,
+  };
+  sendMessageBack(message);
 }
 
 export function isColorCollection(
@@ -182,10 +194,10 @@ export function rgbToHex(
 
   if (withHashTag) {
     // Concatenate the hex components and prepend a '#'
-    return `#${hexR}${hexG}${hexB}`;
+    return `#${hexR}${hexG}${hexB}`.toUpperCase();
   } else {
     // Concatenate the hex components and prepend a '#'
-    return `${hexR}${hexG}${hexB}`;
+    return `${hexR}${hexG}${hexB}`.toUpperCase();
   }
 }
 
@@ -389,12 +401,36 @@ export function hexToRgba(hex: string, opacity: number): RGBA | null {
   return { r, g, b, a: opacity };
 }
 
-// Helper function to format the date as MM/DD
-export function getFormattedDate(): string {
-  const today = new Date();
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-  const day = String(today.getDate()).padStart(2, "0");
-  return `${month}/${day}`;
+/**
+ * Formats the current date and time into a specified format.
+ *
+ * @export
+ * @function getFormattedDate
+ * @param {("shortDate" | "fullDateTime")} format - Specifies the date format:
+ *   - "shortDate": Returns the date in "DD/MM" format.
+ *   - "fullDateTime": Returns the full date and time in "DD/MM/YYYY HOUR:MINUTE:SECOND" format.
+ * @returns {string} A formatted date string in the specified format.
+ *
+ * @throws {Error} If the provided format is unsupported.
+ */
+export function getFormattedDate(format: "shortDate" | "fullDateTime"): string {
+  const date = new Date();
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const day = String(date.getDate()).padStart(2, "0");
+
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+
+  if (format === "shortDate") {
+    return `${day}/${month}`;
+  } else if (format === "fullDateTime") {
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  } else {
+    throw new Error("Unsupported format");
+  }
 }
 
 /**
@@ -603,10 +639,40 @@ export function createTextNode(
  * @returns {string} - The formatted number as a string. If the number is an integer,
  * it is returned without any decimal places. If it has decimals, it is formatted to two decimal places.
  */
-export function formatNumberToTwoDecimals(value: number): string {
+export function formatNumberToDecimals(
+  value: number,
+  decimal: number = 0
+): string {
   if (Math.floor(value) === value) {
     return value.toString(); // If the value is an integer, return it as is
   } else {
-    return value.toFixed(2); // If the value has decimals, format to 2 decimal places
+    return value.toFixed(decimal); // If the value has decimals, format to 2 decimal places
   }
+}
+
+export function isNodeSupportSingleCornerRadius(
+  node: SceneNode
+): node is SingleCornerRadiusNode {
+  return (
+    node.type === "COMPONENT" ||
+    node.type === "COMPONENT_SET" ||
+    node.type === "FRAME" ||
+    node.type === "INSTANCE" ||
+    node.type === "RECTANGLE"
+  );
+}
+
+export function isNodeSupportCornerRadius(
+  node: SceneNode
+): node is CornerRadiusNode {
+  return (
+    node.type === "BOOLEAN_OPERATION" ||
+    node.type === "COMPONENT" ||
+    node.type === "COMPONENT_SET" ||
+    node.type === "FRAME" ||
+    node.type === "INSTANCE" ||
+    node.type === "RECTANGLE" ||
+    node.type === "STAR" ||
+    node.type === "VECTOR"
+  );
 }
