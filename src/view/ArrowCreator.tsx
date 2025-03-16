@@ -30,7 +30,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
 
   // 安全間距
-  const [safeMargin, setSafeMargin] = useState<number>(0);
+  const [safeMargin, setSafeMargin] = useState<number>(40);
   const handleSafeMarginChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -66,11 +66,12 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   // 筆畫本體
   const [stroke, setStroke] = useState<CYStroke>({
     color: "000000",
-    opacity: 100,
+    opacity: 1,
     strokeWeight: 1,
     cornerRadius: 0,
     startPointCap: "NONE",
     endPointCap: "NONE",
+    dashAndGap: [0, 0],
   });
 
   const renderEditorBasedOnStrokeMode = () => {

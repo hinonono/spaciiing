@@ -7,4 +7,5 @@ export interface CYStroke {
     cornerRadius: number;
     startPointCap: StrokeCap;
     endPointCap: StrokeCap;
+    dashAndGap?: number[];
 }

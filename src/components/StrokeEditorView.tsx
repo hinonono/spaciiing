@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from './SectionTitle';
 import { t } from 'i18next';
-import { strokePointStyles, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
+import { strokeCaps, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
 import ColorThumbnailView from './ColorThumbnailView';
 import { CYStroke } from '../types/CYStroke';
 
@@ -15,19 +15,17 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   setStroke
 }) => {
   // 色彩與透明度
-  const [colorHex, setColorHex] = useState<string>("000000"); // Ensure default color is valid
-  const [editingColorHex, setEditingColorHex] = useState<string>(colorHex);
+  const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color);
 
   const handleColorChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditingColorHex(event.target.value); // Update temporary state while editing
   };
 
   const handleColorBlur = () => {
-    setColorHex(editingColorHex); // Update actual color after editing is finished
+    setStroke((prev) => ({ ...prev, color: editingColorHex }));
   };
 
-  const [opacity, setOpacity] = useState<number>(100);
-  const [editingOpacity, setEditingOpacity] = useState<number>(opacity);
+  const [editingOpacity, setEditingOpacity] = useState<number>(stroke.opacity * 100);
   const handleOpacityChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -40,32 +38,65 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   }
 
   const handleOpacityBlur = () => {
-    setOpacity(editingOpacity);
+    setStroke((prev) => ({ ...prev, opacity: editingOpacity / 100 }));
   }
 
   // 筆畫粗細
-  const [strokeWeight, setStrokeWeight] = useState<number>(1);
   const handleStrokeWeightChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    const value = event.target.value;
-    const numberValue = Number(value);
-
+    const numberValue = Number(event.target.value);
     if (!isNaN(numberValue)) {
-      setStrokeWeight(numberValue);
+      setStroke((prev) => ({ ...prev, strokeWeight: numberValue }));
     }
   };
 
-  // 筆畫圓角
-  const [cornerRadius, setCornerRadius] = useState<number>(0);
-  const handleCornerRadiusChange = (
+  // 虛線與斷點
+  const handleDashChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const numberValue = Number(event.target.value);
+    const gap = stroke.dashAndGap?.[1] === undefined ? 0 : stroke.dashAndGap?.[1];
+
+    if (!isNaN(numberValue)) {
+      setStroke((prev) => ({ ...prev, dashAndGap: [numberValue, gap] }));
+    }
+  }
+
+  const handleGapChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const numberValue = Number(event.target.value);
+    const dash = stroke.dashAndGap?.[0] === undefined ? 0 : stroke.dashAndGap?.[0];
+
+    if (!isNaN(numberValue)) {
+      setStroke((prev) => ({ ...prev, dashAndGap: [dash, numberValue] }));
+    }
+  }
+
+  const handleCustomDashAndGapChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const value = event.target.value;
-    const numberValue = Number(value);
 
+    // Split the string by comma, filter valid numbers, and parse them
+    const parsedValues = value
+      .split(',')
+      .map((num) => num.trim())
+      .filter((num) => !isNaN(Number(num)))
+      .map(Number);
+
+    setStroke((prev) => ({ ...prev, dashAndGap: parsedValues }));
+  }
+
+
+  // 筆畫圓角
+  const handleCornerRadiusChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const numberValue = Number(event.target.value);
     if (!isNaN(numberValue)) {
-      setCornerRadius(numberValue);
+      setStroke((prev) => ({ ...prev, cornerRadius: numberValue }));
     }
   };
 
@@ -77,17 +108,13 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   }
 
   // 起始點樣式
-  const [startingPointStyle, setStartingPointStyle] = useState("");
   const handleStartingPointStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStyle = e.target.value;
-    setStartingPointStyle(newStyle);
+    setStroke((prev) => ({ ...prev, startPointCap: e.target.value as StrokeCap }));
   };
 
   // 結束點樣式
-  const [endPointStyle, setEndPointStyle] = useState("");
   const handleEndPointStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStyle = e.target.value;
-    setEndPointStyle(newStyle);
+    setStroke((prev) => ({ ...prev, endPointCap: e.target.value as StrokeCap }));
   };
 
   return (
@@ -96,7 +123,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         <SectionTitle title="Color" titleType="secondary" />
         <div className="color-selector-wrapper">
           <div className="color-selector">
-            <ColorThumbnailView color={`#${colorHex}`} opacity={opacity / 100} size={16} type={'square'} extraClassName='mr-xxxsmall' />
+            <ColorThumbnailView color={`#${stroke.color}`} opacity={stroke.opacity} size={16} type={'square'} extraClassName='mr-xxxsmall' />
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
@@ -114,7 +141,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
-              value={opacity}
+              value={editingOpacity}
               onChange={handleOpacityChange}
               onBlur={handleOpacityBlur}
               onKeyDown={(e) => {
@@ -134,7 +161,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
-              value={strokeWeight}
+              value={stroke.strokeWeight}
               onChange={handleStrokeWeightChange}
             />
           </div>
@@ -145,7 +172,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
-              value={cornerRadius}
+              value={stroke.cornerRadius}
               onChange={handleCornerRadiusChange}
             />
           </div>
@@ -165,6 +192,45 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             ))}
           </select>
         </div>
+        {strokeStyle === "dash" && (
+          <div className='grid'>
+            <div>
+              <SectionTitle title="Dash" titleType="secondary" />
+              <div className="width-100">
+                <textarea
+                  className="textarea textarea-height-fit-content"
+                  rows={1}
+                  value={stroke.dashAndGap?.[0]}
+                  onChange={handleDashChange}
+                />
+              </div>
+            </div>
+            <div>
+              <SectionTitle title="Gap" titleType="secondary" />
+              <div className="width-100">
+                <textarea
+                  className="textarea textarea-height-fit-content"
+                  rows={1}
+                  value={stroke.dashAndGap?.[1]}
+                  onChange={handleGapChange}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        {strokeStyle === "custom" && (
+          <div>
+            <SectionTitle title="Custom" titleType="secondary" />
+            <div className="width-100">
+              <textarea
+                className="textarea textarea-height-fit-content"
+                rows={1}
+                value={stroke.dashAndGap?.toString()}
+                onChange={handleCustomDashAndGapChange}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className='grid mt-xxsmall'>
         <div>
@@ -172,11 +238,11 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
           <select
             name="type"
             className="custom-select"
-            value={startingPointStyle}
+            value={stroke.startPointCap}
             onChange={handleStartingPointStyleChange}
           >
-            {strokePointStyles.map((item) => (
-              <option key={item.type} value={item.type}>{item.labelKey}</option>
+            {strokeCaps.map((item) => (
+              <option key={item.value} value={item.value}>{item.labelKey}</option>
             ))}
           </select>
         </div>
@@ -185,11 +251,11 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
           <select
             name="type"
             className="custom-select"
-            value={endPointStyle}
+            value={stroke.endPointCap}
             onChange={handleEndPointStyleChange}
           >
-            {strokePointStyles.map((item) => (
-              <option key={item.type} value={item.type}>{item.labelKey}</option>
+            {strokeCaps.map((item) => (
+              <option key={item.value} value={item.value}>{item.labelKey}</option>
             ))}
           </select>
         </div>

@@ -7,7 +7,7 @@ export function applyArrowCreator(
     connectPointPositionPair: ConnectPointPositionPair,
     stroke: CYStroke
 ) {
-    console.log("applyArrowCreator Frontend");
+
 
     const message: MessageArrowCreator = {
         safeMargin: safeMargin,
@@ -18,6 +18,9 @@ export function applyArrowCreator(
         direction: "Inner",
     };
 
+    console.log("applyArrowCreator Frontend");
+    console.log(message);
+
     parent.postMessage(
         {
             pluginMessage: message,
@@ -26,30 +29,23 @@ export function applyArrowCreator(
     );
 }
 
-export const strokePointStyles = [
+interface StrokeCapOption {
+    value: StrokeCap;
+    labelKey: string;
+}
+
+export const strokeCaps: StrokeCapOption[] = [
     {
-        type: "none",
+        value: "NONE",
         labelKey: "term:none",
     },
     {
-        type: "line-arrow",
+        value: "ARROW_LINES",
         labelKey: "term:lineArrow",
     },
     {
-        type: "triangle-arrow",
+        value: "ARROW_EQUILATERAL",
         labelKey: "term:triangleArrow",
-    },
-    {
-        type: "reversed-triangle",
-        labelKey: "term:reversedTriangle",
-    },
-    {
-        type: "circle-arrow",
-        labelKey: "term:circleArrow",
-    },
-    {
-        type: "diamond-arrow",
-        labelKey: "term:diamondArrow",
     }
 ]
 
@@ -61,5 +57,9 @@ export const strokeStyles = [
     {
         type: "dash",
         labelKey: "term:dash",
+    },
+    {
+        type: "custom",
+        labelKey: "term:custom",
     }
 ]
