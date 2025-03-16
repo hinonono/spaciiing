@@ -1157,14 +1157,10 @@ h2 {
 .color-thumbnail {
   transition: all 0.3s ease;
 }
-.color-thumbnail-style {
-  width: 20px;
-  height: 20px;
+.color-thumbnail-rounded {
   border-radius: 999px;
 }
-.color-thumbnail-variable {
-  width: 20px;
-  height: 20px;
+.color-thumbnail-square {
   border-radius: var(--cy-border-radius-small);
 }
 
