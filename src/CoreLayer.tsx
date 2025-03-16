@@ -11,14 +11,8 @@ import { ActivateLicenseModal, FreeUserDelayModal } from "./components/modalComp
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<Module>("Spaciiing");
+  const [activeTab, setActiveTab] = useState<Module>("ArrowCreator");
   const [prevTab, setPrevTab] = useState<Module | null>(null);
-
-  // // Free User Delay Modal
-  // const [waitModalConfig, setWaitModalConfig] = useState({
-  //   initialTime: 30,
-  //   onProceed: () => {},
-  // }); // Configurable handlers for each tab
 
   const appContext = useAppContext();
   const { i18n } = useTranslation();

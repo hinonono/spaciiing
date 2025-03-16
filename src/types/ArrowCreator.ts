@@ -1,0 +1,1 @@
+export type StrokeMode = "freeform" | "style";
