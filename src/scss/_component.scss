@@ -21,6 +21,8 @@
 @import "./components/subscription";
 @import "./components/connectPointSelectorView";
 @import "./components/drop-shadow";
+@import "./components/textarea";
+@import "./components/section-title";
 
 h2 {
     font-size: 1.4rem;
@@ -63,38 +65,7 @@ h2 {
     }
 }
 
-.section-title {
-    color: var(--figma-color-text);
-    padding: 0;
-    height: var(--size-small);
-    display: flex;
-    justify-content: space-between;
 
-    span {
-        width: 100%;
-    }
-
-    .plain-text-button {
-        background: none;
-        border: none;
-        color: var(--figma-color-bg-brand); // You can choose any color you prefer
-        cursor: pointer;
-        padding: 0;
-        text-decoration: underline;
-        font-size: var(--font-size-xsmall);
-        width: fit-content;
-        text-wrap: nowrap;
-        font-weight: var(--font-weight-bold);
-
-        &:hover {
-            color: #0084DC;
-        }
-
-        &:focus {
-            outline: none;
-        }
-    }
-}
 
 
 
@@ -130,36 +101,7 @@ h2 {
     border-radius: var(--cy-border-radius-large);
 }
 
-.textarea {
-    font-family: 'Inter', sans-serif;
-    border-radius: var(--cy-border-radius-large);
-    background-color: var(--figma-color-bg-secondary);
-    color: var(--figma-color-text-secondary);
-    font-size: var(--font-size-small);
-    min-height: 48px;
-    border: 1px solid var(--figma-color-bg-secondary);
-    // transition: all 0.3s;
 
-    &.code {
-        resize: vertical;
-    }
-
-    &:hover {
-        color: var(--figma-color-text);
-        border: 1px solid var(--figma-color-border);
-    }
-
-    &:active,
-    &:focus {
-        color: var(--figma-color-text);
-        border-width: 2px;
-    }
-
-    &::placeholder {
-        color: var(--figma-color-text-secondary);
-        opacity: .8;
-    }
-}
 
 .banner {
     background-color: var(--cy-purple-100);

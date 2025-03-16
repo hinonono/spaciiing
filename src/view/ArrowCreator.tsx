@@ -26,6 +26,29 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>("centerRight");
   const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>("centerLeft");
 
+  // 安全間距
+  const [safeMargin, setSafeMargin] = useState<number>(0);
+  const handleSafeMarginChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const value = event.target.value;
+    const numberValue = Number(value);
+
+    if (!isNaN(numberValue)) {
+      // setEditorPreference((prevPreference) => ({
+      //   ...prevPreference,
+      //   spacing: numberValue,
+      // }));
+      setSafeMargin(numberValue);
+
+      setSafeMarginFieldNote("");
+    } else {
+      setSafeMarginFieldNote(t("module:invalidNumberInput"));
+    }
+  };
+  const [safeMarginFieldNote, setSafeMarginFieldNote] =
+    useState<string>("");
+
   // 是否建立註解框
   const [createAnnotationBox, setCreateAnnotationBox] = useState(false);
   const handleCheckboxChange = (event: {
@@ -64,6 +87,21 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             endItemConnectPointPosition={endItemConnectPointPosition}
             setEndItemConnectPointPosition={setEndItemConnectPointPosition}
           />
+          <div className="width-100">
+            <div className="width-100 mt-xxsmall">
+              <SectionTitle title={"Margin"} titleType="secondary" />
+              <textarea
+                className="textarea textarea-height-fit-content"
+                rows={1}
+                value={safeMargin}
+                onChange={handleSafeMarginChange}
+                placeholder={t("module:customValueNumbersOnly")}
+              />
+              {safeMarginFieldNote && (
+                <span className="note error">{safeMarginFieldNote}</span>
+              )}
+            </div>
+          </div>
         </div>
         <div className='mt-xsmall'>
           <SectionTitle title={"Stroke"} />
