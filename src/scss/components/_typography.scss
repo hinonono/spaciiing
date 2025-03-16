@@ -1,0 +1,23 @@
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.color--secondary {
+    color: var(--figma-color-text-secondary)
+}
+
+.membership-block {
+    border: 1px solid var(--figma-color-border);
+    border-radius: var(--cy-border-radius-xlarge);
+    padding: 16px;
+    color: var(--figma-color-text);
+
+    &.pro {
+        color: var(--white);
+        background-color: var(--cy-purple-400);
+    }
+
+    p {
+        margin-bottom: 1rem;
+    }
+}

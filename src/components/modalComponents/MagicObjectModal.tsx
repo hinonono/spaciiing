@@ -23,18 +23,26 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
   const {
     // magicalObject,
     licenseManagement,
-    setShowCTSubscribe,
     editorPreference,
+    setFreeUserDelayModalConfig
   } = useAppContext();
 
   const applyMemorize = (
     action: ShortcutAction,
-    member: MagicObjectMembers
+    member: MagicObjectMembers,
+    isRealCall = false
   ) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => applyMemorize(action, member, true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
     }
+  
     const validActions = [
       "memorizeNote",
       "memorizeDesignStatusTag",
@@ -43,7 +51,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
     if (!validActions.includes(action)) {
       return;
     }
-
+  
     const message: MessageShortcutUpdateMagicalObjectSingle = {
       module: "Shortcut",
       action: action,
@@ -53,7 +61,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
       shouldSaveEditorPreference: true,
       editorPreference: editorPreference,
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,

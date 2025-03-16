@@ -82,11 +82,12 @@
   "saveYourChangeDesc": "デフォルトでは、プラグインは変更を自動的に保存します。 ただし、プラグイン API の制限により、変更を自動的に保存できない場合があります。<br \\/><br \\/>変更が失われないようにするため、常にページの上部にある保存ボタンを使用することをお勧めします。",
   "save": "保存",
   "apply": "適用",
+  "applyAll": "全てを適用",
   "title": "タイトル",
   "value": "値",
   "modulePropertyClipboard": "プロパティクリップボード",
   "modulePropertyClipboardDesc": "選択したオブジェクトの特定のプロパティを記憶し、別のオブジェクトに適用します。",
-  "nothingInsideClipboard": "クリップボードには何もありません。",
+  "selectLayerAsReference": "参照するレイヤーを選択してください」",
   "memorize": "記憶する",
   "name": "名前",
   "moduleSpaciiing": "Spaciiing",
@@ -167,5 +168,13 @@
   "outerFrame": "外枠",
   "unifyText": "テキストを統一",
   "createAutoLayoutIndividually": "オートレイアウトを個別に作成",
-  "copyFrom": "コピー元"
+  "copyFrom": "コピー元",
+  "pastePreference": "貼り付け方法を選択してください",
+  "replaceStyle": "既存のスタイルを置き換える",
+  "addToExistingStyle": "既存のスタイルに追加する",
+  "updateCatalogueDescBackToFigma": "説明テキストをFigmaへ更新する",
+  "catalogueSetting": "カタログ設定",
+  "crossCatalogueIndex": "カタログ間参照",
+  "crossCatalogueIndexDesc": "この機能を使うと、異なるカタログ間で簡単に参照が可能になります。特にエイリアスバリアブルのカタログを作成する際に便利です。この機能を有効にするには、任意のフレームを選択し、「選択範囲へのリンクをコピー」をクリックしてください。その後、コピーしたリンクを以下に貼り付けてください。",
+  "skip": "スキップ"
 }

@@ -2,7 +2,7 @@
     .container {
         display: block;
         position: relative;
-        padding: 7px 0px;
+        padding: 10px 0px;
         padding-left: 28px;
         cursor: pointer;
         font-size: var(--font-size-small);
@@ -41,7 +41,7 @@
 
 .checkmark {
     position: absolute;
-    top: 2;
+    top: 6;
     left: 4;
     height: 18px;
     width: 18px;

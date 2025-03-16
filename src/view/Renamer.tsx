@@ -13,7 +13,7 @@ import {
 const Renamer: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
 
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -120,12 +120,19 @@ const Renamer: React.FC = () => {
     }
   };
 
-  const applyRenamer = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyRenamer = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // You can adjust the delay time as needed
+          onProceed: () => applyRenamer(true), // Retry the function with `isRealCall = true`
+        });
+        return;
+      }
     }
-
+  
+    // Real logic for applying the renamer
     const message: MessageRenamer = {
       target: options,
       module: "Renamer",
@@ -137,7 +144,7 @@ const Renamer: React.FC = () => {
         includeParentLayer: includeParentLayer,
       },
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
@@ -239,7 +246,7 @@ const Renamer: React.FC = () => {
           <FigmaButton
             title={t("module:cleanUp")}
             id={"renamer-apply"}
-            onClick={applyRenamer}
+            onClick={() => applyRenamer(false)}
           />
         </div>
       </div>

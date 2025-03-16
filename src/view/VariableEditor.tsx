@@ -105,6 +105,7 @@ const VariableEditor: React.FC = () => {
     setShowCTSubscribe,
     customCodeExecutionResults,
     setCustomCodeExecutionResults,
+    setFreeUserDelayModalConfig
   } = useAppContext();
   const [code, setCode] = useState<string>("");
 
@@ -206,15 +207,21 @@ const VariableEditor: React.FC = () => {
     }
   };
 
-  const executeCode = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const executeCode = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => executeCode(true), // Retry with isRealCall = true
+        });
+        return;
+      }
     }
-
-    // 清空先前的執行結果
+  
+    // Clear previous execution results
     setCustomCodeExecutionResults([]);
-
+  
     const message: MessageVariableEditorExecuteCode = {
       variableResolvedDataType: dataType,
       variableCollectionId: destination,
@@ -227,7 +234,7 @@ const VariableEditor: React.FC = () => {
       phase: "Actual",
       newCollectionName: defaultNewCollectionName,
     };
-
+  
     parent.postMessage(
       {
         pluginMessage: message,
@@ -402,7 +409,7 @@ const VariableEditor: React.FC = () => {
             <FigmaButton
               title={t("module:execute")}
               id={"variable-editor-execute"}
-              onClick={executeCode}
+              onClick={() => executeCode(false)}
             />
           </div>
         </div>

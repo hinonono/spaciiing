@@ -17,7 +17,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
   handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
 
   const [findCriteria, setFindCriteria] = useState("");
   const [replaceCriteria, setReplaceCriteria] = useState("");
@@ -40,13 +40,19 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
     setKeepOriginalLayerName(event.target.checked);
   };
 
-  const applyFindAndReplace = (action: ShortcutAction) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyFindAndReplace = (action: ShortcutAction, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => applyFindAndReplace(action, true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
     }
-
-    if (action == "findAndReplace") {
+  
+    if (action === "findAndReplace") {
       const message: MessageShortcutFindAndReplace = {
         module: "Shortcut",
         action: action,

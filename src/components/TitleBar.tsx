@@ -9,6 +9,8 @@ interface TitleBarProps {
   onClick?: () => void;
   showInfoIcon?: boolean;
   isProFeature?: boolean;
+  leftItem?: React.ReactNode,
+  rightItem?: React.ReactNode
 }
 
 const TitleBar: React.FC<TitleBarProps> = ({
@@ -17,13 +19,16 @@ const TitleBar: React.FC<TitleBarProps> = ({
   onClick,
   showInfoIcon = true,
   isProFeature = false,
+  leftItem,
+  rightItem
 }) => {
   const isDevelopment = process.env.REACT_APP_ENV === "development";
   const { licenseManagement, setShowCTSubscribe } = useAppContext();
   const { t } = useTranslation(["license"]);
 
   return (
-    <div className="title-bar">
+    <div className="title-bar property-clipboard-header">
+      <div>{leftItem}</div>
       <div className="content-wrap">
         <h5 className="func-title">{title.toUpperCase()}</h5>
         {children && <div className="title-bar-children">{children}</div>}
@@ -40,6 +45,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
           </div>
         )}
       </div>
+      <div>{rightItem}</div>
     </div>
   );
 };

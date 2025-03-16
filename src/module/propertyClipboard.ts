@@ -1,5 +1,8 @@
 import { CopyPastableNode } from "../types/CopyPastableNode";
-import { MessagePropertyClipboard } from "../types/Messages/MessagePropertyClipboard";
+import {
+  MessagePropertyClipboard,
+  PasteBehavior,
+} from "../types/Messages/MessagePropertyClipboard";
 import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import * as util from "./util";
 
@@ -45,6 +48,11 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
     return;
   }
 
+  if (!message.behavior) {
+    figma.notify("❌ Paste behavior is missing from message.");
+    return;
+  }
+
   const editorPreference = util.readEditorPreference();
 
   if (!editorPreference.referenceObject) {
@@ -74,6 +82,7 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
     "STAR",
     "TEXT",
     "VECTOR",
+    "SHAPE_WITH_TEXT",
   ];
 
   if (!allowedTypes.includes(referenceObjectNode.type)) {
@@ -83,13 +92,18 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
 
   for (let i = 0; i < message.property.length; i++) {
     const element = message.property[i];
-    pastePropertyToObject(element, referenceObjectNode as CopyPastableNode);
+    pastePropertyToObject(
+      element,
+      referenceObjectNode as CopyPastableNode,
+      message.behavior
+    );
   }
 }
 
 function pastePropertyToObject(
   property: PropertyClipboardSupportedProperty,
-  referenceObject: CopyPastableNode
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
 ) {
   switch (property) {
     case "WIDTH":
@@ -98,6 +112,14 @@ function pastePropertyToObject(
     case "HEIGHT":
       setSelectionHeight(referenceObject);
       break;
+    case "LAYER_OPACITY":
+      setSelectionOpacity(referenceObject);
+      break;
+    case "LAYER_CORNER_RADIUS":
+      setSelectionCornerRadius(referenceObject);
+      break;
+    case "LAYER_BLEND_MODE":
+      setSelectionBlendMode(referenceObject);
     case "STROKES":
       setSelectionStrokes(referenceObject);
       break;
@@ -125,12 +147,209 @@ function pastePropertyToObject(
     case "STROKE_MITER_LIMIT":
       setSelectionStrokeMiterLimit(referenceObject);
       break;
+    case "FILL_ALL":
+      setSelectionAllFills(referenceObject, behavior);
+      break;
+    case "FILL_SOLID":
+      setSelectionSolidFill(referenceObject, behavior);
+      break;
+    case "FILL_GRADIENT":
+      setSelectionGradientFill(referenceObject, behavior);
+      break;
+    case "FILL_IMAGE":
+      setSelectionImageFill(referenceObject, behavior);
+      break;
+    case "FILL_VIDEO":
+      setSelectionVideoFill(referenceObject, behavior);
+      break;
+    case "EFFECT_ALL":
+      setSelectionAllEffects(referenceObject, behavior);
+      break;
+    case "EFFECT_INNER_SHADOW":
+      setSelectionInnerShadow(referenceObject, behavior);
+      break;
+    case "EFFECT_DROP_SHADOW":
+      setSelectionDropShadow(referenceObject, behavior);
+      break;
+    case "EFFECT_LAYER_BLUR":
+      setSelectionLayerBlur(referenceObject, behavior);
+      break;
+    case "EFFECT_BACKGROUND_BLUR":
+      setSelectionBackgroundBlur(referenceObject, behavior);
+      break;
     case "EXPORT_SETTINGS":
       setSelectionExportSettings(referenceObject);
       break;
     default:
       figma.notify(`Unsupported property type: ${property}`);
       break;
+  }
+}
+
+// Set opacity of selected layers from the reference object
+function setSelectionOpacity(referenceObject: CopyPastableNode) {
+  applyPropertyToSelection(referenceObject, "opacity");
+}
+
+// Set corner radius of selected layers from the reference object
+function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if (
+      util.isNodeSupportSingleCornerRadius(object) &&
+      util.isNodeSupportSingleCornerRadius(referenceObject)
+    ) {
+      // Applies single corner radii if both support single corners
+      object.topLeftRadius = referenceObject.topLeftRadius;
+      object.topRightRadius = referenceObject.topRightRadius;
+      object.bottomRightRadius = referenceObject.bottomRightRadius;
+      object.bottomLeftRadius = referenceObject.bottomLeftRadius;
+    } else if (
+      util.isNodeSupportCornerRadius(object) &&
+      util.isNodeSupportCornerRadius(referenceObject)
+    ) {
+      // Applies full radius and smoothing if supported by both
+      console.log("Here I am");
+
+      object.cornerRadius = referenceObject.cornerRadius;
+      object.cornerSmoothing = referenceObject.cornerSmoothing;
+    } else {
+      // Informs user if corner radius is not supported
+      figma.notify(
+        `❌ Object of type ${object.type} cannot have corner radius set.`
+      );
+    }
+  });
+}
+
+// Set blend mode of selected layers from the reference object
+function setSelectionBlendMode(referenceObject: CopyPastableNode) {
+  applyPropertyToSelection(referenceObject, "blendMode");
+}
+
+function setSelectionAllFills(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyFillToSelection(referenceObject, behavior, "ALL");
+}
+
+function setSelectionSolidFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyFillToSelection(referenceObject, behavior, "SOLID");
+}
+
+function setSelectionGradientFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyFillToSelection(referenceObject, behavior, "GRADIENT");
+}
+
+function setSelectionImageFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyFillToSelection(referenceObject, behavior, "IMAGE");
+}
+
+function setSelectionVideoFill(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyFillToSelection(referenceObject, behavior, "VIDEO");
+}
+
+/**
+ * 用於降低重複性code，指定要將何種填色套用
+ * @param referenceObject
+ * @param behavior
+ * @param specifiedFill
+ * @returns
+ */
+async function applyFillToSelection(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior,
+  specifiedFill: "ALL" | "SOLID" | "GRADIENT" | "IMAGE" | "VIDEO"
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  // Check if fills exist and filter only video fills
+  const fills = referenceObject.fills as readonly Paint[] | undefined;
+  if (!fills) {
+    figma.notify("❌ Reference object has no fills.");
+    return;
+  }
+
+  let filteredFills: Paint[];
+  if (specifiedFill === "ALL") {
+    filteredFills = [...fills];
+  } else if (specifiedFill === "GRADIENT") {
+    filteredFills = fills.filter(
+      (fill) =>
+        fill.type === "GRADIENT_LINEAR" ||
+        fill.type === "GRADIENT_RADIAL" ||
+        fill.type === "GRADIENT_ANGULAR" ||
+        fill.type === "GRADIENT_DIAMOND"
+    );
+  } else {
+    filteredFills = fills.filter((fill) => fill.type === specifiedFill);
+  }
+
+  // If there are no video fills, notify the user and return
+  if (filteredFills.length === 0) {
+    figma.notify(
+      `❌ Reference object does not contain any ${specifiedFill.toLowerCase()} type of fills.`
+    );
+    return;
+  }
+
+  if (
+    referenceObject.fillStyleId !== "" &&
+    typeof referenceObject.fillStyleId === "string"
+  ) {
+    // 當Fill style有連結的時候
+    for (const object of selection) {
+      if ("fills" in object && Array.isArray(object.fills)) {
+        try {
+          await object.setFillStyleIdAsync(referenceObject.fillStyleId);
+        } catch (error) {
+          figma.notify(`❌ Failed to apply fill style to ${object.type}`);
+        }
+      } else {
+        figma.notify(
+          `❌ Object of type ${object.type} does not support fill style id.`
+        );
+      }
+    }
+  } else {
+    // Loop through the selection to apply only the video fills array
+    selection.forEach((object) => {
+      if ("fills" in object && Array.isArray(object.fills)) {
+        if (behavior === "pasteToIncrement") {
+          object.fills = [...object.fills, ...filteredFills];
+        } else {
+          object.fills = filteredFills;
+        }
+      } else {
+        figma.notify(
+          `❌ Object of type ${object.type} does not support fills.`
+        );
+      }
+    });
   }
 }
 
@@ -171,83 +390,19 @@ function setSelectionHeight(referenceObject: CopyPastableNode) {
 }
 
 function setSelectionStrokes(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokes" in object) {
-      // Check if the object has strokes property
-      object.strokes = referenceObject.strokes;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support strokes.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokes");
 }
 
 function setSelectionStrokeWeight(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeWeight" in object) {
-      // Check if the object has strokeWeight property
-      object.strokeWeight = referenceObject.strokeWeight;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke weight.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeWeight");
 }
 
 function setSelectionStrokeAlign(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeAlign" in object) {
-      // Check if the object has strokeAlign property
-      object.strokeAlign = referenceObject.strokeAlign;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke alignment.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeAlign");
 }
 
 function setSelectionStrokeStyle(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("dashPattern" in object) {
-      // Check if the object has strokeAlign property
-      object.dashPattern = referenceObject.dashPattern;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke style.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "dashPattern");
 }
 
 function setSelectionStrokeDash(referenceObject: CopyPastableNode) {
@@ -321,46 +476,51 @@ function setSelectionStrokeGap(referenceObject: CopyPastableNode) {
 }
 
 function setSelectionStrokeCap(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeCap" in object) {
-      // Check if the object has strokeCap property
-      object.strokeCap = referenceObject.strokeCap;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke cap.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeCap");
 }
 
 function setSelectionStrokeJoin(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("strokeJoin" in object) {
-      // Check if the object has strokeJoin property
-      object.strokeJoin = referenceObject.strokeJoin;
-    } else {
-      figma.notify(
-        `❌ Object of type ${object.type} does not support stroke join.`
-      );
-    }
-  });
+  applyPropertyToSelection(referenceObject, "strokeJoin");
 }
 
 function setSelectionStrokeMiterLimit(referenceObject: CopyPastableNode) {
+  applyPropertyToSelection(referenceObject, "strokeMiterLimit");
+}
+
+function setSelectionExportSettings(referenceObject: CopyPastableNode) {
+  applyPropertyToSelection(referenceObject, "exportSettings");
+}
+
+/**
+ * Applies a specified property from a reference object to all currently selected objects.
+ *
+ * This function dynamically copies a property (e.g., `strokeMiterLimit`, `opacity`)
+ * from the `referenceObject` to each object in the current selection. It also supports
+ * optional notifications when the selected object does not support the specified property.
+ *
+ * @param referenceObject - The object from which to copy the property value.
+ *                          This object must contain the property specified by `propertyName`.
+ * @param propertyName - The name of the property to apply to the selected objects.
+ *                       This should be a key of `CopyPastableNode`, e.g., `"strokeMiterLimit"`, `"opacity"`, etc.
+ * @param notifyUnsupported - A boolean flag indicating whether to notify the user if a
+ *                            selected object does not support the specified property.
+ *                            Defaults to `true`.
+ *
+ * Example usage:
+ * ```typescript
+ * applyPropertyToSelection(referenceObject, "strokeMiterLimit");
+ * ```
+ *
+ * - If `propertyName` exists on both the `referenceObject` and the selected objects,
+ *   the property will be applied.
+ * - If `notifyUnsupported` is `true` and a selected object does not support the property,
+ *   a notification will be displayed to the user.
+ */
+function applyPropertyToSelection(
+  referenceObject: CopyPastableNode,
+  propertyName: keyof CopyPastableNode,
+  notifyUnsupported: boolean = true
+) {
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -368,19 +528,71 @@ function setSelectionStrokeMiterLimit(referenceObject: CopyPastableNode) {
     return;
   }
 
+  // Loop through the selection to apply the property
   selection.forEach((object) => {
-    if ("strokeMiterLimit" in object) {
-      // Check if the object has strokeMiterLimit property
-      object.strokeMiterLimit = referenceObject.strokeMiterLimit;
-    } else {
+    if (propertyName in object) {
+      // @ts-ignore: Ignore TS error for dynamic property assignment
+      object[propertyName] = referenceObject[propertyName];
+    } else if (notifyUnsupported) {
       figma.notify(
-        `❌ Object of type ${object.type} does not support stroke miter limit.`
+        `❌ Object of type ${object.type} does not support ${propertyName}.`
       );
     }
   });
 }
 
-function setSelectionExportSettings(referenceObject: CopyPastableNode) {
+function setSelectionAllEffects(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyEffectToSelection(referenceObject, behavior, "ALL");
+}
+
+function setSelectionInnerShadow(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyEffectToSelection(referenceObject, behavior, "INNER_SHADOW");
+}
+
+function setSelectionDropShadow(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyEffectToSelection(referenceObject, behavior, "DROP_SHADOW");
+}
+
+function setSelectionLayerBlur(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyEffectToSelection(referenceObject, behavior, "LAYER_BLUR");
+}
+
+function setSelectionBackgroundBlur(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior
+) {
+  applyEffectToSelection(referenceObject, behavior, "BACKGROUND_BLUR");
+}
+
+/**
+ * 用於降低重複性code，指定要套用何種效果
+ * @param referenceObject
+ * @param behavior
+ * @param specifiedEffect
+ * @returns
+ */
+async function applyEffectToSelection(
+  referenceObject: CopyPastableNode,
+  behavior: PasteBehavior,
+  specifiedEffect:
+    | "ALL"
+    | "DROP_SHADOW"
+    | "INNER_SHADOW"
+    | "LAYER_BLUR"
+    | "BACKGROUND_BLUR"
+) {
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -388,11 +600,64 @@ function setSelectionExportSettings(referenceObject: CopyPastableNode) {
     return;
   }
 
-  selection.forEach((object) => {
-    if ("exportSettings" in object) {
-      object.exportSettings = referenceObject.exportSettings;
-    } else {
-      figma.notify(`❌ Object does not support export settings.`);
+  const effects = referenceObject.effects as readonly Effect[] | undefined;
+  if (!effects) {
+    figma.notify("❌ Reference object has no effects.");
+    return;
+  }
+
+  let filteredEffects: Effect[];
+
+  if (specifiedEffect === "ALL") {
+    filteredEffects = [...effects];
+  } else {
+    filteredEffects = effects.filter(
+      (effect) => effect.type === specifiedEffect
+    );
+  }
+
+  if (filteredEffects.length === 0) {
+    figma.notify(
+      `❌ Reference object does not contain any ${specifiedEffect
+        .toLowerCase()
+        .replace("_", " ")}.`
+    );
+    return;
+  }
+
+  // Apply effectStyleId if available, otherwise apply effects directly
+  if (
+    referenceObject.effectStyleId !== "" &&
+    typeof referenceObject.effectStyleId === "string"
+  ) {
+    // When effect style has a valid linked ID
+    for (const object of selection) {
+      if ("effects" in object && Array.isArray(object.effects)) {
+        try {
+          await object.setEffectStyleIdAsync(referenceObject.effectStyleId);
+        } catch (error) {
+          figma.notify(`❌ Failed to apply effect style to ${object.type}`);
+        }
+      } else {
+        figma.notify(
+          `❌ Object of type ${object.type} does not support pasting effect style.`
+        );
+      }
     }
-  });
+  } else {
+    // Apply filtered effects directly to each selected object
+    for (const object of selection) {
+      if ("effects" in object && Array.isArray(object.effects)) {
+        if (behavior === "pasteToIncrement") {
+          object.effects = [...object.effects, ...filteredEffects];
+        } else {
+          object.effects = filteredEffects;
+        }
+      } else {
+        figma.notify(
+          `❌ Object of type ${object.type} does not support pasting effects.`
+        );
+      }
+    }
+  }
 }

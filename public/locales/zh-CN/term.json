@@ -65,5 +65,16 @@
   "dashCap": "虚线端点",
   "join": "连接",
   "miterAngle": "斜接角",
-  "exportSettings": "导出设置"
+  "exportSettings": "导出设置",
+  "appearance": "外观",
+  "blendMode": "混合模式",
+  "solidFill": "纯色填色",
+  "gradientFill": "渐变填色",
+  "imageFill": "图像填色",
+  "videoFill": "视频填色",
+  "innerShadow": "内阴影",
+  "dropShadow": "投射投影",
+  "layerBlur": "图层模糊",
+  "backgroundBlur": "背景模糊",
+  "faq": "常见问题"
 }

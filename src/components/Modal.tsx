@@ -16,7 +16,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, children }) => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="close-wrap" onClick={handleClose}>
-            <div className="icon-24 icon-hover">
+            <div className="icon-24">
               <SvgCross color="var(--tooltip-icon)" />
             </div>
           </div>
