@@ -51,41 +51,45 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
     }
   };
 
-  // 虛線與斷點
-  const handleDashChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const numberValue = Number(event.target.value);
-    const gap = stroke.dashAndGap?.[1] === undefined ? 0 : stroke.dashAndGap?.[1];
+  // 虛線與斷點 - using temporary states for editing
+  const [editingDash, setEditingDash] = useState<string>(stroke.dashAndGap?.[0]?.toString() || "");
+  const [editingGap, setEditingGap] = useState<string>(stroke.dashAndGap?.[1]?.toString() || "");
+  const [editingCustomDashAndGap, setEditingCustomDashAndGap] = useState<string>(stroke.dashAndGap?.toString() || "");
 
+  const handleDashChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setEditingDash(event.target.value); // Update UI only
+  }
+
+  const handleDashBlur = () => {
+    const numberValue = Number(editingDash);
+    const gap = stroke.dashAndGap?.[1] || 0;
     if (!isNaN(numberValue)) {
       setStroke((prev) => ({ ...prev, dashAndGap: [numberValue, gap] }));
     }
   }
 
-  const handleGapChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const numberValue = Number(event.target.value);
-    const dash = stroke.dashAndGap?.[0] === undefined ? 0 : stroke.dashAndGap?.[0];
+  const handleGapChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setEditingGap(event.target.value); // Update UI only
+  }
 
+  const handleGapBlur = () => {
+    const numberValue = Number(editingGap);
+    const dash = stroke.dashAndGap?.[0] || 0;
     if (!isNaN(numberValue)) {
       setStroke((prev) => ({ ...prev, dashAndGap: [dash, numberValue] }));
     }
   }
 
-  const handleCustomDashAndGapChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const value = event.target.value;
+  const handleCustomDashAndGapChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setEditingCustomDashAndGap(event.target.value); // Update UI only
+  }
 
-    // Split the string by comma, filter valid numbers, and parse them
-    const parsedValues = value
+  const handleCustomDashAndGapBlur = () => {
+    const parsedValues = editingCustomDashAndGap
       .split(',')
       .map((num) => num.trim())
       .filter((num) => !isNaN(Number(num)))
       .map(Number);
-
     setStroke((prev) => ({ ...prev, dashAndGap: parsedValues }));
   }
 
@@ -105,6 +109,10 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   const handleStrokeStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newStyle = e.target.value;
     setStrokeStyle(newStyle);
+
+    if (newStyle === "solid" || newStyle === "dash") {
+      setStroke((prev) => ({ ...prev, dashAndGap: [0, 0] }));
+    }
   }
 
   // 起始點樣式
@@ -200,8 +208,9 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
                 <textarea
                   className="textarea textarea-height-fit-content"
                   rows={1}
-                  value={stroke.dashAndGap?.[0]}
+                  value={editingDash}
                   onChange={handleDashChange}
+                  onBlur={handleDashBlur}
                 />
               </div>
             </div>
@@ -211,8 +220,9 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
                 <textarea
                   className="textarea textarea-height-fit-content"
                   rows={1}
-                  value={stroke.dashAndGap?.[1]}
+                  value={editingGap}
                   onChange={handleGapChange}
+                  onBlur={handleGapBlur}
                 />
               </div>
             </div>
@@ -225,8 +235,9 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
               <textarea
                 className="textarea textarea-height-fit-content"
                 rows={1}
-                value={stroke.dashAndGap?.toString()}
+                value={editingCustomDashAndGap}
                 onChange={handleCustomDashAndGapChange}
+                onBlur={handleCustomDashAndGapBlur}
               />
             </div>
           </div>
