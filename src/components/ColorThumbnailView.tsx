@@ -17,7 +17,18 @@ const ColorThumbnailView: React.FC<ColorThumbnailViewProps> = ({
 }) => {
 
   return (
-    <div className={`color-thumbnail color-thumbnail-${type} ${extraClassName}`} style={{ background: color, opacity: opacity, width: size, height: size }}></div>
+    <div
+      className={`color-thumbnail color-thumbnail-${type} ${extraClassName}`}
+      style={{
+        background: color,
+        opacity: opacity,
+        width: size,
+        height: size,
+        minWidth: size,
+        minHeight: size,
+      }}
+    >
+    </div>
   );
 };
 

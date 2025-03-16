@@ -11,7 +11,7 @@ interface StrokeEditorViewProps {
 const StrokeEditorView: React.FC<StrokeEditorViewProps> = () => {
 
   // 色彩與透明度
-  const [color, setColor] = useState<string>("000000");
+  const [color, setColor] = useState<string>("rgb(0,0,0)");
   const handleColorChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -83,8 +83,8 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = () => {
       <div>
         <SectionTitle title="Color" titleType="secondary" />
         <div className="grid">
-          <div className="width-100">
-            <ColorThumbnailView color={color} opacity={opacity} size={16} type={'rounded'} />
+          <div className="color-selector">
+            <ColorThumbnailView color={color} opacity={opacity} size={16} type={'square'} extraClassName='mr-xxxsmall'/>
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}

@@ -1,0 +1,40 @@
+.color-selector {
+    display: flex;
+    align-items: center;
+    background-color: var(--figma-color-bg-secondary);
+    padding: var(--size-xxsmall) var(--size-xxxsmall) var(--size-xxsmall) var(--size-xxsmall);
+
+    &:hover {
+        color: var(--figma-color-text);
+        outline: 1.5px solid var(--figma-color-border);
+    }
+
+    &:active,
+    &:focus {
+        color: var(--figma-color-text);
+        outline: 1.5px solid var(--figma-color-bg-brand);
+    }
+
+    /* Make parent container focus when textarea is focused */
+    &:focus-within {
+        outline: 1.5px solid var(--figma-color-bg-brand);
+        /* Highlight border */
+    }
+
+    .textarea {
+        padding: 0;
+        border-radius: 0;
+
+        &:hover {
+            border: 0px;
+            outline: none;
+        }
+
+        &:active,
+        &:focus {
+            border-width: 0px;
+            border: none;
+            outline: none;
+        }
+    }
+}

@@ -2,10 +2,10 @@
     font-family: 'Inter', sans-serif;
     border-radius: var(--cy-border-radius-large);
     background-color: var(--figma-color-bg-secondary);
-    color: var(--figma-color-text-secondary);
+    color: var(--figma-color-text);
     font-size: var(--font-size-small);
     min-height: 48px;
-    border: 1px solid var(--figma-color-bg-secondary);
+    border: 0px;
     // transition: all 0.3s;
 
     &-height-fit-content {
@@ -18,14 +18,15 @@
     }
 
     &:hover {
-        color: var(--figma-color-text);
-        border: 1px solid var(--figma-color-border);
+        border: 0px;
+        outline: 1.5px solid rgb(0, 0, 0, 0.1);
     }
 
     &:active,
     &:focus {
-        color: var(--figma-color-text);
-        border-width: 2px;
+        outline: 1.5px solid var(--figma-color-bg-brand);
+        border: none;
+        outline-offset: 0;
     }
 
     &::placeholder {
