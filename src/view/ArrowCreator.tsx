@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
-import { FigmaButton, SectionTitle, TitleBar } from '../components';
+import { FigmaButton, SectionTitle, StrokeEditorView, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
 import { ConnectPointPosition, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator } from '../module-frontend/arrowCreatorFrontEnd';
-import ConnectPointSelectorView from '../components/ConnectPointSelectorView';
+import { ConnectPointSelectorView } from '../components';
 
 
 interface ArrowCreatorProps {
@@ -79,6 +79,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         />
       </div>
       <div className="content">
+        {/* 連接點 */}
         <div>
           <SectionTitle title={"Connect point"} />
           <ConnectPointSelectorView
@@ -87,22 +88,21 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             endItemConnectPointPosition={endItemConnectPointPosition}
             setEndItemConnectPointPosition={setEndItemConnectPointPosition}
           />
-          <div className="width-100">
-            <div className="width-100 mt-xxsmall">
-              <SectionTitle title={"Margin"} titleType="secondary" />
-              <textarea
-                className="textarea textarea-height-fit-content"
-                rows={1}
-                value={safeMargin}
-                onChange={handleSafeMarginChange}
-                placeholder={t("module:customValueNumbersOnly")}
-              />
-              {safeMarginFieldNote && (
-                <span className="note error">{safeMarginFieldNote}</span>
-              )}
-            </div>
+          <div className="width-100 mt-xxsmall">
+            <SectionTitle title={"Margin"} titleType="secondary" />
+            <textarea
+              className="textarea textarea-height-fit-content"
+              rows={1}
+              value={safeMargin}
+              onChange={handleSafeMarginChange}
+              placeholder={t("module:customValueNumbersOnly")}
+            />
+            {safeMarginFieldNote && (
+              <span className="note error">{safeMarginFieldNote}</span>
+            )}
           </div>
         </div>
+        {/* 筆畫模式 */}
         <div className='mt-xsmall'>
           <SectionTitle title={"Stroke"} />
           <SegmentedControl
@@ -121,7 +121,29 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
               label="style"
             />
           </SegmentedControl>
+          <div className="list-view mt-xsmall">
+            <div className="list-view-header property-clipboard-header">
+              <div></div>
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+              </div>
+              <div>
+                <FigmaButton
+                  title={"Save style"}
+                  onClick={() => {
+                  }}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
+              </div>
+            </div>
+            <div className="padding-16 border-1-top">
+              <StrokeEditorView />
+            </div>
+          </div>
         </div>
+        {/* 按鈕 */}
         <div className="mt-xsmall">
           <div className="custom-checkbox-group">
             <label className="container">
