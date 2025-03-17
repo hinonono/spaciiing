@@ -13,7 +13,7 @@ import { ConnectPointPosition, RectangleSegmentMap, RectangleSegmentType, Segmen
  *   - `actual`: The connection points without any margin.
  *   - `withMargin`: The connection points adjusted by the specified margin.
  */
-function calculateItemSegments(x: number, y: number, width: number, height: number, margin: number, offset: number): SegmentConnectionData {
+function calcNodeSegments(x: number, y: number, width: number, height: number, margin: number, offset: number): SegmentConnectionData {
     const actual: RectangleSegmentMap = {
         [RectangleSegmentType.TopLeft]: { x: x - offset, y: y - offset },
         [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - offset },
@@ -45,35 +45,35 @@ function calculateItemSegments(x: number, y: number, width: number, height: numb
     return { actual, withMargin };
 }
 
-function calculateItemGap(mode: "horizontal" | "vertical", startItem: SceneNode, endItem: SceneNode): number {
+function calcNodeGap(mode: "horizontal" | "vertical", sourceNode: SceneNode, targetNode: SceneNode): number {
     if (mode === "horizontal") {
-        const number = endItem.x - (startItem.x + startItem.width)
+        const number = targetNode.x - (sourceNode.x + sourceNode.width)
         return number
     } else {
-        const number = endItem.y - (startItem.y + startItem.height)
+        const number = targetNode.y - (sourceNode.y + sourceNode.height)
         return number;
     }
 }
 
 
 function determineRoute(
-    startItem: SceneNode,
-    startItemConnectPoint: ConnectPointPosition,
-    endItem: SceneNode,
-    endItemConnectPoint: ConnectPointPosition,
+    sourceNode: SceneNode,
+    sourceItemConnectPoint: ConnectPointPosition,
+    targetNode: SceneNode,
+    targetItemConnectPoint: ConnectPointPosition,
     offset: number
 ) {
-    const gap = calculateItemGap("horizontal", startItem, endItem) / 2;
+    const gap = calcNodeGap("horizontal", sourceNode, targetNode) / 2;
 
-    const startItemAxis = calculateItemSegments(startItem.x, startItem.y, startItem.width, startItem.height, gap, offset)
-    const endItemAxis = calculateItemSegments(endItem.x, endItem.y, endItem.width, endItem.height, gap, offset)
+    const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, gap, offset)
+    const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, gap, offset)
 
 
-    switch (startItemConnectPoint) {
+    switch (sourceItemConnectPoint) {
         case RectangleSegmentType.TopCenter:
             // console.log("Start from Top Center");
             calculateRouteFromTopCenter(
-                endItemConnectPoint,
+                targetItemConnectPoint,
 
             );
 
@@ -91,16 +91,16 @@ function determineRoute(
 
             break;
         default:
-            console.error("Invalid startItemConnectPoint");
+            console.error("Invalid sourceItemConnectPoint");
 
             break;
     }
 }
 
 function calculateRouteFromTopCenter(
-    endItemConnectPoint: ConnectPointPosition,
+    targetItemConnectPoint: ConnectPointPosition,
 ) {
-    switch (endItemConnectPoint) {
+    switch (targetItemConnectPoint) {
         case RectangleSegmentType.TopCenter:
 
 
@@ -119,7 +119,7 @@ function calculateRouteFromTopCenter(
 
             break;
         default:
-            console.error("Invalid endItemConnectPoint");
+            console.error("Invalid targetItemConnectPoint");
 
             break;
     }
