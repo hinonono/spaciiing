@@ -70,17 +70,17 @@ function calcNodeSegments(x: number, y: number, width: number, height: number, m
     };
 
     const withMargin: RectangleSegmentMap = {
-        [RectangleSegmentType.TopLeft]: { x: x - margin - offset, y: y - margin - offset },
-        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - margin - offset },
-        [RectangleSegmentType.TopRight]: { x: x + width + margin + offset, y: y - margin - offset },
+        [RectangleSegmentType.TopLeft]: { x: x - margin, y: y - margin },
+        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - margin },
+        [RectangleSegmentType.TopRight]: { x: x + width + margin, y: y - margin },
 
-        [RectangleSegmentType.MiddleLeft]: { x: x - margin - offset, y: y + height / 2 },
+        [RectangleSegmentType.MiddleLeft]: { x: x - margin, y: y + height / 2 },
         [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
-        [RectangleSegmentType.MiddleRight]: { x: x + width + margin + offset, y: y + height / 2 },
+        [RectangleSegmentType.MiddleRight]: { x: x + width + margin, y: y + height / 2 },
 
-        [RectangleSegmentType.BottomLeft]: { x: x - margin - offset, y: y + height + margin + offset },
-        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + margin + offset },
-        [RectangleSegmentType.BottomRight]: { x: x + width + margin + offset, y: y + height + margin + offset },
+        [RectangleSegmentType.BottomLeft]: { x: x - margin, y: y + height + margin },
+        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + margin },
+        [RectangleSegmentType.BottomRight]: { x: x + width + margin, y: y + height + margin },
     };
 
     return { actual, withMargin };
