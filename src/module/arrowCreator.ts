@@ -59,30 +59,24 @@ function calcNodeSegments(x: number, y: number, width: number, height: number, m
         [RectangleSegmentType.TopLeft]: { x: x - offset, y: y - offset },
         [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - offset },
         [RectangleSegmentType.TopRight]: { x: x + width + offset, y: y - offset },
-
         [RectangleSegmentType.MiddleLeft]: { x: x - offset, y: y + height / 2 },
         [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
         [RectangleSegmentType.MiddleRight]: { x: x + width + offset, y: y + height / 2 },
-
         [RectangleSegmentType.BottomLeft]: { x: x - offset, y: y + height + offset },
         [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + offset },
         [RectangleSegmentType.BottomRight]: { x: x + width + offset, y: y + height + offset },
     };
-
     const withMargin: RectangleSegmentMap = {
         [RectangleSegmentType.TopLeft]: { x: x - margin, y: y - margin },
         [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - margin },
         [RectangleSegmentType.TopRight]: { x: x + width + margin, y: y - margin },
-
         [RectangleSegmentType.MiddleLeft]: { x: x - margin, y: y + height / 2 },
         [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
         [RectangleSegmentType.MiddleRight]: { x: x + width + margin, y: y + height / 2 },
-
         [RectangleSegmentType.BottomLeft]: { x: x - margin, y: y + height + margin },
         [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + margin },
         [RectangleSegmentType.BottomRight]: { x: x + width + margin, y: y + height + margin },
     };
-
     return { actual, withMargin };
 }
 
@@ -135,44 +129,48 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
     if (points.length < 2) {
         throw new Error("A polyline requires at least two points.");
     }
-
     const vector = figma.createVector();
     figma.currentPage.appendChild(vector);
 
-    // Create vertices (points)
     const vertices = points.map((point) => ({
         x: point.x,
         y: point.y,
     }));
 
-    // Create segments (connections between points)
     const segments = points.slice(1).map((_, i) => ({
         start: i,
         end: i + 1,
     }));
 
-    // Create the vector network
     const vectorNetwork = {
         vertices,
         segments,
         regions: [], // No enclosed region, just a line
     };
 
-    // Use the async method to set the vector network
     await vector.setVectorNetworkAsync(vectorNetwork);
 
     const strokeColor = util.hexToRgb(strokeStyle.color);
-
     // Apply stroke style
     vector.strokes = [{ type: "SOLID", color: strokeColor, opacity: strokeStyle.opacity }];
     if (strokeStyle.dashAndGap) {
         vector.dashPattern = strokeStyle.dashAndGap
     }
-
-    vector.strokeCap = strokeStyle.startPointCap;
-    vector.strokeWeight = strokeStyle.strokeWeight; // Line thickness
+    vector.strokeWeight = strokeStyle.strokeWeight;
     vector.name = "Arrow"
     vector.cornerRadius = strokeStyle.cornerRadius
+    vector.strokeCap = "NONE"
+
+
+    // Workaround for buggy figma plugin api
+    // 由於Figma不允許直接對單側Stroke Cap進行修改，所以先將它化為純文字然後改變它
+    /* make a copy of the original node */
+    let copy = JSON.parse(JSON.stringify(vector.vectorNetwork))
+    if ("strokeCap" in copy.vertices[copy.vertices.length - 1]) {
+        copy.vertices[0].strokeCap = strokeStyle.startPointCap
+        copy.vertices[copy.vertices.length - 1].strokeCap = strokeStyle.endPointCap
+    }
+    await vector.setVectorNetworkAsync(copy)
 }
 
 
