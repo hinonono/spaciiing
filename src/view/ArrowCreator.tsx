@@ -28,7 +28,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleLeft);
 
   // 安全間距
-  const [safeMargin, setSafeMargin] = useState<number>(40);
+  const [safeMargin, setSafeMargin] = useState<number>(32);
   const handleSafeMarginChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -63,10 +63,10 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   // 筆畫本體
   const [stroke, setStroke] = useState<CYStroke>({
-    color: "000000",
+    color: "64748B",
     opacity: 1,
-    strokeWeight: 1,
-    cornerRadius: 0,
+    strokeWeight: 6,
+    cornerRadius: 16,
     startPointCap: "NONE",
     endPointCap: "NONE",
     dashAndGap: [0, 0],

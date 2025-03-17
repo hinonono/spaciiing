@@ -133,8 +133,7 @@ function createSegmentConnectionGroup(
 
 async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
     if (points.length < 2) {
-        console.error("A polyline requires at least two points.");
-        return;
+        throw new Error("A polyline requires at least two points.");
     }
 
     const vector = figma.createVector();
@@ -162,9 +161,18 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
     // Use the async method to set the vector network
     await vector.setVectorNetworkAsync(vectorNetwork);
 
+    const strokeColor = util.hexToRgb(strokeStyle.color);
+
     // Apply stroke style
-    vector.strokes = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 } }]; // Black stroke
-    vector.strokeWeight = 4; // Line thickness
+    vector.strokes = [{ type: "SOLID", color: strokeColor, opacity: strokeStyle.opacity }];
+    if (strokeStyle.dashAndGap) {
+        vector.dashPattern = strokeStyle.dashAndGap
+    }
+
+    vector.strokeCap = strokeStyle.startPointCap;
+    vector.strokeWeight = strokeStyle.strokeWeight; // Line thickness
+    vector.name = "Arrow"
+    vector.cornerRadius = strokeStyle.cornerRadius
 }
 
 

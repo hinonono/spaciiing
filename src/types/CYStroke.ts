@@ -1,5 +1,4 @@
 // 客製化的Stroke架構
-
 export interface CYStroke {
     color: string;
     opacity: number;

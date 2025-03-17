@@ -46,7 +46,15 @@ export const strokeCaps: StrokeCapOption[] = [
     {
         value: "ARROW_EQUILATERAL",
         labelKey: "term:triangleArrow",
-    }
+    },
+    {
+        value: "ROUND",
+        labelKey: "term:round",
+    },
+    {
+        value: "SQUARE",
+        labelKey: "term:square",
+    },
 ]
 
 export const strokeStyles = [
