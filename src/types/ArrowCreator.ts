@@ -47,3 +47,6 @@ export interface ConnectPointAxis {
     actual: LayerSegments;
     withMargin: LayerSegments;
 }
+
+// 描述欲連接的兩個物件的Y高度位置關係（以起始物件為視點）
+export type ConnectItemHorizontalRelativePosition = "align" | "lower" | "higher"

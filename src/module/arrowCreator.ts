@@ -1,4 +1,4 @@
-import { ConnectPointAxis, ConnectPointPosition, LayerSegments, SegmentType } from "../types/ArrowCreator";
+import { ConnectItemHorizontalRelativePosition, ConnectPointAxis, ConnectPointPosition, LayerSegments, SegmentType } from "../types/ArrowCreator";
 
 /**
  * Calculates the positions of various connection points on a rectangular layer,
@@ -45,22 +45,119 @@ function calculateSegments(x: number, y: number, width: number, height: number, 
     return { actual, withMargin };
 }
 
-function calculateRoute(startItemConnectPoint: ConnectPointPosition, endItemConnectPoint: ConnectPointPosition) {
+function calculateItemGap(startItem: SceneNode, endItem: SceneNode): number {
+    const number = endItem.x - (startItem.x + startItem.width)
+
+    return number
+}
+
+function determineConnectItemHorizontalRelativePosition(startItem: SceneNode, endItem: SceneNode): ConnectItemHorizontalRelativePosition | null {
+    if (startItem.y === endItem.y) {
+        return "align";
+    } else if (startItem.y > endItem.y) {
+        return "lower"
+    } else if (startItem.y < endItem.y) {
+        return "higher"
+    } else {
+        return null;
+    }
+}
+
+function calculateRoute(
+    startItem: SceneNode,
+    startItemConnectPoint: ConnectPointPosition,
+    endItem: SceneNode,
+    endItemConnectPoint: ConnectPointPosition,
+    offset: number
+) {
+    const gap = calculateItemGap(startItem, endItem) / 2;
+    const relativePosition = determineConnectItemHorizontalRelativePosition(startItem, endItem);
+
+    if (relativePosition === null) {
+        throw new Error("Invalid alignment: Unable to determine horizontal relative position between startItem and endItem.");
+    }
+
+    const startItemAxis = calculateSegments(startItem.x, startItem.y, startItem.width, startItem.height, gap, offset)
+    const endItemAxis = calculateSegments(endItem.x, endItem.y, endItem.width, endItem.height, gap, offset)
+
+
     switch (startItemConnectPoint) {
         case SegmentType.TopCenter:
-            console.log("Start from Top Center");
+            // console.log("Start from Top Center");
+            calculateRouteFromTopCenter(
+                endItemConnectPoint,
+                relativePosition
+            );
+
             break;
         case SegmentType.BottomCenter:
-            console.log("Start from Bottom Center");
+            // console.log("Start from Bottom Center");
+
             break;
         case SegmentType.MiddleLeft:
-            console.log("Start from Middle Left");
+            // console.log("Start from Middle Left");
+
             break;
         case SegmentType.MiddleRight:
-            console.log("Start from Middle Right");
+            // console.log("Start from Middle Right");
+
             break;
         default:
             console.error("Invalid startItemConnectPoint");
+
+            break;
+    }
+}
+
+function calculateRouteFromTopCenter(
+    endItemConnectPoint: ConnectPointPosition,
+    relativePosition: ConnectItemHorizontalRelativePosition
+) {
+    switch (endItemConnectPoint) {
+        case SegmentType.TopCenter:
+            if (relativePosition === "align") {
+
+            } else if (relativePosition === "lower") {
+
+            } else if (relativePosition === "higher") {
+
+            }
+
+
+            break;
+        case SegmentType.BottomCenter:
+            if (relativePosition === "align") {
+
+            } else if (relativePosition === "lower") {
+
+            } else if (relativePosition === "higher") {
+
+            }
+
+            break;
+        case SegmentType.MiddleLeft:
+            if (relativePosition === "align") {
+
+            } else if (relativePosition === "lower") {
+
+            } else if (relativePosition === "higher") {
+
+            }
+
+            break;
+        case SegmentType.MiddleRight:
+            if (relativePosition === "align") {
+
+            } else if (relativePosition === "lower") {
+
+            } else if (relativePosition === "higher") {
+
+            }
+
+            break;
+        default:
+            console.error("Invalid endItemConnectPoint");
+
             break;
     }
 }
