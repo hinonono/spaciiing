@@ -31,11 +31,13 @@ import * as aspectRatioHelper from "./module/aspectRatioHelper";
 import * as resize from "./module/resize";
 import * as styleIntroducer from "./module/styleIntroducer";
 import * as propertyClipboard from "./module/propertyClipboard";
+import * as arrowCreator from "./module/arrowCreator";
 import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
 import { MessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { MessageRenamer } from "./types/Messages/MessageRenamer";
 import { ExternalMessage } from "./types/Messages/ExternalMessage";
 import { MessagePropertyClipboard } from "./types/Messages/MessagePropertyClipboard";
+import { MessageArrowCreator } from "./types/Messages/MessageArrowCreator";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(360, 480);
@@ -63,6 +65,9 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "Spaciiing":
       spaciiing.useSpacing(message as MessageSpaciiing);
+      break;
+    case "ArrowCreator":
+      arrowCreator.reception(message as MessageArrowCreator)
       break;
     case "Framer":
       framer.useEqual(message as MessageFramer);

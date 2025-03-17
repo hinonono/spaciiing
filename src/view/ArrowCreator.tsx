@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
@@ -24,10 +24,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 連接點
-  const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleRight);
-  const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleLeft);
-  const [connectPointPositionPair, setConnectPointPositionPair] = useState<ConnectPointPositionPair>({ source: startItemConnectPointPosition, target: endItemConnectPointPosition });
-
+  const [sourceItemConnectPointPosition, setSourceItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleRight);
+  const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleLeft);
 
   // 安全間距
   const [safeMargin, setSafeMargin] = useState<number>(40);
@@ -128,10 +126,10 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         <div>
           <SectionTitle title={"Connect point"} />
           <ConnectPointSelectorView
-            startItemConnectPointPosition={startItemConnectPointPosition}
-            setStartItemConnectPointPosition={setStartItemConnectPointPosition}
-            endItemConnectPointPosition={endItemConnectPointPosition}
-            setEndItemConnectPointPosition={setEndItemConnectPointPosition}
+            sourceItemConnectPointPosition={sourceItemConnectPointPosition}
+            setSourceItemConnectPointPosition={setSourceItemConnectPointPosition}
+            targetItemConnectPointPosition={targetItemConnectPointPosition}
+            setTargetItemConnectPointPosition={setTargetItemConnectPointPosition}
           />
           <div className="width-100 mt-xxsmall">
             <SectionTitle title={"Margin"} titleType="secondary" />
@@ -186,7 +184,10 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             onClick={() => {
               applyArrowCreator(
                 safeMargin,
-                connectPointPositionPair,
+                {
+                  source: sourceItemConnectPointPosition,
+                  target: targetItemConnectPointPosition
+                },
                 stroke,
                 createAnnotationBox
               )
@@ -199,3 +200,4 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 };
 
 export default ArrowCreator;
+

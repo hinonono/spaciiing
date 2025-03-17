@@ -1,30 +1,26 @@
 import React from 'react';
-import { ConnectPointPosition, SegmentType } from '../types/ArrowCreator';
+import { ConnectPointPosition, RectangleSegmentType } from '../types/ArrowCreator';
 
 interface ConnectPointSelectorViewProps {
-  // The current selected connection point for the start item
-  startItemConnectPointPosition: ConnectPointPosition;
-  // Function to update the selected connection point for the start item
-  setStartItemConnectPointPosition: (position: ConnectPointPosition) => void;
-  // The current selected connection point for the end item
-  endItemConnectPointPosition: ConnectPointPosition;
-  // Function to update the selected connection point for the end item
-  setEndItemConnectPointPosition: (position: ConnectPointPosition) => void;
+  sourceItemConnectPointPosition: ConnectPointPosition;
+  setSourceItemConnectPointPosition: (position: ConnectPointPosition) => void;
+  targetItemConnectPointPosition: ConnectPointPosition;
+  setTargetItemConnectPointPosition: (position: ConnectPointPosition) => void;
 }
 
 // Available connection point positions around each item
 const connectPoints: ConnectPointPosition[] = [
-  SegmentType.TopCenter,
-  SegmentType.BottomCenter,
-  SegmentType.MiddleLeft,
-  SegmentType.MiddleRight
+  RectangleSegmentType.TopCenter,
+  RectangleSegmentType.BottomCenter,
+  RectangleSegmentType.MiddleLeft,
+  RectangleSegmentType.MiddleRight
 ];
 
 const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
-  startItemConnectPointPosition,
-  setStartItemConnectPointPosition,
-  endItemConnectPointPosition,
-  setEndItemConnectPointPosition
+  sourceItemConnectPointPosition,
+  setSourceItemConnectPointPosition,
+  targetItemConnectPointPosition,
+  setTargetItemConnectPointPosition
 }) => {
   return (
     <div className="connect-point-container">
@@ -35,12 +31,12 @@ const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
           {connectPoints.map((position) => (
             <div
               key={position}
-              className={`drop-shadow-1 connect-point ${position} ${(isStart ? startItemConnectPointPosition : endItemConnectPointPosition) === position ? "selected" : ""
+              className={`drop-shadow-1 connect-point ${position} ${(isStart ? sourceItemConnectPointPosition : targetItemConnectPointPosition) === position ? "selected" : ""
                 }`}
               onClick={() =>
                 isStart
-                  ? setStartItemConnectPointPosition(position) // Set selected connect point for start item
-                  : setEndItemConnectPointPosition(position) // Set selected connect point for end item
+                  ? setSourceItemConnectPointPosition(position) // Set selected connect point for start item
+                  : setTargetItemConnectPointPosition(position) // Set selected connect point for end item
               }
             />
           ))}

@@ -1,4 +1,45 @@
-import { ConnectPointPosition, RectangleSegmentMap, RectangleSegmentType, SegmentConnectionData } from "../types/ArrowCreator";
+import { ConnectPointPosition, RectangleSegmentMap, RectangleSegmentType, SegmentConnectionData, SegmentConnectionGroup } from "../types/ArrowCreator";
+import { CYStroke } from "../types/CYStroke";
+import { Coordinates } from "../types/General";
+import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
+import * as util from "./util";
+
+
+export function reception(message: MessageArrowCreator) {
+    console.log("🅾️Recepted from module Arrow Creator");
+    console.log(message);
+
+
+    const selection = util.getCurrentSelection();
+
+    // Check if there are any nodes selected
+    if (selection.length === 0) {
+        figma.notify("No nodes selected.");
+        return;
+    } else if (selection.length === 1) {
+        figma.notify("Please select at least two objects.");
+        return;
+    }
+
+    for (let i = 0; i < selection.length - 1; i++) {
+        const sourceItem = selection[i];
+        const targetItem = selection[i + 1]
+
+        // calculateRouteELK(sourceItem, targetItem, message.stroke)
+        determineRoute(
+            sourceItem,
+            message.connectPointPositionPair.source,
+            targetItem,
+            message.connectPointPositionPair.target,
+            message.safeMargin,
+            message.stroke
+        )
+
+    }
+
+
+}
+
 
 /**
  * Calculates the positions of various connection points on a rectangular layer,
@@ -55,72 +96,174 @@ function calcNodeGap(mode: "horizontal" | "vertical", sourceNode: SceneNode, tar
     }
 }
 
+function createSegmentConnectionGroup(
+    mode: "horizontal" | "vertical",
+    source: SegmentConnectionData,
+    target: SegmentConnectionData
+): SegmentConnectionGroup {
+    if (mode === "horizontal") {
+        return {
+            source: source,
+            target: target,
+            betweenItemTopCenter: {
+                x: source.withMargin[RectangleSegmentType.TopRight].x,
+                y: Math.min(source.withMargin[RectangleSegmentType.TopRight].y, target.withMargin[RectangleSegmentType.TopLeft].y)
+            },
+            betweenItemBottomCenter: {
+                x: source.withMargin[RectangleSegmentType.TopRight].x,
+                y: Math.max(source.withMargin[RectangleSegmentType.BottomRight].y, target.withMargin[RectangleSegmentType.BottomLeft].y)
+            }
+        }
+    } else {
+        return {
+            source: source,
+            target: target,
+            betweenItemMiddleLeft: {
+                x: Math.min(source.withMargin[RectangleSegmentType.BottomLeft].x, target.withMargin[RectangleSegmentType.TopLeft].x),
+                y: source.withMargin[RectangleSegmentType.BottomLeft].y
+            },
+            betweenItemMiddleRight: {
+                x: Math.max(source.withMargin[RectangleSegmentType.BottomRight].x, target.withMargin[RectangleSegmentType.TopRight].x),
+                y: source.withMargin[RectangleSegmentType.BottomLeft].y
+            },
+        }
+    }
+}
+
+
+async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
+    if (points.length < 2) {
+        console.error("A polyline requires at least two points.");
+        return;
+    }
+
+    const vector = figma.createVector();
+    figma.currentPage.appendChild(vector);
+
+    // Create vertices (points)
+    const vertices = points.map((point) => ({
+        x: point.x,
+        y: point.y,
+    }));
+
+    // Create segments (connections between points)
+    const segments = points.slice(1).map((_, i) => ({
+        start: i,
+        end: i + 1,
+    }));
+
+    // Create the vector network
+    const vectorNetwork = {
+        vertices,
+        segments,
+        regions: [], // No enclosed region, just a line
+    };
+
+    // Use the async method to set the vector network
+    await vector.setVectorNetworkAsync(vectorNetwork);
+
+    // Apply stroke style
+    vector.strokes = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 } }]; // Black stroke
+    vector.strokeWeight = 4; // Line thickness
+}
+
+
 
 function determineRoute(
     sourceNode: SceneNode,
     sourceItemConnectPoint: ConnectPointPosition,
     targetNode: SceneNode,
     targetItemConnectPoint: ConnectPointPosition,
-    offset: number
+    offset: number,
+    strokeStyle: CYStroke,
 ) {
     const gap = calcNodeGap("horizontal", sourceNode, targetNode) / 2;
 
     const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, gap, offset)
     const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, gap, offset)
+    const group = createSegmentConnectionGroup("horizontal", sourceNodeConnectionData, targetNodeConnectionData)
 
+    if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
+        const route = determineRouteFromTopCenter(targetItemConnectPoint, group);
+        createPolyline(route, strokeStyle)
 
-    switch (sourceItemConnectPoint) {
-        case RectangleSegmentType.TopCenter:
-            // console.log("Start from Top Center");
-            calculateRouteFromTopCenter(
-                targetItemConnectPoint,
+    } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
 
-            );
+    } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
 
-            break;
-        case RectangleSegmentType.BottomCenter:
-            // console.log("Start from Bottom Center");
+    } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
 
-            break;
-        case RectangleSegmentType.MiddleLeft:
-            // console.log("Start from Middle Left");
-
-            break;
-        case RectangleSegmentType.MiddleRight:
-            // console.log("Start from Middle Right");
-
-            break;
-        default:
-            console.error("Invalid sourceItemConnectPoint");
-
-            break;
+    } else {
+        throw new Error("Unable to determine route from source item connect point.")
     }
 }
 
-function calculateRouteFromTopCenter(
+function removeDuplicateCoordinatesFromPath(path: Coordinates[]) {
+    // Remove consecutive duplicate coordinates
+    const uniquePath = path.filter((coord, index, arr) =>
+        index === 0 || coord.x !== arr[index - 1].x || coord.y !== arr[index - 1].y
+    );
+
+    return uniquePath;
+}
+
+function determineRouteFromTopCenter(
     targetItemConnectPoint: ConnectPointPosition,
-) {
-    switch (targetItemConnectPoint) {
-        case RectangleSegmentType.TopCenter:
+    group: SegmentConnectionGroup
+): Coordinates[] {
+    if (targetItemConnectPoint === RectangleSegmentType.TopCenter) {
+        if (!group.betweenItemTopCenter || !group.betweenItemBottomCenter) {
+            throw new Error("Required properties for determin route is undefined.")
+        }
 
-
-
-            break;
-        case RectangleSegmentType.BottomCenter:
-
-
-            break;
-        case RectangleSegmentType.MiddleLeft:
-
-
-            break;
-        case RectangleSegmentType.MiddleRight:
-
-
-            break;
-        default:
-            console.error("Invalid targetItemConnectPoint");
-
-            break;
+        const path = [
+            group.source.actual[RectangleSegmentType.TopCenter],
+            {
+                x: group.source.withMargin[RectangleSegmentType.TopCenter].x,
+                y: group.betweenItemTopCenter.y
+            },
+            {
+                x: group.target.withMargin[RectangleSegmentType.TopCenter].x,
+                y: group.betweenItemTopCenter.y
+            },
+            group.target.actual[RectangleSegmentType.TopCenter],
+        ]
+        const uniquePath = removeDuplicateCoordinatesFromPath(path)
+        return uniquePath;
+    } else if (targetItemConnectPoint === RectangleSegmentType.BottomCenter) {
+        const path = [
+            group.source.actual[RectangleSegmentType.TopCenter],
+            group.source.withMargin[RectangleSegmentType.TopCenter],
+            group.source.withMargin[RectangleSegmentType.TopRight],
+            group.target.withMargin[RectangleSegmentType.BottomLeft],
+            group.target.withMargin[RectangleSegmentType.BottomCenter],
+            group.target.actual[RectangleSegmentType.BottomCenter],
+        ]
+        const uniquePath = removeDuplicateCoordinatesFromPath(path);
+        return uniquePath;
+    } else if (targetItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+        const path = [
+            group.source.actual[RectangleSegmentType.TopCenter],
+            group.source.withMargin[RectangleSegmentType.TopCenter],
+            group.source.withMargin[RectangleSegmentType.TopRight],
+            group.target.withMargin[RectangleSegmentType.MiddleLeft],
+            group.target.actual[RectangleSegmentType.MiddleLeft],
+        ]
+        const uniquePath = removeDuplicateCoordinatesFromPath(path);
+        return uniquePath;
+    } else if (targetItemConnectPoint === RectangleSegmentType.MiddleRight) {
+        const path = [
+            group.source.actual[RectangleSegmentType.TopCenter],
+            group.source.withMargin[RectangleSegmentType.TopCenter],
+            group.source.withMargin[RectangleSegmentType.TopRight],
+            group.target.withMargin[RectangleSegmentType.TopLeft],
+            group.target.withMargin[RectangleSegmentType.TopRight],
+            group.target.withMargin[RectangleSegmentType.MiddleRight],
+            group.target.actual[RectangleSegmentType.MiddleRight],
+        ];
+        const uniquePath = removeDuplicateCoordinatesFromPath(path)
+        return uniquePath
+    } else {
+        throw new Error("Unable to determine route from top center.")
     }
 }
