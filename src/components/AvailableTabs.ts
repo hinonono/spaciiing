@@ -27,6 +27,11 @@ const availableTabs: AvailableTabs[] = [
         supportedEditorTypes: ["figma", "slides"]
     },
     {
+        tabName: "ArrowCreator",
+        svgComponent: SvgSpaciiing,
+        supportedEditorTypes: ["figma"]
+    },
+    {
         tabName: "PropertyClipboard",
         svgComponent: SvgPropertyClipboard,
         supportedEditorTypes: ["figma", "slides"]

@@ -1,0 +1,13 @@
+.drop-shadow {
+    &-1 {
+        box-shadow: var(--drop-shadow-1);
+    }
+
+    &-2 {
+        box-shadow: var(--drop-shadow-2);
+    }
+
+    &-3 {
+        box-shadow: var(--drop-shadow-3);
+    }
+}

@@ -1,18 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Module } from "../types/Module";
-import {
-  SvgDefaultStyleLibrary,
-  SvgPropertyClipboard,
-  SvgRenamer,
-  SvgSelectionFilter,
-  SvgSetting,
-  SvgShortcut,
-  SvgSpaciiing,
-  SvgVariableEditor,
-  SvgVirtualProfile,
-  SvgAspectRatioHelper,
-  SvgCatalogue,
-} from "../assets/icons";
 import TabButton from "./TabButton";
 import {
   Instantiater,
@@ -26,6 +13,7 @@ import {
   AspectRatioHelper,
   StyleIntroducer,
   PropertyClipboard,
+  ArrowCreator
 } from "../view";
 import { useAppContext } from "../AppProvider";
 import SaleBannerWrapper from "./SaleBannerWrapper";
@@ -112,6 +100,8 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
     switch (activeTab) {
       case "Spaciiing":
         return <Spaciiing />;
+      case "ArrowCreator":
+        return <ArrowCreator />;
       case "VariableEditor":
         return <VariableEditor />;
       case "PropertyClipboard":
@@ -162,72 +152,6 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
             SvgComponent={tab.svgComponent}
           />
         ))}
-        {/* <TabButton
-          activeTab={activeTab}
-          tabName="Spaciiing"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgSpaciiing}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="PropertyClipboard"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgPropertyClipboard}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="VirtualProfile"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgVirtualProfile}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="SelectionFilter"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgSelectionFilter}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="Renamer"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgRenamer}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="AspectRatioHelper"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgAspectRatioHelper}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="Shortcut"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgShortcut}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="VariableEditor"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgVariableEditor}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="Instantiater"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgDefaultStyleLibrary}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="StyleIntroducer"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgCatalogue}
-        />
-        <TabButton
-          activeTab={activeTab}
-          tabName="PluginSetting"
-          setActiveTab={setActiveTab}
-          SvgComponent={SvgSetting}
-        /> */}
       </div>
       <div className="tab-content">{renderTabContent()}</div>
     </div>

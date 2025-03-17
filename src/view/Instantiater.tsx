@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
@@ -255,12 +255,8 @@ const Instantiater: React.FC = () => {
               <label key={option.value} className={`container`}>
                 <div className="flex flex-row align-items-center flex-justify-space-between">
                   <div className="flex flex-row align-items-center">
-                    {option.label !== "ALL" && selectedCat === "color" && (
-                      <div
-                        className={`color-thumbnail color-thumbnail-${form === "style" ? "style" : "variable"
-                          } mr-xxsmall`}
-                        style={{ background: option.thumbnailColor }}
-                      ></div>
+                    {option.label !== "ALL" && selectedCat === "color" && option.thumbnailColor && (
+                      <ColorThumbnailView color={option.thumbnailColor} opacity={1} size={20} type={form === "style" ? "rounded" : "square"} extraClassName="mr-xxxsmall" />
                     )}
                     {option.label === "ALL"
                       ? t("term:allOptions")

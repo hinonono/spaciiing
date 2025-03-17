@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { TitleBar, FigmaButton, SectionTitle } from "../components";
+import { TitleBar, FigmaButton } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import {
-  CatalogueSettingModal,
   FindAndReplaceModal,
   FramerModal,
   IconTemplateModal,

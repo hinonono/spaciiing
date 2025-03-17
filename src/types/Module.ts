@@ -15,4 +15,5 @@ export type Module =
   | "AspectRatioHelper"
   | "Resize"
   | "StyleIntroducer"
-  | "PropertyClipboard";
+  | "PropertyClipboard"
+  | "ArrowCreator";

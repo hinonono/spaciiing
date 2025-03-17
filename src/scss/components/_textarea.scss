@@ -1,0 +1,38 @@
+.textarea {
+    font-family: 'Inter', sans-serif;
+    border-radius: var(--cy-border-radius-large);
+    background-color: var(--figma-color-bg-secondary);
+    color: var(--figma-color-text);
+    font-size: var(--font-size-small);
+    min-height: 48px;
+    border: 0px;
+    // transition: all 0.3s;
+
+    &-height-fit-content {
+        min-height: 0;
+        height: fit-content;
+    }
+
+    &.code {
+        resize: vertical;
+    }
+
+    &:hover {
+        border: 0px;
+        outline: 1.5px solid rgb(0, 0, 0, 0.1);
+        color: var(--figma-color-text);
+    }
+
+    &:active,
+    &:focus {
+        outline: 1.5px solid var(--figma-color-bg-brand);
+        border: none;
+        outline-offset: 0;
+        color: var(--figma-color-text);
+    }
+
+    &::placeholder {
+        color: var(--figma-color-text-secondary);
+        opacity: .8;
+    }
+}
