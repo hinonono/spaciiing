@@ -1,4 +1,4 @@
-import { ConnectItemHorizontalRelativePosition, ConnectPointAxis, ConnectPointPosition, LayerSegments, SegmentType } from "../types/ArrowCreator";
+import { ConnectPointPosition, RectangleSegmentMap, RectangleSegmentType, SegmentConnectionData } from "../types/ArrowCreator";
 
 /**
  * Calculates the positions of various connection points on a rectangular layer,
@@ -13,92 +13,80 @@ import { ConnectItemHorizontalRelativePosition, ConnectPointAxis, ConnectPointPo
  *   - `actual`: The connection points without any margin.
  *   - `withMargin`: The connection points adjusted by the specified margin.
  */
-function calculateSegments(x: number, y: number, width: number, height: number, margin: number, offset: number): ConnectPointAxis {
-    const actual: LayerSegments = {
-        [SegmentType.TopLeft]: { x: x - offset, y: y - offset },
-        [SegmentType.TopCenter]: { x: x + width / 2, y: y - offset },
-        [SegmentType.TopRight]: { x: x + width + offset, y: y - offset },
+function calculateItemSegments(x: number, y: number, width: number, height: number, margin: number, offset: number): SegmentConnectionData {
+    const actual: RectangleSegmentMap = {
+        [RectangleSegmentType.TopLeft]: { x: x - offset, y: y - offset },
+        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - offset },
+        [RectangleSegmentType.TopRight]: { x: x + width + offset, y: y - offset },
 
-        [SegmentType.MiddleLeft]: { x: x - offset, y: y + height / 2 },
-        [SegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
-        [SegmentType.MiddleRight]: { x: x + width + offset, y: y + height / 2 },
+        [RectangleSegmentType.MiddleLeft]: { x: x - offset, y: y + height / 2 },
+        [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
+        [RectangleSegmentType.MiddleRight]: { x: x + width + offset, y: y + height / 2 },
 
-        [SegmentType.BottomLeft]: { x: x - offset, y: y + height + offset },
-        [SegmentType.BottomCenter]: { x: x + width / 2, y: y + height + offset },
-        [SegmentType.BottomRight]: { x: x + width + offset, y: y + height + offset },
+        [RectangleSegmentType.BottomLeft]: { x: x - offset, y: y + height + offset },
+        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + offset },
+        [RectangleSegmentType.BottomRight]: { x: x + width + offset, y: y + height + offset },
     };
 
-    const withMargin: LayerSegments = {
-        [SegmentType.TopLeft]: { x: x - margin - offset, y: y - margin - offset },
-        [SegmentType.TopCenter]: { x: x + width / 2, y: y - margin - offset },
-        [SegmentType.TopRight]: { x: x + width + margin + offset, y: y - margin - offset },
+    const withMargin: RectangleSegmentMap = {
+        [RectangleSegmentType.TopLeft]: { x: x - margin - offset, y: y - margin - offset },
+        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - margin - offset },
+        [RectangleSegmentType.TopRight]: { x: x + width + margin + offset, y: y - margin - offset },
 
-        [SegmentType.MiddleLeft]: { x: x - margin - offset, y: y + height / 2 },
-        [SegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
-        [SegmentType.MiddleRight]: { x: x + width + margin + offset, y: y + height / 2 },
+        [RectangleSegmentType.MiddleLeft]: { x: x - margin - offset, y: y + height / 2 },
+        [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
+        [RectangleSegmentType.MiddleRight]: { x: x + width + margin + offset, y: y + height / 2 },
 
-        [SegmentType.BottomLeft]: { x: x - margin - offset, y: y + height + margin + offset },
-        [SegmentType.BottomCenter]: { x: x + width / 2, y: y + height + margin + offset },
-        [SegmentType.BottomRight]: { x: x + width + margin + offset, y: y + height + margin + offset },
+        [RectangleSegmentType.BottomLeft]: { x: x - margin - offset, y: y + height + margin + offset },
+        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + margin + offset },
+        [RectangleSegmentType.BottomRight]: { x: x + width + margin + offset, y: y + height + margin + offset },
     };
 
     return { actual, withMargin };
 }
 
-function calculateItemGap(startItem: SceneNode, endItem: SceneNode): number {
-    const number = endItem.x - (startItem.x + startItem.width)
-
-    return number
-}
-
-function determineConnectItemHorizontalRelativePosition(startItem: SceneNode, endItem: SceneNode): ConnectItemHorizontalRelativePosition | null {
-    if (startItem.y === endItem.y) {
-        return "align";
-    } else if (startItem.y > endItem.y) {
-        return "lower"
-    } else if (startItem.y < endItem.y) {
-        return "higher"
+function calculateItemGap(mode: "horizontal" | "vertical", startItem: SceneNode, endItem: SceneNode): number {
+    if (mode === "horizontal") {
+        const number = endItem.x - (startItem.x + startItem.width)
+        return number
     } else {
-        return null;
+        const number = endItem.y - (startItem.y + startItem.height)
+        return number;
     }
 }
 
-function calculateRoute(
+
+function determineRoute(
     startItem: SceneNode,
     startItemConnectPoint: ConnectPointPosition,
     endItem: SceneNode,
     endItemConnectPoint: ConnectPointPosition,
     offset: number
 ) {
-    const gap = calculateItemGap(startItem, endItem) / 2;
-    const relativePosition = determineConnectItemHorizontalRelativePosition(startItem, endItem);
+    const gap = calculateItemGap("horizontal", startItem, endItem) / 2;
 
-    if (relativePosition === null) {
-        throw new Error("Invalid alignment: Unable to determine horizontal relative position between startItem and endItem.");
-    }
-
-    const startItemAxis = calculateSegments(startItem.x, startItem.y, startItem.width, startItem.height, gap, offset)
-    const endItemAxis = calculateSegments(endItem.x, endItem.y, endItem.width, endItem.height, gap, offset)
+    const startItemAxis = calculateItemSegments(startItem.x, startItem.y, startItem.width, startItem.height, gap, offset)
+    const endItemAxis = calculateItemSegments(endItem.x, endItem.y, endItem.width, endItem.height, gap, offset)
 
 
     switch (startItemConnectPoint) {
-        case SegmentType.TopCenter:
+        case RectangleSegmentType.TopCenter:
             // console.log("Start from Top Center");
             calculateRouteFromTopCenter(
                 endItemConnectPoint,
-                relativePosition
+
             );
 
             break;
-        case SegmentType.BottomCenter:
+        case RectangleSegmentType.BottomCenter:
             // console.log("Start from Bottom Center");
 
             break;
-        case SegmentType.MiddleLeft:
+        case RectangleSegmentType.MiddleLeft:
             // console.log("Start from Middle Left");
 
             break;
-        case SegmentType.MiddleRight:
+        case RectangleSegmentType.MiddleRight:
             // console.log("Start from Middle Right");
 
             break;
@@ -111,48 +99,23 @@ function calculateRoute(
 
 function calculateRouteFromTopCenter(
     endItemConnectPoint: ConnectPointPosition,
-    relativePosition: ConnectItemHorizontalRelativePosition
 ) {
     switch (endItemConnectPoint) {
-        case SegmentType.TopCenter:
-            if (relativePosition === "align") {
+        case RectangleSegmentType.TopCenter:
 
-            } else if (relativePosition === "lower") {
-
-            } else if (relativePosition === "higher") {
-
-            }
 
 
             break;
-        case SegmentType.BottomCenter:
-            if (relativePosition === "align") {
+        case RectangleSegmentType.BottomCenter:
 
-            } else if (relativePosition === "lower") {
-
-            } else if (relativePosition === "higher") {
-
-            }
 
             break;
-        case SegmentType.MiddleLeft:
-            if (relativePosition === "align") {
+        case RectangleSegmentType.MiddleLeft:
 
-            } else if (relativePosition === "lower") {
-
-            } else if (relativePosition === "higher") {
-
-            }
 
             break;
-        case SegmentType.MiddleRight:
-            if (relativePosition === "align") {
+        case RectangleSegmentType.MiddleRight:
 
-            } else if (relativePosition === "lower") {
-
-            } else if (relativePosition === "higher") {
-
-            }
 
             break;
         default:

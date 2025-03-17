@@ -4,7 +4,7 @@ import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
 import { FigmaButton, SectionTitle, StrokeEditorView, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
-import { ConnectPointPosition, ConnectPointPositionPair, SegmentType, StrokeMode } from '../types/ArrowCreator';
+import { ConnectPointPosition, ConnectPointPositionPair, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator } from '../module-frontend/arrowCreatorFrontEnd';
 import { ConnectPointSelectorView } from '../components';
 import { CYStroke } from '../types/CYStroke';
@@ -24,9 +24,9 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 連接點
-  const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>(SegmentType.MiddleRight);
-  const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>(SegmentType.MiddleLeft);
-  const [connectPointPositionPair, setConnectPointPositionPair] = useState<ConnectPointPositionPair>({ start: startItemConnectPointPosition, end: endItemConnectPointPosition });
+  const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleRight);
+  const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleLeft);
+  const [connectPointPositionPair, setConnectPointPositionPair] = useState<ConnectPointPositionPair>({ source: startItemConnectPointPosition, target: endItemConnectPointPosition });
 
 
   // 安全間距

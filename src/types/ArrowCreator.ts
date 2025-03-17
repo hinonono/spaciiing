@@ -1,5 +1,7 @@
+import { Coordinates } from "./General";
+
 // Enum to represent different segments of the rectangular layer
-export enum SegmentType {
+export enum RectangleSegmentType {
     TopLeft = "topLeft",
     TopCenter = "topCenter",
     TopRight = "topRight",
@@ -11,42 +13,43 @@ export enum SegmentType {
     BottomRight = "bottomRight"
 }
 export type ConnectPointPosition =
-    | SegmentType.TopCenter
-    | SegmentType.BottomCenter
-    | SegmentType.MiddleLeft
-    | SegmentType.MiddleRight;
+    | RectangleSegmentType.TopCenter
+    | RectangleSegmentType.BottomCenter
+    | RectangleSegmentType.MiddleLeft
+    | RectangleSegmentType.MiddleRight;
 
 export type StrokeMode = "freeform" | "style";
+
 export interface ConnectPointPositionPair {
-    start: ConnectPointPosition;
-    end: ConnectPointPosition;
+    source: ConnectPointPosition;
+    target: ConnectPointPosition;
 }
 
-
-// Interface for a single segment
-export interface LayerSegment {
-    x: number;
-    y: number;
-}
 
 // Interface to hold all segments of a rectangle
-export interface LayerSegments {
-    [SegmentType.TopLeft]: LayerSegment;
-    [SegmentType.TopCenter]: LayerSegment;
-    [SegmentType.TopRight]: LayerSegment;
-    [SegmentType.MiddleLeft]: LayerSegment;
-    [SegmentType.MiddleCenter]: LayerSegment;
-    [SegmentType.MiddleRight]: LayerSegment;
-    [SegmentType.BottomLeft]: LayerSegment;
-    [SegmentType.BottomCenter]: LayerSegment;
-    [SegmentType.BottomRight]: LayerSegment;
+export interface RectangleSegmentMap {
+    [RectangleSegmentType.TopLeft]: Coordinates;
+    [RectangleSegmentType.TopCenter]: Coordinates;
+    [RectangleSegmentType.TopRight]: Coordinates;
+    [RectangleSegmentType.MiddleLeft]: Coordinates;
+    [RectangleSegmentType.MiddleCenter]: Coordinates;
+    [RectangleSegmentType.MiddleRight]: Coordinates;
+    [RectangleSegmentType.BottomLeft]: Coordinates;
+    [RectangleSegmentType.BottomCenter]: Coordinates;
+    [RectangleSegmentType.BottomRight]: Coordinates;
 }
 
 // Extended interface to include margins
-export interface ConnectPointAxis {
-    actual: LayerSegments;
-    withMargin: LayerSegments;
+export interface SegmentConnectionData {
+    actual: RectangleSegmentMap;
+    withMargin: RectangleSegmentMap;
 }
 
-// 描述欲連接的兩個物件的Y高度位置關係（以起始物件為視點）
-export type ConnectItemHorizontalRelativePosition = "align" | "lower" | "higher"
+export interface SegmentConnectionGroup {
+    source: SegmentConnectionData;
+    target: SegmentConnectionData;
+    betweenItemTopCenter?: Coordinates
+    betweenItemBottomCenter?: Coordinates;
+    betweenItemMiddleLeft?: Coordinates;
+    betweenItemMiddleRight?: Coordinates;
+}

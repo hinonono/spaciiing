@@ -23,3 +23,8 @@ export interface StyleSelection {
 }
 
 export type Dimension = "width" | "height";
+
+export interface Coordinates {
+  x: number;
+  y: number;
+}
