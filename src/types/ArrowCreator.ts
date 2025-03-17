@@ -1,3 +1,8 @@
+export interface Axis {
+    x: number,
+    y: number
+}
+
 // Enum to represent different segments of the rectangular layer
 export enum SegmentType {
     TopLeft = "topLeft",
