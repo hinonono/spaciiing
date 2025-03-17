@@ -939,12 +939,12 @@ input {
   left: 50%;
   transform: translateX(-50%);
 }
-.connect-point-container .connect-item .connect-point.centerLeft {
+.connect-point-container .connect-item .connect-point.middleLeft {
   left: -8px;
   top: 50%;
   transform: translateY(-50%);
 }
-.connect-point-container .connect-item .connect-point.centerRight {
+.connect-point-container .connect-item .connect-point.middleRight {
   right: -8px;
   top: 50%;
   transform: translateY(-50%);

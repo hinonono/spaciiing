@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConnectPointPosition } from '../types/ArrowCreator';
+import { ConnectPointPosition, SegmentType } from '../types/ArrowCreator';
 
 interface ConnectPointSelectorViewProps {
   // The current selected connection point for the start item
@@ -14,10 +14,10 @@ interface ConnectPointSelectorViewProps {
 
 // Available connection point positions around each item
 const connectPoints: ConnectPointPosition[] = [
-  "topCenter",
-  "bottomCenter",
-  "centerLeft",
-  "centerRight"
+  SegmentType.TopCenter,
+  SegmentType.BottomCenter,
+  SegmentType.MiddleLeft,
+  SegmentType.MiddleRight
 ];
 
 const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({

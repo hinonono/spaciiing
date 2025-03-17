@@ -24,8 +24,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 連接點
-  const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>("centerRight");
-  const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>("centerLeft");
+  const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>("middleRight");
+  const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>("middleLeft");
   const [connectPointPositionPair, setConnectPointPositionPair] = useState<ConnectPointPositionPair>({ start: startItemConnectPointPosition, end: endItemConnectPointPosition });
 
 
@@ -187,7 +187,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
               applyArrowCreator(
                 safeMargin,
                 connectPointPositionPair,
-                stroke
+                stroke,
+                createAnnotationBox
               )
             }}
           />

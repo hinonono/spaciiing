@@ -5,14 +5,14 @@ import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
 export function applyArrowCreator(
     safeMargin: number,
     connectPointPositionPair: ConnectPointPositionPair,
-    stroke: CYStroke
+    stroke: CYStroke,
+    createAnnotationBox: boolean,
 ) {
-
-
     const message: MessageArrowCreator = {
         safeMargin: safeMargin,
         connectPointPositionPair: connectPointPositionPair,
         stroke: stroke,
+        createAnnotationBox: createAnnotationBox,
         module: "ArrowCreator",
         phase: "Actual",
         direction: "Inner",

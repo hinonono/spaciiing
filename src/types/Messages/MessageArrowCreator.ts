@@ -6,4 +6,5 @@ export interface MessageArrowCreator extends Message {
     safeMargin: number;
     connectPointPositionPair: ConnectPointPositionPair;
     stroke: CYStroke;
+    createAnnotationBox: boolean;
 }
