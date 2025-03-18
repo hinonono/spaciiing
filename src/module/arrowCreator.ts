@@ -262,8 +262,8 @@ function determineRouteFromTopCenter(
             group.source.actual[RectangleSegmentType.TopCenter],
             group.source.withMargin[RectangleSegmentType.TopCenter],
             group.source.withMargin[RectangleSegmentType.TopRight],
-            group.target.withMargin[RectangleSegmentType.TopLeft],
-            group.target.withMargin[RectangleSegmentType.TopRight],
+            group.target.withMargin[RectangleSegmentType.BottomLeft],
+            group.target.withMargin[RectangleSegmentType.BottomRight],
             group.target.withMargin[RectangleSegmentType.MiddleRight],
             group.target.actual[RectangleSegmentType.MiddleRight],
         ];
