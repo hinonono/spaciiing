@@ -308,10 +308,10 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
 
     annotationNode.fills = [{ type: "SOLID", color: backgroundColor }];
 
-    annotationNode.resize(300, 80)
+    annotationNode.resize(320, 80)
     annotationNode.name = "Annotation"
 
-    annotationNode.x = position.x - 150
+    annotationNode.x = position.x - 160
     annotationNode.y = position.y - 40
     annotationNode.cornerRadius = semanticTokens.cornerRadius.infinite;
 }
