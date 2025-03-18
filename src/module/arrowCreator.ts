@@ -16,9 +16,11 @@ export function reception(message: MessageArrowCreator) {
         return;
     }
 
-    for (let i = 0; i < selection.length - 1; i++) {
-        const sourceItem = selection[i];
-        const targetItem = selection[i + 1]
+    const sortedSelction = sortSelectionBasedOnXAndY(selection)
+
+    for (let i = 0; i < sortedSelction.length - 1; i++) {
+        const sourceItem = sortedSelction[i];
+        const targetItem = sortedSelction[i + 1]
 
         // calculateRouteELK(sourceItem, targetItem, message.stroke)
         determineRoute(
@@ -30,6 +32,15 @@ export function reception(message: MessageArrowCreator) {
             message.stroke
         )
     }
+}
+
+function sortSelectionBasedOnXAndY(selection: SceneNode[]): SceneNode[] {
+    return selection.sort((a, b) => {
+        if (a.x === b.x) {
+            return a.y - b.y;
+        }
+        return a.x - b.x;
+    });
 }
 
 /**
