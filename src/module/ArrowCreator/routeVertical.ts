@@ -80,6 +80,12 @@ export function determineRouteFromBottomCenter(
             group.target.withMargin[RectangleSegmentType.TopCenter],
             group.target.actual[RectangleSegmentType.TopCenter],
         ];
+        // const path = [
+        //     group.source.actual[RectangleSegmentType.BottomCenter],
+        //     group.source.withMargin[RectangleSegmentType.BottomCenter],
+        //     group.target.withMargin[RectangleSegmentType.TopCenter],
+        //     group.target.actual[RectangleSegmentType.TopCenter],
+        // ];
         return removeDuplicateCoordinatesFromPath(path);
     } else if (targetItemConnectPoint === RectangleSegmentType.MiddleRight) {
         const path = [
