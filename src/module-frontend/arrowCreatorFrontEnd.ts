@@ -67,10 +67,10 @@ export const strokeStyles = [
     },
     {
         type: "dash",
-        labelKey: "term:dash",
+        labelKey: "term:strokeDash",
     },
     {
         type: "custom",
-        labelKey: "term:custom",
+        labelKey: "module:custom",
     }
 ]

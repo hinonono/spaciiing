@@ -4,6 +4,7 @@ import { t } from 'i18next';
 import { strokeCaps, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
 import ColorThumbnailView from './ColorThumbnailView';
 import { CYStroke } from '../types/CYStroke';
+import { useTranslation } from 'react-i18next';
 
 interface StrokeEditorViewProps {
   stroke: CYStroke;
@@ -14,6 +15,8 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   stroke,
   setStroke
 }) => {
+  const { t } = useTranslation(["module", "term"]);
+
   // 色彩與透明度
   const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color);
 
@@ -128,7 +131,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   return (
     <div>
       <div>
-        <SectionTitle title="Color" titleType="secondary" />
+        <SectionTitle title={t("term:color")} titleType="secondary" />
         <div className="color-selector-wrapper">
           <div className="color-selector">
             <ColorThumbnailView color={`#${stroke.color}`} opacity={stroke.opacity} size={16} type={'square'} extraClassName='mr-xxxsmall' />
@@ -164,7 +167,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
       </div>
       <div className='grid mt-xxsmall'>
         <div>
-          <SectionTitle title="Weight" titleType="secondary" />
+          <SectionTitle title={t("term:strokeWeight")} titleType="secondary" />
           <div className="width-100">
             <textarea
               className="textarea textarea-height-fit-content"
@@ -175,7 +178,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
           </div>
         </div>
         <div>
-          <SectionTitle title="Radius" titleType="secondary" />
+          <SectionTitle title={t("term:cornerRadius")} titleType="secondary" />
           <div className="width-100">
             <textarea
               className="textarea textarea-height-fit-content"
@@ -188,7 +191,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
       </div>
       <div className='grid mt-xxsmall'>
         <div>
-          <SectionTitle title="Stroke style" titleType="secondary" />
+          <SectionTitle title={t("term:strokeStyle")} titleType="secondary" />
           <select
             name="type"
             className="custom-select"

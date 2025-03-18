@@ -159,7 +159,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           </SegmentedControl>
         </div>
         {/* 連接點 */}
-        <div>
+        <div className='mt-xsmall'>
           <SectionTitle title={"Connect point"} />
           <ConnectPointSelectorView
             direction={direction}
