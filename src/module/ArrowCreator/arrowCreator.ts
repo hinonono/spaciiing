@@ -5,6 +5,7 @@ import { MessageArrowCreator } from "../../types/Messages/MessageArrowCreator";
 import * as util from "../util";
 import * as rh from "./routeHorizontal"
 import * as rv from "./routeVertical";
+import { semanticTokens } from "../tokens";
 
 export function reception(message: MessageArrowCreator) {
     const selection = util.getCurrentSelection();
@@ -18,7 +19,7 @@ export function reception(message: MessageArrowCreator) {
         return;
     }
 
-    const sortedSelction = sortSelectionBasedOnXAndY(selection)
+    const sortedSelction = sortSelectionBasedOnXAndY(message.layoutDirection, selection)
 
     for (let i = 0; i < sortedSelction.length - 1; i++) {
         const sourceItem = sortedSelction[i];
@@ -32,18 +33,36 @@ export function reception(message: MessageArrowCreator) {
             targetItem,
             message.connectPointPositionPair.target,
             message.safeMargin,
-            message.stroke
+            message.stroke,
+            message.createAnnotationBox
         )
     }
 }
 
-function sortSelectionBasedOnXAndY(selection: SceneNode[]): SceneNode[] {
-    return selection.sort((a, b) => {
-        if (a.x === b.x) {
+// The .sort() function in JavaScript/TypeScript uses a comparison function that returns:
+// 	•	A negative value (< 0) if a should be placed before b.
+// 	•	A positive value (> 0) if a should be placed after b.
+// 	•	Zero (0) if their order remains the same.
+
+// So, using a.x - b.x:
+// 	•	If a.x is less than b.x, it returns negative, meaning a comes before b.
+// 	•	If a.x is greater than b.x, it returns positive, meaning b comes before a.
+function sortSelectionBasedOnXAndY(direction: Direction, selection: SceneNode[]): SceneNode[] {
+    if (direction === "horizontal") {
+        return selection.sort((a, b) => {
+            if (a.x === b.x) {
+                return a.y - b.y;
+            }
+            return a.x - b.x;
+        });
+    } else {
+        return selection.sort((a, b) => {
+            if (a.y === b.y) {
+                return a.x - b.x;
+            }
             return a.y - b.y;
-        }
-        return a.x - b.x;
-    });
+        });
+    }
 }
 
 /**
@@ -208,6 +227,7 @@ function determineRoute(
     targetItemConnectPoint: ConnectPointPosition,
     offset: number,
     strokeStyle: CYStroke,
+    createAnnotationBool: boolean
 ) {
     const gap = calcNodeGap(sourceNode, targetNode);
     const finalDecidedGap = {
@@ -251,7 +271,47 @@ function determineRoute(
     } else {
         throw new Error("Unable to draw path because route is undefined.")
     }
+
+    if (createAnnotationBool) {
+        const midPoint = util.calcMidpoint(route)
+        createAnnotation(midPoint, strokeStyle);
+    }
 }
 
+async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
+    await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+    await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
+    const annotation = util.createTextNode(
+        "Sample Text",
+        { family: "Inter", style: "Semi Bold" },
+        semanticTokens.fontSize.xxlarge
+    );
 
+    annotation.textAlignHorizontal = "CENTER";
+    annotation.textAlignVertical = "CENTER";
+    annotation.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
 
+    const backgroundColor = util.hexToRgb(strokeStlye.color);
+
+    const annotationNode = util.createAutolayoutFrame(
+        [annotation],
+        8,
+        "HORIZONTAL"
+    )
+
+    annotationNode.layoutAlign = "CENTER";
+    annotationNode.primaryAxisAlignItems = "CENTER";
+    annotationNode.counterAxisAlignItems = "CENTER";
+
+    annotationNode.layoutSizingVertical = "FIXED"
+    annotationNode.layoutSizingHorizontal = "FIXED"
+
+    annotationNode.fills = [{ type: "SOLID", color: backgroundColor }];
+
+    annotationNode.resize(300, 80)
+    annotationNode.name = "Annotation"
+
+    annotationNode.x = position.x - 150
+    annotationNode.y = position.y - 40
+    annotationNode.cornerRadius = semanticTokens.cornerRadius.infinite;
+}
