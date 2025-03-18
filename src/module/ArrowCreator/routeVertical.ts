@@ -10,19 +10,6 @@ export function determineRouteFromMiddleRight(
         if (!group.betweenItemMiddleRight || !group.betweenItemMiddleLeft) {
             throw new Error("Required properties for determin route is undefined.")
         }
-
-        // const path = [
-        //     group.source.actual[RectangleSegmentType.MiddleRight],
-        //     {
-        //         x: group.source.withMargin[RectangleSegmentType.MiddleRight].x,
-        //         y: group.betweenItemTopCenter.y
-        //     },
-        //     {
-        //         x: group.target.withMargin[RectangleSegmentType.MiddleRight].x,
-        //         y: group.betweenItemTopCenter.y
-        //     },
-        //     group.target.actual[RectangleSegmentType.MiddleRight],
-        // ]
         const path = [
             group.source.actual[RectangleSegmentType.MiddleRight],
             {

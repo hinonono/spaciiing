@@ -214,12 +214,9 @@ function determineRoute(
         horizontal: gap.horizontal === 0 ? gap.vertical / 2 : gap.horizontal / 2,
         vertical: gap.vertical === 0 ? gap.horizontal / 2 : gap.vertical / 2
     }
-    figma.notify(`H: ${finalDecidedGap.horizontal}, V: ${finalDecidedGap.vertical}`)
-
     const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
     const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
     const group = createSegmentConnectionGroup(direction, sourceNodeConnectionData, targetNodeConnectionData)
-
 
     let route: Coordinates[] = [];
 

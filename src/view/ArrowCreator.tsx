@@ -10,7 +10,6 @@ import { ConnectPointSelectorView } from '../components';
 import { CYStroke } from '../types/CYStroke';
 import { Direction } from '../types/General';
 import { SvgHorizontal, SvgVertical } from '../assets/icons';
-import { dir } from 'i18next';
 
 
 interface ArrowCreatorProps {
@@ -66,6 +65,15 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   // 排列方向
   const [direction, setDirection] = useState<Direction>("horizontal");
+  useEffect(() => {
+    if (direction === "horizontal") {
+      setSourceItemConnectPointPosition(RectangleSegmentType.MiddleRight);
+      setTargetItemConnectPointPosition(RectangleSegmentType.MiddleLeft);
+    } else if (direction === "vertical") {
+      setSourceItemConnectPointPosition(RectangleSegmentType.BottomCenter);
+      setTargetItemConnectPointPosition(RectangleSegmentType.TopCenter);
+    }
+  }, [direction])
 
   // 筆畫本體
   const [stroke, setStroke] = useState<CYStroke>({
