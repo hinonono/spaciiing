@@ -4,6 +4,7 @@ import { Coordinates, Direction } from "../../types/General";
 import { MessageArrowCreator } from "../../types/Messages/MessageArrowCreator";
 import * as util from "../util";
 import * as rh from "./routeHorizontal"
+import * as rv from "./routeVertical";
 
 export function reception(message: MessageArrowCreator) {
     const selection = util.getCurrentSelection();
@@ -84,14 +85,37 @@ function calcNodeSegments(x: number, y: number, width: number, height: number, h
     return { actual, withMargin };
 }
 
-function calcNodeGap(mode: Direction, sourceNode: SceneNode, targetNode: SceneNode): number {
-    if (mode === "horizontal") {
-        const number = targetNode.x - (sourceNode.x + sourceNode.width)
-        return number
+function calcNodeGap(sourceNode: SceneNode, targetNode: SceneNode): { horizontal: number, vertical: number } {
+    let hGap: number, vGap: number;
+
+    const rightOfSourceNode = sourceNode.x + sourceNode.width;
+    const rightOfTargetNode = targetNode.x + targetNode.width;
+
+    const bottomOfSourceNode = sourceNode.y + sourceNode.height;
+    const bottomOfTargetNode = targetNode.y + targetNode.height;
+
+    // Calculate vertical gap
+    if (targetNode.y >= bottomOfSourceNode) {
+        vGap = targetNode.y - bottomOfSourceNode; // target is below
+    } else if (sourceNode.y >= bottomOfTargetNode) {
+        vGap = sourceNode.y - bottomOfTargetNode; // target is above
     } else {
-        const number = sourceNode.y - (targetNode.y + targetNode.height)
-        return number;
+        vGap = 0; // overlapping vertically
     }
+
+    // Calculate horizontal gap
+    if (targetNode.x >= rightOfSourceNode) {
+        hGap = targetNode.x - rightOfSourceNode; // target is to the right
+    } else if (sourceNode.x >= rightOfTargetNode) {
+        hGap = sourceNode.x - rightOfTargetNode; // target is to the left
+    } else {
+        hGap = 0; // overlapping horizontally
+    }
+
+    return {
+        horizontal: hGap,
+        vertical: vGap
+    };
 }
 
 function createSegmentConnectionGroup(
@@ -185,28 +209,50 @@ function determineRoute(
     offset: number,
     strokeStyle: CYStroke,
 ) {
-    const hGap = calcNodeGap(direction, sourceNode, targetNode) / 2;
-    const fakeVGap = calcNodeGap(direction, sourceNode, targetNode)
-    const vGap = fakeVGap > sourceNode.height ? fakeVGap / 2 : hGap
+    const gap = calcNodeGap(sourceNode, targetNode);
+    const finalDecidedGap = {
+        horizontal: gap.horizontal === 0 ? gap.vertical / 2 : gap.horizontal / 2,
+        vertical: gap.vertical === 0 ? gap.horizontal / 2 : gap.vertical / 2
+    }
+    figma.notify(`H: ${finalDecidedGap.horizontal}, V: ${finalDecidedGap.vertical}`)
 
-    const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, hGap, vGap, offset)
-    const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, hGap, vGap, offset)
+    const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
+    const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
     const group = createSegmentConnectionGroup(direction, sourceNodeConnectionData, targetNodeConnectionData)
 
-    if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
-        const route = rh.determineRouteFromTopCenter(targetItemConnectPoint, group);
-        createPolyline(route, strokeStyle)
-    } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
-        const route = rh.determineRouteFromBottomCenter(targetItemConnectPoint, group);
-        createPolyline(route, strokeStyle);
-    } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
-        const route = rh.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
-        createPolyline(route, strokeStyle);
-    } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
-        const route = rh.determineRouteFromMiddleRight(targetItemConnectPoint, group);
-        createPolyline(route, strokeStyle);
+
+    let route: Coordinates[] = [];
+
+    if (direction === "horizontal") {
+        if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
+            route = rh.determineRouteFromTopCenter(targetItemConnectPoint, group);
+        } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
+            route = rh.determineRouteFromBottomCenter(targetItemConnectPoint, group);
+        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+            route = rh.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
+        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
+            route = rh.determineRouteFromMiddleRight(targetItemConnectPoint, group);
+        } else {
+            throw new Error("Unable to determine route from source item connect point.")
+        }
     } else {
-        throw new Error("Unable to determine route from source item connect point.")
+        if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
+            route = rv.determineRouteFromTopCenter(targetItemConnectPoint, group);
+        } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
+            route = rv.determineRouteFromBottomCenter(targetItemConnectPoint, group);
+        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+            route = rv.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
+        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
+            route = rv.determineRouteFromMiddleRight(targetItemConnectPoint, group);
+        } else {
+            throw new Error("Unable to determine route from source item connect point.")
+        }
+    }
+
+    if (route.length !== 0) {
+        createPolyline(route, strokeStyle)
+    } else {
+        throw new Error("Unable to draw path because route is undefined.")
     }
 }
 
