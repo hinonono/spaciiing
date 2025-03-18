@@ -173,7 +173,7 @@ function determineRoute(
 ) {
     const hGap = calcNodeGap("horizontal", sourceNode, targetNode) / 2;
     const fakeVGap = calcNodeGap("vertical", sourceNode, targetNode)
-    const vGap = fakeVGap > 0 ? fakeVGap / 2 : hGap
+    const vGap = fakeVGap > sourceNode.height ? fakeVGap / 2 : hGap
 
     const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, hGap, vGap, offset)
     const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, hGap, vGap, offset)
@@ -186,9 +186,11 @@ function determineRoute(
         const route = determineRouteFromBottomCenter(targetItemConnectPoint, group);
         createPolyline(route, strokeStyle);
     } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
-
+        const route = determineRouteFromMiddleLeft(targetItemConnectPoint, group);
+        createPolyline(route, strokeStyle);
     } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
-
+        const route = determineRouteFromMiddleRight(targetItemConnectPoint, group);
+        createPolyline(route, strokeStyle);
     } else {
         throw new Error("Unable to determine route from source item connect point.")
     }
@@ -268,11 +270,10 @@ function determineRouteFromBottomCenter(
     targetItemConnectPoint: ConnectPointPosition,
     group: SegmentConnectionGroup
 ): Coordinates[] {
+    if (!group.betweenItemTopCenter || !group.betweenItemBottomCenter) {
+        throw new Error("Required properties for determining route are undefined.");
+    }
     if (targetItemConnectPoint === RectangleSegmentType.BottomCenter) {
-        if (!group.betweenItemTopCenter || !group.betweenItemBottomCenter) {
-            throw new Error("Required properties for determining route are undefined.");
-        }
-
         const path = [
             group.source.actual[RectangleSegmentType.BottomCenter],
             {
@@ -308,15 +309,111 @@ function determineRouteFromBottomCenter(
     } else if (targetItemConnectPoint === RectangleSegmentType.MiddleRight) {
         const path = [
             group.source.actual[RectangleSegmentType.BottomCenter],
-            group.source.withMargin[RectangleSegmentType.BottomCenter],
-            group.source.withMargin[RectangleSegmentType.BottomRight],
-            group.target.withMargin[RectangleSegmentType.BottomLeft],
-            group.target.withMargin[RectangleSegmentType.BottomRight],
+            {
+                x: group.source.withMargin[RectangleSegmentType.BottomCenter].x,
+                y: group.betweenItemBottomCenter.y
+            },
+            {
+                x: group.target.withMargin[RectangleSegmentType.BottomRight].x,
+                y: group.betweenItemBottomCenter.y
+            },
             group.target.withMargin[RectangleSegmentType.MiddleRight],
             group.target.actual[RectangleSegmentType.MiddleRight],
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else {
         throw new Error("Unable to determine route from bottom center.");
+    }
+}
+
+
+function determineRouteFromMiddleLeft(
+    targetItemConnectPoint: ConnectPointPosition,
+    group: SegmentConnectionGroup
+): Coordinates[] {
+    if (targetItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+        const path = [
+            group.source.actual[RectangleSegmentType.MiddleLeft],
+            group.source.withMargin[RectangleSegmentType.MiddleLeft],
+            group.target.withMargin[RectangleSegmentType.MiddleLeft],
+            group.target.actual[RectangleSegmentType.MiddleLeft],
+        ];
+        return removeDuplicateCoordinatesFromPath(path);
+    } else if (targetItemConnectPoint === RectangleSegmentType.TopCenter) {
+        const path = [
+            group.source.actual[RectangleSegmentType.MiddleLeft],
+            group.source.withMargin[RectangleSegmentType.MiddleLeft],
+            group.source.withMargin[RectangleSegmentType.TopLeft],
+            group.target.withMargin[RectangleSegmentType.TopCenter],
+            group.target.actual[RectangleSegmentType.TopCenter],
+        ];
+        return removeDuplicateCoordinatesFromPath(path);
+    } else if (targetItemConnectPoint === RectangleSegmentType.BottomCenter) {
+        const path = [
+            group.source.actual[RectangleSegmentType.MiddleLeft],
+            group.source.withMargin[RectangleSegmentType.MiddleLeft],
+            group.source.withMargin[RectangleSegmentType.BottomLeft],
+            group.target.withMargin[RectangleSegmentType.BottomCenter],
+            group.target.actual[RectangleSegmentType.BottomCenter],
+        ];
+        return removeDuplicateCoordinatesFromPath(path);
+    } else if (targetItemConnectPoint === RectangleSegmentType.MiddleRight) {
+        const path = [
+            group.source.actual[RectangleSegmentType.MiddleLeft],
+            group.source.withMargin[RectangleSegmentType.MiddleLeft],
+            group.source.withMargin[RectangleSegmentType.TopLeft],
+            group.target.withMargin[RectangleSegmentType.TopRight],
+            group.target.withMargin[RectangleSegmentType.MiddleRight],
+            group.target.actual[RectangleSegmentType.MiddleRight],
+        ];
+        return removeDuplicateCoordinatesFromPath(path);
+    } else {
+        throw new Error("Unable to determine route from middle left.");
+    }
+}
+
+
+function determineRouteFromMiddleRight(
+    targetItemConnectPoint: ConnectPointPosition,
+    group: SegmentConnectionGroup
+): Coordinates[] {
+    if (targetItemConnectPoint === RectangleSegmentType.MiddleRight) {
+        const path = [
+            group.source.actual[RectangleSegmentType.MiddleRight],
+            group.source.withMargin[RectangleSegmentType.MiddleRight],
+            group.target.withMargin[RectangleSegmentType.MiddleRight],
+            group.target.actual[RectangleSegmentType.MiddleRight],
+        ];
+        return removeDuplicateCoordinatesFromPath(path);
+    } else if (targetItemConnectPoint === RectangleSegmentType.TopCenter) {
+        const path = [
+            group.source.actual[RectangleSegmentType.MiddleRight],
+            group.source.withMargin[RectangleSegmentType.MiddleRight],
+            group.source.withMargin[RectangleSegmentType.TopRight],
+            group.target.withMargin[RectangleSegmentType.TopCenter],
+            group.target.actual[RectangleSegmentType.TopCenter],
+        ];
+        return removeDuplicateCoordinatesFromPath(path);
+    } else if (targetItemConnectPoint === RectangleSegmentType.BottomCenter) {
+        const path = [
+            group.source.actual[RectangleSegmentType.MiddleRight],
+            group.source.withMargin[RectangleSegmentType.MiddleRight],
+            group.source.withMargin[RectangleSegmentType.BottomRight],
+            group.target.withMargin[RectangleSegmentType.BottomCenter],
+            group.target.actual[RectangleSegmentType.BottomCenter],
+        ];
+        return removeDuplicateCoordinatesFromPath(path);
+    } else if (targetItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+        const path = [
+            group.source.actual[RectangleSegmentType.MiddleRight],
+            group.source.withMargin[RectangleSegmentType.MiddleRight],
+            group.source.withMargin[RectangleSegmentType.TopRight],
+            group.target.withMargin[RectangleSegmentType.TopLeft],
+            group.target.withMargin[RectangleSegmentType.MiddleLeft],
+            group.target.actual[RectangleSegmentType.MiddleLeft],
+        ];
+        return removeDuplicateCoordinatesFromPath(path);
+    } else {
+        throw new Error("Unable to determine route from middle right.");
     }
 }
