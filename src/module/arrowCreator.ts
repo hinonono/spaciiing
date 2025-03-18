@@ -54,7 +54,7 @@ export function reception(message: MessageArrowCreator) {
  *   - `actual`: The connection points without any margin.
  *   - `withMargin`: The connection points adjusted by the specified margin.
  */
-function calcNodeSegments(x: number, y: number, width: number, height: number, margin: number, offset: number): SegmentConnectionData {
+function calcNodeSegments(x: number, y: number, width: number, height: number, hMargin: number, vMargin: number, offset: number): SegmentConnectionData {
     const actual: RectangleSegmentMap = {
         [RectangleSegmentType.TopLeft]: { x: x - offset, y: y - offset },
         [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - offset },
@@ -67,15 +67,15 @@ function calcNodeSegments(x: number, y: number, width: number, height: number, m
         [RectangleSegmentType.BottomRight]: { x: x + width + offset, y: y + height + offset },
     };
     const withMargin: RectangleSegmentMap = {
-        [RectangleSegmentType.TopLeft]: { x: x - margin, y: y - margin },
-        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - margin },
-        [RectangleSegmentType.TopRight]: { x: x + width + margin, y: y - margin },
-        [RectangleSegmentType.MiddleLeft]: { x: x - margin, y: y + height / 2 },
+        [RectangleSegmentType.TopLeft]: { x: x - hMargin, y: y - vMargin },
+        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - vMargin },
+        [RectangleSegmentType.TopRight]: { x: x + width + hMargin, y: y - vMargin },
+        [RectangleSegmentType.MiddleLeft]: { x: x - hMargin, y: y + height / 2 },
         [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
-        [RectangleSegmentType.MiddleRight]: { x: x + width + margin, y: y + height / 2 },
-        [RectangleSegmentType.BottomLeft]: { x: x - margin, y: y + height + margin },
-        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + margin },
-        [RectangleSegmentType.BottomRight]: { x: x + width + margin, y: y + height + margin },
+        [RectangleSegmentType.MiddleRight]: { x: x + width + hMargin, y: y + height / 2 },
+        [RectangleSegmentType.BottomLeft]: { x: x - hMargin, y: y + height + vMargin },
+        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + vMargin },
+        [RectangleSegmentType.BottomRight]: { x: x + width + hMargin, y: y + height + vMargin },
     };
     return { actual, withMargin };
 }
@@ -85,7 +85,7 @@ function calcNodeGap(mode: "horizontal" | "vertical", sourceNode: SceneNode, tar
         const number = targetNode.x - (sourceNode.x + sourceNode.width)
         return number
     } else {
-        const number = targetNode.y - (sourceNode.y + sourceNode.height)
+        const number = sourceNode.y - (targetNode.y + targetNode.height)
         return number;
     }
 }
@@ -183,10 +183,12 @@ function determineRoute(
     offset: number,
     strokeStyle: CYStroke,
 ) {
-    const gap = calcNodeGap("horizontal", sourceNode, targetNode) / 2;
+    const hGap = calcNodeGap("horizontal", sourceNode, targetNode) / 2;
+    const fakeVGap = calcNodeGap("vertical", sourceNode, targetNode)
+    const vGap = fakeVGap > 0 ? fakeVGap / 2 : hGap
 
-    const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, gap, offset)
-    const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, gap, offset)
+    const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, hGap, vGap, offset)
+    const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, hGap, vGap, offset)
     const group = createSegmentConnectionGroup("horizontal", sourceNodeConnectionData, targetNodeConnectionData)
 
     if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
