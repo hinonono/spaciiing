@@ -68,7 +68,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     strokeWeight: 6,
     cornerRadius: 16,
     startPointCap: "NONE",
-    endPointCap: "NONE",
+    endPointCap: "ARROW_LINES",
     dashAndGap: [0, 0],
   });
 
