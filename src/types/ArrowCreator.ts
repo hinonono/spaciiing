@@ -20,6 +20,7 @@ export type ConnectPointPosition =
 
 export type StrokeMode = "freeform" | "style";
 
+
 export interface ConnectPointPositionPair {
     source: ConnectPointPosition;
     target: ConnectPointPosition;

@@ -8,6 +8,9 @@ import { ConnectPointPosition, ConnectPointPositionPair, RectangleSegmentType, S
 import { applyArrowCreator } from '../module-frontend/arrowCreatorFrontEnd';
 import { ConnectPointSelectorView } from '../components';
 import { CYStroke } from '../types/CYStroke';
+import { Direction } from '../types/General';
+import { SvgHorizontal, SvgVertical } from '../assets/icons';
+import { dir } from 'i18next';
 
 
 interface ArrowCreatorProps {
@@ -60,6 +63,9 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   // 筆畫模式
   const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
+
+  // 排列方向
+  const [direction, setDirection] = useState<Direction>("horizontal");
 
   // 筆畫本體
   const [stroke, setStroke] = useState<CYStroke>({
@@ -122,6 +128,28 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         />
       </div>
       <div className="content">
+        {/* 方向 */}
+        <div className='mt-xsmall'>
+          <SectionTitle title={"Direction"} />
+          <SegmentedControl
+            inputName="layout-direction"
+            value={direction}
+            onChange={(newDirection: string) => {
+              setDirection(newDirection as Direction);
+            }}
+          >
+            <SegmentedControl.Option
+              value="vertical"
+              label="module:vertical"
+              icon={<SvgVertical color="var(--figma-color-text)" />}
+            />
+            <SegmentedControl.Option
+              value="horizontal"
+              label="module:horizontal"
+              icon={<SvgHorizontal color="var(--figma-color-text)" />}
+            />
+          </SegmentedControl>
+        </div>
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <div className="custom-checkbox-group">
@@ -145,7 +173,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
                   target: targetItemConnectPointPosition
                 },
                 stroke,
-                createAnnotationBox
+                createAnnotationBox,
+                direction
               )
             }}
           />
@@ -154,13 +183,14 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         <div>
           <SectionTitle title={"Connect point"} />
           <ConnectPointSelectorView
+            direction={direction}
             sourceItemConnectPointPosition={sourceItemConnectPointPosition}
             setSourceItemConnectPointPosition={setSourceItemConnectPointPosition}
             targetItemConnectPointPosition={targetItemConnectPointPosition}
             setTargetItemConnectPointPosition={setTargetItemConnectPointPosition}
           />
           <div className="width-100 mt-xxsmall">
-            <SectionTitle title={"Margin"} titleType="secondary" />
+            <SectionTitle title={"Offset"} titleType="secondary" />
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
@@ -177,7 +207,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         <div className='mt-xsmall'>
           <SectionTitle title={"Stroke"} />
           <SegmentedControl
-            inputName="mode"
+            inputName="stroke-style"
             value={strokeMode}
             onChange={(newMode: string) => {
               setStrokeMode(newMode as StrokeMode);

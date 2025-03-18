@@ -905,13 +905,21 @@ input {
   justify-content: center;
   /* Center horizontally */
   align-items: center;
-  gap: 48px;
+  -moz-column-gap: 48px;
+       column-gap: 48px;
+  row-gap: 24px;
   /* Ensures a fixed distance between the two boxes */
   width: 100%;
-  height: 150px;
+  height: 160px;
   background-color: var(--figma-color-bg-secondary);
   padding: 16px;
   border-radius: 8px;
+}
+.connect-point-container.horizontal {
+  flex-direction: row;
+}
+.connect-point-container.vertical {
+  flex-direction: column;
 }
 .connect-point-container .connect-item {
   position: relative;

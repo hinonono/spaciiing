@@ -1,5 +1,6 @@
 import { ConnectPointPositionPair } from "../types/ArrowCreator";
 import { CYStroke } from "../types/CYStroke";
+import { Direction } from "../types/General";
 import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
 
 export function applyArrowCreator(
@@ -7,12 +8,14 @@ export function applyArrowCreator(
     connectPointPositionPair: ConnectPointPositionPair,
     stroke: CYStroke,
     createAnnotationBox: boolean,
+    direction: Direction
 ) {
     const message: MessageArrowCreator = {
         safeMargin: safeMargin,
         connectPointPositionPair: connectPointPositionPair,
         stroke: stroke,
         createAnnotationBox: createAnnotationBox,
+        layoutDirection: direction,
         module: "ArrowCreator",
         phase: "Actual",
         direction: "Inner",

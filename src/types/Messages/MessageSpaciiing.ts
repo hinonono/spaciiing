@@ -1,8 +1,9 @@
 import { Message } from "./Message";
 import { ExternalMessage } from "./ExternalMessage";
+import { Direction } from "../General";
 
 // Spaciiing模組專用的基底屬性
-export type SpacingMode = "horizontal" | "vertical" | "grid";
+export type SpacingMode = Direction | "grid";
 
 export interface MessageSpaciiing extends Message {
   mode: SpacingMode;

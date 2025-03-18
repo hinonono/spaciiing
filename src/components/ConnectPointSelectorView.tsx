@@ -1,7 +1,9 @@
 import React from 'react';
 import { ConnectPointPosition, RectangleSegmentType } from '../types/ArrowCreator';
+import { Direction } from '../types/General';
 
 interface ConnectPointSelectorViewProps {
+  direction: Direction,
   sourceItemConnectPointPosition: ConnectPointPosition;
   setSourceItemConnectPointPosition: (position: ConnectPointPosition) => void;
   targetItemConnectPointPosition: ConnectPointPosition;
@@ -17,13 +19,14 @@ const connectPoints: ConnectPointPosition[] = [
 ];
 
 const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
+  direction,
   sourceItemConnectPointPosition,
   setSourceItemConnectPointPosition,
   targetItemConnectPointPosition,
   setTargetItemConnectPointPosition
 }) => {
   return (
-    <div className="connect-point-container">
+    <div className={`connect-point-container ${direction}`}>
       {/* Render two connectable items: one for start and one for end */}
       {[true, false].map((isStart) => (
         <div key={isStart ? "start" : "end"} className="connect-item drop-shadow-3">

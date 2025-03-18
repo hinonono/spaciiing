@@ -13,6 +13,7 @@ import { CornerRadiusNode } from "../types/NodeCornerRadius";
 import { SingleCornerRadiusNode } from "../types/NodeSingleCornerRadius";
 import { EditorType } from "../types/EditorType";
 import { ExternalMessage } from "../types/Messages/ExternalMessage";
+import { Coordinates } from "../types/General";
 
 const isDevelopment = process.env.REACT_APP_ENV === "development";
 
@@ -675,4 +676,13 @@ export function isNodeSupportCornerRadius(
     node.type === "STAR" ||
     node.type === "VECTOR"
   );
+}
+
+
+export function removeDuplicateCoordinatesFromPath(path: Coordinates[]) {
+  // Remove consecutive duplicate coordinates
+  const uniquePath = path.filter((coord, index, arr) =>
+    index === 0 || coord.x !== arr[index - 1].x || coord.y !== arr[index - 1].y
+  );
+  return uniquePath;
 }
