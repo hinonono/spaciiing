@@ -58,10 +58,9 @@ export function determineRouteFromMiddleRight(
         const uniquePath = removeDuplicateCoordinatesFromPath(path);
         return uniquePath;
     } else {
-        throw new Error("Unable to determine route from top center.")
+        throw new Error("Unable to determine route from middle right.")
     }
 }
-
 
 export function determineRouteFromMiddleLeft(
     targetItemConnectPoint: ConnectPointPosition,
@@ -75,7 +74,7 @@ export function determineRouteFromMiddleLeft(
             group.source.actual[RectangleSegmentType.MiddleLeft],
             group.source.withMargin[RectangleSegmentType.MiddleLeft],
             group.source.withMargin[RectangleSegmentType.BottomLeft],
-            group.target.withMargin[RectangleSegmentType.TopLeft],
+            group.target.withMargin[RectangleSegmentType.TopRight],
             group.target.withMargin[RectangleSegmentType.MiddleRight],
             group.target.actual[RectangleSegmentType.MiddleRight],
         ];
@@ -119,10 +118,9 @@ export function determineRouteFromMiddleLeft(
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else {
-        throw new Error("Unable to determine route from bottom center.");
+        throw new Error("Unable to determine route from middle left.");
     }
 }
-
 
 export function determineRouteFromTopCenter(
     targetItemConnectPoint: ConnectPointPosition,
@@ -181,17 +179,16 @@ export function determineRouteFromTopCenter(
         const path = [
             group.source.actual[RectangleSegmentType.TopCenter],
             group.source.withMargin[RectangleSegmentType.TopCenter],
-            group.source.withMargin[RectangleSegmentType.TopLeft],
+            group.source.withMargin[RectangleSegmentType.TopRight],
             group.source.withMargin[RectangleSegmentType.BottomRight],
             group.target.withMargin[RectangleSegmentType.TopCenter],
             group.target.actual[RectangleSegmentType.TopCenter],
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else {
-        throw new Error("Unable to determine route from middle left.");
+        throw new Error("Unable to determine route from top center.");
     }
 }
-
 
 export function determineRouteFromBottomCenter(
     targetItemConnectPoint: ConnectPointPosition,
@@ -201,7 +198,7 @@ export function determineRouteFromBottomCenter(
         const path = [
             group.source.actual[RectangleSegmentType.BottomCenter],
             group.source.withMargin[RectangleSegmentType.BottomCenter],
-            group.target.withMargin[RectangleSegmentType.TopLeft],
+            group.target.withMargin[RectangleSegmentType.TopRight],
             group.target.withMargin[RectangleSegmentType.MiddleRight],
             group.target.actual[RectangleSegmentType.MiddleRight],
         ];
@@ -234,6 +231,6 @@ export function determineRouteFromBottomCenter(
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else {
-        throw new Error("Unable to determine route from middle right.");
+        throw new Error("Unable to determine route from bottom center.");
     }
 }

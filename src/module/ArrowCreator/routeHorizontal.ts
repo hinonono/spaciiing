@@ -63,7 +63,6 @@ export function determineRouteFromTopCenter(
     }
 }
 
-
 export function determineRouteFromBottomCenter(
     targetItemConnectPoint: ConnectPointPosition,
     group: SegmentConnectionGroup
@@ -123,7 +122,6 @@ export function determineRouteFromBottomCenter(
         throw new Error("Unable to determine route from bottom center.");
     }
 }
-
 
 export function determineRouteFromMiddleLeft(
     targetItemConnectPoint: ConnectPointPosition,
@@ -192,7 +190,6 @@ export function determineRouteFromMiddleLeft(
         throw new Error("Unable to determine route from middle left.");
     }
 }
-
 
 export function determineRouteFromMiddleRight(
     targetItemConnectPoint: ConnectPointPosition,

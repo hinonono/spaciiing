@@ -158,35 +158,6 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             />
           </SegmentedControl>
         </div>
-        {/* 按鈕 */}
-        <div className="mt-xsmall">
-          <div className="custom-checkbox-group">
-            <label className="container">
-              {"Create annotation box"}
-              <input
-                type="checkbox"
-                checked={createAnnotationBox}
-                onChange={handleCheckboxChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-          </div>
-          <FigmaButton
-            title={t("module:execute")}
-            onClick={() => {
-              applyArrowCreator(
-                safeMargin,
-                {
-                  source: sourceItemConnectPointPosition,
-                  target: targetItemConnectPointPosition
-                },
-                stroke,
-                createAnnotationBox,
-                direction
-              )
-            }}
-          />
-        </div>
         {/* 連接點 */}
         <div>
           <SectionTitle title={"Connect point"} />
@@ -231,6 +202,35 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             />
           </SegmentedControl>
           {renderEditorBasedOnStrokeMode()}
+        </div>
+        {/* 按鈕 */}
+        <div className="mt-xsmall">
+          <div className="custom-checkbox-group">
+            <label className="container">
+              {"Create annotation box"}
+              <input
+                type="checkbox"
+                checked={createAnnotationBox}
+                onChange={handleCheckboxChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+          </div>
+          <FigmaButton
+            title={t("module:execute")}
+            onClick={() => {
+              applyArrowCreator(
+                safeMargin,
+                {
+                  source: sourceItemConnectPointPosition,
+                  target: targetItemConnectPointPosition
+                },
+                stroke,
+                createAnnotationBox,
+                direction
+              )
+            }}
+          />
         </div>
       </div>
     </div>
