@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
-import { FigmaButton, SectionTitle, StrokeEditorView, TitleBar } from '../components';
+import { FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
-import { ConnectPointPosition, ConnectPointPositionPair, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
+import { ConnectPointPosition, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator } from '../module-frontend/arrowCreatorFrontEnd';
-import { ConnectPointSelectorView } from '../components';
+import ConnectPointSelectorView from '../components/arrowCreator/ConnectPointSelectorView';
 import { CYStroke } from '../types/CYStroke';
 import { Direction } from '../types/General';
 import { SvgHorizontal, SvgVertical } from '../assets/icons';
+import StrokeEditor from '../components/arrowCreator/StrokeEditor';
+import StrokeStyleSelector from '../components/arrowCreator/StrokeStyleSelector';
 
 
 interface ArrowCreatorProps {
@@ -17,7 +19,12 @@ interface ArrowCreatorProps {
 }
 
 const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
-  const { licenseManagement, setFreeUserDelayModalConfig } = useAppContext();
+  const {
+    licenseManagement,
+    setFreeUserDelayModalConfig,
+    editorPreference,
+    setEditorPreference
+  } = useAppContext();
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
@@ -88,31 +95,9 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   const renderEditorBasedOnStrokeMode = () => {
     if (strokeMode === "freeform") {
-      return (
-        <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header">
-            <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            </div>
-            <div>
-              <FigmaButton
-                title={"Save style"}
-                onClick={() => {
-                }}
-                buttonHeight="small"
-                fontSize="small"
-                buttonType="grain"
-                hasMargin={false}
-              />
-            </div>
-          </div>
-          <div className="padding-16 border-1-top">
-            <StrokeEditorView stroke={stroke} setStroke={setStroke} />
-          </div>
-        </div>
-      )
+      return <StrokeEditor stroke={stroke} setStroke={setStroke} />;
     } else {
-      return null;
+      return <StrokeStyleSelector setStroke={setStroke} />;
     }
   }
 

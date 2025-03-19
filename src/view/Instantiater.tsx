@@ -279,15 +279,6 @@ const Instantiater: React.FC = () => {
         </div>
         <div className="mt-xsmall"></div>
         <div>
-          {/* <FigmaButton
-            buttonType="secondary"
-            title={
-              t("module:generateUsageDefinition") +
-              ` (${selectedTargets.length})`
-            }
-            id={"instantiater-intantiate-explanation-text"}
-            onClick={() => applyInstantiater("explanation")}
-          /> */}
           <FigmaButton
             title={t("module:generate") + ` (${selectedTargets.length})`}
             id={"instantiater-apply"}
