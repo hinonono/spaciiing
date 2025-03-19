@@ -109,7 +109,12 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         />
       );
     } else {
-      return <StrokeStyleSelector setStroke={setStroke} />;
+      return (
+        <StrokeStyleSelector
+          setStroke={setStroke}
+          handleOpenStrokeEditModal={handleOpenSrokeEditModal}
+        />
+      );
     }
   }
 

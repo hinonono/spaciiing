@@ -1,20 +1,24 @@
 import { t } from 'i18next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FigmaButton from '../FigmaButton';
 import { useAppContext } from '../../AppProvider';
 import { CYStroke } from '../../types/CYStroke';
+import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEditorPreference';
 
 interface StrokeStyleSelectorProps {
-  setStroke: React.Dispatch<React.SetStateAction<CYStroke>>
+  setStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
+  handleOpenStrokeEditModal: () => void,
 }
 
 const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
   {
-    setStroke
+    setStroke,
+    handleOpenStrokeEditModal
   }
 ) => {
   const { editorPreference, setEditorPreference } = useAppContext();
   const [selectedStyleId, setSelectedStyleId] = useState<string | null>(null);
+  const [savingPreference, setSavingPreference] = useState(false);
 
   const handleTargetChange = (option: CYStroke, id: string) => {
     setStroke(option);
@@ -28,8 +32,23 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
         strokeStyles: prev.strokeStyles.filter(style => style.id !== selectedStyleId)
       }));
       setSelectedStyleId(null);
+      setSavingPreference(true);
     }
   };
+
+  useEffect(() => {
+    if (savingPreference) {
+      const message: MessageSaveEditorPreference = {
+        editorPreference: editorPreference,
+        shouldSaveEditorPreference: true,
+        module: "General",
+        phase: "Actual"
+      };
+
+      parent.postMessage({ pluginMessage: message }, "*");
+      setSavingPreference(false);
+    }
+  }, [editorPreference]); // Run when `editorPreference` updates
 
   const renderStrokeStyleList = () => {
     const s = editorPreference.strokeStyles;
@@ -94,7 +113,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           <FigmaButton
             title={"New"}
             onClick={() => {
-              console.log("Adding a new style...");
+              handleOpenStrokeEditModal()
             }}
             buttonHeight="small"
             fontSize="small"
@@ -103,7 +122,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           />
         </div>
       </div>
-      <div className="list-view-content border-1-top">
+      <div className="list-view-content border-1-top custom-checkbox-group">
         {renderStrokeStyleList()}
       </div>
     </div>
