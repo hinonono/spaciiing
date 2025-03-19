@@ -48,21 +48,22 @@ export function reception(message: MessageArrowCreator) {
 // 	•	If a.x is less than b.x, it returns negative, meaning a comes before b.
 // 	•	If a.x is greater than b.x, it returns positive, meaning b comes before a.
 function sortSelectionBasedOnXAndY(direction: Direction, selection: SceneNode[]): SceneNode[] {
-    if (direction === "horizontal") {
-        return selection.sort((a, b) => {
-            if (a.x === b.x) {
-                return a.y - b.y;
-            }
-            return a.x - b.x;
-        });
-    } else {
-        return selection.sort((a, b) => {
-            if (a.y === b.y) {
-                return a.x - b.x;
-            }
-            return a.y - b.y;
-        });
-    }
+    return selection.sort((a, b) => {
+        if (!a.absoluteBoundingBox || !b.absoluteBoundingBox) {
+            throw new Error("Absolute bounding box is required for sorting.");
+        }
+
+        const aX = a.absoluteBoundingBox.x;
+        const aY = a.absoluteBoundingBox.y;
+        const bX = b.absoluteBoundingBox.x;
+        const bY = b.absoluteBoundingBox.y;
+
+        if (direction === "horizontal") {
+            return aX === bX ? aY - bY : aX - bX;
+        } else {
+            return aY === bY ? aX - bX : aY - bY;
+        }
+    });
 }
 
 /**
@@ -105,28 +106,32 @@ function calcNodeSegments(x: number, y: number, width: number, height: number, h
 }
 
 function calcNodeGap(sourceNode: SceneNode, targetNode: SceneNode): { horizontal: number, vertical: number } {
+    if (!sourceNode.absoluteBoundingBox || !targetNode.absoluteBoundingBox) {
+        throw new Error("Absolute bounding box is required to calculate node gap.")
+    }
+
     let hGap: number, vGap: number;
 
-    const rightOfSourceNode = sourceNode.x + sourceNode.width;
-    const rightOfTargetNode = targetNode.x + targetNode.width;
+    const rightOfSourceNode = sourceNode.absoluteBoundingBox.x + sourceNode.width;
+    const rightOfTargetNode = targetNode.absoluteBoundingBox.x + targetNode.width;
 
-    const bottomOfSourceNode = sourceNode.y + sourceNode.height;
-    const bottomOfTargetNode = targetNode.y + targetNode.height;
+    const bottomOfSourceNode = sourceNode.absoluteBoundingBox.y + sourceNode.height;
+    const bottomOfTargetNode = targetNode.absoluteBoundingBox.y + targetNode.height;
 
     // Calculate vertical gap
     if (targetNode.y >= bottomOfSourceNode) {
-        vGap = targetNode.y - bottomOfSourceNode; // target is below
-    } else if (sourceNode.y >= bottomOfTargetNode) {
-        vGap = sourceNode.y - bottomOfTargetNode; // target is above
+        vGap = targetNode.absoluteBoundingBox.y - bottomOfSourceNode; // target is below
+    } else if (sourceNode.absoluteBoundingBox.y >= bottomOfTargetNode) {
+        vGap = sourceNode.absoluteBoundingBox.y - bottomOfTargetNode; // target is above
     } else {
         vGap = 0; // overlapping vertically
     }
 
     // Calculate horizontal gap
     if (targetNode.x >= rightOfSourceNode) {
-        hGap = targetNode.x - rightOfSourceNode; // target is to the right
-    } else if (sourceNode.x >= rightOfTargetNode) {
-        hGap = sourceNode.x - rightOfTargetNode; // target is to the left
+        hGap = targetNode.absoluteBoundingBox.x - rightOfSourceNode; // target is to the right
+    } else if (sourceNode.absoluteBoundingBox.x >= rightOfTargetNode) {
+        hGap = sourceNode.absoluteBoundingBox.x - rightOfTargetNode; // target is to the left
     } else {
         hGap = 0; // overlapping horizontally
     }
@@ -234,8 +239,16 @@ function determineRoute(
         horizontal: gap.horizontal === 0 ? gap.vertical / 2 : gap.horizontal / 2,
         vertical: gap.vertical === 0 ? gap.horizontal / 2 : gap.vertical / 2
     }
-    const sourceNodeConnectionData = calcNodeSegments(sourceNode.x, sourceNode.y, sourceNode.width, sourceNode.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
-    const targetNodeConnectionData = calcNodeSegments(targetNode.x, targetNode.y, targetNode.width, targetNode.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
+
+    console.log("final gap", finalDecidedGap);
+
+
+    if (!sourceNode.absoluteBoundingBox || !targetNode.absoluteBoundingBox) {
+        throw new Error("Absolute bounding box is required to determine route.")
+    }
+
+    const sourceNodeConnectionData = calcNodeSegments(sourceNode.absoluteBoundingBox.x, sourceNode.absoluteBoundingBox.y, sourceNode.absoluteBoundingBox.width, sourceNode.absoluteBoundingBox.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
+    const targetNodeConnectionData = calcNodeSegments(targetNode.absoluteBoundingBox.x, targetNode.absoluteBoundingBox.y, targetNode.absoluteBoundingBox.width, targetNode.absoluteBoundingBox.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
     const group = createSegmentConnectionGroup(direction, sourceNodeConnectionData, targetNodeConnectionData)
 
     let route: Coordinates[] = [];
