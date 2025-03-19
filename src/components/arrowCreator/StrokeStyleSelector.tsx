@@ -7,7 +7,7 @@ import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEdi
 
 interface StrokeStyleSelectorProps {
   setEditStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
-  handleOpenStrokeEditModal: () => void,
+  handleOpenStrokeEditModal: (existingStyleName: string | undefined, existingStyleId: string | undefined) => void,
   setStrokeModalMode: React.Dispatch<React.SetStateAction<"edit" | "create">>,
 }
 
@@ -95,10 +95,9 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
                   console.warn("No stroke found for the selected ID:", selectedStyleId);
                   return;
                 }
-
                 setEditStroke(foundStroke.style);
                 setStrokeModalMode("edit");
-                handleOpenStrokeEditModal();
+                handleOpenStrokeEditModal(foundStroke.name, foundStroke.id);
               }
             }}
             buttonHeight="small"
@@ -123,7 +122,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           <FigmaButton
             title={"New"}
             onClick={() => {
-              handleOpenStrokeEditModal()
+              handleOpenStrokeEditModal(undefined, undefined)
             }}
             buttonHeight="small"
             fontSize="small"

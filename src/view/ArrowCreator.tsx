@@ -102,7 +102,17 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   // 筆畫編輯彈窗
   const [showStrokeEditModal, setShowStrokeEditModal] = useState(false);
-  const handleOpenSrokeEditModal = () => setShowStrokeEditModal(true);
+  const handleOpenSrokeEditModal = (existingStyleName: string | undefined, existingStyleId: string | undefined) => {
+    if (existingStyleName) {
+      setExistingStyleName(existingStyleName);
+    }
+
+    if (existingStyleId) {
+      setExistingStyleId(existingStyleId)
+    }
+
+    setShowStrokeEditModal(true)
+  };
   const handleCloseStrokeEditModal = () => setShowStrokeEditModal(false);
   const [strokeModalMode, setStrokeModalMode] = useState<"create" | "edit">("create");
 
@@ -126,8 +136,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     }
   }
 
-
-
+  const [existingStyleName, setExistingStyleName] = useState<string | undefined>();
+  const [existingStyleId, setExistingStyleId] = useState<string | undefined>();
 
   return (
     <div>
@@ -147,6 +157,9 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           stroke={editingStroke}
           setStroke={setEditingStroke}
           mode={strokeModalMode}
+          existingStyleName={existingStyleName}
+          setExistingStyleName={setExistingStyleName}
+          existingStyleId={existingStyleId}
         />
         <TitleBar
           title={"Draw Arrows"}

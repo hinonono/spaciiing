@@ -14,7 +14,10 @@ interface StrokeEditModalProps {
   handleClose: () => void;
   stroke: CYStroke
   setStroke: React.Dispatch<React.SetStateAction<CYStroke>>,
-  mode: "create" | "edit"
+  mode: "create" | "edit",
+  existingStyleName?: string;
+  setExistingStyleName?: React.Dispatch<React.SetStateAction<string | undefined>>,
+  existingStyleId?: string;
 }
 
 const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
@@ -22,7 +25,10 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
   handleClose,
   stroke,
   setStroke,
-  mode
+  mode,
+  existingStyleName,
+  setExistingStyleName,
+  existingStyleId
 }) => {
 
   const { t } = useTranslation(["module"]);
@@ -38,6 +44,14 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setStyleName(event.target.value);
+  };
+
+  const handleExistingStyleNameChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    if (setExistingStyleName) {
+      setExistingStyleName(event.target.value);
+    }
   };
 
   useEffect(() => {
@@ -57,7 +71,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
         handleClose();
       }
     }
-  }, [editorPreference, show]); // Run when `editorPreference` updates
+  }, [editorPreference]); // Run when `editorPreference` updates
 
   const [savingPreference, setSavingPreference] = useState(false);
 
@@ -87,18 +101,34 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
         setFreeUserDelayModalConfig({
           show: true,
           initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => saveNewStrokeStyle(true), // Retry with `isRealCall = true`
+          onProceed: () => saveEditedStrokeStyle(true), // Retry with `isRealCall = true`
         });
         return;
       }
     }
 
-    setSavingPreference(true); // Set flag to indicate saving is in progress
+    if (!existingStyleId) {
+      console.error("No existing style ID provided.");
+      return;
+    }
 
-    setEditorPreference((prev) => ({
-      ...prev,
-      strokeStyles: [...prev.strokeStyles, { name: styleName, id: generateUUID(), style: stroke }]
-    }));
+    if (!existingStyleName) {
+      console.error(`Param "existingStyleName" is required for saving style.`)
+      return;
+    }
+
+    setSavingPreference(true); // Set flag to indicate saving is in progress
+    setEditorPreference((prev) => {
+      const updatedStrokeStyles = prev.strokeStyles.map((style) =>
+        style.id === existingStyleId
+          ? { ...style, name: existingStyleName, style: stroke } // Update name & style
+          : style
+      );
+
+      return { ...prev, strokeStyles: updatedStrokeStyles };
+    });
+
+    console.log("Stroke style updated successfully.");
   };
 
   const renderModalButton = () => {
@@ -119,6 +149,28 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
     }
   }
 
+  const renderNameTextArea = () => {
+    if (mode === "create") {
+      return <textarea
+        className="textarea textarea-height-fit-content"
+        rows={1}
+        value={styleName}
+        onChange={handleStyleNameChange}
+      />
+    } else {
+      if (existingStyleName || existingStyleName === "") {
+        return <textarea
+          className="textarea textarea-height-fit-content"
+          rows={1}
+          value={existingStyleName}
+          onChange={handleExistingStyleNameChange}
+        />
+      } else {
+        return null;
+      }
+    }
+  }
+
 
   return (
     <Modal show={show} handleClose={handleClose}>
@@ -129,12 +181,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
         <div>
           <SectionTitle title={t("term:name")} titleType="secondary" />
           <div className="width-100">
-            <textarea
-              className="textarea textarea-height-fit-content"
-              rows={1}
-              value={styleName}
-              onChange={handleStyleNameChange}
-            />
+            {renderNameTextArea()}
           </div>
         </div>
         <StrokeEditorView editingStroke={stroke} setEditingStroke={setStroke} />

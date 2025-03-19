@@ -6,7 +6,7 @@ import { CYStroke } from '../../types/CYStroke';
 interface StrokeEditorProps {
   editingStroke: CYStroke
   setEditingStroke: React.Dispatch<React.SetStateAction<CYStroke>>,
-  handleOpenStrokeEditModal: () => void,
+  handleOpenStrokeEditModal: (existingStyleName: string | undefined, existingStyleId: string | undefined) => void,
 }
 
 const StrokeEditor: React.FC<StrokeEditorProps> = (
@@ -28,7 +28,7 @@ const StrokeEditor: React.FC<StrokeEditorProps> = (
             title={"Save style"}
             onClick={() => {
               console.log("save style button was clicked.");
-              handleOpenStrokeEditModal()
+              handleOpenStrokeEditModal(undefined, undefined)
             }}
             buttonHeight="small"
             fontSize="small"
