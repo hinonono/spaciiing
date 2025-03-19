@@ -128,15 +128,15 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
     setStroke((prev) => ({ ...prev, endPointCap: e.target.value as StrokeCap }));
   };
 
-  // const handleColorPickerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(event.target.value);
-  //   setEditingColorHex(event.target.value);
-  //   setStroke((prev) => ({ ...prev, color: event.target.value }));
-  // };
+  const handleColorPickerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = event.target.value;
+    setEditingColorHex(newColor); // Update textarea immediately
+    setStroke((prev) => ({ ...prev, color: newColor })); // Update stroke color
+  };
 
-  // const handleThumbnailClick = () => {
-  //   document.getElementById("colorPickerInput")?.click();
-  // };
+  const handleThumbnailClick = () => {
+    document.getElementById("colorPickerInput")?.click();
+  };
 
   return (
     <div>
@@ -144,11 +144,28 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         <SectionTitle title={t("term:color")} titleType="secondary" />
         <div className="color-selector-wrapper">
           <div className="color-selector">
-            <ColorThumbnailView color={stroke.color} opacity={stroke.opacity} size={16} type={'square'} extraClassName='mr-xxxsmall' />
+            {/* Hidden color picker input */}
+            <input
+              id="colorPickerInput"
+              type="color"
+              value={stroke.color}
+              onChange={handleColorPickerChange}
+              style={{ display: "none" }}
+            />
+            {/* Clickable thumbnail to trigger color picker */}
+            <div onClick={handleThumbnailClick} style={{ cursor: "pointer" }}>
+              <ColorThumbnailView
+                color={stroke.color}
+                opacity={stroke.opacity}
+                size={16}
+                type={'square'}
+                extraClassName="mr-xxxsmall"
+              />
+            </div>
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
-              value={editingColorHex}
+              value={stroke.color}
               onChange={handleColorChange}
               onBlur={handleColorBlur} // Update color when user finishes editing
               onKeyDown={(e) => {
