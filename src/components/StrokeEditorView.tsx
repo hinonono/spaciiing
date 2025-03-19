@@ -17,10 +17,10 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   const { t } = useTranslation(["module", "term"]);
 
   // 色彩與透明度
-  const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color.replace(/^#/, ""));
+  const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color.replace(/^#/, "").toUpperCase());
 
   useEffect(() => {
-    setEditingColorHex(stroke.color.replace(/^#/, ""))
+    setEditingColorHex(stroke.color.replace(/^#/, "").toUpperCase())
   }, [stroke.color])
 
   const handleColorChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
