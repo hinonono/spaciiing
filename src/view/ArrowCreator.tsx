@@ -57,8 +57,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
       setSafeMarginFieldNote(t("module:invalidNumberInput"));
     }
   };
-  const [safeMarginFieldNote, setSafeMarginFieldNote] =
-    useState<string>("");
+  const [safeMarginFieldNote, setSafeMarginFieldNote] = useState<string>("");
 
   // 是否建立註解框
   const [createAnnotationBox, setCreateAnnotationBox] = useState(false);

@@ -3,6 +3,7 @@ import FigmaButton from '../FigmaButton';
 import { useAppContext } from '../../AppProvider';
 import { CYStroke } from '../../types/CYStroke';
 import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEditorPreference';
+import ColorThumbnailView from '../ColorThumbnailView';
 
 interface StrokeStyleSelectorProps {
   setEditStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
@@ -70,6 +71,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           <label key={item.id} className={`container`}>
             <div className="flex flex-row align-items-center flex-justify-space-between">
               <div className="flex flex-row align-items-center">
+                <ColorThumbnailView color={item.style.color} opacity={1} size={20} type={"rounded"} extraClassName="mr-xxxsmall" />
                 {item.name}
               </div>
               <input
@@ -79,7 +81,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
                 checked={selectedStyleId === item.id}
                 onChange={() => handleTargetChange(item.style, item.id)}
               />
-              <span className="checkmark checkmark-large"></span>
+              <span className="checkmark checkmark-round checkmark-large"></span>
             </div>
           </label>
         ))
