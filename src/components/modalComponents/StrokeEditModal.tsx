@@ -14,13 +14,15 @@ interface StrokeEditModalProps {
   handleClose: () => void;
   stroke: CYStroke
   setStroke: React.Dispatch<React.SetStateAction<CYStroke>>,
+  mode: "create" | "edit"
 }
 
 const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
   show,
   handleClose,
   stroke,
-  setStroke
+  setStroke,
+  mode
 }) => {
 
   const { t } = useTranslation(["module"]);
@@ -59,13 +61,13 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
 
   const [savingPreference, setSavingPreference] = useState(false);
 
-  const saveStyle = (isRealCall = false) => {
+  const saveNewStrokeStyle = (isRealCall = false) => {
     if (!isRealCall) {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
           initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => saveStyle(true), // Retry with `isRealCall = true`
+          onProceed: () => saveNewStrokeStyle(true), // Retry with `isRealCall = true`
         });
         return;
       }
@@ -79,11 +81,49 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
     }));
   };
 
+  const saveEditedStrokeStyle = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: 30, // Adjust the delay time as needed
+          onProceed: () => saveNewStrokeStyle(true), // Retry with `isRealCall = true`
+        });
+        return;
+      }
+    }
+
+    setSavingPreference(true); // Set flag to indicate saving is in progress
+
+    setEditorPreference((prev) => ({
+      ...prev,
+      strokeStyles: [...prev.strokeStyles, { name: styleName, id: generateUUID(), style: stroke }]
+    }));
+  };
+
+  const renderModalButton = () => {
+    if (mode === "create") {
+      return (
+        <FigmaButton
+          title={t("module:save")}
+          onClick={saveNewStrokeStyle} // No need to call handleClose() here
+        />
+      )
+    } else {
+      return (
+        <FigmaButton
+          title={t("module:save")}
+          onClick={saveEditedStrokeStyle} // No need to call handleClose() here
+        />
+      )
+    }
+  }
+
 
   return (
     <Modal show={show} handleClose={handleClose}>
       <div className="mt-xxsmall">
-        <h3>New stroke style</h3>
+        <h3>{mode === "create" ? "New stroke style" : "Edit stroke style"}</h3>
       </div>
       <div className="mt-xsmall">
         <div>
@@ -97,13 +137,10 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
             />
           </div>
         </div>
-        <StrokeEditorView stroke={stroke} setStroke={setStroke} />
+        <StrokeEditorView editingStroke={stroke} setEditingStroke={setStroke} />
       </div>
       <div className="mt-xsmall">
-        <FigmaButton
-          title={t("module:save")}
-          onClick={saveStyle} // No need to call handleClose() here
-        />
+        {renderModalButton()}
       </div>
     </Modal>
   );

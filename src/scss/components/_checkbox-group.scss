@@ -1,4 +1,4 @@
-.custom-checkbox-group {
+.cy-checkbox-group {
     .container {
         display: block;
         position: relative;
@@ -89,7 +89,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    .custom-checkbox-group {
+    .cy-checkbox-group {
         .container {
             input:checked~.checkmark {
                 background-color: var(--figma-color-bg-brand);

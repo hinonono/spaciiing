@@ -250,7 +250,7 @@ const Instantiater: React.FC = () => {
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選項 */}
-          <div className="custom-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {options.map((option) => (
               <label key={option.value} className={`container`}>
                 <div className="flex flex-row align-items-center flex-justify-space-between">

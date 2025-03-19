@@ -93,26 +93,34 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     endPointCap: "ARROW_LINES",
     dashAndGap: [0, 0],
   });
+  // 複製一個筆畫本體出來，將其注入彈窗中，目的是為了共用彈窗
+  const [editingStroke, setEditingStroke] = useState<CYStroke>(stroke);
+
+  useEffect(() => {
+    setEditingStroke(stroke)
+  }, [stroke])
 
   // 筆畫編輯彈窗
   const [showStrokeEditModal, setShowStrokeEditModal] = useState(false);
   const handleOpenSrokeEditModal = () => setShowStrokeEditModal(true);
   const handleCloseStrokeEditModal = () => setShowStrokeEditModal(false);
+  const [strokeModalMode, setStrokeModalMode] = useState<"create" | "edit">("create");
 
   const renderEditorBasedOnStrokeMode = () => {
     if (strokeMode === "freeform") {
       return (
         <StrokeEditor
-          stroke={stroke}
-          setStroke={setStroke}
+          editingStroke={stroke}
+          setEditingStroke={setStroke}
           handleOpenStrokeEditModal={handleOpenSrokeEditModal}
         />
       );
     } else {
       return (
         <StrokeStyleSelector
-          setStroke={setStroke}
+          setEditStroke={setEditingStroke}
           handleOpenStrokeEditModal={handleOpenSrokeEditModal}
+          setStrokeModalMode={setStrokeModalMode}
         />
       );
     }
@@ -136,8 +144,9 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         <StrokeEditModal
           show={showStrokeEditModal}
           handleClose={handleCloseStrokeEditModal}
-          stroke={stroke}
-          setStroke={setStroke}
+          stroke={editingStroke}
+          setStroke={setEditingStroke}
+          mode={strokeModalMode}
         />
         <TitleBar
           title={"Draw Arrows"}
@@ -215,7 +224,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         </div>
         {/* 按鈕 */}
         <div className="mt-xsmall">
-          <div className="custom-checkbox-group">
+          <div className="cy-checkbox-group">
             <label className="container">
               {"Create annotation box"}
               <input

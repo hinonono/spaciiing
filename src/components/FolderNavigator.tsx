@@ -85,15 +85,15 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
     const newCheckedOptions = areAllChecked
       ? {
-          title: currentPath.join("/"),
-          scopes: selectedScopes.scopes.filter(
-            (id) => !allLeafIds.includes(id)
-          ),
-        }
+        title: currentPath.join("/"),
+        scopes: selectedScopes.scopes.filter(
+          (id) => !allLeafIds.includes(id)
+        ),
+      }
       : {
-          title: currentPath.join("/"),
-          scopes: [...new Set([...selectedScopes.scopes, ...allLeafIds])],
-        };
+        title: currentPath.join("/"),
+        scopes: [...new Set([...selectedScopes.scopes, ...allLeafIds])],
+      };
 
     setSelectedScopes(newCheckedOptions);
   };
@@ -155,7 +155,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
         </div>
       </div>
       <div
-        className={`custom-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical`}
+        className={`cy-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical`}
       >
         <ul className="list-style-none">
           {Object.keys(currentStructure).map((key) => (

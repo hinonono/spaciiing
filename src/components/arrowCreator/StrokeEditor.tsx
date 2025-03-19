@@ -4,15 +4,15 @@ import StrokeEditorView from '../StrokeEditorView';
 import { CYStroke } from '../../types/CYStroke';
 
 interface StrokeEditorProps {
-  stroke: CYStroke
-  setStroke: React.Dispatch<React.SetStateAction<CYStroke>>,
+  editingStroke: CYStroke
+  setEditingStroke: React.Dispatch<React.SetStateAction<CYStroke>>,
   handleOpenStrokeEditModal: () => void,
 }
 
 const StrokeEditor: React.FC<StrokeEditorProps> = (
   {
-    stroke,
-    setStroke,
+    editingStroke,
+    setEditingStroke,
     handleOpenStrokeEditModal
   }
 ) => {
@@ -38,7 +38,7 @@ const StrokeEditor: React.FC<StrokeEditorProps> = (
         </div>
       </div>
       <div className="padding-16 border-1-top">
-        <StrokeEditorView stroke={stroke} setStroke={setStroke} />
+        <StrokeEditorView editingStroke={editingStroke} setEditingStroke={setEditingStroke} />
       </div>
     </div>
   );

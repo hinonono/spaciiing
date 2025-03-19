@@ -191,7 +191,7 @@ const SelectionFilter: React.FC = () => {
           <SectionTitle
             title={`${t("module:filterFor")} (${selectedScopes.length})`}
           />
-          <div className="custom-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
             {FilterableScopesNew.map((item) => item.supportedEditorTypes.includes(editorType) && (
               <label
                 key={t(item.nameKey)}
@@ -212,7 +212,7 @@ const SelectionFilter: React.FC = () => {
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
-          <div className="custom-checkbox-group">
+          <div className="cy-checkbox-group">
             <label className="container">
               {t("module:skipHiddenLayers")}
               <input

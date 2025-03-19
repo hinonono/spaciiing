@@ -51,7 +51,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
         return;
       }
     }
-  
+
     if (action === "findAndReplace") {
       const message: MessageShortcutFindAndReplace = {
         module: "Shortcut",
@@ -104,7 +104,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
         {t("module:findAndReplaceCriteriaAreCaseSensitive")}
       </span>
       <div className="mt-xsmall">
-        <div className="custom-checkbox-group">
+        <div className="cy-checkbox-group">
           <label className="container">
             {t("module:keepOriginalNameOfTextLayers")}
             <input

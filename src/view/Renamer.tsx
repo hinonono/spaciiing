@@ -189,7 +189,7 @@ const Renamer: React.FC = () => {
           <SectionTitle
             title={`${t("module:renameScopes")} (${selectedScopes.length})`}
           />
-          <div className="custom-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
               <label
                 key={item.scope}
@@ -210,7 +210,7 @@ const Renamer: React.FC = () => {
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
-          <div className="custom-checkbox-group">
+          <div className="cy-checkbox-group">
             <label className="container">
               {t("module:deleteHiddenLayers")}
               <input

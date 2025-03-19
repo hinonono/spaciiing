@@ -6,14 +6,16 @@ import { CYStroke } from '../../types/CYStroke';
 import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEditorPreference';
 
 interface StrokeStyleSelectorProps {
-  setStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
+  setEditStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
   handleOpenStrokeEditModal: () => void,
+  setStrokeModalMode: React.Dispatch<React.SetStateAction<"edit" | "create">>,
 }
 
 const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
   {
-    setStroke,
-    handleOpenStrokeEditModal
+    handleOpenStrokeEditModal,
+    setEditStroke,
+    setStrokeModalMode,
   }
 ) => {
   const { editorPreference, setEditorPreference } = useAppContext();
@@ -21,7 +23,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
   const [savingPreference, setSavingPreference] = useState(false);
 
   const handleTargetChange = (option: CYStroke, id: string) => {
-    setStroke(option);
+    setEditStroke(option);
     setSelectedStyleId(id);
   }
 
@@ -88,7 +90,15 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
             title={"Edit"}
             onClick={() => {
               if (selectedStyleId) {
-                console.log("Editing style: ", selectedStyleId);
+                const foundStroke = editorPreference.strokeStyles.find(style => style.id === selectedStyleId);
+                if (!foundStroke) {
+                  console.warn("No stroke found for the selected ID:", selectedStyleId);
+                  return;
+                }
+
+                setEditStroke(foundStroke.style);
+                setStrokeModalMode("edit");
+                handleOpenStrokeEditModal();
               }
             }}
             buttonHeight="small"
@@ -122,7 +132,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           />
         </div>
       </div>
-      <div className="list-view-content border-1-top custom-checkbox-group">
+      <div className="list-view-content border-1-top cy-checkbox-group">
         {renderStrokeStyleList()}
       </div>
     </div>

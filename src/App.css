@@ -492,7 +492,7 @@ input {
   background-color: var(--figma-color-bg-brand);
 }
 
-.custom-checkbox-group .container {
+.cy-checkbox-group .container {
   display: block;
   position: relative;
   padding: 10px 0px;
@@ -504,21 +504,21 @@ input {
      -moz-user-select: none;
           user-select: none;
 }
-.custom-checkbox-group .container input {
+.cy-checkbox-group .container input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
   height: 0;
   width: 0;
 }
-.custom-checkbox-group .container input:checked ~ .checkmark {
+.cy-checkbox-group .container input:checked ~ .checkmark {
   background-color: var(--figma-color-bg-brand);
   border: 0px;
 }
-.custom-checkbox-group .container input:checked ~ .checkmark:after {
+.cy-checkbox-group .container input:checked ~ .checkmark:after {
   display: block;
 }
-.custom-checkbox-group.scope-group .container:hover {
+.cy-checkbox-group.scope-group .container:hover {
   background-color: var(--figma-color-bg-secondary);
   border-radius: var(--border-radius-med);
 }
@@ -568,7 +568,7 @@ input {
 }
 
 @media (prefers-color-scheme: dark) {
-  .custom-checkbox-group .container input:checked ~ .checkmark {
+  .cy-checkbox-group .container input:checked ~ .checkmark {
     background-color: var(--figma-color-bg-brand);
   }
   .checkmark {
