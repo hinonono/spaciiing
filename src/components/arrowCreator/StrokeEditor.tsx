@@ -29,7 +29,6 @@ const StrokeEditor: React.FC<StrokeEditorProps> = (
           <FigmaButton
             title={"Save style"}
             onClick={() => {
-              console.log("save style button was clicked.");
               setStrokeModalMode("create");
               handleOpenStrokeEditModal(undefined, undefined)
             }}
