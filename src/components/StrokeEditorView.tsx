@@ -21,12 +21,11 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color);
 
   const handleColorChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let newColor = event.target.value.replace(/#/g, ""); // Remove # if present
-    setEditingColorHex(newColor); // Update temporary state while editing
+    setEditingColorHex(event.target.value); // Update temporary state while editing
   };
 
   const handleColorBlur = () => {
-    setStroke((prev) => ({ ...prev, color: `#${editingColorHex}` }));
+    setStroke((prev) => ({ ...prev, color: editingColorHex }));
   };
 
   const [editingOpacity, setEditingOpacity] = useState<number>(stroke.opacity * 100);
@@ -129,15 +128,15 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
     setStroke((prev) => ({ ...prev, endPointCap: e.target.value as StrokeCap }));
   };
 
-  const handleColorPickerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let newColor = event.target.value.replace(/#/g, ""); // Remove # if present
-    setEditingColorHex(newColor);
-    setStroke((prev) => ({ ...prev, color: `#${newColor}` }));
-  };
+  // const handleColorPickerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log(event.target.value);
+  //   setEditingColorHex(event.target.value);
+  //   setStroke((prev) => ({ ...prev, color: event.target.value }));
+  // };
 
-  const handleThumbnailClick = () => {
-    document.getElementById("colorPickerInput")?.click();
-  };
+  // const handleThumbnailClick = () => {
+  //   document.getElementById("colorPickerInput")?.click();
+  // };
 
   return (
     <div>
@@ -145,29 +144,11 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         <SectionTitle title={t("term:color")} titleType="secondary" />
         <div className="color-selector-wrapper">
           <div className="color-selector">
-            {/* Hidden color picker input */}
-            <input
-              id="colorPickerInput"
-              type="color"
-              value={editingColorHex}
-              onChange={handleColorPickerChange}
-              style={{ display: "none" }}
-            />
-
-            {/* Clickable thumbnail to trigger color picker */}
-            <div onClick={handleThumbnailClick} style={{ cursor: "pointer" }}>
-              <ColorThumbnailView
-                color={editingColorHex}
-                opacity={stroke.opacity}
-                size={16}
-                type={'square'}
-                extraClassName="mr-xxxsmall"
-              />
-            </div>
+            <ColorThumbnailView color={`#${stroke.color}`} opacity={stroke.opacity} size={16} type={'square'} extraClassName='mr-xxxsmall' />
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
-              value={editingColorHex.replace(/^#/, "")} // Ensure no # is shown
+              value={editingColorHex}
               onChange={handleColorChange}
               onBlur={handleColorBlur} // Update color when user finishes editing
               onKeyDown={(e) => {
