@@ -103,7 +103,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           />
         </div>
       </div>
-      <div className="padding-16 border-1-top">
+      <div className="list-view-content border-1-top">
         {renderStrokeStyleList()}
       </div>
     </div>

@@ -369,7 +369,7 @@ function memorizeSelectedNodeId(member: MagicObjectMembers) {
       break;
   }
   util.saveEditorPreference(editorPreference, "Shortcut");
-  util.updateEditorPreference(editorPreference);
+  util.updateEditorPreference(editorPreference, "Shortcut");
   figma.notify(
     `✅ The id is memorized successfully from object ${selectedNode.name}`
   );

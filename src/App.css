@@ -523,6 +523,23 @@ input {
   border-radius: var(--border-radius-med);
 }
 
+.scope-group {
+  padding: 16px;
+  border-radius: var(--cy-border-radius-large);
+  max-height: 160px;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 100%;
+  overflow: scroll;
+  transition: all 0.3s;
+}
+.scope-group:hover {
+  border-color: var(--cy-border-dark);
+}
+.scope-group-large {
+  max-height: 320px;
+}
+
 .checkmark {
   position: absolute;
   top: 6;
@@ -838,6 +855,25 @@ input {
   background-color: var(--figma-color-bg-secondary);
   font-weight: bold;
 }
+.list-view-content {
+  padding: 16px;
+}
+.list-view-content .container {
+  display: block;
+  position: relative;
+  padding: 10px 0px;
+  padding-left: 28px;
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  color: var(--figma-color-text);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.list-view-content .container:hover {
+  background-color: var(--figma-color-bg-secondary);
+  border-radius: var(--border-radius-med);
+}
 
 .chevron-right {
   /* Add this block */
@@ -889,6 +925,9 @@ input {
 
 .border-1 {
   border: 1px solid var(--figma-color-border);
+}
+.border-1-cy-border-light {
+  border: 1px solid var(--cy-border-light);
 }
 
 .border-1-top {
@@ -1128,24 +1167,6 @@ h2 {
 
 .bg-color-secondary {
   background-color: var(--figma-color-bg-secondary);
-}
-
-.scope-group {
-  padding: 16px;
-  border-radius: var(--cy-border-radius-large);
-  border: 1px solid var(--cy-border-light);
-  max-height: 160px;
-  height: -moz-fit-content;
-  height: fit-content;
-  width: 100%;
-  overflow: scroll;
-  transition: all 0.3s;
-}
-.scope-group:hover {
-  border-color: var(--cy-border-dark);
-}
-.scope-group-large {
-  max-height: 320px;
 }
 
 .note {

@@ -43,14 +43,14 @@ figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(360, 480);
 
 figma.ui.onmessage = (message: Message) => {
-  // console.log(message);
+  console.log("plugin.ts", message);
 
   if (
     message.shouldSaveEditorPreference &&
     message.shouldSaveEditorPreference == true
   ) {
     if (message.editorPreference) {
-      util.saveEditorPreference(message.editorPreference);
+      util.saveEditorPreference(message.editorPreference, "General");
     } else {
       throw new Error("Missing Editor Preference.");
     }

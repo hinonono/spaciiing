@@ -46,9 +46,8 @@ export function saveEditorPreference(
   );
   console.log(
     `😍使用者偏好已儲存，呼叫自${source !== undefined ? String(source) : "未知"
-    }`
+    }`, editorPreference
   );
-  console.log(editorPreference);
 }
 
 function createEditorPreference(): EditorPreference {
@@ -120,7 +119,7 @@ export function updateEditorPreference(
   sendMessageBack(message);
   console.log(
     `😍使用者偏好已更新至前端，呼叫自${source !== undefined ? String(source) : "未知"
-    }`
+    }`, editorPreference
   );
 }
 

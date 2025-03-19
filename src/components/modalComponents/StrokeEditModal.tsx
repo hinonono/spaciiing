@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import Modal from "../Modal";
@@ -38,6 +38,27 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
     setStyleName(event.target.value);
   };
 
+  useEffect(() => {
+    if (show) {
+      const message: MessageSaveEditorPreference = {
+        editorPreference: editorPreference,
+        shouldSaveEditorPreference: true,
+        module: "General",
+        phase: "Actual"
+      };
+
+      parent.postMessage({ pluginMessage: message }, "*");
+
+      // Close modal after saving the preference
+      if (savingPreference) {
+        setSavingPreference(false);
+        handleClose();
+      }
+    }
+  }, [editorPreference, show]); // Run when `editorPreference` updates
+
+  const [savingPreference, setSavingPreference] = useState(false);
+
   const saveStyle = (isRealCall = false) => {
     if (!isRealCall) {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
@@ -50,20 +71,13 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       }
     }
 
+    setSavingPreference(true); // Set flag to indicate saving is in progress
+
     setEditorPreference((prev) => ({
       ...prev,
       strokeStyles: [...prev.strokeStyles, { name: styleName, id: generateUUID(), style: stroke }]
     }));
-
-    const message: MessageSaveEditorPreference = {
-      editorPreference: editorPreference,
-      shouldSaveEditorPreference: true,
-      module: "General",
-      phase: "Actual"
-    }
-
-    parent.postMessage({ pluginMessage: message, }, "*");
-  }
+  };
 
 
   return (
@@ -88,10 +102,8 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       <div className="mt-xsmall">
         <FigmaButton
           title={t("module:save")}
-          onClick={() => {
-            saveStyle();
-            handleClose();
-          }} />
+          onClick={saveStyle} // No need to call handleClose() here
+        />
       </div>
     </Modal>
   );

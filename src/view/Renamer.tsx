@@ -26,34 +26,34 @@ const Renamer: React.FC = () => {
     indented?: boolean;
     indentLevel?: number;
   }[] = [
-    { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
-    { nameKey: "term:image", scope: "IMAGE" },
-    { nameKey: "term:text", scope: "TEXT" },
-    { nameKey: "term:frame", scope: "FRAME" },
-    { nameKey: "term:group", scope: "GROUP" },
-    { nameKey: "term:allShape", scope: "ALL_SHAPE" },
-    {
-      nameKey: "term:rectangle",
-      scope: "RECTANGLE",
-      indented: true,
-      indentLevel: 1,
-    },
-    {
-      nameKey: "term:ellipse",
-      scope: "ELLIPSE",
-      indented: true,
-      indentLevel: 1,
-    },
-    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
-    {
-      nameKey: "term:polygon",
-      scope: "POLYGON",
-      indented: true,
-      indentLevel: 1,
-    },
-    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
-    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
-  ];
+      { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
+      { nameKey: "term:image", scope: "IMAGE" },
+      { nameKey: "term:text", scope: "TEXT" },
+      { nameKey: "term:frame", scope: "FRAME" },
+      { nameKey: "term:group", scope: "GROUP" },
+      { nameKey: "term:allShape", scope: "ALL_SHAPE" },
+      {
+        nameKey: "term:rectangle",
+        scope: "RECTANGLE",
+        indented: true,
+        indentLevel: 1,
+      },
+      {
+        nameKey: "term:ellipse",
+        scope: "ELLIPSE",
+        indented: true,
+        indentLevel: 1,
+      },
+      { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
+      {
+        nameKey: "term:polygon",
+        scope: "POLYGON",
+        indented: true,
+        indentLevel: 1,
+      },
+      { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
+      { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
+    ];
   const initialScopes = RenamableScopesNew.map((item) => item.scope);
 
   //
@@ -131,7 +131,7 @@ const Renamer: React.FC = () => {
         return;
       }
     }
-  
+
     // Real logic for applying the renamer
     const message: MessageRenamer = {
       target: options,
@@ -144,7 +144,7 @@ const Renamer: React.FC = () => {
         includeParentLayer: includeParentLayer,
       },
     };
-  
+
     parent.postMessage(
       {
         pluginMessage: message,
@@ -189,13 +189,12 @@ const Renamer: React.FC = () => {
           <SectionTitle
             title={`${t("module:renameScopes")} (${selectedScopes.length})`}
           />
-          <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
+          <div className="custom-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
               <label
                 key={item.scope}
-                className={`container ${
-                  item.indented ? `indent-level-${item.indentLevel}` : ""
-                }`}
+                className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
+                  }`}
               >
                 {t(item.nameKey)}
                 <input

@@ -1,5 +1,9 @@
 .border-1 {
     border: 1px solid var(--figma-color-border);
+
+    &-cy-border-light {
+        border: 1px solid var(--cy-border-light);
+    }
 }
 
 .border-1-top {
