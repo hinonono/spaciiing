@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from './SectionTitle';
-import { t } from 'i18next';
 import { strokeCaps, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
 import ColorThumbnailView from './ColorThumbnailView';
 import { CYStroke } from '../types/CYStroke';
@@ -18,14 +17,18 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   const { t } = useTranslation(["module", "term"]);
 
   // 色彩與透明度
-  const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color);
+  const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color.replace(/^#/, ""));
+
+  useEffect(() => {
+    setEditingColorHex(stroke.color.replace(/^#/, ""))
+  }, [stroke.color])
 
   const handleColorChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditingColorHex(event.target.value); // Update temporary state while editing
   };
 
   const handleColorBlur = () => {
-    setStroke((prev) => ({ ...prev, color: editingColorHex }));
+    setStroke((prev) => ({ ...prev, color: `#${editingColorHex}` }));
   };
 
   const [editingOpacity, setEditingOpacity] = useState<number>(stroke.opacity * 100);
@@ -165,7 +168,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
-              value={stroke.color}
+              value={editingColorHex}
               onChange={handleColorChange}
               onBlur={handleColorBlur} // Update color when user finishes editing
               onKeyDown={(e) => {
