@@ -144,7 +144,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         <SectionTitle title={t("term:color")} titleType="secondary" />
         <div className="color-selector-wrapper">
           <div className="color-selector">
-            <ColorThumbnailView color={`#${stroke.color}`} opacity={stroke.opacity} size={16} type={'square'} extraClassName='mr-xxxsmall' />
+            <ColorThumbnailView color={stroke.color} opacity={stroke.opacity} size={16} type={'square'} extraClassName='mr-xxxsmall' />
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
