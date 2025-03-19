@@ -43,6 +43,7 @@ const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
               }
             />
           ))}
+          <span className='text-color-secondary'>{isStart ? "Start" : "End"}</span>
         </div>
       ))}
     </div>

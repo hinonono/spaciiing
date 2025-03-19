@@ -927,6 +927,9 @@ input {
   height: 96px;
   background-color: white;
   border-radius: 12px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 .connect-point-container .connect-item .connect-point {
   position: absolute;

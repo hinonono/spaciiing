@@ -77,7 +77,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   // 筆畫本體
   const [stroke, setStroke] = useState<CYStroke>({
-    color: "64748B",
+    color: "#64748B",
     opacity: 1,
     strokeWeight: 6,
     cornerRadius: 16,
@@ -137,7 +137,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
       </div>
       <div className="content">
         {/* 方向 */}
-        <div className='mt-xsmall'>
+        <div>
           <SectionTitle title={"Direction"} />
           <SegmentedControl
             inputName="layout-direction"
