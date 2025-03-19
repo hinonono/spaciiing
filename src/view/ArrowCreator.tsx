@@ -123,6 +123,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           editingStroke={stroke}
           setEditingStroke={setStroke}
           handleOpenStrokeEditModal={handleOpenSrokeEditModal}
+          setStrokeModalMode={setStrokeModalMode}
         />
       );
     } else {
