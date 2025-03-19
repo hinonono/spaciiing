@@ -97,6 +97,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       innerFrame: 0,
       outerFrame: 0,
     },
+    strokeStyles: []
   });
 
   // 判斷用戶在哪個模式下開啟了plugin

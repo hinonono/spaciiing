@@ -4,5 +4,5 @@ import { CYStroke } from "./CYStroke";
 export interface CYStrokeStyle {
     id: string,
     name: string,
-    stlye: CYStroke,
+    style: CYStroke,
 }

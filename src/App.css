@@ -219,6 +219,19 @@ input {
   color: var(--red) !important;
 }
 
+.font-size-xsmall {
+  font-size: var(--font-size-xsmall);
+}
+.font-size-small {
+  font-size: var(--font-size-small);
+}
+.font-size-large {
+  font-size: var(--font-size-large);
+}
+.font-size-xlarge {
+  font-size: var(--font-size-xlarge);
+}
+
 .pl-xxxsmall {
   padding-left: var(--size-xxxsmall);
 }

@@ -100,7 +100,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const folderNavigator = () => {
     if (hasError) {
       return (
-        <div className="text-color-error p-xsmall">
+        <div className="text-color-error p-xsmall font-size-small">
           Failed to process the {form} structure. The system encountered a
           duplicate path: "{errorPath}". Please ensure that each path segment is
           unique.

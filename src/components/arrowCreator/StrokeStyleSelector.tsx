@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import React from 'react';
+import React, { useState } from 'react';
 import FigmaButton from '../FigmaButton';
 import { useAppContext } from '../../AppProvider';
 import { CYStroke } from '../../types/CYStroke';
@@ -14,10 +14,22 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
   }
 ) => {
   const { editorPreference, setEditorPreference } = useAppContext();
+  const [selectedStyleId, setSelectedStyleId] = useState<string | null>(null);
 
-  const handleTargetChange = (option: CYStroke) => {
+  const handleTargetChange = (option: CYStroke, id: string) => {
     setStroke(option);
+    setSelectedStyleId(id);
   }
+
+  const handleDelete = () => {
+    if (selectedStyleId) {
+      setEditorPreference((prev) => ({
+        ...prev,
+        strokeStyles: prev.strokeStyles.filter(style => style.id !== selectedStyleId)
+      }));
+      setSelectedStyleId(null);
+    }
+  };
 
   const renderStrokeStyleList = () => {
     const s = editorPreference.strokeStyles;
@@ -31,9 +43,11 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
                 {item.name}
               </div>
               <input
-                type="checkbox"
+                type="radio"
+                name="strokeStyle"
                 value={item.id}
-                onChange={() => handleTargetChange(item.stlye)}
+                checked={selectedStyleId === item.id}
+                onChange={() => handleTargetChange(item.style, item.id)}
               />
               <span className="checkmark checkmark-large"></span>
             </div>
@@ -42,7 +56,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
       )
     } else {
       return (
-        <div>There is no style in the list.</div>
+        <div className='flex justify-content-center text-color-primary font-size-small'>There is no style in the list.</div>
       );
     }
   }
@@ -54,11 +68,15 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           <FigmaButton
             title={"Edit"}
             onClick={() => {
+              if (selectedStyleId) {
+                console.log("Editing style: ", selectedStyleId);
+              }
             }}
             buttonHeight="small"
             fontSize="small"
             buttonType="grain"
             hasMargin={false}
+            disabled={!selectedStyleId}
           />
         </div>
         <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
@@ -66,16 +84,17 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
         <div>
           <FigmaButton
             title={"Delete"}
-            onClick={() => {
-            }}
+            onClick={handleDelete}
             buttonHeight="small"
             fontSize="small"
             buttonType="grain"
             hasMargin={false}
+            disabled={!selectedStyleId}
           />
           <FigmaButton
             title={"New"}
             onClick={() => {
+              console.log("Adding a new style...");
             }}
             buttonHeight="small"
             fontSize="small"

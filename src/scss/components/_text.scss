@@ -17,3 +17,21 @@
 .text-color-error {
     color: var(--red) !important;
 }
+
+.font-size {
+    &-xsmall {
+        font-size: var(--font-size-xsmall);
+    }
+
+    &-small {
+        font-size: var(--font-size-small);
+    }
+
+    &-large {
+        font-size: var(--font-size-large);
+    }
+
+    &-xlarge {
+        font-size: var(--font-size-xlarge);
+    }
+}

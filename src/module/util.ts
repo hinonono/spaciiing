@@ -63,6 +63,7 @@ function createEditorPreference(): EditorPreference {
       innerFrame: 20,
       outerFrame: 24,
     },
+    strokeStyles: []
   };
 
   return createdEditorPreference;
@@ -692,9 +693,9 @@ export function calcMidpoint(path: Coordinates[]): Coordinates {
   if (path.length === 0) {
     throw new Error("Path cannot be empty");
   }
-  
+
   const midIndex = Math.floor(path.length / 2);
-  
+
   if (path.length % 2 === 1) {
     // Odd number of points, return the middle one
     return path[midIndex];

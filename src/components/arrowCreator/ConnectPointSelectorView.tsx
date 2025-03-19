@@ -1,6 +1,6 @@
 import React from 'react';
-import { ConnectPointPosition, RectangleSegmentType } from '../types/ArrowCreator';
-import { Direction } from '../types/General';
+import { ConnectPointPosition, RectangleSegmentType } from '../../types/ArrowCreator';
+import { Direction } from '../../types/General';
 
 interface ConnectPointSelectorViewProps {
   direction: Direction,
@@ -43,7 +43,7 @@ const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
               }
             />
           ))}
-          <span className='text-color-secondary'>{isStart ? "Start" : "End"}</span>
+          <span className='text-color-secondary font-size-large'>{isStart ? "Start" : "End"}</span>
         </div>
       ))}
     </div>
