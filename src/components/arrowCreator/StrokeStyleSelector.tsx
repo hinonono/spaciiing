@@ -4,6 +4,7 @@ import { useAppContext } from '../../AppProvider';
 import { CYStroke } from '../../types/CYStroke';
 import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEditorPreference';
 import ColorThumbnailView from '../ColorThumbnailView';
+import { defaultStroke } from '../../module-frontend/arrowCreatorFrontEnd';
 
 interface StrokeStyleSelectorProps {
   setEditStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
@@ -133,6 +134,8 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           <FigmaButton
             title={"New"}
             onClick={() => {
+              setStrokeModalMode("create")
+              setEditStroke(defaultStroke);
               handleOpenStrokeEditModal(undefined, undefined)
             }}
             buttonHeight="small"
