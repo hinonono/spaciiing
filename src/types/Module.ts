@@ -1,5 +1,6 @@
 export type Module =
   | "Init"
+  | "General"
   | "Localization"
   | "Spaciiing"
   | "Shortcut"
