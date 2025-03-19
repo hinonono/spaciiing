@@ -145,8 +145,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           handleClose={handleCloseExplanationModal}
         >
           <div>
-            <h3>Draw Arrows</h3>
-            <p>{t("module:moduleAspectRatioHelperDesc")}</p>
+            <h3>{t("module:moduleDrawArrows")}</h3>
+            <p>{t("module:moduleDrawArrowsDesc")}</p>
           </div>
         </Modal>
         <StrokeEditModal
@@ -160,7 +160,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           existingStyleId={existingStyleId}
         />
         <TitleBar
-          title={"Draw Arrows"}
+          title={t("module:moduleDrawArrows")}
           onClick={handleOpenExplanationModal}
           isProFeature={true}
         />
@@ -168,7 +168,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
       <div className="content">
         {/* 方向 */}
         <div>
-          <SectionTitle title={"Direction"} />
+          <SectionTitle title={t("term:direction")} />
           <SegmentedControl
             inputName="layout-direction"
             value={direction}
@@ -190,7 +190,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         </div>
         {/* 連接點 */}
         <div className='mt-xsmall'>
-          <SectionTitle title={"Connect point"} />
+          <SectionTitle title={t("module:connectPoint")} />
           <ConnectPointSelectorView
             direction={direction}
             sourceItemConnectPointPosition={sourceItemConnectPointPosition}
@@ -199,7 +199,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             setTargetItemConnectPointPosition={setTargetItemConnectPointPosition}
           />
           <div className="width-100 mt-xxsmall">
-            <SectionTitle title={"Offset"} titleType="secondary" />
+            <SectionTitle title={t("module:offset")} titleType="secondary" />
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
@@ -214,7 +214,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         </div>
         {/* 筆畫模式 */}
         <div className='mt-xsmall'>
-          <SectionTitle title={"Stroke"} />
+          <SectionTitle title={t("term:stroke")} />
           <SegmentedControl
             inputName="stroke-style"
             value={strokeMode}
@@ -224,11 +224,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           >
             <SegmentedControl.Option
               value="freeform"
-              label="freeform"
+              label={t("module:freeform")}
             />
             <SegmentedControl.Option
               value="style"
-              label="style"
+              label={t("term:style")}
             />
           </SegmentedControl>
           {renderEditorBasedOnStrokeMode()}
@@ -237,7 +237,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         <div className="mt-xsmall">
           <div className="cy-checkbox-group">
             <label className="container">
-              {"Create annotation box"}
+              {t("module:createAnnotationBox")}
               <input
                 type="checkbox"
                 checked={createAnnotationBox}

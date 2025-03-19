@@ -76,5 +76,8 @@
   "dropShadow": "ドロップシャドウ",
   "layerBlur": "レイヤーブラー",
   "backgroundBlur": "背景のぼかし",
-  "faq": "よくある質問"
+  "faq": "よくある質問",
+  "none": "なし",
+  "direction": "方向",
+  "strokeSolid": "実線"
 }

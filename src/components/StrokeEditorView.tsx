@@ -278,7 +278,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
       </div>
       <div className='grid mt-xxsmall'>
         <div>
-          <SectionTitle title="Start point" titleType="secondary" />
+          <SectionTitle title={t("module:startPoint")} titleType="secondary" />
           <select
             name="type"
             className="custom-select"
@@ -291,7 +291,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
           </select>
         </div>
         <div>
-          <SectionTitle title="End point" titleType="secondary" />
+          <SectionTitle title={t("module:endPoint")} titleType="secondary" />
           <select
             name="type"
             className="custom-select"

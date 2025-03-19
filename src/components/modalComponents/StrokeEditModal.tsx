@@ -179,7 +179,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       </div>
       <div className="mt-xsmall">
         <div>
-          <SectionTitle title={t("term:name")} titleType="secondary" />
+          <SectionTitle title={t("module:name")} titleType="secondary" />
           <div className="width-100">
             {renderNameTextArea()}
           </div>

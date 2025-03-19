@@ -44,26 +44,26 @@ export const strokeCaps: StrokeCapOption[] = [
     },
     {
         value: "ARROW_LINES",
-        labelKey: "term:lineArrow",
+        labelKey: "module:lineArrow",
     },
     {
         value: "ARROW_EQUILATERAL",
-        labelKey: "term:triangleArrow",
+        labelKey: "module:triangleArrow",
     },
     {
         value: "ROUND",
-        labelKey: "term:round",
+        labelKey: "module:round",
     },
     {
         value: "SQUARE",
-        labelKey: "term:square",
+        labelKey: "module:square",
     },
 ]
 
 export const strokeStyles = [
     {
         type: "solid",
-        labelKey: "term:solid",
+        labelKey: "term:strokeSolid",
     },
     {
         type: "dash",

@@ -2,6 +2,7 @@ import React from 'react';
 import FigmaButton from '../FigmaButton';
 import StrokeEditorView from '../StrokeEditorView';
 import { CYStroke } from '../../types/CYStroke';
+import { useTranslation } from 'react-i18next';
 
 interface StrokeEditorProps {
   editingStroke: CYStroke
@@ -19,6 +20,8 @@ const StrokeEditor: React.FC<StrokeEditorProps> = (
   }
 ) => {
 
+  const { t } = useTranslation(["module"])
+
   return (
     <div className="list-view mt-xsmall">
       <div className="list-view-header property-clipboard-header">
@@ -27,7 +30,7 @@ const StrokeEditor: React.FC<StrokeEditorProps> = (
         </div>
         <div>
           <FigmaButton
-            title={"Save style"}
+            title={t("module:saveStyle")}
             onClick={() => {
               setStrokeModalMode("create");
               handleOpenStrokeEditModal(undefined, undefined)

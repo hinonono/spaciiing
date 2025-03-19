@@ -76,5 +76,8 @@
   "dropShadow": "投射陰影",
   "layerBlur": "圖層模糊",
   "backgroundBlur": "背景模糊",
-  "faq": "常見問題"
+  "faq": "常見問題",
+  "none": "無",
+  "direction": "方向",
+  "strokeSolid": "實線"
 }

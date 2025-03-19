@@ -176,5 +176,20 @@
   "catalogueSetting": "型录设置",
   "crossCatalogueIndex": "跨型录引用",
   "crossCatalogueIndexDesc": "此功能可以让您轻松地在不同型录之间进行引用，特别适用于创建别名变量型录时。要启用此功能，请在文件中选择任意框架，然后点击“复制选区链接”，接着将复制的链接粘贴到下方。",
-  "skip": "略过"  
+  "skip": "略过",
+  "connectPoint": "连接点",
+  "start": "起点",
+  "end": "终点",
+  "offset": "偏移",
+  "freeform": "自由格式",
+  "saveStyle": "保存样式",
+  "startPoint": "起点",
+  "endPoint": "终点",
+  "lineArrow": "直线箭头",
+  "triangleArrow": "三角箭头",
+  "round": "圆形",
+  "square": "方形",
+  "createAnnotationBox": "创建注释框",
+  "moduleDrawArrows": "画箭头",
+  "moduleDrawArrowsDesc": "选择至少两个以上的对象，并选择连接点以绘制箭头。"
 }
