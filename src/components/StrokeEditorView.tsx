@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from './SectionTitle';
-import { t } from 'i18next';
 import { strokeCaps, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
 import ColorThumbnailView from './ColorThumbnailView';
 import { CYStroke } from '../types/CYStroke';
@@ -18,11 +17,14 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   const { t } = useTranslation(["module", "term"]);
 
   // 色彩與透明度
-  const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color);
+  const [editingColorHex, setEditingColorHex] = useState<string>(stroke.color.replace(/^#/, "").toUpperCase());
+
+  useEffect(() => {
+    setEditingColorHex(stroke.color.replace(/^#/, "").toUpperCase())
+  }, [stroke.color])
 
   const handleColorChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let newColor = event.target.value.replace(/#/g, ""); // Remove # if present
-    setEditingColorHex(newColor); // Update temporary state while editing
+    setEditingColorHex(event.target.value); // Update temporary state while editing
   };
 
   const handleColorBlur = () => {
@@ -130,9 +132,9 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   };
 
   const handleColorPickerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let newColor = event.target.value.replace(/#/g, ""); // Remove # if present
-    setEditingColorHex(newColor);
-    setStroke((prev) => ({ ...prev, color: `#${newColor}` }));
+    const newColor = event.target.value;
+    setEditingColorHex(newColor); // Update textarea immediately
+    setStroke((prev) => ({ ...prev, color: newColor })); // Update stroke color
   };
 
   const handleThumbnailClick = () => {
@@ -149,15 +151,14 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             <input
               id="colorPickerInput"
               type="color"
-              value={editingColorHex}
+              value={stroke.color}
               onChange={handleColorPickerChange}
               style={{ display: "none" }}
             />
-
             {/* Clickable thumbnail to trigger color picker */}
             <div onClick={handleThumbnailClick} style={{ cursor: "pointer" }}>
               <ColorThumbnailView
-                color={editingColorHex}
+                color={stroke.color}
                 opacity={stroke.opacity}
                 size={16}
                 type={'square'}
@@ -167,7 +168,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
-              value={editingColorHex.replace(/^#/, "")} // Ensure no # is shown
+              value={editingColorHex}
               onChange={handleColorChange}
               onBlur={handleColorBlur} // Update color when user finishes editing
               onKeyDown={(e) => {

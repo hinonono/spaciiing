@@ -12,6 +12,7 @@ import { Direction } from '../types/General';
 import { SvgHorizontal, SvgVertical } from '../assets/icons';
 import StrokeEditor from '../components/arrowCreator/StrokeEditor';
 import StrokeStyleSelector from '../components/arrowCreator/StrokeStyleSelector';
+import { StrokeEditModal } from '../components/modalComponents';
 
 
 interface ArrowCreatorProps {
@@ -93,13 +94,26 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     dashAndGap: [0, 0],
   });
 
+  // 筆畫編輯彈窗
+  const [showStrokeEditModal, setShowStrokeEditModal] = useState(false);
+  const handleOpenSrokeEditModal = () => setShowStrokeEditModal(true);
+  const handleCloseStrokeEditModal = () => setShowStrokeEditModal(false);
+
   const renderEditorBasedOnStrokeMode = () => {
     if (strokeMode === "freeform") {
-      return <StrokeEditor stroke={stroke} setStroke={setStroke} />;
+      return (
+        <StrokeEditor
+          stroke={stroke}
+          setStroke={setStroke}
+          handleOpenStrokeEditModal={handleOpenSrokeEditModal}
+        />
+      );
     } else {
       return <StrokeStyleSelector setStroke={setStroke} />;
     }
   }
+
+
 
 
   return (
@@ -114,6 +128,12 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             <p>{t("module:moduleAspectRatioHelperDesc")}</p>
           </div>
         </Modal>
+        <StrokeEditModal
+          show={showStrokeEditModal}
+          handleClose={handleCloseStrokeEditModal}
+          stroke={stroke}
+          setStroke={setStroke}
+        />
         <TitleBar
           title={"Draw Arrows"}
           onClick={handleOpenExplanationModal}

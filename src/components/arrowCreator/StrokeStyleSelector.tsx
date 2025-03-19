@@ -56,7 +56,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
       )
     } else {
       return (
-        <div className='flex justify-content-center text-color-primary font-size-small'>There is no style in the list.</div>
+        <div className='flex justify-content-center text-color-secondary font-size-small'>There is no style in the list.</div>
       );
     }
   }

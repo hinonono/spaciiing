@@ -5,13 +5,15 @@ import { CYStroke } from '../../types/CYStroke';
 
 interface StrokeEditorProps {
   stroke: CYStroke
-  setStroke: React.Dispatch<React.SetStateAction<CYStroke>>
+  setStroke: React.Dispatch<React.SetStateAction<CYStroke>>,
+  handleOpenStrokeEditModal: () => void,
 }
 
 const StrokeEditor: React.FC<StrokeEditorProps> = (
   {
     stroke,
-    setStroke
+    setStroke,
+    handleOpenStrokeEditModal
   }
 ) => {
 
@@ -25,6 +27,8 @@ const StrokeEditor: React.FC<StrokeEditorProps> = (
           <FigmaButton
             title={"Save style"}
             onClick={() => {
+              console.log("save style button was clicked.");
+              handleOpenStrokeEditModal()
             }}
             buttonHeight="small"
             fontSize="small"
