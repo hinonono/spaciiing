@@ -255,7 +255,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
                   source: sourceItemConnectPointPosition,
                   target: targetItemConnectPointPosition
                 },
-                stroke,
+                editingStroke,
                 createAnnotationBox,
                 direction
               )

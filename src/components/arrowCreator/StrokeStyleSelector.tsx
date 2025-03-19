@@ -110,6 +110,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
                 setEditStroke(foundStroke.style);
                 setStrokeModalMode("edit");
                 handleOpenStrokeEditModal(foundStroke.name, foundStroke.id);
+                setSelectedStyleId(foundStroke.id);
               }
             }}
             buttonHeight="small"
