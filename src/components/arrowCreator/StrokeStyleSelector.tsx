@@ -1,4 +1,3 @@
-import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import FigmaButton from '../FigmaButton';
 import { useAppContext } from '../../AppProvider';
@@ -19,7 +18,9 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
   }
 ) => {
   const { editorPreference, setEditorPreference } = useAppContext();
-  const [selectedStyleId, setSelectedStyleId] = useState<string | null>(null);
+  const [selectedStyleId, setSelectedStyleId] = useState<string | null>(
+    editorPreference.strokeStyles.length > 0 ? editorPreference.strokeStyles[0].id : null
+  );
   const [savingPreference, setSavingPreference] = useState(false);
 
   const handleTargetChange = (option: CYStroke, id: string) => {
@@ -51,6 +52,14 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
       setSavingPreference(false);
     }
   }, [editorPreference]); // Run when `editorPreference` updates
+
+  useEffect(() => {
+    if (editorPreference.strokeStyles.length > 0) {
+      const firstStroke = editorPreference.strokeStyles[0];
+      setSelectedStyleId(firstStroke.id);
+      setEditStroke(firstStroke.style);
+    }
+  }, [editorPreference.strokeStyles]); // Runs when `strokeStyles` update
 
   const renderStrokeStyleList = () => {
     const s = editorPreference.strokeStyles;
