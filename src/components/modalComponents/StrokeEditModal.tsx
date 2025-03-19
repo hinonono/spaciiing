@@ -184,6 +184,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
             {renderNameTextArea()}
           </div>
         </div>
+        <div className="mt-xxsmall"></div>
         <StrokeEditorView editingStroke={stroke} setEditingStroke={setStroke} />
       </div>
       <div className="mt-xsmall">
