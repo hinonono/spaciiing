@@ -5,7 +5,7 @@ import Modal from '../components/Modal';
 import { FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
 import { ConnectPointPosition, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
-import { applyArrowCreator } from '../module-frontend/arrowCreatorFrontEnd';
+import { applyArrowCreator, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
 import ConnectPointSelectorView from '../components/arrowCreator/ConnectPointSelectorView';
 import { CYStroke } from '../types/CYStroke';
 import { Direction } from '../types/General';
@@ -67,8 +67,14 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     setCreateAnnotationBox(event.target.checked);
   };
 
+
+
   // 筆畫模式
   const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
+  useEffect(() => {
+    setStroke(defaultStroke)
+    setEditingStroke(stroke)
+  }, [strokeMode])
 
   // 排列方向
   const [direction, setDirection] = useState<Direction>("horizontal");
@@ -83,15 +89,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   }, [direction])
 
   // 筆畫本體
-  const [stroke, setStroke] = useState<CYStroke>({
-    color: "#64748B",
-    opacity: 1,
-    strokeWeight: 6,
-    cornerRadius: 16,
-    startPointCap: "NONE",
-    endPointCap: "ARROW_LINES",
-    dashAndGap: [0, 0],
-  });
+  const [stroke, setStroke] = useState<CYStroke>(defaultStroke);
   // 複製一個筆畫本體出來，將其注入彈窗中，目的是為了共用彈窗
   const [editingStroke, setEditingStroke] = useState<CYStroke>(stroke);
 
@@ -119,8 +117,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     if (strokeMode === "freeform") {
       return (
         <StrokeEditor
-          editingStroke={stroke}
-          setEditingStroke={setStroke}
+          editingStroke={editingStroke}
+          setEditingStroke={setEditingStroke}
           handleOpenStrokeEditModal={handleOpenSrokeEditModal}
           setStrokeModalMode={setStrokeModalMode}
         />
