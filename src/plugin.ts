@@ -31,7 +31,7 @@ import * as aspectRatioHelper from "./module/aspectRatioHelper";
 import * as resize from "./module/resize";
 import * as styleIntroducer from "./module/styleIntroducer";
 import * as propertyClipboard from "./module/propertyClipboard";
-import * as arrowCreator from "./module/arrowCreator/arrowCreator";
+import * as arrowCreator from "./module/ArrowCreator/arrowCreator";
 import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
 import { MessageLicenseManagement } from "./types/Messages/MessageLicenseManagement";
 import { MessageRenamer } from "./types/Messages/MessageRenamer";
