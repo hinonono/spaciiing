@@ -58,6 +58,10 @@ module.exports = (env, argv) => {
               terserOptions: {
                 compress: {
                   drop_console: true, // Remove console logs
+                  drop_debugger: true,
+                  dead_code: true,// Eliminates unused code
+                  unused: true,
+                  passes: 3// Apply multiple compression passes
                 },
                 output: {
                   comments: false, // Remove comments
@@ -68,17 +72,17 @@ module.exports = (env, argv) => {
           ],
         }
       : {},
-    devServer: {
-      static: [
-        {
-          directory: path.join(__dirname, "dist"),
-        },
-        {
-          directory: path.join(__dirname, "public"),
-        },
-      ],
-      compress: true,
-      port: 9000,
-    },
+    // devServer: {
+    //   static: [
+    //     {
+    //       directory: path.join(__dirname, "dist"),
+    //     },
+    //     {
+    //       directory: path.join(__dirname, "public"),
+    //     },
+    //   ],
+    //   compress: true,
+    //   port: 9000,
+    // },
   };
 };
