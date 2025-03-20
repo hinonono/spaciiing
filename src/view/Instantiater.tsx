@@ -14,6 +14,7 @@ import {
   MessageInstantiater,
 } from "../types/Messages/MessageInstantiater";
 import SegmentedControl from "../components/SegmentedControl";
+import * as info from "../info.json";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -105,8 +106,8 @@ const Instantiater: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => applyInstantiater(type, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyInstantiater(type, true),
         });
         return;
       }
@@ -128,12 +129,7 @@ const Instantiater: React.FC = () => {
       phase: "Actual",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const [destination, setDestination] = useState("new");

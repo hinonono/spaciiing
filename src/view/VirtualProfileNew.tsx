@@ -30,6 +30,7 @@ import {
   resolveContextMenuPos,
 } from "../module-frontend/utilFrontEnd";
 import { SupportedLangCode } from "../types/Localization";
+import * as info from "../info.json";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -233,8 +234,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => addTitleRow(true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => addTitleRow(true),
         });
         return;
       }
@@ -255,8 +256,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust delay time as needed
-          onProceed: () => addRecordToLastTitle(true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => addRecordToLastTitle(true),
         });
         return;
       }
@@ -339,8 +340,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust delay time as needed
-          onProceed: () => deleteRow(rowId, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => deleteRow(rowId, true),
         });
         return;
       }
@@ -358,8 +359,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => deleteChild(rowId, childId, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => deleteChild(rowId, childId, true),
         });
         return;
       }
@@ -385,8 +386,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust delay time as needed
-          onProceed: () => addChildToRow(rowId, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => addChildToRow(rowId, true),
         });
         return;
       }
@@ -418,8 +419,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => duplicateTitleRow(rowId, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => duplicateTitleRow(rowId, true),
         });
         return;
       }
@@ -453,8 +454,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust delay time as needed
-          onProceed: () => duplicateContentRow(rowId, childId, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => duplicateContentRow(rowId, childId, true),
         });
         return;
       }
@@ -546,8 +547,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => createNewGroupFromJsonData(category, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => createNewGroupFromJsonData(category, true),
         });
         return;
       }

@@ -9,6 +9,7 @@ import {
   MessagePropertyClipboard,
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
+import * as info from "../info.json";
 
 interface PropertyClipboardProps { }
 
@@ -46,7 +47,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30,
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => setReferenceObject(true), // Re-invoke with the real call
         });
         return;
@@ -61,12 +62,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       direction: "Inner",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   // 貼上指定的屬性至所選擇的物件
@@ -78,7 +74,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30,
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => pastePropertyToObject(property, true), // Re-invoke with the real call
         });
         return;
@@ -95,12 +91,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       behavior: pasteBehavior,
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   // Function to open the modal with the specific function to execute

@@ -10,6 +10,7 @@ import {
   MessageGetAvailableCollectionMode,
   MessageVariableEditorExecuteCode,
 } from "../types/Messages/MessageVariableEditor";
+import * as info from "../info.json";
 
 interface KeyAndScope {
   nameKey: string;
@@ -153,12 +154,7 @@ const VariableEditor: React.FC = () => {
       phase: "Actual",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const handleDefaultNewCollectionNameChange = (
@@ -212,7 +208,7 @@ const VariableEditor: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => executeCode(true), // Retry with isRealCall = true
         });
         return;
@@ -235,12 +231,7 @@ const VariableEditor: React.FC = () => {
       newCollectionName: defaultNewCollectionName,
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const exampleCode = {

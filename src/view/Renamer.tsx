@@ -9,6 +9,7 @@ import {
   RenamerSupportedTargets,
   MessageRenamer,
 } from "../types/Messages/MessageRenamer";
+import * as info from "../info.json";
 
 const Renamer: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -125,7 +126,7 @@ const Renamer: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // You can adjust the delay time as needed
+          initialTime: info.freeUserWaitingTime, // You can adjust the delay time as needed
           onProceed: () => applyRenamer(true), // Retry the function with `isRealCall = true`
         });
         return;
@@ -145,12 +146,7 @@ const Renamer: React.FC = () => {
       },
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (

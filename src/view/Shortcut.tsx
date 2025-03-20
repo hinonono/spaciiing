@@ -17,6 +17,7 @@ import {
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
 import { createAutoLayoutIndividually } from "../module-frontend/shortcutFronEnd";
+import * as info from "../info.json";
 
 const Shortcut: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -66,7 +67,7 @@ const Shortcut: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
         appContext.setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => applyShortcut(action, true), // Retry with isRealCall = true
         });
         return;
@@ -103,12 +104,7 @@ const Shortcut: React.FC = () => {
         break;
     }
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const renderCatalogueShortcut = () => {

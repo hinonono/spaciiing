@@ -2,6 +2,7 @@ import { AppContextType } from "../AppProvider";
 import { Message } from "../types/Messages/Message";
 import { MessageShortcut } from "../types/Messages/MessageShortcut";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
+import * as info from "../info.json";
 
 export function initShortcut() {
   const message: Message = {
@@ -23,7 +24,7 @@ export function createAutoLayoutIndividually(appContext: AppContextType, isRealC
     if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
       appContext.setFreeUserDelayModalConfig({
         show: true,
-        initialTime: 30, // Adjust the delay time as needed
+        initialTime: info.freeUserWaitingTime,
         onProceed: () => createAutoLayoutIndividually(appContext, true), // Retry with isRealCall = true
       });
       return;

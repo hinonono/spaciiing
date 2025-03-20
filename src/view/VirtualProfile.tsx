@@ -10,6 +10,7 @@ import {
   MessageVirtualProfileSingleValue,
   MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
+import * as info from "../info.json";
 
 const VirtualProfile: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -30,13 +31,13 @@ const VirtualProfile: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30,
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => applyVirtualProfile(key, value, true), // Re-invoke with the real call
         });
         return;
       }
     }
-  
+
     // Real logic to apply the virtual profile
     const message: MessageVirtualProfileSingleValue = {
       module: "VirtualProfile",
@@ -45,13 +46,8 @@ const VirtualProfile: React.FC = () => {
       virtualProfileValue: value,
       phase: "Actual",
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const saveVirtualProfile = (isRealCall = false) => {
@@ -59,7 +55,7 @@ const VirtualProfile: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30,
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => saveVirtualProfile(true), // Re-invoke with the real call
         });
         return;
@@ -74,12 +70,7 @@ const VirtualProfile: React.FC = () => {
       direction: "Inner",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
 
     setPreviousVirtualProfile(virtualProfileGroups);
   };

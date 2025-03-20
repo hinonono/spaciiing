@@ -10,6 +10,7 @@ import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import { EditorType } from "../types/EditorType";
+import * as info from "../info.json";
 
 interface FilterScopeItem {
   nameKey: string;
@@ -137,7 +138,7 @@ const SelectionFilter: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30,
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => applySelectionFilter(true), // Re-invoke with the real call
         });
         return;
@@ -159,12 +160,7 @@ const SelectionFilter: React.FC = () => {
       additionalFilterOptions: addtionalOptions,
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (

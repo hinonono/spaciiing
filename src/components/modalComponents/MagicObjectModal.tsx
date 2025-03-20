@@ -9,6 +9,7 @@ import {
   ShortcutAction,
   MessageShortcutUpdateMagicalObjectSingle,
 } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
 
 interface MagicObjectModalProps {
   show: boolean;
@@ -36,13 +37,13 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => applyMemorize(action, member, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyMemorize(action, member, true),
         });
         return;
       }
     }
-  
+
     const validActions = [
       "memorizeNote",
       "memorizeDesignStatusTag",
@@ -51,7 +52,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
     if (!validActions.includes(action)) {
       return;
     }
-  
+
     const message: MessageShortcutUpdateMagicalObjectSingle = {
       module: "Shortcut",
       action: action,
@@ -61,13 +62,8 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
       shouldSaveEditorPreference: true,
       editorPreference: editorPreference,
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (

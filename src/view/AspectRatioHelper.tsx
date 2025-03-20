@@ -20,8 +20,9 @@ import {
   applyAspectRatio,
 } from "../module-frontend/utilFrontEnd";
 import SegmentedControl from "../components/SegmentedControl";
+import * as info from "../info.json";
 
-interface AspectRatioHelperProps {}
+interface AspectRatioHelperProps { }
 type AspectRatioOptions =
   | "16:9"
   | "9:16"
@@ -64,56 +65,56 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
     height: number;
     nameKey: string;
   }[] = [
-    {
-      name: "16:9",
-      svg: <SvgAR16to9 color="var(--figma-color-text)" />,
-      width: 16,
-      height: 9,
-      nameKey: "module:aspectRatio_16_9",
-    },
-    {
-      name: "9:16",
-      svg: <SvgAR9to16 color="var(--figma-color-text)" />,
-      width: 9,
-      height: 16,
-      nameKey: "module:aspectRatio_9_16",
-    },
-    {
-      name: "4:3",
-      svg: <SvgAR4to3 color="var(--figma-color-text)" />,
-      width: 4,
-      height: 3,
-      nameKey: "module:aspectRatio_4_3",
-    },
-    {
-      name: "3:4",
-      svg: <SvgAR3to4 color="var(--figma-color-text)" />,
-      width: 3,
-      height: 4,
-      nameKey: "module:aspectRatio_3_4",
-    },
-    {
-      name: "3:2",
-      svg: <SvgAR3to2 color="var(--figma-color-text)" />,
-      width: 3,
-      height: 2,
-      nameKey: "module:aspectRatio_3_2",
-    },
-    {
-      name: "2:3",
-      svg: <SvgAR2to3 color="var(--figma-color-text)" />,
-      width: 2,
-      height: 3,
-      nameKey: "module:aspectRatio_2_3",
-    },
-    {
-      name: "1:1",
-      svg: <SvgAR1to1 color="var(--figma-color-text)" />,
-      width: 1,
-      height: 1,
-      nameKey: "module:aspectRatio_1_1",
-    },
-  ];
+      {
+        name: "16:9",
+        svg: <SvgAR16to9 color="var(--figma-color-text)" />,
+        width: 16,
+        height: 9,
+        nameKey: "module:aspectRatio_16_9",
+      },
+      {
+        name: "9:16",
+        svg: <SvgAR9to16 color="var(--figma-color-text)" />,
+        width: 9,
+        height: 16,
+        nameKey: "module:aspectRatio_9_16",
+      },
+      {
+        name: "4:3",
+        svg: <SvgAR4to3 color="var(--figma-color-text)" />,
+        width: 4,
+        height: 3,
+        nameKey: "module:aspectRatio_4_3",
+      },
+      {
+        name: "3:4",
+        svg: <SvgAR3to4 color="var(--figma-color-text)" />,
+        width: 3,
+        height: 4,
+        nameKey: "module:aspectRatio_3_4",
+      },
+      {
+        name: "3:2",
+        svg: <SvgAR3to2 color="var(--figma-color-text)" />,
+        width: 3,
+        height: 2,
+        nameKey: "module:aspectRatio_3_2",
+      },
+      {
+        name: "2:3",
+        svg: <SvgAR2to3 color="var(--figma-color-text)" />,
+        width: 2,
+        height: 3,
+        nameKey: "module:aspectRatio_2_3",
+      },
+      {
+        name: "1:1",
+        svg: <SvgAR1to1 color="var(--figma-color-text)" />,
+        width: 1,
+        height: 1,
+        nameKey: "module:aspectRatio_1_1",
+      },
+    ];
 
   const applyAspectRatioHandler = (
     widthRatio: number,
@@ -125,13 +126,13 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => applyAspectRatioHandler(widthRatio, heightRatio, isCustom, true), // Retry with isRealCall = true
         });
         return;
       }
     }
-  
+
     applyAspectRatio(widthRatio, heightRatio, isCustom, lockedDimension);
   };
 

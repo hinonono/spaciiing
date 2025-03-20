@@ -1,15 +1,30 @@
+import { AppContextType } from "../AppProvider";
 import { ConnectPointPositionPair } from "../types/ArrowCreator";
 import { CYStroke } from "../types/CYStroke";
 import { Direction } from "../types/General";
 import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
+import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
+import * as info from "../info.json";
 
 export function applyArrowCreator(
+    isRealCall: boolean,
+    appContext: AppContextType,
     safeMargin: number,
     connectPointPositionPair: ConnectPointPositionPair,
     stroke: CYStroke,
     createAnnotationBox: boolean,
     direction: Direction
 ) {
+    if (!isRealCall) {
+        if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
+            appContext.setFreeUserDelayModalConfig({
+                show: true,
+                initialTime: info.freeUserWaitingTime,
+                onProceed: () => { applyArrowCreator(true, appContext, safeMargin, connectPointPositionPair, stroke, createAnnotationBox, direction) }, // Re-invoke with the real call
+            });
+            return;
+        }
+    }
     const message: MessageArrowCreator = {
         safeMargin: safeMargin,
         connectPointPositionPair: connectPointPositionPair,
@@ -20,16 +35,7 @@ export function applyArrowCreator(
         phase: "Actual",
         direction: "Inner",
     };
-
-    console.log("applyArrowCreator Frontend");
-    console.log(message);
-
-    parent.postMessage(
-        {
-            pluginMessage: message,
-        },
-        "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
 }
 
 interface StrokeCapOption {

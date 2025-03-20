@@ -27,12 +27,7 @@ const Setting: React.FC = () => {
       phase: "Actual",
       direction: "Inner",
     };
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   console.log(licenseManagement);

@@ -6,6 +6,7 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { ShortcutAction, MessageShortcutFindAndReplace } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
 
 interface FindAndReplaceModalProps {
   show: boolean;
@@ -45,8 +46,8 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => applyFindAndReplace(action, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyFindAndReplace(action, true),
         });
         return;
       }

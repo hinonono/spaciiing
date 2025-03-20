@@ -20,12 +20,7 @@ interface ArrowCreatorProps {
 }
 
 const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
-  const {
-    licenseManagement,
-    setFreeUserDelayModalConfig,
-    editorPreference,
-    setEditorPreference
-  } = useAppContext();
+  const appContext = useAppContext();
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
@@ -66,7 +61,6 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
   useEffect(() => {
     setStroke(defaultStroke)
-    // setEditingStroke(stroke)
   }, [strokeMode])
 
   // 排列方向
@@ -83,12 +77,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   // 筆畫本體
   const [stroke, setStroke] = useState<CYStroke>(defaultStroke);
-  // 複製一個筆畫本體出來，將其注入彈窗中，目的是為了共用彈窗
-  // const [editingStroke, setEditingStroke] = useState<CYStroke>(stroke);
 
-  // useEffect(() => {
-  //   setEditingStroke(stroke)
-  // }, [stroke])
 
   // 筆畫編輯彈窗
   const [showStrokeEditModal, setShowStrokeEditModal] = useState(false);
@@ -253,6 +242,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             title={t("module:execute")}
             onClick={() => {
               applyArrowCreator(
+                false,
+                appContext,
                 safeMargin,
                 {
                   source: sourceItemConnectPointPosition,
