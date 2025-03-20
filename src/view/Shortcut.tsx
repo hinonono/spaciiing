@@ -188,19 +188,8 @@ const Shortcut: React.FC = () => {
         <div className="list-view mt-xsmall">
           <div className="list-view-header property-clipboard-header flex flex-justify-center">
             <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {t("module:fileOrganizingObject")}
-            </div>
-            <div>
-              <FigmaButton
-                title={t("module:setting")}
-                onClick={handleOpenMagicObjectModal}
-                buttonHeight="small"
-                fontSize="small"
-                buttonType="grain"
-                hasMargin={false}
-              />
-            </div>
+            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">{t("module:fileOrganizingObject")}</div>
+            <div></div>
           </div>
           <div className="padding-16 border-1-top">
             <div className="grid mt-xxxsmall">
@@ -425,6 +414,16 @@ const Shortcut: React.FC = () => {
         title={t("module:moduleShortcut")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
+        rightItem={
+          <FigmaButton
+            title={t("module:setting")}
+            onClick={handleOpenMagicObjectModal}
+            buttonHeight="small"
+            fontSize="small"
+            buttonType="grain"
+            hasMargin={false}
+          />
+        }
       />
       <div className="content">
         {/* 型錄 */}

@@ -45,7 +45,6 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setStyleName(event.target.value);
-    event.preventDefault();
   };
 
   const handleExistingStyleNameChange = (
@@ -53,7 +52,6 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
   ) => {
     if (setExistingStyleName) {
       setExistingStyleName(event.target.value);
-      event.preventDefault();
     }
   };
 
@@ -159,6 +157,11 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
         rows={1}
         value={styleName}
         onChange={handleStyleNameChange}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault(); // Prevents line break
+          }
+        }}
       />
     } else {
       if (existingStyleName || existingStyleName === "") {
@@ -167,6 +170,11 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
           rows={1}
           value={existingStyleName}
           onChange={handleExistingStyleNameChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Prevents line break
+            }
+          }}
         />
       } else {
         return null;

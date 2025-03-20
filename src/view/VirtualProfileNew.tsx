@@ -638,9 +638,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
             >
               <div className="icon-24 icon-hover">
                 {!isFolderCollapsed ? (
-                  <SvgExpand color="var(--figma-color-text)" />
+                  <SvgExpand color="var(--figma-color-bg-brand)" />
                 ) : (
-                  <SvgCollapse color="var(--figma-color-text)" />
+                  <SvgCollapse color="var(--figma-color-bg-brand)" />
                 )}
               </div>
             </button>
@@ -658,7 +658,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                   color={
                     virtualProfileGroups == previousVirtualProfile
                       ? `var(--figma-color-text-disabled)`
-                      : `var(--figma-color-text)`
+                      : `var(--figma-color-bg-brand)`
                   }
                 />
               </div>
@@ -668,7 +668,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               onClick={(e) => handleAdditionalContextMenu(e)}
             >
               <div className="icon-24 icon-hover">
-                <SvgAddFromPreset color="var(--figma-color-text)" />
+                <SvgAddFromPreset color="var(--figma-color-bg-brand)" />
               </div>
             </button>
             <button
@@ -676,7 +676,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               onClick={() => addTitleRow(false)}
             >
               <div className="icon-24 icon-hover">
-                <SvgAddFolder color="var(--figma-color-text)" />
+                <SvgAddFolder color="var(--figma-color-bg-brand)" />
               </div>
             </button>
             <button
@@ -684,7 +684,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               onClick={() => addRecordToLastTitle(false)}
             >
               <div className="icon-24 icon-hover">
-                <SvgAdd color="var(--figma-color-text)" />
+                <SvgAdd color="var(--figma-color-bg-brand)" />
               </div>
             </button>
           </div>

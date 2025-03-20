@@ -125,7 +125,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
             disabled={!selectedStyleId}
           >
             <div className="icon-20">
-              <SvgEdit color="var(--figma-color-bg-brand)" />
+              <SvgEdit color={selectedStyleId ? "var(--figma-color-bg-brand)" : "var(--figma-color-text-disabled)"} />
             </div>
           </button>
         </div>
@@ -138,7 +138,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
             disabled={!selectedStyleId}
           >
             <div className="icon-20">
-              <SvgMinus color="var(--figma-color-bg-brand)" />
+              <SvgMinus color={selectedStyleId ? "var(--figma-color-bg-brand)" : "var(--figma-color-text-disabled)"} />
             </div>
           </button>
           <button

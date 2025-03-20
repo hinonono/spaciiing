@@ -236,7 +236,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         {strokeStyle === "dash" && (
           <div className='grid'>
             <div>
-              <SectionTitle title="Dash" titleType="secondary" />
+              <SectionTitle title={t("term:strokeDash")} titleType="secondary" />
               <div className="width-100">
                 <textarea
                   className="textarea textarea-height-fit-content"
@@ -248,7 +248,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
               </div>
             </div>
             <div>
-              <SectionTitle title="Gap" titleType="secondary" />
+              <SectionTitle title={t("term:gap")} titleType="secondary" />
               <div className="width-100">
                 <textarea
                   className="textarea textarea-height-fit-content"
@@ -263,7 +263,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         )}
         {strokeStyle === "custom" && (
           <div>
-            <SectionTitle title="Custom" titleType="secondary" />
+            <SectionTitle title={t("module:custom")} titleType="secondary" />
             <div className="width-100">
               <textarea
                 className="textarea textarea-height-fit-content"
