@@ -119,7 +119,7 @@ function calcNodeGap(sourceNode: SceneNode, targetNode: SceneNode): { horizontal
     const bottomOfTargetNode = targetNode.absoluteBoundingBox.y + targetNode.height;
 
     // Calculate vertical gap
-    if (targetNode.y >= bottomOfSourceNode) {
+    if (targetNode.absoluteBoundingBox.y >= bottomOfSourceNode) {
         vGap = targetNode.absoluteBoundingBox.y - bottomOfSourceNode; // target is below
     } else if (sourceNode.absoluteBoundingBox.y >= bottomOfTargetNode) {
         vGap = sourceNode.absoluteBoundingBox.y - bottomOfTargetNode; // target is above
@@ -128,7 +128,7 @@ function calcNodeGap(sourceNode: SceneNode, targetNode: SceneNode): { horizontal
     }
 
     // Calculate horizontal gap
-    if (targetNode.x >= rightOfSourceNode) {
+    if (targetNode.absoluteBoundingBox.x >= rightOfSourceNode) {
         hGap = targetNode.absoluteBoundingBox.x - rightOfSourceNode; // target is to the right
     } else if (sourceNode.absoluteBoundingBox.x >= rightOfTargetNode) {
         hGap = sourceNode.absoluteBoundingBox.x - rightOfTargetNode; // target is to the left
