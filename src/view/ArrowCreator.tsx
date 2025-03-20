@@ -46,12 +46,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     const numberValue = Number(value);
 
     if (!isNaN(numberValue)) {
-      // setEditorPreference((prevPreference) => ({
-      //   ...prevPreference,
-      //   spacing: numberValue,
-      // }));
       setSafeMargin(numberValue);
-
       setSafeMarginFieldNote("");
     } else {
       setSafeMarginFieldNote(t("module:invalidNumberInput"));
@@ -67,13 +62,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     setCreateAnnotationBox(event.target.checked);
   };
 
-
-
   // 筆畫模式
   const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
   useEffect(() => {
     setStroke(defaultStroke)
-    setEditingStroke(stroke)
+    // setEditingStroke(stroke)
   }, [strokeMode])
 
   // 排列方向
@@ -91,11 +84,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   // 筆畫本體
   const [stroke, setStroke] = useState<CYStroke>(defaultStroke);
   // 複製一個筆畫本體出來，將其注入彈窗中，目的是為了共用彈窗
-  const [editingStroke, setEditingStroke] = useState<CYStroke>(stroke);
+  // const [editingStroke, setEditingStroke] = useState<CYStroke>(stroke);
 
-  useEffect(() => {
-    setEditingStroke(stroke)
-  }, [stroke])
+  // useEffect(() => {
+  //   setEditingStroke(stroke)
+  // }, [stroke])
 
   // 筆畫編輯彈窗
   const [showStrokeEditModal, setShowStrokeEditModal] = useState(false);
@@ -110,15 +103,25 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
     setShowStrokeEditModal(true)
   };
-  const handleCloseStrokeEditModal = () => setShowStrokeEditModal(false);
+  const handleCloseStrokeEditModal = () => {
+    if (existingStyleName) {
+      setExistingStyleName(undefined);
+    }
+
+    if (existingStyleId) {
+      setExistingStyleId(undefined)
+    }
+
+    setShowStrokeEditModal(false)
+  };
   const [strokeModalMode, setStrokeModalMode] = useState<"create" | "edit">("create");
 
   const renderEditorBasedOnStrokeMode = () => {
     if (strokeMode === "freeform") {
       return (
         <StrokeEditor
-          editingStroke={editingStroke}
-          setEditingStroke={setEditingStroke}
+          editingStroke={stroke}
+          setEditingStroke={setStroke}
           handleOpenStrokeEditModal={handleOpenSrokeEditModal}
           setStrokeModalMode={setStrokeModalMode}
         />
@@ -126,7 +129,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     } else {
       return (
         <StrokeStyleSelector
-          setEditStroke={setEditingStroke}
+          setEditStroke={setStroke}
           handleOpenStrokeEditModal={handleOpenSrokeEditModal}
           setStrokeModalMode={setStrokeModalMode}
         />
@@ -152,8 +155,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         <StrokeEditModal
           show={showStrokeEditModal}
           handleClose={handleCloseStrokeEditModal}
-          stroke={editingStroke}
-          setStroke={setEditingStroke}
+          stroke={stroke}
+          setStroke={setStroke}
           mode={strokeModalMode}
           existingStyleName={existingStyleName}
           setExistingStyleName={setExistingStyleName}
@@ -255,7 +258,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
                   source: sourceItemConnectPointPosition,
                   target: targetItemConnectPointPosition
                 },
-                editingStroke,
+                stroke,
                 createAnnotationBox,
                 direction
               )
