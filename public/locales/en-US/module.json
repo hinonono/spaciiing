@@ -191,5 +191,7 @@
   "square": "Square",
   "createAnnotationBox": "Create annotation box",
   "moduleDrawArrows": "Draw Arrows",
-  "moduleDrawArrowsDesc": "Select at least two layers and specify connect point for start and end object to draw arrows."
+  "moduleDrawArrowsDesc": "Select at least two layers and specify connect point for start and end object to draw arrows.",
+  "newStrokeStyle": "New stroke style",
+  "editStrokeStyle": "Edit stroke style"
 }

@@ -11,6 +11,7 @@ import {
     SvgVirtualProfile,
     SvgAspectRatioHelper,
     SvgCatalogue,
+    SvgDrawArrows
 } from "../assets/icons";
 import { EditorType } from "../types/EditorType";
 
@@ -28,7 +29,7 @@ const availableTabs: AvailableTabs[] = [
     },
     {
         tabName: "ArrowCreator",
-        svgComponent: SvgSpaciiing,
+        svgComponent: SvgDrawArrows,
         supportedEditorTypes: ["figma"]
     },
     {

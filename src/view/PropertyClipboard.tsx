@@ -167,7 +167,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           <SectionTitle title={t("module:copyFrom")} />
           {editorPreference.referenceObject ? (
             <div className="variable flex flex-justify-space-between align-items-center">
-              <span className="text-primary">
+              <span className="text-color-primary">
                 {`${editorPreference.referenceObject.name} (ID: ${editorPreference.referenceObject.id})`}
               </span>
               <FigmaButton
@@ -179,8 +179,8 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
             </div>
           ) : (
-            <div className="flex variable-list flex flex-justify-space-betweeen align-items-center">
-              <span className="note">
+            <div className="variable flex flex-justify-space-between align-items-center">
+              <span className="text-color-secondary">
                 {t("module:selectLayerAsReference")}
               </span>
               <FigmaButton

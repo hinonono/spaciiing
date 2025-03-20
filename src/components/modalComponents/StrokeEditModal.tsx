@@ -45,6 +45,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setStyleName(event.target.value);
+    event.preventDefault();
   };
 
   const handleExistingStyleNameChange = (
@@ -52,6 +53,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
   ) => {
     if (setExistingStyleName) {
       setExistingStyleName(event.target.value);
+      event.preventDefault();
     }
   };
 
@@ -176,7 +178,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
   return (
     <Modal show={show} handleClose={handleClose}>
       <div className="mt-xxsmall">
-        <h3>{mode === "create" ? "New stroke style" : "Edit stroke style"}</h3>
+        <h3>{mode === "create" ? t("module:newStrokeStyle") : t("editStrokeStyle")}</h3>
       </div>
       <div className="mt-xsmall">
         <div>

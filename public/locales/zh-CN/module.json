@@ -191,5 +191,7 @@
   "square": "方形",
   "createAnnotationBox": "创建注释框",
   "moduleDrawArrows": "画箭头",
-  "moduleDrawArrowsDesc": "选择至少两个以上的对象，并选择连接点以绘制箭头。"
+  "moduleDrawArrowsDesc": "选择至少两个以上的对象，并选择连接点以绘制箭头。",
+  "newStrokeStyle": "创建描边样式",
+  "editStrokeStyle": "修改描边样式"
 }
