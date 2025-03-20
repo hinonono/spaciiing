@@ -14,6 +14,7 @@ import {
   MessageInstantiater,
 } from "../types/Messages/MessageInstantiater";
 import SegmentedControl from "../components/SegmentedControl";
+import * as info from "../info.json";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -105,8 +106,8 @@ const Instantiater: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => applyInstantiater(type, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyInstantiater(type, true),
         });
         return;
       }
@@ -128,12 +129,7 @@ const Instantiater: React.FC = () => {
       phase: "Actual",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const [destination, setDestination] = useState("new");
@@ -250,7 +246,7 @@ const Instantiater: React.FC = () => {
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選項 */}
-          <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {options.map((option) => (
               <label key={option.value} className={`container`}>
                 <div className="flex flex-row align-items-center flex-justify-space-between">
@@ -279,15 +275,6 @@ const Instantiater: React.FC = () => {
         </div>
         <div className="mt-xsmall"></div>
         <div>
-          {/* <FigmaButton
-            buttonType="secondary"
-            title={
-              t("module:generateUsageDefinition") +
-              ` (${selectedTargets.length})`
-            }
-            id={"instantiater-intantiate-explanation-text"}
-            onClick={() => applyInstantiater("explanation")}
-          /> */}
           <FigmaButton
             title={t("module:generate") + ` (${selectedTargets.length})`}
             id={"instantiater-apply"}

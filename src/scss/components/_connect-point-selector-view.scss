@@ -3,13 +3,22 @@
     justify-content: center;
     /* Center horizontally */
     align-items: center;
-    gap: 48px;
+    column-gap: 48px;
+    row-gap: 24px;
     /* Ensures a fixed distance between the two boxes */
     width: 100%;
-    height: 150px;
+    height: 160px;
     background-color: var(--figma-color-bg-secondary);
     padding: 16px;
     border-radius: 8px;
+
+    &.horizontal {
+        flex-direction: row;
+    }
+
+    &.vertical {
+        flex-direction: column;
+    }
 
     .connect-item {
         position: relative;
@@ -17,6 +26,9 @@
         height: 96px;
         background-color: white;
         border-radius: 12px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
 
         .connect-point {
             position: absolute;

@@ -47,24 +47,7 @@ h2 {
     background-color: var(--figma-color-bg-secondary);
 }
 
-.scope-group {
-    padding: 16px;
-    border-radius: var(--cy-border-radius-large);
-    border: 1px solid var(--cy-border-light);
-    max-height: 160px;
-    height: fit-content;
-    width: 100%;
-    overflow: scroll;
-    transition: all .3s;
 
-    &:hover {
-        border-color: var(--cy-border-dark);
-    }
-
-    &-large {
-        max-height: 320px;
-    }
-}
 
 
 

@@ -176,5 +176,20 @@
   "catalogueSetting": "型錄設定",
   "crossCatalogueIndex": "跨型錄參照",
   "crossCatalogueIndexDesc": "此功能可以讓您輕鬆地在不同型錄之間進行參照，特別適合用於建立變數型錄，且該變數索引了其他變數時。要啟用此功能，請在文件中選擇任何框，然後點擊「複製選取範圍的連結」，接著將複製的連結貼到下方。",
-  "skip": "略過"
+  "skip": "略過",
+  "connectPoint": "連接點",
+  "start": "起點",
+  "end": "終點",
+  "offset": "偏移",
+  "freeform": "自由格式",
+  "saveStyle": "儲存樣式",
+  "startPoint": "起點",
+  "endPoint": "終點",
+  "lineArrow": "直線箭頭",
+  "triangleArrow": "三角箭頭",
+  "round": "圓形",
+  "square": "方形",
+  "createAnnotationBox": "建立註解框",
+  "moduleDrawArrows": "畫箭頭",
+  "moduleDrawArrowsDesc": "選中至少兩個以上物件，并選取連接點以繪製箭頭。"
 }

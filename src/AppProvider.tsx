@@ -9,6 +9,7 @@ import {
 import { EditorPreference } from "./types/EditorPreference";
 import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
 import { EditorType } from "./types/EditorType";
+import * as info from "./info.json";
 
 // #region Definition
 export interface AppContextType {
@@ -83,7 +84,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   // 訂閱呼籲用
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
-  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: 30, onProceed: () => { } });
+  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: info.freeUserWaitingTime, onProceed: () => { } });
 
   // V20：Editor Preference整合
   const [editorPreference, setEditorPreference] = useState<EditorPreference>({
@@ -97,6 +98,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       innerFrame: 0,
       outerFrame: 0,
     },
+    strokeStyles: []
   });
 
   // 判斷用戶在哪個模式下開啟了plugin

@@ -38,7 +38,7 @@ function setReferenceObject() {
     name: selectedObjectName,
   };
 
-  util.saveEditorPreference(newEditorPreference);
+  util.saveEditorPreference(newEditorPreference, "PropertyClipboard");
   util.updateEditorPreference(newEditorPreference, "PropertyClipboard");
 }
 

@@ -14,8 +14,9 @@ import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd
 import FolderNavigator from "../components/FolderNavigator";
 import SegmentedControl from "../components/SegmentedControl";
 import { CatalogueSettingModal } from "../components/modalComponents";
+import * as info from "../info.json";
 
-interface StyleIntroducerProps {}
+interface StyleIntroducerProps { }
 
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
@@ -43,17 +44,17 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as necessary
-          onProceed: () => applyStyleIntroducer(true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyStyleIntroducer(true),
         });
         return;
       }
     }
-  
+
     if (selectedScopes.scopes.length <= 0) {
       return;
     }
-  
+
     const message: MessageStyleIntroducer = {
       module: "StyleIntroducer",
       phase: "Actual",
@@ -62,13 +63,8 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       styleMode: mode,
       styleSelection: selectedScopes,
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const [selectedScopes, setSelectedScopes] = useState<StyleSelection>({
@@ -100,7 +96,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const folderNavigator = () => {
     if (hasError) {
       return (
-        <div className="text-color-error p-xsmall">
+        <div className="text-color-error p-xsmall font-size-small">
           Failed to process the {form} structure. The system encountered a
           duplicate path: "{errorPath}". Please ensure that each path segment is
           unique.
@@ -139,12 +135,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       direction: "Inner",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   }, [form]);
 
   useEffect(() => {
@@ -162,12 +153,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       direction: "Inner",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   }, [mode]);
 
   return (

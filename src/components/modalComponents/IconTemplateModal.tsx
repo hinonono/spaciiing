@@ -13,6 +13,7 @@ import {
   MessageShortcutGenerateIconTemplate,
 } from "../../types/Messages/MessageShortcut";
 import SegmentedControl from "../SegmentedControl";
+import * as info from "../../info.json";
 
 interface IconTemplateModalProps {
   show: boolean;
@@ -85,21 +86,21 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => applyGenerateIconTemplate(action, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyGenerateIconTemplate(action, true),
         });
         return;
       }
     }
-  
+
     if (action !== "generateIconTemplate") {
       return;
     }
-  
+
     if (tempIconSize === "custom") {
       setInnerFrame(Number(customInnerFrame));
       setOuterFrame(Number(customOuterFrame));
-  
+
       setEditorPreference((prevPreference) => {
         const updatedPreference = {
           ...prevPreference,

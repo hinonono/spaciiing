@@ -1,3 +1,5 @@
+import { CYStrokeStyle } from "./CYStrokeStyle";
+
 export interface EditorPreference {
   spacing?: number;
   magicObjects: MagicObjects;
@@ -5,6 +7,7 @@ export interface EditorPreference {
   iconFrame: IconFrame;
   referenceObject?: ReferenceObject;
   exampleFileUrl?: string; //用戶填入的，目前的設計檔案的網址，用於型錄的相關物件索引連結
+  strokeStyles: CYStrokeStyle[]
 }
 
 interface IconFrame {

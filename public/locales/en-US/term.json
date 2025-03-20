@@ -76,5 +76,8 @@
   "dropShadow": "Drop shadow",
   "layerBlur": "Layer blur",
   "backgroundBlur": "Background blur",
-  "faq": "FAQ"
+  "faq": "FAQ",
+  "none": "None",
+  "direction": "Direction",
+  "strokeSolid": "Solid"
 }

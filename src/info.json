@@ -7,5 +7,6 @@
     "yearlyAvg": "3"
   },
   "featureFlag": {
-  }
+  },
+  "freeUserWaitingTime": 30
 }

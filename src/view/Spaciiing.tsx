@@ -15,14 +15,14 @@ const SpacingValue: {
   value: number | string;
   translatable: boolean;
 }[] = [
-  { nameKey: "0", value: 0, translatable: false },
-  { nameKey: "8", value: 8, translatable: false },
-  { nameKey: "16", value: 16, translatable: false },
-  { nameKey: "20", value: 20, translatable: false },
-  { nameKey: "24", value: 24, translatable: false },
-  { nameKey: "32", value: 32, translatable: false },
-  { nameKey: "term:custom", value: "custom", translatable: true },
-];
+    { nameKey: "0", value: 0, translatable: false },
+    { nameKey: "8", value: 8, translatable: false },
+    { nameKey: "16", value: 16, translatable: false },
+    { nameKey: "20", value: 20, translatable: false },
+    { nameKey: "24", value: 24, translatable: false },
+    { nameKey: "32", value: 32, translatable: false },
+    { nameKey: "term:custom", value: "custom", translatable: true },
+  ];
 
 const SpaciiingView: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -289,7 +289,7 @@ const SpaciiingView: React.FC = () => {
             )}
           </div>
         </div>
-        <div className="custom-checkbox-group mt-xsmall">
+        <div className="cy-checkbox-group mt-xsmall">
           <label className="container">
             {t("module:addAutoLayoutAfterApply")}
             <input

@@ -6,6 +6,7 @@ import FigmaButton from "../FigmaButton";
 import SectionTitle from "../SectionTitle";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MessageUnifyText } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
 
 interface UnifyTextModalProps {
   show: boolean;
@@ -31,13 +32,13 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => unifyText(true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => unifyText(true),
         });
         return;
       }
     }
-  
+
     const message: MessageUnifyText = {
       module: "Shortcut",
       direction: "Inner",
@@ -45,13 +46,8 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
       targetTextContent: targetTextContent,
       action: "unifyText",
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (

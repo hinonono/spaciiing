@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import SectionTitle from "../SectionTitle";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MessageShortcut } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
 
 interface CatalogueSettingModalProps {
   show: boolean;
@@ -33,13 +33,13 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => updateExampleFileUrl(true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => updateExampleFileUrl(true),
         });
         return;
       }
     }
-  
+
     const message: MessageShortcut = {
       module: "Shortcut",
       direction: "Inner",
@@ -48,14 +48,9 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
       editorPreference: editorPreference,
       action: "updateExampleFileUrl",
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  
+
+    parent.postMessage({ pluginMessage: message, }, "*");
+
     handleClose();
   };
 

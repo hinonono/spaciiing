@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
-import { FigmaButton, SectionTitle, StrokeEditorView, TitleBar } from '../components';
+import { FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
-import { ConnectPointPosition, ConnectPointPositionPair, SegmentType, StrokeMode } from '../types/ArrowCreator';
-import { applyArrowCreator } from '../module-frontend/arrowCreatorFrontEnd';
-import { ConnectPointSelectorView } from '../components';
+import { ConnectPointPosition, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
+import { applyArrowCreator, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
+import ConnectPointSelectorView from '../components/arrowCreator/ConnectPointSelectorView';
 import { CYStroke } from '../types/CYStroke';
+import { Direction } from '../types/General';
+import { SvgHorizontal, SvgVertical } from '../assets/icons';
+import StrokeEditor from '../components/arrowCreator/StrokeEditor';
+import StrokeStyleSelector from '../components/arrowCreator/StrokeStyleSelector';
+import { StrokeEditModal } from '../components/modalComponents';
 
 
 interface ArrowCreatorProps {
@@ -15,7 +20,7 @@ interface ArrowCreatorProps {
 }
 
 const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
-  const { licenseManagement, setFreeUserDelayModalConfig } = useAppContext();
+  const appContext = useAppContext();
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
@@ -24,13 +29,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 連接點
-  const [startItemConnectPointPosition, setStartItemConnectPointPosition] = useState<ConnectPointPosition>(SegmentType.MiddleRight);
-  const [endItemConnectPointPosition, setEndItemConnectPointPosition] = useState<ConnectPointPosition>(SegmentType.MiddleLeft);
-  const [connectPointPositionPair, setConnectPointPositionPair] = useState<ConnectPointPositionPair>({ start: startItemConnectPointPosition, end: endItemConnectPointPosition });
-
+  const [sourceItemConnectPointPosition, setSourceItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleRight);
+  const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleLeft);
 
   // 安全間距
-  const [safeMargin, setSafeMargin] = useState<number>(40);
+  const [safeMargin, setSafeMargin] = useState<number>(32);
   const handleSafeMarginChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -38,19 +41,13 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
     const numberValue = Number(value);
 
     if (!isNaN(numberValue)) {
-      // setEditorPreference((prevPreference) => ({
-      //   ...prevPreference,
-      //   spacing: numberValue,
-      // }));
       setSafeMargin(numberValue);
-
       setSafeMarginFieldNote("");
     } else {
       setSafeMarginFieldNote(t("module:invalidNumberInput"));
     }
   };
-  const [safeMarginFieldNote, setSafeMarginFieldNote] =
-    useState<string>("");
+  const [safeMarginFieldNote, setSafeMarginFieldNote] = useState<string>("");
 
   // 是否建立註解框
   const [createAnnotationBox, setCreateAnnotationBox] = useState(false);
@@ -62,48 +59,75 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   // 筆畫模式
   const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
+  useEffect(() => {
+    setStroke(defaultStroke)
+  }, [strokeMode])
+
+  // 排列方向
+  const [direction, setDirection] = useState<Direction>("horizontal");
+  useEffect(() => {
+    if (direction === "horizontal") {
+      setSourceItemConnectPointPosition(RectangleSegmentType.MiddleRight);
+      setTargetItemConnectPointPosition(RectangleSegmentType.MiddleLeft);
+    } else if (direction === "vertical") {
+      setSourceItemConnectPointPosition(RectangleSegmentType.BottomCenter);
+      setTargetItemConnectPointPosition(RectangleSegmentType.TopCenter);
+    }
+  }, [direction])
 
   // 筆畫本體
-  const [stroke, setStroke] = useState<CYStroke>({
-    color: "000000",
-    opacity: 1,
-    strokeWeight: 1,
-    cornerRadius: 0,
-    startPointCap: "NONE",
-    endPointCap: "NONE",
-    dashAndGap: [0, 0],
-  });
+  const [stroke, setStroke] = useState<CYStroke>(defaultStroke);
+
+
+  // 筆畫編輯彈窗
+  const [showStrokeEditModal, setShowStrokeEditModal] = useState(false);
+  const handleOpenSrokeEditModal = (existingStyleName: string | undefined, existingStyleId: string | undefined) => {
+    if (existingStyleName) {
+      setExistingStyleName(existingStyleName);
+    }
+
+    if (existingStyleId) {
+      setExistingStyleId(existingStyleId)
+    }
+
+    setShowStrokeEditModal(true)
+  };
+  const handleCloseStrokeEditModal = () => {
+    if (existingStyleName) {
+      setExistingStyleName(undefined);
+    }
+
+    if (existingStyleId) {
+      setExistingStyleId(undefined)
+    }
+
+    setShowStrokeEditModal(false)
+  };
+  const [strokeModalMode, setStrokeModalMode] = useState<"create" | "edit">("create");
 
   const renderEditorBasedOnStrokeMode = () => {
     if (strokeMode === "freeform") {
       return (
-        <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header">
-            <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            </div>
-            <div>
-              <FigmaButton
-                title={"Save style"}
-                onClick={() => {
-                }}
-                buttonHeight="small"
-                fontSize="small"
-                buttonType="grain"
-                hasMargin={false}
-              />
-            </div>
-          </div>
-          <div className="padding-16 border-1-top">
-            <StrokeEditorView stroke={stroke} setStroke={setStroke} />
-          </div>
-        </div>
-      )
+        <StrokeEditor
+          editingStroke={stroke}
+          setEditingStroke={setStroke}
+          handleOpenStrokeEditModal={handleOpenSrokeEditModal}
+          setStrokeModalMode={setStrokeModalMode}
+        />
+      );
     } else {
-      return null;
+      return (
+        <StrokeStyleSelector
+          setEditStroke={setStroke}
+          handleOpenStrokeEditModal={handleOpenSrokeEditModal}
+          setStrokeModalMode={setStrokeModalMode}
+        />
+      );
     }
   }
 
+  const [existingStyleName, setExistingStyleName] = useState<string | undefined>();
+  const [existingStyleId, setExistingStyleId] = useState<string | undefined>();
 
   return (
     <div>
@@ -113,28 +137,61 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           handleClose={handleCloseExplanationModal}
         >
           <div>
-            <h3>Draw Arrows</h3>
-            <p>{t("module:moduleAspectRatioHelperDesc")}</p>
+            <h3>{t("module:moduleDrawArrows")}</h3>
+            <p>{t("module:moduleDrawArrowsDesc")}</p>
           </div>
         </Modal>
+        <StrokeEditModal
+          show={showStrokeEditModal}
+          handleClose={handleCloseStrokeEditModal}
+          stroke={stroke}
+          setStroke={setStroke}
+          mode={strokeModalMode}
+          existingStyleName={existingStyleName}
+          setExistingStyleName={setExistingStyleName}
+          existingStyleId={existingStyleId}
+        />
         <TitleBar
-          title={"Draw Arrows"}
+          title={t("module:moduleDrawArrows")}
           onClick={handleOpenExplanationModal}
           isProFeature={true}
         />
       </div>
       <div className="content">
-        {/* 連接點 */}
+        {/* 方向 */}
         <div>
-          <SectionTitle title={"Connect point"} />
+          <SectionTitle title={t("term:direction")} />
+          <SegmentedControl
+            inputName="layout-direction"
+            value={direction}
+            onChange={(newDirection: string) => {
+              setDirection(newDirection as Direction);
+            }}
+          >
+            <SegmentedControl.Option
+              value="vertical"
+              label="module:vertical"
+              icon={<SvgVertical color="var(--figma-color-text)" />}
+            />
+            <SegmentedControl.Option
+              value="horizontal"
+              label="module:horizontal"
+              icon={<SvgHorizontal color="var(--figma-color-text)" />}
+            />
+          </SegmentedControl>
+        </div>
+        {/* 連接點 */}
+        <div className='mt-xsmall'>
+          <SectionTitle title={t("module:connectPoint")} />
           <ConnectPointSelectorView
-            startItemConnectPointPosition={startItemConnectPointPosition}
-            setStartItemConnectPointPosition={setStartItemConnectPointPosition}
-            endItemConnectPointPosition={endItemConnectPointPosition}
-            setEndItemConnectPointPosition={setEndItemConnectPointPosition}
+            direction={direction}
+            sourceItemConnectPointPosition={sourceItemConnectPointPosition}
+            setSourceItemConnectPointPosition={setSourceItemConnectPointPosition}
+            targetItemConnectPointPosition={targetItemConnectPointPosition}
+            setTargetItemConnectPointPosition={setTargetItemConnectPointPosition}
           />
           <div className="width-100 mt-xxsmall">
-            <SectionTitle title={"Margin"} titleType="secondary" />
+            <SectionTitle title={t("module:offset")} titleType="secondary" />
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
@@ -149,9 +206,9 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         </div>
         {/* 筆畫模式 */}
         <div className='mt-xsmall'>
-          <SectionTitle title={"Stroke"} />
+          <SectionTitle title={t("term:stroke")} />
           <SegmentedControl
-            inputName="mode"
+            inputName="stroke-style"
             value={strokeMode}
             onChange={(newMode: string) => {
               setStrokeMode(newMode as StrokeMode);
@@ -159,20 +216,20 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           >
             <SegmentedControl.Option
               value="freeform"
-              label="freeform"
+              label={t("module:freeform")}
             />
             <SegmentedControl.Option
               value="style"
-              label="style"
+              label={t("term:style")}
             />
           </SegmentedControl>
           {renderEditorBasedOnStrokeMode()}
         </div>
         {/* 按鈕 */}
         <div className="mt-xsmall">
-          <div className="custom-checkbox-group">
+          <div className="cy-checkbox-group">
             <label className="container">
-              {"Create annotation box"}
+              {t("module:createAnnotationBox")}
               <input
                 type="checkbox"
                 checked={createAnnotationBox}
@@ -185,10 +242,16 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             title={t("module:execute")}
             onClick={() => {
               applyArrowCreator(
+                false,
+                appContext,
                 safeMargin,
-                connectPointPositionPair,
+                {
+                  source: sourceItemConnectPointPosition,
+                  target: targetItemConnectPointPosition
+                },
                 stroke,
-                createAnnotationBox
+                createAnnotationBox,
+                direction
               )
             }}
           />
@@ -199,3 +262,4 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 };
 
 export default ArrowCreator;
+
