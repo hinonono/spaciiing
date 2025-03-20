@@ -1,7 +1,10 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const dotenv = require("dotenv");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin").default;
+const HtmlInlineCSSPlugin = require("html-inline-css-webpack-plugin").default;
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
@@ -33,22 +36,37 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"],
+          use: [MiniCssExtractPlugin.loader, "css-loader"],
         },
       ],
     },
     plugins: [
+      new MiniCssExtractPlugin({
+        filename: "style.css", // This CSS will be inlined
+      }),
       new HtmlWebpackPlugin({
         template: "./src/index.html",
         filename: "index.html",
+        inject: "body",
         chunks: ["bundle"], // Only include the 'bundle' entry in the HTML
+        minify: isProduction
+          ? {
+              collapseWhitespace: true,
+              removeComments: true,
+            }
+          : false,
+        scriptLoading: "blocking",
       }),
+      // new HtmlInlineScriptPlugin({
+      //   scriptMatchPattern: [/bundle.js$/], // Inline only 'bundle.js'
+      // }),
       new webpack.DefinePlugin({
         "process.env.REACT_APP_ENV": JSON.stringify(process.env.REACT_APP_ENV),
       }),
       new CopyWebpackPlugin({
         patterns: [{ from: "public/locales", to: "locales" }],
       }),
+      new HtmlInlineCSSPlugin(), // ✅ Inlines styles.css into index.html
     ],
     optimization: isProduction
       ? {
@@ -68,17 +86,17 @@ module.exports = (env, argv) => {
           ],
         }
       : {},
-    devServer: {
-      static: [
-        {
-          directory: path.join(__dirname, "dist"),
-        },
-        {
-          directory: path.join(__dirname, "public"),
-        },
-      ],
-      compress: true,
-      port: 9000,
-    },
+    // devServer: {
+    //   static: [
+    //     {
+    //       directory: path.join(__dirname, "dist"),
+    //     },
+    //     {
+    //       directory: path.join(__dirname, "public"),
+    //     },
+    //   ],
+    //   compress: true,
+    //   port: 9000,
+    // },
   };
 };
