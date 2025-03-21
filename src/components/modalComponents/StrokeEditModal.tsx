@@ -137,14 +137,14 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       return (
         <FigmaButton
           title={t("module:save")}
-          onClick={saveNewStrokeStyle} // No need to call handleClose() here
+          onClick={() => saveNewStrokeStyle(false)} // No need to call handleClose() here
         />
       )
     } else {
       return (
         <FigmaButton
           title={t("module:save")}
-          onClick={saveEditedStrokeStyle} // No need to call handleClose() here
+          onClick={() => saveEditedStrokeStyle(false)} // No need to call handleClose() here
         />
       )
     }

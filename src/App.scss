@@ -341,7 +341,7 @@ $base-size: 24px;
     border-radius: var(--cy-border-radius-large);
     color: white;
     font-size: var(--font-size-small);
-    background-color: var(--cy-purple-400);
+    background-color: var(--cy-purple-600);
     width: fit-content;
 }
 
@@ -393,11 +393,11 @@ $base-size: 24px;
 }
 
 .button--special {
-    background-color: #8d41ff;
+    background-color: var(--cy-purple-600);
     color: white;
 
     &:hover {
-        background-color: #6824cd;
+        background-color: var(--cy-purple-800);
     }
 }
 

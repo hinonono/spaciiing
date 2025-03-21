@@ -25,7 +25,7 @@
   "textContent": "テキストの内容",
   "cornerRadius": "角の半径",
   "widthHeight": "幅と高さ",
-  "gap": "間隔（オートレイアウト）",
+  "gap": "間隔",
   "opacity": "レイヤー不透明度",
   "strokeFloat": "線",
   "effectFloat": "エフェクト",
