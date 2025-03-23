@@ -37,6 +37,10 @@ export function reception(message: MessageArrowCreator) {
             message.createAnnotationBox
         )
     }
+
+    for (const item of sortedSelction) {
+        item.setRelaunchData({ drawArrows: '' });
+    }
 }
 
 // The .sort() function in JavaScript/TypeScript uses a comparison function that returns:

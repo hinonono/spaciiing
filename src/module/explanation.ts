@@ -504,6 +504,8 @@ export function createExplanationWrapper(
     item.layoutSizingHorizontal = "FILL";
   });
 
+  wrapperFrame.setRelaunchData(({ updateCatalogueDesc: 'Update description back to styles or variables'}))
+
   return wrapperFrame;
 }
 
