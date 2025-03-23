@@ -57,12 +57,23 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
   }, [editorPreference]); // Run when `editorPreference` updates
 
   useEffect(() => {
+    const stillExists = editorPreference.strokeStyles.find(style => style.id === selectedStyleId);
+
+    if (stillExists) {
+      // Keep current selection
+      return;
+    }
+
+    // If the current selection was deleted or doesn't exist, fallback to first
     if (editorPreference.strokeStyles.length > 0) {
       const firstStroke = editorPreference.strokeStyles[0];
       setSelectedStyleId(firstStroke.id);
       setEditStroke(firstStroke.style);
+    } else {
+      setSelectedStyleId(null);
+      setEditStroke(defaultStroke);
     }
-  }, [editorPreference.strokeStyles]); // Runs when `strokeStyles` update
+  }, [editorPreference.strokeStyles]);
 
   const renderStrokeStyleList = () => {
     const s = editorPreference.strokeStyles;
