@@ -148,7 +148,7 @@
   "moduleAspectRatioHelper": "宽高比精灵",
   "moduleAspectRatioHelperDesc": "调整元素的宽度或高度以匹配特定的宽高比",
   "commonlyUsedAspectRatio": "常用宽高比",
-  "lockDimension": "锁定",
+  "adjustDimension": "调整",
   "presetAspectRatio": "预设宽高比",
   "widthRatio": "宽比",
   "heightRatio": "高比",

@@ -148,7 +148,7 @@
   "moduleAspectRatioHelper": "Aspect Ratio Helper",
   "moduleAspectRatioHelperDesc": "Adjust element's width or height to match specific aspect ratio.",
   "commonlyUsedAspectRatio": "Commonly used aspect ratio",
-  "lockDimension": "Lock dimension",
+  "adjustDimension": "Adjust dimension",
   "presetAspectRatio": "Preset aspect ratio",
   "widthRatio": "Width Ratio",
   "heightRatio": "Height Ratio",

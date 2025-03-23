@@ -162,7 +162,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
       />
       <div className="content">
         <div>
-          <SectionTitle title={t("module:lockDimension")} />
+          <SectionTitle title={t("module:adjustDimension")} />
           <div className="flex flex-row">
             <SegmentedControl
               inputName="dimension"
@@ -172,14 +172,14 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
               }
             >
               <SegmentedControl.Option
-                value="width"
+                value="height"
                 label="term:width"
-                icon={<SvgHorizontal color="var(--figma-color-text)" />}
+                icon={<SvgVertical color="var(--figma-color-text)" />}
               />
               <SegmentedControl.Option
-                value="height"
+                value="width"
                 label="term:height"
-                icon={<SvgVertical color="var(--figma-color-text)" />}
+                icon={<SvgHorizontal color="var(--figma-color-text)" />}
               />
             </SegmentedControl>
           </div>

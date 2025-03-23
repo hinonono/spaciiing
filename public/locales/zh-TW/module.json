@@ -148,7 +148,7 @@
   "moduleAspectRatioHelper": "寬高比小助手",
   "moduleAspectRatioHelperDesc": "調整物件的寬與高以符合特定的寬高比",
   "commonlyUsedAspectRatio": "常見的寬高比",
-  "lockDimension": "鎖定",
+  "adjustDimension": "調整",
   "presetAspectRatio": "預設寬高比",
   "widthRatio": "寬度比",
   "heightRatio": "高度比",

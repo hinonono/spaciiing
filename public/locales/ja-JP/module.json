@@ -148,7 +148,7 @@
   "moduleAspectRatioHelper": "アスペクト比ヘルパー",
   "moduleAspectRatioHelperDesc": "オブジェクトの幅や高さを特定のアスペクト比に合わせて調整します。",
   "commonlyUsedAspectRatio": "よく使用されているアスペクト比",
-  "lockDimension": "固定する方向",
+  "adjustDimension": "調整する方向",
   "presetAspectRatio": "プリセットアスペクト比",
   "widthRatio": "幅の比",
   "heightRatio": "高さの比",
