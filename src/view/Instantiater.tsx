@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
-import { getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
+import { getAvailableBrands, getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import {
@@ -216,13 +216,9 @@ const Instantiater: React.FC = () => {
             value={selectedBrand}
             onChange={handleBrandChange}
           >
-            <option value="antDesign">Ant Design</option>
-            <option value="bootstrap">Bootstrap</option>
-            <option value="ios">iOS</option>
-            <option value="carbon">IBM Carbon</option>
-            <option value="materialDesign">Material Design</option>
-            <option value="polaris">Shopify Polaris</option>
-            <option value="tailwind">Tailwind CSS</option>
+            {getAvailableBrands().map((item) => (
+              <option value={item.value}>{item.label}</option>
+            ))}
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選擇類型 */}
@@ -273,8 +269,7 @@ const Instantiater: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="mt-xsmall"></div>
-        <div>
+        <div className="mt-xsmall">
           <FigmaButton
             title={t("module:generate") + ` (${selectedTargets.length})`}
             id={"instantiater-apply"}
