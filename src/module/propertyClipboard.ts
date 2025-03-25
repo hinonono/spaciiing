@@ -17,6 +17,9 @@ export function reception(message: MessagePropertyClipboard) {
     case "pastePropertyToObject":
       pastePropertyController(message);
       break;
+    case "pasteInstancePropertyToObject":
+      pastePropertyController2(message);
+      break;
     default:
       break;
   }
@@ -79,6 +82,84 @@ function determineNestedInstanceProperties(sourceNode: InstanceNode): ComponentP
   }
   console.log("Extracted component properties:", results);
   return results;
+}
+
+async function pastePropertyController2(message: MessagePropertyClipboard) {
+  if (!message.instanceProperty) {
+    figma.notify("❌ Property is missing from message.");
+    return;
+  }
+
+  const editorPreference = util.readEditorPreference();
+
+  if (!editorPreference.referenceObject) {
+    figma.notify("❌ Reference object is null.");
+    return;
+  }
+
+  const referenceObjectNode = await figma.getNodeByIdAsync(
+    editorPreference.referenceObject.id
+  );
+
+  if (!referenceObjectNode) {
+    figma.notify("❌ Cannot get reference object by provided id.");
+    return;
+  }
+
+  const allowedTypes: NodeType[] = [
+    "INSTANCE",
+  ];
+
+  if (!allowedTypes.includes(referenceObjectNode.type)) {
+    figma.notify("❌ Reference object is not an allowed type.");
+    return;
+  }
+
+  for (let i = 0; i < message.instanceProperty.length; i++) {
+    const element = message.instanceProperty[i];
+
+    pasteInstancePropertyToObject(
+      element,
+      referenceObjectNode as CopyPastableNode
+    );
+  }
+}
+
+function pasteInstancePropertyToObject(
+  property: ComponentPropertiesFrontEnd,
+  referenceObject: CopyPastableNode,
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if (object.type === "INSTANCE") {
+      const stablePrefix = property.nodeId.split(":")[0];
+      const targetChild = object.findOne((child) => {
+        return child.id.startsWith(stablePrefix) && child.name === property.layerName;
+      });
+
+      if (
+        targetChild &&
+        "setProperties" in targetChild &&
+        typeof targetChild.setProperties === "function"
+      ) {
+        const propsToSet: { [key: string]: string | boolean } = {};
+        propsToSet[property.propertyName] = property.value;
+        try {
+          targetChild.setProperties(propsToSet);
+        } catch (error) {
+          figma.notify(`❌ Failed to set property on ${targetChild.name}`);
+        }
+      } else {
+        figma.notify(`❌ Could not find matching child or it does not support setProperties.`);
+      }
+    }
+  });
 }
 
 async function pastePropertyController(message: MessagePropertyClipboard) {

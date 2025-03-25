@@ -11,7 +11,8 @@ export interface MessagePropertyClipboard extends Message {
 
 export type PropertyClipboardAction =
   | "setReferenceObject"
-  | "pastePropertyToObject";
+  | "pastePropertyToObject"
+  | "pasteInstancePropertyToObject";
 
 export type PasteBehavior = "pasteToIncrement" | "pasteToReplace";
 

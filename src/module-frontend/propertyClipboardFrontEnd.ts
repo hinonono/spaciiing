@@ -96,7 +96,7 @@ export function pasteInstancePropertyToObject(
 
     // Real logic for pasting property to the object
     const message: MessagePropertyClipboard = {
-        action: "pastePropertyToObject",
+        action: "pasteInstancePropertyToObject",
         module: "PropertyClipboard",
         phase: "Actual",
         direction: "Inner",
