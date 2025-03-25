@@ -6,6 +6,7 @@ export interface MessagePropertyClipboard extends Message {
   action: PropertyClipboardAction;
   property?: PropertyClipboardSupportedProperty[];
   behavior?: PasteBehavior;
+  instanceProperty?: ComponentPropertiesFrontEnd[];
 }
 
 export type PropertyClipboardAction =

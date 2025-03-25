@@ -10,6 +10,7 @@ import {
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
 import * as info from "../info.json";
+import { pasteInstancePropertyToObject, resetExtractedProperties } from "../module-frontend/propertyClipboardFrontEnd";
 
 interface PropertyClipboardProps { }
 
@@ -20,6 +21,8 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   // 功能說明彈窗
   const { licenseManagement, editorPreference, setFreeUserDelayModalConfig, extractedProperties, setExtractedProperties } =
     useAppContext();
+  const appContext = useAppContext();
+
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
@@ -42,6 +45,9 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   // 記憶所選取的物件作為參考目標
   const setReferenceObject = (isRealCall = false) => {
     console.log({ isRealCall: isRealCall });
+
+    // Reset extracted properties
+    setExtractedProperties([]);
 
     if (!isRealCall) {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
@@ -94,6 +100,8 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
+
+
   // Function to open the modal with the specific function to execute
   const openModalWithProperties = (
     properties: PropertyClipboardSupportedProperty[]
@@ -129,7 +137,13 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       <FigmaButton
         buttonType="secondary"
         title={`${item.propertyName}=${item.value} (from ${item.layerName})`}
-        onClick={() => { }}
+        onClick={() => {
+          pasteInstancePropertyToObject(
+            false,
+            appContext,
+            [item]
+          );
+        }}
         buttonHeight="xlarge"
         hasTopBottomMargin={false}
       />
@@ -209,34 +223,32 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         </div>
         <div className="mt-xsmall">
           <SectionTitle title={t("term:paste")} />
-          {/* 外觀 */}
-          <div className="list-view">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                INSTANCE PROPERTIES
+          {/* Nested */}
+          {
+            extractedProperties.length > 0 && <div className="list-view">
+              <div className="list-view-header property-clipboard-header">
+                <div></div>
+                <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                  INSTANCE PROPERTIES
+                </div>
+                <div>
+                  <FigmaButton
+                    title={t("module:applyAll")}
+                    onClick={() => {
+                      pasteInstancePropertyToObject(false, appContext, extractedProperties)
+                    }}
+                    buttonHeight="small"
+                    fontSize="small"
+                    buttonType="grain"
+                    hasMargin={false}
+                  />
+                </div>
               </div>
-              <div>
-                {/* <FigmaButton
-                  title={t("module:applyAll")}
-                  onClick={() => {
-                    pastePropertyToObject([
-                      "LAYER_OPACITY",
-                      "LAYER_CORNER_RADIUS",
-                      "LAYER_BLEND_MODE",
-                    ]);
-                  }}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
-                /> */}
+              <div className="padding-16 grid border-1-top">
+                {renderComponentPropertiesButton()}
               </div>
             </div>
-            <div className="padding-16 grid border-1-top">
-              {renderComponentPropertiesButton()}
-            </div>
-          </div>
+          }
           {/* 長度與寬度 */}
           <div className="list-view mt-xsmall">
             <div className="list-view-header property-clipboard-header">
