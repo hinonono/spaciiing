@@ -8,7 +8,7 @@ import {
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
 import * as info from "../info.json";
-import { pasteInstancePropertyToObject, pastePropertyToObject, resetExtractedProperties, setReferenceObject } from "../module-frontend/propertyClipboardFrontEnd";
+import { pasteInstancePropertyToObject, pastePropertyToObject, PropertyClipboardCategory, propertyClipboardOptions, setReferenceObject, } from "../module-frontend/propertyClipboardFrontEnd";
 
 interface PropertyClipboardProps { }
 
@@ -184,360 +184,50 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               </div>
             </div>
           }
-          {/* 長度與寬度 */}
-          <div className={`list-view ${appContext.extractedProperties.length > 0 ? "mt-xsmall" : ""}`}>
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:size")}
+          {Object.entries(propertyClipboardOptions).map(([key, group]) => {
+            const castedGroup = group as PropertyClipboardCategory;
+
+            return (
+              <div
+                className={`list-view ${key !== "size" || appContext.extractedProperties.length > 0 ? "mt-xsmall" : ""
+                  }`}
+              >
+                <div className="list-view-header property-clipboard-header">
+                  <div></div>
+                  <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                    {t(castedGroup.titleKey)}
+                  </div>
+                  <div>
+                    {castedGroup.applyAllKeys.length > 0 && <FigmaButton
+                      title={t("module:applyAll")}
+                      onClick={() => {
+                        castedGroup.useModal ?
+                          openModalWithProperties(castedGroup.applyAllKeys) : pastePropertyToObject(appContext, castedGroup.applyAllKeys, false, pasteBehavior);
+                      }}
+                      buttonHeight="small"
+                      fontSize="small"
+                      buttonType="grain"
+                      hasMargin={false}
+                    />}
+                  </div>
+                </div>
+                <div className="padding-16 grid border-1-top">
+                  {castedGroup.items.map((i) => (
+                    <FigmaButton
+                      buttonType="secondary"
+                      title={t(i.lableKey)}
+                      onClick={() => {
+                        i.useModal ?
+                          openModalWithProperties(i.keys) : pastePropertyToObject(appContext, i.keys, false, pasteBehavior);
+                      }}
+                      buttonHeight="xlarge"
+                      hasTopBottomMargin={false}
+                    />
+                  ))}
+                </div>
               </div>
-              <div>
-                <FigmaButton
-                  title={t("module:applyAll")}
-                  onClick={() => {
-                    pastePropertyToObject(appContext, ["HEIGHT", "WIDTH"], false, pasteBehavior);
-                  }}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
-                />
-              </div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:width")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["WIDTH"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:height")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["HEIGHT"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
-          {/* 外觀 */}
-          <div className="list-view  mt-xsmall">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:appearance")}
-              </div>
-              <div>
-                <FigmaButton
-                  title={t("module:applyAll")}
-                  onClick={() => {
-                    pastePropertyToObject(
-                      appContext,
-                      [
-                        "LAYER_OPACITY",
-                        "LAYER_CORNER_RADIUS",
-                        "LAYER_BLEND_MODE",
-                      ],
-                      false,
-                      pasteBehavior);
-                  }}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
-                />
-              </div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:opacity")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["LAYER_OPACITY"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:cornerRadius")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["LAYER_CORNER_RADIUS"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:blendMode")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["LAYER_BLEND_MODE"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
-          {/* 填色 */}
-          <div className="list-view  mt-xsmall">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:allFills")}
-              </div>
-              <div>
-                <FigmaButton
-                  title={t("module:applyAll")}
-                  onClick={() => {
-                    openModalWithProperties(["FILL_ALL"]);
-                  }}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
-                />
-              </div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:solidFill")}
-                onClick={() => {
-                  openModalWithProperties(["FILL_SOLID"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:gradientFill")}
-                onClick={() => {
-                  openModalWithProperties(["FILL_GRADIENT"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:imageFill")}
-                onClick={() => {
-                  openModalWithProperties(["FILL_IMAGE"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:videoFill")}
-                onClick={() => {
-                  openModalWithProperties(["FILL_VIDEO"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
-          {/* 筆畫 */}
-          <div className="list-view mt-xsmall">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:stroke")}
-              </div>
-              <div>
-                <FigmaButton
-                  title={t("module:applyAll")}
-                  onClick={() => {
-                    pastePropertyToObject(
-                      appContext,
-                      [
-                        "STROKES",
-                        "STROKE_ALIGN",
-                        "STROKE_WEIGHT",
-                        "STROKE_STYLE",
-                        "STROKE_DASH",
-                        "STROKE_GAP",
-                        "STROKE_CAP",
-                        "STROKE_JOIN",
-                        "STROKE_MITER_LIMIT",
-                      ], false, pasteBehavior);
-                  }}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
-                />
-              </div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:color")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKES"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:position")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKE_ALIGN"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:strokeWeight")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKE_WEIGHT"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:strokeStyle")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKE_STYLE"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:strokeDash")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKE_DASH"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:strokeGap")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKE_GAP"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:dashCap")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKE_CAP"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:join")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKE_JOIN"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:miterAngle")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["STROKE_MITER_LIMIT"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
-          {/* 效果 */}
-          <div className="list-view  mt-xsmall">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:effect")}
-              </div>
-              <div>
-                <FigmaButton
-                  title={t("module:applyAll")}
-                  onClick={() => {
-                    openModalWithProperties(["EFFECT_ALL"]);
-                  }}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
-                />
-              </div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:innerShadow")}
-                onClick={() => {
-                  openModalWithProperties(["EFFECT_INNER_SHADOW"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:dropShadow")}
-                onClick={() => {
-                  openModalWithProperties(["EFFECT_DROP_SHADOW"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:layerBlur")}
-                onClick={() => {
-                  openModalWithProperties(["EFFECT_LAYER_BLUR"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:backgroundBlur")}
-                onClick={() => {
-                  openModalWithProperties(["EFFECT_BACKGROUND_BLUR"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
-          {/* 其他 */}
-          <div className="list-view mt-xsmall">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:others")}
-              </div>
-              <div></div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:exportSettings")}
-                onClick={() => {
-                  pastePropertyToObject(appContext, ["EXPORT_SETTINGS"], false, pasteBehavior);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
+            )
+          })}
         </div>
       </div>
     </div>

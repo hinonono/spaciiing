@@ -114,3 +114,211 @@ export function pasteInstancePropertyToObject(
 
     parent.postMessage({ pluginMessage: message, }, "*");
 };
+
+const strokeOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:color",
+        keys: ["STROKES"],
+        useModal: false
+    },
+    {
+        lableKey: "term:position",
+        keys: ["STROKE_ALIGN"],
+        useModal: false
+    },
+    {
+        lableKey: "term:strokeWeight",
+        keys: ["STROKE_WEIGHT"],
+        useModal: false
+    },
+    {
+        lableKey: "term:strokeStyle",
+        keys: ["STROKE_STYLE"],
+        useModal: false
+    },
+    {
+        lableKey: "term:strokeDash",
+        keys: ["STROKE_DASH"],
+        useModal: false
+    },
+    {
+        lableKey: "term:strokeGap",
+        keys: ["STROKE_GAP"],
+        useModal: false
+    },
+    {
+        lableKey: "term:dashCap",
+        keys: ["STROKE_CAP"],
+        useModal: false
+    },
+    {
+        lableKey: "term:join",
+        keys: ["STROKE_JOIN"],
+        useModal: false
+    },
+    {
+        lableKey: "term:miterAngle",
+        keys: ["STROKE_MITER_LIMIT"],
+        useModal: false
+    },
+];
+
+const effectOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:innerShadow",
+        keys: ["EFFECT_INNER_SHADOW"],
+        useModal: true,
+    },
+    {
+        lableKey: "term:dropShadow",
+        keys: ["EFFECT_DROP_SHADOW"],
+        useModal: true,
+    },
+    {
+        lableKey: "term:layerBlur",
+        keys: ["EFFECT_LAYER_BLUR"],
+        useModal: true,
+    },
+    {
+        lableKey: "term:backgroundBlur",
+        keys: ["EFFECT_BACKGROUND_BLUR"],
+        useModal: true,
+    },
+];
+
+const fillOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:solidFill",
+        keys: ["FILL_SOLID"],
+        useModal: true,
+    },
+    {
+        lableKey: "term:gradientFill",
+        keys: ["FILL_GRADIENT"],
+        useModal: true,
+    },
+    {
+        lableKey: "term:imageFill",
+        keys: ["FILL_IMAGE"],
+        useModal: true,
+    },
+    {
+        lableKey: "term:videoFill",
+        keys: ["FILL_VIDEO"],
+        useModal: true,
+    },
+];
+
+const appearanceOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:opacity",
+        keys: ["LAYER_OPACITY"],
+        useModal: false,
+    },
+    {
+        lableKey: "term:cornerRadius",
+        keys: ["LAYER_CORNER_RADIUS"],
+        useModal: false,
+    },
+    {
+        lableKey: "term:blendMode",
+        keys: ["LAYER_BLEND_MODE"],
+        useModal: false,
+    },
+];
+
+const otherOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:exportSettings",
+        keys: ["EXPORT_SETTINGS"],
+        useModal: true,
+    }
+];
+
+const sizeOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:width",
+        keys: ["WIDTH"],
+        useModal: false,
+    },
+    {
+        lableKey: "term:height",
+        keys: ["HEIGHT"],
+        useModal: false,
+    }
+];
+
+interface PropertyClipboardOption {
+    lableKey: string,
+    keys: PropertyClipboardSupportedProperty[],
+    useModal: boolean
+}
+
+export interface PropertyClipboardCategory {
+    titleKey: string
+    applyAllKeys: PropertyClipboardSupportedProperty[]
+    useModal: boolean
+    items: PropertyClipboardOption[]
+}
+
+interface PropertyClipboardOptions {
+    size: PropertyClipboardCategory;
+    appearance: PropertyClipboardCategory;
+    fill: PropertyClipboardCategory;
+    stroke: PropertyClipboardCategory;
+    effect: PropertyClipboardCategory;
+    other: PropertyClipboardCategory;
+}
+
+export const propertyClipboardOptions: PropertyClipboardOptions = {
+    size: {
+        titleKey: "term:size",
+        applyAllKeys: ["HEIGHT", "WIDTH"],
+        useModal: false,
+        items: sizeOptions
+    },
+    appearance: {
+        titleKey: "term:appearance",
+        applyAllKeys: [
+            "LAYER_OPACITY",
+            "LAYER_CORNER_RADIUS",
+            "LAYER_BLEND_MODE",
+        ],
+        useModal: false,
+        items: appearanceOptions
+    },
+    fill: {
+        titleKey: "term:allFills",
+        applyAllKeys: ["FILL_ALL"],
+        useModal: true,
+        items: fillOptions
+    },
+    stroke: {
+        titleKey: "term:stroke",
+        applyAllKeys: [
+            "STROKES",
+            "STROKE_ALIGN",
+            "STROKE_WEIGHT",
+            "STROKE_STYLE",
+            "STROKE_DASH",
+            "STROKE_GAP",
+            "STROKE_CAP",
+            "STROKE_JOIN",
+            "STROKE_MITER_LIMIT",
+        ],
+        useModal: false,
+        items: strokeOptions
+    },
+    effect: {
+        titleKey: "term:effect",
+        applyAllKeys: ["EFFECT_ALL"],
+        useModal: true,
+        items: effectOptions
+    },
+    other: {
+        titleKey: "term:others",
+        applyAllKeys: [],
+        useModal: false,
+        items: otherOptions
+    }
+}
