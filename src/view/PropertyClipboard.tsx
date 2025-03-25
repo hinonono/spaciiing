@@ -10,7 +10,7 @@ import {
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
 import * as info from "../info.json";
-import { pasteInstancePropertyToObject, resetExtractedProperties } from "../module-frontend/propertyClipboardFrontEnd";
+import { pasteInstancePropertyToObject, pastePropertyToObject, resetExtractedProperties, setReferenceObject } from "../module-frontend/propertyClipboardFrontEnd";
 
 interface PropertyClipboardProps { }
 
@@ -19,8 +19,6 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
-  const { licenseManagement, editorPreference, setFreeUserDelayModalConfig, extractedProperties, setExtractedProperties } =
-    useAppContext();
   const appContext = useAppContext();
 
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -42,65 +40,6 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
     setPasteProperties([]);
   };
 
-  // 記憶所選取的物件作為參考目標
-  const setReferenceObject = (isRealCall = false) => {
-    console.log({ isRealCall: isRealCall });
-
-    // Reset extracted properties
-    setExtractedProperties([]);
-
-    if (!isRealCall) {
-      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-        setFreeUserDelayModalConfig({
-          show: true,
-          initialTime: info.freeUserWaitingTime,
-          onProceed: () => setReferenceObject(true), // Re-invoke with the real call
-        });
-        return;
-      }
-    }
-
-    // The real logic for setting the reference object
-    const message: MessagePropertyClipboard = {
-      action: "setReferenceObject",
-      module: "PropertyClipboard",
-      phase: "Actual",
-      direction: "Inner",
-    };
-
-    parent.postMessage({ pluginMessage: message, }, "*");
-  };
-
-  // 貼上指定的屬性至所選擇的物件
-  const pastePropertyToObject = (
-    property: PropertyClipboardSupportedProperty[],
-    isRealCall = false
-  ) => {
-    if (!isRealCall) {
-      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-        setFreeUserDelayModalConfig({
-          show: true,
-          initialTime: info.freeUserWaitingTime,
-          onProceed: () => pastePropertyToObject(property, true), // Re-invoke with the real call
-        });
-        return;
-      }
-    }
-
-    // Real logic for pasting property to the object
-    const message: MessagePropertyClipboard = {
-      action: "pastePropertyToObject",
-      module: "PropertyClipboard",
-      phase: "Actual",
-      direction: "Inner",
-      property: property,
-      behavior: pasteBehavior,
-    };
-
-    parent.postMessage({ pluginMessage: message, }, "*");
-  };
-
-
 
   // Function to open the modal with the specific function to execute
   const openModalWithProperties = (
@@ -113,7 +52,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   // Function to handle confirmation and execute the stored function
   const handleConfirm = () => {
     if (pasteProperties) {
-      pastePropertyToObject(pasteProperties); // Execute the specific function
+      pastePropertyToObject(appContext, pasteProperties, false, pasteBehavior); // Execute the specific function
     }
     handleCloseBehaviorModal(); // Close the modal
   };
@@ -133,7 +72,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   };
 
   const renderComponentPropertiesButton = () =>
-    extractedProperties.map((item) => (
+    appContext.extractedProperties.map((item) => (
       <FigmaButton
         buttonType="secondary"
         title={`${item.propertyName}=${item.value} (from ${item.layerName})`}
@@ -190,15 +129,15 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         {/* 已記憶 */}
         <div>
           <SectionTitle title={t("module:copyFrom")} />
-          {editorPreference.referenceObject ? (
+          {appContext.editorPreference.referenceObject ? (
             <div className="variable flex flex-justify-space-between align-items-center">
               <span className="text-color-primary">
-                {`${editorPreference.referenceObject.name} (ID: ${editorPreference.referenceObject.id})`}
+                {`${appContext.editorPreference.referenceObject.name} (ID: ${appContext.editorPreference.referenceObject.id})`}
               </span>
               <FigmaButton
                 buttonType="tertiary"
                 title={t("module:memorize")}
-                onClick={() => setReferenceObject(false)}
+                onClick={() => setReferenceObject(false, appContext)}
                 buttonHeight="small"
                 hasTopBottomMargin={false}
               />
@@ -211,7 +150,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               <FigmaButton
                 buttonType="tertiary"
                 title={t("module:memorize")}
-                onClick={() => setReferenceObject(false)}
+                onClick={() => setReferenceObject(false, appContext)}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
               />
@@ -225,7 +164,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           <SectionTitle title={t("term:paste")} />
           {/* Nested */}
           {
-            extractedProperties.length > 0 && <div className="list-view">
+            appContext.extractedProperties.length > 0 && <div className="list-view">
               <div className="list-view-header property-clipboard-header">
                 <div></div>
                 <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
@@ -235,7 +174,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                   <FigmaButton
                     title={t("module:applyAll")}
                     onClick={() => {
-                      pasteInstancePropertyToObject(false, appContext, extractedProperties)
+                      pasteInstancePropertyToObject(false, appContext, appContext.extractedProperties)
                     }}
                     buttonHeight="small"
                     fontSize="small"
@@ -260,7 +199,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 <FigmaButton
                   title={t("module:applyAll")}
                   onClick={() => {
-                    pastePropertyToObject(["HEIGHT", "WIDTH"]);
+                    pastePropertyToObject(appContext, ["HEIGHT", "WIDTH"], false, pasteBehavior);
                   }}
                   buttonHeight="small"
                   fontSize="small"
@@ -274,7 +213,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:width")}
                 onClick={() => {
-                  pastePropertyToObject(["WIDTH"]);
+                  pastePropertyToObject(appContext, ["WIDTH"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -283,7 +222,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:height")}
                 onClick={() => {
-                  pastePropertyToObject(["HEIGHT"]);
+                  pastePropertyToObject(appContext, ["HEIGHT"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -301,11 +240,15 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 <FigmaButton
                   title={t("module:applyAll")}
                   onClick={() => {
-                    pastePropertyToObject([
-                      "LAYER_OPACITY",
-                      "LAYER_CORNER_RADIUS",
-                      "LAYER_BLEND_MODE",
-                    ]);
+                    pastePropertyToObject(
+                      appContext,
+                      [
+                        "LAYER_OPACITY",
+                        "LAYER_CORNER_RADIUS",
+                        "LAYER_BLEND_MODE",
+                      ],
+                      false,
+                      pasteBehavior);
                   }}
                   buttonHeight="small"
                   fontSize="small"
@@ -319,7 +262,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:opacity")}
                 onClick={() => {
-                  pastePropertyToObject(["LAYER_OPACITY"]);
+                  pastePropertyToObject(appContext, ["LAYER_OPACITY"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -328,7 +271,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:cornerRadius")}
                 onClick={() => {
-                  pastePropertyToObject(["LAYER_CORNER_RADIUS"]);
+                  pastePropertyToObject(appContext, ["LAYER_CORNER_RADIUS"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -337,7 +280,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:blendMode")}
                 onClick={() => {
-                  pastePropertyToObject(["LAYER_BLEND_MODE"]);
+                  pastePropertyToObject(appContext, ["LAYER_BLEND_MODE"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -414,17 +357,19 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 <FigmaButton
                   title={t("module:applyAll")}
                   onClick={() => {
-                    pastePropertyToObject([
-                      "STROKES",
-                      "STROKE_ALIGN",
-                      "STROKE_WEIGHT",
-                      "STROKE_STYLE",
-                      "STROKE_DASH",
-                      "STROKE_GAP",
-                      "STROKE_CAP",
-                      "STROKE_JOIN",
-                      "STROKE_MITER_LIMIT",
-                    ]);
+                    pastePropertyToObject(
+                      appContext,
+                      [
+                        "STROKES",
+                        "STROKE_ALIGN",
+                        "STROKE_WEIGHT",
+                        "STROKE_STYLE",
+                        "STROKE_DASH",
+                        "STROKE_GAP",
+                        "STROKE_CAP",
+                        "STROKE_JOIN",
+                        "STROKE_MITER_LIMIT",
+                      ], false, pasteBehavior);
                   }}
                   buttonHeight="small"
                   fontSize="small"
@@ -438,7 +383,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:color")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKES"]);
+                  pastePropertyToObject(appContext, ["STROKES"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -447,7 +392,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:position")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKE_ALIGN"]);
+                  pastePropertyToObject(appContext, ["STROKE_ALIGN"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -456,7 +401,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:strokeWeight")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKE_WEIGHT"]);
+                  pastePropertyToObject(appContext, ["STROKE_WEIGHT"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -465,7 +410,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:strokeStyle")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKE_STYLE"]);
+                  pastePropertyToObject(appContext, ["STROKE_STYLE"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -474,7 +419,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:strokeDash")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKE_DASH"]);
+                  pastePropertyToObject(appContext, ["STROKE_DASH"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -483,7 +428,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:strokeGap")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKE_GAP"]);
+                  pastePropertyToObject(appContext, ["STROKE_GAP"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -492,7 +437,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:dashCap")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKE_CAP"]);
+                  pastePropertyToObject(appContext, ["STROKE_CAP"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -501,7 +446,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:join")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKE_JOIN"]);
+                  pastePropertyToObject(appContext, ["STROKE_JOIN"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -510,7 +455,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:miterAngle")}
                 onClick={() => {
-                  pastePropertyToObject(["STROKE_MITER_LIMIT"]);
+                  pastePropertyToObject(appContext, ["STROKE_MITER_LIMIT"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
@@ -590,7 +535,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 buttonType="secondary"
                 title={t("term:exportSettings")}
                 onClick={() => {
-                  pastePropertyToObject(["EXPORT_SETTINGS"]);
+                  pastePropertyToObject(appContext, ["EXPORT_SETTINGS"], false, pasteBehavior);
                 }}
                 buttonHeight="xlarge"
                 hasTopBottomMargin={false}
