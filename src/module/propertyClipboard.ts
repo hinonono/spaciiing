@@ -19,7 +19,7 @@ export function reception(message: MessagePropertyClipboard) {
       pastePropertyController(message);
       break;
     case "pasteInstancePropertyToObject":
-      pastePropertyController2(message);
+      pasteInstancePropertyController(message);
       break;
     default:
       break;
@@ -35,15 +35,6 @@ function setReferenceObject() {
   }
 
   const selectedNode = selection[0];
-  // const newEditorPreference = util.readEditorPreference();
-  // newEditorPreference.referenceObject = {
-  //   id: selectedNode.id,
-  //   name: selectedNode.name,
-  // };
-
-  // util.saveEditorPreference(newEditorPreference, "PropertyClipboard");
-  // util.updateEditorPreference(newEditorPreference, "PropertyClipboard");
-
   const message: ExternalMessageUpdateReferenceObject = {
     referenceObject: { name: selectedNode.name, id: selectedNode.id },
     module: "PropertyClipboard",
@@ -94,7 +85,7 @@ function determineNestedInstanceProperties(sourceNode: InstanceNode): ComponentP
   return results;
 }
 
-async function pastePropertyController2(message: MessagePropertyClipboard) {
+async function pasteInstancePropertyController(message: MessagePropertyClipboard) {
   if (!message.instanceProperty) {
     figma.notify("❌ Property is missing from message.");
     return;
@@ -104,8 +95,6 @@ async function pastePropertyController2(message: MessagePropertyClipboard) {
     figma.notify("❌ Reference object is missing from message.");
     return;
   }
-
-  const editorPreference = util.readEditorPreference();
 
   if (!message.referenceObject) {
     figma.notify("❌ Reference object is null.");
@@ -121,28 +110,19 @@ async function pastePropertyController2(message: MessagePropertyClipboard) {
     return;
   }
 
-  const allowedTypes: NodeType[] = [
-    "INSTANCE",
-  ];
-
-  if (!allowedTypes.includes(referenceObjectNode.type)) {
+  if (referenceObjectNode.type !== "INSTANCE") {
     figma.notify("❌ Reference object is not an allowed type.");
     return;
   }
 
   for (let i = 0; i < message.instanceProperty.length; i++) {
     const element = message.instanceProperty[i];
-
-    pasteInstancePropertyToObject(
-      element,
-      referenceObjectNode as CopyPastableNode
-    );
+    pasteInstancePropertyToObject(element);
   }
 }
 
 function pasteInstancePropertyToObject(
   property: ComponentPropertiesFrontEnd,
-  referenceObject: CopyPastableNode,
 ) {
   const selection = util.getCurrentSelection();
 
@@ -187,9 +167,7 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
     figma.notify("❌ Paste behavior is missing from message.");
     return;
   }
-
-  const editorPreference = util.readEditorPreference();
-
+  
   if (!message.referenceObject) {
     figma.notify("❌ Reference object is null.");
     return;
