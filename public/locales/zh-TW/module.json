@@ -193,5 +193,7 @@
   "moduleDrawArrows": "畫箭頭",
   "moduleDrawArrowsDesc": "選中至少兩個以上物件，並選取連接點以繪製箭頭。",
   "newStrokeStyle": "建立筆畫樣式",
-  "editStrokeStyle": "編輯筆畫樣式"
+  "editStrokeStyle": "編輯筆畫樣式",
+  "instanceProperties": "實例屬性",
+  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (來自 $LAYER_NAME$)"
 }

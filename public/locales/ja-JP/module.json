@@ -193,5 +193,7 @@
   "moduleDrawArrows": "矢印を描く",
   "moduleDrawArrowsDesc": "2つ以上のレイヤーを選択し、コネクトポイントを指定してから矢印を描画する。",
   "newStrokeStyle": "線スタイルを新規作成",
-  "editStrokeStyle": "線スタイルを編集"
+  "editStrokeStyle": "線スタイルを編集",
+  "instanceProperties": "インスタンスの属性",
+  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ ($LAYER_NAME$から)"
 }

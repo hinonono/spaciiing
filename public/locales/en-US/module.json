@@ -193,5 +193,7 @@
   "moduleDrawArrows": "Draw Arrows",
   "moduleDrawArrowsDesc": "Select at least two layers and specify connect point for start and end object to draw arrows.",
   "newStrokeStyle": "New stroke style",
-  "editStrokeStyle": "Edit stroke style"
+  "editStrokeStyle": "Edit stroke style",
+  "instanceProperties": "Instance properties",
+  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (from $LAYER_NAME$)"
 }

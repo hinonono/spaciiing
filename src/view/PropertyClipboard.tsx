@@ -73,7 +73,12 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
     appContext.extractedProperties.map((item) => (
       <FigmaButton
         buttonType="secondary"
-        title={`${item.propertyName}=${item.value} (from ${item.layerName})`}
+        title={
+          t("module:instancePropertiesBtn")
+            .replace("$PROPERTY_NAME$", item.propertyName)
+            .replace("$VALUE$", item.value.toString())
+            .replace("$LAYER_NAME$", item.layerName)
+        }
         onClick={() => {
           pasteInstancePropertyToObject(
             false,
@@ -160,11 +165,11 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           <SectionTitle title={t("term:paste")} />
           {/* Nested */}
           {
-            info.version >= "24" && appContext.extractedProperties.length > 0 && <div className="list-view">
+            info.version >= "25" && appContext.extractedProperties.length > 0 && <div className="list-view">
               <div className="list-view-header property-clipboard-header">
                 <div></div>
                 <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                  INSTANCE PROPERTIES
+                  {t("module:instanceProperties")}
                 </div>
                 <div>
                   <FigmaButton
@@ -208,6 +213,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                       fontSize="small"
                       buttonType="grain"
                       hasMargin={false}
+                      disabled={appContext.referenceObject.id === "" ? true : false}
                     />}
                   </div>
                 </div>
@@ -222,6 +228,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                       }}
                       buttonHeight="xlarge"
                       hasTopBottomMargin={false}
+                      disabled={appContext.referenceObject.id === "" ? true : false}
                     />
                   ))}
                 </div>
