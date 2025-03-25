@@ -60,12 +60,8 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
     const stillExists = editorPreference.strokeStyles.find(style => style.id === selectedStyleId);
 
     if (stillExists) {
-      // Keep current selection
-      return;
-    }
-
-    // If the current selection was deleted or doesn't exist, fallback to first
-    if (editorPreference.strokeStyles.length > 0) {
+      setEditStroke(stillExists.style);
+    } else if (editorPreference.strokeStyles.length > 0) {
       const firstStroke = editorPreference.strokeStyles[0];
       setSelectedStyleId(firstStroke.id);
       setEditStroke(firstStroke.style);
