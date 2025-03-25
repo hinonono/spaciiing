@@ -1,9 +1,11 @@
 import { CopyPastableNode } from "../types/CopyPastableNode";
 import {
+  ExternalMessageShowNestedComponentProperties,
+  ExternalMessageUpdateReferenceObject,
   MessagePropertyClipboard,
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
-import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
+import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import * as util from "./util";
 
 export function reception(message: MessagePropertyClipboard) {
@@ -15,6 +17,9 @@ export function reception(message: MessagePropertyClipboard) {
       break;
     case "pastePropertyToObject":
       pastePropertyController(message);
+      break;
+    case "pasteInstancePropertyToObject":
+      pasteInstancePropertyController(message);
       break;
     default:
       break;
@@ -29,17 +34,127 @@ function setReferenceObject() {
     return;
   }
 
-  const selectedObjectId = selection[0].id;
-  const selectedObjectName = selection[0].name;
+  const selectedNode = selection[0];
+  const message: ExternalMessageUpdateReferenceObject = {
+    referenceObject: { name: selectedNode.name, id: selectedNode.id },
+    module: "PropertyClipboard",
+    phase: "Actual",
+    mode: "UpdateReferenceObject"
+  }
 
-  const newEditorPreference = util.readEditorPreference();
-  newEditorPreference.referenceObject = {
-    id: selectedObjectId,
-    name: selectedObjectName,
-  };
+  util.sendMessageBack(message);
 
-  util.saveEditorPreference(newEditorPreference, "PropertyClipboard");
-  util.updateEditorPreference(newEditorPreference, "PropertyClipboard");
+
+  if (selectedNode.type === "INSTANCE") {
+    // V25 支援複製Instance內部的巢狀屬性
+    const extractedProperties = determineNestedInstanceProperties(selectedNode);
+
+    const message: ExternalMessageShowNestedComponentProperties = {
+      module: "PropertyClipboard",
+      mode: "ShowExtractedProperties",
+      phase: "Actual",
+      extractedProperties: extractedProperties
+    };
+    util.sendMessageBack(message);
+  }
+}
+
+function determineNestedInstanceProperties(sourceNode: InstanceNode): ComponentPropertiesFrontEnd[] {
+  let results: ComponentPropertiesFrontEnd[] = [];
+
+  for (let i = 0; i < sourceNode.children.length; i++) {
+    const item = sourceNode.children[i];
+
+    if (item.type === "INSTANCE") {
+      if (item.isExposedInstance) {
+        const componentProps = item.componentProperties;
+        if (componentProps) {
+          for (const [propertyName, propertyData] of Object.entries(componentProps)) {
+            results.push({
+              nodeId: item.id,
+              propertyName,
+              value: propertyData.value,
+              layerName: item.name
+            });
+          }
+        }
+      }
+    }
+  }
+  console.log("Extracted component properties:", results);
+  return results;
+}
+
+async function pasteInstancePropertyController(message: MessagePropertyClipboard) {
+  if (!message.instanceProperty) {
+    figma.notify("❌ Property is missing from message.");
+    return;
+  }
+
+  if (!message.referenceObject) {
+    figma.notify("❌ Reference object is missing from message.");
+    return;
+  }
+
+  if (!message.referenceObject) {
+    figma.notify("❌ Reference object is null.");
+    return;
+  }
+
+  const referenceObjectNode = await figma.getNodeByIdAsync(
+    message.referenceObject.id
+  );
+
+  if (!referenceObjectNode) {
+    figma.notify("❌ Cannot get reference object by provided id.");
+    return;
+  }
+
+  if (referenceObjectNode.type !== "INSTANCE") {
+    figma.notify("❌ Reference object is not an allowed type.");
+    return;
+  }
+
+  for (let i = 0; i < message.instanceProperty.length; i++) {
+    const element = message.instanceProperty[i];
+    pasteInstancePropertyToObject(element);
+  }
+}
+
+function pasteInstancePropertyToObject(
+  property: ComponentPropertiesFrontEnd,
+) {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  selection.forEach((object) => {
+    if (object.type === "INSTANCE") {
+      const stablePrefix = property.nodeId.split(":")[0];
+      const targetChild = object.findOne((child) => {
+        return child.id.startsWith(stablePrefix) && child.name === property.layerName;
+      });
+
+      if (
+        targetChild &&
+        "setProperties" in targetChild &&
+        typeof targetChild.setProperties === "function"
+      ) {
+        const propsToSet: { [key: string]: string | boolean } = {};
+        propsToSet[property.propertyName] = property.value;
+        try {
+          targetChild.setProperties(propsToSet);
+        } catch (error) {
+          figma.notify(`❌ Failed to set property on ${targetChild.name}`);
+        }
+      } else {
+        figma.notify(`❌ Could not find matching child or it does not support setProperties.`);
+      }
+    }
+  });
 }
 
 async function pastePropertyController(message: MessagePropertyClipboard) {
@@ -52,16 +167,14 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
     figma.notify("❌ Paste behavior is missing from message.");
     return;
   }
-
-  const editorPreference = util.readEditorPreference();
-
-  if (!editorPreference.referenceObject) {
+  
+  if (!message.referenceObject) {
     figma.notify("❌ Reference object is null.");
     return;
   }
 
   const referenceObjectNode = await figma.getNodeByIdAsync(
-    editorPreference.referenceObject.id
+    message.referenceObject.id
   );
 
   if (!referenceObjectNode) {

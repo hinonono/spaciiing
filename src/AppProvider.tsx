@@ -10,6 +10,7 @@ import { EditorPreference } from "./types/EditorPreference";
 import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
 import { EditorType } from "./types/EditorType";
 import * as info from "./info.json";
+import { ComponentPropertiesFrontEnd, ReferenceObject } from "./types/PropertClipboard";
 
 // #region Definition
 export interface AppContextType {
@@ -33,6 +34,12 @@ export interface AppContextType {
   setVirtualProfileGroups: React.Dispatch<
     React.SetStateAction<VirtualProfileGroup[]>
   >;
+
+  // Property Clipboard
+  referenceObject: ReferenceObject;
+  setReferenceObject: React.Dispatch<React.SetStateAction<ReferenceObject>>;
+  extractedProperties: ComponentPropertiesFrontEnd[];
+  setExtractedProperties: React.Dispatch<React.SetStateAction<ComponentPropertiesFrontEnd[]>>;
 
   // 其他
   licenseManagement: LicenseManagement;
@@ -117,12 +124,19 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     VirtualProfileGroup[]
   >([]);
 
+  const [extractedProperties, setExtractedProperties] = useState<ComponentPropertiesFrontEnd[]>([]);
+
   const [licenseManagement, setLicenseManagement] =
     useState<LicenseManagement>(lm);
 
   const [customCodeExecutionResults, setCustomCodeExecutionResults] = useState<
     string[]
   >([]);
+
+  const [referenceObject, setReferenceObject] = useState<ReferenceObject>({
+    name: "",
+    id: ""
+  });
 
   // #region JSX elements
   return (
@@ -150,6 +164,10 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setStyleList,
         editorType,
         setEditorType,
+        extractedProperties,
+        setExtractedProperties,
+        referenceObject,
+        setReferenceObject
       }}
     >
       {children}

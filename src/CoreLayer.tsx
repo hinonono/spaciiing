@@ -41,16 +41,7 @@ const CoreLayer: React.FC = () => {
 
     setPrevTab(activeTab);
   }, [activeTab]);
-
-  // const triggerWaitModal = (
-  //   initialTime: number,
-  //   onProceed: () => void,
-  //   onClose: () => void
-  // ) => {
-  //   setWaitModalConfig({ initialTime, onProceed });
-  //   appContext.setShowFreeUserDelayModal(true);
-  // };
-
+  
   // #region JSX Elements
   return (
     <div className="App">
