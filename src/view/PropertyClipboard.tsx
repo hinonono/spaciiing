@@ -129,10 +129,10 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         {/* 已記憶 */}
         <div>
           <SectionTitle title={t("module:copyFrom")} />
-          {appContext.editorPreference.referenceObject ? (
+          {appContext.referenceObject.id != "" ? (
             <div className="variable flex flex-justify-space-between align-items-center">
               <span className="text-color-primary">
-                {`${appContext.editorPreference.referenceObject.name} (ID: ${appContext.editorPreference.referenceObject.id})`}
+                {`${appContext.referenceObject.name} (ID: ${appContext.referenceObject.id})`}
               </span>
               <FigmaButton
                 buttonType="tertiary"

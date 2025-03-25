@@ -10,7 +10,7 @@ import { EditorPreference } from "./types/EditorPreference";
 import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
 import { EditorType } from "./types/EditorType";
 import * as info from "./info.json";
-import { ComponentPropertiesFrontEnd } from "./types/PropertClipboard";
+import { ComponentPropertiesFrontEnd, ReferenceObject } from "./types/PropertClipboard";
 
 // #region Definition
 export interface AppContextType {
@@ -36,6 +36,8 @@ export interface AppContextType {
   >;
 
   // Property Clipboard
+  referenceObject: ReferenceObject;
+  setReferenceObject: React.Dispatch<React.SetStateAction<ReferenceObject>>;
   extractedProperties: ComponentPropertiesFrontEnd[];
   setExtractedProperties: React.Dispatch<React.SetStateAction<ComponentPropertiesFrontEnd[]>>;
 
@@ -131,6 +133,11 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     string[]
   >([]);
 
+  const [referenceObject, setReferenceObject] = useState<ReferenceObject>({
+    name: "",
+    id: ""
+  });
+
   // #region JSX elements
   return (
     <AppContext.Provider
@@ -158,7 +165,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         editorType,
         setEditorType,
         extractedProperties,
-        setExtractedProperties
+        setExtractedProperties,
+        referenceObject,
+        setReferenceObject
       }}
     >
       {children}

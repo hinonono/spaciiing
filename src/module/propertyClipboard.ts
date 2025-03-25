@@ -1,6 +1,7 @@
 import { CopyPastableNode } from "../types/CopyPastableNode";
 import {
   ExternalMessageShowNestedComponentProperties,
+  ExternalMessageUpdateReferenceObject,
   MessagePropertyClipboard,
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
@@ -34,14 +35,23 @@ function setReferenceObject() {
   }
 
   const selectedNode = selection[0];
-  const newEditorPreference = util.readEditorPreference();
-  newEditorPreference.referenceObject = {
-    id: selectedNode.id,
-    name: selectedNode.name,
-  };
+  // const newEditorPreference = util.readEditorPreference();
+  // newEditorPreference.referenceObject = {
+  //   id: selectedNode.id,
+  //   name: selectedNode.name,
+  // };
 
-  util.saveEditorPreference(newEditorPreference, "PropertyClipboard");
-  util.updateEditorPreference(newEditorPreference, "PropertyClipboard");
+  // util.saveEditorPreference(newEditorPreference, "PropertyClipboard");
+  // util.updateEditorPreference(newEditorPreference, "PropertyClipboard");
+
+  const message: ExternalMessageUpdateReferenceObject = {
+    referenceObject: { name: selectedNode.name, id: selectedNode.id },
+    module: "PropertyClipboard",
+    phase: "Actual",
+    mode: "UpdateReferenceObject"
+  }
+
+  util.sendMessageBack(message);
 
 
   if (selectedNode.type === "INSTANCE") {
@@ -90,15 +100,20 @@ async function pastePropertyController2(message: MessagePropertyClipboard) {
     return;
   }
 
+  if (!message.referenceObject) {
+    figma.notify("❌ Reference object is missing from message.");
+    return;
+  }
+
   const editorPreference = util.readEditorPreference();
 
-  if (!editorPreference.referenceObject) {
+  if (!message.referenceObject) {
     figma.notify("❌ Reference object is null.");
     return;
   }
 
   const referenceObjectNode = await figma.getNodeByIdAsync(
-    editorPreference.referenceObject.id
+    message.referenceObject.id
   );
 
   if (!referenceObjectNode) {
@@ -175,13 +190,13 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
 
   const editorPreference = util.readEditorPreference();
 
-  if (!editorPreference.referenceObject) {
+  if (!message.referenceObject) {
     figma.notify("❌ Reference object is null.");
     return;
   }
 
   const referenceObjectNode = await figma.getNodeByIdAsync(
-    editorPreference.referenceObject.id
+    message.referenceObject.id
   );
 
   if (!referenceObjectNode) {

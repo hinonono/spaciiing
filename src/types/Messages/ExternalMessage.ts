@@ -15,7 +15,8 @@ export type ExternalMode =
   | "UpdateStyleList"
   | "UpdateEditorPreference"
   | "UpdateEditorType"
-  | "ShowExtractedProperties";
+  | "ShowExtractedProperties"
+  | "UpdateReferenceObject";
 export interface ExternalMessage extends Message {
   mode?: ExternalMode;
   editorType?: EditorType;

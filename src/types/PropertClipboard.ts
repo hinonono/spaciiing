@@ -16,6 +16,11 @@ export interface ComponentPropertiesFrontEnd {
   layerName: string;
 }
 
+export interface ReferenceObject {
+  name: string;
+  id: string;
+}
+
 type PropertyClipboardSupportedFill =
   | "FILL_ALL"
   | "FILL_SOLID"

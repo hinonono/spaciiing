@@ -1,7 +1,7 @@
 import { AppContextType } from './../AppProvider';
 import { ExternalMessage } from "../types/Messages/ExternalMessage";
-import { ExternalMessageShowNestedComponentProperties, MessagePropertyClipboard, PasteBehavior } from "../types/Messages/MessagePropertyClipboard";
-import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
+import { ExternalMessageShowNestedComponentProperties, ExternalMessageUpdateReferenceObject, MessagePropertyClipboard, PasteBehavior } from "../types/Messages/MessagePropertyClipboard";
+import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty, ReferenceObject } from "../types/PropertClipboard";
 import { checkProFeatureAccessibleForUser } from './utilFrontEnd';
 import * as info from "../info.json";
 
@@ -9,7 +9,14 @@ export function propertyClipboardHandler(message: ExternalMessage, context: AppC
     if (message.mode && message.mode === "ShowExtractedProperties") {
         const castedMessage = message as ExternalMessageShowNestedComponentProperties
         showExtractedPropertiesHandler(castedMessage.extractedProperties, context)
+    } else if (message.mode && message.mode === "UpdateReferenceObject") {
+        const castedMessage = message as ExternalMessageUpdateReferenceObject
+        setReferenceObjectHandler(castedMessage.referenceObject, context)
     }
+}
+
+function setReferenceObjectHandler(referenceObject: ReferenceObject, context: AppContextType) {
+    context.setReferenceObject(referenceObject);
 }
 
 function showExtractedPropertiesHandler(extractedProperties: ComponentPropertiesFrontEnd[], context: AppContextType) {
@@ -52,7 +59,7 @@ export function pastePropertyToObject(
     appContext: AppContextType,
     property: PropertyClipboardSupportedProperty[],
     isRealCall: boolean,
-    pasteBehavior: PasteBehavior
+    pasteBehavior: PasteBehavior,
 ) {
     if (!isRealCall) {
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
@@ -73,6 +80,7 @@ export function pastePropertyToObject(
         direction: "Inner",
         property: property,
         behavior: pasteBehavior,
+        referenceObject: appContext.referenceObject
     };
 
     parent.postMessage({ pluginMessage: message, }, "*");
@@ -81,7 +89,7 @@ export function pastePropertyToObject(
 export function pasteInstancePropertyToObject(
     isRealCall: boolean,
     appContext: AppContextType,
-    properties: ComponentPropertiesFrontEnd[]
+    properties: ComponentPropertiesFrontEnd[],
 ) {
     if (!isRealCall) {
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
@@ -100,7 +108,8 @@ export function pasteInstancePropertyToObject(
         module: "PropertyClipboard",
         phase: "Actual",
         direction: "Inner",
-        instanceProperty: properties
+        instanceProperty: properties,
+        referenceObject: appContext.referenceObject
     };
 
     parent.postMessage({ pluginMessage: message, }, "*");
