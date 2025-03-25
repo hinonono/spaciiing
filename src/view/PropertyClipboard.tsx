@@ -3,10 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
 import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
-import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import {
-  MessagePropertyClipboard,
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
 import * as info from "../info.json";
@@ -156,15 +154,13 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               />
             </div>
           )}
-          <div className="mt-xxsmall">
-
-          </div>
+          <div className="mt-xxsmall"></div>
         </div>
         <div className="mt-xsmall">
           <SectionTitle title={t("term:paste")} />
           {/* Nested */}
           {
-            appContext.extractedProperties.length > 0 && <div className="list-view">
+            info.version >= "24" && appContext.extractedProperties.length > 0 && <div className="list-view">
               <div className="list-view-header property-clipboard-header">
                 <div></div>
                 <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
@@ -189,7 +185,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             </div>
           }
           {/* 長度與寬度 */}
-          <div className="list-view mt-xsmall">
+          <div className={`list-view ${appContext.extractedProperties.length > 0 ? "mt-xsmall" : ""}`}>
             <div className="list-view-header property-clipboard-header">
               <div></div>
               <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
