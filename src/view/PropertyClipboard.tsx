@@ -18,7 +18,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
-  const { licenseManagement, editorPreference, setFreeUserDelayModalConfig } =
+  const { licenseManagement, editorPreference, setFreeUserDelayModalConfig, extractedProperties, setExtractedProperties } =
     useAppContext();
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -124,6 +124,17 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
     setShouldConfirm(true); // Set to confirm after behavior updates
   };
 
+  const renderComponentPropertiesButton = () =>
+    extractedProperties.map((item) => (
+      <FigmaButton
+        buttonType="secondary"
+        title={`${item.propertyName}=${item.value} (from ${item.layerName})`}
+        onClick={() => { }}
+        buttonHeight="xlarge"
+        hasTopBottomMargin={false}
+      />
+    ));
+
   return (
     <div>
       <Modal
@@ -198,8 +209,36 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         </div>
         <div className="mt-xsmall">
           <SectionTitle title={t("term:paste")} />
-          {/* 長度與寬度 */}
+          {/* 外觀 */}
           <div className="list-view">
+            <div className="list-view-header property-clipboard-header">
+              <div></div>
+              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
+                INSTANCE PROPERTIES
+              </div>
+              <div>
+                {/* <FigmaButton
+                  title={t("module:applyAll")}
+                  onClick={() => {
+                    pastePropertyToObject([
+                      "LAYER_OPACITY",
+                      "LAYER_CORNER_RADIUS",
+                      "LAYER_BLEND_MODE",
+                    ]);
+                  }}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                /> */}
+              </div>
+            </div>
+            <div className="padding-16 grid border-1-top">
+              {renderComponentPropertiesButton()}
+            </div>
+          </div>
+          {/* 長度與寬度 */}
+          <div className="list-view mt-xsmall">
             <div className="list-view-header property-clipboard-header">
               <div></div>
               <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">

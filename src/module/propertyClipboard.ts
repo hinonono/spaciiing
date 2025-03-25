@@ -1,9 +1,10 @@
 import { CopyPastableNode } from "../types/CopyPastableNode";
 import {
+  ExternalMessageShowNestedComponentProperties,
   MessagePropertyClipboard,
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
-import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
+import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import * as util from "./util";
 
 export function reception(message: MessagePropertyClipboard) {
@@ -29,17 +30,55 @@ function setReferenceObject() {
     return;
   }
 
-  const selectedObjectId = selection[0].id;
-  const selectedObjectName = selection[0].name;
-
+  const selectedNode = selection[0];
   const newEditorPreference = util.readEditorPreference();
   newEditorPreference.referenceObject = {
-    id: selectedObjectId,
-    name: selectedObjectName,
+    id: selectedNode.id,
+    name: selectedNode.name,
   };
 
   util.saveEditorPreference(newEditorPreference, "PropertyClipboard");
   util.updateEditorPreference(newEditorPreference, "PropertyClipboard");
+
+
+  if (selectedNode.type === "INSTANCE") {
+    // V25 支援複製Instance內部的巢狀屬性
+    const extractedProperties = determineNestedInstanceProperties(selectedNode);
+
+    const message: ExternalMessageShowNestedComponentProperties = {
+      module: "PropertyClipboard",
+      mode: "ShowExtractedProperties",
+      phase: "Actual",
+      extractedProperties: extractedProperties
+    };
+    util.sendMessageBack(message);
+  }
+}
+
+function determineNestedInstanceProperties(sourceNode: InstanceNode): ComponentPropertiesFrontEnd[] {
+  let results: ComponentPropertiesFrontEnd[] = [];
+
+  for (let i = 0; i < sourceNode.children.length; i++) {
+    const item = sourceNode.children[i];
+
+    if (item.type === "INSTANCE") {
+      if (item.isExposedInstance) {
+        const componentProps = item.componentProperties;
+        if (componentProps) {
+          for (const [propertyName, propertyData] of Object.entries(componentProps)) {
+            results.push({
+              nodeId: item.id,
+              propertyName,
+              value: propertyData.value,
+              layerName: item.name
+            });
+          }
+        }
+      }
+    }
+  }
+  console.log("Extracted component properties:", results);
+  return results;
 }
 
 async function pastePropertyController(message: MessagePropertyClipboard) {
