@@ -62,25 +62,29 @@ function setReferenceObject() {
 function determineNestedInstanceProperties(sourceNode: InstanceNode): ComponentPropertiesFrontEnd[] {
   let results: ComponentPropertiesFrontEnd[] = [];
 
-  for (let i = 0; i < sourceNode.children.length; i++) {
-    const item = sourceNode.children[i];
-
-    if (item.type === "INSTANCE") {
-      if (item.isExposedInstance) {
-        const componentProps = item.componentProperties;
-        if (componentProps) {
-          for (const [propertyName, propertyData] of Object.entries(componentProps)) {
-            results.push({
-              nodeId: item.id,
-              propertyName,
-              value: propertyData.value,
-              layerName: item.name
-            });
-          }
+  function traverse(node: SceneNode) {
+    if (node.type === "INSTANCE" && node.isExposedInstance) {
+      const componentProps = node.componentProperties;
+      if (componentProps) {
+        for (const [propertyName, propertyData] of Object.entries(componentProps)) {
+          results.push({
+            nodeId: node.id,
+            propertyName,
+            value: propertyData.value,
+            layerName: node.name
+          });
         }
       }
     }
+
+    if ("children" in node && Array.isArray(node.children)) {
+      for (const child of node.children) {
+        traverse(child);
+      }
+    }
   }
+
+  traverse(sourceNode);
   console.log("Extracted component properties:", results);
   return results;
 }
