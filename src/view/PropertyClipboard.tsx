@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
-import { FigmaButton, SectionTitle, TitleBar } from "../components";
+import { FigmaButton, ListViewHeader, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import {
@@ -166,12 +166,10 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           {/* Nested */}
           {
             info.version >= "25" && appContext.extractedProperties.length > 0 && <div className="list-view">
-              <div className="list-view-header property-clipboard-header">
-                <div></div>
-                <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                  {t("module:instanceProperties")}
-                </div>
-                <div>
+              <ListViewHeader
+                additionalClass={"property-clipboard-header"}
+                title={t("module:instanceProperties")}
+                rightItem={
                   <FigmaButton
                     title={t("module:applyAll")}
                     onClick={() => {
@@ -182,8 +180,8 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                     buttonType="grain"
                     hasMargin={false}
                   />
-                </div>
-              </div>
+                }
+              />
               <div className="padding-16 grid border-1-top">
                 {renderComponentPropertiesButton()}
               </div>
@@ -197,13 +195,11 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                 className={`list-view ${key !== "size" || appContext.extractedProperties.length > 0 ? "mt-xsmall" : ""
                   }`}
               >
-                <div className="list-view-header property-clipboard-header">
-                  <div></div>
-                  <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                    {t(castedGroup.titleKey)}
-                  </div>
-                  <div>
-                    {castedGroup.applyAllKeys.length > 0 && <FigmaButton
+                <ListViewHeader
+                  additionalClass={"property-clipboard-header"}
+                  title={t(castedGroup.titleKey)}
+                  rightItem={
+                    castedGroup.applyAllKeys.length > 0 && <FigmaButton
                       title={t("module:applyAll")}
                       onClick={() => {
                         castedGroup.useModal ?
@@ -214,9 +210,9 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
                       buttonType="grain"
                       hasMargin={false}
                       disabled={appContext.referenceObject.id === "" ? true : false}
-                    />}
-                  </div>
-                </div>
+                    />
+                  }
+                />
                 <div className="padding-16 grid border-1-top">
                   {castedGroup.items.map((i) => (
                     <FigmaButton
