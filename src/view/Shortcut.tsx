@@ -120,7 +120,7 @@ const Shortcut: React.FC = () => {
               buttonType="secondary"
               title={t("module:updateCatalogueDescBackToFigma")}
               onClick={() => {
-                applyShortcut("updateCatalogueDescBackToFigma");
+                applyShortcut("updateCatalogueDescBackToFigma", false);
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
@@ -152,7 +152,7 @@ const Shortcut: React.FC = () => {
             buttonType="secondary"
             title={t("module:createTextStyleFromSelection")}
             onClick={() => {
-              applyShortcut("convertSelectionToTextStyles");
+              applyShortcut("convertSelectionToTextStyles", false);
             }}
             buttonHeight="xlarge"
             hasTopBottomMargin={false}
@@ -184,7 +184,7 @@ const Shortcut: React.FC = () => {
                 title={t("module:note")}
                 id={"shortcut-generate-note"}
                 onClick={() => {
-                  applyShortcut("generateNote");
+                  applyShortcut("generateNote", false);
                 }}
                 disabled={
                   appContext.editorPreference.magicObjects.noteId == "" ? true : false
@@ -197,7 +197,7 @@ const Shortcut: React.FC = () => {
                 title={t("module:designStatusTag")}
                 id={"shortcut-generate-design-status-tag"}
                 onClick={() => {
-                  applyShortcut("generateDesignStatusTag");
+                  applyShortcut("generateDesignStatusTag", false);
                 }}
                 disabled={
                   appContext.editorPreference.magicObjects.tagId == "" ? true : false
@@ -210,7 +210,7 @@ const Shortcut: React.FC = () => {
                 title={t("module:titleSection")}
                 id={"shortcut-generate-title-section"}
                 onClick={() => {
-                  applyShortcut("generateTitleSection");
+                  applyShortcut("generateTitleSection", false);
                 }}
                 disabled={
                   appContext.editorPreference.magicObjects.sectionId == "" ? true : false
@@ -242,7 +242,7 @@ const Shortcut: React.FC = () => {
               title={t("module:hexValue")}
               id={"shortcut-color-to-label-hex"}
               onClick={() => {
-                applyShortcut("colorToLabelHEX");
+                applyShortcut("colorToLabelHEX", false);
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
@@ -252,7 +252,7 @@ const Shortcut: React.FC = () => {
               title={t("module:hexValueWithTransparency")}
               id={"shortcut-color-to-label-hex-transparent"}
               onClick={() => {
-                applyShortcut("colorToLabelHEXWithTransparency");
+                applyShortcut("colorToLabelHEXWithTransparency", false);
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
@@ -262,7 +262,7 @@ const Shortcut: React.FC = () => {
               title={t("module:rgbValue")}
               id={"shortcut-color-to-label-rgb"}
               onClick={() => {
-                applyShortcut("colorToLabelRGB");
+                applyShortcut("colorToLabelRGB", false);
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
@@ -272,7 +272,7 @@ const Shortcut: React.FC = () => {
               title={t("module:rgbaValue")}
               id={"shortcut-color-to-label-rgba"}
               onClick={() => {
-                applyShortcut("colorToLabelRGBA");
+                applyShortcut("colorToLabelRGBA", false);
               }}
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
@@ -332,7 +332,7 @@ const Shortcut: React.FC = () => {
             title={t("module:createShadowOverlay")}
             id={"shortcut-overlay"}
             onClick={() => {
-              applyShortcut("makeFrameOverlay");
+              applyShortcut("makeFrameOverlay", false);
             }}
             buttonHeight="xlarge"
             hasTopBottomMargin={false}
