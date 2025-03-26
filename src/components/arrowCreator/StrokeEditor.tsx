@@ -3,6 +3,7 @@ import FigmaButton from '../FigmaButton';
 import StrokeEditorView from '../StrokeEditorView';
 import { CYStroke } from '../../types/CYStroke';
 import { useTranslation } from 'react-i18next';
+import ListViewHeader from '../ListViewHeader';
 
 interface StrokeEditorProps {
   editingStroke: CYStroke
@@ -24,11 +25,10 @@ const StrokeEditor: React.FC<StrokeEditorProps> = (
 
   return (
     <div className="list-view mt-xsmall">
-      <div className="list-view-header property-clipboard-header">
-        <div></div>
-        <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-        </div>
-        <div>
+      <ListViewHeader
+        additionalClass={"property-clipboard-header"}
+        title={""}
+        rightItem={
           <FigmaButton
             title={t("module:saveStyle")}
             onClick={() => {
@@ -40,8 +40,8 @@ const StrokeEditor: React.FC<StrokeEditorProps> = (
             buttonType="grain"
             hasMargin={false}
           />
-        </div>
-      </div>
+        }
+      />
       <div className="padding-16 border-1-top">
         <StrokeEditorView editingStroke={editingStroke} setEditingStroke={setEditingStroke} />
       </div>

@@ -6,6 +6,7 @@ import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEdi
 import ColorThumbnailView from '../ColorThumbnailView';
 import { defaultStroke } from '../../module-frontend/arrowCreatorFrontEnd';
 import { SvgAdd, SvgEdit, SvgMinus } from '../../assets/icons';
+import ListViewHeader from '../ListViewHeader';
 
 interface StrokeStyleSelectorProps {
   setEditStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
@@ -124,8 +125,10 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
 
   return (
     <div className="list-view mt-xsmall">
-      <div className="list-view-header property-clipboard-header">
-        <div>
+      <ListViewHeader
+        additionalClass={"property-clipboard-header"}
+        title={""}
+        leftItem={
           <button
             className="button-reset margin-0 width-auto"
             onClick={(e) => handleEditButtonClicked()}
@@ -135,29 +138,29 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
               <SvgEdit color={selectedStyleId ? "var(--figma-color-bg-brand)" : "var(--figma-color-text-disabled)"} />
             </div>
           </button>
-        </div>
-        <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-        </div>
-        <div className='flex'>
-          <button
-            className="button-reset margin-0 width-auto"
-            onClick={(e) => handleDeleteButtonClicked()}
-            disabled={!selectedStyleId}
-          >
-            <div className="icon-20">
-              <SvgMinus color={selectedStyleId ? "var(--figma-color-bg-brand)" : "var(--figma-color-text-disabled)"} />
-            </div>
-          </button>
-          <button
-            className="button-reset margin-0 width-auto"
-            onClick={(e) => handleNewButtonClicked()}
-          >
-            <div className="icon-20">
-              <SvgAdd color="var(--figma-color-bg-brand)" />
-            </div>
-          </button>
-        </div>
-      </div>
+        }
+        rightItem={
+          <div className='flex'>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={(e) => handleDeleteButtonClicked()}
+              disabled={!selectedStyleId}
+            >
+              <div className="icon-20">
+                <SvgMinus color={selectedStyleId ? "var(--figma-color-bg-brand)" : "var(--figma-color-text-disabled)"} />
+              </div>
+            </button>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={(e) => handleNewButtonClicked()}
+            >
+              <div className="icon-20">
+                <SvgAdd color="var(--figma-color-bg-brand)" />
+              </div>
+            </button>
+          </div>
+        }
+      />
       <div className="list-view-content border-1-top cy-checkbox-group">
         {renderStrokeStyleList()}
       </div>
