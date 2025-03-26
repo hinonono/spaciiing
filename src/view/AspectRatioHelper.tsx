@@ -44,14 +44,14 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
 
   // 功能
   const [lockedDimension, setLockedDimension] = useState<Dimension>("width");
-  const [widthCustomRatio, setWidthCustomRatio] = useState(0);
+  const [widthCustomRatio, setWidthCustomRatio] = useState(1);
   const handleWidthCustomRatioChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setWidthCustomRatio(Number(event.target.value));
   };
 
-  const [heightCustomRatio, setHeightCustomRatio] = useState(0);
+  const [heightCustomRatio, setHeightCustomRatio] = useState(1);
   const handleHeightCustomRatioChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
