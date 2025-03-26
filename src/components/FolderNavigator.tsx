@@ -3,6 +3,7 @@ import { NestedStructure, StyleSelection } from "../types/General";
 import FigmaButton from "./FigmaButton";
 import { StyleForm, StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { useTranslation } from "react-i18next";
+import ListViewHeader from "./ListViewHeader";
 
 interface FolderNavigatorProps {
   form: StyleForm;
@@ -116,9 +117,13 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
   return (
     <div>
-      <div className="folder-navigator-header">
-        <div>
-          {currentPath.length > 0 && (
+      <ListViewHeader
+        additionalClass={"folder-navigator-header"}
+        title={currentPath.length == 0
+          ? t("module:home")
+          : currentPath[currentPath.length - 1]}
+        leftItem={
+          currentPath.length > 0 && (
             <FigmaButton
               title={t("term:back")}
               onClick={goBack}
@@ -128,15 +133,10 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
               hasMargin={false}
               showChevron={true}
             />
-          )}
-        </div>
-        <div className="flex align-items-center flex-justify-center font-size-small text-color-primary font-weight-bold">
-          {currentPath.length == 0
-            ? t("module:home")
-            : currentPath[currentPath.length - 1]}
-        </div>
-        <div>
-          {isLeafNodeDisplayed && leafNodeCount > 1 && (
+          )
+        }
+        rightItem={
+          isLeafNodeDisplayed && leafNodeCount > 1 && (
             <FigmaButton
               title={
                 Object.keys(currentStructure).every((key) =>
@@ -151,9 +151,9 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
               buttonType="grain"
               hasMargin={false}
             />
-          )}
-        </div>
-      </div>
+          )
+        }
+      />
       <div
         className={`cy-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical`}
       >
