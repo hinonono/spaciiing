@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TitleBar, FigmaButton } from "../components";
+import { TitleBar, FigmaButton, ListViewHeader } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import {
@@ -111,13 +111,10 @@ const Shortcut: React.FC = () => {
     if (appContext.editorType === "figma") {
       return (
         <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header flex flex-justify-center">
-            <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {t("module:moduleCatalogue")}
-            </div>
-            <div></div>
-          </div>
+          <ListViewHeader
+            additionalClass={"property-clipboard-header"}
+            title={t("module:moduleCatalogue")}
+          />
           <div className="padding-16 border-1-top grid">
             <FigmaButton
               buttonType="secondary"
@@ -128,15 +125,6 @@ const Shortcut: React.FC = () => {
               buttonHeight="xlarge"
               hasTopBottomMargin={false}
             />
-            {/* <FigmaButton
-                buttonType="secondary"
-                title={"test"}
-                onClick={() => {
-                  applyShortcut("debug");
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              /> */}
           </div>
         </div>
       )
@@ -148,11 +136,10 @@ const Shortcut: React.FC = () => {
   const renderTextShortcut = () => {
     return (
       <div className="list-view mt-xsmall">
-        <div className="list-view-header flex flex-justify-center">
-          <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            {t("module:text")}
-          </div>
-        </div>
+        <ListViewHeader
+          additionalClass={"property-clipboard-header"}
+          title={t("module:text")}
+        />
         <div className="padding-16 grid border-1-top">
           <FigmaButton
             buttonType="secondary"
@@ -186,11 +173,10 @@ const Shortcut: React.FC = () => {
     if (appContext.editorType === "figma") {
       return (
         <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header flex flex-justify-center">
-            <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">{t("module:fileOrganizingObject")}</div>
-            <div></div>
-          </div>
+          <ListViewHeader
+            additionalClass={"property-clipboard-header"}
+            title={t("module:fileOrganizingObject")}
+          />
           <div className="padding-16 border-1-top">
             <div className="grid mt-xxxsmall">
               <FigmaButton
@@ -245,13 +231,10 @@ const Shortcut: React.FC = () => {
   const renderColorToTextShortcut = () => {
     return (
       <div className="list-view mt-xsmall">
-        <div className="list-view-header property-clipboard-header flex flex-justify-center">
-          <div></div>
-          <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            {t("module:colorValueToTextLabel")}
-          </div>
-          <div></div>
-        </div>
+        <ListViewHeader
+          additionalClass={"property-clipboard-header"}
+          title={t("module:colorValueToTextLabel")}
+        />
         <div className="padding-16 border-1-top">
           <div className="grid mt-xxxsmall">
             <FigmaButton
@@ -303,11 +286,10 @@ const Shortcut: React.FC = () => {
   const renderGenerateShortcut = () => {
     return (
       <div className="list-view mt-xsmall">
-        <div className="list-view-header flex flex-justify-center">
-          <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            {t("module:generate")}
-          </div>
-        </div>
+        <ListViewHeader
+          additionalClass={"property-clipboard-header"}
+          title={t("module:generate")}
+        />
         <div className="padding-16 border-1-top">
           <div className="grid mt-xxxsmall">
             <FigmaButton
@@ -340,11 +322,10 @@ const Shortcut: React.FC = () => {
   const renderFrameShortcut = () => {
     return (
       <div className="list-view mt-xsmall">
-        <div className="list-view-header flex flex-justify-center">
-          <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            {t("module:frame")}
-          </div>
-        </div>
+        <ListViewHeader
+          additionalClass={"property-clipboard-header"}
+          title={t("module:frame")}
+        />
         <div className="padding-16 grid border-1-top">
           <FigmaButton
             buttonType="secondary"
