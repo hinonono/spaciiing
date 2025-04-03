@@ -165,7 +165,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           <SectionTitle title={t("term:paste")} />
           {/* Nested */}
           {
-            info.version >= "25" && appContext.extractedProperties.length > 0 && <div className="list-view">
+            appContext.extractedProperties.length > 0 && <div className="list-view">
               <ListViewHeader
                 additionalClass={"property-clipboard-header"}
                 title={t("module:instanceProperties")}
