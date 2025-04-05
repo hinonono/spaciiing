@@ -73,11 +73,10 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
         <h4>{t("module:note")}</h4>
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.noteId == "" ? (
-            <span className="note">{t("module:noteHasNotBeenMemorized")}</span>
+            <span className="note">{t("module:objectIsNotMemorized")}</span>
           ) : (
             <span className="note">
-              {t("module:objectIsMemorizedWithId")}{" "}
-              {editorPreference.magicObjects.noteId}
+              {t("module:objectIsMemorizedWithId").replace("$LAYER_ID$", editorPreference.magicObjects.noteId)}
             </span>
           )}
           <FigmaButton
@@ -97,12 +96,11 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.tagId == "" ? (
             <span className="note">
-              {t("module:designStatusTagHasNotBeenMemorized")}
+              {t("module:objectIsNotMemorized")}
             </span>
           ) : (
             <span className="note">
-              {t("module:objectIsMemorizedWithId")}
-              {editorPreference.magicObjects.tagId}
+              {t("module:objectIsMemorizedWithId").replace("$LAYER_ID$", editorPreference.magicObjects.tagId)}
             </span>
           )}
           <FigmaButton
@@ -122,12 +120,11 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.sectionId == "" ? (
             <span className="note">
-              {t("module:titleSectionHasNotBeenMemorized")}
+              {t("module:objectIsNotMemorized")}
             </span>
           ) : (
             <span className="note">
-              {t("module:objectIsMemorizedWithId")}{" "}
-              {editorPreference.magicObjects.sectionId}
+              {t("module:objectIsMemorizedWithId").replace("$LAYER_ID$", editorPreference.magicObjects.sectionId)}
             </span>
           )}
           <FigmaButton

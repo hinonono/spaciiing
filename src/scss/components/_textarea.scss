@@ -37,6 +37,20 @@
     }
 }
 
+@media (prefers-color-scheme: dark) {
+    .textarea {
+        &::selection {
+            color: var(--figma-color-text)
+        }
+    }
+
+    .textarea-with-icon {
+        &::selection {
+            color: var(--figma-color-text)
+        }
+    }
+}
+
 .textarea-with-icon {
     display: flex;
     align-items: center;

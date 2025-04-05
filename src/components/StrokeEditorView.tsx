@@ -52,7 +52,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   const handleStrokeWeightChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    const numberValue = Number(event.target.value);
+    const numberValue = Math.max(1, Number(event.target.value)); // Ensure strokeWeight is >= 1
     if (!isNaN(numberValue)) {
       setEditingStroke((prev) => ({ ...prev, strokeWeight: numberValue }));
     }
