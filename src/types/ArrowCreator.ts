@@ -18,6 +18,12 @@ export type ConnectPointPosition =
     | RectangleSegmentType.MiddleLeft
     | RectangleSegmentType.MiddleRight;
 
+export type ConnectPointPositionAbstract =
+    | "C2"
+    | "C4"
+    | "C6"
+    | "C8"
+
 export type StrokeMode = "freeform" | "style";
 
 
@@ -53,4 +59,33 @@ export interface SegmentConnectionGroup {
     betweenItemBottomCenter?: Coordinates;
     betweenItemMiddleLeft?: Coordinates;
     betweenItemMiddleRight?: Coordinates;
+}
+
+
+
+
+
+
+export interface RectangleSegmentMapAbstract {
+    P1: Coordinates;
+    P2: Coordinates;
+    P3: Coordinates;
+    P4: Coordinates;
+    P5: Coordinates;
+    P6: Coordinates;
+    P7: Coordinates;
+    P8: Coordinates;
+    P9: Coordinates;
+}
+
+export interface SegmentConnectionDataAbstract {
+    actual: RectangleSegmentMapAbstract;
+    withMargin: RectangleSegmentMapAbstract
+}
+
+export interface SegmentConnectionGroupAbstract {
+    source: SegmentConnectionDataAbstract;
+    target: SegmentConnectionDataAbstract;
+    S1: Coordinates;
+    S2: Coordinates;
 }
