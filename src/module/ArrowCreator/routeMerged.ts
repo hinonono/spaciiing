@@ -1,5 +1,4 @@
-import { ConnectPointPositionAbstract, SegmentConnectionGroupAbstract } from './../../types/ArrowCreator';
-import { ConnectPointPosition, RectangleSegmentType, SegmentConnectionGroup } from "../../types/ArrowCreator";
+import { ConnectPointPositionAbstract, RectangleSegmentType, SegmentConnectionGroupAbstract } from "../../types/ArrowCreator";
 import { Coordinates } from "../../types/General";
 import { removeDuplicateCoordinatesFromPath } from "../util";
 
@@ -8,7 +7,6 @@ export function determineRouteFromC2(
     group: SegmentConnectionGroupAbstract
 ): Coordinates[] {
     if (targetItemConnectPoint === "C2") {
-
         const path = [
             group.source.actual.P2,
             {
@@ -57,7 +55,7 @@ export function determineRouteFromC2(
         const uniquePath = removeDuplicateCoordinatesFromPath(path);
         return uniquePath;
     } else {
-        throw new Error("Unable to determine route from C2.")
+        throw new Error("Unable to determine route from abstract point C2.")
     }
 }
 
@@ -69,164 +67,161 @@ export function determineRouteFromC6(
         const path = [
             group.source.actual.P6,
             group.source.withMargin.P6,
-            group.source.withMargin[RectangleSegmentType.BottomRight],
-            group.target.withMargin[RectangleSegmentType.TopLeft],
-            group.target.withMargin[RectangleSegmentType.TopCenter],
-            group.target.actual[RectangleSegmentType.TopCenter],
+            group.source.withMargin.P5,
+            group.target.withMargin.P1,
+            group.target.withMargin.P2,
+            group.target.actual.P2,
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else if (targetItemConnectPoint === "C4") {
         const path = [
-            group.source.actual[RectangleSegmentType.BottomCenter],
+            group.source.actual.P6,
             {
-                x: group.source.withMargin[RectangleSegmentType.BottomCenter].x,
-                y: group.betweenItemBottomCenter.y
+                x: group.source.withMargin.P6.x,
+                y: group.S2.y
             },
             {
-                x: group.target.withMargin[RectangleSegmentType.BottomRight].x,
-                y: group.betweenItemBottomCenter.y
+                x: group.target.withMargin.P5.x,
+                y: group.S2.y
             },
-            group.target.withMargin[RectangleSegmentType.MiddleRight],
-            group.target.actual[RectangleSegmentType.MiddleRight],
+            group.target.withMargin.P4,
+            group.target.actual.P4,
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else if (targetItemConnectPoint === "C6") {
         const path = [
-            group.source.actual[RectangleSegmentType.BottomCenter],
+            group.source.actual.P6,
             {
-                x: group.source.withMargin[RectangleSegmentType.BottomCenter].x,
-                y: group.betweenItemBottomCenter.y
+                x: group.source.withMargin.P6.x,
+                y: group.S2.y
             },
             {
-                x: group.target.withMargin[RectangleSegmentType.BottomCenter].x,
-                y: group.betweenItemBottomCenter.y
+                x: group.target.withMargin.P6.x,
+                y: group.S2.y
             },
-            group.target.actual[RectangleSegmentType.BottomCenter],
+            group.target.actual.P6,
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else if (targetItemConnectPoint === "C8") {
         const path = [
-            group.source.actual[RectangleSegmentType.BottomCenter],
-            group.source.withMargin[RectangleSegmentType.BottomCenter],
-            group.source.withMargin[RectangleSegmentType.BottomRight],
-            group.target.withMargin[RectangleSegmentType.MiddleLeft],
-            group.target.actual[RectangleSegmentType.MiddleLeft],
+            group.source.actual.P6,
+            group.source.withMargin.P6,
+            group.source.withMargin.P5,
+            group.target.withMargin.P8,
+            group.target.actual.P8,
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else {
-        throw new Error("Unable to determine route from bottom center.");
+        throw new Error("Unable to determine route from abstract point C6.");
     }
 }
 
 export function determineRouteFromC8(
-    targetItemConnectPoint: ConnectPointPosition,
-    group: SegmentConnectionGroup
+    targetItemConnectPoint: ConnectPointPositionAbstract,
+    group: SegmentConnectionGroupAbstract
 ): Coordinates[] {
-    if (!group.betweenItemTopCenter || !group.betweenItemBottomCenter) {
-        throw new Error("Required properties for determin route is undefined.")
-    }
-    if (targetItemConnectPoint === RectangleSegmentType.TopCenter) {
+    if (targetItemConnectPoint === "C2") {
         const path = [
-            group.source.actual[RectangleSegmentType.MiddleLeft],
-            group.source.withMargin[RectangleSegmentType.MiddleLeft],
+            group.source.actual.P8,
+            group.source.withMargin.P8,
             {
-                x: group.source.withMargin[RectangleSegmentType.MiddleLeft].x,
-                y: group.betweenItemTopCenter.y
+                x: group.source.withMargin.P8.x,
+                y: group.S1.y
             },
             {
-                x: group.target.withMargin[RectangleSegmentType.TopCenter].x,
-                y: group.betweenItemTopCenter.y
+                x: group.target.withMargin.P2.x,
+                y: group.S1.y
             },
-            group.target.actual[RectangleSegmentType.TopCenter],
+            group.target.actual.P2,
         ];
         return removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectangleSegmentType.MiddleRight) {
+    } else if (targetItemConnectPoint === "C4") {
         const path = [
-            group.source.actual[RectangleSegmentType.MiddleLeft],
-            group.source.withMargin[RectangleSegmentType.MiddleLeft],
+            group.source.actual.P8,
+            group.source.withMargin.P8,
             {
-                x: group.source.withMargin[RectangleSegmentType.MiddleLeft].x,
-                y: group.betweenItemTopCenter.y
+                x: group.source.withMargin.P8.x,
+                y: group.S1.y
             },
             {
-                x: group.target.withMargin[RectangleSegmentType.TopRight].x,
-                y: group.betweenItemTopCenter.y
+                x: group.target.withMargin.P3.x,
+                y: group.S1.y
             },
-            group.target.withMargin[RectangleSegmentType.MiddleRight],
-            group.target.actual[RectangleSegmentType.MiddleRight],
+            group.target.withMargin.P4,
+            group.target.actual.P4,
         ];
         return removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectangleSegmentType.BottomCenter) {
+    } else if (targetItemConnectPoint === "C6") {
         const path = [
-            group.source.actual[RectangleSegmentType.MiddleLeft],
-            group.source.withMargin[RectangleSegmentType.MiddleLeft],
+            group.source.actual.P8,
+            group.source.withMargin.P8,
             {
-                x: group.source.withMargin[RectangleSegmentType.BottomLeft].x,
-                y: group.betweenItemBottomCenter.y
+                x: group.source.withMargin.P7.x,
+                y: group.S2.y
             },
             {
-                x: group.target.withMargin[RectangleSegmentType.BottomCenter].x,
-                y: group.betweenItemBottomCenter.y
+                x: group.target.withMargin.P6.x,
+                y: group.S2.y
             },
-            group.target.actual[RectangleSegmentType.BottomCenter],
+            group.target.actual.P6,
         ];
         return removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+    } else if (targetItemConnectPoint === "C8") {
         const path = [
-            group.source.actual[RectangleSegmentType.MiddleLeft],
-            group.source.withMargin[RectangleSegmentType.MiddleLeft],
-            group.source.withMargin[RectangleSegmentType.TopLeft],
-            group.source.withMargin[RectangleSegmentType.TopRight],
-            group.target.withMargin[RectangleSegmentType.MiddleLeft],
-            group.target.actual[RectangleSegmentType.MiddleLeft],
+            group.source.actual.P8,
+            group.source.withMargin.P8,
+            group.source.withMargin.P1,
+            group.source.withMargin.P3,
+            group.target.withMargin.P8,
+            group.target.actual.P8,
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else {
-        throw new Error("Unable to determine route from middle left.");
+        throw new Error("Unable to determine route from abstract point C8.");
     }
 }
 
 export function determineRouteFromC4(
-    targetItemConnectPoint: ConnectPointPosition,
-    group: SegmentConnectionGroup
+    targetItemConnectPoint: ConnectPointPositionAbstract,
+    group: SegmentConnectionGroupAbstract
 ): Coordinates[] {
-    if (targetItemConnectPoint === RectangleSegmentType.TopCenter) {
+    if (targetItemConnectPoint === "C2") {
         const path = [
-            group.source.actual[RectangleSegmentType.MiddleRight],
-            group.source.withMargin[RectangleSegmentType.MiddleRight],
-            group.target.withMargin[RectangleSegmentType.TopLeft],
-            group.target.withMargin[RectangleSegmentType.TopCenter],
-            group.target.actual[RectangleSegmentType.TopCenter],
+            group.source.actual.P4,
+            group.source.withMargin.P4,
+            group.target.withMargin.P1,
+            group.target.withMargin.P2,
+            group.target.actual.P2,
         ];
         return removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectangleSegmentType.MiddleRight) {
+    } else if (targetItemConnectPoint === "C4") {
         const path = [
-            group.source.actual[RectangleSegmentType.MiddleRight],
-            group.source.withMargin[RectangleSegmentType.MiddleRight],
-            group.target.withMargin[RectangleSegmentType.BottomLeft],
-            group.target.withMargin[RectangleSegmentType.BottomRight],
-            group.target.withMargin[RectangleSegmentType.MiddleRight],
-            group.target.actual[RectangleSegmentType.MiddleRight],
+            group.source.actual.P4,
+            group.source.withMargin.P4,
+            group.target.withMargin.P7,
+            group.target.withMargin.P5,
+            group.target.withMargin.P4,
+            group.target.actual.P4,
         ];
         return removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectangleSegmentType.BottomCenter) {
+    } else if (targetItemConnectPoint === "C6") {
         const path = [
-            group.source.actual[RectangleSegmentType.MiddleRight],
-            group.source.withMargin[RectangleSegmentType.MiddleRight],
-            group.target.withMargin[RectangleSegmentType.BottomLeft],
-            group.target.withMargin[RectangleSegmentType.BottomCenter],
-            group.target.actual[RectangleSegmentType.BottomCenter],
+            group.source.actual.P4,
+            group.source.withMargin.P4,
+            group.target.withMargin.P7,
+            group.target.withMargin.P6,
+            group.target.actual.P6,
         ];
         return removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+    } else if (targetItemConnectPoint === "C8") {
         const path = [
-            group.source.actual[RectangleSegmentType.MiddleRight],
-            group.source.withMargin[RectangleSegmentType.MiddleRight],
-            group.target.withMargin[RectangleSegmentType.MiddleLeft],
-            group.target.actual[RectangleSegmentType.MiddleLeft],
+            group.source.actual.P4,
+            group.source.withMargin.P4,
+            group.target.withMargin.P8,
+            group.target.actual.P8,
         ];
         return removeDuplicateCoordinatesFromPath(path);
     } else {
-        throw new Error("Unable to determine route from middle right.");
+        throw new Error("Unable to determine route from abstract point C4.");
     }
 }
