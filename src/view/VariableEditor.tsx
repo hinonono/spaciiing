@@ -10,6 +10,7 @@ import {
   MessageGetAvailableCollectionMode,
   MessageVariableEditorExecuteCode,
 } from "../types/Messages/MessageVariableEditor";
+import * as info from "../info.json";
 
 interface KeyAndScope {
   nameKey: string;
@@ -105,6 +106,7 @@ const VariableEditor: React.FC = () => {
     setShowCTSubscribe,
     customCodeExecutionResults,
     setCustomCodeExecutionResults,
+    setFreeUserDelayModalConfig
   } = useAppContext();
   const [code, setCode] = useState<string>("");
 
@@ -152,12 +154,7 @@ const VariableEditor: React.FC = () => {
       phase: "Actual",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const handleDefaultNewCollectionNameChange = (
@@ -206,13 +203,19 @@ const VariableEditor: React.FC = () => {
     }
   };
 
-  const executeCode = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const executeCode = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => executeCode(true), // Retry with isRealCall = true
+        });
+        return;
+      }
     }
 
-    // 清空先前的執行結果
+    // Clear previous execution results
     setCustomCodeExecutionResults([]);
 
     const message: MessageVariableEditorExecuteCode = {
@@ -228,12 +231,7 @@ const VariableEditor: React.FC = () => {
       newCollectionName: defaultNewCollectionName,
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const exampleCode = {
@@ -352,13 +350,12 @@ const VariableEditor: React.FC = () => {
                 t("module:variableScope") + "(" + variableScope.length + ")"
               }
             />
-            <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
+            <div className="cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
               {VariableScopesNew[dataType].members.map((item) => (
                 <label
                   key={item.scope}
-                  className={`container ${
-                    item.indented ? `indent-level-${item.indentLevel}` : ""
-                  }`}
+                  className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
+                    }`}
                 >
                   {t(item.nameKey)}
                   <input
@@ -377,9 +374,9 @@ const VariableEditor: React.FC = () => {
         <div className="mt-xsmall">
           <SectionTitle title={t("module:codeEditor")} />
           <div className="width-100">
-              <MonacoCodeEditor code={code} setCode={setCode} />
+            <MonacoCodeEditor code={code} setCode={setCode} />
             {customCodeExecutionResults.length > 0 && (
-              <div className="mt-xxsmall custom-checkbox-group scope-group hide-scrollbar-vertical">
+              <div className="mt-xxsmall cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
                 <ul>
                   {customCodeExecutionResults.map((item) => (
                     <li>{item}</li>
@@ -402,7 +399,7 @@ const VariableEditor: React.FC = () => {
             <FigmaButton
               title={t("module:execute")}
               id={"variable-editor-execute"}
-              onClick={executeCode}
+              onClick={() => executeCode(false)}
             />
           </div>
         </div>

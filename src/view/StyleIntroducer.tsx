@@ -13,12 +13,14 @@ import { NestedStructure, StyleSelection } from "../types/General";
 import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
 import SegmentedControl from "../components/SegmentedControl";
+import { CatalogueSettingModal } from "../components/modalComponents";
+import * as info from "../info.json";
 
-interface StyleIntroducerProps {}
+interface StyleIntroducerProps { }
 
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
-  const { licenseManagement, setShowCTSubscribe, styleList } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, styleList, setFreeUserDelayModalConfig } = useAppContext();
   const { t } = useTranslation(["common", "settings", "license", "term"]);
 
   // 功能說明彈窗
@@ -26,23 +28,32 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
+  // 型錄功能彈窗
+  const [showCatalogueModal, setShowCatalogueModal] = useState(false);
+  const handleOpenCatalogueModal = () => setShowCatalogueModal(true);
+  const handleCloseCatalogueModal = () => setShowCatalogueModal(false);
+
   // 形式：樣式、變數
   const [form, setForm] = useState<StyleForm>("STYLE");
 
   // 模式：色彩、效果、文字
   const [mode, setMode] = useState<StyleMode>("COLOR");
 
-  const applyStyleIntroducer = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyStyleIntroducer = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyStyleIntroducer(true),
+        });
+        return;
+      }
     }
 
     if (selectedScopes.scopes.length <= 0) {
       return;
     }
-
-    console.log(selectedScopes);
 
     const message: MessageStyleIntroducer = {
       module: "StyleIntroducer",
@@ -53,12 +64,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       styleSelection: selectedScopes,
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const [selectedScopes, setSelectedScopes] = useState<StyleSelection>({
@@ -90,7 +96,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const folderNavigator = () => {
     if (hasError) {
       return (
-        <div className="text-color-error p-xsmall">
+        <div className="text-color-error p-xsmall font-size-small">
           Failed to process the {form} structure. The system encountered a
           duplicate path: "{errorPath}". Please ensure that each path segment is
           unique.
@@ -129,12 +135,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       direction: "Inner",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   }, [form]);
 
   useEffect(() => {
@@ -152,12 +153,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       direction: "Inner",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   }, [mode]);
 
   return (
@@ -172,11 +168,25 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             <p>{t("module:moduleCatalogueDesc")}</p>
           </div>
         </Modal>
+        <CatalogueSettingModal
+          show={showCatalogueModal}
+          handleClose={handleCloseCatalogueModal}
+        />
       </div>
       <TitleBar
         title={t("module:moduleCatalogue")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
+        rightItem={
+          <FigmaButton
+            title={t("module:setting")}
+            onClick={handleOpenCatalogueModal}
+            buttonHeight="small"
+            fontSize="small"
+            buttonType="grain"
+            hasMargin={false}
+          />
+        }
       />
       <div className="content">
         <div className="mt-xxsmall">
@@ -231,7 +241,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         <div className="mt-xsmall">
           <FigmaButton
             title={t("module:generate")}
-            onClick={applyStyleIntroducer}
+            onClick={() => applyStyleIntroducer(false)}
             disabled={hasError}
           />
         </div>

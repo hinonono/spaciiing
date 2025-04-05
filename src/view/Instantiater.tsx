@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
-import { getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
+import { getAvailableBrands, getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import {
@@ -14,10 +14,11 @@ import {
   MessageInstantiater,
 } from "../types/Messages/MessageInstantiater";
 import SegmentedControl from "../components/SegmentedControl";
+import * as info from "../info.json";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
-  const { licenseManagement, setShowCTSubscribe, variableCollectionList } =
+  const { licenseManagement, setShowCTSubscribe, variableCollectionList, setFreeUserDelayModalConfig } =
     useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -100,15 +101,23 @@ const Instantiater: React.FC = () => {
     calculateOptionsCount(selectedBrand); // Initial calculation on component mount
   }, [selectedBrand, form]);
 
-  const applyInstantiater = (type: InstantiaterType) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
+  const applyInstantiater = (type: InstantiaterType, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyInstantiater(type, true),
+        });
+        return;
+      }
+    }
+
+    if (selectedTargets == null || selectedTargets.length === 0) {
+      console.warn("No targets selected. Aborting instantiation.");
       return;
     }
 
-    if (selectedTargets == null) {
-      return;
-    }
     const message: MessageInstantiater = {
       module: "Instantiater",
       targets: selectedTargets,
@@ -120,12 +129,7 @@ const Instantiater: React.FC = () => {
       phase: "Actual",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const [destination, setDestination] = useState("new");
@@ -212,13 +216,9 @@ const Instantiater: React.FC = () => {
             value={selectedBrand}
             onChange={handleBrandChange}
           >
-            <option value="antDesign">Ant Design</option>
-            <option value="bootstrap">Bootstrap</option>
-            <option value="ios">iOS</option>
-            <option value="carbon">IBM Carbon</option>
-            <option value="materialDesign">Material Design</option>
-            <option value="polaris">Shopify Polaris</option>
-            <option value="tailwind">Tailwind CSS</option>
+            {getAvailableBrands().map((item) => (
+              <option value={item.value}>{item.label}</option>
+            ))}
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選擇類型 */}
@@ -242,18 +242,13 @@ const Instantiater: React.FC = () => {
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選項 */}
-          <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {options.map((option) => (
               <label key={option.value} className={`container`}>
-                <div className="flex flex-row align-items-center flex-justify-spacebetween">
+                <div className="flex flex-row align-items-center flex-justify-space-between">
                   <div className="flex flex-row align-items-center">
-                    {option.label !== "ALL" && selectedCat === "color" && (
-                      <div
-                        className={`color-thumbnail color-thumbnail-${
-                          form === "style" ? "style" : "variable"
-                        } mr-xxsmall`}
-                        style={{ background: option.thumbnailColor }}
-                      ></div>
+                    {option.label !== "ALL" && selectedCat === "color" && option.thumbnailColor && (
+                      <ColorThumbnailView color={option.thumbnailColor} opacity={1} size={20} type={form === "style" ? "rounded" : "square"} extraClassName="mr-xxxsmall" />
                     )}
                     {option.label === "ALL"
                       ? t("term:allOptions")
@@ -274,17 +269,7 @@ const Instantiater: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="mt-xsmall"></div>
-        <div>
-          {/* <FigmaButton
-            buttonType="secondary"
-            title={
-              t("module:generateUsageDefinition") +
-              ` (${selectedTargets.length})`
-            }
-            id={"instantiater-intantiate-explanation-text"}
-            onClick={() => applyInstantiater("explanation")}
-          /> */}
+        <div className="mt-xsmall">
           <FigmaButton
             title={t("module:generate") + ` (${selectedTargets.length})`}
             id={"instantiater-apply"}

@@ -1,0 +1,1 @@
+export type EditorType = "figma" | "slides" | "dev" | "figjam";

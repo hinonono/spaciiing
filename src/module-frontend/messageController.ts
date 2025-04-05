@@ -14,6 +14,7 @@ import { licenseManagementHandler } from "./licenseManagementFrontEnd";
 import { styleIntroducerHandler } from "./styleIntroducerFrontEnd";
 import { pluginSettingHandler } from "./pluginSetting";
 import { i18n } from "i18next";
+import { propertyClipboardHandler } from "./propertyClipboardFrontEnd";
 
 export function messageController(
   message: Message,
@@ -36,11 +37,16 @@ function messageActualController(
   i18n: i18n
 ) {
   const { module } = message;
-  const { setLicenseManagement } = appContext;
+  const { setLicenseManagement, setEditorType } = appContext;
 
   switch (module) {
     case "Init":
       // Handle Init case
+      const castedMessage = message as ExternalMessage;
+      if (castedMessage.editorType) {
+        setEditorType(castedMessage.editorType);
+      }
+
       break;
     case "Localization":
       localizationHandler(message as ExternalMessageLocalization, i18n);
@@ -49,6 +55,7 @@ function messageActualController(
       // Handle Spaciiing case
       break;
     case "PropertyClipboard":
+      propertyClipboardHandler(message, appContext)
       break;
     case "Shortcut":
       break;

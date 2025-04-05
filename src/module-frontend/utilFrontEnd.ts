@@ -57,3 +57,31 @@ export const resolveContextMenuPos = (
 export const isStringNumber = (str: string): boolean => {
   return !isNaN(Number(str));
 };
+
+export const scrollToElement = (id: string) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+export const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
+  const hexValue = hex.replace("#", "");
+  const r = parseInt(hexValue.substring(0, 2), 16);
+  const g = parseInt(hexValue.substring(2, 4), 16);
+  const b = parseInt(hexValue.substring(4, 6), 16);
+
+  return {
+    r,
+    g,
+    b,
+  };
+}
+
+export const generateUUID = () => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};

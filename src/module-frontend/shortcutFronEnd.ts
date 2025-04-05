@@ -1,5 +1,8 @@
+import { AppContextType } from "../AppProvider";
 import { Message } from "../types/Messages/Message";
 import { MessageShortcut } from "../types/Messages/MessageShortcut";
+import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
+import * as info from "../info.json";
 
 export function initShortcut() {
   const message: Message = {
@@ -16,7 +19,18 @@ export function initShortcut() {
   );
 }
 
-export function createAutoLayoutIndividually() {
+export function createAutoLayoutIndividually(appContext: AppContextType, isRealCall: boolean) {
+  if (!isRealCall) {
+    if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
+      appContext.setFreeUserDelayModalConfig({
+        show: true,
+        initialTime: info.freeUserWaitingTime,
+        onProceed: () => createAutoLayoutIndividually(appContext, true), // Retry with isRealCall = true
+      });
+      return;
+    }
+  }
+
   const message: MessageShortcut = {
     action: "createAutoLayoutIndividually",
     module: "Shortcut",
@@ -29,4 +43,11 @@ export function createAutoLayoutIndividually() {
     },
     "*"
   );
+}
+
+export interface ShortcutButtonConfig {
+  id?: string;
+  title: string;
+  onClick: () => void;
+  disabled?: boolean;
 }

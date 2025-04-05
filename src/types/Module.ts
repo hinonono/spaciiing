@@ -1,5 +1,6 @@
 export type Module =
   | "Init"
+  | "General"
   | "Localization"
   | "Spaciiing"
   | "Shortcut"
@@ -15,4 +16,5 @@ export type Module =
   | "AspectRatioHelper"
   | "Resize"
   | "StyleIntroducer"
-  | "PropertyClipboard";
+  | "PropertyClipboard"
+  | "ArrowCreator";

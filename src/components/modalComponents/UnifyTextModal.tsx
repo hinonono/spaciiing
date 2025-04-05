@@ -6,6 +6,7 @@ import FigmaButton from "../FigmaButton";
 import SectionTitle from "../SectionTitle";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MessageUnifyText } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
 
 interface UnifyTextModalProps {
   show: boolean;
@@ -17,7 +18,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
   handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setFreeUserDelayModalConfig } = useAppContext();
 
   const [targetTextContent, setTargetTextContent] = useState("");
   const handleTargetTextContentChange = (
@@ -26,10 +27,16 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
     setTargetTextContent(event.target.value);
   };
 
-  const unifyText = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const unifyText = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => unifyText(true),
+        });
+        return;
+      }
     }
 
     const message: MessageUnifyText = {
@@ -40,12 +47,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
       action: "unifyText",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (
@@ -61,7 +63,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
         />
       </div>
       <div className="mt-xxsmall">
-        <FigmaButton title={t("module:execute")} onClick={unifyText} />
+        <FigmaButton title={t("module:execute")} onClick={() => unifyText(false)} />
       </div>
     </Modal>
   );

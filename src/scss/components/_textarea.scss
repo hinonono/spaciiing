@@ -1,0 +1,88 @@
+.textarea {
+    font-family: 'Inter', sans-serif;
+    border-radius: var(--cy-border-radius-large);
+    background-color: var(--figma-color-bg-secondary);
+    color: var(--figma-color-text);
+    font-size: var(--font-size-small);
+    min-height: 48px;
+    border: 0px;
+    // transition: all 0.3s;
+
+    &-height-fit-content {
+        min-height: 0;
+        height: fit-content;
+    }
+
+    &.code {
+        resize: vertical;
+    }
+
+    &:hover {
+        border: 0px;
+        outline: 1.5px solid rgb(0, 0, 0, 0.1);
+        color: var(--figma-color-text);
+    }
+
+    &:active,
+    &:focus {
+        outline: 1.5px solid var(--figma-color-bg-brand);
+        border: none;
+        outline-offset: 0;
+        color: var(--figma-color-text);
+    }
+
+    &::placeholder {
+        color: var(--figma-color-text-secondary);
+        opacity: .8;
+    }
+}
+
+.textarea-with-icon {
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    border-radius: var(--cy-border-radius-large);
+    background-color: var(--figma-color-bg-secondary);
+    color: var(--figma-color-text);
+    font-size: var(--font-size-small);
+    border: 0px;
+    padding: var(--size-xxsmall);
+
+    &:hover {
+        border: 0px;
+        outline: 1.5px solid rgb(0, 0, 0, 0.1);
+        color: var(--figma-color-text);
+    }
+
+    &:active,
+    &:focus,
+    &:focus-within {
+        outline: 1.5px solid var(--figma-color-bg-brand);
+        border: none;
+        outline-offset: 0;
+        color: var(--figma-color-text);
+    }
+
+    .icon-20 {
+        margin-right: var(--size-xxxsmall);
+    }
+
+    .textarea {
+        padding: 0;
+        border-radius: 0;
+
+        &:hover {
+            border: 0px;
+            outline: 0px solid rgb(0, 0, 0, 0.1);
+            color: var(--figma-color-text);
+        }
+
+        &:active,
+        &:focus {
+            outline: 0px solid var(--figma-color-bg-brand);
+            border: none;
+            outline-offset: 0;
+            color: var(--figma-color-text);
+        }
+    }
+}

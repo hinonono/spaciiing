@@ -18,7 +18,10 @@ export type ShortcutAction =
   | "generateTitleSection"
   | "findAndReplace"
   | "unifyText"
-  | "createAutoLayoutIndividually";
+  | "createAutoLayoutIndividually"
+  | "updateCatalogueDescBackToFigma"
+  | "updateExampleFileUrl"
+  | "debug";
 
 export interface MessageShortcut extends Message {
   action: ShortcutAction;

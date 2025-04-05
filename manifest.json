@@ -6,7 +6,7 @@
   "capabilities": [],
   "enableProposedApi": false,
   "documentAccess": "dynamic-page",
-  "editorType": ["figma"],
+  "editorType": ["figma", "slides"],
   "ui": "dist/index.html",
   "networkAccess": {
     "allowedDomains": [
@@ -15,5 +15,10 @@
       "https://api.gumroad.com"
     ],
     "reasoning": "CSS loading and license validation."
-  }
+  },
+  "relaunchButtons": [
+    {"command": "open", "name": "Open Spaciiing"},
+    {"command": "updateCatalogueDesc", "name": "Update description"},
+    {"command": "drawArrows", "name": "Draw arrows"}
+  ]
 }

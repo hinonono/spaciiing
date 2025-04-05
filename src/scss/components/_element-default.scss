@@ -1,0 +1,76 @@
+// Text elements styling
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul,
+li,
+ol {
+    color: var(--figma-color-text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    line-height: 130%;
+}
+
+p,
+ul,
+li,
+ol,
+span {
+    line-height: 150%;
+}
+
+p {
+    font-size: var(--font-size-small);
+    margin: 0 0 1rem 0;
+}
+
+li {
+    font-size: var(--font-size-small);
+    margin: 0.5rem 0;
+}
+
+ul {
+    padding-inline-start: 16px;
+}
+
+h2,
+h3 {
+    margin: 0.5rem 0;
+}
+
+h4 {
+    margin: 0.3rem 0;
+    padding-top: 0.5rem;
+    font-weight: 600;
+    // Uncomment to apply a border at the top of h4 elements
+    // border-top: 1px solid var(--figma-color-border);
+}
+
+// Button styling
+button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0.4rem 0;
+}
+
+// Section styling
+section {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+    background-color: var(--figma-color-bg);
+    color: var(--figma-color-text);
+}
+
+// Input styling
+input {
+    display: block;
+}

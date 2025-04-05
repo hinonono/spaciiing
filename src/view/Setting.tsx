@@ -1,11 +1,10 @@
 import React from "react";
 import { TitleBar, FigmaButton } from "../components";
-import * as paymentsUtil from "../module-frontend/paymentsUtil";
-import { capitalizeWords } from "../module/util";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
+import info from "../info.json";
 
 const Setting: React.FC = () => {
   // Context
@@ -28,12 +27,7 @@ const Setting: React.FC = () => {
       phase: "Actual",
       direction: "Inner",
     };
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   console.log(licenseManagement);
@@ -50,10 +44,9 @@ const Setting: React.FC = () => {
               <div className="membership-block pro">
                 <p className="color--secondary">{t("license:currenTier")}</p>
                 <span>
-                  {t("license:paid")}
-                  {licenseManagement.recurrence != undefined ? (
-                    <>({capitalizeWords(licenseManagement.recurrence)})</>
-                  ) : null}
+                  {licenseManagement.recurrence === "monthly"
+                    ? t("license:monthly")
+                    : t("license:yearly")}
                 </span>
               </div>
             ) : (
@@ -78,7 +71,6 @@ const Setting: React.FC = () => {
               buttonType="secondary"
               title={t("license:activateLicense")}
               onClick={() => {
-                setShowCTSubscribe(true);
                 setShowActivateModal(true);
               }}
             />
@@ -95,7 +87,9 @@ const Setting: React.FC = () => {
               <FigmaButton
                 title={t("license:seeAllPlans")}
                 buttonType="special"
-                onClick={paymentsUtil.navigateToPurchasePage}
+                onClick={() => {
+                  setShowCTSubscribe(true);
+                }}
               />
             )}
           </div>
@@ -119,11 +113,25 @@ const Setting: React.FC = () => {
         <div className="mt-large">
           <h3>{t("settings:about")}</h3>
           <div className="about-spaciiing">
-            <div className="membership-block block1">
-              <p className="color--secondary">{t("settings:version")}</p>
-              <span>19</span>
+            <div className="grid">
+              <div className="membership-block">
+                <p className="color--secondary">Share Spaciiing on X(Twitter)</p>
+                <span>
+                  <a
+                    className="text-color-primary"
+                    href="https://x.com/intent/post?url=https%3A%2F%2Fwww.figma.com%2Fcommunity%2Fplugin%2F1129646367083296027%2Fspaciiing"
+                    target="_blank"
+                  >
+                    Share
+                  </a>
+                </span>
+              </div>
+              <div className="membership-block">
+                <p className="color--secondary">{t("settings:version")}</p>
+                <span>{info.version}</span>
+              </div>
             </div>
-            <div className="membership-block block2">
+            <div className="membership-block">
               <p className="color--secondary">
                 {t("settings:provideFeedback")}
               </p>
@@ -137,7 +145,7 @@ const Setting: React.FC = () => {
                 </a>
               </span>
             </div>
-            <div className="membership-block block3">
+            <div className="membership-block">
               <p className="color--secondary">
                 {t("settings:forBugReportOrSupport")}
               </p>

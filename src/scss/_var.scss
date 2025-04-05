@@ -1,7 +1,7 @@
 :root {
-    --variable-background: #fcf2f6;
+    --variable-background: #f5f5f5;
     /* L97 S50*/
-    --variable-text-primary: #c2488a;
+    --variable-text-primary: #000000e5;
     /* L58 S600*/
 
     --tooltip-icon: #7f7f7f;
@@ -28,6 +28,25 @@
     --cy-button-height-small: 32px;
 
     --color-bg-selected: #e5f4ff;
+
+    --drop-shadow-1: 0px 5px 12px 4px rgba(0, 0, 0, 0.09), 0px 3px 6px 0px rgba(0, 0, 0, 0.12), 0px 1px 2px -2px rgba(0, 0, 0, 0.16);
+    --drop-shadow-2: 0px 9px 28px 8px rgba(0, 0, 0, 0.05), 0px 6px 16px 0px rgba(0, 0, 0, 0.08), 0px 3px 6px -4px rgba(0, 0, 0, 0.12);
+    --drop-shadow-3: 0px 12px 48px 16px rgba(0, 0, 0, 0.03), 0px 9px 28px 0px rgba(0, 0, 0, 0.05), 0px 6px 16px -8px rgba(0, 0, 0, 0.08);
+
+    /* spaciiing色盤 color palette */
+
+    /* cy-purple */
+    --cy-purple-50: #f6f4ff;
+    --cy-purple-100: #f0ebff;
+    --cy-purple-200: #e1d7ff;
+    --cy-purple-300: #c5aefe;
+    --cy-purple-400: #ae89fe;
+    --cy-purple-500: #9d66fd;
+    --cy-purple-600: #8f38ff;
+    --cy-purple-700: #7720db;
+    --cy-purple-800: #6515bc;
+    --cy-purple-900: #54149e;
+    --cy-purple-950: #380e6b;
 }
 
 @media (prefers-color-scheme: dark) {

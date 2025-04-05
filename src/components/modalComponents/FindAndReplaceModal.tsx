@@ -6,6 +6,7 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { ShortcutAction, MessageShortcutFindAndReplace } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
 
 interface FindAndReplaceModalProps {
   show: boolean;
@@ -17,7 +18,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
   handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
 
   const [findCriteria, setFindCriteria] = useState("");
   const [replaceCriteria, setReplaceCriteria] = useState("");
@@ -40,13 +41,19 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
     setKeepOriginalLayerName(event.target.checked);
   };
 
-  const applyFindAndReplace = (action: ShortcutAction) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyFindAndReplace = (action: ShortcutAction, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyFindAndReplace(action, true),
+        });
+        return;
+      }
     }
 
-    if (action == "findAndReplace") {
+    if (action === "findAndReplace") {
       const message: MessageShortcutFindAndReplace = {
         module: "Shortcut",
         action: action,
@@ -98,7 +105,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
         {t("module:findAndReplaceCriteriaAreCaseSensitive")}
       </span>
       <div className="mt-xsmall">
-        <div className="custom-checkbox-group">
+        <div className="cy-checkbox-group">
           <label className="container">
             {t("module:keepOriginalNameOfTextLayers")}
             <input

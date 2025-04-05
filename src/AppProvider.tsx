@@ -7,12 +7,20 @@ import {
   ExternalVariableMode,
 } from "./types/Messages/MessageVariableEditor";
 import { EditorPreference } from "./types/EditorPreference";
+import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
+import { EditorType } from "./types/EditorType";
+import * as info from "./info.json";
+import { ComponentPropertiesFrontEnd, ReferenceObject } from "./types/PropertClipboard";
 
 // #region Definition
 export interface AppContextType {
   // V20：新的editor preference物件，統一管理相關的偏好值
   editorPreference: EditorPreference;
   setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;
+
+  // 判斷用戶在哪個模式下開啟了plugin
+  editorType: EditorType;
+  setEditorType: React.Dispatch<React.SetStateAction<EditorType>>;
 
   variableCollectionList: ExternalVariableCollection[];
   setVariableCollectionList: React.Dispatch<
@@ -27,6 +35,12 @@ export interface AppContextType {
     React.SetStateAction<VirtualProfileGroup[]>
   >;
 
+  // Property Clipboard
+  referenceObject: ReferenceObject;
+  setReferenceObject: React.Dispatch<React.SetStateAction<ReferenceObject>>;
+  extractedProperties: ComponentPropertiesFrontEnd[];
+  setExtractedProperties: React.Dispatch<React.SetStateAction<ComponentPropertiesFrontEnd[]>>;
+
   // 其他
   licenseManagement: LicenseManagement;
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>;
@@ -34,6 +48,12 @@ export interface AppContextType {
   setShowCTSubscribe: React.Dispatch<React.SetStateAction<boolean>>;
   showActivateModal: boolean;
   setShowActivateModal: React.Dispatch<React.SetStateAction<boolean>>;
+
+  // 呼叫免費用戶需要等待秒數Modal
+  freeUserDelayModalConfig: FreeUserDelayModalConfig;
+  setFreeUserDelayModalConfig: React.Dispatch<React.SetStateAction<FreeUserDelayModalConfig>>;
+
+
   customCodeExecutionResults: string[];
   setCustomCodeExecutionResults: React.Dispatch<React.SetStateAction<string[]>>;
   styleList: StyleListItemFrontEnd[];
@@ -71,6 +91,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   // 訂閱呼籲用
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
+  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: info.freeUserWaitingTime, onProceed: () => { } });
 
   // V20：Editor Preference整合
   const [editorPreference, setEditorPreference] = useState<EditorPreference>({
@@ -84,7 +105,11 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       innerFrame: 0,
       outerFrame: 0,
     },
+    strokeStyles: []
   });
+
+  // 判斷用戶在哪個模式下開啟了plugin
+  const [editorType, setEditorType] = useState<EditorType>("figma");
 
   // 模組用
 
@@ -99,12 +124,19 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     VirtualProfileGroup[]
   >([]);
 
+  const [extractedProperties, setExtractedProperties] = useState<ComponentPropertiesFrontEnd[]>([]);
+
   const [licenseManagement, setLicenseManagement] =
     useState<LicenseManagement>(lm);
 
   const [customCodeExecutionResults, setCustomCodeExecutionResults] = useState<
     string[]
   >([]);
+
+  const [referenceObject, setReferenceObject] = useState<ReferenceObject>({
+    name: "",
+    id: ""
+  });
 
   // #region JSX elements
   return (
@@ -120,6 +152,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setLicenseManagement,
         showCTSubscribe,
         setShowCTSubscribe,
+        freeUserDelayModalConfig,
+        setFreeUserDelayModalConfig,
         showActivateModal,
         setShowActivateModal,
         customCodeExecutionResults,
@@ -128,6 +162,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setVirtualProfileGroups,
         styleList,
         setStyleList,
+        editorType,
+        setEditorType,
+        extractedProperties,
+        setExtractedProperties,
+        referenceObject,
+        setReferenceObject
       }}
     >
       {children}

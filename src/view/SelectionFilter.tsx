@@ -9,17 +9,20 @@ import {
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
+import { EditorType } from "../types/EditorType";
+import * as info from "../info.json";
 
 interface FilterScopeItem {
   nameKey: string;
   scope: NodeFilterable;
   indented?: boolean;
   indentLevel?: number;
+  supportedEditorTypes: EditorType[];
 }
 
 const SelectionFilter: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setFreeUserDelayModalConfig, editorType } = useAppContext();
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -49,37 +52,40 @@ const SelectionFilter: React.FC = () => {
   };
 
   const FilterableScopesNew: FilterScopeItem[] = [
-    { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
-    { nameKey: "term:image", scope: "IMAGE" },
-    { nameKey: "term:text", scope: "TEXT" },
-    { nameKey: "term:frame", scope: "FRAME" },
-    { nameKey: "term:group", scope: "GROUP" },
-    { nameKey: "term:autoLayout", scope: "AUTO_LAYOUT" },
-    { nameKey: "term:instance", scope: "INSTANCE" },
-    { nameKey: "term:component", scope: "COMPONENT" },
-    { nameKey: "term:componentSet", scope: "COMPONENT_SET" },
-    { nameKey: "term:allShape", scope: "ALL_SHAPE" },
+    { nameKey: "term:allOptions", scope: "ALL_OPTIONS", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:image", scope: "IMAGE", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:text", scope: "TEXT", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:frame", scope: "FRAME", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:group", scope: "GROUP", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:autoLayout", scope: "AUTO_LAYOUT", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:instance", scope: "INSTANCE", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:component", scope: "COMPONENT", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:componentSet", scope: "COMPONENT_SET", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:allShape", scope: "ALL_SHAPE", supportedEditorTypes: ["figma", "slides"] },
     {
       nameKey: "term:rectangle",
       scope: "RECTANGLE",
       indented: true,
       indentLevel: 1,
+      supportedEditorTypes: ["figma", "slides"]
     },
     {
       nameKey: "term:ellipse",
       scope: "ELLIPSE",
       indented: true,
       indentLevel: 1,
+      supportedEditorTypes: ["figma", "slides"]
     },
-    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
+    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
     {
       nameKey: "term:polygon",
       scope: "POLYGON",
       indented: true,
       indentLevel: 1,
+      supportedEditorTypes: ["figma", "slides"]
     },
-    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
-    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
+    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
   ];
 
   // 主要功能
@@ -127,10 +133,16 @@ const SelectionFilter: React.FC = () => {
   };
 
   // 傳送訊息
-  const applySelectionFilter = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applySelectionFilter = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applySelectionFilter(true), // Re-invoke with the real call
+        });
+        return;
+      }
     }
 
     const addtionalOptions: AdditionalFilterOptions = {
@@ -148,12 +160,7 @@ const SelectionFilter: React.FC = () => {
       additionalFilterOptions: addtionalOptions,
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (
@@ -180,13 +187,12 @@ const SelectionFilter: React.FC = () => {
           <SectionTitle
             title={`${t("module:filterFor")} (${selectedScopes.length})`}
           />
-          <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
-            {FilterableScopesNew.map((item) => (
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
+            {FilterableScopesNew.map((item) => item.supportedEditorTypes.includes(editorType) && (
               <label
                 key={t(item.nameKey)}
-                className={`container ${
-                  item.indented ? `indent-level-${item.indentLevel}` : ""
-                }`}
+                className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
+                  }`}
               >
                 {t(item.nameKey)}
                 <input
@@ -202,7 +208,7 @@ const SelectionFilter: React.FC = () => {
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
-          <div className="custom-checkbox-group">
+          <div className="cy-checkbox-group">
             <label className="container">
               {t("module:skipHiddenLayers")}
               <input
@@ -248,7 +254,7 @@ const SelectionFilter: React.FC = () => {
           <FigmaButton
             title={t("module:filter")}
             id={"selection-filter-apply"}
-            onClick={applySelectionFilter}
+            onClick={() => applySelectionFilter(false)}
           />
         </div>
       </div>

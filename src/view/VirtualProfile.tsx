@@ -10,10 +10,11 @@ import {
   MessageVirtualProfileSingleValue,
   MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
+import * as info from "../info.json";
 
 const VirtualProfile: React.FC = () => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -25,14 +26,19 @@ const VirtualProfile: React.FC = () => {
     VirtualProfileGroup[] | null
   >(null);
 
-  const applyVirtualProfile = (key: string, value: string) => {
-    const isDevelopment = process.env.REACT_APP_ENV === "development";
-
-    if (licenseManagement.isLicenseActive == false && isDevelopment == false) {
-      setShowCTSubscribe(true);
-      return;
+  const applyVirtualProfile = (key: string, value: string, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyVirtualProfile(key, value, true), // Re-invoke with the real call
+        });
+        return;
+      }
     }
 
+    // Real logic to apply the virtual profile
     const message: MessageVirtualProfileSingleValue = {
       module: "VirtualProfile",
       direction: "Inner",
@@ -41,18 +47,19 @@ const VirtualProfile: React.FC = () => {
       phase: "Actual",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
-  const saveVirtualProfile = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const saveVirtualProfile = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => saveVirtualProfile(true), // Re-invoke with the real call
+        });
+        return;
+      }
     }
 
     const message: MessageVirtualProfileWholeObject = {
@@ -63,12 +70,7 @@ const VirtualProfile: React.FC = () => {
       direction: "Inner",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
 
     setPreviousVirtualProfile(virtualProfileGroups);
   };

@@ -30,6 +30,7 @@ import {
   resolveContextMenuPos,
 } from "../module-frontend/utilFrontEnd";
 import { SupportedLangCode } from "../types/Localization";
+import * as info from "../info.json";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -62,6 +63,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     setVirtualProfileGroups,
     licenseManagement,
     setShowCTSubscribe,
+    setFreeUserDelayModalConfig
   } = useAppContext();
 
   //
@@ -227,10 +229,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   }, []);
 
   // Handler to add a new title row
-  const addTitleRow = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const addTitleRow = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => addTitleRow(true),
+        });
+        return;
+      }
     }
 
     const newRow: VirtualProfileGroup = {
@@ -243,21 +251,29 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   // Handler to add a new record to the last title row
-  const addRecordToLastTitle = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const addRecordToLastTitle = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => addRecordToLastTitle(true),
+        });
+        return;
+      }
     }
 
     if (virtualProfileGroups.length === 0) {
       console.warn("No title rows available to add a record");
       return;
     }
+
     const newRecord: VirtualProfileChild = {
       id: uuidv4(),
       content: "Example Content",
       title: "Content Title",
     };
+
     const newRows = [...virtualProfileGroups];
     newRows[newRows.length - 1].children.push(newRecord);
     setVirtualProfileGroups(newRows);
@@ -319,10 +335,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     setContextMenu(null);
   };
 
-  const deleteRow = (rowId: string) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const deleteRow = (rowId: string, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => deleteRow(rowId, true),
+        });
+        return;
+      }
     }
 
     setVirtualProfileGroups(
@@ -332,10 +354,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     handleClose();
   };
 
-  const deleteChild = (rowId: string, childId: string) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const deleteChild = (rowId: string, childId: string, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => deleteChild(rowId, childId, true),
+        });
+        return;
+      }
     }
 
     setVirtualProfileGroups(
@@ -353,10 +381,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     handleClose();
   };
 
-  const addChildToRow = (rowId: string) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const addChildToRow = (rowId: string, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => addChildToRow(rowId, true),
+        });
+        return;
+      }
     }
 
     const newChild: VirtualProfileChild = {
@@ -370,19 +404,26 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         if (row.id === rowId) {
           return {
             ...row,
-            children: [...row.children, newChild], // Append new child to the existing children array
+            children: [...row.children, newChild], // Append the new child to the existing children array
           };
         }
         return row;
       })
     );
+
     handleClose(); // Close any open context menus or modal dialogs
   };
 
-  const duplicateTitleRow = (rowId: string) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const duplicateTitleRow = (rowId: string, isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => duplicateTitleRow(rowId, true),
+        });
+        return;
+      }
     }
 
     const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
@@ -391,23 +432,33 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     const rowToDuplicate = virtualProfileGroups[rowIndex];
     const duplicatedRow = {
       ...rowToDuplicate,
-      id: uuidv4(),
+      id: uuidv4(), // Generate a new unique ID for the duplicated row
       children: rowToDuplicate.children.map((child) => ({
         ...child,
-        id: uuidv4(),
+        id: uuidv4(), // Generate unique IDs for each child in the duplicated row
       })),
     };
 
     const newRows = [...virtualProfileGroups];
     newRows.splice(rowIndex + 1, 0, duplicatedRow);
     setVirtualProfileGroups(newRows);
-    handleClose();
+    handleClose(); // Close any open context menus or modals
   };
 
-  const duplicateContentRow = (rowId: string, childId: string) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const duplicateContentRow = (
+    rowId: string,
+    childId: string,
+    isRealCall = false
+  ) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => duplicateContentRow(rowId, childId, true),
+        });
+        return;
+      }
     }
 
     const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
@@ -422,7 +473,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       virtualProfileGroups[rowIndex].children[childIndex];
     const duplicatedChild = {
       ...childToDuplicate,
-      id: uuidv4(), // Ensure a unique ID
+      id: uuidv4(), // Generate a unique ID for the duplicated child
     };
 
     const newRows = [...virtualProfileGroups];
@@ -434,11 +485,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
   // Inside your component render method where the context menu is defined
   const renderContextMenu = () => {
-    // if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-    //   setShowCTSubscribe(true);
-    //   return;
-    // }
-
     if (!contextMenu) return null;
     const { mouseX, mouseY, rowId, childId } = contextMenu;
 
@@ -494,11 +540,18 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   const createNewGroupFromJsonData = (
-    category: SupportedPresetVirtualProfileCategory
+    category: SupportedPresetVirtualProfileCategory,
+    isRealCall = false
   ) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => createNewGroupFromJsonData(category, true),
+        });
+        return;
+      }
     }
 
     const newGroup = transformJsonToGroup(
@@ -512,11 +565,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   };
 
   const renderAdditionalContextMenu = () => {
-    // if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-    //   setShowCTSubscribe(true);
-    //   return;
-    // }
-
     if (!additionalContextMenu) return null;
     const { mouseX, mouseY } = additionalContextMenu;
 
@@ -582,7 +630,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-justify-spacebetween virtual-profile-toolbar">
+        <div className="flex flex-justify-space-between virtual-profile-toolbar">
           <div>
             <button
               className="button-reset margin-0 width-auto"
@@ -590,9 +638,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
             >
               <div className="icon-24 icon-hover">
                 {!isFolderCollapsed ? (
-                  <SvgExpand color="var(--figma-color-text)" />
+                  <SvgExpand color="var(--figma-color-bg-brand)" />
                 ) : (
-                  <SvgCollapse color="var(--figma-color-text)" />
+                  <SvgCollapse color="var(--figma-color-bg-brand)" />
                 )}
               </div>
             </button>
@@ -610,7 +658,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                   color={
                     virtualProfileGroups == previousVirtualProfile
                       ? `var(--figma-color-text-disabled)`
-                      : `var(--figma-color-text)`
+                      : `var(--figma-color-bg-brand)`
                   }
                 />
               </div>
@@ -620,23 +668,23 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               onClick={(e) => handleAdditionalContextMenu(e)}
             >
               <div className="icon-24 icon-hover">
-                <SvgAddFromPreset color="var(--figma-color-text)" />
+                <SvgAddFromPreset color="var(--figma-color-bg-brand)" />
               </div>
             </button>
             <button
               className="button-reset margin-0 width-auto"
-              onClick={addTitleRow}
+              onClick={() => addTitleRow(false)}
             >
               <div className="icon-24 icon-hover">
-                <SvgAddFolder color="var(--figma-color-text)" />
+                <SvgAddFolder color="var(--figma-color-bg-brand)" />
               </div>
             </button>
             <button
               className="button-reset margin-0 width-auto"
-              onClick={addRecordToLastTitle}
+              onClick={() => addRecordToLastTitle(false)}
             >
               <div className="icon-24 icon-hover">
-                <SvgAdd color="var(--figma-color-text)" />
+                <SvgAdd color="var(--figma-color-bg-brand)" />
               </div>
             </button>
           </div>
@@ -654,18 +702,16 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      className={`cy-table-group ${
-                        snapshot.isDragging ? "dragging" : ""
-                      }`}
+                      className={`cy-table-group ${snapshot.isDragging ? "dragging" : ""
+                        }`}
                     >
                       <div
                         className="cy-table-group-header"
                         onContextMenu={(e) => handleContextMenu(e, row.id)}
                       >
                         <div
-                          className={`arrowIcon ${
-                            row.isCollapsed ? "collapsed" : "expanded"
-                          } icon-16`}
+                          className={`arrowIcon ${row.isCollapsed ? "collapsed" : "expanded"
+                            } icon-16`}
                           onClick={() => toggleCollapse(row.id)}
                         >
                           <SvgChevronLeft color="var(--figma-color-text)" />

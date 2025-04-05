@@ -72,7 +72,7 @@ i18n
   .init({
     resources,
     fallbackLng: "enUS",
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false, // React already escapes values
     },

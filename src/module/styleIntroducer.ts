@@ -9,7 +9,9 @@ import {
 import * as util from "./util";
 import * as typeChecking from "./typeChecking";
 import * as explanation from "./explanation";
+import * as styledTextSegments from "./styledTextSegments";
 import { semanticTokens } from "./tokens";
+import { CatalogueItemDescriptionSchema } from "../types/CatalogueItemShema";
 
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
@@ -114,6 +116,19 @@ async function getVariableList(
   }));
 }
 
+// 檢查是否啟用cataloge item link功能
+// 啟用的話，當產生型錄物件時，可以透過alias物件來連結回參照的物件那裡
+function checkCatalogueItemLinkFeatureAvailability(): { availability: boolean, url: string | null } {
+  //是否啟用cataloge item link功能
+  const editorPreference = util.readEditorPreference();
+
+  if (editorPreference.exampleFileUrl) {
+    return { availability: true, url: editorPreference.exampleFileUrl };
+  } else {
+    return { availability: false, url: null };
+  }
+}
+
 async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   const { styleSelection, styleMode } = message;
 
@@ -159,20 +174,9 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
       if (paint.type === "SOLID") {
         const solidPaint = paint as SolidPaint;
 
-        // const explanationItem = util.createExplanationItem(
-        //   member.name.split("/").pop() || "",
-        //   member.description,
-        //   fontName,
-        //   "COLOR",
-        //   {
-        //     r: solidPaint.color.r,
-        //     g: solidPaint.color.g,
-        //     b: solidPaint.color.b,
-        //   }
-        // );
-
         const explanationItem = explanation.createExplanationItem(
           "STYLE",
+          member.id,
           member.name.split("/").pop() || "",
           member.description,
           fontName,
@@ -200,17 +204,9 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   } else if (styleMode === "TEXT") {
     const textStyleList = selectedStyleList as TextStyle[];
     textStyleList.forEach((member) => {
-      // const explanationItem = util.createExplanationItem(
-      //   member.name.split("/").pop() || "",
-      //   member.description,
-      //   fontName,
-      //   "TEXT",
-      //   undefined,
-      //   undefined,
-      //   member
-      // );
       const explanationItem = explanation.createExplanationItem(
         "STYLE",
+        member.id,
         member.name.split("/").pop() || "",
         member.description,
         fontName,
@@ -231,17 +227,10 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     const effectStyleList = selectedStyleList as EffectStyle[];
 
     effectStyleList.forEach((member) => {
-      const effects = [...member.effects]; // Create a copy of the readonly array
-      // const explanationItem = util.createExplanationItem(
-      //   member.name.split("/").pop() || "",
-      //   member.description,
-      //   fontName,
-      //   "EFFECT",
-      //   undefined,
-      //   effects
-      // );
+      const effects = [...member.effects];
       const explanationItem = explanation.createExplanationItem(
         "STYLE",
+        member.id,
         member.name.split("/").pop() || "",
         member.description,
         fontName,
@@ -260,18 +249,11 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     });
   }
 
-  // const explanationWrapper = util.createExplanationWrapper(
-  //   explanationItems,
-  //   title == "" ? "Styles" : title,
-  //   "Usage Definition",
-  //   { family: "Inter", style: "Semi Bold" }
-  // );
-
   const explanationWrapper = explanation.createExplanationWrapper(
     "STYLE",
     explanationItems,
     title == "" ? "Styles" : title,
-    "Usage Definition",
+    "Catalogue",
     { family: "Inter", style: "Semi Bold" }
   );
 
@@ -282,7 +264,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     },
   ];
 
-  explanationWrapper.name = `Usage Definition`;
+  explanationWrapper.name = `Catalogue`;
 
   // Set corner radius
   explanationWrapper.cornerRadius = 16;
@@ -307,6 +289,9 @@ async function applyStyleIntroducerForVariable(
   const { title, scopes } = styleSelection;
 
   const viewport = util.getCurrentViewport();
+  //是否啟用cataloge item link功能
+  const isCatalogueItemLinkFeatureAvailable = checkCatalogueItemLinkFeatureAvailability();
+
   const fontsToLoad = [
     { family: "Inter", style: "Regular" },
     { family: "Inter", style: "Semi Bold" },
@@ -339,100 +324,104 @@ async function applyStyleIntroducerForVariable(
   const variableCollectionId =
     selectedVariables[selectedVariables.length - 1].variableCollectionId;
 
+  const variableCollection =
+    await figma.variables.getVariableCollectionByIdAsync(variableCollectionId);
+  if (!variableCollection) {
+    throw new Error("Termination due to variableCollection is null.");
+  }
+
+  //
+  const modeNames = variableCollection.modes.map((mode) => mode.name);
+
   // create explanation items
   const explanationItems: FrameNode[] = [];
 
   if (styleMode === "COLOR") {
     for (const variable of selectedVariables) {
-      const aliasName: string[] = [];
+      const aliasName: (string | undefined)[] = [];
+      const aliasVariableIds: (string | undefined)[] = [];
+      const colorValues: (RGBA | null)[] = [];
 
-      const values = (
-        await Promise.all(
-          Object.entries(variable.valuesByMode).map(async ([modeId, value]) => {
-            if (typeChecking.isVariableAliasType(value)) {
-              const aliasVariable = await figma.variables.getVariableByIdAsync(
-                value.id
-              );
-              if (!aliasVariable) {
-                throw new Error("Termination due to aliasVariable is null.");
-              }
-              aliasName.push(aliasVariable.name);
+      for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
+        if (!typeChecking.isVariableAliasType(value)) {
+          aliasName.push(undefined);
+          aliasVariableIds.push(undefined);
+        } else {
+          const aliasVariable = localVariables.find((v) => v.id === value.id);
+          if (!aliasVariable) {
+            throw new Error("Termination due to aliasVariable is null.");
+          }
+          aliasName.push(aliasVariable.name);
+          aliasVariableIds.push(aliasVariable.id);
+        }
 
-              const aliasValuesByMode = Object.entries(
-                aliasVariable.valuesByMode
-              );
-              // Check if aliasValuesByMode contains the same modeId
-              const matchedMode = aliasValuesByMode.find(
-                ([aliasModeId]) => aliasModeId === modeId
-              );
-
-              if (matchedMode) {
-                return [matchedMode[1]]; // Return the single value corresponding to the matched modeId
-              } else {
-                return aliasValuesByMode.map(([, aliasValue]) => aliasValue);
-              }
-            }
-            return [value];
-          })
-        )
-      )
-        .flat()
-        .filter(typeChecking.isRGBAType);
-
-      if (values.length === 0) {
-        throw new Error("Termination due to values of variable is undefined.");
+        const color = await resolveToActualRgbaValue(value);
+        colorValues.push(color);
       }
+
+      const filteredColorValues = colorValues.filter((v): v is RGBA => v !== null);
+
+      console.log({ filteredColorValues: filteredColorValues, modeNames: modeNames, aliasName: aliasName, aliasVariableIds: aliasVariableIds });
 
       const explanationItem = explanation.createExplanationItem(
         "VARIABLE",
+        variable.id,
         variable.name.split("/").pop() || "",
         variable.description,
         fontName,
         "COLOR",
-        values,
+        filteredColorValues,
         undefined,
         undefined,
         undefined,
-        aliasName
+        aliasName,
+        modeNames,
+        aliasVariableIds
       );
 
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
 
+      if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
+        const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
+        styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
+      }
+
       explanationItems.push(explanationItem);
-      console.log("Explanation Item", explanationItem);
+      // console.log("Explanation Item", explanationItem);
     }
   } else if (styleMode === "FLOAT") {
     for (const variable of selectedVariables) {
-      const aliasName: string[] = [];
+      const aliasName: (string | undefined)[] = [];
+      const aliasVariableIds: (string | undefined)[] = [];
+      const numberValues: (number | null)[] = [];
 
-      const values = (
-        await Promise.all(
-          Object.values(variable.valuesByMode).map(async (value) => {
-            if (typeChecking.isVariableAliasType(value)) {
-              const aliasVariable = await figma.variables.getVariableByIdAsync(
-                value.id
-              );
-              if (!aliasVariable) {
-                throw new Error("Termination due to aliasVariable is null.");
-              }
-              aliasName.push(aliasVariable.name);
-              return Object.values(aliasVariable.valuesByMode);
-            }
-            return [value];
-          })
-        )
-      )
-        .flat()
-        .filter(typeChecking.isFloatType);
+      for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
+        if (!typeChecking.isVariableAliasType(value)) {
+          aliasName.push(undefined);
+          aliasVariableIds.push(undefined);
+        } else {
+          const aliasVariable = localVariables.find((v) => v.id === value.id);
+          if (!aliasVariable) {
+            throw new Error("Termination due to aliasVariable is null.");
+          }
+          aliasName.push(aliasVariable.name);
+          aliasVariableIds.push(aliasVariable.id);
+        }
 
-      if (values.length === 0) {
-        throw new Error("Termination due to values of variable is undefined.");
+        const number = await resolveToActualNumberValue(value);
+        numberValues.push(number);
       }
 
+      const filteredNumberValues = numberValues.filter((v): v is number => v !== null);
+
       // Variable模式，建立數字用的說明物件
+
+      console.log({ filteredNumberValues: filteredNumberValues, modeNames: modeNames });
+
       const explanationItem = explanation.createExplanationItem(
         "VARIABLE",
+        variable.id,
         variable.name.split("/").pop() || "",
         variable.description,
         fontName,
@@ -440,44 +429,36 @@ async function applyStyleIntroducerForVariable(
         undefined,
         undefined,
         undefined,
-        values,
-        aliasName
+        filteredNumberValues,
+        aliasName,
+        modeNames,
+        aliasVariableIds
       );
 
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
 
+      if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
+        const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
+        styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
+      }
+
       explanationItems.push(explanationItem);
-      console.log("Explanation Item", explanationItem);
+      // console.log("Explanation Item", explanationItem);
     }
   }
-
-  const variableCollection =
-    await figma.variables.getVariableCollectionByIdAsync(variableCollectionId);
-  if (!variableCollection) {
-    throw new Error("Termination due to variableCollection is null.");
-  }
-
-  const modeNames = variableCollection.modes.map((mode) => mode.name);
 
   if (explanationItems.length === 0) {
     throw new Error("Termination due to explanationItems length is 0.");
   }
 
-  // const explanationWrapper = util.createExplanationWrapperForVariable(
-  //   explanationItems,
-  //   title == "" ? "Variables" : title,
-  //   "Usage Definition",
-  //   modeNames,
-  //   { family: "Inter", style: "Semi Bold" }
-  // );
-
   const explanationWrapper = explanation.createExplanationWrapper(
     "VARIABLE",
     explanationItems,
     title == "" ? "Variables" : title,
-    "Usage Definition",
+    "Catalogue",
     { family: "Inter", style: "Semi Bold" },
+    isCatalogueItemLinkFeatureAvailable.availability,
     modeNames
   );
 
@@ -488,7 +469,7 @@ async function applyStyleIntroducerForVariable(
     },
   ];
 
-  explanationWrapper.name = `Usage Definition`;
+  explanationWrapper.name = `Catalogue`;
 
   // Set corner radius
   explanationWrapper.cornerRadius = 16;
@@ -501,4 +482,202 @@ async function applyStyleIntroducerForVariable(
 
   figma.currentPage.appendChild(explanationWrapper);
   figma.currentPage.selection = [explanationWrapper];
+}
+
+// 將型錄的描述寫回Figma的原生欄位
+// 将型錄的描述写回Figma的原生欄位
+export async function writeCatalogueDescBackToFigma() {
+  const selection = util.getCurrentSelection();
+
+  if (selection.length !== 1) {
+    figma.notify("❌ Please select only one catalogue frame.");
+    throw new Error("Please select only one catalogue frame.");
+  }
+
+  if (selection[0].type !== "FRAME") {
+    figma.notify("❌ Please select a frame.");
+    throw new Error("Please select a frame.");
+  }
+
+  const catalogueFrame = selection[0] as FrameNode;
+
+  const titleWrapper = catalogueFrame.findOne(node => node.name === "Title Wrapper");
+  if (!titleWrapper || titleWrapper.type !== "FRAME" || !titleWrapper.layoutMode) {
+    figma.notify("❌ Title Wrapper not found. Please try to regenerate catalogue again.");
+    throw new Error("Title Wrapper is not an AutoLayout frame.");
+  }
+
+  const descriptionNodes = catalogueFrame.findAllWithCriteria({
+    types: ['TEXT'],
+  }).filter(node => node.getPluginData("catalogue-item-schema"));
+
+  if (descriptionNodes.length === 0) {
+    figma.notify("❌ No description nodes found.");
+    throw new Error("No description nodes found.");
+  }
+
+  const fontsToLoad = [
+    { family: "Inter", style: "Regular" },
+    { family: "Inter", style: "Semi Bold" },
+  ];
+  await Promise.all(fontsToLoad.map(font => figma.loadFontAsync(font)));
+
+  let updatedCount = 0;
+
+  // Process each description node
+  for (const node of descriptionNodes) {
+    if (node.characters === "(blank)") continue; // Skip empty descriptions
+
+    const catalogueItemSchema = node.getPluginData("catalogue-item-schema");
+    const decodedCatalogueItemSchema = JSON.parse(catalogueItemSchema) as CatalogueItemDescriptionSchema;
+
+    if (decodedCatalogueItemSchema.format === "STYLE") {
+      const matchingStyle = await getStyleById(decodedCatalogueItemSchema.id);
+
+      if (!matchingStyle) {
+        figma.notify(`❌ Style with ID ${decodedCatalogueItemSchema.id} not found.`);
+        continue;
+      }
+
+      // Update the style description with the text content of the node
+      matchingStyle.description = (node as TextNode).characters;
+
+      const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
+      styledTextSegments.writeCatalogueItemRichStyleToRoot(decodedCatalogueItemSchema.id, richStyle);
+
+      updatedCount++;
+    } else if (decodedCatalogueItemSchema.format === "VARIABLE") {
+      const matchingVariable = await getVariableById(decodedCatalogueItemSchema.id);
+
+      if (!matchingVariable) {
+        figma.notify(`❌ Variable with ID ${decodedCatalogueItemSchema.id} not found.`);
+        continue;
+      }
+
+      // Update the variable description with the text content of the node
+      matchingVariable.description = (node as TextNode).characters;
+
+      const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
+      styledTextSegments.writeCatalogueItemRichStyleToRoot(decodedCatalogueItemSchema.id, richStyle);
+
+      updatedCount++;
+    } else {
+      figma.notify(`❌ Unsupported format: ${decodedCatalogueItemSchema.format}`);
+    }
+  }
+
+  const dateString = `Description updated back to Figma at ${util.getFormattedDate("fullDateTime")}.`;
+  const wroteBackDateNode = util.createTextNode(
+    dateString,
+    { family: "Inter", style: "Semi Bold" },
+    semanticTokens.fontSize.xsmall,
+    [{ type: "SOLID", color: semanticTokens.text.tertiary }]
+  );
+
+  titleWrapper.insertChild(0, wroteBackDateNode);
+  titleWrapper.children.forEach((element) => {
+    if ("layoutSizingHorizontal" in element) {
+      element.layoutSizingHorizontal = "FILL";
+    }
+  });
+
+  wroteBackDateNode.textAlignHorizontal = "RIGHT";
+
+  figma.notify(`✅ ${updatedCount} styles/variables have been updated successfully.`);
+}
+
+async function resolveToActualRgbaValue(
+  value: any
+): Promise<RGBA | null> {
+  if (typeChecking.isVariableAliasType(value)) {
+    // Fetch the aliased variable
+    const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
+    if (!aliasVariable) {
+      console.warn(`Alias variable with ID ${value.id} not found.`);
+      return null;
+    }
+
+    // Resolve the actual value from the first mode
+    const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
+    if (!firstModeValue) {
+      console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
+      return null;
+    }
+
+    // Recursively resolve the first mode value without modifying aliasNames further
+    return await resolveToActualRgbaValue(firstModeValue);
+  } else if (typeChecking.isRGBType(value) || typeChecking.isRGBAType(value)) {
+    // Normalize RGB to RGBA or return RGBA directly
+    return typeChecking.isRGBType(value) ? { ...value, a: 1 } : value;
+  } else {
+    console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
+    return null;
+  }
+}
+
+async function resolveToActualNumberValue(
+  value: any
+): Promise<number | null> {
+  if (typeChecking.isVariableAliasType(value)) {
+    // Fetch the aliased variable
+    const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
+    if (!aliasVariable) {
+      console.warn(`Alias variable with ID ${value.id} not found.`);
+      return null;
+    }
+
+    // Resolve the actual value from the first mode
+    const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
+    if (!firstModeValue) {
+      console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
+      return null;
+    }
+
+    // Recursively resolve the first mode value without modifying aliasNames further
+    return await resolveToActualNumberValue(firstModeValue);
+  } else if (typeChecking.isFloatType(value)) {
+    return value;
+  } else {
+    console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
+    return null;
+  }
+}
+
+// Caches to store fetched styles and variables (module-level)
+const paintStyleCache = new Map<string, PaintStyle>();
+const textStyleCache = new Map<string, TextStyle>();
+const effectStyleCache = new Map<string, EffectStyle>();
+const variableCache = new Map<string, Variable>();
+
+// Function to fetch and cache styles on demand
+export async function getStyleById(styleId: string) {
+  // Check in Paint Styles
+  if (paintStyleCache.has(styleId)) return paintStyleCache.get(styleId);
+  const paintStyles = await figma.getLocalPaintStylesAsync();
+  paintStyles.forEach(style => paintStyleCache.set(style.id, style));
+  if (paintStyleCache.has(styleId)) return paintStyleCache.get(styleId);
+
+  // Check in Text Styles
+  if (textStyleCache.has(styleId)) return textStyleCache.get(styleId);
+  const textStyles = await figma.getLocalTextStylesAsync();
+  textStyles.forEach(style => textStyleCache.set(style.id, style));
+  if (textStyleCache.has(styleId)) return textStyleCache.get(styleId);
+
+  // Check in Effect Styles
+  if (effectStyleCache.has(styleId)) return effectStyleCache.get(styleId);
+  const effectStyles = await figma.getLocalEffectStylesAsync();
+  effectStyles.forEach(style => effectStyleCache.set(style.id, style));
+  if (effectStyleCache.has(styleId)) return effectStyleCache.get(styleId);
+
+  return null;
+}
+
+// Function to fetch and cache variables on demand
+export async function getVariableById(variableId: string) {
+  if (variableCache.has(variableId)) return variableCache.get(variableId);
+
+  const variables = await figma.variables.getLocalVariablesAsync();
+  variables.forEach(variable => variableCache.set(variable.id, variable));
+
+  return variableCache.get(variableId);
 }

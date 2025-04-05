@@ -9,4 +9,25 @@
         background-color: var(--figma-color-bg-secondary);
         font-weight: bold;
     }
+
+    &-content {
+        padding: 16px;
+
+        .container {
+            display: block;
+            position: relative;
+            padding: 10px 0px;
+            padding-left: 28px;
+            cursor: pointer;
+            font-size: var(--font-size-small);
+            color: var(--figma-color-text);
+            user-select: none;
+
+
+            &:hover {
+                background-color: var(--figma-color-bg-secondary);
+                border-radius: var(--border-radius-med);
+            }
+        }
+    }
 }

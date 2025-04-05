@@ -9,6 +9,16 @@ export function isRGBAType(value: VariableValue): value is RGBA {
   );
 }
 
+export function isRGBType(value: VariableValue): value is RGB {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "r" in value &&
+    "g" in value &&
+    "b" in value
+  );
+}
+
 export function isVariableAliasType(value: VariableValue): value is VariableAlias {
   return (
     typeof value === "object" &&

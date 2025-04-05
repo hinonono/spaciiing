@@ -7,6 +7,7 @@ import { tabController } from "./module-frontend/tabController";
 import { messageController } from "./module-frontend/messageController";
 import { useAppContext } from "./AppProvider";
 import { useTranslation } from "react-i18next";
+import { ActivateLicenseModal, FreeUserDelayModal } from "./components/modalComponents";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
@@ -40,11 +41,13 @@ const CoreLayer: React.FC = () => {
 
     setPrevTab(activeTab);
   }, [activeTab]);
-
+  
   // #region JSX Elements
   return (
     <div className="App">
       <SubscriptionModal />
+      <ActivateLicenseModal />
+      <FreeUserDelayModal/>
       <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );

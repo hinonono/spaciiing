@@ -9,6 +9,8 @@ import {
   MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
+import { writeCatalogueDescBackToFigma } from "./styleIntroducer";
+import { getNodeCatalogueItemRichStyle } from "./styledTextSegments";
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -78,10 +80,35 @@ export function executeShortcut(message: MessageShortcut) {
       case "createAutoLayoutIndividually":
         createAutoLayoutIndividually();
         break;
+      case "updateCatalogueDescBackToFigma":
+        writeCatalogueDescBackToFigma();
+        break;
+      case "debug":
+        debugFunction();
+        break;
       default:
         break;
     }
   }
+}
+
+function debugFunction() {
+  const selection = util.getCurrentSelection();
+
+  // Filter selection to only include text nodes
+  const textNodes = selection.filter(
+    (node) => node.type === "TEXT"
+  ) as TextNode[];
+
+  const textNode = textNodes[0];
+
+  textNode.hyperlink = {
+    type: "NODE",
+    value: "800-1002"
+  }
+
+  figma.notify("OK!")
+
 }
 
 function createAutoLayoutIndividually() {
@@ -299,7 +326,7 @@ async function updateDateText(node: SceneNode) {
     const textNode = node as TextNode;
 
     await figma.loadFontAsync(textNode.fontName as FontName);
-    textNode.characters = util.getFormattedDate();
+    textNode.characters = util.getFormattedDate("shortDate");
     textNode.locked = true;
   } else if ("children" in node) {
     for (const child of node.children) {
@@ -342,7 +369,7 @@ function memorizeSelectedNodeId(member: MagicObjectMembers) {
       break;
   }
   util.saveEditorPreference(editorPreference, "Shortcut");
-  util.updateEditorPreference(editorPreference);
+  util.updateEditorPreference(editorPreference, "Shortcut");
   figma.notify(
     `✅ The id is memorized successfully from object ${selectedNode.name}`
   );

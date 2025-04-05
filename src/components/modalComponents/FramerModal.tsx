@@ -6,6 +6,7 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { FramerMode, MessageFramer } from "../../types/Messages/MessageFramer";
+import * as info from "../../info.json";
 
 interface FramerModalProps {
   show: boolean;
@@ -17,7 +18,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
   handleClose,
 }) => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
 
   const [selectedFramerMode, setSelectedFramerMode] = useState("topAndBottom");
   const handleChange = (event: {
@@ -26,10 +27,16 @@ const FramerModal: React.FC<FramerModalProps> = ({
     setSelectedFramerMode(event.target.value);
   };
 
-  const applyFramer = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyFramer = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => applyFramer(true),
+        });
+        return;
+      }
     }
 
     const message: MessageFramer = {
@@ -39,12 +46,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
       phase: "Actual",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (
@@ -96,7 +98,7 @@ const FramerModal: React.FC<FramerModalProps> = ({
         <FigmaButton
           title={t("module:apply")}
           id={"eq-apply"}
-          onClick={applyFramer}
+          onClick={() => applyFramer(false)}
         />
       </div>
     </Modal>

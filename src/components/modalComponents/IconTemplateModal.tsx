@@ -13,6 +13,7 @@ import {
   MessageShortcutGenerateIconTemplate,
 } from "../../types/Messages/MessageShortcut";
 import SegmentedControl from "../SegmentedControl";
+import * as info from "../../info.json";
 
 interface IconTemplateModalProps {
   show: boolean;
@@ -29,6 +30,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
     setShowCTSubscribe,
     editorPreference,
     setEditorPreference,
+    setFreeUserDelayModalConfig
   } = useAppContext();
 
   const [quantity, setQuantity] = useState("1");
@@ -76,10 +78,19 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
     }
   };
 
-  const applyGenerateIconTemplate = (action: ShortcutAction) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyGenerateIconTemplate = (
+    action: ShortcutAction,
+    isRealCall = false
+  ) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyGenerateIconTemplate(action, true),
+        });
+        return;
+      }
     }
 
     if (action !== "generateIconTemplate") {

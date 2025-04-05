@@ -9,11 +9,12 @@ import {
   RenamerSupportedTargets,
   MessageRenamer,
 } from "../types/Messages/MessageRenamer";
+import * as info from "../info.json";
 
 const Renamer: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
 
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
+  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -26,34 +27,34 @@ const Renamer: React.FC = () => {
     indented?: boolean;
     indentLevel?: number;
   }[] = [
-    { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
-    { nameKey: "term:image", scope: "IMAGE" },
-    { nameKey: "term:text", scope: "TEXT" },
-    { nameKey: "term:frame", scope: "FRAME" },
-    { nameKey: "term:group", scope: "GROUP" },
-    { nameKey: "term:allShape", scope: "ALL_SHAPE" },
-    {
-      nameKey: "term:rectangle",
-      scope: "RECTANGLE",
-      indented: true,
-      indentLevel: 1,
-    },
-    {
-      nameKey: "term:ellipse",
-      scope: "ELLIPSE",
-      indented: true,
-      indentLevel: 1,
-    },
-    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
-    {
-      nameKey: "term:polygon",
-      scope: "POLYGON",
-      indented: true,
-      indentLevel: 1,
-    },
-    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
-    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
-  ];
+      { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
+      { nameKey: "term:image", scope: "IMAGE" },
+      { nameKey: "term:text", scope: "TEXT" },
+      { nameKey: "term:frame", scope: "FRAME" },
+      { nameKey: "term:group", scope: "GROUP" },
+      { nameKey: "term:allShape", scope: "ALL_SHAPE" },
+      {
+        nameKey: "term:rectangle",
+        scope: "RECTANGLE",
+        indented: true,
+        indentLevel: 1,
+      },
+      {
+        nameKey: "term:ellipse",
+        scope: "ELLIPSE",
+        indented: true,
+        indentLevel: 1,
+      },
+      { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
+      {
+        nameKey: "term:polygon",
+        scope: "POLYGON",
+        indented: true,
+        indentLevel: 1,
+      },
+      { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
+      { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
+    ];
   const initialScopes = RenamableScopesNew.map((item) => item.scope);
 
   //
@@ -120,12 +121,19 @@ const Renamer: React.FC = () => {
     }
   };
 
-  const applyRenamer = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
+  const applyRenamer = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: info.freeUserWaitingTime, // You can adjust the delay time as needed
+          onProceed: () => applyRenamer(true), // Retry the function with `isRealCall = true`
+        });
+        return;
+      }
     }
 
+    // Real logic for applying the renamer
     const message: MessageRenamer = {
       target: options,
       module: "Renamer",
@@ -138,12 +146,7 @@ const Renamer: React.FC = () => {
       },
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (
@@ -182,13 +185,12 @@ const Renamer: React.FC = () => {
           <SectionTitle
             title={`${t("module:renameScopes")} (${selectedScopes.length})`}
           />
-          <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
               <label
                 key={item.scope}
-                className={`container ${
-                  item.indented ? `indent-level-${item.indentLevel}` : ""
-                }`}
+                className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
+                  }`}
               >
                 {t(item.nameKey)}
                 <input
@@ -204,7 +206,7 @@ const Renamer: React.FC = () => {
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
-          <div className="custom-checkbox-group">
+          <div className="cy-checkbox-group">
             <label className="container">
               {t("module:deleteHiddenLayers")}
               <input
@@ -239,7 +241,7 @@ const Renamer: React.FC = () => {
           <FigmaButton
             title={t("module:cleanUp")}
             id={"renamer-apply"}
-            onClick={applyRenamer}
+            onClick={() => applyRenamer(false)}
           />
         </div>
       </div>

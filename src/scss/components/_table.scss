@@ -73,3 +73,106 @@
 .dragging {
     box-shadow: 0px 24px 24px -4px rgba(0, 0, 0, 0.3);
 }
+
+.table {
+    // display: table;
+    width: 100%;
+    border-collapse: collapse;
+    position: relative;
+
+    .table-row {
+        grid-template-columns: 2fr 4fr 6fr;
+        display: grid;
+        grid-gap: 0;
+        column-gap: 0;
+        font-size: var(--font-size-small);
+        color: var(--figma-color-text);
+
+        &:hover:not(.table-header) {
+            background-color: var(--figma-color-bg-secondary);
+        }
+
+        &.category-title {
+            position: sticky;
+            top: 0;
+            background-color: var(--figma-color-bg);
+            backdrop-filter: blur(8px);
+        }
+
+        .table-cell {
+            display: table-cell;
+            padding: 8px;
+            border-bottom: 1px solid var(--figma-color-border);
+
+            .content-wrap {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                text-align: left;
+                align-items: center;
+                // justify-content: center;
+            }
+
+            &.virtual-profile-title {
+                display: flex;
+                align-items: center;
+                color: var(--figma-color-text-secondary);
+            }
+
+            &:first-child,
+            &:nth-child(2) {
+                // width: 120px;
+                text-align: left;
+            }
+
+
+
+            button {
+                display: none;
+            }
+        }
+
+        button {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--figma-color-bg-brand);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: var(--font-size-small);
+            padding: 0;
+        }
+
+        input {
+            border: none;
+            border-bottom: 1px solid transparent;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-bottom-color 0.3s;
+            height: 100%;
+            background-color: transparent;
+            color: inherit;
+
+            &:hover {
+                border-bottom-color: var(--figma-color-border);
+            }
+
+            &:focus {
+                outline: none;
+                border-bottom-color: var(--figma-color-bg-brand);
+            }
+        }
+    }
+
+    .table-header {
+        background-color: var(--figma-color-bg-brand-tertiary);
+        font-weight: bold;
+        color: var(--figma-color-text);
+    }
+}
+
+.table-row:hover .table-cell button {
+    display: inline-block;
+}

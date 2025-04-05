@@ -1,71 +1,95 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
-import { FigmaButton, SectionTitle, TitleBar } from "../components";
+import { FigmaButton, ListViewHeader, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
-import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
-import { MessagePropertyClipboard } from "../types/Messages/MessagePropertyClipboard";
+import {
+  PasteBehavior,
+} from "../types/Messages/MessagePropertyClipboard";
+import * as info from "../info.json";
+import { pasteInstancePropertyToObject, pastePropertyToObject, PropertyClipboardCategory, propertyClipboardOptions, setReferenceObject, } from "../module-frontend/propertyClipboardFrontEnd";
 
-interface PropertyClipboardProps {}
+interface PropertyClipboardProps { }
 
 const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
   // 多語言化
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
-  const { licenseManagement, setShowCTSubscribe, editorPreference } =
-    useAppContext();
+  const appContext = useAppContext();
+
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  // 記憶所選取的物件作為參考目標
-  const setReferenceObject = () => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
-    }
+  // 行為彈窗
+  const [pasteBehavior, setPasteBehavior] =
+    useState<PasteBehavior>("pasteToIncrement");
 
-    const message: MessagePropertyClipboard = {
-      action: "setReferenceObject",
-      module: "PropertyClipboard",
-      phase: "Actual",
-      direction: "Inner",
-    };
+  // 用於需要事先指定貼上行為時，才會帶入的貼上屬性
+  const [pasteProperties, setPasteProperties] = useState<
+    PropertyClipboardSupportedProperty[]
+  >([]);
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+  const [showBehaviorModal, setShowBehaviorModal] = useState(false);
+  const handleCloseBehaviorModal = () => {
+    setShowBehaviorModal(false);
+    setPasteProperties([]);
   };
 
-  // 貼上指定的屬性至所選擇的物件
-  const pastePropertyToObject = (
-    property: PropertyClipboardSupportedProperty[]
+
+  // Function to open the modal with the specific function to execute
+  const openModalWithProperties = (
+    properties: PropertyClipboardSupportedProperty[]
   ) => {
-    if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-      setShowCTSubscribe(true);
-      return;
-    }
-
-    const message: MessagePropertyClipboard = {
-      action: "pastePropertyToObject",
-      module: "PropertyClipboard",
-      phase: "Actual",
-      direction: "Inner",
-      property: property,
-    };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    setPasteProperties(properties);
+    setShowBehaviorModal(true); // Open the modal
   };
+
+  // Function to handle confirmation and execute the stored function
+  const handleConfirm = () => {
+    if (pasteProperties) {
+      pastePropertyToObject(appContext, pasteProperties, false, pasteBehavior); // Execute the specific function
+    }
+    handleCloseBehaviorModal(); // Close the modal
+  };
+  const [shouldConfirm, setShouldConfirm] = useState(false);
+
+  // Effect to handle confirm after pasteBehavior updates
+  useEffect(() => {
+    if (shouldConfirm) {
+      handleConfirm();
+      setShouldConfirm(false); // Reset shouldConfirm after executing
+    }
+  }, [pasteBehavior, shouldConfirm]);
+
+  const handleBehaviorChangeAndConfirm = (newBehavior: PasteBehavior) => {
+    setPasteBehavior(newBehavior);
+    setShouldConfirm(true); // Set to confirm after behavior updates
+  };
+
+  const renderComponentPropertiesButton = () =>
+    appContext.extractedProperties.map((item) => (
+      <FigmaButton
+        buttonType="secondary"
+        title={
+          t("module:instancePropertiesBtn")
+            .replace("$PROPERTY_NAME$", item.propertyName)
+            .replace("$VALUE$", item.value.toString())
+            .replace("$LAYER_NAME$", item.layerName)
+        }
+        onClick={() => {
+          pasteInstancePropertyToObject(
+            false,
+            appContext,
+            [item]
+          );
+        }}
+        buttonHeight="xlarge"
+        hasTopBottomMargin={false}
+      />
+    ));
 
   return (
     <div>
@@ -78,6 +102,27 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           <p>{t("module:modulePropertyClipboardDesc")}</p>
         </div>
       </Modal>
+      <Modal show={showBehaviorModal} handleClose={handleCloseBehaviorModal}>
+        <div>
+          <h3>{t("module:pastePreference")}</h3>
+          <div className="grid mt-xsmall">
+            <FigmaButton
+              buttonType="secondary"
+              title={t("module:addToExistingStyle")}
+              onClick={() => handleBehaviorChangeAndConfirm("pasteToIncrement")}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+            <FigmaButton
+              buttonType="primary"
+              title={t("module:replaceStyle")}
+              onClick={() => handleBehaviorChangeAndConfirm("pasteToReplace")}
+              buttonHeight="xlarge"
+              hasTopBottomMargin={false}
+            />
+          </div>
+        </div>
+      </Modal>
       <TitleBar
         title={t("module:modulePropertyClipboard")}
         onClick={handleOpenExplanationModal}
@@ -87,209 +132,105 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         {/* 已記憶 */}
         <div>
           <SectionTitle title={t("module:copyFrom")} />
-          {editorPreference.referenceObject ? (
-            <div className="variable flex flex-justify-center align-items-center">
-              <span className="text-primary">
-                {`${editorPreference.referenceObject.name} (ID: ${editorPreference.referenceObject.id})`}
+          {appContext.referenceObject.id != "" ? (
+            <div className="variable flex flex-justify-space-between align-items-center">
+              <span className="text-color-primary">
+                {`${appContext.referenceObject.name} (ID: ${appContext.referenceObject.id})`}
               </span>
+              <FigmaButton
+                buttonType="tertiary"
+                title={t("module:memorize")}
+                onClick={() => setReferenceObject(false, appContext)}
+                buttonHeight="small"
+                hasTopBottomMargin={false}
+              />
             </div>
           ) : (
-            <div className="flex variable-list flex flex-justify-center align-items-center">
-              <div>
-                <span className="note">
-                  {t("module:nothingInsideClipboard")}
-                </span>
-              </div>
+            <div className="variable flex flex-justify-space-between align-items-center">
+              <span className="text-color-secondary">
+                {t("module:selectLayerAsReference")}
+              </span>
+              <FigmaButton
+                buttonType="tertiary"
+                title={t("module:memorize")}
+                onClick={() => setReferenceObject(false, appContext)}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
             </div>
           )}
-          <div className="mt-xxsmall">
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:memorize")}
-              onClick={setReferenceObject}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-          </div>
+          <div className="mt-xxsmall"></div>
         </div>
         <div className="mt-xsmall">
           <SectionTitle title={t("term:paste")} />
-          {/* 長度與寬度 */}
-          <div className="list-view">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:size")}
+          {/* Nested */}
+          {
+            appContext.extractedProperties.length > 0 && <div className="list-view">
+              <ListViewHeader
+                additionalClass={"property-clipboard-header"}
+                title={t("module:instanceProperties")}
+                rightItem={
+                  <FigmaButton
+                    title={t("module:applyAll")}
+                    onClick={() => {
+                      pasteInstancePropertyToObject(false, appContext, appContext.extractedProperties)
+                    }}
+                    buttonHeight="small"
+                    fontSize="small"
+                    buttonType="grain"
+                    hasMargin={false}
+                  />
+                }
+              />
+              <div className="padding-16 grid border-1-top">
+                {renderComponentPropertiesButton()}
               </div>
-              <div>
-                <FigmaButton
-                  title={t("module:apply")}
-                  onClick={() => {
-                    pastePropertyToObject(["HEIGHT", "WIDTH"]);
-                  }}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
+            </div>
+          }
+          {Object.entries(propertyClipboardOptions).map(([key, group]) => {
+            const castedGroup = group as PropertyClipboardCategory;
+
+            return (
+              <div
+                className={`list-view ${key !== "size" || appContext.extractedProperties.length > 0 ? "mt-xsmall" : ""
+                  }`}
+              >
+                <ListViewHeader
+                  additionalClass={"property-clipboard-header"}
+                  title={t(castedGroup.titleKey)}
+                  rightItem={
+                    castedGroup.applyAllKeys.length > 0 && <FigmaButton
+                      title={t("module:applyAll")}
+                      onClick={() => {
+                        castedGroup.useModal ?
+                          openModalWithProperties(castedGroup.applyAllKeys) : pastePropertyToObject(appContext, castedGroup.applyAllKeys, false, pasteBehavior);
+                      }}
+                      buttonHeight="small"
+                      fontSize="small"
+                      buttonType="grain"
+                      hasMargin={false}
+                      disabled={appContext.referenceObject.id === "" ? true : false}
+                    />
+                  }
                 />
+                <div className="padding-16 grid border-1-top">
+                  {castedGroup.items.map((i) => (
+                    <FigmaButton
+                      buttonType="secondary"
+                      title={t(i.lableKey)}
+                      onClick={() => {
+                        i.useModal ?
+                          openModalWithProperties(i.keys) : pastePropertyToObject(appContext, i.keys, false, pasteBehavior);
+                      }}
+                      buttonHeight="xlarge"
+                      hasTopBottomMargin={false}
+                      disabled={appContext.referenceObject.id === "" ? true : false}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:width")}
-                onClick={() => {
-                  pastePropertyToObject(["WIDTH"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:height")}
-                onClick={() => {
-                  pastePropertyToObject(["HEIGHT"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
-          {/* 筆畫 */}
-          <div className="list-view mt-xsmall">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:stroke")}
-              </div>
-              <div>
-                <FigmaButton
-                  title={t("module:apply")}
-                  onClick={() => {
-                    pastePropertyToObject([
-                      "STROKES",
-                      "STROKE_ALIGN",
-                      "STROKE_WEIGHT",
-                      "STROKE_STYLE",
-                      "STROKE_DASH",
-                      "STROKE_GAP",
-                      "STROKE_CAP",
-                      "STROKE_JOIN",
-                      "STROKE_MITER_LIMIT",
-                    ]);
-                  }}
-                  buttonHeight="small"
-                  fontSize="small"
-                  buttonType="grain"
-                  hasMargin={false}
-                />
-              </div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:color")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKES"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:position")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKE_ALIGN"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:strokeWeight")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKE_WEIGHT"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:strokeStyle")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKE_STYLE"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:strokeDash")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKE_DASH"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:strokeGap")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKE_GAP"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:dashCap")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKE_CAP"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:join")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKE_JOIN"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:miterAngle")}
-                onClick={() => {
-                  pastePropertyToObject(["STROKE_MITER_LIMIT"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
-          {/* 其他 */}
-          <div className="list-view mt-xsmall">
-            <div className="list-view-header property-clipboard-header">
-              <div></div>
-              <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-                {t("term:others")}
-              </div>
-              <div></div>
-            </div>
-            <div className="padding-16 grid border-1-top">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("term:exportSettings")}
-                onClick={() => {
-                  pastePropertyToObject(["EXPORT_SETTINGS"]);
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
+            )
+          })}
         </div>
       </div>
     </div>
