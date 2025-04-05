@@ -5,6 +5,7 @@ import { MessageArrowCreator } from "../../types/Messages/MessageArrowCreator";
 import * as util from "../util";
 import * as rh from "./routeHorizontal"
 import * as rv from "./routeVertical";
+import * as rm from "./routeMerged"
 import { semanticTokens } from "../tokens";
 
 export function reception(message: MessageArrowCreator) {
@@ -258,6 +259,19 @@ function determineRoute(
     let route: Coordinates[] = [];
 
     if (direction === "horizontal") {
+        const targetItemConnectPointAbstract = rm.abstractConnectPoint(targetItemConnectPoint, direction);
+        const abstractGroup = 
+
+        if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
+            route = rm.determineRouteFromC2(targetItemConnectPointAbstract, group, direction)
+        }
+
+
+
+
+
+
+
         if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
             route = rh.determineRouteFromTopCenter(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
