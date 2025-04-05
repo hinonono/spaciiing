@@ -37,6 +37,10 @@ export function reception(message: MessageArrowCreator) {
             message.createAnnotationBox
         )
     }
+
+    for (const item of sortedSelction) {
+        item.setRelaunchData({ drawArrows: '' });
+    }
 }
 
 // The .sort() function in JavaScript/TypeScript uses a comparison function that returns:
@@ -294,10 +298,16 @@ function determineRoute(
 async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
     await figma.loadFontAsync({ family: "Inter", style: "Regular" });
     await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
+    const annotationNodeSize = {
+        width: strokeStlye.strokeWeight * 30,
+        height: strokeStlye.strokeWeight * 8,
+        fontSize: strokeStlye.strokeWeight * 3,
+    }
+
     const annotation = util.createTextNode(
         "Sample Text",
         { family: "Inter", style: "Semi Bold" },
-        semanticTokens.fontSize.xxlarge
+        annotationNodeSize.fontSize
     );
 
     annotation.textAlignHorizontal = "CENTER";
@@ -312,6 +322,8 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
         "HORIZONTAL"
     )
 
+
+
     annotationNode.layoutAlign = "CENTER";
     annotationNode.primaryAxisAlignItems = "CENTER";
     annotationNode.counterAxisAlignItems = "CENTER";
@@ -321,10 +333,10 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
 
     annotationNode.fills = [{ type: "SOLID", color: backgroundColor }];
 
-    annotationNode.resize(320, 80)
+    annotationNode.resize(annotationNodeSize.width, annotationNodeSize.height)
     annotationNode.name = "Annotation"
 
-    annotationNode.x = position.x - 160
-    annotationNode.y = position.y - 40
+    annotationNode.x = position.x - (annotationNodeSize.width / 2)
+    annotationNode.y = position.y - (annotationNodeSize.height / 2)
     annotationNode.cornerRadius = semanticTokens.cornerRadius.infinite;
 }

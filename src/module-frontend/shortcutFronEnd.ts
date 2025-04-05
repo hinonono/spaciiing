@@ -44,3 +44,10 @@ export function createAutoLayoutIndividually(appContext: AppContextType, isRealC
     "*"
   );
 }
+
+export interface ShortcutButtonConfig {
+  id?: string;
+  title: string;
+  onClick: () => void;
+  disabled?: boolean;
+}

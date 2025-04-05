@@ -33,3 +33,10 @@ export { default as SvgSave } from "./SvgSave";
 export { default as SvgChevronLeft } from "./SvgChevronLeft";
 export { default as SvgDragHandle } from "./SvgDragHandle";
 export { default as SvgExternalLink } from "./SvgExternalLink";
+
+
+export { default as SvgMinus } from "./SvgMinus";
+export { default as SvgCornerRadius } from "./SvgCornerRadius";
+export { default as SvgStrokeWeight } from "./SvgStrokeWeight";
+export { default as SvgDrawArrows } from "./SvgDrawArrows";
+export { default as SvgEdit } from "./SvgEdit";

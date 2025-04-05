@@ -22,7 +22,7 @@ interface FilterScopeItem {
 
 const SelectionFilter: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
-  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig, editorType } = useAppContext();
+  const { licenseManagement, setFreeUserDelayModalConfig, editorType } = useAppContext();
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -58,9 +58,9 @@ const SelectionFilter: React.FC = () => {
     { nameKey: "term:frame", scope: "FRAME", supportedEditorTypes: ["figma", "slides"] },
     { nameKey: "term:group", scope: "GROUP", supportedEditorTypes: ["figma", "slides"] },
     { nameKey: "term:autoLayout", scope: "AUTO_LAYOUT", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:instance", scope: "INSTANCE", supportedEditorTypes: ["figma"] },
-    { nameKey: "term:component", scope: "COMPONENT", supportedEditorTypes: ["figma"] },
-    { nameKey: "term:componentSet", scope: "COMPONENT_SET", supportedEditorTypes: ["figma"] },
+    { nameKey: "term:instance", scope: "INSTANCE", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:component", scope: "COMPONENT", supportedEditorTypes: ["figma", "slides"] },
+    { nameKey: "term:componentSet", scope: "COMPONENT_SET", supportedEditorTypes: ["figma", "slides"] },
     { nameKey: "term:allShape", scope: "ALL_SHAPE", supportedEditorTypes: ["figma", "slides"] },
     {
       nameKey: "term:rectangle",

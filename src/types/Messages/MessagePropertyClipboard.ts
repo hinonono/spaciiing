@@ -1,14 +1,26 @@
-import { PropertyClipboardSupportedProperty } from "../PropertClipboard";
+import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty, ReferenceObject } from "../PropertClipboard";
+import { ExternalMessage } from "./ExternalMessage";
 import { Message } from "./Message";
 
 export interface MessagePropertyClipboard extends Message {
   action: PropertyClipboardAction;
+  referenceObject?: ReferenceObject;
   property?: PropertyClipboardSupportedProperty[];
   behavior?: PasteBehavior;
+  instanceProperty?: ComponentPropertiesFrontEnd[];
 }
 
 export type PropertyClipboardAction =
   | "setReferenceObject"
-  | "pastePropertyToObject";
+  | "pastePropertyToObject"
+  | "pasteInstancePropertyToObject";
 
 export type PasteBehavior = "pasteToIncrement" | "pasteToReplace";
+
+export interface ExternalMessageShowNestedComponentProperties extends ExternalMessage {
+  extractedProperties: ComponentPropertiesFrontEnd[]
+}
+
+export interface ExternalMessageUpdateReferenceObject extends ExternalMessage {
+  referenceObject: ReferenceObject
+}

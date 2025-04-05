@@ -148,7 +148,7 @@
   "moduleAspectRatioHelper": "Aspect Ratio Helper",
   "moduleAspectRatioHelperDesc": "Adjust element's width or height to match specific aspect ratio.",
   "commonlyUsedAspectRatio": "Commonly used aspect ratio",
-  "lockDimension": "Lock dimension",
+  "adjustDimension": "Adjust dimension",
   "presetAspectRatio": "Preset aspect ratio",
   "widthRatio": "Width Ratio",
   "heightRatio": "Height Ratio",
@@ -191,5 +191,9 @@
   "square": "Square",
   "createAnnotationBox": "Create annotation box",
   "moduleDrawArrows": "Draw Arrows",
-  "moduleDrawArrowsDesc": "Select at least two layers and specify connect point for start and end object to draw arrows."
+  "moduleDrawArrowsDesc": "Select at least two layers and specify connect point for start and end object to draw arrows.",
+  "newStrokeStyle": "New stroke style",
+  "editStrokeStyle": "Edit stroke style",
+  "instanceProperties": "Instance properties",
+  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (from $LAYER_NAME$)"
 }

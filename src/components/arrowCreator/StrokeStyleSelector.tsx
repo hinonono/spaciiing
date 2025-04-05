@@ -5,6 +5,8 @@ import { CYStroke } from '../../types/CYStroke';
 import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEditorPreference';
 import ColorThumbnailView from '../ColorThumbnailView';
 import { defaultStroke } from '../../module-frontend/arrowCreatorFrontEnd';
+import { SvgAdd, SvgEdit, SvgMinus } from '../../assets/icons';
+import ListViewHeader from '../ListViewHeader';
 
 interface StrokeStyleSelectorProps {
   setEditStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
@@ -30,7 +32,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
     setSelectedStyleId(id);
   }
 
-  const handleDelete = () => {
+  const handleDeleteButtonClicked = () => {
     if (selectedStyleId) {
       setEditorPreference((prev) => ({
         ...prev,
@@ -56,12 +58,19 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
   }, [editorPreference]); // Run when `editorPreference` updates
 
   useEffect(() => {
-    if (editorPreference.strokeStyles.length > 0) {
+    const stillExists = editorPreference.strokeStyles.find(style => style.id === selectedStyleId);
+
+    if (stillExists) {
+      setEditStroke(stillExists.style);
+    } else if (editorPreference.strokeStyles.length > 0) {
       const firstStroke = editorPreference.strokeStyles[0];
       setSelectedStyleId(firstStroke.id);
       setEditStroke(firstStroke.style);
+    } else {
+      setSelectedStyleId(null);
+      setEditStroke(defaultStroke);
     }
-  }, [editorPreference.strokeStyles]); // Runs when `strokeStyles` update
+  }, [editorPreference.strokeStyles]);
 
   const renderStrokeStyleList = () => {
     const s = editorPreference.strokeStyles;
@@ -94,58 +103,64 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
     }
   }
 
+  const handleEditButtonClicked = () => {
+    if (selectedStyleId) {
+      const foundStroke = editorPreference.strokeStyles.find(style => style.id === selectedStyleId);
+      if (!foundStroke) {
+        console.warn("No stroke found for the selected ID:", selectedStyleId);
+        return;
+      }
+      setEditStroke(foundStroke.style);
+      setStrokeModalMode("edit");
+      handleOpenStrokeEditModal(foundStroke.name, foundStroke.id);
+      setSelectedStyleId(foundStroke.id);
+    }
+  }
+
+  const handleNewButtonClicked = () => {
+    setStrokeModalMode("create")
+    setEditStroke(defaultStroke);
+    handleOpenStrokeEditModal(undefined, undefined)
+  }
+
   return (
     <div className="list-view mt-xsmall">
-      <div className="list-view-header property-clipboard-header">
-        <div>
-          <FigmaButton
-            title={"Edit"}
-            onClick={() => {
-              if (selectedStyleId) {
-                const foundStroke = editorPreference.strokeStyles.find(style => style.id === selectedStyleId);
-                if (!foundStroke) {
-                  console.warn("No stroke found for the selected ID:", selectedStyleId);
-                  return;
-                }
-                setEditStroke(foundStroke.style);
-                setStrokeModalMode("edit");
-                handleOpenStrokeEditModal(foundStroke.name, foundStroke.id);
-                setSelectedStyleId(foundStroke.id);
-              }
-            }}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="grain"
-            hasMargin={false}
+      <ListViewHeader
+        additionalClass={"property-clipboard-header"}
+        title={""}
+        leftItem={
+          <button
+            className="button-reset margin-0 width-auto"
+            onClick={(e) => handleEditButtonClicked()}
             disabled={!selectedStyleId}
-          />
-        </div>
-        <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-        </div>
-        <div>
-          <FigmaButton
-            title={"Delete"}
-            onClick={handleDelete}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="grain"
-            hasMargin={false}
-            disabled={!selectedStyleId}
-          />
-          <FigmaButton
-            title={"New"}
-            onClick={() => {
-              setStrokeModalMode("create")
-              setEditStroke(defaultStroke);
-              handleOpenStrokeEditModal(undefined, undefined)
-            }}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="grain"
-            hasMargin={false}
-          />
-        </div>
-      </div>
+          >
+            <div className="icon-20">
+              <SvgEdit color={selectedStyleId ? "var(--figma-color-bg-brand)" : "var(--figma-color-text-disabled)"} />
+            </div>
+          </button>
+        }
+        rightItem={
+          <div className='flex'>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={(e) => handleDeleteButtonClicked()}
+              disabled={!selectedStyleId}
+            >
+              <div className="icon-20">
+                <SvgMinus color={selectedStyleId ? "var(--figma-color-bg-brand)" : "var(--figma-color-text-disabled)"} />
+              </div>
+            </button>
+            <button
+              className="button-reset margin-0 width-auto"
+              onClick={(e) => handleNewButtonClicked()}
+            >
+              <div className="icon-20">
+                <SvgAdd color="var(--figma-color-bg-brand)" />
+              </div>
+            </button>
+          </div>
+        }
+      />
       <div className="list-view-content border-1-top cy-checkbox-group">
         {renderStrokeStyleList()}
       </div>

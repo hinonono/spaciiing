@@ -28,16 +28,16 @@
   /* spaciiing色盤 color palette */
   /* cy-purple */
   --cy-purple-50: #f6f4ff;
-  --cy-purple-100: #efebff;
-  --cy-purple-200: #e0d7ff;
-  --cy-purple-300: #c3afff;
-  --cy-purple-400: #ac8aff;
-  --cy-purple-500: #9a67fe;
-  --cy-purple-600: #8d41ff;
-  --cy-purple-700: #7522dd;
-  --cy-purple-800: #6317bd;
-  --cy-purple-900: #52169f;
-  --cy-purple-950: #370f6c;
+  --cy-purple-100: #f0ebff;
+  --cy-purple-200: #e1d7ff;
+  --cy-purple-300: #c5aefe;
+  --cy-purple-400: #ae89fe;
+  --cy-purple-500: #9d66fd;
+  --cy-purple-600: #8f38ff;
+  --cy-purple-700: #7720db;
+  --cy-purple-800: #6515bc;
+  --cy-purple-900: #54149e;
+  --cy-purple-950: #380e6b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -921,7 +921,8 @@ input {
 }
 .membership-block.pro {
   color: var(--white);
-  background-color: var(--cy-purple-400);
+  border: none;
+  background: linear-gradient(180deg, var(--cy-purple-300), var(--cy-purple-600));
 }
 .membership-block p {
   margin-bottom: 1rem;
@@ -1071,6 +1072,47 @@ input {
 .textarea::placeholder {
   color: var(--figma-color-text-secondary);
   opacity: 0.8;
+}
+
+.textarea-with-icon {
+  display: flex;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  border-radius: var(--cy-border-radius-large);
+  background-color: var(--figma-color-bg-secondary);
+  color: var(--figma-color-text);
+  font-size: var(--font-size-small);
+  border: 0px;
+  padding: var(--size-xxsmall);
+}
+.textarea-with-icon:hover {
+  border: 0px;
+  outline: 1.5px solid rgba(0, 0, 0, 0.1);
+  color: var(--figma-color-text);
+}
+.textarea-with-icon:active, .textarea-with-icon:focus, .textarea-with-icon:focus-within {
+  outline: 1.5px solid var(--figma-color-bg-brand);
+  border: none;
+  outline-offset: 0;
+  color: var(--figma-color-text);
+}
+.textarea-with-icon .icon-20 {
+  margin-right: var(--size-xxxsmall);
+}
+.textarea-with-icon .textarea {
+  padding: 0;
+  border-radius: 0;
+}
+.textarea-with-icon .textarea:hover {
+  border: 0px;
+  outline: 0px solid rgba(0, 0, 0, 0.1);
+  color: var(--figma-color-text);
+}
+.textarea-with-icon .textarea:active, .textarea-with-icon .textarea:focus {
+  outline: 0px solid var(--figma-color-bg-brand);
+  border: none;
+  outline-offset: 0;
+  color: var(--figma-color-text);
 }
 
 .section-title {
@@ -1611,7 +1653,7 @@ pre {
   border-radius: var(--cy-border-radius-large);
   color: white;
   font-size: var(--font-size-small);
-  background-color: var(--cy-purple-400);
+  background-color: var(--cy-purple-600);
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -1652,11 +1694,11 @@ pre {
 }
 
 .button--special {
-  background-color: #8d41ff;
+  background-color: var(--cy-purple-600);
   color: white;
 }
 .button--special:hover {
-  background-color: #6824cd;
+  background-color: var(--cy-purple-800);
 }
 
 .button {

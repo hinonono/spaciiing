@@ -1,6 +1,6 @@
 {
   "name": "Spaciiing",
-  "version": "23",
+  "version": "24",
   "price": {
     "monthly": "3",
     "yearly": "36",
@@ -8,5 +8,5 @@
   },
   "featureFlag": {
   },
-  "freeUserWaitingTime": 30
+  "freeUserWaitingTime": 60
 }

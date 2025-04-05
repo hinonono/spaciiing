@@ -2,8 +2,9 @@ import React from "react";
 import FreeTrialGraph from "../../FreeTrialGraph";
 import SubscriptionPlanBlock from "../../SubscriptionPlanBlock";
 import { useTranslation } from "react-i18next";
+import info from "../../../info.json"
 
-interface NewFreeTrialViewProps {}
+interface NewFreeTrialViewProps { }
 
 const NewFreeTrialView: React.FC<NewFreeTrialViewProps> = () => {
   const { t } = useTranslation(["license", "term"]);
@@ -11,7 +12,7 @@ const NewFreeTrialView: React.FC<NewFreeTrialViewProps> = () => {
   return (
     <div className="free-trial-modal">
       <h2>{t("license:upgradeToSkipWaiting")}</h2>
-      <span className="note">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", "30")}</span>
+      <span className="note">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", info.freeUserWaitingTime.toString())}</span>
       {/* Plan block */}
       <div className="mt-xxsmall">
         <SubscriptionPlanBlock
@@ -19,12 +20,6 @@ const NewFreeTrialView: React.FC<NewFreeTrialViewProps> = () => {
           additionalClass={["subscription-block", "subscription-block-emphasize"]}
         />
       </div>
-      {/* <div className="mt-xxsmall">
-        <SubscriptionPlanBlock
-          plan={"monthly"}
-          additionalClass={["subscription-block"]}
-        />
-      </div> */}
       <span className="note mt-xxxsmall">{t("license:noHiddenFees")}</span>
       <div id="free-trial-faq" className="mt-xsmall">
         <h3>{t("license:freeTrialWorks")}</h3>

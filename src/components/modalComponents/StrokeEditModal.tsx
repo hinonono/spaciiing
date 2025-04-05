@@ -137,14 +137,14 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       return (
         <FigmaButton
           title={t("module:save")}
-          onClick={saveNewStrokeStyle} // No need to call handleClose() here
+          onClick={() => saveNewStrokeStyle(false)} // No need to call handleClose() here
         />
       )
     } else {
       return (
         <FigmaButton
           title={t("module:save")}
-          onClick={saveEditedStrokeStyle} // No need to call handleClose() here
+          onClick={() => saveEditedStrokeStyle(false)} // No need to call handleClose() here
         />
       )
     }
@@ -157,6 +157,11 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
         rows={1}
         value={styleName}
         onChange={handleStyleNameChange}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault(); // Prevents line break
+          }
+        }}
       />
     } else {
       if (existingStyleName || existingStyleName === "") {
@@ -165,6 +170,11 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
           rows={1}
           value={existingStyleName}
           onChange={handleExistingStyleNameChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Prevents line break
+            }
+          }}
         />
       } else {
         return null;
@@ -176,7 +186,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
   return (
     <Modal show={show} handleClose={handleClose}>
       <div className="mt-xxsmall">
-        <h3>{mode === "create" ? "New stroke style" : "Edit stroke style"}</h3>
+        <h3>{mode === "create" ? t("module:newStrokeStyle") : t("editStrokeStyle")}</h3>
       </div>
       <div className="mt-xsmall">
         <div>

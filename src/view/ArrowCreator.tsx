@@ -5,7 +5,7 @@ import Modal from '../components/Modal';
 import { FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
 import { ConnectPointPosition, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
-import { applyArrowCreator, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
+import { applyArrowCreator, defaultOffset, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
 import ConnectPointSelectorView from '../components/arrowCreator/ConnectPointSelectorView';
 import { CYStroke } from '../types/CYStroke';
 import { Direction } from '../types/General';
@@ -33,7 +33,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleLeft);
 
   // 安全間距
-  const [safeMargin, setSafeMargin] = useState<number>(32);
+  const [safeMargin, setSafeMargin] = useState<number>(defaultOffset);
   const handleSafeMarginChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -60,7 +60,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   // 筆畫模式
   const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
   useEffect(() => {
-    setStroke(defaultStroke)
+    if (strokeMode === "freeform") {
+
+      setStroke(defaultStroke)
+    }
+    console.log(stroke)
   }, [strokeMode])
 
   // 排列方向

@@ -84,9 +84,11 @@ export const strokeStyles = [
 export const defaultStroke: CYStroke = {
     color: "#64748B",
     opacity: 1,
-    strokeWeight: 6,
+    strokeWeight: 5,
     cornerRadius: 16,
-    startPointCap: "NONE",
+    startPointCap: "ROUND",
     endPointCap: "ARROW_LINES",
     dashAndGap: [0, 0],
 }
+
+export const defaultOffset: number = 8

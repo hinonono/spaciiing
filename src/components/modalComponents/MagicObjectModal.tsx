@@ -68,67 +68,79 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
 
   return (
     <Modal show={show} handleClose={handleClose}>
-      <h3>{t("module:fileOrganizingObjectSetting")}</h3>
+      <h3>{t("module:fileOrganizingObject")}</h3>
       <div>
         <h4>{t("module:note")}</h4>
-        {editorPreference.magicObjects.noteId == "" ? (
-          <span className="note">{t("module:noteHasNotBeenMemorized")}</span>
-        ) : (
-          <span className="note">
-            {t("module:objectIsMemorizedWithId")}{" "}
-            {editorPreference.magicObjects.noteId}
-          </span>
-        )}
-        <FigmaButton
-          buttonType="secondary"
-          title={t("module:memorize")}
-          id={"shortcut-memorize-note"}
-          onClick={() => {
-            applyMemorize("memorizeNote", "note");
-          }}
-        />
+        <div className="variable flex flex-justify-space-between align-items-center">
+          {editorPreference.magicObjects.noteId == "" ? (
+            <span className="note">{t("module:noteHasNotBeenMemorized")}</span>
+          ) : (
+            <span className="note">
+              {t("module:objectIsMemorizedWithId")}{" "}
+              {editorPreference.magicObjects.noteId}
+            </span>
+          )}
+          <FigmaButton
+            buttonType="tertiary"
+            buttonHeight="small"
+            hasTopBottomMargin={false}
+            title={t("module:memorize")}
+            id={"shortcut-memorize-note"}
+            onClick={() => {
+              applyMemorize("memorizeNote", "note");
+            }}
+          />
+        </div>
       </div>
       <div className="mt-small">
         <h4>{t("module:designStatusTag")}</h4>
-        {editorPreference.magicObjects.tagId == "" ? (
-          <span className="note">
-            {t("module:designStatusTagHasNotBeenMemorized")}
-          </span>
-        ) : (
-          <span className="note">
-            {t("module:objectIsMemorizedWithId")}
-            {editorPreference.magicObjects.tagId}
-          </span>
-        )}
-        <FigmaButton
-          buttonType="secondary"
-          title={t("module:memorize")}
-          id={"shortcut-memorize-design-status-tag"}
-          onClick={() => {
-            applyMemorize("memorizeDesignStatusTag", "designStatusTag");
-          }}
-        />
+        <div className="variable flex flex-justify-space-between align-items-center">
+          {editorPreference.magicObjects.tagId == "" ? (
+            <span className="note">
+              {t("module:designStatusTagHasNotBeenMemorized")}
+            </span>
+          ) : (
+            <span className="note">
+              {t("module:objectIsMemorizedWithId")}
+              {editorPreference.magicObjects.tagId}
+            </span>
+          )}
+          <FigmaButton
+            buttonType="tertiary"
+            buttonHeight="small"
+            hasTopBottomMargin={false}
+            title={t("module:memorize")}
+            id={"shortcut-memorize-design-status-tag"}
+            onClick={() => {
+              applyMemorize("memorizeDesignStatusTag", "designStatusTag");
+            }}
+          />
+        </div>
       </div>
       <div className="mt-small">
         <h4>{t("module:titleSection")}</h4>
-        {editorPreference.magicObjects.sectionId == "" ? (
-          <span className="note">
-            {t("module:titleSectionHasNotBeenMemorized")}
-          </span>
-        ) : (
-          <span className="note">
-            {t("module:objectIsMemorizedWithId")}{" "}
-            {editorPreference.magicObjects.sectionId}
-          </span>
-        )}
-        <FigmaButton
-          buttonType="secondary"
-          title={t("module:memorize")}
-          id={"shortcut-memorize-title-section"}
-          onClick={() => {
-            applyMemorize("memorizeTitleSection", "titleSection");
-          }}
-        />
+        <div className="variable flex flex-justify-space-between align-items-center">
+          {editorPreference.magicObjects.sectionId == "" ? (
+            <span className="note">
+              {t("module:titleSectionHasNotBeenMemorized")}
+            </span>
+          ) : (
+            <span className="note">
+              {t("module:objectIsMemorizedWithId")}{" "}
+              {editorPreference.magicObjects.sectionId}
+            </span>
+          )}
+          <FigmaButton
+            buttonType="tertiary"
+            buttonHeight="small"
+            hasTopBottomMargin={false}
+            title={t("module:memorize")}
+            id={"shortcut-memorize-title-section"}
+            onClick={() => {
+              applyMemorize("memorizeTitleSection", "titleSection");
+            }}
+          />
+        </div>
       </div>
     </Modal>
   );

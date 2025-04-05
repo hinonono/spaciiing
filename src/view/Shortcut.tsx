@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TitleBar, FigmaButton } from "../components";
+import { TitleBar, FigmaButton, ListViewHeader } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import {
@@ -16,7 +16,7 @@ import {
   ShortcutAction,
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
-import { createAutoLayoutIndividually } from "../module-frontend/shortcutFronEnd";
+import { createAutoLayoutIndividually, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
 import * as info from "../info.json";
 
 const Shortcut: React.FC = () => {
@@ -107,38 +107,43 @@ const Shortcut: React.FC = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
+  const renderButtons = (buttons: ShortcutButtonConfig[]) => (
+    <div className="grid mt-xxxsmall">
+      {buttons.map(({ id, title, onClick, disabled }, i) => (
+        <FigmaButton
+          key={id || i}
+          id={id}
+          buttonType="secondary"
+          title={title}
+          onClick={onClick}
+          disabled={disabled}
+          buttonHeight="xlarge"
+          hasTopBottomMargin={false}
+        />
+      ))}
+    </div>
+  );
+
+  const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[]) => (
+    <div className="list-view mt-xsmall">
+      <ListViewHeader title={title} additionalClass="property-clipboard-header" />
+      <div className="padding-16 border-1-top">
+        {renderButtons(buttons)}
+      </div>
+    </div>
+  );
+
   const renderCatalogueShortcut = () => {
     if (appContext.editorType === "figma") {
+      const buttons: ShortcutButtonConfig[] = [
+        {
+          title: t("module:updateCatalogueDescBackToFigma"),
+          onClick: () => applyShortcut("updateCatalogueDescBackToFigma", false),
+        },
+      ]
+
       return (
-        <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header flex flex-justify-center">
-            <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {t("module:moduleCatalogue")}
-            </div>
-            <div></div>
-          </div>
-          <div className="padding-16 border-1-top grid">
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:updateCatalogueDescBackToFigma")}
-              onClick={() => {
-                applyShortcut("updateCatalogueDescBackToFigma");
-              }}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            {/* <FigmaButton
-                buttonType="secondary"
-                title={"test"}
-                onClick={() => {
-                  applyShortcut("debug");
-                }}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              /> */}
-          </div>
-        </div>
+        renderShortcutSection(t("module:moduleCatalogue"), buttons)
       )
     } else {
       return null;
@@ -146,106 +151,55 @@ const Shortcut: React.FC = () => {
   }
 
   const renderTextShortcut = () => {
+    const buttons: ShortcutButtonConfig[] = [
+      {
+        title: t("module:findAndReplace"),
+        onClick: handleOpenFindAndReplaceModal,
+      },
+      ...(appContext.editorType === "figma"
+        ? [{
+          title: t("module:createTextStyleFromSelection"),
+          onClick: () => applyShortcut("convertSelectionToTextStyles", false),
+        }]
+        : []),
+      {
+        title: t("module:unifyText"),
+        onClick: handleOpenUnifyTextModal,
+      },
+    ];
+
+
     return (
-      <div className="list-view mt-xsmall">
-        <div className="list-view-header flex flex-justify-center">
-          <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            {t("module:text")}
-          </div>
-        </div>
-        <div className="padding-16 grid border-1-top">
-          <FigmaButton
-            buttonType="secondary"
-            title={t("module:findAndReplace")}
-            onClick={handleOpenFindAndReplaceModal}
-            buttonHeight="xlarge"
-            hasTopBottomMargin={false}
-          />
-          {appContext.editorType === "figma" && (<FigmaButton
-            buttonType="secondary"
-            title={t("module:createTextStyleFromSelection")}
-            onClick={() => {
-              applyShortcut("convertSelectionToTextStyles");
-            }}
-            buttonHeight="xlarge"
-            hasTopBottomMargin={false}
-          />)}
-          <FigmaButton
-            buttonType="secondary"
-            title={t("module:unifyText")}
-            onClick={handleOpenUnifyTextModal}
-            buttonHeight="xlarge"
-            hasTopBottomMargin={false}
-          />
-        </div>
-      </div>
+      renderShortcutSection(t("module:text"), buttons)
     )
   }
 
   const renderMagicObjectShortcut = () => {
     if (appContext.editorType === "figma") {
+      const buttons: ShortcutButtonConfig[] = [
+        {
+          title: t("module:note"),
+          id: "shortcut-generate-note",
+          onClick: () => applyShortcut("generateNote", false),
+          disabled: appContext.editorPreference.magicObjects.noteId === "",
+        },
+        {
+          title: t("module:designStatusTag"),
+          id: "shortcut-generate-design-status-tag",
+          onClick: () => applyShortcut("generateDesignStatusTag", false),
+          disabled: appContext.editorPreference.magicObjects.tagId === "",
+        },
+        {
+          title: t("module:titleSection"),
+          id: "shortcut-generate-title-section",
+          onClick: () => applyShortcut("generateTitleSection", false),
+          disabled: appContext.editorPreference.magicObjects.sectionId === "",
+        },
+      ];
+
+
       return (
-        <div className="list-view mt-xsmall">
-          <div className="list-view-header property-clipboard-header flex flex-justify-center">
-            <div></div>
-            <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-              {t("module:fileOrganizingObject")}
-            </div>
-            <div>
-              <FigmaButton
-                title={t("module:setting")}
-                onClick={handleOpenMagicObjectModal}
-                buttonHeight="small"
-                fontSize="small"
-                buttonType="grain"
-                hasMargin={false}
-              />
-            </div>
-          </div>
-          <div className="padding-16 border-1-top">
-            <div className="grid mt-xxxsmall">
-              <FigmaButton
-                buttonType="secondary"
-                title={t("module:note")}
-                id={"shortcut-generate-note"}
-                onClick={() => {
-                  applyShortcut("generateNote");
-                }}
-                disabled={
-                  appContext.editorPreference.magicObjects.noteId == "" ? true : false
-                }
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("module:designStatusTag")}
-                id={"shortcut-generate-design-status-tag"}
-                onClick={() => {
-                  applyShortcut("generateDesignStatusTag");
-                }}
-                disabled={
-                  appContext.editorPreference.magicObjects.tagId == "" ? true : false
-                }
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-              <FigmaButton
-                buttonType="secondary"
-                title={t("module:titleSection")}
-                id={"shortcut-generate-title-section"}
-                onClick={() => {
-                  applyShortcut("generateTitleSection");
-                }}
-                disabled={
-                  appContext.editorPreference.magicObjects.sectionId == "" ? true : false
-                }
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
-          </div>
-        </div>
+        renderShortcutSection(t("module:fileOrganizingObject"), buttons)
       )
     } else {
       return null;
@@ -254,129 +208,70 @@ const Shortcut: React.FC = () => {
   }
 
   const renderColorToTextShortcut = () => {
+    const buttons = [
+      {
+        title: t("module:hexValue"),
+        id: "shortcut-color-to-label-hex",
+        onClick: () => applyShortcut("colorToLabelHEX", false),
+      },
+      {
+        title: t("module:hexValueWithTransparency"),
+        id: "shortcut-color-to-label-hex-transparent",
+        onClick: () => applyShortcut("colorToLabelHEXWithTransparency", false),
+      },
+      {
+        title: t("module:rgbValue"),
+        id: "shortcut-color-to-label-rgb",
+        onClick: () => applyShortcut("colorToLabelRGB", false),
+      },
+      {
+        title: t("module:rgbaValue"),
+        id: "shortcut-color-to-label-rgba",
+        onClick: () => applyShortcut("colorToLabelRGBA", false),
+      },
+    ];
+
     return (
-      <div className="list-view mt-xsmall">
-        <div className="list-view-header property-clipboard-header flex flex-justify-center">
-          <div></div>
-          <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            {t("module:colorValueToTextLabel")}
-          </div>
-          <div></div>
-        </div>
-        <div className="padding-16 border-1-top">
-          <div className="grid mt-xxxsmall">
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:hexValue")}
-              id={"shortcut-color-to-label-hex"}
-              onClick={() => {
-                applyShortcut("colorToLabelHEX");
-              }}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:hexValueWithTransparency")}
-              id={"shortcut-color-to-label-hex-transparent"}
-              onClick={() => {
-                applyShortcut("colorToLabelHEXWithTransparency");
-              }}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:rgbValue")}
-              id={"shortcut-color-to-label-rgb"}
-              onClick={() => {
-                applyShortcut("colorToLabelRGB");
-              }}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:rgbaValue")}
-              id={"shortcut-color-to-label-rgba"}
-              onClick={() => {
-                applyShortcut("colorToLabelRGBA");
-              }}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
+      renderShortcutSection(t("module:colorValueToTextLabel"), buttons)
+    );
+  };
 
   const renderGenerateShortcut = () => {
+    const buttons: ShortcutButtonConfig[] = [
+      {
+        title: t("module:loremIpsumText"),
+        onClick: handleOpenLoremModal,
+      },
+      {
+        title: t("module:createAutoLayoutIndividually"),
+        onClick: () => createAutoLayoutIndividually(appContext, false),
+      },
+      {
+        title: t("module:iconTemplate"),
+        onClick: handleOpenIconModal,
+      },
+    ];
+
     return (
-      <div className="list-view mt-xsmall">
-        <div className="list-view-header flex flex-justify-center">
-          <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            {t("module:generate")}
-          </div>
-        </div>
-        <div className="padding-16 border-1-top">
-          <div className="grid mt-xxxsmall">
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:loremIpsumText")}
-              onClick={handleOpenLoremModal}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:createAutoLayoutIndividually")}
-              onClick={() => createAutoLayoutIndividually(appContext, false)}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:iconTemplate")}
-              onClick={handleOpenIconModal}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-          </div>
-        </div>
-      </div>
+      renderShortcutSection(t("module:generate"), buttons)
     )
   }
 
   const renderFrameShortcut = () => {
+    const buttons: ShortcutButtonConfig[] = [
+      {
+        title: t("module:frame"),
+        onClick: () => applyShortcut("makeFrameOverlay", false),
+      },
+      {
+        title: t("module:alignToFrameEdge"),
+        onClick: () => handleOpenFramerModal,
+      },
+    ];
+
     return (
-      <div className="list-view mt-xsmall">
-        <div className="list-view-header flex flex-justify-center">
-          <div className="flex align-items-center flex-justify-center font-size-small text-color-primary">
-            {t("module:frame")}
-          </div>
-        </div>
-        <div className="padding-16 grid border-1-top">
-          <FigmaButton
-            buttonType="secondary"
-            title={t("module:createShadowOverlay")}
-            id={"shortcut-overlay"}
-            onClick={() => {
-              applyShortcut("makeFrameOverlay");
-            }}
-            buttonHeight="xlarge"
-            hasTopBottomMargin={false}
-          />
-          <FigmaButton
-            buttonType="secondary"
-            title={t("module:alignToFrameEdge")}
-            id={"shortcut-framer"}
-            onClick={handleOpenFramerModal}
-            buttonHeight="xlarge"
-            hasTopBottomMargin={false}
-          />
-        </div>
-      </div>
+
+      renderShortcutSection(t("module:frame"), buttons)
     )
   }
 
@@ -425,6 +320,16 @@ const Shortcut: React.FC = () => {
         title={t("module:moduleShortcut")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
+        rightItem={
+          <FigmaButton
+            title={t("module:setting")}
+            onClick={handleOpenMagicObjectModal}
+            buttonHeight="small"
+            fontSize="small"
+            buttonType="grain"
+            hasMargin={false}
+          />
+        }
       />
       <div className="content">
         {/* 型錄 */}

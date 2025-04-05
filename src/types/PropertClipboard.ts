@@ -9,6 +9,18 @@ export type PropertyClipboardSupportedProperty =
   | PropertyClipboardSupportedEffect
   | "EXPORT_SETTINGS";
 
+export interface ComponentPropertiesFrontEnd {
+  nodeId: string;
+  propertyName: string;
+  value: string | boolean;
+  layerName: string;
+}
+
+export interface ReferenceObject {
+  name: string;
+  id: string;
+}
+
 type PropertyClipboardSupportedFill =
   | "FILL_ALL"
   | "FILL_SOLID"

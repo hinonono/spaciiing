@@ -25,7 +25,7 @@
   "textContent": "文字內容",
   "cornerRadius": "圓角",
   "widthHeight": "寬與高",
-  "gap": "間距（自動佈局）",
+  "gap": "間距",
   "opacity": "不透明度",
   "strokeFloat": "筆畫粗細",
   "effectFloat": "效果數值",

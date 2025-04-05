@@ -4,6 +4,7 @@ import { strokeCaps, strokeStyles } from '../module-frontend/arrowCreatorFrontEn
 import ColorThumbnailView from './ColorThumbnailView';
 import { CYStroke } from '../types/CYStroke';
 import { useTranslation } from 'react-i18next';
+import { SvgCornerRadius, SvgStrokeWeight } from '../assets/icons';
 
 interface StrokeEditorViewProps {
   editingStroke: CYStroke;
@@ -198,7 +199,10 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
       <div className='grid mt-xxsmall'>
         <div>
           <SectionTitle title={t("term:strokeWeight")} titleType="secondary" />
-          <div className="width-100">
+          <div className="width-100 textarea-with-icon">
+            <div className="icon-20">
+              <SvgStrokeWeight color={"var(--figma-color-text-secondary)"} />
+            </div>
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
@@ -209,7 +213,10 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         </div>
         <div>
           <SectionTitle title={t("term:cornerRadius")} titleType="secondary" />
-          <div className="width-100">
+          <div className="width-100 textarea-with-icon">
+            <div className="icon-20">
+              <SvgCornerRadius color={"var(--figma-color-text-secondary)"} />
+            </div>
             <textarea
               className="textarea textarea-height-fit-content"
               rows={1}
@@ -236,7 +243,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         {strokeStyle === "dash" && (
           <div className='grid'>
             <div>
-              <SectionTitle title="Dash" titleType="secondary" />
+              <SectionTitle title={t("term:strokeDash")} titleType="secondary" />
               <div className="width-100">
                 <textarea
                   className="textarea textarea-height-fit-content"
@@ -248,7 +255,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
               </div>
             </div>
             <div>
-              <SectionTitle title="Gap" titleType="secondary" />
+              <SectionTitle title={t("term:gap")} titleType="secondary" />
               <div className="width-100">
                 <textarea
                   className="textarea textarea-height-fit-content"
@@ -263,7 +270,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         )}
         {strokeStyle === "custom" && (
           <div>
-            <SectionTitle title="Custom" titleType="secondary" />
+            <SectionTitle title={t("module:custom")} titleType="secondary" />
             <div className="width-100">
               <textarea
                 className="textarea textarea-height-fit-content"
