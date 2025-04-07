@@ -281,6 +281,7 @@ input {
   background-color: var(--figma-color-bg) !important;
   color: var(--figma-color-text) !important;
   border-color: var(--cy-border-light) !important;
+  padding: 4px !important;
   cursor: pointer;
 }
 .button--tertiary:hover {
@@ -288,7 +289,7 @@ input {
 }
 .button--tertiary:disabled {
   cursor: not-allowed;
-  color: var(--button-disabled);
+  color: var(--button-disabled) !important;
 }
 .button--tertiary:enabled:focus {
   text-decoration: none !important;
@@ -1059,11 +1060,27 @@ input {
   outline: 1.5px solid rgba(0, 0, 0, 0.1);
   color: var(--figma-color-text);
 }
+.textarea:-moz-placeholder-shown:hover {
+  border: none;
+}
+.textarea:placeholder-shown:hover {
+  border: none;
+}
 .textarea:active, .textarea:focus {
   outline: 1.5px solid var(--figma-color-bg-brand);
   border: none;
   outline-offset: 0;
   color: var(--figma-color-text);
+}
+.textarea:active:-moz-placeholder-shown, .textarea:focus:-moz-placeholder-shown {
+  border: 0px solid var(--blue);
+  outline: 1.5px solid var(--figma-color-bg-brand);
+  outline-offset: 0;
+}
+.textarea:active:placeholder-shown, .textarea:focus:placeholder-shown {
+  border: 0px solid var(--blue);
+  outline: 1.5px solid var(--figma-color-bg-brand);
+  outline-offset: 0;
 }
 .textarea::-moz-placeholder {
   color: var(--figma-color-text-secondary);

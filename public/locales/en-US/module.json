@@ -99,7 +99,7 @@
   "customValueIsNotAffect": "Custom value is not affected by multiply value.",
   "addAutoLayoutAfterApply": "Create auto layout",
   "shouldLargeThanTwo": "The value should be larger than 2.",
-  "objectIsNotMemorized": "The Object has not been memorized.",
+  "objectIsNotMemorized": "The object has not been memorized.",
   "objectIsMemorizedWithId": "Object is memorized (ID: $LAYER_ID$).",
   "findInSelection": "Find in selection",
   "find": "Find",

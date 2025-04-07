@@ -49,6 +49,7 @@
         background-color: var(--figma-color-bg) !important;
         color: var(--figma-color-text) !important;
         border-color: var(--cy-border-light) !important;
+        padding: 4px !important;
         cursor: pointer;
 
         &:hover {
@@ -57,7 +58,7 @@
 
         &:disabled {
             cursor: not-allowed;
-            color: var(--button-disabled);
+            color: var(--button-disabled) !important;
         }
 
         &:enabled:focus {

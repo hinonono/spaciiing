@@ -23,12 +23,22 @@
         color: var(--figma-color-text);
     }
 
+    &:placeholder-shown:hover {
+        border: none;
+    }
+
     &:active,
     &:focus {
         outline: 1.5px solid var(--figma-color-bg-brand);
         border: none;
         outline-offset: 0;
         color: var(--figma-color-text);
+
+        &:placeholder-shown {
+            border: 0px solid var(--blue);
+            outline: 1.5px solid var(--figma-color-bg-brand);
+            outline-offset: 0;
+        }
     }
 
     &::placeholder {

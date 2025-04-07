@@ -8,5 +8,5 @@
   },
   "featureFlag": {
   },
-  "freeUserWaitingTime": 60
+  "freeUserWaitingTime": 30
 }
