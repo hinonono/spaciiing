@@ -10,10 +10,13 @@ import * as util from "./util";
 import * as typeChecking from "./typeChecking";
 import * as explanation from "./explanation";
 import * as styledTextSegments from "./styledTextSegments";
+import * as CLItemLink from "./catalogue/catalogueItemLink"
+import * as CLUtil from "./catalogue/catalogueUtil";
+
 import { semanticTokens } from "./tokens";
 import { CatalogueItemDescriptionSchema } from "../types/CatalogueItemShema";
 
-export const reception = async (message: MessageStyleIntroducer) => {
+export function reception(message: MessageStyleIntroducer) {
   if (message.phase === "Init") {
     initStageHandler(message);
   } else if (message.phase === "Actual") {
@@ -27,7 +30,7 @@ async function initStageHandler(message: MessageStyleIntroducer) {
   const isStyleForm = form === "STYLE";
   const isVariableForm = form === "VARIABLE";
 
-  const validateMode = isStyleForm ? isStyleModeForFigmaStyle : isStyleModeForFigmaVariable;
+  const validateMode = isStyleForm ? CLUtil.isStyleModeForFigmaStyle : CLUtil.isStyleModeForFigmaVariable;
 
   if (!validateMode(styleMode)) {
     throw new Error(
@@ -35,7 +38,7 @@ async function initStageHandler(message: MessageStyleIntroducer) {
     );
   }
 
-  const getList = isStyleForm ? getStyleList : getVariableList;
+  const getList = isStyleForm ? CLUtil.getStyleList : CLUtil.getVariableList;
   const styleList = await getList(styleMode as any); // TS needs a hint here
 
   const externalMessage: ExternalMessageUpdatePaintStyleList = {
@@ -95,77 +98,9 @@ function actualStageHandler(message: MessageStyleIntroducer) {
   }
 }
 
-// Type guard function for StyleModeForFigmaStyle
-function isStyleModeForFigmaStyle(
-  mode: StyleMode
-): mode is StyleModeForFigmaStyle {
-  return mode === "COLOR" || mode === "EFFECT" || mode === "TEXT";
-}
 
-// Type guard function for StyleModeForFigmaVariable
-function isStyleModeForFigmaVariable(
-  mode: StyleMode
-): mode is StyleModeForFigmaVariable {
-  return mode === "COLOR" || mode === "FLOAT" || mode == "STRING";
-}
 
-async function getStyleList(
-  styleType: StyleModeForFigmaStyle
-): Promise<StyleListItemFrontEnd[]> {
-  let styleList;
-  switch (styleType) {
-    case "COLOR":
-      styleList = await figma.getLocalPaintStylesAsync();
-      break;
-    case "TEXT":
-      styleList = await figma.getLocalTextStylesAsync();
-      break;
-    case "EFFECT":
-      styleList = await figma.getLocalEffectStylesAsync();
-      break;
-    default:
-      throw new Error("Invalid style type");
-  }
 
-  return styleList.map((style) => ({
-    id: style.id,
-    name: style.name,
-  }));
-}
-
-async function getVariableList(
-  styleType: StyleModeForFigmaVariable
-): Promise<StyleListItemFrontEnd[]> {
-  let variableList: Variable[] | null = null;
-
-  if (styleType === "COLOR") {
-    variableList = await figma.variables.getLocalVariablesAsync("COLOR");
-  } else if (styleType === "FLOAT") {
-    variableList = await figma.variables.getLocalVariablesAsync("FLOAT");
-  } else if (styleType === "STRING") {
-    variableList = await figma.variables.getLocalVariablesAsync("STRING");
-  } else {
-    throw new Error("Cannot get local variable due to unsupported type.")
-  }
-
-  return variableList.map((variable) => ({
-    id: variable.id,
-    name: variable.name,
-  }));
-}
-
-// 檢查是否啟用cataloge item link功能
-// 啟用的話，當產生型錄物件時，可以透過alias物件來連結回參照的物件那裡
-function checkCatalogueItemLinkFeatureAvailability(): { availability: boolean, url: string | null } {
-  //是否啟用cataloge item link功能
-  const editorPreference = util.readEditorPreference();
-
-  if (editorPreference.exampleFileUrl) {
-    return { availability: true, url: editorPreference.exampleFileUrl };
-  } else {
-    return { availability: false, url: null };
-  }
-}
 
 async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   const { styleSelection, styleMode } = message;
@@ -328,7 +263,7 @@ async function applyStyleIntroducerForVariable(
 
   const viewport = util.getCurrentViewport();
   //是否啟用cataloge item link功能
-  const isCatalogueItemLinkFeatureAvailable = checkCatalogueItemLinkFeatureAvailability();
+  const isCatalogueItemLinkFeatureAvailable = CLItemLink.checkCatalogueItemLinkFeatureAvailability();
 
   const fontsToLoad = [
     { family: "Inter", style: "Regular" },
