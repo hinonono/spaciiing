@@ -1681,7 +1681,7 @@ pre {
 }
 .badge {
   padding: 3px 6px;
-  border-radius: var(--cy-border-radius-large);
+  border-radius: var(--cy-border-radius-medium);
   color: white;
   font-size: var(--font-size-small);
   background-color: var(--cy-purple-600);
