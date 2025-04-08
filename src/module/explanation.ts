@@ -42,6 +42,7 @@ export function createExplanationItem(
   effects?: Effect[],
   textStyle?: TextStyle,
   numbers?: number[],
+  strings?: string[],
   aliasNames?: (string | undefined)[],
   variableModes?: string[],
   aliasVariableIds?: (string | undefined)[]
@@ -243,6 +244,57 @@ export function createExplanationItem(
     );
 
     titleWrapper.layoutSizingHorizontal = "FILL";
+  } else if (styleMode === "STRING") {
+    console.log("STRING MODE GETTING CALLED.")
+    // 處理文字樣式
+    if (!strings) {
+      throw new Error("Strings is required for number type.");
+    }
+
+    if (strings.length === 0) {
+      throw new Error("Termination due to strings.length is 0.");
+    }
+
+    if (!variableModes) {
+      throw new Error("Variable modes are required for number type.");
+    }
+
+    if (format === "VARIABLE") {
+      if (!aliasNames) {
+        throw new Error("Alias names are required for variable type.");
+      }
+      if (!aliasVariableIds) {
+        throw new Error("Alias variable ids are required for variable type.");
+      }
+      const numberNodes = createVariableStringNodes(strings, fontName, aliasNames, aliasVariableIds, variableModes);
+
+      itemsToPutInTitleWrapper.push(...numberNodes);
+    }
+
+    const titleWrapper = createAutolayoutFrame(
+      itemsToPutInTitleWrapper,
+      semanticTokens.spacing.xsmall,
+      "VERTICAL"
+    );
+    itemsToPutInTitleWrapper.forEach((node) => {
+      if ("layoutSizingHorizontal" in node) {
+        node.layoutSizingHorizontal = "FILL";
+      }
+      if ("layoutSizingVertical" in node) {
+        node.layoutSizingVertical = "HUG";
+      }
+    });
+
+    titleWrapper.name = "Title Wrapper";
+    titleNode.layoutSizingHorizontal = "FILL";
+
+    explanationTextsWrapperNode = createAutolayoutFrame(
+      [titleWrapper, descriptionNode],
+      semanticTokens.spacing.base,
+      "VERTICAL"
+    );
+    titleWrapper.layoutSizingHorizontal = "FILL";
+    titleWrapper.layoutSizingVertical = "HUG";
   } else {
     // 預設
     explanationTextsWrapperNode = createAutolayoutFrame(
@@ -504,7 +556,7 @@ export function createExplanationWrapper(
     item.layoutSizingHorizontal = "FILL";
   });
 
-  wrapperFrame.setRelaunchData(({ updateCatalogueDesc: 'Update description back to styles or variables'}))
+  wrapperFrame.setRelaunchData(({ updateCatalogueDesc: 'Update description back to styles or variables' }))
 
   return wrapperFrame;
 }
@@ -701,91 +753,6 @@ function createTextPropertiesWrappers(
     n.layoutSizingVertical = "HUG";
   });
 
-
-  // const fontNameNode = createExplanationSinglePropertyItem(
-  //   "Font Name",
-  //   `${textStyle.fontName.family} ${textStyle.fontName.style}`,
-  //   fontName
-  // );
-  // const fontSizeNode = createExplanationSinglePropertyItem(
-  //   "Font Size",
-  //   formatNumberToDecimals(textStyle.fontSize, 2),
-  //   fontName
-  // );
-  // const lineHeightNode = createExplanationSinglePropertyItem(
-  //   "Line Height",
-  //   `${textStyle.lineHeight.unit == "AUTO"
-  //     ? "Auto"
-  //     : formatNumberToDecimals(textStyle.lineHeight.value, 2)
-  //   }`,
-  //   fontName
-  // );
-  // const formattedLetterSpacing = formatNumberToDecimals(
-  //   textStyle.letterSpacing.value,
-  //   2
-  // );
-  // const letterSpacingNode = createExplanationSinglePropertyItem(
-  //   "Letter Spacing",
-  //   formattedLetterSpacing,
-  //   fontName
-  // );
-  // const formattedParagraphSpacing = formatNumberToDecimals(
-  //   textStyle.paragraphSpacing,
-  //   2
-  // );
-  // const paragraphSpacingNode = createExplanationSinglePropertyItem(
-  //   "Paragraph Spacing",
-  //   formattedParagraphSpacing,
-  //   fontName
-  // );
-
-  // const textCaseString = textStyle.textCase;
-  // const formattedTextCaseString =
-  //   textCaseString.charAt(0).toUpperCase() +
-  //   textCaseString.slice(1).toLowerCase();
-
-  // const textCaseNode = createExplanationSinglePropertyItem(
-  //   "Text Case",
-  //   `${formattedTextCaseString}`,
-  //   fontName
-  // );
-
-  // const tempWrapper1 = createAutolayoutFrame(
-  //   [fontNameNode, fontSizeNode],
-  //   semanticTokens.spacing.xsmall,
-  //   "HORIZONTAL"
-  // );
-
-  // const tempWrapper2 = createAutolayoutFrame(
-  //   [lineHeightNode, letterSpacingNode],
-  //   semanticTokens.spacing.xsmall,
-  //   "HORIZONTAL"
-  // );
-
-  // const tempWrapper3 = createAutolayoutFrame(
-  //   [paragraphSpacingNode, textCaseNode],
-  //   semanticTokens.spacing.xsmall,
-  //   "HORIZONTAL"
-  // );
-
-  // [tempWrapper1, tempWrapper2, tempWrapper3].forEach((n) => {
-  //   n.name = "Properties";
-  //   n.layoutSizingVertical = "HUG";
-  // });
-
-  // [
-  //   fontNameNode,
-  //   fontSizeNode,
-  //   lineHeightNode,
-  //   letterSpacingNode,
-  //   paragraphSpacingNode,
-  //   textCaseNode,
-  // ].forEach((n) => {
-  //   n.layoutSizingHorizontal = "FILL";
-  //   n.layoutSizingVertical = "HUG";
-  // });
-
-  // return [tempWrapper1, tempWrapper2, tempWrapper3];
   return groupedPropertyNodes;
 }
 
@@ -1098,20 +1065,56 @@ function createVariableNumberNodes(
     }
   });
 
-  // const singlePropertyNodes: FrameNode[] = [];
+  const groupedPropertyNodes: FrameNode[] = [];
+  for (let i = 0; i < singlePropertyNodes.length; i += 2) {
+    const pair = singlePropertyNodes.slice(i, i + 2);
+    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+    pairWrapper.name = "Properties";
+    groupedPropertyNodes.push(pairWrapper);
+  }
 
-  // for (let i = 0; i < numbers.length; i++) {
-  //   const numberTextNode = createTextNode(
-  //     numbers[i].toString(),
-  //     fontName,
-  //     semanticTokens.fontSize.small,
-  //     [{ type: "SOLID", color: semanticTokens.text.secondary }]
-  //   );
-  //   numberTextNode.textAlignHorizontal = "RIGHT";
+  return groupedPropertyNodes;
+}
 
-  //   const singlePropertyNode = createExplanationSinglePropertyItem(variableModes[i], numberTextNode, fontName);
-  //   singlePropertyNodes.push(singlePropertyNode);
-  // }
+function createVariableStringNodes(
+  strings: string[],
+  fontName: FontName,
+  aliasNames: (string | undefined)[],
+  aliasVariableIds: (string | undefined)[],
+  variableModes: string[],
+): FrameNode[] {
+  const singlePropertyNodes = strings.map((string, i) => {
+    const variableMode = variableModes[i];
+    const aliasName = aliasNames[i];
+
+    if (aliasName != undefined) {
+      const aliasNameWrapper = createAliasNameWrapper(
+        aliasName,
+        fontName,
+        semanticTokens.fontSize.base * 0.75,
+        aliasVariableIds[i]
+      );
+      aliasNameWrapper.layoutSizingHorizontal = "HUG";
+      aliasNameWrapper.layoutSizingVertical = "HUG";
+
+      const node = createExplanationSinglePropertyItem(variableMode, aliasNameWrapper, fontName);
+      node.layoutSizingVertical = "HUG";
+
+      return node;
+    } else {
+      const stringNode = createTextNode(
+        string,
+        fontName,
+        semanticTokens.fontSize.small,
+        [{ type: "SOLID", color: semanticTokens.text.secondary }]
+      );
+      stringNode.textAlignHorizontal = "RIGHT";
+
+      const node = createExplanationSinglePropertyItem(variableMode, stringNode, fontName);
+
+      return node;
+    }
+  });
 
   const groupedPropertyNodes: FrameNode[] = [];
   for (let i = 0; i < singlePropertyNodes.length; i += 2) {

@@ -72,7 +72,7 @@ function isStyleModeForFigmaStyle(
 function isStyleModeForFigmaVariable(
   mode: StyleMode
 ): mode is StyleModeForFigmaVariable {
-  return mode === "COLOR" || mode === "FLOAT";
+  return mode === "COLOR" || mode === "FLOAT" || mode == "STRING";
 }
 
 async function getStyleList(
@@ -106,8 +106,12 @@ async function getVariableList(
 
   if (styleType === "COLOR") {
     variableList = await figma.variables.getLocalVariablesAsync("COLOR");
-  } else {
+  } else if (styleType === "FLOAT") {
     variableList = await figma.variables.getLocalVariablesAsync("FLOAT");
+  } else if (styleType === "STRING") {
+    variableList = await figma.variables.getLocalVariablesAsync("STRING");
+  } else {
+    throw new Error("Cannot get local variable due to unsupported type.")
   }
 
   return variableList.map((variable) => ({
@@ -308,6 +312,10 @@ async function applyStyleIntroducerForVariable(
     case "FLOAT":
       localVariables = await figma.variables.getLocalVariablesAsync("FLOAT");
       break;
+    case "STRING":
+      localVariables = await figma.variables.getLocalVariablesAsync("STRING");
+      // console.log("Local", localVariables)
+      break;
     default:
       throw new Error("Invalid style type");
   }
@@ -319,6 +327,8 @@ async function applyStyleIntroducerForVariable(
   const selectedVariables = localVariables.filter((variable) =>
     scopes.includes(variable.id)
   );
+
+  console.log("SELECTED VARIABLES", selectedVariables)
 
   // 抓取所選擇的變數們他們所屬的Collection ID
   const variableCollectionId =
@@ -371,6 +381,7 @@ async function applyStyleIntroducerForVariable(
         fontName,
         "COLOR",
         filteredColorValues,
+        undefined,
         undefined,
         undefined,
         undefined,
@@ -430,6 +441,7 @@ async function applyStyleIntroducerForVariable(
         undefined,
         undefined,
         filteredNumberValues,
+        undefined,
         aliasName,
         modeNames,
         aliasVariableIds
@@ -445,6 +457,61 @@ async function applyStyleIntroducerForVariable(
 
       explanationItems.push(explanationItem);
       // console.log("Explanation Item", explanationItem);
+    }
+  } else if (styleMode === "STRING") {
+    console.log("STRING MODE IS HERE")
+    for (const variable of selectedVariables) {
+      const aliasName: (string | undefined)[] = [];
+      const aliasVariableIds: (string | undefined)[] = [];
+      const stringValues: (string | null)[] = [];
+
+      for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
+        if (!typeChecking.isVariableAliasType(value)) {
+          aliasName.push(undefined);
+          aliasVariableIds.push(undefined);
+        } else {
+          const aliasVariable = localVariables.find((v) => v.id === value.id);
+          if (!aliasVariable) {
+            throw new Error("Termination due to aliasVariable is null.");
+          }
+          aliasName.push(aliasVariable.name);
+          aliasVariableIds.push(aliasVariable.id);
+        }
+
+        const string = await resolveToActualStringValue(value);
+        stringValues.push(string);
+      }
+
+      const filteredStringValues = stringValues.filter((v): v is string => v !== null);
+
+      console.log({ filteredStringValues: filteredStringValues, modeNames: modeNames });
+
+      const explanationItem = explanation.createExplanationItem(
+        "VARIABLE",
+        variable.id,
+        variable.name.split("/").pop() || "",
+        variable.description,
+        fontName,
+        "STRING",
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        filteredStringValues,
+        aliasName,
+        modeNames,
+        aliasVariableIds
+      );
+
+      explanationItem.primaryAxisSizingMode = "AUTO";
+      explanationItem.counterAxisSizingMode = "AUTO";
+
+      if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
+        const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
+        styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
+      }
+
+      explanationItems.push(explanationItem);
     }
   }
 
@@ -636,6 +703,34 @@ async function resolveToActualNumberValue(
     // Recursively resolve the first mode value without modifying aliasNames further
     return await resolveToActualNumberValue(firstModeValue);
   } else if (typeChecking.isFloatType(value)) {
+    return value;
+  } else {
+    console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
+    return null;
+  }
+}
+
+async function resolveToActualStringValue(
+  value: any
+): Promise<string | null> {
+  if (typeChecking.isVariableAliasType(value)) {
+    // Fetch the aliased variable
+    const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
+    if (!aliasVariable) {
+      console.warn(`Alias variable with ID ${value.id} not found.`);
+      return null;
+    }
+
+    // Resolve the actual value from the first mode
+    const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
+    if (!firstModeValue) {
+      console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
+      return null;
+    }
+
+    // Recursively resolve the first mode value without modifying aliasNames further
+    return await resolveToActualStringValue(firstModeValue);
+  } else if (typeChecking.isStringType(value)) {
     return value;
   } else {
     console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);

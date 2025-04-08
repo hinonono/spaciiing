@@ -31,3 +31,7 @@ export function isVariableAliasType(value: VariableValue): value is VariableAlia
 export function isFloatType(value: VariableValue): value is number {
   return typeof value === "number";
 }
+
+export function isStringType(value: VariableValue): value is string {
+  return typeof value === "string";
+}

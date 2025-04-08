@@ -57,8 +57,8 @@ module.exports = (env, argv) => {
             new TerserPlugin({
               terserOptions: {
                 compress: {
-                  drop_console: true, // Remove console logs
-                  drop_debugger: true,
+                  drop_console: false, // Remove console logs
+                  drop_debugger: false,
                   dead_code: true,// Eliminates unused code
                   unused: true,
                   passes: 3// Apply multiple compression passes

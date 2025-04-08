@@ -208,24 +208,17 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             value={mode}
             onChange={(e) => setMode(e.target.value as StyleMode)}
           >
-            <option key="COLOR" value="COLOR">
-              {t("term:color")}
-            </option>
+            <option key="COLOR" value="COLOR">{t("term:color")}</option>
             {form === "VARIABLE" && (
               <>
-                <option key="FLOAT" value="FLOAT">
-                  {t("term:float")}
-                </option>
+                <option key="FLOAT" value="FLOAT">{t("term:float")}</option>
+                <option key="STRING" value="STRING">{t("term:typography")}</option>
               </>
             )}
             {form === "STYLE" && (
               <>
-                <option key="EFFECT" value="EFFECT">
-                  {t("term:effect")}
-                </option>
-                <option key="TEXT" value="TEXT">
-                  {t("term:typography")}
-                </option>
+                <option key="EFFECT" value="EFFECT">{t("term:effect")}</option>
+                <option key="TEXT" value="TEXT">{t("term:typography")}</option>
               </>
             )}
           </select>

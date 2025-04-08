@@ -3,7 +3,7 @@ import { Message } from "./Message";
 import { ExternalMessage } from "./ExternalMessage";
 
 export type StyleModeForFigmaStyle = "COLOR" | "EFFECT" | "TEXT";
-export type StyleModeForFigmaVariable = "COLOR" | "FLOAT";
+export type StyleModeForFigmaVariable = "COLOR" | "FLOAT" | "STRING";
 export type StyleMode = StyleModeForFigmaVariable | StyleModeForFigmaStyle;
 
 export type StyleForm = "STYLE" | "VARIABLE";
