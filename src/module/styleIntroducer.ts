@@ -739,40 +739,28 @@ async function resolveToActualStringValue(
 }
 
 // Caches to store fetched styles and variables (module-level)
-const paintStyleCache = new Map<string, PaintStyle>();
-const textStyleCache = new Map<string, TextStyle>();
-const effectStyleCache = new Map<string, EffectStyle>();
-const variableCache = new Map<string, Variable>();
+// const paintStyleCache = new Map<string, PaintStyle>();
+// const textStyleCache = new Map<string, TextStyle>();
+// const effectStyleCache = new Map<string, EffectStyle>();
+// const variableCache = new Map<string, Variable>();
 
-// Function to fetch and cache styles on demand
 export async function getStyleById(styleId: string) {
-  // Check in Paint Styles
-  if (paintStyleCache.has(styleId)) return paintStyleCache.get(styleId);
   const paintStyles = await figma.getLocalPaintStylesAsync();
-  paintStyles.forEach(style => paintStyleCache.set(style.id, style));
-  if (paintStyleCache.has(styleId)) return paintStyleCache.get(styleId);
+  const foundPaint = paintStyles.find(style => style.id === styleId);
+  if (foundPaint) return foundPaint;
 
-  // Check in Text Styles
-  if (textStyleCache.has(styleId)) return textStyleCache.get(styleId);
   const textStyles = await figma.getLocalTextStylesAsync();
-  textStyles.forEach(style => textStyleCache.set(style.id, style));
-  if (textStyleCache.has(styleId)) return textStyleCache.get(styleId);
+  const foundText = textStyles.find(style => style.id === styleId);
+  if (foundText) return foundText;
 
-  // Check in Effect Styles
-  if (effectStyleCache.has(styleId)) return effectStyleCache.get(styleId);
   const effectStyles = await figma.getLocalEffectStylesAsync();
-  effectStyles.forEach(style => effectStyleCache.set(style.id, style));
-  if (effectStyleCache.has(styleId)) return effectStyleCache.get(styleId);
+  const foundEffect = effectStyles.find(style => style.id === styleId);
+  if (foundEffect) return foundEffect;
 
   return null;
 }
 
-// Function to fetch and cache variables on demand
 export async function getVariableById(variableId: string) {
-  if (variableCache.has(variableId)) return variableCache.get(variableId);
-
   const variables = await figma.variables.getLocalVariablesAsync();
-  variables.forEach(variable => variableCache.set(variable.id, variable));
-
-  return variableCache.get(variableId);
+  return variables.find(variable => variable.id === variableId) || null;
 }
