@@ -15,51 +15,85 @@ import { CatalogueItemDescriptionSchema } from "../types/CatalogueItemShema";
 
 export const reception = async (message: MessageStyleIntroducer) => {
   if (message.phase === "Init") {
-    if (message.form === "STYLE") {
-      if (!isStyleModeForFigmaStyle(message.styleMode)) {
-        throw new Error(
-          `Invalid styleMode: styleMode must be of type StyleModeForFigmaStyle. Current type is ${message.styleMode}`
-        );
-      }
-
-      const styleList = await getStyleList(message.styleMode);
-
-      const externalMessage: ExternalMessageUpdatePaintStyleList = {
-        module: "StyleIntroducer",
-        mode: "UpdateStyleList",
-        styleList: styleList,
-        direction: "Outer",
-        phase: "Init",
-      };
-      util.sendMessageBack(externalMessage);
-    } else if (message.form === "VARIABLE") {
-      if (!isStyleModeForFigmaVariable(message.styleMode)) {
-        throw new Error(
-          `Invalid styleMode: styleMode must be of type StyleModeForFigmaVariable. Current type is ${message.styleMode}`
-        );
-      }
-
-      // 获取变量列表
-      const variableList = await getVariableList(message.styleMode);
-      const externalMessage: ExternalMessageUpdatePaintStyleList = {
-        module: "StyleIntroducer",
-        mode: "UpdateStyleList",
-        styleList: variableList,
-        direction: "Outer",
-        phase: "Init",
-      };
-      util.sendMessageBack(externalMessage);
-    }
-  }
-
-  if (message.phase === "Actual") {
-    if (message.form === "STYLE") {
-      applyStyleIntroducer(message);
-    } else if (message.form === "VARIABLE") {
-      applyStyleIntroducerForVariable(message);
-    }
+    initStageHandler(message);
+  } else if (message.phase === "Actual") {
+    actualStageHandler(message);
   }
 };
+
+async function initStageHandler(message: MessageStyleIntroducer) {
+  const { form, styleMode } = message;
+
+  const isStyleForm = form === "STYLE";
+  const isVariableForm = form === "VARIABLE";
+
+  const validateMode = isStyleForm ? isStyleModeForFigmaStyle : isStyleModeForFigmaVariable;
+
+  if (!validateMode(styleMode)) {
+    throw new Error(
+      `Invalid styleMode: Expected ${isStyleForm ? "StyleModeForFigmaStyle" : "StyleModeForFigmaVariable"}, got ${styleMode}`
+    );
+  }
+
+  const getList = isStyleForm ? getStyleList : getVariableList;
+  const styleList = await getList(styleMode as any); // TS needs a hint here
+
+  const externalMessage: ExternalMessageUpdatePaintStyleList = {
+    module: "StyleIntroducer",
+    mode: "UpdateStyleList",
+    styleList: styleList,
+    direction: "Outer",
+    phase: "Init",
+  };
+  util.sendMessageBack(externalMessage);
+
+
+  // if (form === "STYLE") {
+  //   if (!isStyleModeForFigmaStyle(styleMode)) {
+  //     throw new Error(
+  //       `Invalid styleMode: styleMode must be of type StyleModeForFigmaStyle. Current type is ${styleMode}`
+  //     );
+  //   }
+
+  //   const styleList = await getStyleList(styleMode);
+
+  //   const externalMessage: ExternalMessageUpdatePaintStyleList = {
+  //     module: "StyleIntroducer",
+  //     mode: "UpdateStyleList",
+  //     styleList: styleList,
+  //     direction: "Outer",
+  //     phase: "Init",
+  //   };
+  //   util.sendMessageBack(externalMessage);
+
+  // } else if (form === "VARIABLE") {
+  //   if (!isStyleModeForFigmaVariable(styleMode)) {
+  //     throw new Error(
+  //       `Invalid styleMode: styleMode must be of type StyleModeForFigmaVariable. Current type is ${styleMode}`
+  //     );
+  //   }
+
+  //   // 获取变量列表
+  //   const variableList = await getVariableList(styleMode);
+
+  //   const externalMessage: ExternalMessageUpdatePaintStyleList = {
+  //     module: "StyleIntroducer",
+  //     mode: "UpdateStyleList",
+  //     styleList: variableList,
+  //     direction: "Outer",
+  //     phase: "Init",
+  //   };
+  //   util.sendMessageBack(externalMessage);
+  // }
+}
+
+function actualStageHandler(message: MessageStyleIntroducer) {
+  if (message.form === "STYLE") {
+    applyStyleIntroducer(message);
+  } else if (message.form === "VARIABLE") {
+    applyStyleIntroducerForVariable(message);
+  }
+}
 
 // Type guard function for StyleModeForFigmaStyle
 function isStyleModeForFigmaStyle(
@@ -737,12 +771,6 @@ async function resolveToActualStringValue(
     return null;
   }
 }
-
-// Caches to store fetched styles and variables (module-level)
-// const paintStyleCache = new Map<string, PaintStyle>();
-// const textStyleCache = new Map<string, TextStyle>();
-// const effectStyleCache = new Map<string, EffectStyle>();
-// const variableCache = new Map<string, Variable>();
 
 export async function getStyleById(styleId: string) {
   const paintStyles = await figma.getLocalPaintStylesAsync();
