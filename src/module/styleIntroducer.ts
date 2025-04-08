@@ -88,9 +88,11 @@ async function initStageHandler(message: MessageStyleIntroducer) {
 }
 
 function actualStageHandler(message: MessageStyleIntroducer) {
-  if (message.form === "STYLE") {
+  const { form } = message
+
+  if (form === "STYLE") {
     applyStyleIntroducer(message);
-  } else if (message.form === "VARIABLE") {
+  } else if (form === "VARIABLE") {
     applyStyleIntroducerForVariable(message);
   }
 }
@@ -512,8 +514,3 @@ async function applyStyleIntroducerForVariable(
   figma.currentPage.appendChild(explanationWrapper);
   figma.currentPage.selection = [explanationWrapper];
 }
-
-
-
-
-
