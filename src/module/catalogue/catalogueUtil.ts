@@ -59,3 +59,25 @@ export async function getVariableList(
         name: variable.name,
     }));
 }
+
+
+export async function findStyleById(styleId: string) {
+    const paintStyles = await figma.getLocalPaintStylesAsync();
+    const foundPaint = paintStyles.find(style => style.id === styleId);
+    if (foundPaint) return foundPaint;
+
+    const textStyles = await figma.getLocalTextStylesAsync();
+    const foundText = textStyles.find(style => style.id === styleId);
+    if (foundText) return foundText;
+
+    const effectStyles = await figma.getLocalEffectStylesAsync();
+    const foundEffect = effectStyles.find(style => style.id === styleId);
+    if (foundEffect) return foundEffect;
+
+    return null;
+}
+
+export async function findVariableById(variableId: string) {
+    const variables = await figma.variables.getLocalVariablesAsync();
+    return variables.find(variable => variable.id === variableId) || null;
+}

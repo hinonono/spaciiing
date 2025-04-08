@@ -1,20 +1,17 @@
-import { StyleListItemFrontEnd } from "../types/General";
 import {
   ExternalMessageUpdatePaintStyleList,
   MessageStyleIntroducer,
-  StyleMode,
-  StyleModeForFigmaStyle,
-  StyleModeForFigmaVariable,
 } from "../types/Messages/MessageStyleIntroducer";
 import * as util from "./util";
 import * as typeChecking from "./typeChecking";
 import * as explanation from "./explanation";
 import * as styledTextSegments from "./styledTextSegments";
+
 import * as CLItemLink from "./catalogue/catalogueItemLink"
 import * as CLUtil from "./catalogue/catalogueUtil";
+import * as CLVar from "./catalogue/catalogueVariable";
 
 import { semanticTokens } from "./tokens";
-import { CatalogueItemDescriptionSchema } from "../types/CatalogueItemShema";
 
 export function reception(message: MessageStyleIntroducer) {
   if (message.phase === "Init") {
@@ -97,10 +94,6 @@ function actualStageHandler(message: MessageStyleIntroducer) {
     applyStyleIntroducerForVariable(message);
   }
 }
-
-
-
-
 
 async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   const { styleSelection, styleMode } = message;
@@ -334,7 +327,7 @@ async function applyStyleIntroducerForVariable(
           aliasVariableIds.push(aliasVariable.id);
         }
 
-        const color = await resolveToActualRgbaValue(value);
+        const color = await CLVar.resolveToActualRgbaValue(value);
         colorValues.push(color);
       }
 
@@ -389,7 +382,7 @@ async function applyStyleIntroducerForVariable(
           aliasVariableIds.push(aliasVariable.id);
         }
 
-        const number = await resolveToActualNumberValue(value);
+        const number = await CLVar.resolveToActualNumberValue(value);
         numberValues.push(number);
       }
 
@@ -447,7 +440,7 @@ async function applyStyleIntroducerForVariable(
           aliasVariableIds.push(aliasVariable.id);
         }
 
-        const string = await resolveToActualStringValue(value);
+        const string = await CLVar.resolveToActualStringValue(value);
         stringValues.push(string);
       }
 
@@ -520,210 +513,7 @@ async function applyStyleIntroducerForVariable(
   figma.currentPage.selection = [explanationWrapper];
 }
 
-// 將型錄的描述寫回Figma的原生欄位
-// 将型錄的描述写回Figma的原生欄位
-export async function writeCatalogueDescBackToFigma() {
-  const selection = util.getCurrentSelection();
 
-  if (selection.length !== 1) {
-    figma.notify("❌ Please select only one catalogue frame.");
-    throw new Error("Please select only one catalogue frame.");
-  }
 
-  if (selection[0].type !== "FRAME") {
-    figma.notify("❌ Please select a frame.");
-    throw new Error("Please select a frame.");
-  }
 
-  const catalogueFrame = selection[0] as FrameNode;
 
-  const titleWrapper = catalogueFrame.findOne(node => node.name === "Title Wrapper");
-  if (!titleWrapper || titleWrapper.type !== "FRAME" || !titleWrapper.layoutMode) {
-    figma.notify("❌ Title Wrapper not found. Please try to regenerate catalogue again.");
-    throw new Error("Title Wrapper is not an AutoLayout frame.");
-  }
-
-  const descriptionNodes = catalogueFrame.findAllWithCriteria({
-    types: ['TEXT'],
-  }).filter(node => node.getPluginData("catalogue-item-schema"));
-
-  if (descriptionNodes.length === 0) {
-    figma.notify("❌ No description nodes found.");
-    throw new Error("No description nodes found.");
-  }
-
-  const fontsToLoad = [
-    { family: "Inter", style: "Regular" },
-    { family: "Inter", style: "Semi Bold" },
-  ];
-  await Promise.all(fontsToLoad.map(font => figma.loadFontAsync(font)));
-
-  let updatedCount = 0;
-
-  // Process each description node
-  for (const node of descriptionNodes) {
-    if (node.characters === "(blank)") continue; // Skip empty descriptions
-
-    const catalogueItemSchema = node.getPluginData("catalogue-item-schema");
-    const decodedCatalogueItemSchema = JSON.parse(catalogueItemSchema) as CatalogueItemDescriptionSchema;
-
-    if (decodedCatalogueItemSchema.format === "STYLE") {
-      const matchingStyle = await getStyleById(decodedCatalogueItemSchema.id);
-
-      if (!matchingStyle) {
-        figma.notify(`❌ Style with ID ${decodedCatalogueItemSchema.id} not found.`);
-        continue;
-      }
-
-      // Update the style description with the text content of the node
-      matchingStyle.description = (node as TextNode).characters;
-
-      const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
-      styledTextSegments.writeCatalogueItemRichStyleToRoot(decodedCatalogueItemSchema.id, richStyle);
-
-      updatedCount++;
-    } else if (decodedCatalogueItemSchema.format === "VARIABLE") {
-      const matchingVariable = await getVariableById(decodedCatalogueItemSchema.id);
-
-      if (!matchingVariable) {
-        figma.notify(`❌ Variable with ID ${decodedCatalogueItemSchema.id} not found.`);
-        continue;
-      }
-
-      // Update the variable description with the text content of the node
-      matchingVariable.description = (node as TextNode).characters;
-
-      const richStyle = styledTextSegments.getNodeCatalogueItemRichStyle(node);
-      styledTextSegments.writeCatalogueItemRichStyleToRoot(decodedCatalogueItemSchema.id, richStyle);
-
-      updatedCount++;
-    } else {
-      figma.notify(`❌ Unsupported format: ${decodedCatalogueItemSchema.format}`);
-    }
-  }
-
-  const dateString = `Description updated back to Figma at ${util.getFormattedDate("fullDateTime")}.`;
-  const wroteBackDateNode = util.createTextNode(
-    dateString,
-    { family: "Inter", style: "Semi Bold" },
-    semanticTokens.fontSize.xsmall,
-    [{ type: "SOLID", color: semanticTokens.text.tertiary }]
-  );
-
-  titleWrapper.insertChild(0, wroteBackDateNode);
-  titleWrapper.children.forEach((element) => {
-    if ("layoutSizingHorizontal" in element) {
-      element.layoutSizingHorizontal = "FILL";
-    }
-  });
-
-  wroteBackDateNode.textAlignHorizontal = "RIGHT";
-
-  figma.notify(`✅ ${updatedCount} styles/variables have been updated successfully.`);
-}
-
-async function resolveToActualRgbaValue(
-  value: any
-): Promise<RGBA | null> {
-  if (typeChecking.isVariableAliasType(value)) {
-    // Fetch the aliased variable
-    const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
-    if (!aliasVariable) {
-      console.warn(`Alias variable with ID ${value.id} not found.`);
-      return null;
-    }
-
-    // Resolve the actual value from the first mode
-    const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
-    if (!firstModeValue) {
-      console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
-      return null;
-    }
-
-    // Recursively resolve the first mode value without modifying aliasNames further
-    return await resolveToActualRgbaValue(firstModeValue);
-  } else if (typeChecking.isRGBType(value) || typeChecking.isRGBAType(value)) {
-    // Normalize RGB to RGBA or return RGBA directly
-    return typeChecking.isRGBType(value) ? { ...value, a: 1 } : value;
-  } else {
-    console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
-    return null;
-  }
-}
-
-async function resolveToActualNumberValue(
-  value: any
-): Promise<number | null> {
-  if (typeChecking.isVariableAliasType(value)) {
-    // Fetch the aliased variable
-    const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
-    if (!aliasVariable) {
-      console.warn(`Alias variable with ID ${value.id} not found.`);
-      return null;
-    }
-
-    // Resolve the actual value from the first mode
-    const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
-    if (!firstModeValue) {
-      console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
-      return null;
-    }
-
-    // Recursively resolve the first mode value without modifying aliasNames further
-    return await resolveToActualNumberValue(firstModeValue);
-  } else if (typeChecking.isFloatType(value)) {
-    return value;
-  } else {
-    console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
-    return null;
-  }
-}
-
-async function resolveToActualStringValue(
-  value: any
-): Promise<string | null> {
-  if (typeChecking.isVariableAliasType(value)) {
-    // Fetch the aliased variable
-    const aliasVariable = await figma.variables.getVariableByIdAsync(value.id);
-    if (!aliasVariable) {
-      console.warn(`Alias variable with ID ${value.id} not found.`);
-      return null;
-    }
-
-    // Resolve the actual value from the first mode
-    const firstModeValue = Object.values(aliasVariable.valuesByMode)[0];
-    if (!firstModeValue) {
-      console.warn(`Alias variable ${aliasVariable.name} has no valid modes.`);
-      return null;
-    }
-
-    // Recursively resolve the first mode value without modifying aliasNames further
-    return await resolveToActualStringValue(firstModeValue);
-  } else if (typeChecking.isStringType(value)) {
-    return value;
-  } else {
-    console.warn(`Unexpected value type encountered: ${JSON.stringify(value)}`);
-    return null;
-  }
-}
-
-export async function getStyleById(styleId: string) {
-  const paintStyles = await figma.getLocalPaintStylesAsync();
-  const foundPaint = paintStyles.find(style => style.id === styleId);
-  if (foundPaint) return foundPaint;
-
-  const textStyles = await figma.getLocalTextStylesAsync();
-  const foundText = textStyles.find(style => style.id === styleId);
-  if (foundText) return foundText;
-
-  const effectStyles = await figma.getLocalEffectStylesAsync();
-  const foundEffect = effectStyles.find(style => style.id === styleId);
-  if (foundEffect) return foundEffect;
-
-  return null;
-}
-
-export async function getVariableById(variableId: string) {
-  const variables = await figma.variables.getLocalVariablesAsync();
-  return variables.find(variable => variable.id === variableId) || null;
-}

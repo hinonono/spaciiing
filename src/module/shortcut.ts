@@ -9,7 +9,7 @@ import {
   MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
-import { writeCatalogueDescBackToFigma } from "./styleIntroducer";
+import { writeCatalogueDescBackToFigma } from "./catalogue/catalogueItemLink";
 import { getNodeCatalogueItemRichStyle } from "./styledTextSegments";
 
 export function executeShortcut(message: MessageShortcut) {
