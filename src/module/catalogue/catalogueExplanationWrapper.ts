@@ -113,3 +113,21 @@ function determineFrameWidth(modes?: string[]): number {
         return basicWidth;
     }
 }
+
+export function setUpWrapper(wrapper: FrameNode, viewport: Vector) {
+    wrapper.fills = [
+        {
+            type: "SOLID",
+            color: semanticTokens.background.primary,
+        },
+    ];
+
+    wrapper.name = `Catalogue`;
+
+    wrapper.cornerRadius = 16;
+    wrapper.primaryAxisSizingMode = "AUTO";
+    wrapper.counterAxisSizingMode = "FIXED";
+
+    wrapper.x = viewport.x;
+    wrapper.y = viewport.y;
+}

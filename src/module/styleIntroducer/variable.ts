@@ -53,7 +53,7 @@ export async function applyStyleIntroducerForVariable(
         modeNames
     )
 
-    setUpWrapper(explanationWrapper, viewport);
+    CLExplanationWrapper.setUpWrapper(explanationWrapper, viewport);
 
     figma.currentPage.appendChild(explanationWrapper);
     figma.currentPage.selection = [explanationWrapper];
@@ -370,20 +370,3 @@ async function createItemString(
     return explanationItems;
 }
 
-function setUpWrapper(wrapper: FrameNode, viewport: Vector) {
-    wrapper.fills = [
-        {
-            type: "SOLID",
-            color: semanticTokens.background.primary,
-        },
-    ];
-
-    wrapper.name = `Catalogue`;
-
-    wrapper.cornerRadius = 16;
-    wrapper.primaryAxisSizingMode = "AUTO";
-    wrapper.counterAxisSizingMode = "FIXED";
-
-    wrapper.x = viewport.x;
-    wrapper.y = viewport.y;
-}
