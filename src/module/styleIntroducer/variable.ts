@@ -151,13 +151,15 @@ async function createExplanationItemsHandler(
     }
 }
 
-async function createItemColor(
+async function createGenericItem<T>(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
+    resolveValueFn: (value: VariableValue) => Promise<T | null>,
+    previewKey: "colors" | "numbers" | "strings",
     isCatalogueItemLinkFeatureAvailable: {
         availability: boolean;
         url: string | null;
@@ -168,9 +170,9 @@ async function createItemColor(
     for (const variable of selectedVariables) {
         const aliasName: (string | undefined)[] = [];
         const aliasVariableIds: (string | undefined)[] = [];
-        const colorValues: (RGBA | null)[] = [];
+        const values: (T | null)[] = [];
 
-        for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
+        for (const [_, value] of Object.entries(variable.valuesByMode)) {
             if (!typeChecking.isVariableAliasType(value)) {
                 aliasName.push(undefined);
                 aliasVariableIds.push(undefined);
@@ -183,22 +185,24 @@ async function createItemColor(
                 aliasVariableIds.push(aliasVariable.id);
             }
 
-            const color = await CLVar.resolveToActualRgbaValue(value);
-            colorValues.push(color);
+            const resolvedValue = await resolveValueFn(value);
+            values.push(resolvedValue);
         }
 
-        const filteredColorValues = colorValues.filter((v): v is RGBA => v !== null);
+        const filteredValues = values.filter((v): v is T => v !== null);
 
         const { id, description, name } = variable;
-        const title = name.split("/").pop() || ""
+        const title = name.split("/").pop() || "";
         const previewResources: PreviewResources = {
-            colors: filteredColorValues
-        }
+            [previewKey]: filteredValues
+        } as PreviewResources;
+
         const aliasResources: AliasResources = {
             aliasNames: aliasName,
             variableModes: modeNames,
             aliasVariableIds: aliasVariableIds
-        }
+        };
+
         const explanationItem = CLExplanationItem.createExplanationItem(
             form,
             styleMode,
@@ -208,7 +212,7 @@ async function createItemColor(
             fontName,
             previewResources,
             aliasResources
-        )
+        );
 
         explanationItem.primaryAxisSizingMode = "AUTO";
         explanationItem.counterAxisSizingMode = "AUTO";
@@ -222,6 +226,31 @@ async function createItemColor(
     }
 
     return explanationItems;
+}
+
+async function createItemColor(
+    form: StyleForm,
+    styleMode: StyleMode,
+    fontName: FontName,
+    localVariables: Variable[],
+    selectedVariables: Variable[],
+    modeNames: string[],
+    isCatalogueItemLinkFeatureAvailable: {
+        availability: boolean;
+        url: string | null;
+    }
+): Promise<FrameNode[]> {
+    return createGenericItem<RGBA>(
+        form,
+        styleMode,
+        fontName,
+        localVariables,
+        selectedVariables,
+        modeNames,
+        CLVar.resolveToActualRgbaValue,
+        "colors",
+        isCatalogueItemLinkFeatureAvailable
+    );
 }
 
 async function createItemNumber(
@@ -236,65 +265,17 @@ async function createItemNumber(
         url: string | null;
     }
 ): Promise<FrameNode[]> {
-    const explanationItems: FrameNode[] = [];
-
-    for (const variable of selectedVariables) {
-        const aliasName: (string | undefined)[] = [];
-        const aliasVariableIds: (string | undefined)[] = [];
-        const numberValues: (number | null)[] = [];
-
-        for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
-            if (!typeChecking.isVariableAliasType(value)) {
-                aliasName.push(undefined);
-                aliasVariableIds.push(undefined);
-            } else {
-                const aliasVariable = localVariables.find((v) => v.id === value.id);
-                if (!aliasVariable) {
-                    throw new Error("Termination due to aliasVariable is null.");
-                }
-                aliasName.push(aliasVariable.name);
-                aliasVariableIds.push(aliasVariable.id);
-            }
-
-            const number = await CLVar.resolveToActualNumberValue(value);
-            numberValues.push(number);
-        }
-
-        const filteredNumberValues = numberValues.filter((v): v is number => v !== null);
-
-        const { id, description, name } = variable;
-        const title = name.split("/").pop() || ""
-        const previewResources: PreviewResources = {
-            numbers: filteredNumberValues
-        }
-        const aliasResources: AliasResources = {
-            aliasNames: aliasName,
-            variableModes: modeNames,
-            aliasVariableIds: aliasVariableIds
-        }
-        const explanationItem = CLExplanationItem.createExplanationItem(
-            form,
-            styleMode,
-            id,
-            title,
-            description,
-            fontName,
-            previewResources,
-            aliasResources
-        )
-
-        explanationItem.primaryAxisSizingMode = "AUTO";
-        explanationItem.counterAxisSizingMode = "AUTO";
-
-        if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
-            const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
-            styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
-        }
-
-        explanationItems.push(explanationItem);
-    }
-
-    return explanationItems;
+    return createGenericItem<number>(
+        form,
+        styleMode,
+        fontName,
+        localVariables,
+        selectedVariables,
+        modeNames,
+        CLVar.resolveToActualNumberValue,
+        "numbers",
+        isCatalogueItemLinkFeatureAvailable
+    );
 }
 
 async function createItemString(
@@ -309,64 +290,16 @@ async function createItemString(
         url: string | null;
     }
 ): Promise<FrameNode[]> {
-    const explanationItems: FrameNode[] = [];
-
-    for (const variable of selectedVariables) {
-        const aliasName: (string | undefined)[] = [];
-        const aliasVariableIds: (string | undefined)[] = [];
-        const stringValues: (string | null)[] = [];
-
-        for (const [modeId, value] of Object.entries(variable.valuesByMode)) {
-            if (!typeChecking.isVariableAliasType(value)) {
-                aliasName.push(undefined);
-                aliasVariableIds.push(undefined);
-            } else {
-                const aliasVariable = localVariables.find((v) => v.id === value.id);
-                if (!aliasVariable) {
-                    throw new Error("Termination due to aliasVariable is null.");
-                }
-                aliasName.push(aliasVariable.name);
-                aliasVariableIds.push(aliasVariable.id);
-            }
-
-            const string = await CLVar.resolveToActualStringValue(value);
-            stringValues.push(string);
-        }
-
-        const filteredStringValues = stringValues.filter((v): v is string => v !== null);
-
-        const { id, description, name } = variable;
-        const title = name.split("/").pop() || ""
-        const previewResources: PreviewResources = {
-            strings: filteredStringValues
-        }
-        const aliasResources: AliasResources = {
-            aliasNames: aliasName,
-            variableModes: modeNames,
-            aliasVariableIds: aliasVariableIds
-        }
-        const explanationItem = CLExplanationItem.createExplanationItem(
-            form,
-            styleMode,
-            id,
-            title,
-            description,
-            fontName,
-            previewResources,
-            aliasResources
-        )
-
-        explanationItem.primaryAxisSizingMode = "AUTO";
-        explanationItem.counterAxisSizingMode = "AUTO";
-
-        if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
-            const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
-            styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
-        }
-
-        explanationItems.push(explanationItem);
-    }
-
-    return explanationItems;
+    return createGenericItem<string>(
+        form,
+        styleMode,
+        fontName,
+        localVariables,
+        selectedVariables,
+        modeNames,
+        CLVar.resolveToActualStringValue,
+        "strings",
+        isCatalogueItemLinkFeatureAvailable
+    );
 }
 
