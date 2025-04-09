@@ -43,27 +43,14 @@ function createPreviewForColor(
     });
 
     // 將色塊們包裝入一個AutolayoutFrame中
-    const swatchesWrapper = util.createAutolayoutFrame(
+    const wrapper = util.createAutolayoutFrame(
         colorFrames,
         semanticTokens.spacing.xsmall,
         "HORIZONTAL"
     );
-    swatchesWrapper.name = "Swatches Wrapper";
+    wrapper.name = "Colors Wrapper";
 
-    return swatchesWrapper;
-
-    // const item = util.createAutolayoutFrame(
-    //     [swatchesWrapper, explanationTextsWrapperNode],
-    //     semanticTokens.spacing.base,
-    //     "HORIZONTAL"
-    // );
-
-    // swatchesWrapper.layoutSizingHorizontal = "HUG";
-    // swatchesWrapper.layoutSizingVertical = "HUG";
-
-    // // explanationItemWrapperNode = item;
-    // explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-    // previewFinalSetUp(item);
+    return wrapper;
 }
 
 function createPreviewForEffect(
@@ -71,16 +58,17 @@ function createPreviewForEffect(
     effects: Effect[],
 ) {
     const effectFrame = createEffectFrame(effects);
-    return effectFrame;
 
-    // const item = util.createAutolayoutFrame(
-    //     [effectFrame, explanationTextsWrapperNode],
-    //     semanticTokens.spacing.base,
-    //     "HORIZONTAL"
-    // );
+    // 將色塊們包裝入一個AutolayoutFrame中
+    const wrapper = util.createAutolayoutFrame(
+        [effectFrame],
+        semanticTokens.spacing.xsmall,
+        "HORIZONTAL"
+    );
+    wrapper.name = "Effects Wrapper";
+    wrapper.clipsContent = false
 
-    // explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-    // previewFinalSetUp(item);
+    return wrapper;
 }
 
 function createPreviewForNumber(
@@ -95,24 +83,12 @@ function createPreviewForNumber(
     });
 
     // 將數字框框們包裝入一個AutolayoutFrame中
-    const swatchesWrapper = util.createAutolayoutFrame(
+    const wrapper = util.createAutolayoutFrame(
         numberFrames,
         semanticTokens.spacing.xsmall,
         "HORIZONTAL"
     );
-    swatchesWrapper.name = "Numbers Wrapper";
+    wrapper.name = "Numbers Wrapper";
 
-    return swatchesWrapper;
-
-    // const item = util.createAutolayoutFrame(
-    //     [swatchesWrapper, explanationTextsWrapperNode],
-    //     semanticTokens.spacing.base,
-    //     "HORIZONTAL"
-    // );
-
-    // swatchesWrapper.layoutSizingHorizontal = "HUG";
-    // swatchesWrapper.layoutSizingVertical = "HUG";
-
-    // explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-    // previewFinalSetUp(item);
+    return wrapper;
 }

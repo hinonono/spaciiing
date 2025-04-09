@@ -40,7 +40,7 @@ export function createExplanationItem(
     // 建立右側資訊區的內容
     const titleWrapperContents: SceneNode[] = [titleNode];
     CLExplanationInfo.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, titleWrapperContents)
-    const explanationTextsWrapperNode = CLExplanationInfo.setUpInfoWrapperLayout(titleWrapperContents, titleNode, descNode)
+    const explanationTextsWrapperNode = CLExplanationInfo.setUpInfoWrapperLayout(styleMode, titleWrapperContents, titleNode, descNode)
 
     // 建立左側預覽區的內容
     const preview = CLExplanationPreview.createPreviewHandler(form, styleMode, fontName, previewResouces);

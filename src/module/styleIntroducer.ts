@@ -161,20 +161,6 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   } else if (styleMode === "TEXT") {
     const textStyleList = selectedStyleList as TextStyle[];
     textStyleList.forEach((member) => {
-      // const explanationItem = explanation.createExplanationItem(
-      //   "STYLE",
-      //   member.id,
-      //   member.name.split("/").pop() || "",
-      //   member.description,
-      //   fontName,
-      //   "TEXT",
-      //   undefined,
-      //   undefined,
-      //   member,
-      //   undefined,
-      //   undefined
-      // );
-
       // 😍V25新版 START
       const { id, description, name } = member;
       const title = name.split("/").pop() || ""
@@ -203,21 +189,6 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     const effectStyleList = selectedStyleList as EffectStyle[];
 
     effectStyleList.forEach((member) => {
-      // const effects = [...member.effects];
-      // const explanationItem = explanation.createExplanationItem(
-      //   "STYLE",
-      //   member.id,
-      //   member.name.split("/").pop() || "",
-      //   member.description,
-      //   fontName,
-      //   "EFFECT",
-      //   undefined,
-      //   effects,
-      //   undefined,
-      //   undefined,
-      //   undefined
-      // );
-
       // 😍V25新版 START
       const { id, description, name } = member;
       const title = name.split("/").pop() || ""
@@ -362,25 +333,6 @@ async function applyStyleIntroducerForVariable(
 
       const filteredColorValues = colorValues.filter((v): v is RGBA => v !== null);
 
-      // console.log({ filteredColorValues: filteredColorValues, modeNames: modeNames, aliasName: aliasName, aliasVariableIds: aliasVariableIds });
-
-      // const explanationItem = explanation.createExplanationItem(
-      //   "VARIABLE",
-      //   variable.id,
-      //   variable.name.split("/").pop() || "",
-      //   variable.description,
-      //   fontName,
-      //   "COLOR",
-      //   filteredColorValues,
-      //   undefined,
-      //   undefined,
-      //   undefined,
-      //   undefined,
-      //   aliasName,
-      //   modeNames,
-      //   aliasVariableIds
-      // );
-
       // 😍V25新版 START
       const { id, description, name } = variable;
       const title = name.split("/").pop() || ""
@@ -413,7 +365,6 @@ async function applyStyleIntroducerForVariable(
       }
 
       explanationItems.push(explanationItem);
-      // console.log("Explanation Item", explanationItem);
     }
   } else if (styleMode === "FLOAT") {
     for (const variable of selectedVariables) {
@@ -439,27 +390,6 @@ async function applyStyleIntroducerForVariable(
       }
 
       const filteredNumberValues = numberValues.filter((v): v is number => v !== null);
-
-      // Variable模式，建立數字用的說明物件
-
-      // console.log({ filteredNumberValues: filteredNumberValues, modeNames: modeNames });
-
-      // const explanationItem = explanation.createExplanationItem(
-      //   "VARIABLE",
-      //   variable.id,
-      //   variable.name.split("/").pop() || "",
-      //   variable.description,
-      //   fontName,
-      //   "FLOAT",
-      //   undefined,
-      //   undefined,
-      //   undefined,
-      //   filteredNumberValues,
-      //   undefined,
-      //   aliasName,
-      //   modeNames,
-      //   aliasVariableIds
-      // );
 
       // 😍V25新版 START
       const { id, description, name } = variable;
@@ -520,25 +450,6 @@ async function applyStyleIntroducerForVariable(
       }
 
       const filteredStringValues = stringValues.filter((v): v is string => v !== null);
-
-      // console.log({ filteredStringValues: filteredStringValues, modeNames: modeNames });
-
-      // const explanationItem = explanation.createExplanationItem(
-      //   "VARIABLE",
-      //   variable.id,
-      //   variable.name.split("/").pop() || "",
-      //   variable.description,
-      //   fontName,
-      //   "STRING",
-      //   undefined,
-      //   undefined,
-      //   undefined,
-      //   undefined,
-      //   filteredStringValues,
-      //   aliasName,
-      //   modeNames,
-      //   aliasVariableIds
-      // );
 
       // 😍V25新版 START
       const { id, description, name } = variable;

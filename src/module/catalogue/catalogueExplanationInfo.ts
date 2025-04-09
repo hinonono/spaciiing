@@ -64,11 +64,13 @@ export function pushInfoAreaAdditionalContent(
 
 // 右側資訊區設定
 export function setUpInfoWrapperLayout(
+    styleMode: StyleMode,
     itemsToPutInTitleWrapper: SceneNode[],
     titleNode: TextNode,
     descNode: TextNode,
 ): FrameNode {
-    const titleWrapper = util.createAutolayoutFrame(itemsToPutInTitleWrapper, semanticTokens.spacing.xsmall, "VERTICAL");
+    const spacing = styleMode === "EFFECT" ? semanticTokens.spacing.base : semanticTokens.spacing.small
+    const titleWrapper = util.createAutolayoutFrame(itemsToPutInTitleWrapper, spacing, "VERTICAL");
     titleWrapper.name = "Title Wrapper";
 
     itemsToPutInTitleWrapper.forEach((node) => {
