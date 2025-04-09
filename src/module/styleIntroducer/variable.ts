@@ -122,7 +122,7 @@ async function createExplanationItemsHandler(
         );
         return items;
 
-    } else if (styleMode === "TEXT") {
+    } else if (styleMode === "FLOAT") {
         const items = await createItemNumber(
             form,
             styleMode,
@@ -134,7 +134,7 @@ async function createExplanationItemsHandler(
         );
         return items;
 
-    } else if (styleMode === "EFFECT") {
+    } else if (styleMode === "STRING") {
         const items = await createItemString(
             form,
             styleMode,
