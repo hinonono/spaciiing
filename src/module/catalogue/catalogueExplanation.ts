@@ -7,6 +7,7 @@ import * as STS from "../styledTextSegments";
 import { semanticTokens } from "../tokens";
 import { CatalogueItemDescriptionSchema } from "../../types/CatalogueItemShema";
 import * as CLExplanationInfo from "./catalogueExplanationInfo"
+import * as CLExplanationPreview from "./catalogueExplanationPreview"
 
 
 /**
@@ -16,6 +17,9 @@ import * as CLExplanationInfo from "./catalogueExplanationInfo"
  * @param referId - The style's or variable's id which this explantion item is refer to
  * @param title
  * @param description 
+ * @param fontName 
+ * @param previewResouces - Required resources for different styles or variables. 
+ * @param aliasResources  - Required resources for showing variables alias related data.
  */
 function createExplanationItem(
     form: StyleForm,
@@ -36,11 +40,10 @@ function createExplanationItem(
     // 建立右側資訊區的內容
     const titleWrapperContents: SceneNode[] = [titleNode];
     CLExplanationInfo.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, titleWrapperContents)
-    CLExplanationInfo.setUpInfoWrapperLayout(titleWrapperContents, titleNode, descNode)
+    const explanationTextsWrapperNode = CLExplanationInfo.setUpInfoWrapperLayout(titleWrapperContents, titleNode, descNode)
 
     // 建立左側預覽區的內容
-
-
+    CLExplanationPreview.createPreviewHandler(form, styleMode, explanationTextsWrapperNode, fontName, previewResouces);
 }
 
 function createTitle(
@@ -87,6 +90,4 @@ function checkAndApplyRichStyle(referId: string, targetNode: TextNode) {
         STS.applyCatalogueItemRichStyle(targetNode, richStyle);
     }
 }
-
-
 

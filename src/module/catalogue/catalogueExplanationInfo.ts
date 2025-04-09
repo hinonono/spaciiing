@@ -67,7 +67,7 @@ export function setUpInfoWrapperLayout(
     itemsToPutInTitleWrapper: SceneNode[],
     titleNode: TextNode,
     descNode: TextNode,
-) {
+): FrameNode {
     const titleWrapper = util.createAutolayoutFrame(itemsToPutInTitleWrapper, semanticTokens.spacing.xsmall, "VERTICAL");
     titleWrapper.name = "Title Wrapper";
 
@@ -94,6 +94,8 @@ export function setUpInfoWrapperLayout(
 
     titleNode.layoutSizingHorizontal = "FILL";
     descNode.layoutSizingHorizontal = "FILL";
+
+    return explanationTextsWrapperNode;
 }
 
 export function createPropertiesForColor(

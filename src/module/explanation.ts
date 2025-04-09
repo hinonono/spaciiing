@@ -632,7 +632,7 @@ export function createExplanationSinglePropertyItem(
   return wrapper;
 }
 
-function createColorFrame(color: RGBA): FrameNode {
+export function createColorFrame(color: RGBA): FrameNode {
   const colorFrame = figma.createFrame();
   colorFrame.resize(64, 64);
   colorFrame.name = "Swatch";
@@ -647,7 +647,7 @@ function createColorFrame(color: RGBA): FrameNode {
   return colorFrame;
 }
 
-function createNumberFrame(number: number, fontName: FontName): FrameNode {
+export function createNumberFrame(number: number, fontName: FontName): FrameNode {
   let limitedNumber: string;
 
   if (Number.isInteger(number)) {
@@ -692,7 +692,7 @@ function createNumberFrame(number: number, fontName: FontName): FrameNode {
   return numberFrame;
 }
 
-function createEffectFrame(effects: Effect[]): FrameNode {
+export function createEffectFrame(effects: Effect[]): FrameNode {
   const effectFrame = figma.createFrame();
   effectFrame.resize(64, 64);
   effectFrame.name = "Effect";
