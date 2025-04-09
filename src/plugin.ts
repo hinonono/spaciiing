@@ -29,7 +29,7 @@ import * as licenseManagement from "./module/licenseManagement";
 import * as localization from "./module/localization";
 import * as aspectRatioHelper from "./module/aspectRatioHelper";
 import * as resize from "./module/resize";
-import * as styleIntroducer from "./module/styleIntroducer";
+import * as styleIntroducer from "./module/styleIntroducer/styleIntroducer";
 import * as propertyClipboard from "./module/propertyClipboard";
 import * as arrowCreator from "./module/arrowCreator/arrowCreator";
 import { MessageStyleIntroducer } from "./types/Messages/MessageStyleIntroducer";
