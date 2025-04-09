@@ -1,6 +1,8 @@
 import {
+  AliasResources,
   ExternalMessageUpdatePaintStyleList,
   MessageStyleIntroducer,
+  PreviewResources,
 } from "../types/Messages/MessageStyleIntroducer";
 import * as util from "./util";
 import * as typeChecking from "./typeChecking";
@@ -10,6 +12,7 @@ import * as styledTextSegments from "./styledTextSegments";
 import * as CLItemLink from "./catalogue/catalogueItemLink"
 import * as CLUtil from "./catalogue/catalogueUtil";
 import * as CLVar from "./catalogue/catalogueVariable";
+import * as CLExplanation from "./catalogue/catalogueExplanation"
 
 import { semanticTokens } from "./tokens";
 
@@ -46,45 +49,6 @@ async function initStageHandler(message: MessageStyleIntroducer) {
     phase: "Init",
   };
   util.sendMessageBack(externalMessage);
-
-
-  // if (form === "STYLE") {
-  //   if (!isStyleModeForFigmaStyle(styleMode)) {
-  //     throw new Error(
-  //       `Invalid styleMode: styleMode must be of type StyleModeForFigmaStyle. Current type is ${styleMode}`
-  //     );
-  //   }
-
-  //   const styleList = await getStyleList(styleMode);
-
-  //   const externalMessage: ExternalMessageUpdatePaintStyleList = {
-  //     module: "StyleIntroducer",
-  //     mode: "UpdateStyleList",
-  //     styleList: styleList,
-  //     direction: "Outer",
-  //     phase: "Init",
-  //   };
-  //   util.sendMessageBack(externalMessage);
-
-  // } else if (form === "VARIABLE") {
-  //   if (!isStyleModeForFigmaVariable(styleMode)) {
-  //     throw new Error(
-  //       `Invalid styleMode: styleMode must be of type StyleModeForFigmaVariable. Current type is ${styleMode}`
-  //     );
-  //   }
-
-  //   // 获取变量列表
-  //   const variableList = await getVariableList(styleMode);
-
-  //   const externalMessage: ExternalMessageUpdatePaintStyleList = {
-  //     module: "StyleIntroducer",
-  //     mode: "UpdateStyleList",
-  //     styleList: variableList,
-  //     direction: "Outer",
-  //     phase: "Init",
-  //   };
-  //   util.sendMessageBack(externalMessage);
-  // }
 }
 
 function actualStageHandler(message: MessageStyleIntroducer) {
@@ -98,7 +62,7 @@ function actualStageHandler(message: MessageStyleIntroducer) {
 }
 
 async function applyStyleIntroducer(message: MessageStyleIntroducer) {
-  const { styleSelection, styleMode } = message;
+  const { styleSelection, styleMode, form } = message;
 
   if (!styleSelection) {
     throw new Error("styleSelection is required");
@@ -139,29 +103,54 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
 
     paintStyleList.forEach((member) => {
       const paint = member.paints[0];
+      const { id, description, name } = member;
+
       if (paint.type === "SOLID") {
         const solidPaint = paint as SolidPaint;
 
-        const explanationItem = explanation.createExplanationItem(
-          "STYLE",
-          member.id,
-          member.name.split("/").pop() || "",
-          member.description,
-          fontName,
-          "COLOR",
-          [
+        // const explanationItem = explanation.createExplanationItem(
+        //   "STYLE",
+        //   member.id,
+        //   member.name.split("/").pop() || "",
+        //   member.description,
+        //   fontName,
+        //   "COLOR",
+        //   [
+        //     {
+        //       r: solidPaint.color.r,
+        //       g: solidPaint.color.g,
+        //       b: solidPaint.color.b,
+        //       a: 1,
+        //     },
+        //   ],
+        //   undefined,
+        //   undefined,
+        //   undefined,
+        //   undefined
+        // );
+
+        // 😍V25新版 START
+        const title = name.split("/").pop() || ""
+        const { r, g, b } = solidPaint.color;
+        const previewResources: PreviewResources = {
+          colors: [
             {
-              r: solidPaint.color.r,
-              g: solidPaint.color.g,
-              b: solidPaint.color.b,
-              a: 1,
+              r: r, g: g, b: b, a: 1,
             },
-          ],
-          undefined,
-          undefined,
-          undefined,
-          undefined
-        );
+          ]
+        }
+        const aliasResources: AliasResources = {}
+        const explanationItem = CLExplanation.createExplanationItem(
+          form,
+          styleMode,
+          id,
+          title,
+          description,
+          fontName,
+          previewResources,
+          aliasResources
+        )
+        // 😍V25新版 END
 
         explanationItem.primaryAxisSizingMode = "AUTO";
         explanationItem.counterAxisSizingMode = "AUTO";
@@ -172,19 +161,38 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   } else if (styleMode === "TEXT") {
     const textStyleList = selectedStyleList as TextStyle[];
     textStyleList.forEach((member) => {
-      const explanationItem = explanation.createExplanationItem(
-        "STYLE",
-        member.id,
-        member.name.split("/").pop() || "",
-        member.description,
+      // const explanationItem = explanation.createExplanationItem(
+      //   "STYLE",
+      //   member.id,
+      //   member.name.split("/").pop() || "",
+      //   member.description,
+      //   fontName,
+      //   "TEXT",
+      //   undefined,
+      //   undefined,
+      //   member,
+      //   undefined,
+      //   undefined
+      // );
+
+      // 😍V25新版 START
+      const { id, description, name } = member;
+      const title = name.split("/").pop() || ""
+      const previewResources: PreviewResources = {
+        textStyle: member
+      }
+      const aliasResources: AliasResources = {}
+      const explanationItem = CLExplanation.createExplanationItem(
+        form,
+        styleMode,
+        id,
+        title,
+        description,
         fontName,
-        "TEXT",
-        undefined,
-        undefined,
-        member,
-        undefined,
-        undefined
-      );
+        previewResources,
+        aliasResources
+      )
+      // 😍V25新版 END
 
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
@@ -195,20 +203,39 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     const effectStyleList = selectedStyleList as EffectStyle[];
 
     effectStyleList.forEach((member) => {
-      const effects = [...member.effects];
-      const explanationItem = explanation.createExplanationItem(
-        "STYLE",
-        member.id,
-        member.name.split("/").pop() || "",
-        member.description,
+      // const effects = [...member.effects];
+      // const explanationItem = explanation.createExplanationItem(
+      //   "STYLE",
+      //   member.id,
+      //   member.name.split("/").pop() || "",
+      //   member.description,
+      //   fontName,
+      //   "EFFECT",
+      //   undefined,
+      //   effects,
+      //   undefined,
+      //   undefined,
+      //   undefined
+      // );
+
+      // 😍V25新版 START
+      const { id, description, name } = member;
+      const title = name.split("/").pop() || ""
+      const previewResources: PreviewResources = {
+        effects: [...member.effects]
+      }
+      const aliasResources: AliasResources = {}
+      const explanationItem = CLExplanation.createExplanationItem(
+        form,
+        styleMode,
+        id,
+        title,
+        description,
         fontName,
-        "EFFECT",
-        undefined,
-        effects,
-        undefined,
-        undefined,
-        undefined
-      );
+        previewResources,
+        aliasResources
+      )
+      // 😍V25新版 END
 
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
@@ -250,7 +277,7 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
 async function applyStyleIntroducerForVariable(
   message: MessageStyleIntroducer
 ) {
-  const { styleSelection, styleMode } = message;
+  const { styleSelection, styleMode, form } = message;
   if (!styleSelection) {
     throw new Error("styleSelection is required");
   }
@@ -335,24 +362,47 @@ async function applyStyleIntroducerForVariable(
 
       const filteredColorValues = colorValues.filter((v): v is RGBA => v !== null);
 
-      console.log({ filteredColorValues: filteredColorValues, modeNames: modeNames, aliasName: aliasName, aliasVariableIds: aliasVariableIds });
+      // console.log({ filteredColorValues: filteredColorValues, modeNames: modeNames, aliasName: aliasName, aliasVariableIds: aliasVariableIds });
 
-      const explanationItem = explanation.createExplanationItem(
-        "VARIABLE",
-        variable.id,
-        variable.name.split("/").pop() || "",
-        variable.description,
+      // const explanationItem = explanation.createExplanationItem(
+      //   "VARIABLE",
+      //   variable.id,
+      //   variable.name.split("/").pop() || "",
+      //   variable.description,
+      //   fontName,
+      //   "COLOR",
+      //   filteredColorValues,
+      //   undefined,
+      //   undefined,
+      //   undefined,
+      //   undefined,
+      //   aliasName,
+      //   modeNames,
+      //   aliasVariableIds
+      // );
+
+      // 😍V25新版 START
+      const { id, description, name } = variable;
+      const title = name.split("/").pop() || ""
+      const previewResources: PreviewResources = {
+        colors: filteredColorValues
+      }
+      const aliasResources: AliasResources = {
+        aliasNames: aliasName,
+        variableModes: modeNames,
+        aliasVariableIds: aliasVariableIds
+      }
+      const explanationItem = CLExplanation.createExplanationItem(
+        form,
+        styleMode,
+        id,
+        title,
+        description,
         fontName,
-        "COLOR",
-        filteredColorValues,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        aliasName,
-        modeNames,
-        aliasVariableIds
-      );
+        previewResources,
+        aliasResources
+      )
+      // 😍V25新版 END
 
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
@@ -392,24 +442,47 @@ async function applyStyleIntroducerForVariable(
 
       // Variable模式，建立數字用的說明物件
 
-      console.log({ filteredNumberValues: filteredNumberValues, modeNames: modeNames });
+      // console.log({ filteredNumberValues: filteredNumberValues, modeNames: modeNames });
 
-      const explanationItem = explanation.createExplanationItem(
-        "VARIABLE",
-        variable.id,
-        variable.name.split("/").pop() || "",
-        variable.description,
+      // const explanationItem = explanation.createExplanationItem(
+      //   "VARIABLE",
+      //   variable.id,
+      //   variable.name.split("/").pop() || "",
+      //   variable.description,
+      //   fontName,
+      //   "FLOAT",
+      //   undefined,
+      //   undefined,
+      //   undefined,
+      //   filteredNumberValues,
+      //   undefined,
+      //   aliasName,
+      //   modeNames,
+      //   aliasVariableIds
+      // );
+
+      // 😍V25新版 START
+      const { id, description, name } = variable;
+      const title = name.split("/").pop() || ""
+      const previewResources: PreviewResources = {
+        numbers: filteredNumberValues
+      }
+      const aliasResources: AliasResources = {
+        aliasNames: aliasName,
+        variableModes: modeNames,
+        aliasVariableIds: aliasVariableIds
+      }
+      const explanationItem = CLExplanation.createExplanationItem(
+        form,
+        styleMode,
+        id,
+        title,
+        description,
         fontName,
-        "FLOAT",
-        undefined,
-        undefined,
-        undefined,
-        filteredNumberValues,
-        undefined,
-        aliasName,
-        modeNames,
-        aliasVariableIds
-      );
+        previewResources,
+        aliasResources
+      )
+      // 😍V25新版 END
 
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";
@@ -448,24 +521,47 @@ async function applyStyleIntroducerForVariable(
 
       const filteredStringValues = stringValues.filter((v): v is string => v !== null);
 
-      console.log({ filteredStringValues: filteredStringValues, modeNames: modeNames });
+      // console.log({ filteredStringValues: filteredStringValues, modeNames: modeNames });
 
-      const explanationItem = explanation.createExplanationItem(
-        "VARIABLE",
-        variable.id,
-        variable.name.split("/").pop() || "",
-        variable.description,
+      // const explanationItem = explanation.createExplanationItem(
+      //   "VARIABLE",
+      //   variable.id,
+      //   variable.name.split("/").pop() || "",
+      //   variable.description,
+      //   fontName,
+      //   "STRING",
+      //   undefined,
+      //   undefined,
+      //   undefined,
+      //   undefined,
+      //   filteredStringValues,
+      //   aliasName,
+      //   modeNames,
+      //   aliasVariableIds
+      // );
+
+      // 😍V25新版 START
+      const { id, description, name } = variable;
+      const title = name.split("/").pop() || ""
+      const previewResources: PreviewResources = {
+        strings: filteredStringValues
+      }
+      const aliasResources: AliasResources = {
+        aliasNames: aliasName,
+        variableModes: modeNames,
+        aliasVariableIds: aliasVariableIds
+      }
+      const explanationItem = CLExplanation.createExplanationItem(
+        form,
+        styleMode,
+        id,
+        title,
+        description,
         fontName,
-        "STRING",
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        filteredStringValues,
-        aliasName,
-        modeNames,
-        aliasVariableIds
-      );
+        previewResources,
+        aliasResources
+      )
+      // 😍V25新版 END
 
       explanationItem.primaryAxisSizingMode = "AUTO";
       explanationItem.counterAxisSizingMode = "AUTO";

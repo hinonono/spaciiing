@@ -21,7 +21,7 @@ import * as CLExplanationPreview from "./catalogueExplanationPreview"
  * @param previewResouces - Required resources for different styles or variables. 
  * @param aliasResources  - Required resources for showing variables alias related data.
  */
-function createExplanationItem(
+export function createExplanationItem(
     form: StyleForm,
     styleMode: StyleMode,
     referId: string,
@@ -59,7 +59,7 @@ function createExplanationItem(
 
     // explanationItemWrapperNode = item;
     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-    finalSetUp(result);
+    return finalSetUp(result);
 }
 
 function createTitle(
