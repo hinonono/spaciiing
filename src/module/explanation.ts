@@ -319,6 +319,13 @@ export function createExplanationItem(
   descriptionNode.layoutSizingHorizontal = "FILL";
   explanationTextsWrapperNode.name = "Info Wrapper";
 
+
+  // 
+  // 
+  // 🔥🔥🔥🔥Refactor 進度線🔥🔥🔥🔥
+  // 
+  // 
+
   let explanationItemWrapperNode: FrameNode;
   //依據不同的格式處理要放進去的內容（色塊、效果等）
   if (styleMode === "COLOR") {
@@ -698,7 +705,7 @@ function createEffectFrame(effects: Effect[]): FrameNode {
   return effectFrame;
 }
 
-function createTextPropertiesWrappers(
+export function createTextPropertiesWrappers(
   textStyle: TextStyle,
   fontName: FontName
 ): FrameNode[] {
@@ -764,7 +771,7 @@ function createTextPropertiesWrappers(
   return groupedPropertyNodes;
 }
 
-function createEffectPropertiesWrappers(
+export function createEffectPropertiesWrappers(
   effects: Effect[],
   fontName: FontName
 ): FrameNode[] {
@@ -943,7 +950,7 @@ function createEffectPropertiesWrappers(
  * a TextNode with the hex string, specified font name, and font size. The text case
  * of the node is set to uppercase.
  */
-function createStyleColorHexNode(
+export function createStyleColorHexNode(
   colors: RGBA[],
   fontName: FontName,
   fontSize: number
@@ -974,7 +981,7 @@ function createStyleColorHexNode(
  * it appends the alpha percentage to the hex string. It then creates TextNodes with the hex strings
  * and specified font name. These TextNodes are grouped into pairs and wrapped in FrameNodes.
  */
-function createVariableColorHexNodes(
+export function createVariableColorHexNodes(
   colors: RGBA[],
   fontName: FontName,
   aliasNames: (string | undefined)[],
@@ -1033,7 +1040,7 @@ function createVariableColorHexNodes(
   return groupedPropertyNodes;
 }
 
-function createVariableNumberNodes(
+export function createVariableNumberNodes(
   numbers: number[],
   fontName: FontName,
   aliasNames: (string | undefined)[],
@@ -1084,7 +1091,7 @@ function createVariableNumberNodes(
   return groupedPropertyNodes;
 }
 
-function createVariableStringNodes(
+export function createVariableStringNodes(
   strings: string[],
   fontName: FontName,
   aliasNames: (string | undefined)[],

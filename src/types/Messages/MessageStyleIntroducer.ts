@@ -17,3 +17,17 @@ export interface MessageStyleIntroducer extends Message {
 export interface ExternalMessageUpdatePaintStyleList extends ExternalMessage {
   styleList: StyleListItemFrontEnd[];
 }
+
+export interface PreviewResources {
+  colors?: RGBA[],
+  effects?: Effect[],
+  textStyle?: TextStyle,
+  numbers?: number[],
+  strings?: string[],
+}
+
+export interface AliasResources {
+  aliasNames?: (string | undefined)[],
+  variableModes?: string[],
+  aliasVariableIds?: (string | undefined)[]
+}
