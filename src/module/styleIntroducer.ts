@@ -111,27 +111,6 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
       if (paint.type === "SOLID") {
         const solidPaint = paint as SolidPaint;
 
-        // const explanationItem = explanation.createExplanationItem(
-        //   "STYLE",
-        //   member.id,
-        //   member.name.split("/").pop() || "",
-        //   member.description,
-        //   fontName,
-        //   "COLOR",
-        //   [
-        //     {
-        //       r: solidPaint.color.r,
-        //       g: solidPaint.color.g,
-        //       b: solidPaint.color.b,
-        //       a: 1,
-        //     },
-        //   ],
-        //   undefined,
-        //   undefined,
-        //   undefined,
-        //   undefined
-        // );
-
         // 😍V25新版 START
         const title = name.split("/").pop() || ""
         const { r, g, b } = solidPaint.color;
@@ -217,14 +196,6 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
       explanationItems.push(explanationItem);
     });
   }
-
-  // const explanationWrapper = explanation.createExplanationWrapper(
-  //   "STYLE",
-  //   explanationItems,
-  //   title == "" ? "Styles" : title,
-  //   "Catalogue",
-  //   { family: "Inter", style: "Semi Bold" }
-  // );
 
   // 😘V25新版 START
   const wrapperTitle = title == "" ? "Styles" : title
@@ -506,16 +477,6 @@ async function applyStyleIntroducerForVariable(
   if (explanationItems.length === 0) {
     throw new Error("Termination due to explanationItems length is 0.");
   }
-
-  // const explanationWrapper = explanation.createExplanationWrapper(
-  //   "VARIABLE",
-  //   explanationItems,
-  //   title == "" ? "Variables" : title,
-  //   "Catalogue",
-  //   { family: "Inter", style: "Semi Bold" },
-  //   isCatalogueItemLinkFeatureAvailable.availability,
-  //   modeNames
-  // );
 
   // 😘V25新版 START
   const wrapperTitle = title == "" ? "Variables" : title
