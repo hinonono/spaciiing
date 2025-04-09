@@ -43,7 +43,23 @@ function createExplanationItem(
     const explanationTextsWrapperNode = CLExplanationInfo.setUpInfoWrapperLayout(titleWrapperContents, titleNode, descNode)
 
     // 建立左側預覽區的內容
-    CLExplanationPreview.createPreviewHandler(form, styleMode, explanationTextsWrapperNode, fontName, previewResouces);
+    const preview = CLExplanationPreview.createPreviewHandler(form, styleMode, fontName, previewResouces);
+    const array = preview === null ? [explanationTextsWrapperNode] : [preview, explanationTextsWrapperNode]
+
+    const result = util.createAutolayoutFrame(
+        array,
+        semanticTokens.spacing.base,
+        "HORIZONTAL"
+    );
+
+    if (preview) {
+        preview.layoutSizingHorizontal = "HUG";
+        preview.layoutSizingVertical = "HUG";
+    }
+
+    // explanationItemWrapperNode = item;
+    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+    finalSetUp(result);
 }
 
 function createTitle(
@@ -91,3 +107,32 @@ function checkAndApplyRichStyle(referId: string, targetNode: TextNode) {
     }
 }
 
+function finalSetUp(target: FrameNode) {
+    // target = explanationItemWrapperNode
+
+    target.name = `Explanation Item`;
+    target.clipsContent = false;
+
+    // Set height to hug content
+    target.primaryAxisSizingMode = "AUTO";
+
+    util.setPadding(target, {
+        top: semanticTokens.padding.large,
+        bottom: semanticTokens.padding.large,
+        left: semanticTokens.padding.xsmall,
+        right: semanticTokens.padding.xsmall,
+    });
+
+    // Set border properties for top edge only
+    util.setStroke(target, semanticTokens.dividerColor, {
+        top: 1,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    });
+
+    // Center items to the top
+    target.counterAxisAlignItems = "MIN";
+
+    return target;
+}

@@ -6,30 +6,28 @@ import { createColorFrame, createEffectFrame, createNumberFrame } from "../expla
 export function createPreviewHandler(
     form: StyleForm,
     styleMode: StyleMode,
-    explanationTextsWrapperNode: FrameNode,
     fontName: FontName,
     previewResources: PreviewResources,
 ) {
     if (styleMode === "COLOR") {
         if (!previewResources.colors) { throw new Error("Color is required for creating preview."); }
-        createPreviewForColor(form, explanationTextsWrapperNode, previewResources.colors);
+        return createPreviewForColor(form, previewResources.colors);
 
     } else if (styleMode === "EFFECT") {
         if (!previewResources.effects) { throw new Error("Effect is required for creating preview."); }
-        createPreviewForEffect(form, explanationTextsWrapperNode, previewResources.effects);
+        return createPreviewForEffect(form, previewResources.effects);
 
     } else if (styleMode === "FLOAT") {
         if (!previewResources.numbers) { throw new Error("Number is required for creating preview."); }
-        createPreviewForNumber(form, explanationTextsWrapperNode, fontName, previewResources.numbers);
+        return createPreviewForNumber(form, fontName, previewResources.numbers);
 
     } else {
-        createPreviewForDefault(explanationTextsWrapperNode);
+        return null;
     }
 }
 
 function createPreviewForColor(
     form: StyleForm,
-    explanationTextsWrapperNode: FrameNode,
     colors: RGBA[],
 ) {
     const colorFrames: FrameNode[] = [];
@@ -52,40 +50,41 @@ function createPreviewForColor(
     );
     swatchesWrapper.name = "Swatches Wrapper";
 
-    const item = util.createAutolayoutFrame(
-        [swatchesWrapper, explanationTextsWrapperNode],
-        semanticTokens.spacing.base,
-        "HORIZONTAL"
-    );
+    return swatchesWrapper;
 
-    swatchesWrapper.layoutSizingHorizontal = "HUG";
-    swatchesWrapper.layoutSizingVertical = "HUG";
+    // const item = util.createAutolayoutFrame(
+    //     [swatchesWrapper, explanationTextsWrapperNode],
+    //     semanticTokens.spacing.base,
+    //     "HORIZONTAL"
+    // );
 
-    // explanationItemWrapperNode = item;
-    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-    previewFinalSetUp(item);
+    // swatchesWrapper.layoutSizingHorizontal = "HUG";
+    // swatchesWrapper.layoutSizingVertical = "HUG";
+
+    // // explanationItemWrapperNode = item;
+    // explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+    // previewFinalSetUp(item);
 }
 
 function createPreviewForEffect(
     form: StyleForm,
-    explanationTextsWrapperNode: FrameNode,
     effects: Effect[],
 ) {
     const effectFrame = createEffectFrame(effects);
+    return effectFrame;
 
-    const item = util.createAutolayoutFrame(
-        [effectFrame, explanationTextsWrapperNode],
-        semanticTokens.spacing.base,
-        "HORIZONTAL"
-    );
+    // const item = util.createAutolayoutFrame(
+    //     [effectFrame, explanationTextsWrapperNode],
+    //     semanticTokens.spacing.base,
+    //     "HORIZONTAL"
+    // );
 
-    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-    previewFinalSetUp(item);
+    // explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+    // previewFinalSetUp(item);
 }
 
 function createPreviewForNumber(
     form: StyleForm,
-    explanationTextsWrapperNode: FrameNode,
     fontName: FontName,
     numbers: number[],
 ) {
@@ -103,57 +102,17 @@ function createPreviewForNumber(
     );
     swatchesWrapper.name = "Numbers Wrapper";
 
-    const item = util.createAutolayoutFrame(
-        [swatchesWrapper, explanationTextsWrapperNode],
-        semanticTokens.spacing.base,
-        "HORIZONTAL"
-    );
+    return swatchesWrapper;
 
-    swatchesWrapper.layoutSizingHorizontal = "HUG";
-    swatchesWrapper.layoutSizingVertical = "HUG";
+    // const item = util.createAutolayoutFrame(
+    //     [swatchesWrapper, explanationTextsWrapperNode],
+    //     semanticTokens.spacing.base,
+    //     "HORIZONTAL"
+    // );
 
-    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-    previewFinalSetUp(item);
-}
+    // swatchesWrapper.layoutSizingHorizontal = "HUG";
+    // swatchesWrapper.layoutSizingVertical = "HUG";
 
-function createPreviewForDefault(
-    explanationTextsWrapperNode: FrameNode,
-) {
-    const item = util.createAutolayoutFrame(
-        [explanationTextsWrapperNode],
-        0,
-        "VERTICAL"
-    );
-    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-    previewFinalSetUp(item);
-}
-
-function previewFinalSetUp(target: FrameNode) {
-    // target = explanationItemWrapperNode
-
-    target.name = `Explanation Item`;
-    target.clipsContent = false;
-
-    // Set height to hug content
-    target.primaryAxisSizingMode = "AUTO";
-
-    util.setPadding(target, {
-        top: semanticTokens.padding.large,
-        bottom: semanticTokens.padding.large,
-        left: semanticTokens.padding.xsmall,
-        right: semanticTokens.padding.xsmall,
-    });
-
-    // Set border properties for top edge only
-    util.setStroke(target, semanticTokens.dividerColor, {
-        top: 1,
-        bottom: 0,
-        left: 0,
-        right: 0,
-    });
-
-    // Center items to the top
-    target.counterAxisAlignItems = "MIN";
-
-    return target;
+    // explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+    // previewFinalSetUp(item);
 }
