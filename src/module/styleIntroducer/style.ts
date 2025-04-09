@@ -2,7 +2,6 @@ import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, St
 import * as util from "../util"
 import * as CLExplanationItem from "../catalogue/catalogueExplanationItem"
 import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper";
-import { semanticTokens } from "../tokens";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
@@ -96,118 +95,76 @@ function createExplanationItemsHandler(
     }
 }
 
-function createItemColor(
-    styleList: PaintStyle[],
+function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
+    styleList: T[],
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
+    getPreviewResources: (style: T) => PreviewResources
 ): FrameNode[] {
     const explanationItems: FrameNode[] = [];
 
     styleList.forEach((member) => {
-        const paint = member.paints[0];
         const { id, description, name } = member;
+        const title = name.split("/").pop() || "";
 
-        if (paint.type === "SOLID") {
-            const solidPaint = paint as SolidPaint;
+        const previewResources = getPreviewResources(member);
+        const aliasResources: AliasResources = {};
 
-            const title = name.split("/").pop() || ""
-            const { r, g, b } = solidPaint.color;
-            const previewResources: PreviewResources = {
-                colors: [
-                    {
-                        r: r, g: g, b: b, a: 1,
-                    },
-                ]
-            }
-            const aliasResources: AliasResources = {}
-            const explanationItem = CLExplanationItem.createExplanationItem(
-                form,
-                styleMode,
-                id,
-                title,
-                description,
-                fontName,
-                previewResources,
-                aliasResources
-            )
+        const explanationItem = CLExplanationItem.createExplanationItem(
+            form,
+            styleMode,
+            id,
+            title,
+            description,
+            fontName,
+            previewResources,
+            aliasResources
+        );
 
-            explanationItem.primaryAxisSizingMode = "AUTO";
-            explanationItem.counterAxisSizingMode = "AUTO";
+        explanationItem.primaryAxisSizingMode = "AUTO";
+        explanationItem.counterAxisSizingMode = "AUTO";
 
-            explanationItems.push(explanationItem);
-        }
+        explanationItems.push(explanationItem);
     });
 
     return explanationItems;
+}
+
+function createItemColor(
+    styleList: PaintStyle[],
+    form: StyleForm,
+    styleMode: StyleMode,
+    fontName: FontName
+): FrameNode[] {
+    return createGenericItems(styleList, form, styleMode, fontName, (style) => {
+        const paint = style.paints[0];
+        if (paint.type !== "SOLID") return { colors: [] }; // fallback
+        const { r, g, b } = (paint as SolidPaint).color;
+        return {
+            colors: [{ r, g, b, a: 1 }],
+        };
+    });
 }
 
 function createItemText(
     styleList: TextStyle[],
     form: StyleForm,
     styleMode: StyleMode,
-    fontName: FontName,
-) {
-    const explanationItems: FrameNode[] = [];
-
-    styleList.forEach((member) => {
-        const { id, description, name } = member;
-        const title = name.split("/").pop() || ""
-        const previewResources: PreviewResources = {
-            textStyle: member
-        }
-        const aliasResources: AliasResources = {}
-        const explanationItem = CLExplanationItem.createExplanationItem(
-            form,
-            styleMode,
-            id,
-            title,
-            description,
-            fontName,
-            previewResources,
-            aliasResources
-        )
-
-        explanationItem.primaryAxisSizingMode = "AUTO";
-        explanationItem.counterAxisSizingMode = "AUTO";
-
-        explanationItems.push(explanationItem);
-    });
-
-    return explanationItems;
+    fontName: FontName
+): FrameNode[] {
+    return createGenericItems(styleList, form, styleMode, fontName, (style) => ({
+        textStyle: style
+    }));
 }
 
 function createItemEffect(
     styleList: EffectStyle[],
     form: StyleForm,
     styleMode: StyleMode,
-    fontName: FontName,
-) {
-    const explanationItems: FrameNode[] = [];
-
-    styleList.forEach((member) => {
-        const { id, description, name } = member;
-        const title = name.split("/").pop() || ""
-        const previewResources: PreviewResources = {
-            effects: [...member.effects]
-        }
-        const aliasResources: AliasResources = {}
-        const explanationItem = CLExplanationItem.createExplanationItem(
-            form,
-            styleMode,
-            id,
-            title,
-            description,
-            fontName,
-            previewResources,
-            aliasResources
-        )
-
-        explanationItem.primaryAxisSizingMode = "AUTO";
-        explanationItem.counterAxisSizingMode = "AUTO";
-
-        explanationItems.push(explanationItem);
-    });
-
-    return explanationItems;
+    fontName: FontName
+): FrameNode[] {
+    return createGenericItems(styleList, form, styleMode, fontName, (style) => ({
+        effects: [...style.effects]
+    }));
 }
