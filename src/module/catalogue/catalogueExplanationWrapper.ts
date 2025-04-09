@@ -1,0 +1,115 @@
+// 2025-04-09
+// V25: 重構原先 explanation.ts 裡頭已經混亂得不得了的func
+
+import { StyleForm, } from "../../types/Messages/MessageStyleIntroducer";
+import * as util from "../util";
+import { semanticTokens } from "../tokens";
+
+/**
+ * Create wrapper for explanation items (New version).
+ * 
+ * @param form  - Either "STYLE" or "VARIABLE"
+ * @param items - Explanation items
+ * @param title 
+ * @param titleSecondary 
+ * @param fontName 
+ * @param isItemLinkEnabled 
+ * @param modes - String array for mode names
+ * @returns 
+ */
+export function createExplanationWrapper(
+    form: StyleForm,
+    items: FrameNode[],
+    title: string,
+    titleSecondary: string,
+    fontName: FontName,
+    isItemLinkEnabled: boolean = false,
+    modes?: string[]
+) {
+    const dateString = createDateString(isItemLinkEnabled);
+
+    const dateNode = util.createTextNode(dateString, fontName, semanticTokens.fontSize.xsmall, [{ type: "SOLID", color: semanticTokens.text.tertiary }]);
+    dateNode.textAlignHorizontal = "RIGHT";
+
+    const titleNode = util.createTextNode(title, fontName, semanticTokens.fontSize.xxlarge);
+    const titleSecondaryNode = util.createTextNode(titleSecondary, fontName, semanticTokens.fontSize.base, [{ type: "SOLID", color: semanticTokens.text.secondary }]);
+
+    const titleWrapperContents = [dateNode, titleSecondaryNode, titleNode];
+
+    if (form === "VARIABLE") {
+        if (!modes) { throw new Error("Modes are required for variable type."); }
+        pushAdditionalContent(modes, fontName, titleWrapperContents)
+    }
+
+    const titleWrapper = util.createAutolayoutFrame(titleWrapperContents, semanticTokens.spacing.xsmall, "VERTICAL");
+    titleWrapper.name = "Title Wrapper";
+    dateNode.layoutSizingHorizontal = "FILL";
+    titleNode.layoutSizingHorizontal = "FILL";
+    titleSecondaryNode.layoutSizingHorizontal = "FILL";
+
+    const itemsFrame = createItemsFrame(items);
+    const wrapperFrame = util.createAutolayoutFrame([titleWrapper, itemsFrame], semanticTokens.spacing.xlarge, "VERTICAL");
+    titleWrapper.layoutSizingHorizontal = "FILL";
+
+    util.setPadding(wrapperFrame, {
+        top: semanticTokens.padding.xlarge,
+        bottom: semanticTokens.padding.xlarge,
+        left: semanticTokens.padding.xlarge,
+        right: semanticTokens.padding.xlarge,
+    });
+    wrapperFrame.primaryAxisSizingMode = "AUTO";
+    wrapperFrame.counterAxisSizingMode = "FIXED";
+
+    const frameWidth = determineFrameWidth(modes);
+    wrapperFrame.resize(frameWidth, wrapperFrame.height);
+
+    items.forEach((item) => {
+        item.layoutSizingHorizontal = "FILL";
+    });
+
+    wrapperFrame.setRelaunchData(({ updateCatalogueDesc: 'Update description back to styles or variables' }))
+
+    return wrapperFrame;
+}
+
+function createDateString(isItemLinkEnabled: boolean) {
+    return isItemLinkEnabled ? `Created at ${util.getFormattedDate("fullDateTime")}. Cross-catalogue reference enabled.` : `Created at ${util.getFormattedDate("fullDateTime")}`;
+}
+
+function pushAdditionalContent(
+    modes: string[],
+    fontName: FontName,
+    target: SceneNode[]
+) {
+    const modesText = modes.length === 1
+        ? `Variable Modes: ${modes[0]}`
+        : `Variable Modes: ${modes.join(", ")}`;
+
+    const modesNode = util.createTextNode(modesText, fontName, semanticTokens.fontSize.base);
+
+    target.push(modesNode);
+}
+
+function createItemsFrame(items: FrameNode[]) {
+    const itemsFrame = util.createAutolayoutFrame(items, 0, "VERTICAL");
+    itemsFrame.name = "Explanation Items";
+    itemsFrame.clipsContent = false;
+    itemsFrame.layoutSizingHorizontal = "HUG";
+    itemsFrame.layoutSizingVertical = "HUG";
+    itemsFrame.primaryAxisSizingMode = "AUTO";
+    itemsFrame.counterAxisSizingMode = "AUTO";
+    itemsFrame.layoutAlign = "STRETCH";
+
+    return itemsFrame;
+}
+
+function determineFrameWidth(modes?: string[]): number {
+    const basicWidth = 640;
+
+    if (modes && modes.length > 2) {
+        const additionalModes = modes.length - 2;
+        return basicWidth + Math.ceil(additionalModes / 2) * 160;
+    } else {
+        return basicWidth;
+    }
+}

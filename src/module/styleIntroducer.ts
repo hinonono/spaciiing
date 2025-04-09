@@ -12,7 +12,8 @@ import * as styledTextSegments from "./styledTextSegments";
 import * as CLItemLink from "./catalogue/catalogueItemLink"
 import * as CLUtil from "./catalogue/catalogueUtil";
 import * as CLVar from "./catalogue/catalogueVariable";
-import * as CLExplanation from "./catalogue/catalogueExplanation"
+import * as CLExplanationItem from "./catalogue/catalogueExplanationItem"
+import * as CLExplanationWrapper from "./catalogue/catalogueExplanationWrapper";
 
 import { semanticTokens } from "./tokens";
 
@@ -76,7 +77,9 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
   ];
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
-  const fontName = { family: "Inter", style: "Regular" };
+  const fontNameRegular = { family: "Inter", style: "Regular" };
+  const fontNameSemi = { family: "Inter", style: "Semi Bold" };
+
   // create explanation items
   const explanationItems: FrameNode[] = [];
 
@@ -140,13 +143,13 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
           ]
         }
         const aliasResources: AliasResources = {}
-        const explanationItem = CLExplanation.createExplanationItem(
+        const explanationItem = CLExplanationItem.createExplanationItem(
           form,
           styleMode,
           id,
           title,
           description,
-          fontName,
+          fontNameRegular,
           previewResources,
           aliasResources
         )
@@ -168,13 +171,13 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
         textStyle: member
       }
       const aliasResources: AliasResources = {}
-      const explanationItem = CLExplanation.createExplanationItem(
+      const explanationItem = CLExplanationItem.createExplanationItem(
         form,
         styleMode,
         id,
         title,
         description,
-        fontName,
+        fontNameRegular,
         previewResources,
         aliasResources
       )
@@ -196,13 +199,13 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
         effects: [...member.effects]
       }
       const aliasResources: AliasResources = {}
-      const explanationItem = CLExplanation.createExplanationItem(
+      const explanationItem = CLExplanationItem.createExplanationItem(
         form,
         styleMode,
         id,
         title,
         description,
-        fontName,
+        fontNameRegular,
         previewResources,
         aliasResources
       )
@@ -215,13 +218,26 @@ async function applyStyleIntroducer(message: MessageStyleIntroducer) {
     });
   }
 
-  const explanationWrapper = explanation.createExplanationWrapper(
-    "STYLE",
+  // const explanationWrapper = explanation.createExplanationWrapper(
+  //   "STYLE",
+  //   explanationItems,
+  //   title == "" ? "Styles" : title,
+  //   "Catalogue",
+  //   { family: "Inter", style: "Semi Bold" }
+  // );
+
+  // 😘V25新版 START
+  const wrapperTitle = title == "" ? "Styles" : title
+  const titleSecondary = "Catalogue";
+
+  const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
+    form,
     explanationItems,
-    title == "" ? "Styles" : title,
-    "Catalogue",
-    { family: "Inter", style: "Semi Bold" }
-  );
+    wrapperTitle,
+    titleSecondary,
+    fontNameSemi
+  )
+  // 😘V25新版 END
 
   explanationWrapper.fills = [
     {
@@ -264,7 +280,8 @@ async function applyStyleIntroducerForVariable(
   ];
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
-  const fontName = { family: "Inter", style: "Regular" };
+  const fontNameRegular = { family: "Inter", style: "Regular" };
+  const fontNameSemi = { family: "Inter", style: "Semi Bold" };
 
   let localVariables;
   switch (styleMode) {
@@ -344,13 +361,13 @@ async function applyStyleIntroducerForVariable(
         variableModes: modeNames,
         aliasVariableIds: aliasVariableIds
       }
-      const explanationItem = CLExplanation.createExplanationItem(
+      const explanationItem = CLExplanationItem.createExplanationItem(
         form,
         styleMode,
         id,
         title,
         description,
-        fontName,
+        fontNameRegular,
         previewResources,
         aliasResources
       )
@@ -402,13 +419,13 @@ async function applyStyleIntroducerForVariable(
         variableModes: modeNames,
         aliasVariableIds: aliasVariableIds
       }
-      const explanationItem = CLExplanation.createExplanationItem(
+      const explanationItem = CLExplanationItem.createExplanationItem(
         form,
         styleMode,
         id,
         title,
         description,
-        fontName,
+        fontNameRegular,
         previewResources,
         aliasResources
       )
@@ -462,13 +479,13 @@ async function applyStyleIntroducerForVariable(
         variableModes: modeNames,
         aliasVariableIds: aliasVariableIds
       }
-      const explanationItem = CLExplanation.createExplanationItem(
+      const explanationItem = CLExplanationItem.createExplanationItem(
         form,
         styleMode,
         id,
         title,
         description,
-        fontName,
+        fontNameRegular,
         previewResources,
         aliasResources
       )
@@ -490,15 +507,30 @@ async function applyStyleIntroducerForVariable(
     throw new Error("Termination due to explanationItems length is 0.");
   }
 
-  const explanationWrapper = explanation.createExplanationWrapper(
-    "VARIABLE",
+  // const explanationWrapper = explanation.createExplanationWrapper(
+  //   "VARIABLE",
+  //   explanationItems,
+  //   title == "" ? "Variables" : title,
+  //   "Catalogue",
+  //   { family: "Inter", style: "Semi Bold" },
+  //   isCatalogueItemLinkFeatureAvailable.availability,
+  //   modeNames
+  // );
+
+  // 😘V25新版 START
+  const wrapperTitle = title == "" ? "Variables" : title
+  const titleSecondary = "Catalogue";
+
+  const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
+    form,
     explanationItems,
-    title == "" ? "Variables" : title,
-    "Catalogue",
-    { family: "Inter", style: "Semi Bold" },
+    wrapperTitle,
+    titleSecondary,
+    fontNameSemi,
     isCatalogueItemLinkFeatureAvailable.availability,
     modeNames
-  );
+  )
+  // 😘V25新版 END
 
   explanationWrapper.fills = [
     {

@@ -460,121 +460,141 @@ import * as styledTextSegments from "./styledTextSegments";
  * @returns {FrameNode} The main frame node containing the title, secondary title, and explanation items.
  * @throws Will throw an error if the modes are required for the variable type but not provided.
  */
-export function createExplanationWrapper(
-  format: "STYLE" | "VARIABLE",
-  explanationItems: FrameNode[],
-  title: string,
-  secondaryTitle: string,
-  fontName: FontName,
-  isCatalogueItemLinkFeatureEnabled: boolean = false,
-  modes?: string[]
-): FrameNode {
-  const itemsToPutInTitleWrapper: SceneNode[] = [];
-  const dateString = isCatalogueItemLinkFeatureEnabled ? `Created at ${getFormattedDate("fullDateTime")}. Cross-catalogue reference enabled.` : `Created at ${getFormattedDate("fullDateTime")}`;
+// export function createExplanationWrapper(
+//   format: "STYLE" | "VARIABLE",
+//   explanationItems: FrameNode[],
+//   title: string,
+//   secondaryTitle: string,
+//   fontName: FontName,
+//   isCatalogueItemLinkFeatureEnabled: boolean = false,
+//   modes?: string[]
+// ): FrameNode {
+//   const itemsToPutInTitleWrapper: SceneNode[] = [];
+//   const dateString = isCatalogueItemLinkFeatureEnabled ? `Created at ${getFormattedDate("fullDateTime")}. Cross-catalogue reference enabled.` : `Created at ${getFormattedDate("fullDateTime")}`;
 
-  const createdDateNode = createTextNode(
-    dateString,
-    fontName,
-    semanticTokens.fontSize.xsmall,
-    [{ type: "SOLID", color: semanticTokens.text.tertiary }]
-  );
-  const titleNode = createTextNode(
-    title,
-    fontName,
-    semanticTokens.fontSize.xxlarge
-  );
-  const secondaryTitleNode = createTextNode(
-    secondaryTitle,
-    fontName,
-    semanticTokens.fontSize.base,
-    [{ type: "SOLID", color: semanticTokens.text.secondary }]
-  );
+//   const createdDateNode = createTextNode(
+//     dateString,
+//     fontName,
+//     semanticTokens.fontSize.xsmall,
+//     [{ type: "SOLID", color: semanticTokens.text.tertiary }]
+//   );
+//   const titleNode = createTextNode(
+//     title,
+//     fontName,
+//     semanticTokens.fontSize.xxlarge
+//   );
+//   const secondaryTitleNode = createTextNode(
+//     secondaryTitle,
+//     fontName,
+//     semanticTokens.fontSize.base,
+//     [{ type: "SOLID", color: semanticTokens.text.secondary }]
+//   );
 
-  itemsToPutInTitleWrapper.push(createdDateNode);
-  itemsToPutInTitleWrapper.push(secondaryTitleNode);
-  itemsToPutInTitleWrapper.push(titleNode);
+//   itemsToPutInTitleWrapper.push(createdDateNode);
+//   itemsToPutInTitleWrapper.push(secondaryTitleNode);
+//   itemsToPutInTitleWrapper.push(titleNode);
 
-  if (format === "VARIABLE") {
-    if (!modes) {
-      throw new Error("Modes are required for variable type.");
-    }
 
-    const modesText =
-      modes.length === 1
-        ? `Variable Modes: ${modes[0]}`
-        : `Variable Modes: ${modes.join(", ")}`;
 
-    const modesNode = createTextNode(
-      modesText,
-      fontName,
-      semanticTokens.fontSize.base
-    );
 
-    itemsToPutInTitleWrapper.push(modesNode);
-  }
+//   if (format === "VARIABLE") {
+//     if (!modes) {
+//       throw new Error("Modes are required for variable type.");
+//     }
 
-  const titleWrapper = createAutolayoutFrame(
-    itemsToPutInTitleWrapper,
-    semanticTokens.spacing.xsmall,
-    "VERTICAL"
-  );
-  titleWrapper.name = "Title Wrapper";
+//     const modesText =
+//       modes.length === 1
+//         ? `Variable Modes: ${modes[0]}`
+//         : `Variable Modes: ${modes.join(", ")}`;
 
-  createdDateNode.textAlignHorizontal = "RIGHT";
-  createdDateNode.layoutSizingHorizontal = "FILL";
-  titleNode.layoutSizingHorizontal = "FILL";
-  secondaryTitleNode.layoutSizingHorizontal = "FILL";
+//     const modesNode = createTextNode(
+//       modesText,
+//       fontName,
+//       semanticTokens.fontSize.base
+//     );
 
-  const itemsFrame = createAutolayoutFrame(explanationItems, 0, "VERTICAL");
-  itemsFrame.name = "Explanation Items";
-  itemsFrame.clipsContent = false;
-  itemsFrame.layoutSizingHorizontal = "HUG";
-  itemsFrame.layoutSizingVertical = "HUG";
-  itemsFrame.primaryAxisSizingMode = "AUTO";
-  itemsFrame.counterAxisSizingMode = "AUTO";
-  itemsFrame.layoutAlign = "STRETCH";
+//     itemsToPutInTitleWrapper.push(modesNode);
+//   }
 
-  // Create the main auto-layout frame to contain the title and items frame
-  const wrapperFrame = createAutolayoutFrame(
-    [titleWrapper, itemsFrame],
-    semanticTokens.spacing.xlarge,
-    "VERTICAL"
-  );
 
-  titleWrapper.layoutSizingHorizontal = "FILL";
+//   //
 
-  // Set padding for the main frame
-  setPadding(wrapperFrame, {
-    top: semanticTokens.padding.xlarge,
-    bottom: semanticTokens.padding.xlarge,
-    left: semanticTokens.padding.xlarge,
-    right: semanticTokens.padding.xlarge,
-  });
+//   const titleWrapper = createAutolayoutFrame(
+//     itemsToPutInTitleWrapper,
+//     semanticTokens.spacing.xsmall,
+//     "VERTICAL"
+//   );
+//   titleWrapper.name = "Title Wrapper";
 
-  wrapperFrame.primaryAxisSizingMode = "AUTO"; // This makes the height hug the content
-  wrapperFrame.counterAxisSizingMode = "FIXED"; // This ensures the width is fixed
+//   createdDateNode.textAlignHorizontal = "RIGHT";
+//   createdDateNode.layoutSizingHorizontal = "FILL";
+//   titleNode.layoutSizingHorizontal = "FILL";
+//   secondaryTitleNode.layoutSizingHorizontal = "FILL";
 
-  let frameWidth = 640;
+//   const itemsFrame = createAutolayoutFrame(explanationItems, 0, "VERTICAL");
+//   itemsFrame.name = "Explanation Items";
+//   itemsFrame.clipsContent = false;
+//   itemsFrame.layoutSizingHorizontal = "HUG";
+//   itemsFrame.layoutSizingVertical = "HUG";
+//   itemsFrame.primaryAxisSizingMode = "AUTO";
+//   itemsFrame.counterAxisSizingMode = "AUTO";
+//   itemsFrame.layoutAlign = "STRETCH";
 
-  if (modes) {
-    if (modes.length > 2) {
-      const additionalModes = modes.length - 2;
-      frameWidth = 640 + Math.ceil(additionalModes / 2) * 160;
-    }
-  }
 
-  // Set the fixed width and initial height
-  wrapperFrame.resize(frameWidth, wrapperFrame.height);
 
-  // Ensure explanation items fill the container width
-  explanationItems.forEach((item) => {
-    item.layoutSizingHorizontal = "FILL";
-  });
 
-  wrapperFrame.setRelaunchData(({ updateCatalogueDesc: 'Update description back to styles or variables' }))
 
-  return wrapperFrame;
-}
+
+//   // Create the main auto-layout frame to contain the title and items frame
+//   const wrapperFrame = createAutolayoutFrame(
+//     [titleWrapper, itemsFrame],
+//     semanticTokens.spacing.xlarge,
+//     "VERTICAL"
+//   );
+
+//   titleWrapper.layoutSizingHorizontal = "FILL";
+
+
+
+
+
+
+//   // Set padding for the main frame
+//   setPadding(wrapperFrame, {
+//     top: semanticTokens.padding.xlarge,
+//     bottom: semanticTokens.padding.xlarge,
+//     left: semanticTokens.padding.xlarge,
+//     right: semanticTokens.padding.xlarge,
+//   });
+
+//   wrapperFrame.primaryAxisSizingMode = "AUTO"; // This makes the height hug the content
+//   wrapperFrame.counterAxisSizingMode = "FIXED"; // This ensures the width is fixed
+
+
+
+
+
+//   let frameWidth = 640;
+
+//   if (modes) {
+//     if (modes.length > 2) {
+//       const additionalModes = modes.length - 2;
+//       frameWidth = 640 + Math.ceil(additionalModes / 2) * 160;
+//     }
+//   }
+
+//   // Set the fixed width and initial height
+//   wrapperFrame.resize(frameWidth, wrapperFrame.height);
+
+//   // Ensure explanation items fill the container width
+//   explanationItems.forEach((item) => {
+//     item.layoutSizingHorizontal = "FILL";
+//   });
+
+//   wrapperFrame.setRelaunchData(({ updateCatalogueDesc: 'Update description back to styles or variables' }))
+
+//   return wrapperFrame;
+// }
 
 /**
  * Creates an auto-layout frame containing a title and content node.
