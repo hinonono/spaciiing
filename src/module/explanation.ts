@@ -31,422 +31,422 @@ import * as styledTextSegments from "./styledTextSegments";
  * @returns {FrameNode} The frame node representing the explanation item.
  * @throws Will throw an error if required parameters for specific style modes are not provided.
  */
-export function createExplanationItem(
-  format: "STYLE" | "VARIABLE",
-  id: string,
-  title: string,
-  description: string,
-  fontName: FontName,
-  styleMode: StyleMode,
-  colors?: RGBA[],
-  effects?: Effect[],
-  textStyle?: TextStyle,
-  numbers?: number[],
-  strings?: string[],
-  aliasNames?: (string | undefined)[],
-  variableModes?: string[],
-  aliasVariableIds?: (string | undefined)[]
-) {
-  const titleNode = createTextNode(
-    title,
-    { family: fontName.family, style: "Semi Bold" },
-    semanticTokens.fontSize.base * 1.25
-  );
-
-  //
-  const descriptionNode = createTextNode(
-    description == "" ? "(blank)" : description,
-    fontName,
-    semanticTokens.fontSize.base * 0.75,
-    [{ type: "SOLID", color: semanticTokens.text.secondary }]
-  );
-  descriptionNode.name = "Catalogue Description";
-  descriptionNode.lineHeight = { unit: "PERCENT", value: 150 };
-
-  const catalogueItemSchema: CatalogueItemDescriptionSchema = {
-    format: format,
-    id: id,
-  }
-
-  // 將該descriptionNode所連結至的style/variable的id存入其自身的pluginData中
-  descriptionNode.setPluginData("catalogue-item-schema", JSON.stringify(catalogueItemSchema));
-
-
-  const descriptionRichStyle = styledTextSegments.getCatalogueItemRichStyleFromRoot(id);
-  if (descriptionRichStyle) {
-    styledTextSegments.applyCatalogueItemRichStyle(descriptionNode, descriptionRichStyle);
-  }
-
-  // 
-  // 
-  // 🔥🔥🔥🔥Refactor 進度線🔥🔥🔥🔥
-  // 
-  // 
-
-
-  let explanationTextsWrapperNode: FrameNode;
-  const itemsToPutInTitleWrapper: SceneNode[] = [];
-
-  itemsToPutInTitleWrapper.push(titleNode);
-
-  //依據StyleMode處理包含於TitleWrapper的Nodes
-  if (styleMode === "COLOR") {
-    // 處理顏色樣式
-    if (!colors) {
-      throw new Error("Color is required for color type.");
-    }
-
-    if (colors.length === 0) {
-      throw new Error("Termination due to color.length is 0.");
-    }
-
-    let colorHexNode: TextNode | null = null;
-
-    if (format === "STYLE" && colors.length == 1) {
-      colorHexNode = createStyleColorHexNode(
-        colors,
-        fontName,
-        semanticTokens.fontSize.base * 0.75
-      );
-      itemsToPutInTitleWrapper.push(colorHexNode);
-    } else {
-      if (!aliasNames) {
-        throw new Error("Alias names are required for variable type.");
-      }
-
-      if (!aliasVariableIds) {
-        throw new Error("Alias variable ids are required for variable type.");
-      }
-
-      const colorHexNodes = createVariableColorHexNodes(colors, fontName, aliasNames, aliasVariableIds, variableModes);
-      itemsToPutInTitleWrapper.push(...colorHexNodes);
-    }
-
-
-    const titleWrapper = createAutolayoutFrame(
-      itemsToPutInTitleWrapper,
-      semanticTokens.spacing.xsmall,
-      "VERTICAL"
-    );
-
-    itemsToPutInTitleWrapper.forEach((node) => {
-      if ("layoutSizingHorizontal" in node) {
-        node.layoutSizingHorizontal = "FILL";
-      }
-      if ("layoutSizingVertical" in node) {
-        node.layoutSizingVertical = "HUG";
-      }
-    });
-
-    titleWrapper.name = "Title Wrapper";
-    titleNode.layoutSizingHorizontal = "FILL";
-
-    explanationTextsWrapperNode = createAutolayoutFrame(
-      [titleWrapper, descriptionNode],
-      semanticTokens.spacing.base,
-      "VERTICAL"
-    );
-    titleWrapper.layoutSizingHorizontal = "FILL";
-    titleWrapper.layoutSizingVertical = "HUG";
-  } else if (styleMode === "FLOAT") {
-    if (!numbers) {
-      throw new Error("Number is required for number type.");
-    }
-
-    if (numbers.length === 0) {
-      throw new Error("Termination due to number.length is 0.");
-    }
-
-    if (!variableModes) {
-      throw new Error("Variable modes are required for number type.");
-    }
-
-    if (format === "VARIABLE") {
-      if (!aliasNames) {
-        throw new Error("Alias names are required for variable type.");
-      }
-      if (!aliasVariableIds) {
-        throw new Error("Alias variable ids are required for variable type.");
-      }
-      const numberNodes = createVariableNumberNodes(numbers, fontName, aliasNames, aliasVariableIds, variableModes);
-
-      itemsToPutInTitleWrapper.push(...numberNodes);
-    }
-
-    const titleWrapper = createAutolayoutFrame(
-      itemsToPutInTitleWrapper,
-      semanticTokens.spacing.xsmall,
-      "VERTICAL"
-    );
-    itemsToPutInTitleWrapper.forEach((node) => {
-      if ("layoutSizingHorizontal" in node) {
-        node.layoutSizingHorizontal = "FILL";
-      }
-      if ("layoutSizingVertical" in node) {
-        node.layoutSizingVertical = "HUG";
-      }
-    });
-
-    titleWrapper.name = "Title Wrapper";
-    titleNode.layoutSizingHorizontal = "FILL";
-
-    explanationTextsWrapperNode = createAutolayoutFrame(
-      [titleWrapper, descriptionNode],
-      semanticTokens.spacing.base,
-      "VERTICAL"
-    );
-    titleWrapper.layoutSizingHorizontal = "FILL";
-    titleWrapper.layoutSizingVertical = "HUG";
-  } else if (styleMode === "TEXT") {
-    // 處理文字樣式
-    if (!textStyle) {
-      throw new Error("Text style is required for text type.");
-    }
-
-    const textPropertiesWrappers = createTextPropertiesWrappers(
-      textStyle,
-      fontName
-    );
-
-    const titleWrapper = createAutolayoutFrame(
-      [titleNode, ...textPropertiesWrappers],
-      semanticTokens.padding.xsmall,
-      "VERTICAL"
-    );
-    titleWrapper.name = "Title Wrapper";
-    titleNode.layoutSizingHorizontal = "FILL";
-    textPropertiesWrappers.forEach((wrapper) => {
-      wrapper.layoutSizingHorizontal = "FILL";
-    });
-
-    explanationTextsWrapperNode = createAutolayoutFrame(
-      [titleWrapper, descriptionNode],
-      semanticTokens.spacing.base,
-      "VERTICAL"
-    );
-
-    titleWrapper.layoutSizingHorizontal = "FILL";
-  } else if (styleMode === "EFFECT") {
-    // 處理效果樣式
-    if (!effects) {
-      throw new Error("Effects is required for effect type.");
-    }
-
-    const effectWrappers = createEffectPropertiesWrappers(effects, fontName);
-
-    const titleWrapper = createAutolayoutFrame(
-      [titleNode, ...effectWrappers],
-      semanticTokens.spacing.large,
-      "VERTICAL"
-    );
-    titleWrapper.name = "Title Wrapper";
-    titleNode.layoutSizingHorizontal = "FILL";
-    effectWrappers.forEach((wrapper) => {
-      wrapper.layoutSizingHorizontal = "FILL";
-    });
-
-    explanationTextsWrapperNode = createAutolayoutFrame(
-      [titleWrapper, descriptionNode],
-      semanticTokens.spacing.base,
-      "VERTICAL"
-    );
-
-    titleWrapper.layoutSizingHorizontal = "FILL";
-  } else if (styleMode === "STRING") {
-    console.log("STRING MODE GETTING CALLED.")
-    // 處理文字樣式
-    if (!strings) {
-      throw new Error("Strings is required for number type.");
-    }
-
-    if (strings.length === 0) {
-      throw new Error("Termination due to strings.length is 0.");
-    }
-
-    if (!variableModes) {
-      throw new Error("Variable modes are required for number type.");
-    }
-
-    if (format === "VARIABLE") {
-      if (!aliasNames) {
-        throw new Error("Alias names are required for variable type.");
-      }
-      if (!aliasVariableIds) {
-        throw new Error("Alias variable ids are required for variable type.");
-      }
-      const numberNodes = createVariableStringNodes(strings, fontName, aliasNames, aliasVariableIds, variableModes);
-
-      itemsToPutInTitleWrapper.push(...numberNodes);
-    }
-
-    const titleWrapper = createAutolayoutFrame(
-      itemsToPutInTitleWrapper,
-      semanticTokens.spacing.xsmall,
-      "VERTICAL"
-    );
-    itemsToPutInTitleWrapper.forEach((node) => {
-      if ("layoutSizingHorizontal" in node) {
-        node.layoutSizingHorizontal = "FILL";
-      }
-      if ("layoutSizingVertical" in node) {
-        node.layoutSizingVertical = "HUG";
-      }
-    });
-
-    titleWrapper.name = "Title Wrapper";
-    titleNode.layoutSizingHorizontal = "FILL";
-
-    explanationTextsWrapperNode = createAutolayoutFrame(
-      [titleWrapper, descriptionNode],
-      semanticTokens.spacing.base,
-      "VERTICAL"
-    );
-    titleWrapper.layoutSizingHorizontal = "FILL";
-    titleWrapper.layoutSizingVertical = "HUG";
-  } else {
-    // 預設
-    explanationTextsWrapperNode = createAutolayoutFrame(
-      [titleNode, descriptionNode],
-      semanticTokens.spacing.base,
-      "VERTICAL"
-    );
-
-    titleNode.layoutSizingHorizontal = "FILL";
-    descriptionNode.layoutSizingHorizontal = "FILL";
-  }
-
-  titleNode.layoutSizingHorizontal = "FILL";
-  descriptionNode.layoutSizingHorizontal = "FILL";
-  explanationTextsWrapperNode.name = "Info Wrapper";
-
-
-  // 
-  // 
-  // 🔥🔥🔥🔥Refactor 進度線🔥🔥🔥🔥
-  // 
-  // 
-
-  let explanationItemWrapperNode: FrameNode;
-  //依據不同的格式處理要放進去的內容（色塊、效果等）
-  if (styleMode === "COLOR") {
-    // 處理顏色樣式
-    if (!colors) {
-      throw new Error("Color is required for color type.");
-    }
-
-    const colorFrames: FrameNode[] = [];
-    colors.forEach((color) => {
-      const colorFrame = createColorFrame(color);
-
-      if (format === "STYLE") {
-        colorFrame.cornerRadius = semanticTokens.cornerRadius.infinite;
-      } else {
-        colorFrame.cornerRadius = semanticTokens.cornerRadius.small;
-      }
-      colorFrames.push(colorFrame);
-    });
-
-    // 將色塊們包裝入一個AutolayoutFrame中
-    const swatchesWrapper = createAutolayoutFrame(
-      colorFrames,
-      semanticTokens.spacing.xsmall,
-      "HORIZONTAL"
-    );
-    swatchesWrapper.name = "Swatches Wrapper";
-
-    const item = createAutolayoutFrame(
-      [swatchesWrapper, explanationTextsWrapperNode],
-      semanticTokens.spacing.base,
-      "HORIZONTAL"
-    );
-
-    swatchesWrapper.layoutSizingHorizontal = "HUG";
-    swatchesWrapper.layoutSizingVertical = "HUG";
-
-    explanationItemWrapperNode = item;
-    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-  } else if (styleMode === "EFFECT") {
-    // 處理效果樣式
-    if (!effects) {
-      throw new Error("Effects are required for effect type.");
-    }
-    const effectFrame = createEffectFrame(effects);
-
-    const item = createAutolayoutFrame(
-      [effectFrame, explanationTextsWrapperNode],
-      semanticTokens.spacing.base,
-      "HORIZONTAL"
-    );
-
-    explanationItemWrapperNode = item;
-    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-  } else if (styleMode === "FLOAT") {
-    // 處理數字樣式
-    if (!numbers) {
-      throw new Error("Number is required for float type.");
-    }
-
-    const numberFrames: FrameNode[] = [];
-    numbers.forEach((number) => {
-      const numberFrame = createNumberFrame(number, { family: fontName.family, style: "Semi Bold" });
-      numberFrames.push(numberFrame);
-    });
-
-    // 將數字框框們包裝入一個AutolayoutFrame中
-    const swatchesWrapper = createAutolayoutFrame(
-      numberFrames,
-      semanticTokens.spacing.xsmall,
-      "HORIZONTAL"
-    );
-    swatchesWrapper.name = "Numbers Wrapper";
-
-    const item = createAutolayoutFrame(
-      [swatchesWrapper, explanationTextsWrapperNode],
-      semanticTokens.spacing.base,
-      "HORIZONTAL"
-    );
-
-    swatchesWrapper.layoutSizingHorizontal = "HUG";
-    swatchesWrapper.layoutSizingVertical = "HUG";
-
-    explanationItemWrapperNode = item;
-    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-  } else {
-    // 預設
-    explanationItemWrapperNode = createAutolayoutFrame(
-      [explanationTextsWrapperNode],
-      0,
-      "VERTICAL"
-    );
-    explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
-  }
-
-  explanationItemWrapperNode.name = `Explanation Item`;
-  explanationItemWrapperNode.clipsContent = false;
-
-  // Set height to hug content
-  explanationItemWrapperNode.primaryAxisSizingMode = "AUTO";
-
-  setPadding(explanationItemWrapperNode, {
-    top: semanticTokens.padding.large,
-    bottom: semanticTokens.padding.large,
-    left: semanticTokens.padding.xsmall,
-    right: semanticTokens.padding.xsmall,
-  });
-
-  // Set border properties for top edge only
-  setStroke(explanationItemWrapperNode, semanticTokens.dividerColor, {
-    top: 1,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  });
-
-  // Center items to the top
-  explanationItemWrapperNode.counterAxisAlignItems = "MIN";
-
-  return explanationItemWrapperNode;
-}
+// export function createExplanationItem(
+//   format: "STYLE" | "VARIABLE",
+//   id: string,
+//   title: string,
+//   description: string,
+//   fontName: FontName,
+//   styleMode: StyleMode,
+//   colors?: RGBA[],
+//   effects?: Effect[],
+//   textStyle?: TextStyle,
+//   numbers?: number[],
+//   strings?: string[],
+//   aliasNames?: (string | undefined)[],
+//   variableModes?: string[],
+//   aliasVariableIds?: (string | undefined)[]
+// ) {
+//   const titleNode = createTextNode(
+//     title,
+//     { family: fontName.family, style: "Semi Bold" },
+//     semanticTokens.fontSize.base * 1.25
+//   );
+
+//   //
+//   const descriptionNode = createTextNode(
+//     description == "" ? "(blank)" : description,
+//     fontName,
+//     semanticTokens.fontSize.base * 0.75,
+//     [{ type: "SOLID", color: semanticTokens.text.secondary }]
+//   );
+//   descriptionNode.name = "Catalogue Description";
+//   descriptionNode.lineHeight = { unit: "PERCENT", value: 150 };
+
+//   const catalogueItemSchema: CatalogueItemDescriptionSchema = {
+//     format: format,
+//     id: id,
+//   }
+
+//   // 將該descriptionNode所連結至的style/variable的id存入其自身的pluginData中
+//   descriptionNode.setPluginData("catalogue-item-schema", JSON.stringify(catalogueItemSchema));
+
+
+//   const descriptionRichStyle = styledTextSegments.getCatalogueItemRichStyleFromRoot(id);
+//   if (descriptionRichStyle) {
+//     styledTextSegments.applyCatalogueItemRichStyle(descriptionNode, descriptionRichStyle);
+//   }
+
+//   // 
+//   // 
+//   // 🔥🔥🔥🔥Refactor 進度線🔥🔥🔥🔥
+//   // 
+//   // 
+
+
+//   let explanationTextsWrapperNode: FrameNode;
+//   const itemsToPutInTitleWrapper: SceneNode[] = [];
+
+//   itemsToPutInTitleWrapper.push(titleNode);
+
+//   //依據StyleMode處理包含於TitleWrapper的Nodes
+//   if (styleMode === "COLOR") {
+//     // 處理顏色樣式
+//     if (!colors) {
+//       throw new Error("Color is required for color type.");
+//     }
+
+//     if (colors.length === 0) {
+//       throw new Error("Termination due to color.length is 0.");
+//     }
+
+//     let colorHexNode: TextNode | null = null;
+
+//     if (format === "STYLE" && colors.length == 1) {
+//       colorHexNode = createStyleColorHexNode(
+//         colors,
+//         fontName,
+//         semanticTokens.fontSize.base * 0.75
+//       );
+//       itemsToPutInTitleWrapper.push(colorHexNode);
+//     } else {
+//       if (!aliasNames) {
+//         throw new Error("Alias names are required for variable type.");
+//       }
+
+//       if (!aliasVariableIds) {
+//         throw new Error("Alias variable ids are required for variable type.");
+//       }
+
+//       const colorHexNodes = createVariableColorHexNodes(colors, fontName, aliasNames, aliasVariableIds, variableModes);
+//       itemsToPutInTitleWrapper.push(...colorHexNodes);
+//     }
+
+
+//     const titleWrapper = createAutolayoutFrame(
+//       itemsToPutInTitleWrapper,
+//       semanticTokens.spacing.xsmall,
+//       "VERTICAL"
+//     );
+
+//     itemsToPutInTitleWrapper.forEach((node) => {
+//       if ("layoutSizingHorizontal" in node) {
+//         node.layoutSizingHorizontal = "FILL";
+//       }
+//       if ("layoutSizingVertical" in node) {
+//         node.layoutSizingVertical = "HUG";
+//       }
+//     });
+
+//     titleWrapper.name = "Title Wrapper";
+//     titleNode.layoutSizingHorizontal = "FILL";
+
+//     explanationTextsWrapperNode = createAutolayoutFrame(
+//       [titleWrapper, descriptionNode],
+//       semanticTokens.spacing.base,
+//       "VERTICAL"
+//     );
+//     titleWrapper.layoutSizingHorizontal = "FILL";
+//     titleWrapper.layoutSizingVertical = "HUG";
+//   } else if (styleMode === "FLOAT") {
+//     if (!numbers) {
+//       throw new Error("Number is required for number type.");
+//     }
+
+//     if (numbers.length === 0) {
+//       throw new Error("Termination due to number.length is 0.");
+//     }
+
+//     if (!variableModes) {
+//       throw new Error("Variable modes are required for number type.");
+//     }
+
+//     if (format === "VARIABLE") {
+//       if (!aliasNames) {
+//         throw new Error("Alias names are required for variable type.");
+//       }
+//       if (!aliasVariableIds) {
+//         throw new Error("Alias variable ids are required for variable type.");
+//       }
+//       const numberNodes = createVariableNumberNodes(numbers, fontName, aliasNames, aliasVariableIds, variableModes);
+
+//       itemsToPutInTitleWrapper.push(...numberNodes);
+//     }
+
+//     const titleWrapper = createAutolayoutFrame(
+//       itemsToPutInTitleWrapper,
+//       semanticTokens.spacing.xsmall,
+//       "VERTICAL"
+//     );
+//     itemsToPutInTitleWrapper.forEach((node) => {
+//       if ("layoutSizingHorizontal" in node) {
+//         node.layoutSizingHorizontal = "FILL";
+//       }
+//       if ("layoutSizingVertical" in node) {
+//         node.layoutSizingVertical = "HUG";
+//       }
+//     });
+
+//     titleWrapper.name = "Title Wrapper";
+//     titleNode.layoutSizingHorizontal = "FILL";
+
+//     explanationTextsWrapperNode = createAutolayoutFrame(
+//       [titleWrapper, descriptionNode],
+//       semanticTokens.spacing.base,
+//       "VERTICAL"
+//     );
+//     titleWrapper.layoutSizingHorizontal = "FILL";
+//     titleWrapper.layoutSizingVertical = "HUG";
+//   } else if (styleMode === "TEXT") {
+//     // 處理文字樣式
+//     if (!textStyle) {
+//       throw new Error("Text style is required for text type.");
+//     }
+
+//     const textPropertiesWrappers = createTextPropertiesWrappers(
+//       textStyle,
+//       fontName
+//     );
+
+//     const titleWrapper = createAutolayoutFrame(
+//       [titleNode, ...textPropertiesWrappers],
+//       semanticTokens.padding.xsmall,
+//       "VERTICAL"
+//     );
+//     titleWrapper.name = "Title Wrapper";
+//     titleNode.layoutSizingHorizontal = "FILL";
+//     textPropertiesWrappers.forEach((wrapper) => {
+//       wrapper.layoutSizingHorizontal = "FILL";
+//     });
+
+//     explanationTextsWrapperNode = createAutolayoutFrame(
+//       [titleWrapper, descriptionNode],
+//       semanticTokens.spacing.base,
+//       "VERTICAL"
+//     );
+
+//     titleWrapper.layoutSizingHorizontal = "FILL";
+//   } else if (styleMode === "EFFECT") {
+//     // 處理效果樣式
+//     if (!effects) {
+//       throw new Error("Effects is required for effect type.");
+//     }
+
+//     const effectWrappers = createEffectPropertiesWrappers(effects, fontName);
+
+//     const titleWrapper = createAutolayoutFrame(
+//       [titleNode, ...effectWrappers],
+//       semanticTokens.spacing.large,
+//       "VERTICAL"
+//     );
+//     titleWrapper.name = "Title Wrapper";
+//     titleNode.layoutSizingHorizontal = "FILL";
+//     effectWrappers.forEach((wrapper) => {
+//       wrapper.layoutSizingHorizontal = "FILL";
+//     });
+
+//     explanationTextsWrapperNode = createAutolayoutFrame(
+//       [titleWrapper, descriptionNode],
+//       semanticTokens.spacing.base,
+//       "VERTICAL"
+//     );
+
+//     titleWrapper.layoutSizingHorizontal = "FILL";
+//   } else if (styleMode === "STRING") {
+//     console.log("STRING MODE GETTING CALLED.")
+//     // 處理文字樣式
+//     if (!strings) {
+//       throw new Error("Strings is required for number type.");
+//     }
+
+//     if (strings.length === 0) {
+//       throw new Error("Termination due to strings.length is 0.");
+//     }
+
+//     if (!variableModes) {
+//       throw new Error("Variable modes are required for number type.");
+//     }
+
+//     if (format === "VARIABLE") {
+//       if (!aliasNames) {
+//         throw new Error("Alias names are required for variable type.");
+//       }
+//       if (!aliasVariableIds) {
+//         throw new Error("Alias variable ids are required for variable type.");
+//       }
+//       const numberNodes = createVariableStringNodes(strings, fontName, aliasNames, aliasVariableIds, variableModes);
+
+//       itemsToPutInTitleWrapper.push(...numberNodes);
+//     }
+
+//     const titleWrapper = createAutolayoutFrame(
+//       itemsToPutInTitleWrapper,
+//       semanticTokens.spacing.xsmall,
+//       "VERTICAL"
+//     );
+//     itemsToPutInTitleWrapper.forEach((node) => {
+//       if ("layoutSizingHorizontal" in node) {
+//         node.layoutSizingHorizontal = "FILL";
+//       }
+//       if ("layoutSizingVertical" in node) {
+//         node.layoutSizingVertical = "HUG";
+//       }
+//     });
+
+//     titleWrapper.name = "Title Wrapper";
+//     titleNode.layoutSizingHorizontal = "FILL";
+
+//     explanationTextsWrapperNode = createAutolayoutFrame(
+//       [titleWrapper, descriptionNode],
+//       semanticTokens.spacing.base,
+//       "VERTICAL"
+//     );
+//     titleWrapper.layoutSizingHorizontal = "FILL";
+//     titleWrapper.layoutSizingVertical = "HUG";
+//   } else {
+//     // 預設
+//     explanationTextsWrapperNode = createAutolayoutFrame(
+//       [titleNode, descriptionNode],
+//       semanticTokens.spacing.base,
+//       "VERTICAL"
+//     );
+
+//     titleNode.layoutSizingHorizontal = "FILL";
+//     descriptionNode.layoutSizingHorizontal = "FILL";
+//   }
+
+//   titleNode.layoutSizingHorizontal = "FILL";
+//   descriptionNode.layoutSizingHorizontal = "FILL";
+//   explanationTextsWrapperNode.name = "Info Wrapper";
+
+
+//   // 
+//   // 
+//   // 🔥🔥🔥🔥Refactor 進度線🔥🔥🔥🔥
+//   // 
+//   // 
+
+//   let explanationItemWrapperNode: FrameNode;
+//   //依據不同的格式處理要放進去的內容（色塊、效果等）
+//   if (styleMode === "COLOR") {
+//     // 處理顏色樣式
+//     if (!colors) {
+//       throw new Error("Color is required for color type.");
+//     }
+
+//     const colorFrames: FrameNode[] = [];
+//     colors.forEach((color) => {
+//       const colorFrame = createColorFrame(color);
+
+//       if (format === "STYLE") {
+//         colorFrame.cornerRadius = semanticTokens.cornerRadius.infinite;
+//       } else {
+//         colorFrame.cornerRadius = semanticTokens.cornerRadius.small;
+//       }
+//       colorFrames.push(colorFrame);
+//     });
+
+//     // 將色塊們包裝入一個AutolayoutFrame中
+//     const swatchesWrapper = createAutolayoutFrame(
+//       colorFrames,
+//       semanticTokens.spacing.xsmall,
+//       "HORIZONTAL"
+//     );
+//     swatchesWrapper.name = "Swatches Wrapper";
+
+//     const item = createAutolayoutFrame(
+//       [swatchesWrapper, explanationTextsWrapperNode],
+//       semanticTokens.spacing.base,
+//       "HORIZONTAL"
+//     );
+
+//     swatchesWrapper.layoutSizingHorizontal = "HUG";
+//     swatchesWrapper.layoutSizingVertical = "HUG";
+
+//     explanationItemWrapperNode = item;
+//     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+//   } else if (styleMode === "EFFECT") {
+//     // 處理效果樣式
+//     if (!effects) {
+//       throw new Error("Effects are required for effect type.");
+//     }
+//     const effectFrame = createEffectFrame(effects);
+
+//     const item = createAutolayoutFrame(
+//       [effectFrame, explanationTextsWrapperNode],
+//       semanticTokens.spacing.base,
+//       "HORIZONTAL"
+//     );
+
+//     explanationItemWrapperNode = item;
+//     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+//   } else if (styleMode === "FLOAT") {
+//     // 處理數字樣式
+//     if (!numbers) {
+//       throw new Error("Number is required for float type.");
+//     }
+
+//     const numberFrames: FrameNode[] = [];
+//     numbers.forEach((number) => {
+//       const numberFrame = createNumberFrame(number, { family: fontName.family, style: "Semi Bold" });
+//       numberFrames.push(numberFrame);
+//     });
+
+//     // 將數字框框們包裝入一個AutolayoutFrame中
+//     const swatchesWrapper = createAutolayoutFrame(
+//       numberFrames,
+//       semanticTokens.spacing.xsmall,
+//       "HORIZONTAL"
+//     );
+//     swatchesWrapper.name = "Numbers Wrapper";
+
+//     const item = createAutolayoutFrame(
+//       [swatchesWrapper, explanationTextsWrapperNode],
+//       semanticTokens.spacing.base,
+//       "HORIZONTAL"
+//     );
+
+//     swatchesWrapper.layoutSizingHorizontal = "HUG";
+//     swatchesWrapper.layoutSizingVertical = "HUG";
+
+//     explanationItemWrapperNode = item;
+//     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+//   } else {
+//     // 預設
+//     explanationItemWrapperNode = createAutolayoutFrame(
+//       [explanationTextsWrapperNode],
+//       0,
+//       "VERTICAL"
+//     );
+//     explanationTextsWrapperNode.layoutSizingHorizontal = "FILL";
+//   }
+
+//   explanationItemWrapperNode.name = `Explanation Item`;
+//   explanationItemWrapperNode.clipsContent = false;
+
+//   // Set height to hug content
+//   explanationItemWrapperNode.primaryAxisSizingMode = "AUTO";
+
+//   setPadding(explanationItemWrapperNode, {
+//     top: semanticTokens.padding.large,
+//     bottom: semanticTokens.padding.large,
+//     left: semanticTokens.padding.xsmall,
+//     right: semanticTokens.padding.xsmall,
+//   });
+
+//   // Set border properties for top edge only
+//   setStroke(explanationItemWrapperNode, semanticTokens.dividerColor, {
+//     top: 1,
+//     bottom: 0,
+//     left: 0,
+//     right: 0,
+//   });
+
+//   // Center items to the top
+//   explanationItemWrapperNode.counterAxisAlignItems = "MIN";
+
+//   return explanationItemWrapperNode;
+// }
 
 /**
  * Creates an explanation wrapper frame containing a title, secondary title, and a list of explanation items.
