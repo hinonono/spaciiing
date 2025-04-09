@@ -71,10 +71,18 @@ export function createExplanationItem(
   // 將該descriptionNode所連結至的style/variable的id存入其自身的pluginData中
   descriptionNode.setPluginData("catalogue-item-schema", JSON.stringify(catalogueItemSchema));
 
+
   const descriptionRichStyle = styledTextSegments.getCatalogueItemRichStyleFromRoot(id);
   if (descriptionRichStyle) {
     styledTextSegments.applyCatalogueItemRichStyle(descriptionNode, descriptionRichStyle);
   }
+
+  // 
+  // 
+  // 🔥🔥🔥🔥Refactor 進度線🔥🔥🔥🔥
+  // 
+  // 
+
 
   let explanationTextsWrapperNode: FrameNode;
   const itemsToPutInTitleWrapper: SceneNode[] = [];
