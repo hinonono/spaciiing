@@ -1,7 +1,66 @@
-import { StyleForm } from "../../types/Messages/MessageStyleIntroducer";
+import { AliasResources, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
 import * as util from "../util";
 import { createEffectPropertiesWrappers, createStyleColorHexNode, createTextPropertiesWrappers, createVariableColorHexNodes, createVariableNumberNodes, createVariableStringNodes } from "../explanation";
 import { semanticTokens } from "../tokens";
+
+export function pushInfoAreaAdditionalContent(
+    form: StyleForm,
+    styleMode: StyleMode,
+    fontName: FontName,
+    previewResouces: PreviewResources,
+    aliasResources: AliasResources,
+    target: SceneNode[]
+) {
+    if (styleMode === "COLOR") {
+        if (!previewResouces.colors) { throw new Error("Colors is required for this style mode.") }
+        const items = createPropertiesForColor(
+            form,
+            fontName,
+            previewResouces.colors,
+            aliasResources.aliasNames,
+            aliasResources.variableModes,
+            aliasResources.aliasVariableIds
+        )
+        target.push(...items);
+
+    } else if (styleMode === "FLOAT") {
+        if (!previewResouces.numbers) { throw new Error("Number is required for number type."); }
+        const items = createPropertiesForNumber(
+            form,
+            fontName,
+            previewResouces.numbers,
+            aliasResources.aliasNames,
+            aliasResources.variableModes,
+            aliasResources.aliasVariableIds
+        )
+        target.push(...items);
+
+    } else if (styleMode === "TEXT") {
+        if (!previewResouces.textStyle) { throw new Error("Missing text style."); }
+        const items = createPropertiesForText(form, fontName, previewResouces.textStyle);
+        target.push(...items);
+
+    } else if (styleMode === "EFFECT") {
+        if (!previewResouces.effects) { throw new Error("Missing effect style."); }
+        const items = createPropertiesForEffect(form, fontName, previewResouces.effects);
+        target.push(...items);
+
+    } else if (styleMode === "STRING") {
+        if (!previewResouces.strings) { throw new Error("Strings is required for number type."); }
+        const items = createPropertiesForString(
+            form,
+            fontName,
+            previewResouces.strings,
+            aliasResources.aliasNames,
+            aliasResources.variableModes,
+            aliasResources.aliasVariableIds
+        )
+        target.push(...items);
+
+    } else {
+        console.log(`Nothing is pushed to target.`);
+    }
+}
 
 // 右側資訊區設定
 export function setUpInfoWrapperLayout(

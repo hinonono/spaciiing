@@ -35,7 +35,7 @@ function createExplanationItem(
 
     // 建立右側資訊區的內容
     const titleWrapperContents: SceneNode[] = [titleNode];
-    pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, titleWrapperContents)
+    CLExplanationInfo.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, titleWrapperContents)
     CLExplanationInfo.setUpInfoWrapperLayout(titleWrapperContents, titleNode, descNode)
 
     // 建立左側預覽區的內容
@@ -88,62 +88,5 @@ function checkAndApplyRichStyle(referId: string, targetNode: TextNode) {
     }
 }
 
-function pushInfoAreaAdditionalContent(
-    form: StyleForm,
-    styleMode: StyleMode,
-    fontName: FontName,
-    previewResouces: PreviewResources,
-    aliasResources: AliasResources,
-    target: SceneNode[]
-) {
-    if (styleMode === "COLOR") {
-        if (!previewResouces.colors) { throw new Error("Colors is required for this style mode.") }
-        const items = CLExplanationInfo.createPropertiesForColor(
-            form,
-            fontName,
-            previewResouces.colors,
-            aliasResources.aliasNames,
-            aliasResources.variableModes,
-            aliasResources.aliasVariableIds
-        )
-        target.push(...items);
 
-    } else if (styleMode === "FLOAT") {
-        if (!previewResouces.numbers) { throw new Error("Number is required for number type."); }
-        const items = CLExplanationInfo.createPropertiesForNumber(
-            form,
-            fontName,
-            previewResouces.numbers,
-            aliasResources.aliasNames,
-            aliasResources.variableModes,
-            aliasResources.aliasVariableIds
-        )
-        target.push(...items);
-
-    } else if (styleMode === "TEXT") {
-        if (!previewResouces.textStyle) { throw new Error("Missing text style."); }
-        const items = CLExplanationInfo.createPropertiesForText(form, fontName, previewResouces.textStyle);
-        target.push(...items);
-
-    } else if (styleMode === "EFFECT") {
-        if (!previewResouces.effects) { throw new Error("Missing effect style."); }
-        const items = CLExplanationInfo.createPropertiesForEffect(form, fontName, previewResouces.effects);
-        target.push(...items);
-
-    } else if (styleMode === "STRING") {
-        if (!previewResouces.strings) { throw new Error("Strings is required for number type."); }
-        const items = CLExplanationInfo.createPropertiesForString(
-            form,
-            fontName,
-            previewResouces.strings,
-            aliasResources.aliasNames,
-            aliasResources.variableModes,
-            aliasResources.aliasVariableIds
-        )
-        target.push(...items);
-
-    } else {
-        console.log(`Nothing is pushed to target.`);
-    }
-}
 
