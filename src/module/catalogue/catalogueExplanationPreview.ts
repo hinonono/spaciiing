@@ -1,7 +1,7 @@
 import { PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
 import { semanticTokens } from "../tokens";
 import * as util from "../util";
-import { createColorFrame, createEffectFrame, createNumberFrame } from "../explanation";
+import { createColorFrame, createEffectFrame, createNumberFrame } from "./cataloguePreview";
 
 export function createPreviewHandler(
     form: StyleForm,
