@@ -244,35 +244,10 @@ export function createEffectPropertiesWrappers(
 
     const countNode = createGenericEffectTitle(effect, i, fontName)
 
-    // let countNode: TextNode;
-
-    // if (effect.type === "DROP_SHADOW") {
-    //   // countNode = createTextNode(
-    //   //   `Layer ${i + 1} - Drop Shadow`,
-    //   //   { family: fontName.family, style: "Semi Bold" },
-    //   //   semanticTokens.fontSize.small,
-    //   //   [{ type: "SOLID", color: semanticTokens.text.secondary }]
-    //   // );
-
-    //   countNode = createGenericEffectTitle(fontName, `Layer ${i + 1} - Drop Shadow`)
-
-    // } else if (effect.type === "INNER_SHADOW") {
-    //   countNode = createGenericEffectTitle(fontName, `Layer ${i + 1} - Inner Shadow`)
-
-    // } else if (effect.type === "BACKGROUND_BLUR") {
-    //   countNode = createGenericEffectTitle(fontName, `Layer ${i + 1} - Background Blur`)
-
-    // } else {
-    //   countNode = createGenericEffectTitle(fontName, `Layer ${i + 1} - Layer Blur`)
-    // }
-
-    let effectWrapper = createAutolayoutFrame(
-      [countNode],
-      semanticTokens.spacing.xsmall,
-      "VERTICAL"
-    );
+    let effectWrapper = createAutolayoutFrame([countNode], semanticTokens.spacing.xsmall, "VERTICAL");
     effectWrapper.name = "Effects";
     countNode.layoutSizingHorizontal = "FILL";
+
 
     if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
       // 處理陰影類型的properties
