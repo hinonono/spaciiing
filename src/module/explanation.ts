@@ -154,6 +154,85 @@ export function createTextPropertiesWrappers(
   return groupedPropertyNodes;
 }
 
+function createGenericEffectTitle(
+  effect: Effect,
+  index: number,
+  fontName: FontName,
+) {
+  let title: string;
+  if (effect.type === "DROP_SHADOW") {
+    title = `Layer ${index + 1} - Drop Shadow`
+
+  } else if (effect.type === "INNER_SHADOW") {
+    title = `Layer ${index + 1} - Inner Shadow`
+
+  } else if (effect.type === "BACKGROUND_BLUR") {
+    title = `Layer ${index + 1} - Background Blur`
+
+  } else {
+    title = `Layer ${index + 1} - Layer Blur`
+  }
+
+  const node = createTextNode(
+    title,
+    { family: fontName.family, style: "Semi Bold" },
+    semanticTokens.fontSize.small,
+    [{ type: "SOLID", color: semanticTokens.text.secondary }]
+  )
+
+  return node
+}
+
+function getEffectPropertiesToCreate(
+  effect: Effect
+): {
+  title: string;
+  content: string;
+}[] {
+  if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
+    const effectPropertiesToCreate = [
+      {
+        title: "Color",
+        content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
+      },
+      {
+        title: "Opacity",
+        content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
+      },
+      {
+        title: "X",
+        content: `${effect.offset.x}`,
+      },
+      {
+        title: "Y",
+        content: `${effect.offset.y}`,
+      },
+      {
+        title: "Blur",
+        content: `${effect.radius}`,
+      },
+      {
+        title: "Spread",
+        content: effect.spread ? `${effect.spread}` : "0",
+      }
+    ]
+    return effectPropertiesToCreate
+  } else {
+    const effectPropertiesToCreate = [
+      {
+        title: "Blur",
+        content: `${effect.radius}`,
+      },
+      {
+        title: "Place Holder",
+        content: "0",
+      }
+    ]
+
+    return effectPropertiesToCreate
+  }
+}
+
 export function createEffectPropertiesWrappers(
   effects: Effect[],
   fontName: FontName
@@ -162,37 +241,30 @@ export function createEffectPropertiesWrappers(
 
   for (let i = 0; i < effects.length; i++) {
     const effect = effects[i];
-    let countNode: TextNode;
 
-    if (effect.type === "DROP_SHADOW") {
-      countNode = createTextNode(
-        `Layer ${i + 1} - Drop Shadow`,
-        { family: fontName.family, style: "Semi Bold" },
-        semanticTokens.fontSize.small,
-        [{ type: "SOLID", color: semanticTokens.text.secondary }]
-      );
-    } else if (effect.type === "INNER_SHADOW") {
-      countNode = createTextNode(
-        `Layer ${i + 1} - Inner Shadow`,
-        { family: fontName.family, style: "Semi Bold" },
-        semanticTokens.fontSize.small,
-        [{ type: "SOLID", color: semanticTokens.text.secondary }]
-      );
-    } else if (effect.type === "BACKGROUND_BLUR") {
-      countNode = createTextNode(
-        `Layer ${i + 1} - Background Blur`,
-        { family: fontName.family, style: "Semi Bold" },
-        semanticTokens.fontSize.small,
-        [{ type: "SOLID", color: semanticTokens.text.secondary }]
-      );
-    } else {
-      countNode = createTextNode(
-        `Layer ${i + 1} - Layer Blur`,
-        { family: fontName.family, style: "Semi Bold" },
-        semanticTokens.fontSize.small,
-        [{ type: "SOLID", color: semanticTokens.text.secondary }]
-      );
-    }
+    const countNode = createGenericEffectTitle(effect, i, fontName)
+
+    // let countNode: TextNode;
+
+    // if (effect.type === "DROP_SHADOW") {
+    //   // countNode = createTextNode(
+    //   //   `Layer ${i + 1} - Drop Shadow`,
+    //   //   { family: fontName.family, style: "Semi Bold" },
+    //   //   semanticTokens.fontSize.small,
+    //   //   [{ type: "SOLID", color: semanticTokens.text.secondary }]
+    //   // );
+
+    //   countNode = createGenericEffectTitle(fontName, `Layer ${i + 1} - Drop Shadow`)
+
+    // } else if (effect.type === "INNER_SHADOW") {
+    //   countNode = createGenericEffectTitle(fontName, `Layer ${i + 1} - Inner Shadow`)
+
+    // } else if (effect.type === "BACKGROUND_BLUR") {
+    //   countNode = createGenericEffectTitle(fontName, `Layer ${i + 1} - Background Blur`)
+
+    // } else {
+    //   countNode = createGenericEffectTitle(fontName, `Layer ${i + 1} - Layer Blur`)
+    // }
 
     let effectWrapper = createAutolayoutFrame(
       [countNode],
@@ -204,32 +276,7 @@ export function createEffectPropertiesWrappers(
 
     if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
       // 處理陰影類型的properties
-      const effectPropertiesToCreate = [
-        {
-          title: "Color",
-          content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
-        },
-        {
-          title: "Opacity",
-          content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
-        },
-        {
-          title: "X",
-          content: `${effect.offset.x}`,
-        },
-        {
-          title: "Y",
-          content: `${effect.offset.y}`,
-        },
-        {
-          title: "Blur",
-          content: `${effect.radius}`,
-        },
-        {
-          title: "Spread",
-          content: effect.spread ? `${effect.spread}` : "0",
-        }
-      ]
+      const effectPropertiesToCreate = getEffectPropertiesToCreate(effect);
 
       let effectPropertiesNodes: FrameNode[] = [];
       effectPropertiesToCreate.forEach((property) => {
@@ -268,16 +315,7 @@ export function createEffectPropertiesWrappers(
 
     } else {
       // 處理blur類型的properties
-      const effectPropertiesToCreate = [
-        {
-          title: "Blur",
-          content: `${effect.radius}`,
-        },
-        {
-          title: "Place Holder",
-          content: "0",
-        }
-      ]
+      const effectPropertiesToCreate = getEffectPropertiesToCreate(effect);
 
       let effectPropertiesNodes: FrameNode[] = [];
       effectPropertiesToCreate.forEach((property) => {
