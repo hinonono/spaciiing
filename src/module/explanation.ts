@@ -1,16 +1,10 @@
-import { CatalogueItemDescriptionSchema } from "../types/CatalogueItemShema";
-import { StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { semanticTokens } from "./tokens";
 import {
   createAutolayoutFrame,
   createTextNode,
-  isWhite,
   rgbToHex,
   setPadding,
-  setStroke,
   formatNumberToDecimals,
-  getFormattedDate,
-  readEditorPreference,
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
 
@@ -71,6 +65,25 @@ export function createExplanationSinglePropertyItem(
   return wrapper;
 }
 
+function pairNodesByTwo(source: FrameNode[]): FrameNode[] {
+  const grouped: FrameNode[] = [];
+
+  for (let i = 0; i < source.length; i += 2) {
+    const pair = source.slice(i, i + 2);
+    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+    pairWrapper.name = "Properties";
+    pairWrapper.layoutSizingVertical = "HUG";
+
+    grouped.push(pairWrapper);
+  }
+
+  source.forEach((n) => {
+    n.layoutSizingHorizontal = "FILL";
+    n.layoutSizingVertical = "HUG";
+  });
+
+  return grouped;
+}
 
 
 export function createTextPropertiesWrappers(
@@ -121,20 +134,22 @@ export function createTextPropertiesWrappers(
     textPropertiesNodes.push(propertyNode);
   });
 
-  const groupedPropertyNodes: FrameNode[] = [];
-  for (let i = 0; i < textPropertiesNodes.length; i += 2) {
-    const pair = textPropertiesNodes.slice(i, i + 2);
-    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-    pairWrapper.name = "Properties";
-    pairWrapper.layoutSizingVertical = "HUG";
+  // const groupedPropertyNodes: FrameNode[] = [];
+  // for (let i = 0; i < textPropertiesNodes.length; i += 2) {
+  //   const pair = textPropertiesNodes.slice(i, i + 2);
+  //   const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+  //   pairWrapper.name = "Properties";
+  //   pairWrapper.layoutSizingVertical = "HUG";
 
-    groupedPropertyNodes.push(pairWrapper);
-  }
+  //   groupedPropertyNodes.push(pairWrapper);
+  // }
 
-  textPropertiesNodes.forEach((n) => {
-    n.layoutSizingHorizontal = "FILL";
-    n.layoutSizingVertical = "HUG";
-  });
+  // textPropertiesNodes.forEach((n) => {
+  //   n.layoutSizingHorizontal = "FILL";
+  //   n.layoutSizingVertical = "HUG";
+  // });
+
+  const groupedPropertyNodes = pairNodesByTwo(textPropertiesNodes);
 
   return groupedPropertyNodes;
 }
@@ -397,13 +412,15 @@ export function createVariableColorHexNodes(
 
   });
 
-  const groupedPropertyNodes: FrameNode[] = [];
-  for (let i = 0; i < singlePropertyNodes.length; i += 2) {
-    const pair = singlePropertyNodes.slice(i, i + 2);
-    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-    pairWrapper.name = "Properties";
-    groupedPropertyNodes.push(pairWrapper);
-  }
+  // const groupedPropertyNodes: FrameNode[] = [];
+  // for (let i = 0; i < singlePropertyNodes.length; i += 2) {
+  //   const pair = singlePropertyNodes.slice(i, i + 2);
+  //   const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+  //   pairWrapper.name = "Properties";
+  //   groupedPropertyNodes.push(pairWrapper);
+  // }
+
+  const groupedPropertyNodes = pairNodesByTwo(singlePropertyNodes);
 
   return groupedPropertyNodes;
 }
@@ -448,13 +465,15 @@ export function createVariableNumberNodes(
     }
   });
 
-  const groupedPropertyNodes: FrameNode[] = [];
-  for (let i = 0; i < singlePropertyNodes.length; i += 2) {
-    const pair = singlePropertyNodes.slice(i, i + 2);
-    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-    pairWrapper.name = "Properties";
-    groupedPropertyNodes.push(pairWrapper);
-  }
+  // const groupedPropertyNodes: FrameNode[] = [];
+  // for (let i = 0; i < singlePropertyNodes.length; i += 2) {
+  //   const pair = singlePropertyNodes.slice(i, i + 2);
+  //   const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+  //   pairWrapper.name = "Properties";
+  //   groupedPropertyNodes.push(pairWrapper);
+  // }
+
+  const groupedPropertyNodes = pairNodesByTwo(singlePropertyNodes);
 
   return groupedPropertyNodes;
 }
@@ -499,13 +518,15 @@ export function createVariableStringNodes(
     }
   });
 
-  const groupedPropertyNodes: FrameNode[] = [];
-  for (let i = 0; i < singlePropertyNodes.length; i += 2) {
-    const pair = singlePropertyNodes.slice(i, i + 2);
-    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-    pairWrapper.name = "Properties";
-    groupedPropertyNodes.push(pairWrapper);
-  }
+  // const groupedPropertyNodes: FrameNode[] = [];
+  // for (let i = 0; i < singlePropertyNodes.length; i += 2) {
+  //   const pair = singlePropertyNodes.slice(i, i + 2);
+  //   const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+  //   pairWrapper.name = "Properties";
+  //   groupedPropertyNodes.push(pairWrapper);
+  // }
+
+  const groupedPropertyNodes = pairNodesByTwo(singlePropertyNodes);
 
   return groupedPropertyNodes;
 }
