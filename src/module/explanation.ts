@@ -134,21 +134,6 @@ export function createTextPropertiesWrappers(
     textPropertiesNodes.push(propertyNode);
   });
 
-  // const groupedPropertyNodes: FrameNode[] = [];
-  // for (let i = 0; i < textPropertiesNodes.length; i += 2) {
-  //   const pair = textPropertiesNodes.slice(i, i + 2);
-  //   const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-  //   pairWrapper.name = "Properties";
-  //   pairWrapper.layoutSizingVertical = "HUG";
-
-  //   groupedPropertyNodes.push(pairWrapper);
-  // }
-
-  // textPropertiesNodes.forEach((n) => {
-  //   n.layoutSizingHorizontal = "FILL";
-  //   n.layoutSizingVertical = "HUG";
-  // });
-
   const groupedPropertyNodes = pairNodesByTwo(textPropertiesNodes);
 
   return groupedPropertyNodes;
