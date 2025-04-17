@@ -18,8 +18,16 @@ export interface ExternalMessageUpdatePaintStyleList extends ExternalMessage {
   styleList: StyleListItemFrontEnd[];
 }
 
-export interface PreviewResources {
+export interface ColorPreviewResources {
+  type: "SOLID" | "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND",
+  opacity: number,
   colors?: RGBA[],
+  gradientTransform?: Transform[],
+  gradientStops?: ColorStop[][]
+}
+
+export interface PreviewResources {
+  colors?: ColorPreviewResources,
   effects?: Effect[],
   textStyle?: TextStyle,
   numbers?: number[],

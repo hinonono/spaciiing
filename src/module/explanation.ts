@@ -31,6 +31,10 @@ export function createExplanationSinglePropertyItem(
   titleNode.fills = [{ type: "SOLID", color: semanticTokens.text.primary }];
   titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
 
+  if (content.type === "TEXT") {
+    content.textAlignHorizontal = "RIGHT"
+  }
+
   const wrapper = createAutolayoutFrame(
     [titleNode, content],
     semanticTokens.spacing.xsmall,
@@ -410,17 +414,45 @@ export function createVariableColorHexNodes(
 
   });
 
-  // const groupedPropertyNodes: FrameNode[] = [];
-  // for (let i = 0; i < singlePropertyNodes.length; i += 2) {
-  //   const pair = singlePropertyNodes.slice(i, i + 2);
-  //   const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-  //   pairWrapper.name = "Properties";
-  //   groupedPropertyNodes.push(pairWrapper);
-  // }
-
   const groupedPropertyNodes = pairNodesByTwo(singlePropertyNodes);
 
   return groupedPropertyNodes;
+}
+
+export function createStyleGradientNode(
+  gradientType: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND",
+  gradientTransform: Transform,
+  gradientStops: ColorStop[],
+  fontName: FontName,
+  fontSize: number
+): FrameNode[] {
+
+  const typeString = gradientType.replace("GRADIENT_", "");
+  const formatted = typeString.charAt(0) + typeString.slice(1).toLowerCase();
+
+  const type = createTextNode(formatted, fontName, fontSize, [
+    { type: "SOLID", color: semanticTokens.text.secondary },
+  ]);
+  const typeNode = createExplanationSinglePropertyItem("Gradient Type", type, fontName);
+
+
+  const colorsString = colorStopsToString(gradientStops);
+  const colors = createTextNode(colorsString, fontName, fontSize, [
+    { type: "SOLID", color: semanticTokens.text.secondary },
+  ]);
+  const colorsNode = createExplanationSinglePropertyItem("Colors", colors, fontName);
+
+
+  return pairNodesByTwo([typeNode, colorsNode]);
+}
+
+function colorStopsToString(colorStops: ColorStop[]): string {
+  return `[${colorStops.map(stop => {
+    const { r, g, b, a } = stop.color;
+
+    const hex = rgbToHex(stop.color.r, stop.color.g, stop.color.b)
+    return `{${hex}, ${(stop.position * 100).toFixed(0)}%}`;
+  }).join(", ")}]`;
 }
 
 export function createVariableNumberNodes(
@@ -462,14 +494,6 @@ export function createVariableNumberNodes(
       return node;
     }
   });
-
-  // const groupedPropertyNodes: FrameNode[] = [];
-  // for (let i = 0; i < singlePropertyNodes.length; i += 2) {
-  //   const pair = singlePropertyNodes.slice(i, i + 2);
-  //   const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-  //   pairWrapper.name = "Properties";
-  //   groupedPropertyNodes.push(pairWrapper);
-  // }
 
   const groupedPropertyNodes = pairNodesByTwo(singlePropertyNodes);
 
@@ -515,14 +539,6 @@ export function createVariableStringNodes(
       return node;
     }
   });
-
-  // const groupedPropertyNodes: FrameNode[] = [];
-  // for (let i = 0; i < singlePropertyNodes.length; i += 2) {
-  //   const pair = singlePropertyNodes.slice(i, i + 2);
-  //   const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
-  //   pairWrapper.name = "Properties";
-  //   groupedPropertyNodes.push(pairWrapper);
-  // }
 
   const groupedPropertyNodes = pairNodesByTwo(singlePropertyNodes);
 

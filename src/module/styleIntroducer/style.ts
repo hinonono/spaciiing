@@ -131,6 +131,7 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
     return explanationItems;
 }
 
+
 function createItemColor(
     styleList: PaintStyle[],
     form: StyleForm,
@@ -139,11 +140,48 @@ function createItemColor(
 ): FrameNode[] {
     return createGenericItems(styleList, form, styleMode, fontName, (style) => {
         const paint = style.paints[0];
-        if (paint.type !== "SOLID") return { colors: [] }; // fallback
-        const { r, g, b } = (paint as SolidPaint).color;
-        return {
-            colors: [{ r, g, b, a: 1 }],
-        };
+
+        if (!paint) {
+            return {
+                colors: undefined
+            };
+        }
+
+        switch (paint.type) {
+            case "SOLID":
+                if (!paint.opacity) { throw new Error("Opacity is required.") }
+                const { r, g, b } = (paint as SolidPaint).color;
+
+                return {
+                    colors: {
+                        type: "SOLID",
+                        colors: [{ r, g, b, a: paint.opacity }],
+                        opacity: 1
+                    }
+                };
+
+            case "GRADIENT_LINEAR":
+            case "GRADIENT_RADIAL":
+            case "GRADIENT_ANGULAR":
+            case "GRADIENT_DIAMOND":
+                if (!paint.opacity) { throw new Error("Opacity is required.") }
+
+                const gradientPaint = paint as GradientPaint;
+                const stops = [...gradientPaint.gradientStops];
+                return {
+                    colors: {
+                        type: paint.type,
+                        opacity: paint.opacity,
+                        gradientTransform: [gradientPaint.gradientTransform],
+                        gradientStops: [stops]
+                    }
+                };
+
+            default:
+                return {
+                    colors: undefined
+                };
+        }
     });
 }
 

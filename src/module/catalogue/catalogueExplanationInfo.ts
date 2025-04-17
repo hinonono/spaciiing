@@ -1,34 +1,51 @@
 import { AliasResources, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
 import * as util from "../util";
-import { createEffectPropertiesWrappers, createStyleColorHexNode, createTextPropertiesWrappers, createVariableColorHexNodes, createVariableNumberNodes, createVariableStringNodes } from "../explanation";
+import { createEffectPropertiesWrappers, createStyleColorHexNode, createStyleGradientNode, createTextPropertiesWrappers, createVariableColorHexNodes, createVariableNumberNodes, createVariableStringNodes } from "../explanation";
 import { semanticTokens } from "../tokens";
 
 export function pushInfoAreaAdditionalContent(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    previewResouces: PreviewResources,
+    previewResources: PreviewResources,
     aliasResources: AliasResources,
     target: SceneNode[]
 ) {
     if (styleMode === "COLOR") {
-        if (!previewResouces.colors) { throw new Error("Colors is required for this style mode.") }
-        const items = createPropertiesForColor(
-            form,
-            fontName,
-            previewResouces.colors,
-            aliasResources.aliasNames,
-            aliasResources.variableModes,
-            aliasResources.aliasVariableIds
-        )
-        target.push(...items);
+        if (!previewResources.colors) { throw new Error("Colors is required for this style mode.") }
+
+        if (previewResources.colors.type === "SOLID") {
+            if (!previewResources.colors.colors) { throw new Error("Unable to generate preview info due to previewResources.colors.colors is undefined."); }
+            const items = createPropertiesForColor(
+                form,
+                fontName,
+                previewResources.colors.colors,
+                aliasResources.aliasNames,
+                aliasResources.variableModes,
+                aliasResources.aliasVariableIds
+            )
+            target.push(...items);
+        } else {
+            if (!previewResources.colors.gradientStops || !previewResources.colors.gradientTransform) { throw new Error("Unable to generate preview info due to previewResources.colors.gradientStops or previewResources.colors.gradientTransform is undefined."); }
+            const items = createPropertiesForGradient(
+                form,
+                fontName,
+                previewResources.colors.type,
+                previewResources.colors.gradientTransform[0],
+                previewResources.colors.gradientStops[0],
+                aliasResources.aliasNames,
+                aliasResources.variableModes,
+                aliasResources.aliasVariableIds
+            )
+            target.push(...items);
+        }
 
     } else if (styleMode === "FLOAT") {
-        if (!previewResouces.numbers) { throw new Error("Number is required for number type."); }
+        if (!previewResources.numbers) { throw new Error("Number is required for number type."); }
         const items = createPropertiesForNumber(
             form,
             fontName,
-            previewResouces.numbers,
+            previewResources.numbers,
             aliasResources.aliasNames,
             aliasResources.variableModes,
             aliasResources.aliasVariableIds
@@ -36,21 +53,21 @@ export function pushInfoAreaAdditionalContent(
         target.push(...items);
 
     } else if (styleMode === "TEXT") {
-        if (!previewResouces.textStyle) { throw new Error("Missing text style."); }
-        const items = createPropertiesForText(form, fontName, previewResouces.textStyle);
+        if (!previewResources.textStyle) { throw new Error("Missing text style."); }
+        const items = createPropertiesForText(form, fontName, previewResources.textStyle);
         target.push(...items);
 
     } else if (styleMode === "EFFECT") {
-        if (!previewResouces.effects) { throw new Error("Missing effect style."); }
-        const items = createPropertiesForEffect(form, fontName, previewResouces.effects);
+        if (!previewResources.effects) { throw new Error("Missing effect style."); }
+        const items = createPropertiesForEffect(form, fontName, previewResources.effects);
         target.push(...items);
 
     } else if (styleMode === "STRING") {
-        if (!previewResouces.strings) { throw new Error("Strings is required for number type."); }
+        if (!previewResources.strings) { throw new Error("Strings is required for number type."); }
         const items = createPropertiesForString(
             form,
             fontName,
-            previewResouces.strings,
+            previewResources.strings,
             aliasResources.aliasNames,
             aliasResources.variableModes,
             aliasResources.aliasVariableIds
@@ -116,7 +133,6 @@ export function createPropertiesForColor(
             fontName,
             semanticTokens.fontSize.small
         );
-        // itemsToPutInTitleWrapper.push(colorHexNode);
 
         return [colorHexNode];
     } else {
@@ -124,36 +140,35 @@ export function createPropertiesForColor(
         if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
 
         const colorHexNodes = createVariableColorHexNodes(colors, fontName, aliasNames, aliasVariableIds, variableModes);
-        // itemsToPutInTitleWrapper.push(...colorHexNodes);
         return [...colorHexNodes]
     }
+}
 
-    // const titleWrapper = createAutolayoutFrame(
-    //     itemsToPutInTitleWrapper,
-    //     semanticTokens.spacing.xsmall,
-    //     "VERTICAL"
-    // );
+export function createPropertiesForGradient(
+    form: StyleForm,
+    fontName: FontName,
+    gradientType: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND",
+    gradientTransform: Transform,
+    gradientStops: ColorStop[],
+    aliasNames?: (string | undefined)[],
+    variableModes?: string[],
+    aliasVariableIds?: (string | undefined)[]
+): SceneNode[] {
+    if (gradientStops.length === 0) { throw new Error("Termination due to color.length is 0."); }
 
-    // itemsToPutInTitleWrapper.forEach((node) => {
-    //     if ("layoutSizingHorizontal" in node) {
-    //         node.layoutSizingHorizontal = "FILL";
-    //     }
-    //     if ("layoutSizingVertical" in node) {
-    //         node.layoutSizingVertical = "HUG";
-    //     }
-    // });
+    if (form === "STYLE") {
+        const gradientNode = createStyleGradientNode(
+            gradientType,
+            gradientTransform,
+            gradientStops,
+            fontName,
+            semanticTokens.fontSize.small
+        );
 
-    // titleWrapper.name = "Title Wrapper";
-    // titleNode.layoutSizingHorizontal = "FILL";
-
-    // explanationTextsWrapperNode = createAutolayoutFrame(
-    //     [titleWrapper, descriptionNode],
-    //     semanticTokens.spacing.base,
-    //     "VERTICAL"
-    // );
-    // titleWrapper.layoutSizingHorizontal = "FILL";
-    // titleWrapper.layoutSizingVertical = "HUG";
-
+        return gradientNode;
+    } else {
+        throw new Error("Gradient is not supported in variables mode.")
+    }
 }
 
 export function createPropertiesForNumber(

@@ -1,6 +1,29 @@
 import { semanticTokens } from "../tokens";
 import * as util from "../util"
 
+export function createGradientFrame(
+    gradientType: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND",
+    transform: Transform,
+    stops: ColorStop[],
+    opacity: number,
+): FrameNode {
+    const colorFrame = figma.createFrame();
+    colorFrame.resize(64, 64);
+    colorFrame.name = "Swatch";
+
+    const gradientPaint: GradientPaint = {
+        type: gradientType,
+        gradientTransform: transform,
+        gradientStops: stops,
+        visible: true,
+        opacity: opacity
+    };
+
+    colorFrame.fills = [gradientPaint];
+
+    return colorFrame;
+}
+
 export function createColorFrame(color: RGBA): FrameNode {
     const colorFrame = figma.createFrame();
     colorFrame.resize(64, 64);
