@@ -20,8 +20,7 @@ export const buildNestedStructure = (
         if (!currentLevel[part]) {
           // If it's the last part, assign an object with the 'id'
           // Otherwise, create a new level for further nesting
-          currentLevel[part] =
-            index === parts.length - 1 ? { id } : { children: {} };
+          currentLevel[part] = index === parts.length - 1 ? { id } : { children: {} };
         } else if (index === parts.length - 1 && currentLevel[part].id) {
           // Capture the error path when a duplicate is detected
           throw new Error(
