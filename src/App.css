@@ -958,6 +958,24 @@ input {
     background-color: var(--cy-purple-950);
   }
 }
+.subscription-background {
+  padding: 16px;
+  border-radius: var(--cy-border-radius-xxxlarge);
+  background: var(--figma-color-bg-primary);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+.subscription-background.pro {
+  background: linear-gradient(46deg, rgb(204, 228, 255) 0%, rgb(220, 204, 255) 53%, rgb(255, 230, 240) 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .subscription-background {
+    background: var(--figma-color-bg-secondary);
+  }
+  .subscription-background.pro h4 {
+    color: rgba(0, 0, 0, 0.8980392157);
+  }
+}
 .connect-point-container {
   display: flex;
   justify-content: center;
