@@ -19,6 +19,8 @@ import {
 import { createAutoLayoutIndividually, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
 import * as info from "../info.json";
 import { SvgNote } from "../assets/icons";
+import SvgTag from "../assets/icons/SvgTag";
+import SvgSection from "../assets/icons/SvgSection";
 
 const Shortcut: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -208,14 +210,14 @@ const Shortcut: React.FC = () => {
           id: "shortcut-generate-design-status-tag",
           onClick: () => applyShortcut("generateDesignStatusTag", false),
           disabled: appContext.editorPreference.magicObjects.tagId === "",
-          svg: <SvgNote />
+          svg: <SvgTag />
         },
         {
           title: t("module:titleSection"),
           id: "shortcut-generate-title-section",
           onClick: () => applyShortcut("generateTitleSection", false),
           disabled: appContext.editorPreference.magicObjects.sectionId === "",
-          svg: <SvgNote />
+          svg: <SvgSection />
         },
       ];
 
@@ -359,13 +361,12 @@ const Shortcut: React.FC = () => {
         }
       />
       <div className="content">
-        {/* 檔案管理物件 */}
-        {renderMagicObjectShortcut()}
         {/* 型錄 */}
         {renderCatalogueShortcut()}
         {/* 文字 */}
         {renderTextShortcut()}
-
+        {/* 檔案管理物件 */}
+        {renderMagicObjectShortcut()}
         {/* 顏色數值至文字標籤 */}
         {renderColorToTextShortcut()}
         {/* 生成 */}

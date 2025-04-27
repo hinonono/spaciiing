@@ -1277,6 +1277,10 @@ h2 {
   font-size: 1.4rem;
 }
 
+a {
+  color: var(--figma-color-text-brand);
+}
+
 .boder-none {
   border: none;
 }
@@ -1877,6 +1881,10 @@ pre {
   border-radius: 9999px;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+}
+.close-wrap .icon-24:hover {
+  scale: 0.9;
 }
 
 @media (prefers-color-scheme: dark) {
