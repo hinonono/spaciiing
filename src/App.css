@@ -321,6 +321,28 @@ input {
   outline: inherit;
 }
 
+.magic-object-button {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--figma-color-text);
+  border-radius: var(--cy-border-radius-large);
+  margin: 0;
+  cursor: pointer;
+  padding: 4px;
+}
+.magic-object-button:hover {
+  background-color: var(--figma-color-bg-secondary);
+}
+.magic-object-button:disabled {
+  cursor: not-allowed;
+  border-color: var(--button-disabled);
+  color: var(--button-disabled);
+}
+.magic-object-button span {
+  font-size: 11px;
+}
+
 .cy-table-group {
   margin: 8px 0;
   background-color: var(--figma-color-bg);
@@ -940,24 +962,6 @@ input {
   border-top: 1px solid var(--cy-border-light);
 }
 
-.subscription-plan-title {
-  color: var(--figma-color-text);
-  font-size: 1rem;
-}
-
-.subscription-block span {
-  display: block;
-}
-.subscription-block-emphasize {
-  border: 2px solid var(--cy-purple-600);
-  background-color: var(--cy-purple-100);
-}
-
-@media (prefers-color-scheme: dark) {
-  .subscription-block-emphasize {
-    background-color: var(--cy-purple-950);
-  }
-}
 .subscription-background {
   padding: 16px;
   border-radius: var(--cy-border-radius-xxxlarge);
@@ -966,6 +970,12 @@ input {
 }
 .subscription-background.pro {
   background: linear-gradient(46deg, rgb(204, 228, 255) 0%, rgb(220, 204, 255) 53%, rgb(255, 230, 240) 100%);
+}
+.subscription-background .subscription-plan-title {
+  color: rgba(0, 0, 0, 0.8980392157);
+}
+.subscription-background .note {
+  color: rgba(0, 0, 0, 0.5019607843);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1244,6 +1254,25 @@ input {
   outline: none;
 }
 
+details {
+  margin: 5px;
+}
+details > div {
+  background: var(--figma-color-bg-secondary);
+  border-radius: var(--cy-border-radius-large);
+  margin-top: 8px;
+}
+details summary {
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--figma-color-text);
+}
+[open] details summary {
+  border-radius: var(--cy-border-radius-large) var(--cy-border-radius-large) 0 0;
+}
+
 h2 {
   font-size: 1.4rem;
 }
@@ -1291,13 +1320,17 @@ h2 {
 }
 
 .banner {
-  background-color: var(--cy-purple-100);
-  padding: 0.5rem 1rem;
+  background: linear-gradient(46deg, rgb(204, 228, 255) 0%, rgb(220, 204, 255) 53%, rgb(255, 230, 240) 100%);
+  padding: 0rem 1rem;
+  min-height: 40px;
 }
 .banner--development-mode {
-  background-color: #a0ff41;
+  background: #a0ff41;
   color: rgb(0, 0, 0);
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .banner button {
   width: -moz-fit-content;

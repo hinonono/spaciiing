@@ -1,0 +1,22 @@
+details {
+    margin: 5px;
+
+    >div {
+        background: var(--figma-color-bg-secondary);
+        border-radius: var(--cy-border-radius-large);
+        margin-top: 8px;
+    }
+
+    summary {
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        color: var(--figma-color-text);
+
+        // When <details> is open
+        [open] & {
+            border-radius: var(--cy-border-radius-large) var(--cy-border-radius-large) 0 0;
+        }
+    }
+}

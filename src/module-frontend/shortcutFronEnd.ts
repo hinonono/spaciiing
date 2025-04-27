@@ -3,6 +3,7 @@ import { Message } from "../types/Messages/Message";
 import { MessageShortcut } from "../types/Messages/MessageShortcut";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as info from "../info.json";
+import { ReactHTMLElement } from "react";
 
 export function initShortcut() {
   const message: Message = {
@@ -50,4 +51,5 @@ export interface ShortcutButtonConfig {
   title: string;
   onClick: () => void;
   disabled?: boolean;
+  svg?: React.ReactNode;
 }

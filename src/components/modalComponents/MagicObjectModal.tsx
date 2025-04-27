@@ -10,6 +10,7 @@ import {
   MessageShortcutUpdateMagicalObjectSingle,
 } from "../../types/Messages/MessageShortcut";
 import * as info from "../../info.json";
+import { SvgNote } from "../../assets/icons";
 
 interface MagicObjectModalProps {
   show: boolean;
@@ -70,7 +71,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
     <Modal show={show} handleClose={handleClose}>
       <h3>{t("module:fileOrganizingObject")}</h3>
       <div>
-        <h4>{t("module:note")}</h4>
+        <h4 className="flex align-items-center">{t("module:note")}</h4>
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.noteId == "" ? (
             <span className="note">{t("module:objectIsNotMemorized")}</span>
@@ -92,7 +93,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
         </div>
       </div>
       <div className="mt-small">
-        <h4>{t("module:designStatusTag")}</h4>
+        <h4 className="flex align-items-center">{t("module:designStatusTag")}</h4>
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.tagId == "" ? (
             <span className="note">
@@ -116,7 +117,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
         </div>
       </div>
       <div className="mt-small">
-        <h4>{t("module:titleSection")}</h4>
+        <h4 className="flex align-items-center">{t("module:titleSection")}</h4>
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.sectionId == "" ? (
             <span className="note">

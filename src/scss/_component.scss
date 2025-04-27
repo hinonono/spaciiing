@@ -24,6 +24,7 @@
 @import "./components/textarea";
 @import "./components/section-title";
 @import "./components/color-selector";
+@import "./components/accordion";
 
 h2 {
     font-size: 1.4rem;
@@ -88,13 +89,18 @@ h2 {
 
 
 .banner {
-    background-color: var(--cy-purple-100);
-    padding: 0.5rem 1rem;
+    background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
+    padding: 0rem 1rem;
+    min-height: 40px;
 
     &--development-mode {
-        background-color: #a0ff41;
+        background: #a0ff41;
         color: rgb(0, 0, 0);
         text-align: center;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     button {

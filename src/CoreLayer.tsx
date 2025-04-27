@@ -11,7 +11,7 @@ import { ActivateLicenseModal, FreeUserDelayModal } from "./components/modalComp
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<Module>("Spaciiing");
+  const [activeTab, setActiveTab] = useState<Module>("Shortcut");
   const [prevTab, setPrevTab] = useState<Module | null>(null);
 
   const appContext = useAppContext();

@@ -42,3 +42,6 @@ export { default as SvgDrawArrows } from "./SvgDrawArrows";
 export { default as SvgEdit } from "./SvgEdit";
 export { default as SvgKey } from "./SvgKey";
 export { default as SvgEraser } from "./SvgEraser";
+export { default as SvgSkip } from "./SvgSkip";
+
+export { default as SvgNote } from "./SvgNote";

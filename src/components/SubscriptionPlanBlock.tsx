@@ -18,16 +18,9 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
 
   return (
     <div
-      className={`border-1 border-radius-large padding-16 ${
-        additionalClass?.join(" ") || ""
-      }`}
+      className={`border-radius-xxxlarge padding-16 ${additionalClass?.join(" ") || ""
+        }`}
     >
-      {plan === "yearly" && (
-        <div className="badge">
-          {t("license:savePercent").replace("$PERCENT$", "20%")}
-        </div>
-      )}
-      <div className="badge">{t("license:pro")}</div>
       <span className={"subscription-plan-title mt-xxsmall"}>
         {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
       </span>
