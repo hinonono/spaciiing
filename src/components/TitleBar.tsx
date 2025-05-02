@@ -32,11 +32,11 @@ const TitleBar: React.FC<TitleBarProps> = ({
       <div className="content-wrap">
         <h5 className="func-title">{title.toUpperCase()}</h5>
         {children && <div className="title-bar-children">{children}</div>}
-        {!licenseManagement.isLicenseActive &&
+        {/* {!licenseManagement.isLicenseActive &&
           isProFeature &&
           !isDevelopment && (
             <div className="badge ml-xxsmall">{t("license:pro")}</div>
-          )}
+          )} */}
         {showInfoIcon && (
           <div className="ml-xxxsmall tooltip">
             <div className="icon-20 icon-hover" onClick={onClick}>
