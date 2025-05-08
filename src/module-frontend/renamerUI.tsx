@@ -28,68 +28,68 @@ export const RenamableScopesNew: RenamerScopeItem[] = [
     {
         nameKey: "term:image",
         scope: "IMAGE",
-        svg: <SvgImage />
+        svg: <SvgImage color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:text",
         scope: "TEXT",
-        svg: <SvgText />
+        svg: <SvgText color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:frame",
         scope: "FRAME",
-        svg: <SvgFrame />
+        svg: <SvgFrame color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:group",
         scope: "GROUP",
-        svg: <SvgGroup />
+        svg: <SvgGroup color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:allShape",
         scope: "ALL_SHAPE",
-        svg: <SvgShape />
+        svg: <SvgShape color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:rectangle",
         scope: "RECTANGLE",
         indented: true,
         indentLevel: 1,
-        svg: <SvgRect />
+        svg: <SvgRect color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:ellipse",
         scope: "ELLIPSE",
         indented: true,
         indentLevel: 1,
-        svg: <SvgCircle />
+        svg: <SvgCircle color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:line",
         scope: "LINE",
         indented: true,
         indentLevel: 1,
-        svg: <SvgLine />
+        svg: <SvgLine color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:polygon",
         scope: "POLYGON",
         indented: true,
         indentLevel: 1,
-        svg: <SvgPolygon />
+        svg: <SvgPolygon color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:star",
         scope: "STAR",
         indented: true,
         indentLevel: 1,
-        svg: <SvgStar />
+        svg: <SvgStar color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:vector",
         scope: "VECTOR",
         indented: true,
         indentLevel: 1,
-        svg: <SvgVector />
+        svg: <SvgVector color="var(--figma-color-text)" />
     },
 ];

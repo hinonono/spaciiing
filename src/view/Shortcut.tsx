@@ -16,7 +16,7 @@ import {
   ShortcutAction,
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
-import { createAutoLayoutIndividually, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
+import { createAutoLayoutIndividually, numberingTextLayers, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
 import * as info from "../info.json";
 import { SvgNote } from "../assets/icons";
 import SvgTag from "../assets/icons/SvgTag";
@@ -279,6 +279,10 @@ const Shortcut: React.FC = () => {
         title: t("module:iconTemplate"),
         onClick: handleOpenIconModal,
       },
+      {
+        title: t("module:numberingTextLayers"),
+        onClick: () => numberingTextLayers(appContext, false),
+      },
     ];
 
     return (
@@ -289,7 +293,7 @@ const Shortcut: React.FC = () => {
   const renderFrameShortcut = () => {
     const buttons: ShortcutButtonConfig[] = [
       {
-        title: t("module:frame"),
+        title: t("module:createShadowOverlay"),
         onClick: () => applyShortcut("makeFrameOverlay", false),
       },
       {

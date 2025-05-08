@@ -21,6 +21,7 @@ export type ShortcutAction =
   | "createAutoLayoutIndividually"
   | "updateCatalogueDescBackToFigma"
   | "updateExampleFileUrl"
+  | "numbering"
   | "debug";
 
 export interface MessageShortcut extends Message {

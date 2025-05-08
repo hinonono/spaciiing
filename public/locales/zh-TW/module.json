@@ -190,5 +190,6 @@
   "newStrokeStyle": "建立筆畫樣式",
   "editStrokeStyle": "編輯筆畫樣式",
   "instanceProperties": "實例屬性",
-  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (來自 $LAYER_NAME$)"
+  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (來自 $LAYER_NAME$)",
+    "numberingTextLayers": "將文字圖層編號"
 }

@@ -46,6 +46,32 @@ export function createAutoLayoutIndividually(appContext: AppContextType, isRealC
   );
 }
 
+export function numberingTextLayers(appContext: AppContextType, isRealCall: boolean) {
+  if (!isRealCall) {
+    if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
+      appContext.setFreeUserDelayModalConfig({
+        show: true,
+        initialTime: info.freeUserWaitingTime,
+        onProceed: () => numberingTextLayers(appContext, true), // Retry with isRealCall = true
+      });
+      return;
+    }
+  }
+
+  const message: MessageShortcut = {
+    action: "numbering",
+    module: "Shortcut",
+    phase: "Actual",
+  };
+
+  parent.postMessage(
+    {
+      pluginMessage: message,
+    },
+    "*"
+  );
+}
+
 export interface ShortcutButtonConfig {
   id?: string;
   title: string;

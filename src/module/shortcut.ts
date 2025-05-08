@@ -83,6 +83,9 @@ export function executeShortcut(message: MessageShortcut) {
       case "updateCatalogueDescBackToFigma":
         writeCatalogueDescBackToFigma();
         break;
+      case "numbering":
+        numbering();
+        break;
       case "debug":
         debugFunction();
         break;
@@ -109,6 +112,36 @@ function debugFunction() {
 
   figma.notify("OK!")
 
+}
+
+async function numbering() {
+  const selection = util.getCurrentSelection();
+
+  // Check if there are any nodes selected
+  if (selection.length === 0) {
+    figma.notify("No nodes selected.");
+    return;
+  } else if (selection.length === 1) {
+    figma.notify("Please select at least two objects.");
+    return;
+  }
+
+  // Ensure all selected nodes are text layers
+  const allTextNodes = selection.every(node => node.type === "TEXT");
+  if (!allTextNodes) {
+    figma.notify("❌ All selected nodes must be text layers.");
+    return;
+  }
+
+  const sortedSelection = util.sortSelectionBasedOnXAndY("vertical", selection) as TextNode[];
+
+  for (let i = 0; i < sortedSelection.length; i++) {
+    const textNode = sortedSelection[i];
+    await figma.loadFontAsync(textNode.fontName as FontName);
+    textNode.characters = `${i + 1}`;
+  }
+
+  figma.notify(`✅ Numbered ${sortedSelection.length} text layers.`);
 }
 
 function createAutoLayoutIndividually() {

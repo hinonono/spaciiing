@@ -190,5 +190,6 @@
   "newStrokeStyle": "New stroke style",
   "editStrokeStyle": "Edit stroke style",
   "instanceProperties": "Instance properties",
-  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (from $LAYER_NAME$)"
+  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (from $LAYER_NAME$)",
+  "numberingTextLayers": "Numbering Text Layers"
 }

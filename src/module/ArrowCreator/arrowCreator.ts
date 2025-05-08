@@ -19,7 +19,7 @@ export function reception(message: MessageArrowCreator) {
         return;
     }
 
-    const sortedSelction = sortSelectionBasedOnXAndY(message.layoutDirection, selection)
+    const sortedSelction = util.sortSelectionBasedOnXAndY(message.layoutDirection, selection)
 
     for (let i = 0; i < sortedSelction.length - 1; i++) {
         const sourceItem = sortedSelction[i];
@@ -43,32 +43,7 @@ export function reception(message: MessageArrowCreator) {
     }
 }
 
-// The .sort() function in JavaScript/TypeScript uses a comparison function that returns:
-// 	•	A negative value (< 0) if a should be placed before b.
-// 	•	A positive value (> 0) if a should be placed after b.
-// 	•	Zero (0) if their order remains the same.
 
-// So, using a.x - b.x:
-// 	•	If a.x is less than b.x, it returns negative, meaning a comes before b.
-// 	•	If a.x is greater than b.x, it returns positive, meaning b comes before a.
-function sortSelectionBasedOnXAndY(direction: Direction, selection: SceneNode[]): SceneNode[] {
-    return selection.sort((a, b) => {
-        if (!a.absoluteBoundingBox || !b.absoluteBoundingBox) {
-            throw new Error("Absolute bounding box is required for sorting.");
-        }
-
-        const aX = a.absoluteBoundingBox.x;
-        const aY = a.absoluteBoundingBox.y;
-        const bX = b.absoluteBoundingBox.x;
-        const bY = b.absoluteBoundingBox.y;
-
-        if (direction === "horizontal") {
-            return aX === bX ? aY - bY : aX - bX;
-        } else {
-            return aY === bY ? aX - bX : aY - bY;
-        }
-    });
-}
 
 /**
  * Calculates the positions of various connection points on a rectangular layer,

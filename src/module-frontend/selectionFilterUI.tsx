@@ -35,55 +35,55 @@ export const FilterableScopesNew: FilterScopeItem[] = [
         nameKey: "term:image",
         scope: "IMAGE",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgImage />
+        svg: <SvgImage color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:text",
         scope: "TEXT",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgText />
+        svg: <SvgText color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:frame",
         scope: "FRAME",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgFrame />
+        svg: <SvgFrame color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:group",
         scope: "GROUP",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgGroup />
+        svg: <SvgGroup color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:autoLayout",
         scope: "AUTO_LAYOUT",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgAutoLayout />
+        svg: <SvgAutoLayout color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:instance",
         scope: "INSTANCE",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgInstance />
+        svg: <SvgInstance color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:component",
         scope: "COMPONENT",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgComponent />
+        svg: <SvgComponent color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:componentSet",
         scope: "COMPONENT_SET",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgComponent />
+        svg: <SvgComponent color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:allShape",
         scope: "ALL_SHAPE",
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgShape />
+        svg: <SvgShape color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:rectangle",
@@ -91,7 +91,7 @@ export const FilterableScopesNew: FilterScopeItem[] = [
         indented: true,
         indentLevel: 1,
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgRect />
+        svg: <SvgRect color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:ellipse",
@@ -99,7 +99,7 @@ export const FilterableScopesNew: FilterScopeItem[] = [
         indented: true,
         indentLevel: 1,
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgCircle />
+        svg: <SvgCircle color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:line",
@@ -107,7 +107,7 @@ export const FilterableScopesNew: FilterScopeItem[] = [
         indented: true,
         indentLevel: 1,
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgLine />
+        svg: <SvgLine color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:polygon",
@@ -115,7 +115,7 @@ export const FilterableScopesNew: FilterScopeItem[] = [
         indented: true,
         indentLevel: 1,
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgPolygon />
+        svg: <SvgPolygon color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:star",
@@ -123,7 +123,7 @@ export const FilterableScopesNew: FilterScopeItem[] = [
         indented: true,
         indentLevel: 1,
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgStar />
+        svg: <SvgStar color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:vector",
@@ -131,6 +131,6 @@ export const FilterableScopesNew: FilterScopeItem[] = [
         indented: true,
         indentLevel: 1,
         supportedEditorTypes: ["figma", "slides"],
-        svg: <SvgVector />
+        svg: <SvgVector color="var(--figma-color-text)" />
     },
 ];

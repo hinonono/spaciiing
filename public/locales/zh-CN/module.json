@@ -190,5 +190,6 @@
   "newStrokeStyle": "创建描边样式",
   "editStrokeStyle": "修改描边样式",
   "instanceProperties": "实例属性",
-  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (来自 $LAYER_NAME$)"
+  "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (来自 $LAYER_NAME$)",
+    "numberingTextLayers": "将文本图层编号"
 }
