@@ -9,16 +9,8 @@ import {
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
-import { EditorType } from "../types/EditorType";
 import * as info from "../info.json";
-
-interface FilterScopeItem {
-  nameKey: string;
-  scope: NodeFilterable;
-  indented?: boolean;
-  indentLevel?: number;
-  supportedEditorTypes: EditorType[];
-}
+import { FilterableScopesNew } from "../module-frontend/selectionFilterUI";
 
 const SelectionFilter: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -50,43 +42,6 @@ const SelectionFilter: React.FC = () => {
       setFindCriteria("");
     }
   };
-
-  const FilterableScopesNew: FilterScopeItem[] = [
-    { nameKey: "term:allOptions", scope: "ALL_OPTIONS", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:image", scope: "IMAGE", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:text", scope: "TEXT", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:frame", scope: "FRAME", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:group", scope: "GROUP", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:autoLayout", scope: "AUTO_LAYOUT", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:instance", scope: "INSTANCE", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:component", scope: "COMPONENT", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:componentSet", scope: "COMPONENT_SET", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:allShape", scope: "ALL_SHAPE", supportedEditorTypes: ["figma", "slides"] },
-    {
-      nameKey: "term:rectangle",
-      scope: "RECTANGLE",
-      indented: true,
-      indentLevel: 1,
-      supportedEditorTypes: ["figma", "slides"]
-    },
-    {
-      nameKey: "term:ellipse",
-      scope: "ELLIPSE",
-      indented: true,
-      indentLevel: 1,
-      supportedEditorTypes: ["figma", "slides"]
-    },
-    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
-    {
-      nameKey: "term:polygon",
-      scope: "POLYGON",
-      indented: true,
-      indentLevel: 1,
-      supportedEditorTypes: ["figma", "slides"]
-    },
-    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
-  ];
 
   // 主要功能
   const [selectedScopes, setSelectedScopes] = useState<NodeFilterable[]>([]);
@@ -187,21 +142,24 @@ const SelectionFilter: React.FC = () => {
           <SectionTitle
             title={`${t("module:filterFor")} (${selectedScopes.length})`}
           />
-          <div className="cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {FilterableScopesNew.map((item) => item.supportedEditorTypes.includes(editorType) && (
               <label
                 key={t(item.nameKey)}
                 className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
                   }`}
               >
-                {t(item.nameKey)}
+                <div className="flex align-items-center">
+                  {item.svg && <div className="icon-20 mr-xxxsmall">{item.svg}</div>}
+                  {t(item.nameKey)}
+                </div>
                 <input
                   type="checkbox"
                   value={item.scope}
                   checked={selectedScopes.includes(item.scope)}
                   onChange={() => handleScopeChange(item.scope)}
                 />
-                <span className="checkmark"></span>
+                <span className={`checkmark ${item.svg && "when-has-icon"}`}></span>
               </label>
             ))}
           </div>

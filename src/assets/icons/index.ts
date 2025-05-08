@@ -43,5 +43,6 @@ export { default as SvgEdit } from "./SvgEdit";
 export { default as SvgKey } from "./SvgKey";
 export { default as SvgEraser } from "./SvgEraser";
 export { default as SvgSkip } from "./SvgSkip";
-
 export { default as SvgNote } from "./SvgNote";
+
+export { default as SvgImage } from "./SvgImage";

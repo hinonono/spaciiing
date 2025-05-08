@@ -2,7 +2,7 @@
     .container {
         display: block;
         position: relative;
-        padding: 10px 0px;
+        padding: 8px 0px;
         padding-left: 28px;
         cursor: pointer;
         font-size: var(--font-size-small);
@@ -76,6 +76,10 @@
     &-round {
         border-radius: 999px;
         scale: 110%;
+    }
+
+    &.when-has-icon {
+        top: 6;
     }
 
     &:after {

@@ -154,7 +154,7 @@ pre {
 }
 
 @mixin indent-level($level) {
-    margin-left: $level * 1.8rem;
+    margin-left: $level * 1.5rem;
 }
 
 .indent-level-1 {
