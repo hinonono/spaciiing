@@ -15,6 +15,10 @@
     input[type="radio"] {
         display: none;
 
+        &+label {
+            transition: all .3s;
+        }
+
         &:checked+label {
             background: var(--figma-color-bg-brand);
             color: var(--white);
@@ -31,8 +35,25 @@
             cursor: not-allowed;
         }
 
+        &:hover:checked+label {
+            scale: 0.95;
+            z-index: 1;
+        }
+
         &:hover:not(:checked)+label {
             background-color: var(--figma-color-bg-secondary);
+            scale: 0.95;
+            z-index: 1;
+        }
+
+        &:active:checked+label {
+            scale: 0.8;
+            z-index: 1;
+        }
+
+        &:active:not(:checked)+label {
+            background-color: var(--figma-color-bg-secondary);
+            scale: 0.8;
             z-index: 1;
         }
     }

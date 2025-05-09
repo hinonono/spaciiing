@@ -166,6 +166,9 @@ input {
 .custom-segmented-control input[type=radio] {
   display: none;
 }
+.custom-segmented-control input[type=radio] + label {
+  transition: all 0.3s;
+}
 .custom-segmented-control input[type=radio]:checked + label {
   background: var(--figma-color-bg-brand);
   color: var(--white);
@@ -179,8 +182,22 @@ input {
   opacity: 0.5;
   cursor: not-allowed;
 }
+.custom-segmented-control input[type=radio]:hover:checked + label {
+  scale: 0.95;
+  z-index: 1;
+}
 .custom-segmented-control input[type=radio]:hover:not(:checked) + label {
   background-color: var(--figma-color-bg-secondary);
+  scale: 0.95;
+  z-index: 1;
+}
+.custom-segmented-control input[type=radio]:active:checked + label {
+  scale: 0.8;
+  z-index: 1;
+}
+.custom-segmented-control input[type=radio]:active:not(:checked) + label {
+  background-color: var(--figma-color-bg-secondary);
+  scale: 0.8;
   z-index: 1;
 }
 .custom-segmented-control label {
