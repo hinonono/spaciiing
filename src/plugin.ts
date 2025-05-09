@@ -40,7 +40,7 @@ import { MessagePropertyClipboard } from "./types/Messages/MessagePropertyClipbo
 import { MessageArrowCreator } from "./types/Messages/MessageArrowCreator";
 
 figma.showUI(__html__, { themeColors: true });
-figma.ui.resize(360, 480);
+figma.ui.resize(360, 500);
 
 figma.ui.onmessage = (message: Message) => {
   console.log("plugin.ts", message);
