@@ -1040,12 +1040,16 @@ input {
 }
 .connect-point-container .connect-item .connect-point {
   position: absolute;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   background-color: #e2e2e2;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid white;
+  border: 3px solid white;
+  transition: all 0.3s;
+}
+.connect-point-container .connect-item .connect-point:active {
+  scale: 0.8;
 }
 .connect-point-container .connect-item .connect-point.topCenter {
   top: -8px;
@@ -1069,7 +1073,7 @@ input {
 }
 .connect-point-container .connect-item .connect-point.selected {
   background-color: var(--figma-color-bg-brand);
-  border: 2px solid white;
+  border: 3px solid white;
 }
 
 @media (prefers-color-scheme: dark) {
