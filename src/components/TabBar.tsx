@@ -96,8 +96,26 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
     };
   }, []);
 
+  const [displayedTab, setDisplayedTab] = useState<Module>(activeTab);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Watch for tab changes to trigger animation
+  useEffect(() => {
+    if (activeTab !== displayedTab) {
+      setIsTransitioning(true);
+
+      // After fade-out duration, change content
+      const timeout = setTimeout(() => {
+        setDisplayedTab(activeTab);
+        setIsTransitioning(false);
+      }, 150); // match with CSS duration
+
+      return () => clearTimeout(timeout);
+    }
+  }, [activeTab]);
+
   const renderTabContent = () => {
-    switch (activeTab) {
+    switch (displayedTab) {
       case "Spaciiing":
         return <Spaciiing />;
       case "ArrowCreator":
@@ -153,7 +171,9 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           />
         ))}
       </div>
-      <div className="tab-content">{renderTabContent()}</div>
+      <div className={`tab-content ${isTransitioning ? "fade-out" : ""}`}>
+        {renderTabContent()}
+      </div>
     </div>
   );
 };
