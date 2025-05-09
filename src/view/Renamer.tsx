@@ -161,7 +161,7 @@ const Renamer: React.FC = () => {
                   }`}
               >
                 <div className="flex align-items-center">
-                  {item.svg && <div className="icon-20 mr-xxxsmall">{item.svg}</div>}
+                  {item.svg && <div className="icon-20 mr-xxsmall">{item.svg}</div>}
                   {t(item.nameKey)}
                 </div>
                 <input

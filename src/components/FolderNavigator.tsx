@@ -4,6 +4,7 @@ import FigmaButton from "./FigmaButton";
 import { StyleForm, StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { useTranslation } from "react-i18next";
 import ListViewHeader from "./ListViewHeader";
+import ColorThumbnailView from "./ColorThumbnailView";
 
 interface FolderNavigatorProps {
   form: StyleForm;
@@ -173,18 +174,23 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
                   key={currentStructure[key].id} // Use id as the key to ensure uniqueness
                   className="container" // You can add indentation styles or other classes here
                 >
-                  {key}
-                  <input
-                    type="checkbox"
-                    value={currentStructure[key].id}
-                    checked={selectedScopes.scopes.includes(
-                      currentStructure[key].id!
-                    )}
-                    onChange={() =>
-                      handleScopeChange(currentStructure[key].id!)
-                    }
-                  />
-                  <span className="checkmark"></span>
+                  <div className="flex flex-row align-items-center flex-justify-space-between">
+                    <div className="flex flex-row align-items-center">
+                      {currentStructure[key].color && <ColorThumbnailView color={currentStructure[key].color} opacity={1} size={20} type={form === "STYLE" ? "rounded" : "square"} extraClassName="mr-xxsmall" />}
+                      {key}
+                    </div>
+                    <input
+                      type="checkbox"
+                      value={currentStructure[key].id}
+                      checked={selectedScopes.scopes.includes(
+                        currentStructure[key].id!
+                      )}
+                      onChange={() =>
+                        handleScopeChange(currentStructure[key].id!)
+                      }
+                    />
+                    <span className="checkmark"></span>
+                  </div>
                 </label>
               )}
             </li>

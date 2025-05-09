@@ -163,7 +163,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
                 opacity={editingStroke.opacity}
                 size={16}
                 type={'square'}
-                extraClassName="mr-xxxsmall"
+                extraClassName="mr-xxsmall"
               />
             </div>
             <textarea

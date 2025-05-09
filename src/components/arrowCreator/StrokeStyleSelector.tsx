@@ -81,7 +81,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
           <label key={item.id} className={`container`}>
             <div className="flex flex-row align-items-center flex-justify-space-between">
               <div className="flex flex-row align-items-center">
-                <ColorThumbnailView color={item.style.color} opacity={1} size={20} type={"rounded"} extraClassName="mr-xxxsmall" />
+                <ColorThumbnailView color={item.style.color} opacity={1} size={20} type={"rounded"} extraClassName="mr-xxsmall" />
                 {item.name}
               </div>
               <input
