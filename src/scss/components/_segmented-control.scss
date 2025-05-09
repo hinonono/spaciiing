@@ -5,7 +5,7 @@
     width: 100%;
     justify-content: space-between;
     overflow: hidden;
-    transition: all .3s;
+    transition: var(--cy-animation-default);
     padding: 6px;
 
     &:hover {
@@ -16,7 +16,7 @@
         display: none;
 
         &+label {
-            transition: all .3s;
+            transition: var(--cy-animation-default);
         }
 
         &:checked+label {
@@ -24,7 +24,7 @@
             color: var(--white);
             fill: var(--white);
             z-index: 1;
-            
+
             * {
                 fill: white;
             }

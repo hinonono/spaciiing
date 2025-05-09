@@ -38,7 +38,7 @@
             border-radius: 50%;
             cursor: pointer;
             border: 3px solid white;
-            transition: all .3s;
+            transition: var(--cy-animation-default);
 
             &:active {
                 scale: 0.8;

@@ -154,6 +154,14 @@ a {
     top: 0;
     background-color: var(--figma-color-bg);
     z-index: 3;
+
+    & button {
+        transition: var(--cy-animation-default);
+
+        &:active {
+            scale: 0.8;
+        }
+    }
 }
 
 .color-thumbnail {

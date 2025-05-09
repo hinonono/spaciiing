@@ -403,7 +403,7 @@ $base-size: 24px;
 
 .button {
     cursor: pointer;
-    transition: all 0.3s;
+    transition: var(--cy-animation-default);
 }
 
 .checkbox-group {
@@ -501,7 +501,7 @@ $base-size: 24px;
         border-radius: 9999px;
         overflow: hidden;
         background-color: rgba(0, 0, 0, 0.05);
-        transition: all .3s;
+        transition: var(--cy-animation-default);
 
         &:hover {
             scale: 0.9;

@@ -6,7 +6,7 @@
     font-size: var(--font-size-small);
     min-height: 48px;
     border: 0px;
-    // transition: all 0.3s;
+    // transition: var(--cy-animation-default);
 
     &-height-fit-content {
         min-height: 0;

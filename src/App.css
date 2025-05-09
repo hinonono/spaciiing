@@ -25,6 +25,7 @@
   --drop-shadow-1: 0px 5px 12px 4px rgba(0, 0, 0, 0.09), 0px 3px 6px 0px rgba(0, 0, 0, 0.12), 0px 1px 2px -2px rgba(0, 0, 0, 0.16);
   --drop-shadow-2: 0px 9px 28px 8px rgba(0, 0, 0, 0.05), 0px 6px 16px 0px rgba(0, 0, 0, 0.08), 0px 3px 6px -4px rgba(0, 0, 0, 0.12);
   --drop-shadow-3: 0px 12px 48px 16px rgba(0, 0, 0, 0.03), 0px 9px 28px 0px rgba(0, 0, 0, 0.05), 0px 6px 16px -8px rgba(0, 0, 0, 0.08);
+  --cy-animation-default: all 0.3s;
   /* spaciiing色盤 color palette */
   /* cy-purple */
   --cy-purple-50: #f6f4ff;
@@ -129,8 +130,6 @@ input {
 }
 
 .cy-input {
-  border: none;
-  border: 1px solid transparent;
   padding: 4px;
   padding-bottom: 0;
   width: 100%;
@@ -139,14 +138,17 @@ input {
   background-color: transparent;
   color: inherit;
   height: 1.5rem;
+  border-radius: var(--cy-border-radius-small);
+  border: 0px;
 }
 .cy-input:hover {
-  border-color: var(--fg-focus);
+  border: 0px;
+  outline: 1.5px solid var(--figma-color-border-brand);
 }
-.cy-input:focus {
-  outline: none;
-  border-color: var(--fg-focus);
-  border-width: 1.5px;
+.cy-input:focus, .cy-input:active {
+  border: 0px;
+  outline-color: var(--fg-focus);
+  outline-width: 1.5px;
   background-color: var(--figma-color-bg);
 }
 
@@ -157,7 +159,7 @@ input {
   width: 100%;
   justify-content: space-between;
   overflow: hidden;
-  transition: all 0.3s;
+  transition: var(--cy-animation-default);
   padding: 6px;
 }
 .custom-segmented-control:hover {
@@ -167,7 +169,7 @@ input {
   display: none;
 }
 .custom-segmented-control input[type=radio] + label {
-  transition: all 0.3s;
+  transition: var(--cy-animation-default);
 }
 .custom-segmented-control input[type=radio]:checked + label {
   background: var(--figma-color-bg-brand);
@@ -347,7 +349,7 @@ input {
   margin: 0;
   cursor: pointer;
   padding: 4px;
-  transition: all 0.3s;
+  transition: var(--cy-animation-default);
 }
 .magic-object-button:hover {
   background-color: var(--figma-color-bg-secondary);
@@ -572,7 +574,7 @@ input {
   height: fit-content;
   width: 100%;
   overflow: scroll;
-  transition: all 0.3s;
+  transition: var(--cy-animation-default);
 }
 .scope-group:hover {
   border-color: var(--cy-border-dark);
@@ -637,7 +639,7 @@ input {
   background-color: var(--figma-color-bg);
   border: 1px solid var(--cy-border-light);
   color: var(--figma-color-text);
-  transition: all 0.3s;
+  transition: var(--cy-animation-default);
   /* Dropdown options styling */
 }
 .custom-select:hover {
@@ -1046,7 +1048,7 @@ input {
   border-radius: 50%;
   cursor: pointer;
   border: 3px solid white;
-  transition: all 0.3s;
+  transition: var(--cy-animation-default);
 }
 .connect-point-container .connect-item .connect-point:active {
   scale: 0.8;
@@ -1401,6 +1403,12 @@ a {
   top: 0;
   background-color: var(--figma-color-bg);
   z-index: 3;
+}
+.virtual-profile-toolbar button {
+  transition: var(--cy-animation-default);
+}
+.virtual-profile-toolbar button:active {
+  scale: 0.8;
 }
 
 .color-thumbnail-rounded {
@@ -1814,7 +1822,7 @@ pre {
 
 .button {
   cursor: pointer;
-  transition: all 0.3s;
+  transition: var(--cy-animation-default);
 }
 
 .checkbox-group {
@@ -1906,7 +1914,7 @@ pre {
   border-radius: 9999px;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.05);
-  transition: all 0.3s;
+  transition: var(--cy-animation-default);
 }
 .close-wrap .icon-24:hover {
   scale: 0.9;
