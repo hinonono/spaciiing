@@ -758,3 +758,38 @@ export function getAlphabet(index: number, uppercase: boolean): string {
   }
   return uppercase ? result.toUpperCase() : result;
 }
+
+export function getHanziNumber(index: number, digitMap: string[], unitMap: string[], options?: { omitLeadingOneAtTen?: boolean }): string {
+  const number = index + 1;
+  const digits = number.toString().split("").reverse();
+  let result = "";
+
+  for (let i = digits.length - 1; i >= 0; i--) {
+    const digit = parseInt(digits[i]);
+    const isMostSignificant = i === digits.length - 1;
+    const isTensPlace = i === 1;
+
+    // Omit leading "壹" for "拾" when number is exactly 10~19
+    const omitOne = options?.omitLeadingOneAtTen === true &&
+      isMostSignificant &&
+      isTensPlace &&
+      digit === 1;
+
+    if (digit === 0) continue;
+    result += (omitOne ? "" : digitMap[digit]) + (unitMap[i] || "");
+  }
+
+  return result;
+}
+
+export function getComplexHanziNumber(index: number): string {
+  const complexDigits = ["", "壹", "貳", "參", "肆", "伍", "陸", "柒", "捌", "玖"];
+  const complexUnits = ["", "拾", "佰", "仟", "萬"];
+  return getHanziNumber(index, complexDigits, complexUnits, { omitLeadingOneAtTen: true });
+}
+
+export function getSimpleHanziNumber(index: number): string {
+  const simpleDigits = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+  const simpleUnits = ["", "十", "百", "千", "萬"];
+  return getHanziNumber(index, simpleDigits, simpleUnits, { omitLeadingOneAtTen: true });
+}

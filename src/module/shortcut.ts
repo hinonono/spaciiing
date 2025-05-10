@@ -116,7 +116,7 @@ function debugFunction() {
 }
 
 async function numbering(message: MessageShortcutNumbering) {
-  const { numberingForm, startFrom } = message;
+  const { numberingdirection, numberingForm, startFrom } = message;
   const selection = util.getCurrentSelection();
 
   // Check if there are any nodes selected
@@ -135,9 +135,7 @@ async function numbering(message: MessageShortcutNumbering) {
     return;
   }
 
-  const sortedSelection = util.sortSelectionBasedOnXAndY("vertical", selection) as TextNode[];
-
-
+  const sortedSelection = util.sortSelectionBasedOnXAndY(numberingdirection, selection) as TextNode[];
 
   for (let i = 0; i < sortedSelection.length; i++) {
     const textNode = sortedSelection[i];
@@ -150,6 +148,12 @@ async function numbering(message: MessageShortcutNumbering) {
         break;
       case "ALPHABETIC_UPPERCASE":
         value = util.getAlphabet(i, true);
+        break;
+      case "ZHTW_SIMPLE_HANZI":
+        value = util.getSimpleHanziNumber(i);
+        break;
+      case "ZHTW_COMPLEX_HANZI":
+        value = util.getComplexHanziNumber(i);
         break;
       case "NUMBER":
       default:

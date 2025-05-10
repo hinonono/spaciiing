@@ -4,6 +4,7 @@ import { MessageShortcut, MessageShortcutNumbering, NumberingForm } from "../typ
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as info from "../info.json";
 import { ReactHTMLElement } from "react";
+import { Direction } from "../types/General";
 
 export function initShortcut() {
   const message: Message = {
@@ -46,17 +47,18 @@ export function createAutoLayoutIndividually(appContext: AppContextType, isRealC
   );
 }
 
-export const applyNumbering = (appContext: AppContextType, form: NumberingForm, startfrom?: number, isRealCall = false) => {
+export const applyNumbering = (appContext: AppContextType, direction: Direction, form: NumberingForm, startfrom?: number, isRealCall = false) => {
   if (!isRealCall) {
     if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
       appContext.setFreeUserDelayModalConfig({
         show: true,
         initialTime: info.freeUserWaitingTime,
-        onProceed: () => applyNumbering(appContext, form, startfrom, true),
+        onProceed: () => applyNumbering(appContext, direction, form, startfrom, true),
       });
       return;
     }
   }
+
 
 
   const message: MessageShortcutNumbering = {
@@ -64,15 +66,14 @@ export const applyNumbering = (appContext: AppContextType, form: NumberingForm, 
     action: "numbering",
     direction: "Inner",
     phase: "Actual",
+    numberingdirection: direction,
     numberingForm: form,
     startFrom: startfrom
   };
-  parent.postMessage(
-    {
-      pluginMessage: message,
-    },
-    "*"
-  );
+
+  console.log(message);
+
+  parent.postMessage({ pluginMessage: message, }, "*");
 
 };
 

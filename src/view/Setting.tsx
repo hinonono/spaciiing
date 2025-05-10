@@ -31,8 +31,6 @@ const Setting: React.FC = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
-  console.log(licenseManagement);
-
   return (
     <div>
       <TitleBar title={t("settings:moduleName")} showInfoIcon={false} />
