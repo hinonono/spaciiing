@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAppContext } from "../AppProvider";
-import { FigmaButton, SectionTitle, TitleBar } from "../components";
+import { FigmaButton, ListViewHeader, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import {
@@ -185,22 +185,26 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
           </div>
         </div>
         <div className="mt-xsmall">
-          <SectionTitle title={t("module:presetAspectRatio")} />
-          <div className="grid mt-xxxsmall">
-            {aspectRatioOptionsUI.map((option) => (
-              <FigmaButton
-                key={option.name}
-                buttonType="secondary"
-                title={option.name}
-                fontSize="xlarge"
-                svg={option.svg}
-                buttonHeight="xlarge"
-                onClick={() => {
-                  applyAspectRatioHandler(option.width, option.height, false);
-                }}
-                hasTopBottomMargin={false}
-              />
-            ))}
+          <div className="list-view mt-xsmall">
+            <ListViewHeader title={t("module:presetAspectRatio")} additionalClass="property-clipboard-header" />
+            <div className="padding-16 border-1-top">
+              <div className="grid mt-xxxsmall">
+                {aspectRatioOptionsUI.map((option) => (
+                  <FigmaButton
+                    key={option.name}
+                    buttonType="secondary"
+                    title={option.name}
+                    fontSize="xlarge"
+                    svg={option.svg}
+                    buttonHeight="xlarge"
+                    onClick={() => {
+                      applyAspectRatioHandler(option.width, option.height, false);
+                    }}
+                    hasTopBottomMargin={false}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <div className="mt-xsmall">
