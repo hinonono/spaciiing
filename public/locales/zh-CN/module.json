@@ -191,5 +191,7 @@
   "editStrokeStyle": "修改描边样式",
   "instanceProperties": "实例属性",
   "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (来自 $LAYER_NAME$)",
-    "numberingTextLayers": "将文本图层编号"
+    "numberingTextLayers": "将文本图层编号",
+      "specialSymbol": "特殊符号",
+  "originalTextContent": "文本图层的原始内容"
 }

@@ -187,7 +187,14 @@ function unifyText(message: MessageUnifyText) {
   // Load fonts and update text content
   textNodes.forEach(async (textNode) => {
     await figma.loadFontAsync(textNode.fontName as FontName);
-    textNode.characters = targetTextContent;
+
+    if (targetTextContent.includes("$O")) {
+      const originalContent = textNode.characters;
+      textNode.characters = targetTextContent.replace("$ORIGIN$", originalContent);
+
+    } else {
+      textNode.characters = targetTextContent;
+    }
   });
 
   figma.notify(`✅ Text content updated for ${textNodes.length} text node(s).`);

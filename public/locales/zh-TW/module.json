@@ -191,5 +191,7 @@
   "editStrokeStyle": "編輯筆畫樣式",
   "instanceProperties": "實例屬性",
   "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (來自 $LAYER_NAME$)",
-    "numberingTextLayers": "將文字圖層編號"
+    "numberingTextLayers": "將文字圖層編號",
+      "specialSymbol": "特殊代號",
+  "originalTextContent": "文字圖層原本的內容"
 }

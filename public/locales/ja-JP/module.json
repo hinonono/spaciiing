@@ -191,5 +191,8 @@
   "editStrokeStyle": "線スタイルを編集",
   "instanceProperties": "インスタンスの属性",
   "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ ($LAYER_NAME$から)",
-    "numberingTextLayers": "テキストレイヤーに番号を付ける"
+  "numberingTextLayers": "テキストレイヤーに番号を付ける",
+  "specialSymbol": "スペシャルコード",
+  "originalTextContent": "テキストレイヤー元の内容"
+    
 }

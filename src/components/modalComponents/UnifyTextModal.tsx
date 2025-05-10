@@ -52,6 +52,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
 
   return (
     <Modal show={show} handleClose={handleClose}>
+      <h3>{t("module:unifyText")}</h3>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:text")} />
         <textarea
@@ -61,6 +62,10 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
           onChange={handleTargetTextContentChange}
           placeholder={t("module:text")}
         />
+      </div>
+      <div className="mt-xxsmall">
+        <SectionTitle title={t("module:specialSymbol")} />
+        <span className="note">$ORIGIN$ {t("module:originalTextContent")}</span>
       </div>
       <div className="mt-xxsmall">
         <FigmaButton title={t("module:execute")} onClick={() => unifyText(false)} />

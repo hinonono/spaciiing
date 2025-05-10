@@ -77,6 +77,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       show={show}
       handleClose={handleClose}
     >
+      <h3>{t("module:findAndReplace")}</h3>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:findInSelection")} />
         <div className="width-100">
