@@ -1,6 +1,6 @@
 import { AppContextType } from "../AppProvider";
 import { Message } from "../types/Messages/Message";
-import { MessageShortcut } from "../types/Messages/MessageShortcut";
+import { MessageShortcut, MessageShortcutNumbering, NumberingForm } from "../types/Messages/MessageShortcut";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as info from "../info.json";
 import { ReactHTMLElement } from "react";
@@ -46,31 +46,35 @@ export function createAutoLayoutIndividually(appContext: AppContextType, isRealC
   );
 }
 
-export function numberingTextLayers(appContext: AppContextType, isRealCall: boolean) {
+export const applyNumbering = (appContext: AppContextType, form: NumberingForm, startfrom?: number, isRealCall = false) => {
   if (!isRealCall) {
     if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
       appContext.setFreeUserDelayModalConfig({
         show: true,
         initialTime: info.freeUserWaitingTime,
-        onProceed: () => numberingTextLayers(appContext, true), // Retry with isRealCall = true
+        onProceed: () => applyNumbering(appContext, form, startfrom, true),
       });
       return;
     }
   }
 
-  const message: MessageShortcut = {
-    action: "numbering",
-    module: "Shortcut",
-    phase: "Actual",
-  };
 
+  const message: MessageShortcutNumbering = {
+    module: "Shortcut",
+    action: "numbering",
+    direction: "Inner",
+    phase: "Actual",
+    numberingForm: form,
+    startFrom: startfrom
+  };
   parent.postMessage(
     {
       pluginMessage: message,
     },
     "*"
   );
-}
+
+};
 
 export interface ShortcutButtonConfig {
   id?: string;

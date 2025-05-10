@@ -741,3 +741,20 @@ export function sortSelectionBasedOnXAndY(direction: Direction, selection: Scene
     }
   });
 }
+
+/**
+ * Get alphapet for nubering purpose.
+ * @param index 
+ * @param uppercase 
+ * @returns 
+ */
+export function getAlphabet(index: number, uppercase: boolean): string {
+  const base = 'a'.charCodeAt(0);
+  let result = '';
+  index += 0; // Always start from 0 for alphabetic sequences
+  while (index >= 0) {
+    result = String.fromCharCode(base + (index % 26)) + result;
+    index = Math.floor(index / 26) - 1;
+  }
+  return uppercase ? result.toUpperCase() : result;
+}

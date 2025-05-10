@@ -6,6 +6,7 @@ import {
   MessageShortcutFindAndReplace,
   MessageShortcutGenerateIconTemplate,
   MessageShortcutGenerateMagicalObjectMember,
+  MessageShortcutNumbering,
   MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
@@ -84,7 +85,7 @@ export function executeShortcut(message: MessageShortcut) {
         writeCatalogueDescBackToFigma();
         break;
       case "numbering":
-        numbering();
+        numbering(message as MessageShortcutNumbering);
         break;
       case "debug":
         debugFunction();
@@ -114,7 +115,8 @@ function debugFunction() {
 
 }
 
-async function numbering() {
+async function numbering(message: MessageShortcutNumbering) {
+  const { numberingForm, startFrom } = message;
   const selection = util.getCurrentSelection();
 
   // Check if there are any nodes selected
@@ -135,14 +137,33 @@ async function numbering() {
 
   const sortedSelection = util.sortSelectionBasedOnXAndY("vertical", selection) as TextNode[];
 
+
+
   for (let i = 0; i < sortedSelection.length; i++) {
     const textNode = sortedSelection[i];
     await figma.loadFontAsync(textNode.fontName as FontName);
-    textNode.characters = `${i + 1}`;
+
+    let value: string;
+    switch (numberingForm) {
+      case "ALPHABETIC_LOWERCASE":
+        value = util.getAlphabet(i, false);
+        break;
+      case "ALPHABETIC_UPPERCASE":
+        value = util.getAlphabet(i, true);
+        break;
+      case "NUMBER":
+      default:
+        const start = startFrom ?? 1;
+        value = `${start + i}`;
+        break;
+    }
+
+    textNode.characters = value;
   }
 
   figma.notify(`✅ Numbered ${sortedSelection.length} text layers.`);
 }
+
 
 function createAutoLayoutIndividually() {
   const selection = util.getCurrentSelection();

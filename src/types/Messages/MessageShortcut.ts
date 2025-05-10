@@ -24,6 +24,11 @@ export type ShortcutAction =
   | "numbering"
   | "debug";
 
+export type NumberingForm =
+  | "ALPHABETIC_LOWERCASE"
+  | "ALPHABETIC_UPPERCASE"
+  | "NUMBER"
+
 export interface MessageShortcut extends Message {
   action: ShortcutAction;
 }
@@ -47,4 +52,8 @@ export interface MessageShortcutFindAndReplace extends MessageShortcut {
   findCriteria: string;
   replaceCriteria: string;
   keepOriginalLayerName: boolean;
+}
+export interface MessageShortcutNumbering extends MessageShortcut {
+  numberingForm: NumberingForm
+  startFrom?: number;
 }

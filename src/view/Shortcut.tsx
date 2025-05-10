@@ -8,6 +8,7 @@ import {
   IconTemplateModal,
   LoremIpsumModal,
   MagicObjectModal,
+  NumberingModal,
   UnifyTextModal,
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
@@ -16,7 +17,7 @@ import {
   ShortcutAction,
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
-import { createAutoLayoutIndividually, numberingTextLayers, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
+import { createAutoLayoutIndividually, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
 import * as info from "../info.json";
 import { SvgNote } from "../assets/icons";
 import SvgTag from "../assets/icons/SvgTag";
@@ -57,7 +58,10 @@ const Shortcut: React.FC = () => {
   const handleOpenUnifyTextModal = () => setShowUnifyTextModal(true);
   const handleCloseUnifyTextModal = () => setShowUnifyTextModal(false);
 
-
+  // 文字圖層編號彈窗
+  const [showNumberingModal, setShowNumberingModal] = useState(false);
+  const handleOpenNumberingModal = () => setShowNumberingModal(true);
+  const handleCloseNumberingModal = () => setShowNumberingModal(false);
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -169,6 +173,10 @@ const Shortcut: React.FC = () => {
         title: t("module:unifyText"),
         onClick: handleOpenUnifyTextModal,
       },
+      {
+        title: t("module:numberingTextLayers"),
+        onClick: handleOpenNumberingModal,
+      },
     ];
 
 
@@ -278,11 +286,7 @@ const Shortcut: React.FC = () => {
       {
         title: t("module:iconTemplate"),
         onClick: handleOpenIconModal,
-      },
-      {
-        title: t("module:numberingTextLayers"),
-        onClick: () => numberingTextLayers(appContext, false),
-      },
+      }
     ];
 
     return (
@@ -347,6 +351,10 @@ const Shortcut: React.FC = () => {
         <LoremIpsumModal
           show={showLoremModal}
           handleClose={handleCloseLoremModal}
+        />
+        <NumberingModal
+          show={showNumberingModal}
+          handleClose={handleCloseNumberingModal}
         />
       </div>
       <TitleBar

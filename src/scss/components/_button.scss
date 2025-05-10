@@ -109,15 +109,17 @@
     cursor: pointer;
     padding: 4px;
     transition: var(--cy-animation-default);
+    color: var(--figma-color-text);
 
     &:hover {
         background-color: var(--figma-color-bg-secondary);
+        color: var(--figma-color-text-hover)
     }
 
     &:disabled {
         cursor: not-allowed;
         border-color: var(--button-disabled);
-        color: var(--button-disabled);
+        color: var(--figma-color-text-disabled);
     }
 
     span {

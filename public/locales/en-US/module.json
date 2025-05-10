@@ -193,5 +193,7 @@
   "instancePropertiesBtn": "$PROPERTY_NAME$=$VALUE$ (from $LAYER_NAME$)",
   "numberingTextLayers": "Numbering Text Layers",
   "specialSymbol": "Special symbol",
-  "originalTextContent": "Original text content."
+  "originalTextContent": "Original text content.",
+  "numberingForm": "Numbering form",
+  "startFrom": "Start from"
 }
