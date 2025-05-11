@@ -140,12 +140,17 @@ function getNewName(renameTarget: NodeRenamable[], predefinedNames: PredifinedNa
     renameTarget.includes("FRAME") &&
     node.type === "FRAME"
   ) {
+    if (node.layoutMode === "NONE") {
+      return predefinedNames.frame;
+    }
+  } else if (
+    renameTarget.includes("AUTO_LAYOUT") &&
+    node.type === "FRAME"
+  ) {
     if (node.layoutMode === "HORIZONTAL") {
       return predefinedNames.auto_layout_horizontal;
     } else if (node.layoutMode === "VERTICAL") {
       return predefinedNames.auto_layout_vertical;
-    } else {
-      return predefinedNames.frame;
     }
   } else if (
     renameTarget.includes("GROUP") &&

@@ -11,6 +11,7 @@ import SvgLine from "../assets/icons/SvgLine";
 import SvgPolygon from "../assets/icons/SvgPolygon";
 import SvgStar from "../assets/icons/SvgStar";
 import SvgVector from "../assets/icons/SvgVector";
+import SvgAutoLayout from "../assets/icons/SvgAutoLayout";
 
 interface RenamerScopeItem {
     nameKey: string;
@@ -39,6 +40,11 @@ export const RenamableScopesNew: RenamerScopeItem[] = [
         nameKey: "term:frame",
         scope: "FRAME",
         svg: <SvgFrame color="var(--figma-color-text)" />
+    },
+    {
+        nameKey: "term:autoLayout",
+        scope: "AUTO_LAYOUT",
+        svg: <SvgAutoLayout color="var(--figma-color-text)" />
     },
     {
         nameKey: "term:group",
