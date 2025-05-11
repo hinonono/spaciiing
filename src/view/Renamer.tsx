@@ -13,7 +13,7 @@ import * as info from "../info.json";
 import { RenamableScopesNew } from "../module-frontend/renamerUI";
 
 const Renamer: React.FC = () => {
-  const { t } = useTranslation(["module", "term"]);
+  const { t, i18n } = useTranslation(["module", "term"]);
 
   const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
   // 功能說明彈窗
@@ -112,6 +112,7 @@ const Renamer: React.FC = () => {
         skipLockedLayer: skipLockedLayer,
         includeParentLayer: includeParentLayer,
       },
+      lang: i18n.language
     };
 
     parent.postMessage({ pluginMessage: message, }, "*");

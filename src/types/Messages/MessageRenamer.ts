@@ -14,4 +14,19 @@ export interface MessageRenamer extends Message {
   target: RenamerSupportedTargets[];
   renameTarget: NodeRenamable[];
   options: RenamerOptions;
+  lang: string;
+}
+
+export interface PredifinedNames {
+  image: string,
+  frame: string,
+  group: string,
+  rectangle: string,
+  ellipse: string,
+  line: string,
+  polygon: string,
+  star: string,
+  vector: string,
+  auto_layout_horizontal: string,
+  auto_layout_vertical: string,
 }

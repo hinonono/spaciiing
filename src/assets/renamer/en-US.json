@@ -1,0 +1,13 @@
+{
+    "image": "Image",
+    "frame": "Frame",
+    "group": "Group",
+    "rectangle": "Rectangle",
+    "ellipse": "Ellipse",
+    "line": "Line",
+    "polygon": "Polygon",
+    "star": "Star",
+    "vector": "Vector",
+    "auto_layout_horizontal": "H Auto Layout",
+    "auto_layout_vertical": "V Auto Layout"
+}

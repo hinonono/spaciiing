@@ -1,11 +1,11 @@
-
-import { MessageRenamer } from "../types/Messages/MessageRenamer";
+import { NodeRenamable } from './../types/NodeRenamable';
+import { MessageRenamer, PredifinedNames } from "../types/Messages/MessageRenamer";
 import * as util from "./util";
+import jaJPData from "../assets/renamer/ja-JP.json"
+import enUSData from "../assets/renamer/en-US.json"
 
 export function renameSelectedObjects(message: MessageRenamer) {
   const selection = util.getCurrentSelection();
-  // Use the children of the top-level selected nodes for filtering if present,
-  // otherwise use the selection itself
   let filteredSelection: SceneNode[] = [];
   let hasChildren = false;
   const topLevelNodesWithChildren: SceneNode[] = [];
@@ -35,20 +35,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
     return;
   }
 
-  const predefinedNames = {
-    image: "Image",
-    text: "Text",
-    frame: "Frame",
-    group: "Group",
-    rectangle: "Rectangle",
-    ellipse: "Ellipse",
-    line: "Line",
-    polygon: "Polygon",
-    star: "Star",
-    vector: "Vector",
-    auto_layout_horizontal: "H Auto Layout",
-    auto_layout_vertical: "V Auto Layout",
-  };
+  const predefinedNames = getPredefinedName(message.lang);
 
   function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
     let result: SceneNode[] = [];
@@ -66,73 +53,6 @@ export function renameSelectedObjects(message: MessageRenamer) {
     return result;
   }
 
-  function shouldRenameNode(node: SceneNode): boolean {
-    if (message.options.skipLockedLayer && node.locked) {
-      return false;
-    }
-
-    if (node.name.startsWith("%") && node.name.endsWith("%")) {
-      // Skip custom variable format
-      return false;
-    }
-
-    return true;
-  }
-
-  function getNewName(node: SceneNode): string | null {
-    if (message.renameTarget.includes("TEXT") && node.type === "TEXT") {
-      return (node as TextNode).characters;
-    } else if (
-      message.renameTarget.includes("IMAGE") &&
-      node.type === "RECTANGLE" &&
-      util.hasImageFill(node as RectangleNode)
-    ) {
-      return predefinedNames.image;
-    } else if (
-      message.renameTarget.includes("FRAME") &&
-      node.type === "FRAME"
-    ) {
-      if (node.layoutMode === "HORIZONTAL") {
-        return predefinedNames.auto_layout_horizontal;
-      } else if (node.layoutMode === "VERTICAL") {
-        return predefinedNames.auto_layout_vertical;
-      } else {
-        return predefinedNames.frame;
-      }
-    } else if (
-      message.renameTarget.includes("GROUP") &&
-      node.type === "GROUP"
-    ) {
-      return predefinedNames.group;
-    } else if (
-      message.renameTarget.includes("RECTANGLE") &&
-      node.type === "RECTANGLE"
-    ) {
-      return predefinedNames.rectangle;
-    } else if (
-      message.renameTarget.includes("ELLIPSE") &&
-      node.type === "ELLIPSE"
-    ) {
-      return predefinedNames.ellipse;
-    } else if (message.renameTarget.includes("LINE") && node.type === "LINE") {
-      return predefinedNames.line;
-    } else if (
-      message.renameTarget.includes("POLYGON") &&
-      node.type === "POLYGON"
-    ) {
-      return predefinedNames.polygon;
-    } else if (message.renameTarget.includes("STAR") && node.type === "STAR") {
-      return predefinedNames.star;
-    } else if (
-      message.renameTarget.includes("VECTOR") &&
-      node.type === "VECTOR"
-    ) {
-      return predefinedNames.vector;
-    }
-
-    return null;
-  }
-
   function renameNode(node: SceneNode, isTopLevel: boolean) {
     if (isTopLevel && !message.options.includeParentLayer) {
       // Skip renaming the top-level node if includeParentLayer is false
@@ -144,8 +64,8 @@ export function renameSelectedObjects(message: MessageRenamer) {
       return;
     }
 
-    if (shouldRenameNode(node)) {
-      const newName = getNewName(node);
+    if (shouldRenameNode(message.options.skipLockedLayer, node)) {
+      const newName = getNewName(message.renameTarget, predefinedNames, node);
       if (newName !== null) {
         node.name = newName;
       }
@@ -184,7 +104,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
 
   topLevelNodesWithChildren.forEach((topLevelNode) => {
     if (message.options.includeParentLayer) {
-      const newName = getNewName(topLevelNode);
+      const newName = getNewName(message.renameTarget, predefinedNames, topLevelNode);
       if (newName !== null) {
         topLevelNode.name = newName;
       }
@@ -192,4 +112,79 @@ export function renameSelectedObjects(message: MessageRenamer) {
   });
 
   figma.notify("✅ The selected object has been renamed.");
+}
+
+function shouldRenameNode(skipLockedLayer: boolean, node: SceneNode): boolean {
+  if (skipLockedLayer && node.locked) {
+    return false;
+  }
+
+  if (node.name.startsWith("%") && node.name.endsWith("%")) {
+    // Skip custom variable format
+    return false;
+  }
+
+  return true;
+}
+
+function getNewName(renameTarget: NodeRenamable[], predefinedNames: PredifinedNames, node: SceneNode): string | null {
+  if (renameTarget.includes("TEXT") && node.type === "TEXT") {
+    return (node as TextNode).characters;
+  } else if (
+    renameTarget.includes("IMAGE") &&
+    node.type === "RECTANGLE" &&
+    util.hasImageFill(node as RectangleNode)
+  ) {
+    return predefinedNames.image;
+  } else if (
+    renameTarget.includes("FRAME") &&
+    node.type === "FRAME"
+  ) {
+    if (node.layoutMode === "HORIZONTAL") {
+      return predefinedNames.auto_layout_horizontal;
+    } else if (node.layoutMode === "VERTICAL") {
+      return predefinedNames.auto_layout_vertical;
+    } else {
+      return predefinedNames.frame;
+    }
+  } else if (
+    renameTarget.includes("GROUP") &&
+    node.type === "GROUP"
+  ) {
+    return predefinedNames.group;
+  } else if (
+    renameTarget.includes("RECTANGLE") &&
+    node.type === "RECTANGLE"
+  ) {
+    return predefinedNames.rectangle;
+  } else if (
+    renameTarget.includes("ELLIPSE") &&
+    node.type === "ELLIPSE"
+  ) {
+    return predefinedNames.ellipse;
+  } else if (renameTarget.includes("LINE") && node.type === "LINE") {
+    return predefinedNames.line;
+  } else if (
+    renameTarget.includes("POLYGON") &&
+    node.type === "POLYGON"
+  ) {
+    return predefinedNames.polygon;
+  } else if (renameTarget.includes("STAR") && node.type === "STAR") {
+    return predefinedNames.star;
+  } else if (
+    renameTarget.includes("VECTOR") &&
+    node.type === "VECTOR"
+  ) {
+    return predefinedNames.vector;
+  }
+
+  return null;
+}
+
+function getPredefinedName(lang: string): PredifinedNames {
+  if (lang === "jaJP") {
+    return jaJPData
+  } else {
+    return enUSData
+  }
 }
