@@ -5,6 +5,9 @@ import { SalesConfig, SalesType } from "../types/SalesConfig";
 import * as LicenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
 import SaleBanner from "./SaleBanner";
 import NormalBanner from "./NormalBanner";
+import { useAppContext } from "../AppProvider";
+import { Spinner } from ".";
+
 
 interface SaleBannerWrapperProps {
   licenseManagement: LicenseManagement;
@@ -13,6 +16,8 @@ interface SaleBannerWrapperProps {
 const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
   licenseManagement,
 }) => {
+  const { isVerifying } = useAppContext();
+
   const [config, setConfig] = useState<SalesConfig>({
     showCountdown: false,
     targetKey: "",
@@ -68,7 +73,11 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
       />
     );
   } else if (shouldShowBanner === "NORMAL") {
-    return <NormalBanner />;
+    if (isVerifying) {
+      return <Spinner />
+    } else {
+      return <NormalBanner />;
+    }
   }
 };
 

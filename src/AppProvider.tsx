@@ -44,6 +44,9 @@ export interface AppContextType {
   // 其他
   licenseManagement: LicenseManagement;
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>;
+  isVerifying: boolean;
+  setIsVerifying: React.Dispatch<React.SetStateAction<boolean>>;
+
   showCTSubscribe: boolean;
   setShowCTSubscribe: React.Dispatch<React.SetStateAction<boolean>>;
   showActivateModal: boolean;
@@ -92,6 +95,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
   const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: info.freeUserWaitingTime, onProceed: () => { } });
+  const [isVerifying, setIsVerifying] = useState(true);
 
   // V20：Editor Preference整合
   const [editorPreference, setEditorPreference] = useState<EditorPreference>({
@@ -167,7 +171,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         extractedProperties,
         setExtractedProperties,
         referenceObject,
-        setReferenceObject
+        setReferenceObject,
+        isVerifying,
+        setIsVerifying,
       }}
     >
       {children}

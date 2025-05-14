@@ -88,7 +88,8 @@ function messageActualController(
     case "LicenseManagement":
       licenseManagementHandler(
         message as ExternalMessageLicenseManagement,
-        setLicenseManagement
+        setLicenseManagement,
+        appContext
       );
       break;
     case "AspectRatioHelper":

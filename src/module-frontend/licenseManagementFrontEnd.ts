@@ -11,14 +11,16 @@ import {
   ExternalMessageLicenseManagement,
   MessageLicenseManagement,
 } from "../types/Messages/MessageLicenseManagement";
+import { AppContextType } from "../AppProvider";
 
 export const licenseManagementHandler = (
   message: ExternalMessageLicenseManagement,
-  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
+  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>,
+  appContext: AppContextType
 ) => {
   switch (message.action) {
     case "VERIFY":
-      licenseVerifyHandler(message.license, setLicenseManagement);
+      licenseVerifyHandler(message.license, setLicenseManagement, appContext);
       break;
     case "UPDATE":
       break;
@@ -117,12 +119,15 @@ export const eraseLicense = (
 
 const licenseVerifyHandler = async (
   license: LicenseManagement,
-  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
+  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>,
+  appContext: AppContextType
 ) => {
   let newLicense = { ...license };
   const oldDate = util.convertUTCStringToDate(license.sessionExpiredAt);
 
   // console.log("Is old date:", oldDate);
+
+  appContext.setIsVerifying(true);
 
   if (oldDate <= new Date()) {
     const newExpiredTime = util.addHours(new Date(), 3).toUTCString();
@@ -162,6 +167,8 @@ const licenseVerifyHandler = async (
       newLicense.isLicenseActive = false;
     }
   }
+
+  appContext.setIsVerifying(false);
 
   const message: MessageLicenseManagement = {
     license: newLicense,

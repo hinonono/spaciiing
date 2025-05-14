@@ -6,5 +6,6 @@ export { default as NormalBanner } from "./NormalBanner";
 export { default as SaleBanner } from "./SaleBanner";
 export { default as StrokeEditorView } from "./StrokeEditorView";
 export { default as ColorThumbnailView } from "./ColorThumbnailView";
-export { default as ListViewHeader } from "./ListViewHeader"
-export { default as LicenseKeyInput } from "./LicenseKeyInput"
+export { default as ListViewHeader } from "./ListViewHeader";
+export { default as LicenseKeyInput } from "./LicenseKeyInput";
+export { default as Spinner } from "./Spinner";
