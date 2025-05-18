@@ -74,7 +74,7 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
     );
   } else if (shouldShowBanner === "NORMAL") {
     if (isVerifying) {
-      return <Spinner />
+      return <><div className="width-100 height-100"><Spinner /></div></>
     } else {
       return <NormalBanner />;
     }
