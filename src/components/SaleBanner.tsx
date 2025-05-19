@@ -30,7 +30,7 @@ const SaleBanner: React.FC<SaleBannerProps> = ({
   const bannerMessage = t(`license:${messageKey}`);
 
   return (
-    <div className="banner flex flex-justify-space-between align-items-center">
+    <>
       <div className="frame-group">
         {showCountdown ? (
           <div className="flex flex-row align-items-center">
@@ -56,7 +56,7 @@ const SaleBanner: React.FC<SaleBannerProps> = ({
           <span className="ml-xxxsmall"> $2.49 / mo.</span>
         </button>
       </a>
-    </div>
+    </>
   );
 };
 

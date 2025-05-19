@@ -65,18 +65,20 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
     return null;
   } else if (shouldShowBanner === "SALE") {
     return (
-      <SaleBanner
-        targetDate={new Date(config.endDate)}
-        messageKey={config.messageKey}
-        url={config.url}
-        showCountdown={config.showCountdown}
-      />
+      <div className="banner flex flex-justify-space-between align-items-center">
+        <SaleBanner
+          targetDate={new Date(config.endDate)}
+          messageKey={config.messageKey}
+          url={config.url}
+          showCountdown={config.showCountdown}
+        />
+      </div>
     );
   } else if (shouldShowBanner === "NORMAL") {
     if (isVerifying) {
-      return <><div className="width-100 height-100"><Spinner /></div></>
+      return <div className="banner flex flex-justify-center align-items-center"><Spinner /></div>
     } else {
-      return <NormalBanner />;
+      return <div className="banner flex flex-justify-space-between align-items-center"><NormalBanner /></div>;
     }
   }
 };
