@@ -1308,7 +1308,7 @@ details summary {
 .spinner {
   width: 1em;
   height: 1em;
-  border: 2px solid var(--figma-color-bg-brand);
+  border: 2px solid var(--figma-color-text);
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
