@@ -27,15 +27,25 @@ export function reception(message: MessageArrowCreator) {
         const targetItem = sortedSelction[i + 1]
 
         // calculateRouteELK(sourceItem, targetItem, message.stroke)
-        determineRoute(
+        const route = determineRoute(
             message.layoutDirection,
             sourceItem,
             message.connectPointPositionPair.source,
             targetItem,
             message.connectPointPositionPair.target,
             message.safeMargin,
+        )
+
+        drawArrowAndAnnotation(
+            route,
             message.stroke,
-            message.createAnnotationBox
+            message.createAnnotationBox,
+            message.layoutDirection,
+            sourceItem.id,
+            message.connectPointPositionPair.source,
+            targetItem.id,
+            message.connectPointPositionPair.target,
+            message.safeMargin,
         )
     }
 
@@ -156,13 +166,7 @@ function createSegmentConnectionGroup(
     }
 }
 
-async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
-    if (points.length < 2) {
-        throw new Error("A polyline requires at least two points.");
-    }
-    const vector = figma.createVector();
-    figma.currentPage.appendChild(vector);
-
+function createVectorNetwork(points: Coordinates[]) {
     const vertices = points.map((point) => ({
         x: point.x,
         y: point.y,
@@ -179,6 +183,33 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
         regions: [], // No enclosed region, just a line
     };
 
+    return vectorNetwork;
+}
+
+async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
+    if (points.length < 2) {
+        throw new Error("A polyline requires at least two points.");
+    }
+    const vector = figma.createVector();
+    figma.currentPage.appendChild(vector);
+
+    // const vertices = points.map((point) => ({
+    //     x: point.x,
+    //     y: point.y,
+    // }));
+
+    // const segments = points.slice(1).map((_, i) => ({
+    //     start: i,
+    //     end: i + 1,
+    // }));
+
+    // const vectorNetwork = {
+    //     vertices,
+    //     segments,
+    //     regions: [], // No enclosed region, just a line
+    // };
+
+    const vectorNetwork = createVectorNetwork(points);
     await vector.setVectorNetworkAsync(vectorNetwork);
 
     const strokeColor = util.hexToRgb(strokeStyle.color);
@@ -206,24 +237,19 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
     return vector
 }
 
-async function determineRoute(
+function determineRoute(
     direction: Direction,
     sourceNode: SceneNode,
     sourceItemConnectPoint: ConnectPointPosition,
     targetNode: SceneNode,
     targetItemConnectPoint: ConnectPointPosition,
     offset: number,
-    strokeStyle: CYStroke,
-    createAnnotationBool: boolean
 ) {
     const gap = calcNodeGap(sourceNode, targetNode);
     const finalDecidedGap = {
         horizontal: gap.horizontal === 0 ? gap.vertical / 2 : gap.horizontal / 2,
         vertical: gap.vertical === 0 ? gap.horizontal / 2 : gap.vertical / 2
     }
-
-    console.log("final gap", finalDecidedGap);
-
 
     if (!sourceNode.absoluteBoundingBox || !targetNode.absoluteBoundingBox) {
         throw new Error("Absolute bounding box is required to determine route.")
@@ -261,6 +287,20 @@ async function determineRoute(
         }
     }
 
+    return route;
+}
+
+async function drawArrowAndAnnotation(
+    route: Coordinates[],
+    strokeStyle: CYStroke,
+    createAnnotationBool: boolean,
+    direction: Direction,
+    sourceNodeId: string,
+    sourceItemConnectPoint: ConnectPointPosition,
+    targetNodeId: string,
+    targetItemConnectPoint: ConnectPointPosition,
+    offset: number,
+) {
     let line: VectorNode;
 
     if (route.length !== 0) {
@@ -274,9 +314,9 @@ async function determineRoute(
                 arrowGroup,
                 line.id,
                 direction,
-                sourceNode.id,
+                sourceNodeId,
                 sourceItemConnectPoint,
-                targetNode.id,
+                targetNodeId,
                 targetItemConnectPoint,
                 offset,
                 strokeStyle,
@@ -298,9 +338,9 @@ async function determineRoute(
             arrowGroup,
             line.id,
             direction,
-            sourceNode.id,
+            sourceNodeId,
             sourceItemConnectPoint,
-            targetNode.id,
+            targetNodeId,
             targetItemConnectPoint,
             offset,
             strokeStyle,
@@ -310,7 +350,7 @@ async function determineRoute(
     }
 }
 
-async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
+async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
     await figma.loadFontAsync({ family: "Inter", style: "Regular" });
     await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
     const annotationNodeSize = {
@@ -337,8 +377,6 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
         "HORIZONTAL"
     )
 
-
-
     annotationNode.layoutAlign = "CENTER";
     annotationNode.primaryAxisAlignItems = "CENTER";
     annotationNode.counterAxisAlignItems = "CENTER";
@@ -351,11 +389,15 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
     annotationNode.resize(annotationNodeSize.width, annotationNodeSize.height)
     annotationNode.name = "Annotation"
 
-    annotationNode.x = position.x - (annotationNodeSize.width / 2)
-    annotationNode.y = position.y - (annotationNodeSize.height / 2)
+    setAnnotationNodePosition(annotationNode, midPoint);
     annotationNode.cornerRadius = semanticTokens.cornerRadius.infinite;
 
     return annotationNode
+}
+
+function setAnnotationNodePosition(node: SceneNode, midPoint: Coordinates) {
+    node.x = midPoint.x - (node.width / 2);
+    node.y = midPoint.y - (node.height / 2);
 }
 
 function setArrowSchemaData(
@@ -399,4 +441,67 @@ function getArrowSchema(obj: SceneNode): ArrowSchema {
     } else {
         throw new Error("ArrowSchema is undefined.");
     }
+}
+
+export async function updateArrowPosition() {
+    const selection = util.getCurrentSelection();
+
+    if (selection.length === 0) {
+        figma.notify("No nodes selected.");
+        return;
+    }
+
+    let successCount = 0;
+    let errorCount = 0;
+
+    for (let i = 0; i < selection.length; i++) {
+        const item = selection[i];
+
+        try {
+            const schema = getArrowSchema(item);
+            const arrowNode = figma.currentPage.findOne(n => n.id === schema.arrowNodeId);
+            const annotationNode = figma.currentPage.findOne(n => n.id === schema.annotationNodeId);
+            const sourceNode = figma.currentPage.findOne(n => n.id === schema.sourceNodeId);
+            const targetNode = figma.currentPage.findOne(n => n.id === schema.targetNodeId);
+
+            if (!sourceNode || !targetNode) {
+                throw new Error("Missing source or target node.");
+            }
+
+            if (!arrowNode || arrowNode.type !== "VECTOR") {
+                throw new Error("Missing or invalid arrow node.");
+            }
+
+            const newRoute = determineRoute(
+                schema.direction,
+                sourceNode,
+                schema.sourceItemConnectPoint,
+                targetNode,
+                schema.targetItemConnectPoint,
+                schema.offset
+            );
+
+            const newVectorNetwork = createVectorNetwork(newRoute);
+            let copy = JSON.parse(JSON.stringify(newVectorNetwork));
+
+            if ("strokeCap" in copy.vertices[copy.vertices.length - 1]) {
+                copy.vertices[0].strokeCap = schema.strokeStyle.startPointCap;
+                copy.vertices[copy.vertices.length - 1].strokeCap = schema.strokeStyle.endPointCap;
+            }
+
+            await arrowNode.setVectorNetworkAsync(copy);
+
+            if (annotationNode) {
+                const midPoint = util.calcMidpoint(newRoute);
+                setAnnotationNodePosition(annotationNode, midPoint);
+            }
+
+            successCount++;
+        } catch (error) {
+            console.error(`Error updating arrow for item at index ${i}:`, error);
+            errorCount++;
+        }
+    }
+
+    figma.notify(`Arrow update completed. ✅Success: ${successCount}, ❌Errors: ${errorCount}`);
 }

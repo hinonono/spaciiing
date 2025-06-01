@@ -23,6 +23,7 @@ export type ShortcutAction =
   | "updateCatalogueDescBackToFigma"
   | "updateExampleFileUrl"
   | "numbering"
+  | "updateArrowPosition"
   | "debug";
 
 export type NumberingForm =

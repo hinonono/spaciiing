@@ -11,7 +11,7 @@ import {
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 import { writeCatalogueDescBackToFigma } from "./catalogue/catalogueItemLink";
-import { getNodeCatalogueItemRichStyle } from "./styledTextSegments";
+import { updateArrowPosition } from "./arrowCreator/arrowCreator";
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -86,6 +86,9 @@ export function executeShortcut(message: MessageShortcut) {
         break;
       case "numbering":
         numbering(message as MessageShortcutNumbering);
+        break;
+      case "updateArrowPosition":
+        updateArrowPosition();
         break;
       case "debug":
         debugFunction();

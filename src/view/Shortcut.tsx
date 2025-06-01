@@ -157,6 +157,23 @@ const Shortcut: React.FC = () => {
     }
   }
 
+  const renderArrowCreatorShortcut = () => {
+    if (appContext.editorType === "figma") {
+      const buttons: ShortcutButtonConfig[] = [
+        {
+          title: "Update Arrow Position",
+          onClick: () => applyShortcut("updateArrowPosition", false),
+        },
+      ]
+
+      return (
+        renderShortcutSection(t("module:moduleDrawArrows"), buttons)
+      )
+    } else {
+      return null;
+    }
+  }
+
   const renderTextShortcut = () => {
     const buttons: ShortcutButtonConfig[] = [
       {
@@ -375,6 +392,8 @@ const Shortcut: React.FC = () => {
       <div className="content">
         {/* 型錄 */}
         {renderCatalogueShortcut()}
+        {/* 箭頭 */}
+        {renderArrowCreatorShortcut()}
         {/* 文字 */}
         {renderTextShortcut()}
         {/* 檔案管理物件 */}
