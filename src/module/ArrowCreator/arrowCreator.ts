@@ -187,7 +187,7 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
         vector.dashPattern = strokeStyle.dashAndGap
     }
     vector.strokeWeight = strokeStyle.strokeWeight;
-    vector.name = "Arrow"
+    vector.name = "Arrow Vector"
     vector.cornerRadius = strokeStyle.cornerRadius
     vector.strokeCap = "NONE"
 
@@ -201,9 +201,11 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
         copy.vertices[copy.vertices.length - 1].strokeCap = strokeStyle.endPointCap
     }
     await vector.setVectorNetworkAsync(copy)
+
+    return vector
 }
 
-function determineRoute(
+async function determineRoute(
     direction: Direction,
     sourceNode: SceneNode,
     sourceItemConnectPoint: ConnectPointPosition,
@@ -258,15 +260,25 @@ function determineRoute(
         }
     }
 
+    let line: VectorNode;
+
     if (route.length !== 0) {
-        createPolyline(route, strokeStyle)
+        line = await createPolyline(route, strokeStyle)
+
+        if (createAnnotationBool === false) {
+            const arrowGroup = figma.group([line], figma.currentPage);
+            arrowGroup.name = "Arrow"
+        }
     } else {
         throw new Error("Unable to draw path because route is undefined.")
     }
 
     if (createAnnotationBool) {
         const midPoint = util.calcMidpoint(route)
-        createAnnotation(midPoint, strokeStyle);
+        const annotationNode = await createAnnotation(midPoint, strokeStyle);
+
+        const arrowGroup = figma.group([line, annotationNode], figma.currentPage);
+        arrowGroup.name = "Arrow"
     }
 }
 
@@ -314,4 +326,6 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
     annotationNode.x = position.x - (annotationNodeSize.width / 2)
     annotationNode.y = position.y - (annotationNodeSize.height / 2)
     annotationNode.cornerRadius = semanticTokens.cornerRadius.infinite;
+
+    return annotationNode
 }
