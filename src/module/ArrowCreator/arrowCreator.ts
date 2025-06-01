@@ -6,6 +6,7 @@ import * as util from "../util";
 import * as rh from "./routeHorizontal"
 import * as rv from "./routeVertical";
 import { semanticTokens } from "../tokens";
+import { ArrowSchema } from "../../types/ArrowSchema";
 
 export function reception(message: MessageArrowCreator) {
     const selection = util.getCurrentSelection();
@@ -328,4 +329,43 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
     annotationNode.cornerRadius = semanticTokens.cornerRadius.infinite;
 
     return annotationNode
+}
+
+function setArrowSchemaData(
+    arrowObject: SceneNode,
+    direction: Direction,
+    sourceNode: SceneNode,
+    sourceItemConnectPoint: ConnectPointPosition,
+    targetNode: SceneNode,
+    targetItemConnectPoint: ConnectPointPosition,
+    offset: number,
+    strokeStyle: CYStroke,
+    hasAnnotation: boolean
+) {
+    const key = "arrow-schema"
+    const schema: ArrowSchema = {
+        direction: direction,
+        sourceNodeId: sourceNode.id,
+        sourceItemConnectPoint: sourceItemConnectPoint,
+        targetNodeId: targetNode.id,
+        targetItemConnectPoint: targetItemConnectPoint,
+        offset: offset,
+        strokeStyle: strokeStyle,
+        hasAnnotation: hasAnnotation
+    }
+
+    arrowObject.setPluginData(key, JSON.stringify(schema));
+}
+
+function getArrowSchema(obj: SceneNode): ArrowSchema {
+    const key = "arrow-schema"
+
+    const data = obj.getPluginData(key)
+
+    if (data) {
+        const decodedData = JSON.parse(data) as ArrowSchema;
+        return decodedData;
+    } else {
+        throw new Error("ArrowSchema is undefined.");
+    }
 }
