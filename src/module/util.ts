@@ -133,6 +133,18 @@ export function updateEditorType(editorType: EditorType) {
   sendMessageBack(message);
 }
 
+export function updateTriggeredCommand() {
+  const message: ExternalMessage = {
+    module: "Init",
+    direction: "Outer",
+    phase: "Actual",
+    triggeredCommand: figma.command
+  };
+  sendMessageBack(message);
+  console.log(figma.command);
+
+}
+
 export function isColorCollection(
   collection: CollectionExplanationable
 ): collection is ColorCollection {

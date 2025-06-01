@@ -20,4 +20,5 @@ export type ExternalMode =
 export interface ExternalMessage extends Message {
   mode?: ExternalMode;
   editorType?: EditorType;
+  triggeredCommand?: string
 }

@@ -22,6 +22,9 @@ export interface AppContextType {
   editorType: EditorType;
   setEditorType: React.Dispatch<React.SetStateAction<EditorType>>;
 
+  triggeredCommand: string;
+  setTriggeredCommand: React.Dispatch<React.SetStateAction<string>>;
+
   variableCollectionList: ExternalVariableCollection[];
   setVariableCollectionList: React.Dispatch<
     React.SetStateAction<ExternalVariableCollection[]>
@@ -114,6 +117,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
   // 判斷用戶在哪個模式下開啟了plugin
   const [editorType, setEditorType] = useState<EditorType>("figma");
+  const [triggeredCommand, setTriggeredCommand] = useState("");
 
   // 模組用
 
@@ -168,6 +172,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setStyleList,
         editorType,
         setEditorType,
+        triggeredCommand,
+        setTriggeredCommand,
         extractedProperties,
         setExtractedProperties,
         referenceObject,

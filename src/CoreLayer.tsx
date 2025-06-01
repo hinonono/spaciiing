@@ -35,19 +35,27 @@ const CoreLayer: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (appContext.triggeredCommand === "updateCatalogueDesc" || appContext.triggeredCommand === "updateArrowsPosition") {
+      setActiveTab("Shortcut");
+    } else if (appContext.triggeredCommand === "drawArrows") {
+      setActiveTab("ArrowCreator");
+    }
+  }, [appContext.triggeredCommand])
+
   // #region WillEnd
   useEffect(() => {
     tabController(activeTab, prevTab, appContext);
 
     setPrevTab(activeTab);
   }, [activeTab]);
-  
+
   // #region JSX Elements
   return (
     <div className="App">
       <SubscriptionModal />
       <ActivateLicenseModal />
-      <FreeUserDelayModal/>
+      <FreeUserDelayModal />
       <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );

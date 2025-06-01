@@ -37,7 +37,7 @@ function messageActualController(
   i18n: i18n
 ) {
   const { module } = message;
-  const { setLicenseManagement, setEditorType } = appContext;
+  const { setLicenseManagement, setEditorType, setTriggeredCommand } = appContext;
 
   switch (module) {
     case "Init":
@@ -45,6 +45,10 @@ function messageActualController(
       const castedMessage = message as ExternalMessage;
       if (castedMessage.editorType) {
         setEditorType(castedMessage.editorType);
+      }
+
+      if (castedMessage.triggeredCommand) {
+        setTriggeredCommand(castedMessage.triggeredCommand);
       }
 
       break;
