@@ -269,6 +269,19 @@ async function determineRoute(
         if (createAnnotationBool === false) {
             const arrowGroup = figma.group([line], figma.currentPage);
             arrowGroup.name = "Arrow"
+
+            setArrowSchemaData(
+                arrowGroup,
+                line.id,
+                direction,
+                sourceNode.id,
+                sourceItemConnectPoint,
+                targetNode.id,
+                targetItemConnectPoint,
+                offset,
+                strokeStyle,
+                createAnnotationBool
+            )
         }
     } else {
         throw new Error("Unable to draw path because route is undefined.")
@@ -280,6 +293,20 @@ async function determineRoute(
 
         const arrowGroup = figma.group([line, annotationNode], figma.currentPage);
         arrowGroup.name = "Arrow"
+
+        setArrowSchemaData(
+            arrowGroup,
+            line.id,
+            direction,
+            sourceNode.id,
+            sourceItemConnectPoint,
+            targetNode.id,
+            targetItemConnectPoint,
+            offset,
+            strokeStyle,
+            createAnnotationBool,
+            annotationNode.id
+        )
     }
 }
 
@@ -332,29 +359,33 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
 }
 
 function setArrowSchemaData(
-    arrowObject: SceneNode,
+    groupNode: SceneNode,
+    arrowNodeId: string,
     direction: Direction,
-    sourceNode: SceneNode,
+    sourceNodeId: string,
     sourceItemConnectPoint: ConnectPointPosition,
-    targetNode: SceneNode,
+    targetNodeId: string,
     targetItemConnectPoint: ConnectPointPosition,
     offset: number,
     strokeStyle: CYStroke,
-    hasAnnotation: boolean
+    hasAnnotation: boolean,
+    annotationNodeId?: string,
 ) {
     const key = "arrow-schema"
     const schema: ArrowSchema = {
+        arrowNodeId: arrowNodeId,
+        annotationNodeId: annotationNodeId,
         direction: direction,
-        sourceNodeId: sourceNode.id,
+        sourceNodeId: sourceNodeId,
         sourceItemConnectPoint: sourceItemConnectPoint,
-        targetNodeId: targetNode.id,
+        targetNodeId: targetNodeId,
         targetItemConnectPoint: targetItemConnectPoint,
         offset: offset,
         strokeStyle: strokeStyle,
-        hasAnnotation: hasAnnotation
+        hasAnnotation: hasAnnotation,
     }
 
-    arrowObject.setPluginData(key, JSON.stringify(schema));
+    groupNode.setPluginData(key, JSON.stringify(schema));
 }
 
 function getArrowSchema(obj: SceneNode): ArrowSchema {
