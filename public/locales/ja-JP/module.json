@@ -197,5 +197,6 @@
   "numberingForm": "ナンバーリング形式",
   "startFrom": "開始番号",
   "ltrTtb": "左から右へ、次に上から下へ",
-  "ttbLtr": "上から下へ、次に左から右へ"
+  "ttbLtr": "上から下へ、次に左から右へ",
+  "updateArrowPosition": "矢印の位置を更新する"
 }

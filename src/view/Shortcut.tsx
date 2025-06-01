@@ -161,7 +161,7 @@ const Shortcut: React.FC = () => {
     if (appContext.editorType === "figma") {
       const buttons: ShortcutButtonConfig[] = [
         {
-          title: "Update Arrow Position",
+          title: t("module:updateArrowPosition"),
           onClick: () => applyShortcut("updateArrowPosition", false),
         },
       ]
