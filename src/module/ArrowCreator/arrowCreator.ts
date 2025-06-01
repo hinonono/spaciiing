@@ -482,13 +482,15 @@ export async function updateArrowPosition() {
             );
 
             const newVectorNetwork = createVectorNetwork(newRoute);
-            let copy = JSON.parse(JSON.stringify(newVectorNetwork));
+            await arrowNode.setVectorNetworkAsync(newVectorNetwork);
+            arrowNode.cornerRadius = schema.strokeStyle.cornerRadius;
+            arrowNode.strokeCap = "NONE";
 
+            let copy = JSON.parse(JSON.stringify(arrowNode.vectorNetwork));
             if ("strokeCap" in copy.vertices[copy.vertices.length - 1]) {
                 copy.vertices[0].strokeCap = schema.strokeStyle.startPointCap;
                 copy.vertices[copy.vertices.length - 1].strokeCap = schema.strokeStyle.endPointCap;
             }
-
             await arrowNode.setVectorNetworkAsync(copy);
 
             if (annotationNode) {
