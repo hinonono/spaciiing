@@ -192,48 +192,23 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
     const vector = figma.createVector();
     figma.currentPage.appendChild(vector);
 
-    // const vertices = points.map((point) => ({
-    //     x: point.x,
-    //     y: point.y,
-    // }));
-
-    // const segments = points.slice(1).map((_, i) => ({
-    //     start: i,
-    //     end: i + 1,
-    // }));
-
-    // const vectorNetwork = {
-    //     vertices,
-    //     segments,
-    //     regions: [], // No enclosed region, just a line
-    // };
-
     const vectorNetwork = createVectorNetwork(points);
-    await vector.setVectorNetworkAsync(vectorNetwork);
+    await util.setStrokeCap(vector, vectorNetwork, strokeStyle.startPointCap, strokeStyle.endPointCap)
+    applyStrokeStyle(vector, strokeStyle);
 
-    const strokeColor = util.hexToRgb(strokeStyle.color);
-    // Apply stroke style
-    vector.strokes = [{ type: "SOLID", color: strokeColor, opacity: strokeStyle.opacity }];
-    if (strokeStyle.dashAndGap) {
-        vector.dashPattern = strokeStyle.dashAndGap
-    }
-    vector.strokeWeight = strokeStyle.strokeWeight;
     vector.name = "Arrow Vector"
-    vector.cornerRadius = strokeStyle.cornerRadius
-    vector.strokeCap = "NONE"
-
-
-    // Workaround for buggy figma plugin api
-    // 由於Figma不允許直接對單側Stroke Cap進行修改，所以先將它化為純文字然後改變它
-    /* make a copy of the original node */
-    let copy = JSON.parse(JSON.stringify(vector.vectorNetwork))
-    if ("strokeCap" in copy.vertices[copy.vertices.length - 1]) {
-        copy.vertices[0].strokeCap = strokeStyle.startPointCap
-        copy.vertices[copy.vertices.length - 1].strokeCap = strokeStyle.endPointCap
-    }
-    await vector.setVectorNetworkAsync(copy)
 
     return vector
+}
+
+function applyStrokeStyle(node: VectorNode, strokeStyle: CYStroke) {
+    const strokeColor = util.hexToRgb(strokeStyle.color);
+    node.strokes = [{ type: "SOLID", color: strokeColor, opacity: strokeStyle.opacity }];
+    if (strokeStyle.dashAndGap) {
+        node.dashPattern = strokeStyle.dashAndGap
+    }
+    node.strokeWeight = strokeStyle.strokeWeight;
+    node.cornerRadius = strokeStyle.cornerRadius
 }
 
 function determineRoute(
@@ -494,16 +469,8 @@ export async function updateArrowPosition() {
             }));
 
             const newVectorNetwork = createVectorNetwork(relativeRoute);
-            await arrowNode.setVectorNetworkAsync(newVectorNetwork);
-            arrowNode.cornerRadius = schema.strokeStyle.cornerRadius;
-            arrowNode.strokeCap = "NONE";
-
-            let copy = JSON.parse(JSON.stringify(arrowNode.vectorNetwork));
-            if ("strokeCap" in copy.vertices[copy.vertices.length - 1]) {
-                copy.vertices[0].strokeCap = schema.strokeStyle.startPointCap;
-                copy.vertices[copy.vertices.length - 1].strokeCap = schema.strokeStyle.endPointCap;
-            }
-            await arrowNode.setVectorNetworkAsync(copy);
+            await util.setStrokeCap(arrowNode, newVectorNetwork, schema.strokeStyle.startPointCap, schema.strokeStyle.endPointCap);
+            applyStrokeStyle(arrowNode, schema.strokeStyle)
 
             if (annotationNode) {
                 const midPoint = util.calcMidpoint(newRoute);

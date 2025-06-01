@@ -390,10 +390,10 @@ const Shortcut: React.FC = () => {
         }
       />
       <div className="content">
-        {/* 型錄 */}
-        {renderCatalogueShortcut()}
         {/* 箭頭 */}
         {renderArrowCreatorShortcut()}
+        {/* 型錄 */}
+        {renderCatalogueShortcut()}
         {/* 文字 */}
         {renderTextShortcut()}
         {/* 檔案管理物件 */}

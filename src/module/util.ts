@@ -805,3 +805,28 @@ export function getSimpleHanziNumber(index: number): string {
   const simpleUnits = ["", "十", "百", "千", "萬"];
   return getHanziNumber(index, simpleDigits, simpleUnits, { omitLeadingOneAtTen: true });
 }
+
+/**
+ * 繞過Figma Plugin API限制的Func，用於設置單邊筆畫端點樣式
+ * @param node 
+ * @param startPointCap 
+ * @param endPointCap 
+ */
+export async function setStrokeCap(
+  node: VectorNode,
+  vectorNetwork: VectorNetwork,
+  startPointCap: StrokeCap,
+  endPointCap: StrokeCap
+) {
+  // 一定要先設定在物件身上一次（這是Figma Plugin API的限制）
+  await node.setVectorNetworkAsync(vectorNetwork);
+  node.strokeCap = "NONE";
+
+  // 接著用JSON格式進行修改再放回去
+  let copy = JSON.parse(JSON.stringify(node.vectorNetwork))
+  if ("strokeCap" in copy.vertices[copy.vertices.length - 1]) {
+    copy.vertices[0].strokeCap = startPointCap
+    copy.vertices[copy.vertices.length - 1].strokeCap = endPointCap
+  }
+  await node.setVectorNetworkAsync(copy)
+}
