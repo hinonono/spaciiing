@@ -26,7 +26,6 @@ export function reception(message: MessageArrowCreator) {
         const sourceItem = sortedSelction[i];
         const targetItem = sortedSelction[i + 1]
 
-        // calculateRouteELK(sourceItem, targetItem, message.stroke)
         const route = determineRoute(
             message.layoutDirection,
             sourceItem,
@@ -255,6 +254,8 @@ function determineRoute(
         throw new Error("Absolute bounding box is required to determine route.")
     }
 
+    console.log(sourceNode.absoluteBoundingBox, targetNode.absoluteBoundingBox)
+
     const sourceNodeConnectionData = calcNodeSegments(sourceNode.absoluteBoundingBox.x, sourceNode.absoluteBoundingBox.y, sourceNode.absoluteBoundingBox.width, sourceNode.absoluteBoundingBox.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
     const targetNodeConnectionData = calcNodeSegments(targetNode.absoluteBoundingBox.x, targetNode.absoluteBoundingBox.y, targetNode.absoluteBoundingBox.width, targetNode.absoluteBoundingBox.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
     const group = createSegmentConnectionGroup(direction, sourceNodeConnectionData, targetNodeConnectionData)
@@ -428,6 +429,7 @@ function setArrowSchemaData(
     }
 
     groupNode.setPluginData(key, JSON.stringify(schema));
+    groupNode.setRelaunchData(({ updateArrowsPosition: "Update arrows position" }))
 }
 
 function getArrowSchema(obj: SceneNode): ArrowSchema {
@@ -481,7 +483,17 @@ export async function updateArrowPosition() {
                 schema.offset
             );
 
-            const newVectorNetwork = createVectorNetwork(newRoute);
+            // Align arrow node to first point in route
+            arrowNode.x = newRoute[0].x;
+            arrowNode.y = newRoute[0].y;
+
+            // Then translate route points relative to (0,0)
+            const relativeRoute = newRoute.map(point => ({
+                x: point.x - newRoute[0].x,
+                y: point.y - newRoute[0].y,
+            }));
+
+            const newVectorNetwork = createVectorNetwork(relativeRoute);
             await arrowNode.setVectorNetworkAsync(newVectorNetwork);
             arrowNode.cornerRadius = schema.strokeStyle.cornerRadius;
             arrowNode.strokeCap = "NONE";
