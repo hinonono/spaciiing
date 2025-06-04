@@ -79,5 +79,7 @@
   "faq": "FAQ",
   "none": "None",
   "direction": "Direction",
-  "strokeSolid": "Solid"
+  "strokeSolid": "Solid",
+  "fontName": "Font name",
+  "alignment": "Font alignment"
 }

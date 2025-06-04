@@ -79,5 +79,7 @@
   "faq": "よくある質問",
   "none": "なし",
   "direction": "方向",
-  "strokeSolid": "実線"
+  "strokeSolid": "実線",
+  "fontName": "フォント名",
+  "alignment": "配置"
 }

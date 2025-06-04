@@ -7,6 +7,7 @@ export type PropertyClipboardSupportedProperty =
   | PropertyClipboardSupportedFill
   | PropertyClipboardSupportedStroke
   | PropertyClipboardSupportedEffect
+  | PropertyClipboardSupportedTypography
   | "EXPORT_SETTINGS";
 
 export interface ComponentPropertiesFrontEnd {
@@ -19,6 +20,7 @@ export interface ComponentPropertiesFrontEnd {
 export interface ReferenceObject {
   name: string;
   id: string;
+  layerType: string;
 }
 
 type PropertyClipboardSupportedFill =
@@ -45,3 +47,10 @@ type PropertyClipboardSupportedEffect =
   | "EFFECT_DROP_SHADOW"
   | "EFFECT_LAYER_BLUR"
   | "EFFECT_BACKGROUND_BLUR";
+
+type PropertyClipboardSupportedTypography =
+  | "FONT_NAME"
+  | "FONT_SIZE"
+  | "LINE_HEIGHT"
+  | "LETTER_SPACING"
+  | "ALIGNMENT"

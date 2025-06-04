@@ -7,7 +7,6 @@ import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import {
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
-import * as info from "../info.json";
 import { pasteInstancePropertyToObject, pastePropertyToObject, PropertyClipboardCategory, propertyClipboardOptions, setReferenceObject, } from "../module-frontend/propertyClipboardFrontEnd";
 
 interface PropertyClipboardProps { }
@@ -188,6 +187,11 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             </div>
           }
           {Object.entries(propertyClipboardOptions).map(([key, group]) => {
+            // Skip rendering "text" group if the reference layer is not of type TEXT
+            if (key === "typography" && appContext.referenceObject.layerType !== "TEXT") {
+              return null;
+            }
+
             const castedGroup = group as PropertyClipboardCategory;
 
             return (

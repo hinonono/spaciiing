@@ -830,3 +830,8 @@ export async function setStrokeCap(
   }
   await node.setVectorNetworkAsync(copy)
 }
+
+export async function ensureFontIsLoaded(textNode: TextNode) {
+  const fontName = textNode.fontName as FontName;
+  await figma.loadFontAsync(fontName);
+}

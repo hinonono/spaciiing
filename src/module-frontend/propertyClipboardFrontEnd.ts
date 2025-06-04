@@ -115,6 +115,29 @@ export function pasteInstancePropertyToObject(
     parent.postMessage({ pluginMessage: message, }, "*");
 };
 
+interface PropertyClipboardOption {
+    lableKey: string,
+    keys: PropertyClipboardSupportedProperty[],
+    useModal: boolean
+}
+
+export interface PropertyClipboardCategory {
+    titleKey: string
+    applyAllKeys: PropertyClipboardSupportedProperty[]
+    useModal: boolean
+    items: PropertyClipboardOption[]
+}
+
+interface PropertyClipboardOptions {
+    size: PropertyClipboardCategory;
+    appearance: PropertyClipboardCategory;
+    typography: PropertyClipboardCategory;
+    fill: PropertyClipboardCategory;
+    stroke: PropertyClipboardCategory;
+    effect: PropertyClipboardCategory;
+    other: PropertyClipboardCategory;
+}
+
 const strokeOptions: PropertyClipboardOption[] = [
     {
         lableKey: "term:color",
@@ -248,27 +271,35 @@ const sizeOptions: PropertyClipboardOption[] = [
     }
 ];
 
-interface PropertyClipboardOption {
-    lableKey: string,
-    keys: PropertyClipboardSupportedProperty[],
-    useModal: boolean
-}
+const typographyOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:fontName",
+        keys: ["FONT_NAME"],
+        useModal: false
+    },
+    {
+        lableKey: "term:fontSize",
+        keys: ["FONT_SIZE"],
+        useModal: false
+    },
+    {
+        lableKey: "term:lineHeight",
+        keys: ["LINE_HEIGHT"],
+        useModal: false
+    },
+    {
+        lableKey: "term:letterSpacing",
+        keys: ["LETTER_SPACING"],
+        useModal: false
+    },
+    {
+        lableKey: "term:alignment",
+        keys: ["ALIGNMENT"],
+        useModal: false
+    }
+]
 
-export interface PropertyClipboardCategory {
-    titleKey: string
-    applyAllKeys: PropertyClipboardSupportedProperty[]
-    useModal: boolean
-    items: PropertyClipboardOption[]
-}
 
-interface PropertyClipboardOptions {
-    size: PropertyClipboardCategory;
-    appearance: PropertyClipboardCategory;
-    fill: PropertyClipboardCategory;
-    stroke: PropertyClipboardCategory;
-    effect: PropertyClipboardCategory;
-    other: PropertyClipboardCategory;
-}
 
 export const propertyClipboardOptions: PropertyClipboardOptions = {
     size: {
@@ -286,6 +317,18 @@ export const propertyClipboardOptions: PropertyClipboardOptions = {
         ],
         useModal: false,
         items: appearanceOptions
+    },
+    typography: {
+        titleKey: "term:typography",
+        applyAllKeys: [
+            "FONT_NAME",
+            "FONT_SIZE",
+            "LINE_HEIGHT",
+            "LETTER_SPACING",
+            "ALIGNMENT"
+        ],
+        useModal: false,
+        items: typographyOptions
     },
     fill: {
         titleKey: "term:allFills",

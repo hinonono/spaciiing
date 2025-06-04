@@ -79,5 +79,7 @@
   "faq": "常见问题",
   "none": "无",
   "direction": "方向",
-  "strokeSolid": "实线"
+  "strokeSolid": "实线",
+  "fontName": "字体名称",
+  "alignment": "字体对齐"
 }

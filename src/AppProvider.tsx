@@ -143,7 +143,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
   const [referenceObject, setReferenceObject] = useState<ReferenceObject>({
     name: "",
-    id: ""
+    id: "",
+    layerType: ""
   });
 
   // #region JSX elements

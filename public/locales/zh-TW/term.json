@@ -79,5 +79,7 @@
   "faq": "常見問題",
   "none": "無",
   "direction": "方向",
-  "strokeSolid": "實線"
+  "strokeSolid": "實線",
+  "fontName": "字型名稱",
+  "alignment": "字型對齊"
 }

@@ -36,7 +36,7 @@ function setReferenceObject() {
 
   const selectedNode = selection[0];
   const message: ExternalMessageUpdateReferenceObject = {
-    referenceObject: { name: selectedNode.name, id: selectedNode.id },
+    referenceObject: { name: selectedNode.name, id: selectedNode.id, layerType: selectedNode.type },
     module: "PropertyClipboard",
     phase: "Actual",
     mode: "UpdateReferenceObject"
@@ -171,7 +171,7 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
     figma.notify("❌ Paste behavior is missing from message.");
     return;
   }
-  
+
   if (!message.referenceObject) {
     figma.notify("❌ Reference object is null.");
     return;
@@ -217,7 +217,7 @@ async function pastePropertyController(message: MessagePropertyClipboard) {
   }
 }
 
-function pastePropertyToObject(
+async function pastePropertyToObject(
   property: PropertyClipboardSupportedProperty,
   referenceObject: CopyPastableNode,
   behavior: PasteBehavior
@@ -296,6 +296,21 @@ function pastePropertyToObject(
       break;
     case "EXPORT_SETTINGS":
       setSelectionExportSettings(referenceObject);
+      break;
+    case "FONT_NAME":
+      await pasteFontName(referenceObject);
+      break;
+    case "FONT_SIZE":
+      await pasteFontSize(referenceObject);
+      break;
+    case "LINE_HEIGHT":
+      await pasteLineHeight(referenceObject);
+      break;
+    case "LETTER_SPACING":
+      await pasteLetterSpacing(referenceObject)
+      break;
+    case "ALIGNMENT":
+      await pasteTextAlign(referenceObject);
       break;
     default:
       figma.notify(`Unsupported property type: ${property}`);
@@ -623,15 +638,6 @@ function setSelectionExportSettings(referenceObject: CopyPastableNode) {
  *                            selected object does not support the specified property.
  *                            Defaults to `true`.
  *
- * Example usage:
- * ```typescript
- * applyPropertyToSelection(referenceObject, "strokeMiterLimit");
- * ```
- *
- * - If `propertyName` exists on both the `referenceObject` and the selected objects,
- *   the property will be applied.
- * - If `notifyUnsupported` is `true` and a selected object does not support the property,
- *   a notification will be displayed to the user.
  */
 function applyPropertyToSelection(
   referenceObject: CopyPastableNode,
@@ -775,6 +781,116 @@ async function applyEffectToSelection(
           `❌ Object of type ${object.type} does not support pasting effects.`
         );
       }
+    }
+  }
+}
+
+async function pasteFontName(referenceObject: SceneNode) {
+  if (referenceObject.type !== "TEXT") {
+    throw new Error("Reference object should be text node in order to paste typography properties.")
+  }
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  for (const object of selection) {
+    if (object.type === "TEXT") {
+      await util.ensureFontIsLoaded(object)
+
+      const fontName = referenceObject.fontName as FontName;
+      await figma.loadFontAsync(fontName);
+
+      object.fontName = fontName;
+    } else {
+      figma.notify(`❌ Object of type ${object.type} is not a text layer.`);
+    }
+  }
+}
+
+async function pasteFontSize(referenceObject: SceneNode) {
+  if (referenceObject.type !== "TEXT") {
+    throw new Error("Reference object should be text node in order to paste typography properties.")
+  }
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  for (const object of selection) {
+    if (object.type === "TEXT") {
+      await util.ensureFontIsLoaded(object);
+      object.fontSize = referenceObject.fontSize;
+    } else {
+      figma.notify(`❌ Object of type ${object.type} is not a text layer.`);
+    }
+  }
+}
+
+async function pasteLineHeight(referenceObject: SceneNode) {
+  if (referenceObject.type !== "TEXT") {
+    throw new Error("Reference object should be text node in order to paste typography properties.")
+  }
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  for (const object of selection) {
+    if (object.type === "TEXT") {
+      await util.ensureFontIsLoaded(object);
+      object.lineHeight = referenceObject.lineHeight;
+    } else {
+      figma.notify(`❌ Object of type ${object.type} is not a text layer.`);
+    }
+  }
+}
+
+async function pasteLetterSpacing(referenceObject: SceneNode) {
+  if (referenceObject.type !== "TEXT") {
+    throw new Error("Reference object should be text node in order to paste typography properties.")
+  }
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  for (const object of selection) {
+    if (object.type === "TEXT") {
+      await util.ensureFontIsLoaded(object);
+      object.letterSpacing = referenceObject.letterSpacing;
+    } else {
+      figma.notify(`❌ Object of type ${object.type} is not a text layer.`);
+    }
+  }
+}
+
+async function pasteTextAlign(referenceObject: SceneNode) {
+  if (referenceObject.type !== "TEXT") {
+    throw new Error("Reference object should be text node in order to paste typography properties.")
+  }
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return;
+  }
+
+  for (const object of selection) {
+    if (object.type === "TEXT") {
+      await util.ensureFontIsLoaded(object);
+      object.textAlignHorizontal = referenceObject.textAlignHorizontal;
+      object.textAlignVertical = referenceObject.textAlignVertical;
+    } else {
+      figma.notify(`❌ Object of type ${object.type} is not a text layer.`);
     }
   }
 }
