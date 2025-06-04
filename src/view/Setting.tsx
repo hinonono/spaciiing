@@ -104,7 +104,7 @@ const Setting: React.FC = () => {
           </select>
         </div>
         {/* 關於本Plugin */}
-        <div className="mt-large mb-large">
+        <div className="mt-large">
           <h3>{t("settings:about")}</h3>
           <div className="about-spaciiing">
             <div className="grid">
