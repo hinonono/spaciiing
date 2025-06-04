@@ -134,7 +134,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           {appContext.referenceObject.id != "" ? (
             <div className="variable flex flex-justify-space-between align-items-center">
               <span className="text-color-primary">
-                {`${appContext.referenceObject.name} (ID: ${appContext.referenceObject.id})`}
+                {`${appContext.referenceObject.name} (${appContext.referenceObject.layerType}, ID: ${appContext.referenceObject.id})`}
               </span>
               <FigmaButton
                 buttonType="tertiary"
