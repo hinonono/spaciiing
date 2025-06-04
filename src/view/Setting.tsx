@@ -104,7 +104,7 @@ const Setting: React.FC = () => {
           </select>
         </div>
         {/* 關於本Plugin */}
-        <div className="mt-large">
+        <div className="mt-large mb-large">
           <h3>{t("settings:about")}</h3>
           <div className="about-spaciiing">
             <div className="grid">
@@ -150,6 +150,20 @@ const Setting: React.FC = () => {
                   target="_blank"
                 >
                   contact@hsiehchengyi.com
+                </a>
+              </span>
+            </div>
+            <div className="membership-block">
+              <p className="color--secondary">
+                {t("settings:developer")}
+              </p>
+              <span>
+                <a
+                  className="text-color-primary"
+                  href="https://www.linkedin.com/in/cheng-yi-hsieh/"
+                  target="_blank"
+                >
+                  Cheng-Yi Hsieh
                 </a>
               </span>
             </div>
