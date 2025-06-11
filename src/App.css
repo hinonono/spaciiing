@@ -633,7 +633,6 @@ input {
   background-color: var(--figma-color-bg);
   border: 1px solid var(--cy-border-light);
   color: var(--figma-color-text);
-  transition: var(--cy-animation-default);
   /* Dropdown options styling */
 }
 .custom-select:focus {
