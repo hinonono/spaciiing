@@ -3,7 +3,7 @@
     border: 1px solid var(--figma-color-border);
     min-height: 240px;
     height: fit-content;
-    border-radius: var(--border-radius-large);
+    border-radius: var(--cy-border-radius-xxxlarge);
     overflow-y: hidden;
 
     .vertical-step-container {
@@ -24,7 +24,7 @@
             height: 120%;
             background: linear-gradient(180deg, #8d41ff 25%, #f6c2e8 85%, #e4e4e4);
             top: -4px;
-            left: -4px;
+            left: 0px;
             border-radius: 9999px;
         }
     }
@@ -52,7 +52,7 @@
         justify-content: center;
         align-items: center;
         position: absolute;
-        left: 0;
+        left: 4px;
     }
 
     .step-content {

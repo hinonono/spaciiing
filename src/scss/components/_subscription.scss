@@ -26,10 +26,11 @@
     padding: 16px;
     border-radius: var(--cy-border-radius-xxxlarge);
     background: var(--figma-color-bg-primary);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, .1);
+    box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, .1);
 
     &.pro {
         background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
+        box-shadow: 0px 6px 12px 0px rgba(180, 121, 255, 0.5);
     }
 
     .subscription-plan-title {

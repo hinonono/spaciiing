@@ -4,7 +4,7 @@
     background-color: var(--tab-bar-bg);
     z-index: 2;
     overflow: scroll;
-    padding: 4px;
+    padding: 6px;
     border-bottom: 1px solid var(--figma-color-border);
     min-height: 46px;
 
@@ -29,9 +29,15 @@
         border: 0;
         width: auto;
         border-radius: var(--cy-border-radius-large);
+        transition: scale 0.3s;
 
         &:hover {
             background-color: var(--figma-color-bg-secondary);
+        }
+
+        &:active {
+            background-color: var(--figma-color-bg-secondary);
+            scale: 0.8;
         }
 
         &.active {

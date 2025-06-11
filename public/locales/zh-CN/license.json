@@ -52,5 +52,7 @@
   "savePercent": "节省 $PERCENT$",
   "freeTrialWorks": "免费试用说明",
   "freeUsersNeedToWait": "免费用户需要等待$TIME_REMAINING$秒才能继续。立即升级即可跳过等待。",
-  "upgradeToSkipWaiting": "升级PRO即可跳过等待"
+  "upgradeToSkipWaiting": "升级PRO即可跳过等待",
+  "upgrade": "升级",
+    "youNeedToWait": "目前每次操作需要等待 $WAIT_TIME$ 秒"
 }

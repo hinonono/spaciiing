@@ -77,7 +77,7 @@ const Setting: React.FC = () => {
               )}
               {licenseManagement.tier !== "PAID" && (
                 <FigmaButton
-                  title={t("license:seeAllPlans")}
+                  title={t("license:upgrade")}
                   buttonType="special"
                   onClick={() => {
                     setShowCTSubscribe(true);

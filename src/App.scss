@@ -465,7 +465,7 @@ $base-size: 24px;
     justify-content: center;
     align-items: center;
     height: 100%;
-
+    backdrop-filter: blur(4px);
 }
 
 

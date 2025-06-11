@@ -52,5 +52,7 @@
   "savePercent": "Save $PERCENT$",
   "freeTrialWorks": "How free trial works",
   "freeUsersNeedToWait": "Free users need to wait $TIME_REMAINING$ seconds before proceeding. Consider upgrading to skip waiting.",
-  "upgradeToSkipWaiting": "Upgrade to skip waiting"
+  "upgradeToSkipWaiting": "Upgrade to skip waiting",
+  "upgrade": "Upgrade",
+  "youNeedToWait": "You need to wait $WAIT_TIME$ secs before every executions."
 }

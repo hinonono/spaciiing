@@ -585,7 +585,7 @@ input {
   left: 4;
   height: 18px;
   width: 18px;
-  border: 1.5px solid var(--cy-border-light);
+  border: 1px solid var(--cy-border-light);
   margin: 4px 0px;
   border-radius: var(--cy-border-radius-small);
   background: var(--figma-color-bg-secondary);
@@ -618,6 +618,9 @@ input {
 @media (prefers-color-scheme: dark) {
   .cy-checkbox-group .container input:checked ~ .checkmark {
     background-color: var(--figma-color-bg-brand);
+  }
+  .checkmark {
+    box-shadow: 0px 1.5px 2px 0px rgba(255, 255, 255, 0.1) inset, 0px 0px 2px 0px rgba(255, 255, 255, 0.08) inset;
   }
   .checkmark:after {
     border-color: #fff;
@@ -789,7 +792,7 @@ input {
   background-color: var(--tab-bar-bg);
   z-index: 2;
   overflow: scroll;
-  padding: 4px;
+  padding: 6px;
   border-bottom: 1px solid var(--figma-color-border);
   min-height: 46px;
 }
@@ -810,9 +813,14 @@ input {
   border: 0;
   width: auto;
   border-radius: var(--cy-border-radius-large);
+  transition: scale 0.3s;
 }
 .tab-bar button:hover {
   background-color: var(--figma-color-bg-secondary);
+}
+.tab-bar button:active {
+  background-color: var(--figma-color-bg-secondary);
+  scale: 0.8;
 }
 .tab-bar button.active {
   background-color: var(--figma-color-bg-brand);
@@ -825,7 +833,7 @@ input {
   min-height: 240px;
   height: -moz-fit-content;
   height: fit-content;
-  border-radius: var(--border-radius-large);
+  border-radius: var(--cy-border-radius-xxxlarge);
   overflow-y: hidden;
 }
 .free-trial-graph .vertical-step-container {
@@ -845,7 +853,7 @@ input {
   height: 120%;
   background: linear-gradient(180deg, #8d41ff 25%, #f6c2e8 85%, #e4e4e4);
   top: -4px;
-  left: -4px;
+  left: 0px;
   border-radius: 9999px;
 }
 .free-trial-graph .step {
@@ -869,7 +877,7 @@ input {
   justify-content: center;
   align-items: center;
   position: absolute;
-  left: 0;
+  left: 4px;
 }
 .free-trial-graph .step-content {
   margin-left: 50px;
@@ -979,10 +987,11 @@ input {
   padding: 16px;
   border-radius: var(--cy-border-radius-xxxlarge);
   background: var(--figma-color-bg-primary);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.1);
 }
 .subscription-background.pro {
   background: linear-gradient(46deg, rgb(204, 228, 255) 0%, rgb(220, 204, 255) 53%, rgb(255, 230, 240) 100%);
+  box-shadow: 0px 6px 12px 0px rgba(180, 121, 255, 0.5);
 }
 .subscription-background .subscription-plan-title {
   color: rgba(0, 0, 0, 0.8980392157);
@@ -1366,7 +1375,7 @@ a {
 
 .banner {
   background: linear-gradient(46deg, rgb(204, 228, 255) 0%, rgb(220, 204, 255) 53%, rgb(255, 230, 240) 100%);
-  padding: 0rem 1rem;
+  padding: 0.5rem 1rem;
   min-height: 40px;
 }
 .banner--development-mode {
@@ -1384,9 +1393,11 @@ a {
 .banner .message-primary {
   font-size: 1rem;
   font-weight: 600;
+  margin-bottom: 0.25rem;
 }
 .banner .message-secondary {
   color: rgba(0, 0, 0, 0.6);
+  font-size: 0.75rem;
 }
 .banner .time-left {
   margin-left: 4px;
@@ -1902,6 +1913,8 @@ pre {
   justify-content: center;
   align-items: center;
   height: 100%;
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
 }
 
 .modal-content {

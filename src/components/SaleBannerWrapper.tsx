@@ -61,6 +61,8 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
     }
   }, [config, licenseManagement]);
 
+  useEffect(() => { }, [isVerifying])
+
   if (shouldShowBanner === "NONE") {
     return null;
   } else if (shouldShowBanner === "SALE") {
