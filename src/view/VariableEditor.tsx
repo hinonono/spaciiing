@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, FigmaButton, SectionTitle } from "../components";
+import { TitleBar, FigmaButton, SectionTitle, CYCheckbox } from "../components";
 import { useAppContext } from "../AppProvider";
 import MonacoCodeEditor from "../components/MonacoCodeEditor";
 import Modal from "../components/Modal";
@@ -352,20 +352,14 @@ const VariableEditor: React.FC = () => {
             />
             <div className="cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
               {VariableScopesNew[dataType].members.map((item) => (
-                <label
-                  key={item.scope}
-                  className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
-                    }`}
-                >
-                  {t(item.nameKey)}
-                  <input
-                    type="checkbox"
-                    value={item.scope}
-                    checked={variableScope.includes(item.scope)}
-                    onChange={() => handleScopeChange(item.scope)}
-                  />
-                  <span className="checkmark"></span>
-                </label>
+                <CYCheckbox
+                  label={t(item.nameKey)}
+                  checked={variableScope.includes(item.scope)}
+                  onChange={() => handleScopeChange(item.scope)}
+                  labelKey={item.scope}
+                  labelAdditionClass={`${item.indented ? `indent-level-${item.indentLevel}` : ""}`}
+                  value={item.scope}
+                />
               ))}
             </div>
           </div>

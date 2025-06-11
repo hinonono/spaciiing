@@ -11,6 +11,7 @@ import {
 } from "../types/Messages/MessageRenamer";
 import * as info from "../info.json";
 import { RenamableScopesNew } from "../module-frontend/renamerUI";
+import CYCheckbox from "../components/CYCheckbox";
 
 const Renamer: React.FC = () => {
   const { t, i18n } = useTranslation(["module", "term"]);
@@ -164,65 +165,46 @@ const Renamer: React.FC = () => {
           />
           <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
-              <label
-                key={item.scope}
-                className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
-                  }`}
-              >
-                <div className="flex align-items-center">
-                  {item.svg && <div className="icon-20 mr-xxsmall">{item.svg}</div>}
-                  {t(item.nameKey)}
-                </div>
-                <input
-                  type="checkbox"
-                  value={item.scope}
-                  checked={selectedScopes.includes(item.scope)}
-                  onChange={() => handleScopeChange(item.scope)}
-                />
-                <span className={`checkmark ${item.svg && "when-has-icon"}`}></span>
-              </label>
+              <CYCheckbox
+                label={
+                  <div className="flex align-items-center">
+                    {item.svg && <div className="icon-20 mr-xxsmall">{item.svg}</div>}
+                    {t(item.nameKey)}
+                  </div>
+                }
+                checked={selectedScopes.includes(item.scope)}
+                onChange={() => handleScopeChange(item.scope)}
+                labelKey={item.scope}
+                labelAdditionClass={`${item.indented ? `indent-level-${item.indentLevel}` : ""}`}
+                spanAddtionClass={`${item.svg && "when-has-icon"}`}
+                value={item.scope}
+              />
             ))}
           </div>
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
           <div className="cy-checkbox-group">
-            <label className="container">
-              {t("module:deleteHiddenLayers")}
-              <input
-                type="checkbox"
-                checked={deleteHiddenLayer}
-                onChange={handleDeleteHiddenLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:includeParentLayers")}
-              <input
-                type="checkbox"
-                checked={includeParentLayer}
-                onChange={handleIncludeParentLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:skipLockLayers")}
-              <input
-                type="checkbox"
-                checked={skipLockedLayer}
-                onChange={handleSkipLockedLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:useTextLayerContent")}
-              <input
-                type="checkbox"
-                checked={useTextLayerContent}
-                onChange={handleUseTextLayerContentChange}
-              />
-              <span className="checkmark"></span>
-            </label>
+            <CYCheckbox
+              label={t("module:deleteHiddenLayers")}
+              checked={deleteHiddenLayer}
+              onChange={handleDeleteHiddenLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:includeParentLayers")}
+              checked={includeParentLayer}
+              onChange={handleIncludeParentLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:skipLockLayers")}
+              checked={skipLockedLayer}
+              onChange={handleSkipLockedLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:useTextLayerContent")}
+              checked={useTextLayerContent}
+              onChange={handleUseTextLayerContentChange}
+            />
           </div>
         </div>
         {/* 按鈕 */}

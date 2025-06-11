@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
-import { FigmaButton, SectionTitle, TitleBar } from '../components';
+import { CYCheckbox, FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
 import { ConnectPointPosition, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator, defaultOffset, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
@@ -232,15 +232,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <div className="cy-checkbox-group">
-            <label className="container">
-              {t("module:createAnnotationBox")}
-              <input
-                type="checkbox"
-                checked={createAnnotationBox}
-                onChange={handleCheckboxChange}
-              />
-              <span className="checkmark"></span>
-            </label>
+            <CYCheckbox
+              label={t("module:createAnnotationBox")}
+              checked={createAnnotationBox}
+              onChange={handleCheckboxChange}
+            />
           </div>
           <FigmaButton
             title={t("module:execute")}

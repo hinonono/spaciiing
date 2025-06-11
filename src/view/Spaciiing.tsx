@@ -9,6 +9,7 @@ import {
   MessageSpaciiing,
 } from "../types/Messages/MessageSpaciiing";
 import SegmentedControl from "../components/SegmentedControl";
+import CYCheckbox from "../components/CYCheckbox";
 
 const SpacingValue: {
   nameKey: string;
@@ -290,15 +291,11 @@ const SpaciiingView: React.FC = () => {
           </div>
         </div>
         <div className="cy-checkbox-group mt-xsmall">
-          <label className="container">
-            {t("module:addAutoLayoutAfterApply")}
-            <input
-              type="checkbox"
-              checked={isChecked}
-              onChange={handleCheckboxChange}
-            />
-            <span className="checkmark"></span>
-          </label>
+          <CYCheckbox
+            label={t("module:addAutoLayoutAfterApply")}
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
         </div>
         <FigmaButton
           title={t("module:execute")}

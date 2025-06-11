@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TitleBar, FigmaButton, SectionTitle } from "../components";
+import { TitleBar, FigmaButton, SectionTitle, CYCheckbox } from "../components";
 import Modal from "../components/Modal";
 import { NodeFilterable } from "../types/NodeFilterable";
 import {
@@ -144,56 +144,40 @@ const SelectionFilter: React.FC = () => {
           />
           <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {FilterableScopesNew.map((item) => item.supportedEditorTypes.includes(editorType) && (
-              <label
-                key={t(item.nameKey)}
-                className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
-                  }`}
-              >
-                <div className="flex align-items-center">
-                  {item.svg && <div className="icon-20 mr-xxsmall">{item.svg}</div>}
-                  {t(item.nameKey)}
-                </div>
-                <input
-                  type="checkbox"
-                  value={item.scope}
-                  checked={selectedScopes.includes(item.scope)}
-                  onChange={() => handleScopeChange(item.scope)}
-                />
-                <span className={`checkmark ${item.svg && "when-has-icon"}`}></span>
-              </label>
+              <CYCheckbox
+                label={
+                  <div className="flex align-items-center">
+                    {item.svg && <div className="icon-20 mr-xxsmall">{item.svg}</div>}
+                    {t(item.nameKey)}
+                  </div>
+                }
+                checked={selectedScopes.includes(item.scope)}
+                onChange={() => handleScopeChange(item.scope)}
+                labelKey={t(item.nameKey)}
+                labelAdditionClass={`${item.indented ? `indent-level-${item.indentLevel}` : ""}`}
+                spanAddtionClass={`${item.svg && "when-has-icon"}`}
+              />
             ))}
           </div>
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
           <div className="cy-checkbox-group">
-            <label className="container">
-              {t("module:skipHiddenLayers")}
-              <input
-                type="checkbox"
-                checked={skipHiddenLayer}
-                onChange={handleSkipHiddenLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:skipLockLayers")}
-              <input
-                type="checkbox"
-                checked={skipLockedLayer}
-                onChange={handleSkipLockedLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:findWithName")}
-              <input
-                type="checkbox"
-                checked={findWithName}
-                onChange={handleFindWithNameChange}
-              />
-              <span className="checkmark"></span>
-            </label>
+            <CYCheckbox
+              label={t("module:skipHiddenLayers")}
+              checked={skipHiddenLayer}
+              onChange={handleSkipHiddenLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:skipLockLayers")}
+              checked={skipLockedLayer}
+              onChange={handleSkipLockedLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:findWithName")}
+              checked={findWithName}
+              onChange={handleFindWithNameChange}
+            />
             {findWithName && (
               <div className="indent-level-1">
                 <textarea

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView, CYCheckbox } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { getAvailableBrands, getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
@@ -244,28 +244,28 @@ const Instantiater: React.FC = () => {
           {/* 選項 */}
           <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {options.map((option) => (
-              <label key={option.value} className={`container`}>
-                <div className="flex flex-row align-items-center flex-justify-space-between">
-                  <div className="flex flex-row align-items-center">
-                    {option.label !== "ALL" && selectedCat === "color" && option.thumbnailColor && (
-                      <ColorThumbnailView color={option.thumbnailColor} opacity={1} size={20} type={form === "style" ? "rounded" : "square"} extraClassName="mr-xxsmall" />
+              <CYCheckbox
+                label={
+                  <div className="flex flex-row align-items-center flex-justify-space-between">
+                    <div className="flex flex-row align-items-center">
+                      {option.label !== "ALL" && selectedCat === "color" && option.thumbnailColor && (
+                        <ColorThumbnailView color={option.thumbnailColor} opacity={1} size={20} type={form === "style" ? "rounded" : "square"} extraClassName="mr-xxsmall" />
+                      )}
+                      {option.label === "ALL"
+                        ? t("term:allOptions")
+                        : option.label}
+                    </div>
+                    {option.count && (
+                      <div className="text-color-secondary">{option.count}</div>
                     )}
-                    {option.label === "ALL"
-                      ? t("term:allOptions")
-                      : option.label}
                   </div>
-                  {option.count && (
-                    <div className="text-color-secondary">{option.count}</div>
-                  )}
-                  <input
-                    type="checkbox"
-                    value={option.value}
-                    checked={selectedTargets.includes(option.value)}
-                    onChange={() => handleTargetChange(option.value)}
-                  />
-                  <span className="checkmark checkmark-large"></span>
-                </div>
-              </label>
+                }
+                checked={selectedTargets.includes(option.value)}
+                onChange={() => handleTargetChange(option.value)}
+                labelKey={option.value}
+                spanAddtionClass={"checkmark-large"}
+                value={option.value}
+              />
             ))}
           </div>
         </div>
