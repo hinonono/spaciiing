@@ -9,3 +9,4 @@ export { default as ColorThumbnailView } from "./ColorThumbnailView";
 export { default as ListViewHeader } from "./ListViewHeader";
 export { default as LicenseKeyInput } from "./LicenseKeyInput";
 export { default as Spinner } from "./Spinner";
+export { default as CYCheckbox } from "./CYCheckbox";
