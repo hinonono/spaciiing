@@ -8,9 +8,9 @@
     transition: var(--cy-animation-default);
     padding: 6px;
 
-    &:hover {
-        border-color: var(--cy-border-dark);
-    }
+    // &:hover {
+    //     border-color: var(--cy-border-dark);
+    // }
 
     input[type="radio"] {
         display: none;

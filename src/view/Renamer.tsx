@@ -31,6 +31,7 @@ const Renamer: React.FC = () => {
     useState<NodeRenamable[]>(initialScopes);
   const [deleteHiddenLayer, setDeleteHiddenLayer] = useState(false);
   const [skipLockedLayer, setSkipLockedLayer] = useState(true);
+  const [useTextLayerContent, setUseTextLayerContent] = useState(true);
   const [includeParentLayer, setIncludeParentLayer] = useState(false);
 
   // Handle checkbox change
@@ -44,6 +45,12 @@ const Renamer: React.FC = () => {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
   }) => {
     setSkipLockedLayer(event.target.checked);
+  };
+
+  const handleUseTextLayerContentChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setUseTextLayerContent(event.target.checked);
   };
 
   const handleIncludeParentLayerChange = (event: {
@@ -111,6 +118,7 @@ const Renamer: React.FC = () => {
         deleteHiddenLayer: deleteHiddenLayer,
         skipLockedLayer: skipLockedLayer,
         includeParentLayer: includeParentLayer,
+        useTextLayerContent: useTextLayerContent,
       },
       lang: i18n.language
     };
@@ -203,6 +211,15 @@ const Renamer: React.FC = () => {
                 type="checkbox"
                 checked={skipLockedLayer}
                 onChange={handleSkipLockedLayerChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+            <label className="container">
+              {t("module:useTextLayerContent")}
+              <input
+                type="checkbox"
+                checked={useTextLayerContent}
+                onChange={handleUseTextLayerContentChange}
               />
               <span className="checkmark"></span>
             </label>

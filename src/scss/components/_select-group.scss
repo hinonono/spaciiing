@@ -10,9 +10,9 @@
     color: var(--figma-color-text);
     transition: var(--cy-animation-default);
 
-    &:hover {
-        border-color: var(--cy-border-dark);
-    }
+    // &:hover {
+    //     border-color: var(--cy-border-dark);
+    // }
 
     &:focus {
         outline: none;

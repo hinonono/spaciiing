@@ -8,6 +8,7 @@ export interface RenamerOptions {
   deleteHiddenLayer: boolean;
   skipLockedLayer: boolean;
   includeParentLayer: boolean;
+  useTextLayerContent: boolean;
 }
 
 export interface MessageRenamer extends Message {
@@ -29,4 +30,5 @@ export interface PredifinedNames {
   vector: string,
   auto_layout_horizontal: string,
   auto_layout_vertical: string,
+  text: string
 }

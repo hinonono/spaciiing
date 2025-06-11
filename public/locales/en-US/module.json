@@ -198,5 +198,6 @@
   "startFrom": "Start from",
   "ltrTtb": "From left to right, then from top to bottom",
   "ttbLtr": "From top to bottom, then from left to right",
-  "updateArrowPosition": "Update Arrows Position"
+  "updateArrowPosition": "Update Arrows Position",
+  "useTextLayerContent": "Use text layer content as rename source"
 }

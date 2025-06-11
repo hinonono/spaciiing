@@ -162,9 +162,6 @@ input {
   transition: var(--cy-animation-default);
   padding: 6px;
 }
-.custom-segmented-control:hover {
-  border-color: var(--cy-border-dark);
-}
 .custom-segmented-control input[type=radio] {
   display: none;
 }
@@ -578,9 +575,6 @@ input {
   overflow: scroll;
   transition: var(--cy-animation-default);
 }
-.scope-group:hover {
-  border-color: var(--cy-border-dark);
-}
 .scope-group-large {
   max-height: 320px;
 }
@@ -641,9 +635,6 @@ input {
   color: var(--figma-color-text);
   transition: var(--cy-animation-default);
   /* Dropdown options styling */
-}
-.custom-select:hover {
-  border-color: var(--cy-border-dark);
 }
 .custom-select:focus {
   outline: none;

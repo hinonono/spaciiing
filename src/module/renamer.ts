@@ -1,5 +1,5 @@
 import { NodeRenamable } from './../types/NodeRenamable';
-import { MessageRenamer, PredifinedNames } from "../types/Messages/MessageRenamer";
+import { MessageRenamer, PredifinedNames, RenamerOptions } from "../types/Messages/MessageRenamer";
 import * as util from "./util";
 import jaJPData from "../assets/renamer/ja-JP.json"
 import enUSData from "../assets/renamer/en-US.json"
@@ -65,7 +65,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
     }
 
     if (shouldRenameNode(message.options.skipLockedLayer, node)) {
-      const newName = getNewName(message.renameTarget, predefinedNames, node);
+      const newName = getNewName(message.renameTarget, predefinedNames, node, message.options);
       if (newName !== null) {
         node.name = newName;
       }
@@ -104,7 +104,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
 
   topLevelNodesWithChildren.forEach((topLevelNode) => {
     if (message.options.includeParentLayer) {
-      const newName = getNewName(message.renameTarget, predefinedNames, topLevelNode);
+      const newName = getNewName(message.renameTarget, predefinedNames, topLevelNode, message.options);
       if (newName !== null) {
         topLevelNode.name = newName;
       }
@@ -127,9 +127,13 @@ function shouldRenameNode(skipLockedLayer: boolean, node: SceneNode): boolean {
   return true;
 }
 
-function getNewName(renameTarget: NodeRenamable[], predefinedNames: PredifinedNames, node: SceneNode): string | null {
+function getNewName(renameTarget: NodeRenamable[], predefinedNames: PredifinedNames, node: SceneNode, options: RenamerOptions): string | null {
   if (renameTarget.includes("TEXT") && node.type === "TEXT") {
-    return (node as TextNode).characters;
+    if (options.useTextLayerContent) {
+      return (node as TextNode).characters;
+    } else {
+      return predefinedNames.text;
+    }
   } else if (
     renameTarget.includes("IMAGE") &&
     node.type === "RECTANGLE" &&
@@ -142,12 +146,18 @@ function getNewName(renameTarget: NodeRenamable[], predefinedNames: PredifinedNa
   ) {
     if (node.layoutMode === "NONE") {
       return predefinedNames.frame;
+    } else if (node.layoutMode === "HORIZONTAL") {
+      return predefinedNames.auto_layout_horizontal;
+    } else if (node.layoutMode === "VERTICAL") {
+      return predefinedNames.auto_layout_vertical;
     }
   } else if (
     renameTarget.includes("AUTO_LAYOUT") &&
     node.type === "FRAME"
   ) {
-    if (node.layoutMode === "HORIZONTAL") {
+    if (node.layoutMode === "NONE") {
+      return predefinedNames.frame
+    } else if (node.layoutMode === "HORIZONTAL") {
       return predefinedNames.auto_layout_horizontal;
     } else if (node.layoutMode === "VERTICAL") {
       return predefinedNames.auto_layout_vertical;

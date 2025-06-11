@@ -49,9 +49,9 @@
     overflow: scroll;
     transition: var(--cy-animation-default);
 
-    &:hover {
-        border-color: var(--cy-border-dark);
-    }
+    // &:hover {
+    //     border-color: var(--cy-border-dark);
+    // }
 
     &-large {
         max-height: 320px;

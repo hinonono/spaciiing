@@ -9,5 +9,6 @@
     "star": "Star",
     "vector": "Vector",
     "auto_layout_horizontal": "H Auto Layout",
-    "auto_layout_vertical": "V Auto Layout"
+    "auto_layout_vertical": "V Auto Layout",
+    "text": "Text"
 }
