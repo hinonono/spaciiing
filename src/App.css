@@ -154,13 +154,13 @@ input {
 
 .custom-segmented-control {
   display: inline-flex;
-  border: 1px solid var(--cy-border-light);
   border-radius: var(--cy-border-radius-large);
   width: 100%;
   justify-content: space-between;
   overflow: hidden;
   transition: var(--cy-animation-default);
   padding: 6px;
+  background: var(--figma-color-bg-secondary);
 }
 .custom-segmented-control input[type=radio] {
   display: none;
@@ -169,13 +169,13 @@ input {
   transition: var(--cy-animation-default);
 }
 .custom-segmented-control input[type=radio]:checked + label {
-  background: var(--figma-color-bg-brand);
-  color: var(--white);
-  fill: var(--white);
+  background: var(--figma-color-bg);
+  color: var(--figma-color-bg-brand);
   z-index: 1;
+  box-shadow: var(--drop-shadow-1);
 }
 .custom-segmented-control input[type=radio]:checked + label * {
-  fill: white;
+  fill: var(--figma-color-bg-brand);
 }
 .custom-segmented-control input[type=radio]:disabled + label {
   opacity: 0.5;
@@ -209,12 +209,39 @@ input {
   color: var(--figma-color-text);
   align-items: center;
   min-height: 28px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-large);
 }
 .custom-segmented-control > input:checked + label {
   z-index: -1;
 }
 
+@media (prefers-color-scheme: dark) {
+  .custom-segmented-control {
+    display: inline-flex;
+    border-radius: var(--cy-border-radius-large);
+    width: 100%;
+    justify-content: space-between;
+    overflow: hidden;
+    transition: var(--cy-animation-default);
+    padding: 6px;
+    background: var(--figma-color-bg-secondary);
+  }
+  .custom-segmented-control input[type=radio] {
+    display: none;
+  }
+  .custom-segmented-control input[type=radio] + label {
+    transition: var(--cy-animation-default);
+  }
+  .custom-segmented-control input[type=radio]:checked + label {
+    background: #545454;
+    color: #3cadff;
+    z-index: 1;
+    box-shadow: var(--drop-shadow-1);
+  }
+  .custom-segmented-control input[type=radio]:checked + label * {
+    fill: #3cadff;
+  }
+}
 .text-center {
   text-align: center;
 }
