@@ -81,5 +81,7 @@
   "direction": "方向",
   "strokeSolid": "实线",
   "fontName": "字体名称",
-  "alignment": "字体对齐"
+  "alignment": "字体对齐",
+  "noise": "噪点",
+  "texture": "纹理"
 }

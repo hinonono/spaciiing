@@ -34,6 +34,8 @@ export type NumberingForm =
   | "ZHTW_SIMPLE_HANZI"
   | "ZHTW_COMPLEX_HANZI"
 
+export type SpiltType = "SPACE" | "LINE_BREAK" | "CUSTOM"
+
 export interface MessageShortcut extends Message {
   action: ShortcutAction;
 }
@@ -65,5 +67,6 @@ export interface MessageShortcutNumbering extends MessageShortcut {
 }
 
 export interface MessageShortcutSpiltText extends MessageShortcut {
-  spiltSymbol: string;
+  spiltType: SpiltType;
+  spiltSymbol?: string;
 }

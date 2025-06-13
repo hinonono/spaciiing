@@ -81,5 +81,7 @@
   "direction": "方向",
   "strokeSolid": "実線",
   "fontName": "フォント名",
-  "alignment": "配置"
+  "alignment": "配置",
+  "noise": "ノイズ",
+  "texture": "テクスチャ"
 }

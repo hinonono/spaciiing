@@ -14,6 +14,7 @@ import {
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 import { writeCatalogueDescBackToFigma } from "./catalogue/catalogueItemLink";
 import { updateArrowPosition } from "./arrowCreator/arrowCreator";
+import { Direction } from "../types/General";
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -124,7 +125,7 @@ function debugFunction() {
 }
 
 async function spiltText(message: MessageShortcutSpiltText) {
-  const { spiltSymbol } = message;
+  const { spiltType, spiltSymbol } = message;
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -148,7 +149,25 @@ async function spiltText(message: MessageShortcutSpiltText) {
   await figma.loadFontAsync({ family: "Inter", style: "Regular" })
 
   const originalText = node.characters;
-  const parts = originalText.split(spiltSymbol).map(part => part.trim()).filter(part => part.length > 0);
+
+  let parts: string[] = [];
+  let mode: Direction = "horizontal"
+
+  if (spiltType === "LINE_BREAK") {
+    parts = originalText.split(/\r?\n/);
+    mode = "vertical";
+  } else if (spiltType === "SPACE") {
+    parts = originalText.split(/\s+/);
+  } else {
+    if (!spiltSymbol) {
+      throw new Error("Custom symbol is required to spilt text.")
+    }
+    parts = originalText.split(spiltSymbol);
+  }
+
+  parts = parts.map(part => part.trim()).filter(part => part.length > 0);
+
+  // const parts = originalText.split(spiltSymbol).map(part => part.trim()).filter(part => part.length > 0);
 
   if (parts.length <= 1) {
     figma.notify("Nothing to split. Text does not contain the split symbol.");
@@ -213,7 +232,7 @@ async function spiltText(message: MessageShortcutSpiltText) {
     )
   }
 
-  spaciiing.applySpacingToLayers(spiltedTextNodes, 8, "horizontal", false, false)
+  spaciiing.applySpacingToLayers(spiltedTextNodes, 8, mode, false, false)
   setTimeout(() => {
     try {
       node.remove();

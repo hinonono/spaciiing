@@ -1,3 +1,4 @@
+import { Direction } from "../types/General";
 import { MessageSpaciiing } from "../types/Messages/MessageSpaciiing";
 import * as util from "./util";
 
@@ -59,7 +60,7 @@ export function useSpacing(message: MessageSpaciiing) {
 export function applySpacingToLayers(
   layers: SceneNode[],
   spacing: number,
-  mode: "vertical" | "horizontal",
+  mode: Direction,
   addAutolayout: boolean,
   returnFinalFrame: boolean = false,
   column?: number

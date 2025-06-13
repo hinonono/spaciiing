@@ -203,6 +203,8 @@
   "ttbLtr": "上から下へ、次に左から右へ",
   "updateArrowPosition": "矢印の位置を更新する",
   "useTextLayerContent": "テキストレイヤーの内容を名前変更の元に使用する",
-  "spiltText": "Spilt Text",
-  "spiltBasedOn": "Spilt based on"
+  "spiltText": "テキストを分割",
+"spiltBasedOn": "分割の基準",
+"space": "スペース",
+"lineBreak": "改行"
 }

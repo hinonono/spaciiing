@@ -843,3 +843,14 @@ export function capitalizeFirstLetter(str: string): string {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+/**
+ * Figma API不認得BoundVariables但它自己又有傳，所以把它去掉
+ * @param effect 
+ * @returns 
+ */
+export function stripBoundVariables(effect: Effect): Effect {
+  // Make a shallow copy of the effect
+  const { boundVariables, ...cleanEffect } = effect as any;
+  return cleanEffect as Effect;
+}

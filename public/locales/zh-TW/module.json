@@ -203,6 +203,8 @@
   "ttbLtr": "由上至下，再由左至右",
   "updateArrowPosition": "更新箭頭位置",
   "useTextLayerContent": "使用文字圖層內容作為重命名依據",
-  "spiltText": "Spilt Text",
-  "spiltBasedOn": "Spilt based on"
+  "spiltText": "分割文字",
+  "spiltBasedOn": "分割依據",
+  "space": "空白",
+  "lineBreak": "換行"
 }

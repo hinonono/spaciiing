@@ -81,5 +81,7 @@
   "direction": "方向",
   "strokeSolid": "實線",
   "fontName": "字型名稱",
-  "alignment": "字型對齊"
+  "alignment": "字型對齊",
+  "noise": "噪點",
+  "texture": "材質"
 }

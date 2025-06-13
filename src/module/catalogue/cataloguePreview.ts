@@ -39,16 +39,7 @@ export function createColorFrame(color: RGBA): FrameNode {
     return colorFrame;
 }
 
-/**
- * Figma API不認得BoundVariables但它自己又有傳，所以把它去掉
- * @param effect 
- * @returns 
- */
-function stripBoundVariables(effect: Effect): Effect {
-    // Make a shallow copy of the effect
-    const { boundVariables, ...cleanEffect } = effect as any;
-    return cleanEffect as Effect;
-}
+
 
 export function createEffectFrame(effects: Effect[]): FrameNode {
     const effectFrame = figma.createFrame();
@@ -58,7 +49,7 @@ export function createEffectFrame(effects: Effect[]): FrameNode {
         { type: "SOLID", color: semanticTokens.background.primary },
     ];
     effectFrame.cornerRadius = semanticTokens.cornerRadius.small;
-    effectFrame.effects = effects.map(stripBoundVariables);
+    effectFrame.effects = effects.map(util.stripBoundVariables);
 
     return effectFrame;
 }

@@ -204,5 +204,7 @@
   "updateArrowPosition": "Update Arrows Position",
   "useTextLayerContent": "Use text layer content as rename source",
   "spiltText": "Spilt Text",
-  "spiltBasedOn": "Spilt based on"
+  "spiltBasedOn": "Spilt based on",
+  "space": "Space",
+  "lineBreak": "Line break"
 }

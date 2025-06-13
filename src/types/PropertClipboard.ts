@@ -46,7 +46,9 @@ type PropertyClipboardSupportedEffect =
   | "EFFECT_INNER_SHADOW"
   | "EFFECT_DROP_SHADOW"
   | "EFFECT_LAYER_BLUR"
-  | "EFFECT_BACKGROUND_BLUR";
+  | "EFFECT_BACKGROUND_BLUR"
+  | "EFFECT_NOISE"
+  | "EFFECT_TEXTURE";
 
 type PropertyClipboardSupportedTypography =
   | "FONT_NAME"

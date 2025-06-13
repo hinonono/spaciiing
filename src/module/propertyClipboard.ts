@@ -249,30 +249,32 @@ async function pastePropertyToObject(
 ) {
   switch (property) {
     case "WIDTH":
-      setSelectionWidth(referenceObject);
+      setSelectionSize(referenceObject, { width: true });
+      // setSelectionWidth(referenceObject);
       break;
     case "HEIGHT":
-      setSelectionHeight(referenceObject);
+      setSelectionSize(referenceObject, { height: true });
+      // setSelectionHeight(referenceObject);
       break;
     case "LAYER_OPACITY":
-      setSelectionOpacity(referenceObject);
+      applyPropertyToSelection(referenceObject, "opacity");
       break;
     case "LAYER_CORNER_RADIUS":
       setSelectionCornerRadius(referenceObject);
       break;
     case "LAYER_BLEND_MODE":
-      setSelectionBlendMode(referenceObject);
+      applyPropertyToSelection(referenceObject, "blendMode");
     case "STROKES":
-      setSelectionStrokes(referenceObject);
+      applyPropertyToSelection(referenceObject, "strokes");
       break;
     case "STROKE_ALIGN":
-      setSelectionStrokeAlign(referenceObject);
+      applyPropertyToSelection(referenceObject, "strokeAlign");
       break;
     case "STROKE_WEIGHT":
-      setSelectionStrokeWeight(referenceObject);
+      applyPropertyToSelection(referenceObject, "strokeWeight");
       break;
     case "STROKE_STYLE":
-      setSelectionStrokeStyle(referenceObject);
+      applyPropertyToSelection(referenceObject, "dashPattern");
       break;
     case "STROKE_DASH":
       setSelectionStrokeDash(referenceObject);
@@ -281,46 +283,52 @@ async function pastePropertyToObject(
       setSelectionStrokeGap(referenceObject);
       break;
     case "STROKE_CAP":
-      setSelectionStrokeCap(referenceObject);
+      applyPropertyToSelection(referenceObject, "strokeCap");
       break;
     case "STROKE_JOIN":
-      setSelectionStrokeJoin(referenceObject);
+      applyPropertyToSelection(referenceObject, "strokeJoin");
       break;
     case "STROKE_MITER_LIMIT":
-      setSelectionStrokeMiterLimit(referenceObject);
+      applyPropertyToSelection(referenceObject, "strokeMiterLimit");
       break;
     case "FILL_ALL":
-      setSelectionAllFills(referenceObject, behavior);
+      applyFillToSelection(referenceObject, behavior, "ALL");
       break;
     case "FILL_SOLID":
-      setSelectionSolidFill(referenceObject, behavior);
+      applyFillToSelection(referenceObject, behavior, "SOLID");
       break;
     case "FILL_GRADIENT":
-      setSelectionGradientFill(referenceObject, behavior);
+      applyFillToSelection(referenceObject, behavior, "GRADIENT");
       break;
     case "FILL_IMAGE":
-      setSelectionImageFill(referenceObject, behavior);
+      applyFillToSelection(referenceObject, behavior, "IMAGE");
       break;
     case "FILL_VIDEO":
-      setSelectionVideoFill(referenceObject, behavior);
+      applyFillToSelection(referenceObject, behavior, "VIDEO");
       break;
     case "EFFECT_ALL":
-      setSelectionAllEffects(referenceObject, behavior);
+      applyEffectToSelection(referenceObject, behavior, "ALL");
       break;
     case "EFFECT_INNER_SHADOW":
-      setSelectionInnerShadow(referenceObject, behavior);
+      applyEffectToSelection(referenceObject, behavior, "INNER_SHADOW");
       break;
     case "EFFECT_DROP_SHADOW":
-      setSelectionDropShadow(referenceObject, behavior);
+      applyEffectToSelection(referenceObject, behavior, "DROP_SHADOW");
       break;
     case "EFFECT_LAYER_BLUR":
-      setSelectionLayerBlur(referenceObject, behavior);
+      applyEffectToSelection(referenceObject, behavior, "LAYER_BLUR");
       break;
     case "EFFECT_BACKGROUND_BLUR":
-      setSelectionBackgroundBlur(referenceObject, behavior);
+      applyEffectToSelection(referenceObject, behavior, "BACKGROUND_BLUR");
+      break;
+    case "EFFECT_NOISE":
+      applyEffectToSelection(referenceObject, behavior, "NOISE");
+      break;
+    case "EFFECT_TEXTURE":
+      applyEffectToSelection(referenceObject, behavior, "TEXTURE");
       break;
     case "EXPORT_SETTINGS":
-      setSelectionExportSettings(referenceObject);
+      applyPropertyToSelection(referenceObject, "exportSettings");
       break;
     case "FONT_NAME":
       await pasteFontName(referenceObject);
@@ -341,11 +349,6 @@ async function pastePropertyToObject(
       figma.notify(`Unsupported property type: ${property}`);
       break;
   }
-}
-
-// Set opacity of selected layers from the reference object
-function setSelectionOpacity(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "opacity");
 }
 
 // Set corner radius of selected layers from the reference object
@@ -383,46 +386,6 @@ function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
       );
     }
   });
-}
-
-// Set blend mode of selected layers from the reference object
-function setSelectionBlendMode(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "blendMode");
-}
-
-function setSelectionAllFills(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyFillToSelection(referenceObject, behavior, "ALL");
-}
-
-function setSelectionSolidFill(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyFillToSelection(referenceObject, behavior, "SOLID");
-}
-
-function setSelectionGradientFill(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyFillToSelection(referenceObject, behavior, "GRADIENT");
-}
-
-function setSelectionImageFill(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyFillToSelection(referenceObject, behavior, "IMAGE");
-}
-
-function setSelectionVideoFill(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyFillToSelection(referenceObject, behavior, "VIDEO");
 }
 
 /**
@@ -510,7 +473,7 @@ async function applyFillToSelection(
   }
 }
 
-function setSelectionWidth(referenceObject: CopyPastableNode) {
+function setSelectionSize(referenceObject: CopyPastableNode, options: { width?: boolean; height?: boolean }) {
   const selection = util.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -520,46 +483,13 @@ function setSelectionWidth(referenceObject: CopyPastableNode) {
 
   selection.forEach((object) => {
     if ("resize" in object) {
-      // Check if the object has a resize method
-      object.resize(referenceObject.width, object.height);
+      const newWidth = options.width ? referenceObject.width : object.width;
+      const newHeight = options.height ? referenceObject.height : object.height;
+      object.resize(newWidth, newHeight);
     } else {
       figma.notify(`❌ Object of type ${object.type} cannot be resized.`);
     }
   });
-}
-
-function setSelectionHeight(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
-
-  if (selection.length === 0) {
-    figma.notify("❌ No object selected.");
-    return;
-  }
-
-  selection.forEach((object) => {
-    if ("resize" in object) {
-      // Check if the object has a resize method
-      object.resize(object.width, referenceObject.height);
-    } else {
-      figma.notify(`❌ Object of type ${object.type} cannot be resized.`);
-    }
-  });
-}
-
-function setSelectionStrokes(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "strokes");
-}
-
-function setSelectionStrokeWeight(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "strokeWeight");
-}
-
-function setSelectionStrokeAlign(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "strokeAlign");
-}
-
-function setSelectionStrokeStyle(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "dashPattern");
 }
 
 function setSelectionStrokeDash(referenceObject: CopyPastableNode) {
@@ -632,22 +562,6 @@ function setSelectionStrokeGap(referenceObject: CopyPastableNode) {
   });
 }
 
-function setSelectionStrokeCap(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "strokeCap");
-}
-
-function setSelectionStrokeJoin(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "strokeJoin");
-}
-
-function setSelectionStrokeMiterLimit(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "strokeMiterLimit");
-}
-
-function setSelectionExportSettings(referenceObject: CopyPastableNode) {
-  applyPropertyToSelection(referenceObject, "exportSettings");
-}
-
 /**
  * Applies a specified property from a reference object to all currently selected objects.
  *
@@ -689,41 +603,6 @@ function applyPropertyToSelection(
   });
 }
 
-function setSelectionAllEffects(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyEffectToSelection(referenceObject, behavior, "ALL");
-}
-
-function setSelectionInnerShadow(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyEffectToSelection(referenceObject, behavior, "INNER_SHADOW");
-}
-
-function setSelectionDropShadow(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyEffectToSelection(referenceObject, behavior, "DROP_SHADOW");
-}
-
-function setSelectionLayerBlur(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyEffectToSelection(referenceObject, behavior, "LAYER_BLUR");
-}
-
-function setSelectionBackgroundBlur(
-  referenceObject: CopyPastableNode,
-  behavior: PasteBehavior
-) {
-  applyEffectToSelection(referenceObject, behavior, "BACKGROUND_BLUR");
-}
-
 /**
  * 用於降低重複性code，指定要套用何種效果
  * @param referenceObject
@@ -740,6 +619,8 @@ async function applyEffectToSelection(
     | "INNER_SHADOW"
     | "LAYER_BLUR"
     | "BACKGROUND_BLUR"
+    | "NOISE"
+    | "TEXTURE"
 ) {
   const selection = util.getCurrentSelection();
 
@@ -797,9 +678,9 @@ async function applyEffectToSelection(
     for (const object of selection) {
       if ("effects" in object && Array.isArray(object.effects)) {
         if (behavior === "pasteToIncrement") {
-          object.effects = [...object.effects, ...filteredEffects];
+          object.effects = [...object.effects, ...filteredEffects.map(util.stripBoundVariables)];
         } else {
-          object.effects = filteredEffects;
+          object.effects = filteredEffects.map(util.stripBoundVariables);
         }
       } else {
         figma.notify(

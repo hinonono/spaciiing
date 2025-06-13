@@ -81,5 +81,7 @@
   "direction": "Direction",
   "strokeSolid": "Solid",
   "fontName": "Font name",
-  "alignment": "Font alignment"
+  "alignment": "Font alignment",
+  "noise": "Noise",
+  "texture": "Texture"
 }

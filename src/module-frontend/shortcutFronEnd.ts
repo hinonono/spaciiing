@@ -1,4 +1,4 @@
-import { MessageShortcutSpiltText } from './../types/Messages/MessageShortcut';
+import { MessageShortcutSpiltText, SpiltType } from './../types/Messages/MessageShortcut';
 import { AppContextType } from "../AppProvider";
 import { Message } from "../types/Messages/Message";
 import { MessageShortcut, MessageShortcutNumbering, NumberingForm } from "../types/Messages/MessageShortcut";
@@ -72,13 +72,13 @@ export const applyNumbering = (appContext: AppContextType, direction: Direction,
   parent.postMessage({ pluginMessage: message, }, "*");
 };
 
-export const applySpiltText = (appContext: AppContextType, spiltSymbol: string, isRealCall = false) => {
+export const applySpiltText = (appContext: AppContextType, spiltType: SpiltType, spiltSymbol?: string, isRealCall = false) => {
   if (!isRealCall) {
     if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
       appContext.setFreeUserDelayModalConfig({
         show: true,
         initialTime: info.freeUserWaitingTime,
-        onProceed: () => applySpiltText(appContext, spiltSymbol, true),
+        onProceed: () => applySpiltText(appContext, spiltType, spiltSymbol, true),
       });
       return;
     }
@@ -89,6 +89,7 @@ export const applySpiltText = (appContext: AppContextType, spiltSymbol: string, 
     action: "spiltText",
     direction: "Inner",
     phase: "Actual",
+    spiltType: spiltType,
     spiltSymbol: spiltSymbol
   };
   parent.postMessage({ pluginMessage: message, }, "*");
