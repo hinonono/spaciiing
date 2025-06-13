@@ -1,6 +1,10 @@
 {
   "name": "Spaciiing",
   "version": "30",
+  "whatsNew": [
+    "Catalogue now supports noise and texture type",
+    "Overall enhancehemnts"
+  ],
   "price": {
     "monthly": "3",
     "yearly": "36",

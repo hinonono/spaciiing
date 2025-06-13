@@ -107,6 +107,16 @@ const Setting: React.FC = () => {
         <div className="mt-large">
           <h3>{t("settings:about")}</h3>
           <div className="about-spaciiing">
+            <div className="membership-block">
+              <p className="color--secondary">{t("settings:version")}</p>
+              <span>{info.version}</span>
+            </div>
+            <div className="membership-block">
+              <p className="color--secondary">What's new in this version</p>
+              <ul>
+                {info.whatsNew.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
             <div className="grid">
               <div className="membership-block">
                 <p className="color--secondary">Share Spaciiing on X(Twitter)</p>
@@ -121,23 +131,19 @@ const Setting: React.FC = () => {
                 </span>
               </div>
               <div className="membership-block">
-                <p className="color--secondary">{t("settings:version")}</p>
-                <span>{info.version}</span>
+                <p className="color--secondary">
+                  {t("settings:provideFeedback")}
+                </p>
+                <span>
+                  <a
+                    className="text-color-primary"
+                    href="https://forms.gle/jFgzJfs1nw259Kgk8"
+                    target="_blank"
+                  >
+                    {t("settings:feedbackForm")}
+                  </a>
+                </span>
               </div>
-            </div>
-            <div className="membership-block">
-              <p className="color--secondary">
-                {t("settings:provideFeedback")}
-              </p>
-              <span>
-                <a
-                  className="text-color-primary"
-                  href="https://forms.gle/jFgzJfs1nw259Kgk8"
-                  target="_blank"
-                >
-                  {t("settings:feedbackForm")}
-                </a>
-              </span>
             </div>
             <div className="membership-block">
               <p className="color--secondary">
