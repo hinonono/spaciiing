@@ -194,9 +194,22 @@ async function createGenericItem<T>(
 
         const { id, description, name } = variable;
         const title = name.split("/").pop() || "";
-        const previewResources: PreviewResources = {
-            [previewKey]: filteredValues
-        } as PreviewResources;
+
+        let previewResources: PreviewResources | null;
+        if (styleMode === "COLOR") {
+            previewResources = {
+                colors: {
+                    type: "SOLID",
+                    opacity: 1,
+                    colors: filteredValues as RGBA[],
+                }
+            }
+        } else {
+            previewResources = {
+                [previewKey]: filteredValues
+            } as PreviewResources;
+        }
+
 
         const aliasResources: AliasResources = {
             aliasNames: aliasName,
