@@ -1,6 +1,6 @@
 import { AppContextType } from "../AppProvider";
 import { ConnectPointPositionPair } from "../types/ArrowCreator";
-import { CYStroke } from "../types/CYStroke";
+import { CYStroke, CYStrokeCap } from "../types/CYStroke";
 import { Direction } from "../types/General";
 import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
@@ -39,7 +39,7 @@ export function applyArrowCreator(
 }
 
 interface StrokeCapOption {
-    value: StrokeCap;
+    value: CYStrokeCap;
     labelKey: string;
 }
 
@@ -55,6 +55,18 @@ export const strokeCaps: StrokeCapOption[] = [
     {
         value: "ARROW_EQUILATERAL",
         labelKey: "module:triangleArrow",
+    },
+    {
+        value: "TRIANGLE_FILLED",
+        labelKey: "module:reversedTriangle",
+    },
+    {
+        value: "CIRCLE_FILLED",
+        labelKey: "module:circleArrow",
+    },
+    {
+        value: "DIAMOND_FILLED",
+        labelKey: "module:diamondArrow"
     },
     {
         value: "ROUND",

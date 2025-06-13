@@ -4,7 +4,9 @@ export interface CYStroke {
     opacity: number;
     strokeWeight: number;
     cornerRadius: number;
-    startPointCap: StrokeCap;
-    endPointCap: StrokeCap;
+    startPointCap: CYStrokeCap;
+    endPointCap: CYStrokeCap;
     dashAndGap?: number[];
 }
+
+export type CYStrokeCap = StrokeCap | "TRIANGLE_FILLED" | "CIRCLE_FILLED" | "DIAMOND_FILLED"

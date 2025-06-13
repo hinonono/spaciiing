@@ -14,6 +14,7 @@ import { SingleCornerRadiusNode } from "../types/NodeSingleCornerRadius";
 import { EditorType } from "../types/EditorType";
 import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { Coordinates, Direction } from "../types/General";
+import { CYStrokeCap } from "../types/CYStroke";
 
 const isDevelopment = process.env.REACT_APP_ENV === "development";
 
@@ -815,8 +816,8 @@ export function getSimpleHanziNumber(index: number): string {
 export async function setStrokeCap(
   node: VectorNode,
   vectorNetwork: VectorNetwork,
-  startPointCap: StrokeCap,
-  endPointCap: StrokeCap
+  startPointCap: CYStrokeCap,
+  endPointCap: CYStrokeCap
 ) {
   // 一定要先設定在物件身上一次（這是Figma Plugin API的限制）
   await node.setVectorNetworkAsync(vectorNetwork);
@@ -825,6 +826,8 @@ export async function setStrokeCap(
   // 接著用JSON格式進行修改再放回去
   let copy = JSON.parse(JSON.stringify(node.vectorNetwork))
   if ("strokeCap" in copy.vertices[copy.vertices.length - 1]) {
+
+
     copy.vertices[0].strokeCap = startPointCap
     copy.vertices[copy.vertices.length - 1].strokeCap = endPointCap
   }
