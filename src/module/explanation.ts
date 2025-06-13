@@ -175,10 +175,10 @@ function createGenericEffectTitle(
     case "BACKGROUND_BLUR":
       if (effect.blurType === "NORMAL") {
         // Uniform
-        title = `Layer ${index + 1} - Layer Blur (Uniform)`
+        title = `Layer ${index + 1} - Background Blur (Uniform)`
       } else {
         // Progressive
-        title = `Layer ${index + 1} - Layer Blur (Progressive)`
+        title = `Layer ${index + 1} - Background Blur (Progressive)`
       }
       break;
     case "NOISE":
@@ -288,6 +288,128 @@ function getEffectPropertiesToCreate(
       return effectPropertiesToCreate
 
     }
+  } else if (effect.type === "NOISE") {
+    if (effect.noiseType === "MONOTONE") {
+      const effectPropertiesToCreate: SinglePropertyString[] = [
+        {
+          title: "Noise Type",
+          content: `${effect.noiseType}`,
+          show: true
+        },
+        {
+          title: "Noise Size",
+          content: `${effect.noiseSize}`,
+          show: true
+        },
+        {
+          title: "Density",
+          content: `${effect.density}`,
+          show: true
+        },
+        {
+          title: "Color",
+          //@ts-ignore
+          content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
+          show: true
+        },
+        {
+          title: "Opacity",
+          //@ts-ignore
+          content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
+          show: true
+        },
+      ]
+
+      return effectPropertiesToCreate
+    } else if (effect.noiseType === "DUOTONE") {
+      const effectPropertiesToCreate: SinglePropertyString[] = [
+        {
+          title: "Noise Type",
+          content: `${effect.noiseType}`,
+          show: true
+        },
+        {
+          title: "Noise Size",
+          content: `${effect.noiseSize}`,
+          show: true
+        },
+        {
+          title: "Density",
+          content: `${effect.density}`,
+          show: true
+        },
+        {
+          title: "Color 1",
+          //@ts-ignore
+          content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
+          show: true
+        },
+        {
+          title: "Opacity (Color 1)",
+          //@ts-ignore
+          content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
+          show: true
+        },
+        {
+          title: "Color 2",
+          content: rgbToHex(effect.secondaryColor.r, effect.secondaryColor.g, effect.secondaryColor.b),
+          show: true
+        },
+        {
+          title: "Opacity (Color 2)",
+          content: `${formatNumberToDecimals(effect.secondaryColor.a * 100)}%`,
+          show: true
+        },
+      ]
+
+      return effectPropertiesToCreate
+    } else {
+      const effectPropertiesToCreate: SinglePropertyString[] = [
+        {
+          title: "Noise Type",
+          content: `${effect.noiseType}`,
+          show: true
+        },
+        {
+          title: "Noise Size",
+          content: `${effect.noiseSize}`,
+          show: true
+        },
+        {
+          title: "Density",
+          content: `${effect.density}`,
+          show: true
+        },
+        {
+          title: "Opacity",
+          content: `${formatNumberToDecimals(effect.opacity * 100)}%`,
+          show: true
+        },
+      ]
+
+      return effectPropertiesToCreate
+    }
+
+  } else if (effect.type === "TEXTURE") {
+    const effectPropertiesToCreate: SinglePropertyString[] = [
+      {
+        title: "Size",
+        content: `${effect.noiseSize}`,
+        show: true
+      },
+      {
+        title: "Radius",
+        content: `${effect.radius}`,
+        show: true
+      },
+      {
+        title: "Clip To Shape",
+        content: `${effect.clipToShape}`,
+        show: true
+      }
+    ]
+
+    return effectPropertiesToCreate
   } else {
     const effectPropertiesToCreate: SinglePropertyString[] = [
       {
@@ -357,7 +479,7 @@ export function createEffectPropertiesWrappers(
       });
 
     } else {
-      // 處理blur類型的properties
+      // 處理其他效果類型的properties
       const effectPropertiesToCreate = getEffectPropertiesToCreate(effect);
 
       let effectPropertiesNodes: FrameNode[] = [];
@@ -375,12 +497,6 @@ export function createEffectPropertiesWrappers(
 
       const groupedPropertyNodes = pairNodesByTwo(effectPropertiesNodes)
 
-      // const tempWrapper1 = createAutolayoutFrame(
-      //   [...effectPropertiesNodes],
-      //   semanticTokens.spacing.xsmall,
-      //   "HORIZONTAL"
-      // );
-
       effectPropertiesNodes.forEach((n) => {
         n.layoutSizingHorizontal = "FILL";
         n.layoutSizingVertical = "HUG";
@@ -391,15 +507,6 @@ export function createEffectPropertiesWrappers(
         g.layoutSizingHorizontal = "FILL"
         g.layoutSizingVertical = "HUG"
       })
-
-      // effectWrapper.appendChild(tempWrapper1);
-
-      // [tempWrapper1].forEach((n) => {
-      //   n.name = "Properties";
-      //   n.layoutSizingVertical = "HUG";
-      //   n.layoutSizingHorizontal = "FILL";
-      // });
-
     }
 
     results.push(effectWrapper);
