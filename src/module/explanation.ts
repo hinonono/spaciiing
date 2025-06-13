@@ -206,7 +206,7 @@ function getEffectPropertiesToCreate(
       }
     ]
     return effectPropertiesToCreate
-  } else {
+  } else if (effect.type === "LAYER_BLUR" || effect.type === "BACKGROUND_BLUR") {
     const effectPropertiesToCreate = [
       {
         title: "Blur",
@@ -214,6 +214,15 @@ function getEffectPropertiesToCreate(
       },
       {
         title: "Place Holder",
+        content: "0",
+      }
+    ]
+
+    return effectPropertiesToCreate
+  } else {
+    const effectPropertiesToCreate = [
+      {
+        title: "NOT SUPPORTED",
         content: "0",
       }
     ]
