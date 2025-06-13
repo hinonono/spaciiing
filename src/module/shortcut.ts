@@ -172,7 +172,7 @@ async function spiltText(message: MessageShortcutSpiltText) {
     newText.characters = parts[i];
     figma.currentPage.appendChild(newText);
     newText.x = originalX
-    newText.y = originalY + node.height
+    newText.y = originalY
     spiltedTextNodes.push(newText);
 
     figma.currentPage.selection = [newText];
@@ -214,7 +214,14 @@ async function spiltText(message: MessageShortcutSpiltText) {
   }
 
   spaciiing.applySpacingToLayers(spiltedTextNodes, 8, "horizontal", false, false)
-  figma.notify(`Split into ${parts.length} text layers.`);
+  setTimeout(() => {
+    try {
+      node.remove();
+      figma.notify(`✅ Split into ${parts.length} text layers. Original node deleted.`);
+    } catch (e) {
+      console.error("Failed to remove node:", e);
+    }
+  }, 100); // 100ms is usually safe
 }
 
 async function numbering(message: MessageShortcutNumbering) {
