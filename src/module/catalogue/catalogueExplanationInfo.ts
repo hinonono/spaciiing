@@ -10,9 +10,7 @@ export function pushInfoAreaAdditionalContent(
     previewResources: PreviewResources,
     aliasResources: AliasResources,
     target: SceneNode[]
-) {
-    console.log(previewResources);
-    
+) {    
     if (styleMode === "COLOR") {
         if (!previewResources.colors) { throw new Error("Colors is required for this style mode.") }
 

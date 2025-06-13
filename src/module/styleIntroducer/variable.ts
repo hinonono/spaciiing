@@ -164,7 +164,6 @@ async function createGenericItem<T>(
     }
 ): Promise<FrameNode[]> {
     const explanationItems: FrameNode[] = [];
-    console.log("selected VAriables", selectedVariables)
 
     for (const variable of selectedVariables) {
         const aliasName: (string | undefined)[] = [];
@@ -184,12 +183,10 @@ async function createGenericItem<T>(
                 aliasVariableIds.push(aliasVariable.id);
             }
 
-            console.log("value", value)
             const resolvedValue = await resolveValueFn(value);
             values.push(resolvedValue);
         }
 
-        console.log(values);
         const filteredValues = values.filter((v): v is T => v !== null);
 
         const { id, description, name } = variable;
