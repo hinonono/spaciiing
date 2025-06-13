@@ -18,6 +18,9 @@ import {
 } from "../types/Messages/MessageShortcut";
 import { createAutoLayoutIndividually, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
 import * as info from "../info.json";
+import { SvgNote } from "../assets/icons";
+import SvgTag from "../assets/icons/SvgTag";
+import SvgSection from "../assets/icons/SvgSection";
 
 const Shortcut: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -174,6 +177,24 @@ const Shortcut: React.FC = () => {
     )
   }
 
+  const renderMagicObjectButtons = (buttons: ShortcutButtonConfig[]) => (
+    <div className="grid mt-xxxsmall">
+      {buttons.map(({ id, title, onClick, disabled, svg }, i) => (
+        <div className="flex">
+          <button
+            id={id}
+            onClick={onClick}
+            disabled={disabled}
+            className="button-reset magic-object-button"
+          >
+            <div className="icon-48">{svg}</div>
+            <span>{title}</span>
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+
   const renderMagicObjectShortcut = () => {
     if (appContext.editorType === "figma") {
       const buttons: ShortcutButtonConfig[] = [
@@ -182,24 +203,32 @@ const Shortcut: React.FC = () => {
           id: "shortcut-generate-note",
           onClick: () => applyShortcut("generateNote", false),
           disabled: appContext.editorPreference.magicObjects.noteId === "",
+          svg: <SvgNote />
         },
         {
           title: t("module:designStatusTag"),
           id: "shortcut-generate-design-status-tag",
           onClick: () => applyShortcut("generateDesignStatusTag", false),
           disabled: appContext.editorPreference.magicObjects.tagId === "",
+          svg: <SvgTag />
         },
         {
           title: t("module:titleSection"),
           id: "shortcut-generate-title-section",
           onClick: () => applyShortcut("generateTitleSection", false),
           disabled: appContext.editorPreference.magicObjects.sectionId === "",
+          svg: <SvgSection />
         },
       ];
 
 
       return (
-        renderShortcutSection(t("module:fileOrganizingObject"), buttons)
+        <div className="list-view mt-xsmall">
+          <ListViewHeader title={t("module:fileOrganizingObject")} additionalClass="property-clipboard-header" />
+          <div className="padding-16 border-1-top">
+            {renderMagicObjectButtons(buttons)}
+          </div>
+        </div>
       )
     } else {
       return null;

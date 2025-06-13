@@ -38,7 +38,7 @@
   "dayFiveMessage": "トライアルが間もなく終了することをお知らせするメールをお送りします。Gumroadからのメールで詳しい情報をご確認ください。",
   "daySeven": "7日目",
   "daySevenMessage": "購読が開始されます。ご利用されない場合は、それまでにキャンセルしていただくことで、料金は発生いたしません。",
-  "seeAllPlans": "全てのプランを見る",
+  "seeAllPlans": "料金を見る",
   "limitedOffer": "期間限定",
   "supportAndSubscriptionInfo": "購読とサポート情報",
   "supportAndSubscriptionInfoAnswer": "お客様の購読および支払い情報は、13年以上の経験を持つデジタルマーケットプレイスサービスプロバイダーであるGumroadによって安全に管理されます。購読に関してご質問がある場合は、support@gumroad.comまでメールでお問い合わせください。このプラグインに関連するサポートについては、contact@hsiehchengyi.comまでメールでご連絡ください。",
@@ -51,6 +51,6 @@
   "yearly": "年額プラン",
   "savePercent": "$PERCENT$ 割引",
   "freeTrialWorks": "無料トライアルの仕組み",
-  "freeUsersNeedToWait": "無料プランをご利用中の方は、次のステップに進むまで$TIME_REMAINING$秒お待ちいただく必要があります。有料プランにアップグレードすると、この待ち時間をスキップできます。",
-  "upgradeToSkipWaiting": "アップグレードして待ち時間をスキップ"
+  "freeUsersNeedToWait": "無料プランをご利用中の方は、次のステップに進むまで$TIME_REMAINING$秒お待ちいただく必要があります。有料プランに購読すると、この待ち時間をスキップできます。",
+  "upgradeToSkipWaiting": "有料プランは待ち時間なし"
 }

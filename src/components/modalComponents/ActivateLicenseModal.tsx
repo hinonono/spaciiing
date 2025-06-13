@@ -15,8 +15,9 @@ import * as util from "../../module/util";
 import { MessageLicenseManagement } from "../../types/Messages/MessageLicenseManagement";
 import { handleSubscriptionStatus } from "../../module-frontend/licenseManagementFrontEnd";
 import axios from "axios";
+import { LicenseKeyInput } from "..";
 
-interface ActivateLicenseModalProps {}
+interface ActivateLicenseModalProps { }
 
 const ActivateLicenseModal: React.FC<ActivateLicenseModalProps> = () => {
   const { t } = useTranslation(["license", "term"]);
@@ -106,32 +107,14 @@ const ActivateLicenseModal: React.FC<ActivateLicenseModalProps> = () => {
     setResponse(null);
   };
 
-  const LicenseKeyInput = () => (
-    <div className="mt-xxsmall">
-      <SectionTitle title={t("module:licenseKey")} />
-      <div className="width-100">
-        <textarea
-          className="textarea"
-          rows={1}
-          value={licenseKey}
-          onChange={(e) => setLicenseKey(e.target.value)}
-          placeholder={t("license:enterYourLicenseKeyHere")}
-        />
-        {response && (
-          <div>
-            <pre className="note success">{t("license:activateSuccess")}</pre>
-          </div>
-        )}
-        {error && (
-          <div>
-            <pre className="note error">{error}</pre>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  const handleLicenseKeyChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const value = event.target.value;
+    setLicenseKey(value);
+  };
 
-  const ActionButton = () =>
+  const renderActionButton = () =>
     !response ? (
       <FigmaButton
         title={t("license:proceed")}
@@ -152,9 +135,14 @@ const ActivateLicenseModal: React.FC<ActivateLicenseModalProps> = () => {
         <p>{t("license:enterLicenseKeyDescription")}</p>
         {isOnline ? (
           <>
-            <LicenseKeyInput />
+            <LicenseKeyInput
+              licenseKey={licenseKey}
+              onChange={handleLicenseKeyChange}
+              response={response}
+              error={error}
+            />
             <div className="mt-xsmall">
-              <ActionButton />
+              {renderActionButton()}
             </div>
           </>
         ) : (

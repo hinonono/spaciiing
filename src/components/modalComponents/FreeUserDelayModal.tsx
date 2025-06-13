@@ -4,6 +4,7 @@ import Modal from '../Modal';
 import { useTranslation } from "react-i18next";
 import FigmaButton from "../FigmaButton";
 import SubscriptionPlanBlock from "../SubscriptionPlanBlock";
+import { SvgSkip } from "../../assets/icons";
 
 interface FreeUserDelayModalProps {
 }
@@ -59,18 +60,20 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
         <div>
           <SubscriptionPlanBlock
             plan={"monthly"}
-            additionalClass={["subscription-block", "subscription-block-emphasize"]}
+            additionalClass={["subscription-background", "pro"]}
           />
         </div>
-        <div className="mt-xsmall">
-        <span className="note">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</span>
+        <div className="mt-xsmall flex align-items-center">
+          <span className="note mr-xxsmall">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</span>
           <FigmaButton
-              buttonType="secondary"
-              title={t("module:skip")}
-              onClick={handleProceedButtonClicked}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={true}
-              disabled={!canProceed}
+            buttonType="tertiary"
+            title={t("module:skip")}
+            onClick={handleProceedButtonClicked}
+            buttonHeight="medium"
+            hasTopBottomMargin={true}
+            disabled={!canProceed}
+            svgPosition="right"
+            svg={<SvgSkip color={canProceed ? "var(--figma-color-text)" : `var(--figma-color-text-disabled)`} />}
           />
         </div>
       </div>

@@ -98,8 +98,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       return (
         <div className="text-color-error p-xsmall font-size-small">
           Failed to process the {form} structure. The system encountered a
-          duplicate path: "{errorPath}". Please ensure that each path segment is
-          unique.
+          duplicate path: "{errorPath}". Please ensure that all {form} names are unique.
         </div>
       );
     }
@@ -208,24 +207,17 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             value={mode}
             onChange={(e) => setMode(e.target.value as StyleMode)}
           >
-            <option key="COLOR" value="COLOR">
-              {t("term:color")}
-            </option>
+            <option key="COLOR" value="COLOR">{t("term:color")}</option>
             {form === "VARIABLE" && (
               <>
-                <option key="FLOAT" value="FLOAT">
-                  {t("term:float")}
-                </option>
+                <option key="FLOAT" value="FLOAT">{t("term:float")}</option>
+                <option key="STRING" value="STRING">{t("term:string")}</option>
               </>
             )}
             {form === "STYLE" && (
               <>
-                <option key="EFFECT" value="EFFECT">
-                  {t("term:effect")}
-                </option>
-                <option key="TEXT" value="TEXT">
-                  {t("term:typography")}
-                </option>
+                <option key="EFFECT" value="EFFECT">{t("term:effect")}</option>
+                <option key="TEXT" value="TEXT">{t("term:typography")}</option>
               </>
             )}
           </select>

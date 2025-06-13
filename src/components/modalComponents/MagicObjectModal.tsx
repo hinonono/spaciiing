@@ -10,6 +10,9 @@ import {
   MessageShortcutUpdateMagicalObjectSingle,
 } from "../../types/Messages/MessageShortcut";
 import * as info from "../../info.json";
+import { SvgNote } from "../../assets/icons";
+import SvgTag from "../../assets/icons/SvgTag";
+import SvgSection from "../../assets/icons/SvgSection";
 
 interface MagicObjectModalProps {
   show: boolean;
@@ -69,15 +72,15 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
   return (
     <Modal show={show} handleClose={handleClose}>
       <h3>{t("module:fileOrganizingObject")}</h3>
+      <p>You can download these objects <a href="https://www.figma.com/@hsiehcy">here</a> for free.</p>
       <div>
-        <h4>{t("module:note")}</h4>
+        <h4 className="flex align-items-center"><div className="icon-24"><SvgNote /></div>{t("module:note")}</h4>
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.noteId == "" ? (
-            <span className="note">{t("module:noteHasNotBeenMemorized")}</span>
+            <span className="note">{t("module:objectIsNotMemorized")}</span>
           ) : (
             <span className="note">
-              {t("module:objectIsMemorizedWithId")}{" "}
-              {editorPreference.magicObjects.noteId}
+              {t("module:objectIsMemorizedWithId").replace("$LAYER_ID$", editorPreference.magicObjects.noteId)}
             </span>
           )}
           <FigmaButton
@@ -93,16 +96,15 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
         </div>
       </div>
       <div className="mt-small">
-        <h4>{t("module:designStatusTag")}</h4>
+        <h4 className="flex align-items-center"><div className="icon-24"><SvgTag /></div>{t("module:designStatusTag")}</h4>
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.tagId == "" ? (
             <span className="note">
-              {t("module:designStatusTagHasNotBeenMemorized")}
+              {t("module:objectIsNotMemorized")}
             </span>
           ) : (
             <span className="note">
-              {t("module:objectIsMemorizedWithId")}
-              {editorPreference.magicObjects.tagId}
+              {t("module:objectIsMemorizedWithId").replace("$LAYER_ID$", editorPreference.magicObjects.tagId)}
             </span>
           )}
           <FigmaButton
@@ -118,16 +120,15 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
         </div>
       </div>
       <div className="mt-small">
-        <h4>{t("module:titleSection")}</h4>
+        <h4 className="flex align-items-center"><div className="icon-24"><SvgSection /></div>{t("module:titleSection")}</h4>
         <div className="variable flex flex-justify-space-between align-items-center">
           {editorPreference.magicObjects.sectionId == "" ? (
             <span className="note">
-              {t("module:titleSectionHasNotBeenMemorized")}
+              {t("module:objectIsNotMemorized")}
             </span>
           ) : (
             <span className="note">
-              {t("module:objectIsMemorizedWithId")}{" "}
-              {editorPreference.magicObjects.sectionId}
+              {t("module:objectIsMemorizedWithId").replace("$LAYER_ID$", editorPreference.magicObjects.sectionId)}
             </span>
           )}
           <FigmaButton

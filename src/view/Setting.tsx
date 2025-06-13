@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
 import info from "../info.json";
+import { SvgEraser, SvgKey } from "../assets/icons";
 
 const Setting: React.FC = () => {
   // Context
@@ -39,60 +40,55 @@ const Setting: React.FC = () => {
         {/*  訂閱 */}
         <div>
           <h3>{t("license:subscriptionSectionTitle")}</h3>
-          <div>
-            {licenseManagement.tier == "PAID" ? (
-              <div className="membership-block pro">
-                <p className="color--secondary">{t("license:currenTier")}</p>
-                <span>
-                  {licenseManagement.recurrence === "monthly"
-                    ? t("license:monthly")
-                    : t("license:yearly")}
+          <div className={`subscription-background ${licenseManagement.tier === "PAID" ? "pro" : ""}`}>
+            <div>
+              {licenseManagement.tier == "PAID" ? (
+                <h4>{licenseManagement.recurrence === "monthly" ? t("license:monthly") : t("license:yearly")}</h4>
+              ) : (
+                <h4>{t("license:free")}</h4>
+              )}
+            </div>
+            {/* <div className="mt-xxsmall">
+              {licenseManagement.tier !== "FREE" && (
+                <span className="note">
+                  {t("license:licenseStatus")}:{" "}
+                  {licenseManagement.isLicenseActive == true
+                    ? t("license:licenseActive")
+                    : t("license:licenseInactive")}
                 </span>
-              </div>
-            ) : (
-              <div className="membership-block">
-                <p className="color--secondary">{t("license:currenTier")}</p>
-                <span>{t("license:free")}</span>
-              </div>
-            )}
-          </div>
-          <div className="mt-xxsmall">
-            {licenseManagement.tier !== "FREE" && (
-              <span className="note">
-                {t("license:licenseStatus")}:{" "}
-                {licenseManagement.isLicenseActive == true
-                  ? t("license:licenseActive")
-                  : t("license:licenseInactive")}
-              </span>
-            )}
-          </div>
-          <div className="mt-xsmall grid">
-            <FigmaButton
-              buttonType="secondary"
-              title={t("license:activateLicense")}
-              onClick={() => {
-                setShowActivateModal(true);
-              }}
-            />
-            {licenseManagement.tier === "PAID" && (
+              )}
+            </div> */}
+            <div className="mt-xsmall grid">
               <FigmaButton
-                title={t("license:eraseLicense")}
-                buttonType="secondary"
+                buttonType="tertiary"
+                title={t("license:activateLicense")}
                 onClick={() => {
-                  licenseManagementFrontEnd.eraseLicense(setLicenseManagement);
+                  setShowActivateModal(true);
                 }}
+                svg={<SvgKey color="var(--figma-color-text)" />}
               />
-            )}
-            {licenseManagement.tier !== "PAID" && (
-              <FigmaButton
-                title={t("license:seeAllPlans")}
-                buttonType="special"
-                onClick={() => {
-                  setShowCTSubscribe(true);
-                }}
-              />
-            )}
+              {licenseManagement.tier === "PAID" && (
+                <FigmaButton
+                  title={t("license:eraseLicense")}
+                  buttonType="tertiary"
+                  onClick={() => {
+                    licenseManagementFrontEnd.eraseLicense(setLicenseManagement);
+                  }}
+                  svg={<SvgEraser color="var(--figma-color-text)" />}
+                />
+              )}
+              {licenseManagement.tier !== "PAID" && (
+                <FigmaButton
+                  title={t("license:seeAllPlans")}
+                  buttonType="special"
+                  onClick={() => {
+                    setShowCTSubscribe(true);
+                  }}
+                />
+              )}
+            </div>
           </div>
+
         </div>
         {/* 偏好語言 */}
         <div className="mt-large">
