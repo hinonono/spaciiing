@@ -7,6 +7,7 @@ import {
   formatNumberToDecimals,
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
+import { SinglePropertyString } from "../types/SinglePropertyString";
 
 
 /**
@@ -101,30 +102,36 @@ export function createTextPropertiesWrappers(
   const paragraphSpacingContent = formatNumberToDecimals(textStyle.paragraphSpacing, 2);
   const textCaseContent = textStyle.textCase.charAt(0).toUpperCase() + textStyle.textCase.slice(1).toLowerCase();
 
-  const textPropertiesToCreate = [
+  const textPropertiesToCreate: SinglePropertyString[] = [
     {
       title: "Font Name",
-      content: fontNameContent
+      content: fontNameContent,
+      show: true
     },
     {
       title: "Font Size",
       content: fontSizeContent,
+      show: true
     },
     {
       title: "Line Height",
       content: lineHeightContent,
+      show: true
     },
     {
       title: "Letter Spacing",
-      content: letterSpacingContent
+      content: letterSpacingContent,
+      show: true
     },
     {
       title: "Paragraph Spacing",
-      content: paragraphSpacingContent
+      content: paragraphSpacingContent,
+      show: true
     },
     {
       title: "Text Case",
       content: textCaseContent,
+      show: true
     }
   ]
 
@@ -149,17 +156,45 @@ function createGenericEffectTitle(
   fontName: FontName,
 ) {
   let title: string;
-  if (effect.type === "DROP_SHADOW") {
-    title = `Layer ${index + 1} - Drop Shadow`
-
-  } else if (effect.type === "INNER_SHADOW") {
-    title = `Layer ${index + 1} - Inner Shadow`
-
-  } else if (effect.type === "BACKGROUND_BLUR") {
-    title = `Layer ${index + 1} - Background Blur`
-
-  } else {
-    title = `Layer ${index + 1} - Layer Blur`
+  switch (effect.type) {
+    case "DROP_SHADOW":
+      title = `Layer ${index + 1} - Drop Shadow`
+      break;
+    case "INNER_SHADOW":
+      title = `Layer ${index + 1} - Inner Shadow`
+      break;
+    case "LAYER_BLUR":
+      if (effect.blurType === "NORMAL") {
+        // Uniform
+        title = `Layer ${index + 1} - Layer Blur (Uniform)`
+      } else {
+        // Progressive
+        title = `Layer ${index + 1} - Layer Blur (Progressive)`
+      }
+      break;
+    case "BACKGROUND_BLUR":
+      if (effect.blurType === "NORMAL") {
+        // Uniform
+        title = `Layer ${index + 1} - Layer Blur (Uniform)`
+      } else {
+        // Progressive
+        title = `Layer ${index + 1} - Layer Blur (Progressive)`
+      }
+      break;
+    case "NOISE":
+      if (effect.noiseType === "MONOTONE") {
+        title = `Layer ${index + 1} - Noise (Mono)`
+      } else if (effect.noiseType === "DUOTONE") {
+        title = `Layer ${index + 1} - Noise (Duo)`
+      } else {
+        title = `Layer ${index + 1} - Noise (Multi)`
+      }
+      break;
+    case "TEXTURE":
+      title = `Layer ${index + 1} - Texture`
+      break;
+    default:
+      throw new Error("Unsupported effect type.")
   }
 
   const node = createTextNode(
@@ -174,56 +209,91 @@ function createGenericEffectTitle(
 
 function getEffectPropertiesToCreate(
   effect: Effect
-): {
-  title: string;
-  content: string;
-}[] {
+): SinglePropertyString[] {
   if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
-    const effectPropertiesToCreate = [
+    const effectPropertiesToCreate: SinglePropertyString[] = [
       {
         title: "Color",
         content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
+        show: true
       },
       {
         title: "Opacity",
         content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
+        show: true
       },
       {
         title: "X",
         content: `${effect.offset.x}`,
+        show: true
       },
       {
         title: "Y",
         content: `${effect.offset.y}`,
+        show: true
       },
       {
         title: "Blur",
         content: `${effect.radius}`,
+        show: true
       },
       {
         title: "Spread",
         content: effect.spread ? `${effect.spread}` : "0",
+        show: true
       }
     ]
     return effectPropertiesToCreate
   } else if (effect.type === "LAYER_BLUR" || effect.type === "BACKGROUND_BLUR") {
-    const effectPropertiesToCreate = [
-      {
-        title: "Blur",
-        content: `${effect.radius}`,
-      },
-      {
-        title: "Place Holder",
-        content: "0",
-      }
-    ]
+    if (effect.blurType === "NORMAL") {
+      // Normal
+      const effectPropertiesToCreate: SinglePropertyString[] = [
+        {
+          title: "Blur Type",
+          content: `${effect.blurType}`,
+          show: true
+        },
+        {
+          title: "Blur",
+          content: `${effect.radius}`,
+          show: true
+        }
+      ]
+      return effectPropertiesToCreate
 
-    return effectPropertiesToCreate
+    } else {
+      // Progressive
+      const effectPropertiesToCreate: SinglePropertyString[] = [
+        {
+          title: "Blur Type",
+          content: `${effect.blurType}`,
+          show: true
+        },
+        {
+          title: "Start",
+          content: `${effect.startRadius}`,
+          show: true
+        },
+        {
+          title: "End",
+          content: `${effect.radius}`,
+          show: true
+        },
+        {
+          title: "Place Holder",
+          content: "0",
+          show: false
+        }
+      ]
+      return effectPropertiesToCreate
+
+    }
   } else {
-    const effectPropertiesToCreate = [
+    const effectPropertiesToCreate: SinglePropertyString[] = [
       {
         title: "NOT SUPPORTED",
         content: "0",
+        show: false
       }
     ]
 
@@ -296,31 +366,39 @@ export function createEffectPropertiesWrappers(
         contentNode.textAlignHorizontal = "RIGHT";
 
         const propertyNode = createExplanationSinglePropertyItem(property.title, contentNode, fontName);
-        if (property.title === "Place Holder") {
+        if (property.show === false) {
           propertyNode.opacity = 0;
         }
 
         effectPropertiesNodes.push(propertyNode);
       });
 
-      const tempWrapper1 = createAutolayoutFrame(
-        [...effectPropertiesNodes],
-        semanticTokens.spacing.xsmall,
-        "HORIZONTAL"
-      );
+      const groupedPropertyNodes = pairNodesByTwo(effectPropertiesNodes)
+
+      // const tempWrapper1 = createAutolayoutFrame(
+      //   [...effectPropertiesNodes],
+      //   semanticTokens.spacing.xsmall,
+      //   "HORIZONTAL"
+      // );
 
       effectPropertiesNodes.forEach((n) => {
         n.layoutSizingHorizontal = "FILL";
         n.layoutSizingVertical = "HUG";
       });
 
-      effectWrapper.appendChild(tempWrapper1);
+      groupedPropertyNodes.forEach((g) => {
+        effectWrapper.appendChild(g);
+        g.layoutSizingHorizontal = "FILL"
+        g.layoutSizingVertical = "HUG"
+      })
 
-      [tempWrapper1].forEach((n) => {
-        n.name = "Properties";
-        n.layoutSizingVertical = "HUG";
-        n.layoutSizingHorizontal = "FILL";
-      });
+      // effectWrapper.appendChild(tempWrapper1);
+
+      // [tempWrapper1].forEach((n) => {
+      //   n.name = "Properties";
+      //   n.layoutSizingVertical = "HUG";
+      //   n.layoutSizingHorizontal = "FILL";
+      // });
 
     }
 
