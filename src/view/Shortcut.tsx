@@ -9,6 +9,7 @@ import {
   LoremIpsumModal,
   MagicObjectModal,
   NumberingModal,
+  SpiltTextModal,
   UnifyTextModal,
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
@@ -62,6 +63,11 @@ const Shortcut: React.FC = () => {
   const [showNumberingModal, setShowNumberingModal] = useState(false);
   const handleOpenNumberingModal = () => setShowNumberingModal(true);
   const handleCloseNumberingModal = () => setShowNumberingModal(false);
+
+  // 文字分割彈窗
+  const [spiltTextModal, setSpiltTextModal] = useState(false);
+  const handleOpenSpiltTextModal = () => setSpiltTextModal(true)
+  const handleCloseSpiltTextModal = () => setSpiltTextModal(false);
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -194,6 +200,10 @@ const Shortcut: React.FC = () => {
         title: t("module:numberingTextLayers"),
         onClick: handleOpenNumberingModal,
       },
+      {
+        title: t("module:spiltText"),
+        onClick: handleOpenSpiltTextModal,
+      }
     ];
 
 
@@ -372,6 +382,10 @@ const Shortcut: React.FC = () => {
         <NumberingModal
           show={showNumberingModal}
           handleClose={handleCloseNumberingModal}
+        />
+        <SpiltTextModal
+          show={spiltTextModal}
+          handleClose={handleCloseSpiltTextModal}
         />
       </div>
       <TitleBar

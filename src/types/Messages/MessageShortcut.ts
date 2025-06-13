@@ -24,6 +24,7 @@ export type ShortcutAction =
   | "updateExampleFileUrl"
   | "numbering"
   | "updateArrowPosition"
+  | "spiltText"
   | "debug";
 
 export type NumberingForm =
@@ -61,4 +62,8 @@ export interface MessageShortcutNumbering extends MessageShortcut {
   numberingdirection: Direction,
   numberingForm: NumberingForm
   startFrom?: number;
+}
+
+export interface MessageShortcutSpiltText extends MessageShortcut {
+  spiltSymbol: string;
 }

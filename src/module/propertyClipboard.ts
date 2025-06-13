@@ -1,3 +1,4 @@
+import { PropertyClipboardAction } from './../types/Messages/MessagePropertyClipboard';
 import { CopyPastableNode } from "../types/CopyPastableNode";
 import {
   ExternalMessageShowNestedComponentProperties,
@@ -159,6 +160,30 @@ function pasteInstancePropertyToObject(
       }
     }
   });
+}
+
+export async function pastePropertyComposer(
+  action: PropertyClipboardAction,
+  referenceObjectId: string,
+  property: PropertyClipboardSupportedProperty[],
+  behavior?: PasteBehavior
+) {
+  const message: MessagePropertyClipboard = {
+    action: action,
+    referenceObject: {
+      name: "internal",
+      id: referenceObjectId,
+      layerType: "internal"
+    },
+    property: property,
+    behavior: behavior,
+    module: 'PropertyClipboard',
+    phase: "Actual"
+  }
+
+  console.log(message)
+
+  await pastePropertyController(message);
 }
 
 async function pastePropertyController(message: MessagePropertyClipboard) {

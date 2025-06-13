@@ -1,5 +1,6 @@
 import * as util from "./util";
 import * as spaciiing from "./spaciiing";
+import * as propertyClipboard from "./propertyClipboard";
 import { MagicObjectMembers } from "../types/MagicObject";
 import {
   MessageShortcut,
@@ -7,6 +8,7 @@ import {
   MessageShortcutGenerateIconTemplate,
   MessageShortcutGenerateMagicalObjectMember,
   MessageShortcutNumbering,
+  MessageShortcutSpiltText,
   MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
@@ -90,6 +92,9 @@ export function executeShortcut(message: MessageShortcut) {
       case "updateArrowPosition":
         updateArrowPosition();
         break;
+      case "spiltText":
+        spiltText(message as MessageShortcutSpiltText)
+        break;
       case "debug":
         debugFunction();
         break;
@@ -116,6 +121,100 @@ function debugFunction() {
 
   figma.notify("OK!")
 
+}
+
+async function spiltText(message: MessageShortcutSpiltText) {
+  const { spiltSymbol } = message;
+  const selection = util.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("No nodes selected.");
+    return;
+  }
+
+  if (selection.length > 1) {
+    figma.notify("Please select only one text layer.");
+    return;
+  }
+
+  const node = selection[0];
+
+  if (node.type !== "TEXT") {
+    figma.notify("Selected node is not a text layer.");
+    return;
+  }
+
+  await util.ensureFontIsLoaded(node);
+  await figma.loadFontAsync({ family: "Inter", style: "Regular" })
+
+  const originalText = node.characters;
+  const parts = originalText.split(spiltSymbol).map(part => part.trim()).filter(part => part.length > 0);
+
+  if (parts.length <= 1) {
+    figma.notify("Nothing to split. Text does not contain the split symbol.");
+    return;
+  }
+
+  const parent = node.parent;
+  if (!parent) {
+    figma.notify("Cannot add new layers. Parent not found.");
+    return;
+  }
+
+  const originalX = node.x;
+  const originalY = node.y;
+
+  let spiltedTextNodes: TextNode[] = [];
+
+  // Create new text layers
+  for (let i = 0; i < parts.length; i++) {
+    const newText = figma.createText();
+    newText.characters = parts[i];
+    figma.currentPage.appendChild(newText);
+    newText.x = originalX
+    newText.y = originalY + node.height
+    spiltedTextNodes.push(newText);
+
+    figma.currentPage.selection = [newText];
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["LAYER_OPACITY", "LAYER_BLEND_MODE"],
+      "pasteToReplace"
+    )
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["FONT_NAME", "FONT_SIZE", "LINE_HEIGHT", "LETTER_SPACING", "ALIGNMENT"],
+      "pasteToReplace"
+    )
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["FILL_ALL"],
+      "pasteToReplace"
+    )
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["STROKES", "STROKE_ALIGN", "STROKE_WEIGHT", "STROKE_STYLE", "STROKE_DASH", "STROKE_GAP", "STROKE_CAP", "STROKE_JOIN", "STROKE_MITER_LIMIT",],
+      "pasteToReplace"
+    )
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["EFFECT_ALL"],
+      "pasteToReplace"
+    )
+  }
+
+  spaciiing.applySpacingToLayers(spiltedTextNodes, 8, "horizontal", false, false)
+  figma.notify(`Split into ${parts.length} text layers.`);
 }
 
 async function numbering(message: MessageShortcutNumbering) {

@@ -202,5 +202,7 @@
   "ltrTtb": "From left to right, then from top to bottom",
   "ttbLtr": "From top to bottom, then from left to right",
   "updateArrowPosition": "Update Arrows Position",
-  "useTextLayerContent": "Use text layer content as rename source"
+  "useTextLayerContent": "Use text layer content as rename source",
+  "spiltText": "Spilt Text",
+  "spiltBasedOn": "Spilt based on"
 }

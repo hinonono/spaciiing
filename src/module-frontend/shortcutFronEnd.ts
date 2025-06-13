@@ -1,3 +1,4 @@
+import { MessageShortcutSpiltText } from './../types/Messages/MessageShortcut';
 import { AppContextType } from "../AppProvider";
 import { Message } from "../types/Messages/Message";
 import { MessageShortcut, MessageShortcutNumbering, NumberingForm } from "../types/Messages/MessageShortcut";
@@ -59,8 +60,6 @@ export const applyNumbering = (appContext: AppContextType, direction: Direction,
     }
   }
 
-
-
   const message: MessageShortcutNumbering = {
     module: "Shortcut",
     action: "numbering",
@@ -70,11 +69,29 @@ export const applyNumbering = (appContext: AppContextType, direction: Direction,
     numberingForm: form,
     startFrom: startfrom
   };
-
-  console.log(message);
-
   parent.postMessage({ pluginMessage: message, }, "*");
+};
 
+export const applySpiltText = (appContext: AppContextType, spiltSymbol: string, isRealCall = false) => {
+  if (!isRealCall) {
+    if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
+      appContext.setFreeUserDelayModalConfig({
+        show: true,
+        initialTime: info.freeUserWaitingTime,
+        onProceed: () => applySpiltText(appContext, spiltSymbol, true),
+      });
+      return;
+    }
+  }
+
+  const message: MessageShortcutSpiltText = {
+    module: "Shortcut",
+    action: "spiltText",
+    direction: "Inner",
+    phase: "Actual",
+    spiltSymbol: spiltSymbol
+  };
+  parent.postMessage({ pluginMessage: message, }, "*");
 };
 
 export interface ShortcutButtonConfig {
