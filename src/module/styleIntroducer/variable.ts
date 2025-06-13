@@ -9,8 +9,6 @@ import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper"
 import * as styledTextSegments from "../styledTextSegments";
 import * as typeChecking from "../typeChecking";
 
-import { semanticTokens } from "../tokens";
-
 export async function applyStyleIntroducerForVariable(
     message: MessageStyleIntroducer
 ) {
@@ -166,6 +164,7 @@ async function createGenericItem<T>(
     }
 ): Promise<FrameNode[]> {
     const explanationItems: FrameNode[] = [];
+    console.log("selected VAriables", selectedVariables)
 
     for (const variable of selectedVariables) {
         const aliasName: (string | undefined)[] = [];
@@ -185,10 +184,12 @@ async function createGenericItem<T>(
                 aliasVariableIds.push(aliasVariable.id);
             }
 
+            console.log("value", value)
             const resolvedValue = await resolveValueFn(value);
             values.push(resolvedValue);
         }
 
+        console.log(values);
         const filteredValues = values.filter((v): v is T => v !== null);
 
         const { id, description, name } = variable;
