@@ -835,3 +835,8 @@ export async function ensureFontIsLoaded(textNode: TextNode) {
   const fontName = textNode.fontName as FontName;
   await figma.loadFontAsync(fontName);
 }
+
+export function capitalizeFirstLetter(str: string): string {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

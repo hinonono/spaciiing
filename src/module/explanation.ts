@@ -5,6 +5,7 @@ import {
   rgbToHex,
   setPadding,
   formatNumberToDecimals,
+  capitalizeFirstLetter
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
 import { SinglePropertyString } from "../types/SinglePropertyString";
@@ -318,6 +319,11 @@ function getEffectPropertiesToCreate(
           content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
           show: true
         },
+        {
+          title: "Placeholder",
+          content: "0",
+          show: false
+        }
       ]
 
       return effectPropertiesToCreate
@@ -360,6 +366,11 @@ function getEffectPropertiesToCreate(
           content: `${formatNumberToDecimals(effect.secondaryColor.a * 100)}%`,
           show: true
         },
+        {
+          title: "Placeholder",
+          content: "0",
+          show: false
+        }
       ]
 
       return effectPropertiesToCreate
@@ -404,8 +415,13 @@ function getEffectPropertiesToCreate(
       },
       {
         title: "Clip To Shape",
-        content: `${effect.clipToShape}`,
+        content: capitalizeFirstLetter(`${effect.clipToShape}`),
         show: true
+      },
+      {
+        title: "Placeholder",
+        content: "0",
+        show: false
       }
     ]
 
