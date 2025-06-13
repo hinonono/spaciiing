@@ -159,14 +159,15 @@ input {
   justify-content: space-between;
   overflow: hidden;
   transition: var(--cy-animation-default);
-  padding: 6px;
+  padding: 4px;
   background: var(--figma-color-bg-secondary);
+  min-height: 40px;
 }
 .custom-segmented-control input[type=radio] {
   display: none;
 }
 .custom-segmented-control input[type=radio] + label {
-  transition: var(--cy-animation-default);
+  transition: scale 0.3s;
 }
 .custom-segmented-control input[type=radio]:checked + label {
   background: var(--figma-color-bg);
@@ -186,9 +187,8 @@ input {
   z-index: 1;
 }
 .custom-segmented-control input[type=radio]:hover:not(:checked) + label {
-  background-color: var(--figma-color-bg-secondary);
+  background-color: var(--figma-color-bg-tertiary);
   scale: 0.95;
-  z-index: 1;
 }
 .custom-segmented-control input[type=radio]:active:checked + label {
   scale: 0.8;
@@ -201,7 +201,7 @@ input {
 }
 .custom-segmented-control label {
   display: flex;
-  padding: 2px 6px;
+  padding: 4px 6px;
   cursor: pointer;
   font-size: var(--font-size-large);
   width: 100%;
@@ -228,9 +228,6 @@ input {
   }
   .custom-segmented-control input[type=radio] {
     display: none;
-  }
-  .custom-segmented-control input[type=radio] + label {
-    transition: var(--cy-animation-default);
   }
   .custom-segmented-control input[type=radio]:checked + label {
     background: #545454;

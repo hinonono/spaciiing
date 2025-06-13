@@ -5,8 +5,9 @@
     justify-content: space-between;
     overflow: hidden;
     transition: var(--cy-animation-default);
-    padding: 6px;
+    padding: 4px;
     background: var(--figma-color-bg-secondary);
+    min-height: 40px;
 
     // &:hover {
     //     border-color: var(--cy-border-dark);
@@ -16,7 +17,7 @@
         display: none;
 
         &+label {
-            transition: var(--cy-animation-default);
+            transition: scale 0.3s;
         }
 
         &:checked+label {
@@ -41,9 +42,9 @@
         }
 
         &:hover:not(:checked)+label {
-            background-color: var(--figma-color-bg-secondary);
+            background-color: var(--figma-color-bg-tertiary);
             scale: 0.95;
-            z-index: 1;
+            // z-index: 1;
         }
 
         &:active:checked+label {
@@ -62,7 +63,7 @@
     label {
         display: flex;
         // margin-bottom: 0;
-        padding: 2px 6px;
+        padding: 4px 6px;
         cursor: pointer;
         font-size: var(--font-size-large);
         width: 100%;
@@ -95,10 +96,6 @@
 
         input[type="radio"] {
             display: none;
-
-            &+label {
-                transition: var(--cy-animation-default);
-            }
 
             &:checked+label {
                 background: #545454;
