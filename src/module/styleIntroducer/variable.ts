@@ -9,7 +9,7 @@ import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper"
 import * as styledTextSegments from "../styledTextSegments";
 import * as typeChecking from "../typeChecking";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
-import { getCatalogueLocalization } from "../catalogue/catalogueLocalization";
+import { createCatalogueLocalizationResource } from "../catalogue/catalogueLocalization";
 
 export async function applyStyleIntroducerForVariable(
     message: MessageStyleIntroducer
@@ -26,10 +26,7 @@ export async function applyStyleIntroducerForVariable(
     const fontsToLoad = [fontNameRegular, fontNameSemi];
     await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
-    const lr: CatalogueLocalizationResources = {
-        term: getCatalogueLocalization(lang, "term"),
-        module: getCatalogueLocalization(lang, "module")
-    }
+    const lr: CatalogueLocalizationResources = createCatalogueLocalizationResource(lang);
 
     const localVariables = await getLocalVariables(styleMode);
     const selectedVariables = await getSelectedVariables(scopes, localVariables);

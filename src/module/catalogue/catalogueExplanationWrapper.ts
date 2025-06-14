@@ -74,9 +74,15 @@ export function createExplanationWrapper(
     return wrapperFrame;
 }
 
-function createDateString(lr: CatalogueLocalizationResources, isItemLinkEnabled: boolean) {
-    let text = `${lr.module["createdAt"].replace("$TIME$", util.getFormattedDate("fullDateTime"))}`;
-    if (isItemLinkEnabled) { text.concat(lr.module["crossCatalogueReferenceEnabled"]); }
+function createDateString(lr: CatalogueLocalizationResources, isItemLinkEnabled: boolean): string {
+    const localeFormat = lr.lang === "enUS" ? "western" : "eastern";
+    const formattedDate = util.getFormattedDate("fullDateTime", localeFormat);
+
+    let text = lr.module["createdAt"].replace("$TIME$", formattedDate);
+
+    if (isItemLinkEnabled) {
+        text += lr.module["crossCatalogueReferenceEnabled"];
+    }
 
     return text;
 }

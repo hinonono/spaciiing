@@ -8,8 +8,9 @@ import term_en_US from "../../../public/locales/en-US/term.json";
 import term_ja_JP from "../../../public/locales/ja-JP/term.json";
 import term_zh_TW from "../../../public/locales/zh-TW/term.json";
 import term_zh_CN from "../../../public/locales/zh-CN/term.json";
+import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 
-export function getCatalogueLocalization(lang: string, file: "module" | "term"): { [key: string]: string } {
+function getCatalogueLocalization(lang: string, file: "module" | "term"): { [key: string]: string } {
     if (file === "module") {
         switch (lang) {
             case "enUS":
@@ -36,5 +37,13 @@ export function getCatalogueLocalization(lang: string, file: "module" | "term"):
             default:
                 throw new Error(`Unsupported Language Key. Got ${lang}.`)
         }
+    }
+}
+
+export function createCatalogueLocalizationResource(lang: string): CatalogueLocalizationResources {
+    return {
+        lang: lang,
+        term: getCatalogueLocalization(lang, "term"),
+        module: getCatalogueLocalization(lang, "module")
     }
 }

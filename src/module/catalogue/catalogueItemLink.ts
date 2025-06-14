@@ -18,7 +18,6 @@ export function checkCatalogueItemLinkFeatureAvailability(): { availability: boo
 }
 
 // 將型錄的描述寫回Figma的原生欄位
-// 将型錄的描述写回Figma的原生欄位
 export async function writeCatalogueDescBackToFigma() {
     const selection = util.getCurrentSelection();
 
@@ -99,7 +98,7 @@ export async function writeCatalogueDescBackToFigma() {
         }
     }
 
-    const dateString = `Description updated back to Figma at ${util.getFormattedDate("fullDateTime")}.`;
+    const dateString = `Description updated back to Figma at ${util.getFormattedDate("fullDateTime", "western")}.`;
     const wroteBackDateNode = util.createTextNode(
         dateString,
         { family: "Inter", style: "Semi Bold" },

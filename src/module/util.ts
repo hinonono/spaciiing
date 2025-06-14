@@ -427,7 +427,10 @@ export function hexToRgba(hex: string, opacity: number): RGBA | null {
  *
  * @throws {Error} If the provided format is unsupported.
  */
-export function getFormattedDate(format: "shortDate" | "fullDateTime"): string {
+export function getFormattedDate(
+  format: "shortDate" | "fullDateTime",
+  preferredStyle: "western" | "eastern"
+): string {
   const date = new Date();
 
   const year = date.getFullYear();
@@ -439,9 +442,9 @@ export function getFormattedDate(format: "shortDate" | "fullDateTime"): string {
   const seconds = String(date.getSeconds()).padStart(2, "0");
 
   if (format === "shortDate") {
-    return `${day}/${month}`;
+    return preferredStyle === "western" ? `${day}/${month}` : `${month}/${day}`;
   } else if (format === "fullDateTime") {
-    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    return preferredStyle === "western" ? `${day}/${month}/${year} ${hours}:${minutes}:${seconds}` : `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
   } else {
     throw new Error("Unsupported format");
   }
