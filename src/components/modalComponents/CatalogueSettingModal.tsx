@@ -16,7 +16,7 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
   show,
   handleClose
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
   const {
     licenseManagement,
     setShowCTSubscribe,
@@ -78,7 +78,7 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
             rows={5}
             value={editorPreference.exampleFileUrl}
             onChange={handleFileUrlChange}
-            placeholder={t("module:text")}
+            placeholder={t("term:text")}
           />
         </div>
       </div>

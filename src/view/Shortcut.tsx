@@ -208,7 +208,7 @@ const Shortcut: React.FC = () => {
 
 
     return (
-      renderShortcutSection(t("module:text"), buttons)
+      renderShortcutSection(t("term:text"), buttons)
     )
   }
 
@@ -335,7 +335,7 @@ const Shortcut: React.FC = () => {
 
     return (
 
-      renderShortcutSection(t("module:frame"), buttons)
+      renderShortcutSection(t("term:frame"), buttons)
     )
   }
 

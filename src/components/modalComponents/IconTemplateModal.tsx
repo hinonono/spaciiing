@@ -24,7 +24,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   show,
   handleClose,
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
   const {
     licenseManagement,
     setShowCTSubscribe,
@@ -169,7 +169,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   return (
     <Modal show={show} handleClose={handleClose}>
       <div>
-        <SectionTitle title={t("module:size")} />
+        <SectionTitle title={t("term:size")} />
         <SegmentedControl
           inputName="icon-size"
           value={tempIconSize}

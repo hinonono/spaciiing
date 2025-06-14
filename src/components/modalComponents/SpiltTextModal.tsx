@@ -49,7 +49,7 @@ const SpiltTextModal: React.FC<SpiltTextModalProps> = ({
         >
           <option value="SPACE">{t("module:space")}</option>
           <option value="LINE_BREAK">{t("module:lineBreak")}</option>
-          <option value="CUSTOM">{t("module:custom")}</option>
+          <option value="CUSTOM">{t("term:custom")}</option>
         </select>
         {spiltType === "CUSTOM" && <>
           <div className="mt-xxsmall"></div>

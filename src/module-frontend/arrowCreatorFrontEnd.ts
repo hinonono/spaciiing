@@ -89,7 +89,7 @@ export const strokeStyles = [
     },
     {
         type: "custom",
-        labelKey: "module:custom",
+        labelKey: "term:custom",
     }
 ]
 

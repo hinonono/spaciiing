@@ -270,7 +270,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         )}
         {strokeStyle === "custom" && (
           <div>
-            <SectionTitle title={t("module:custom")} titleType="secondary" />
+            <SectionTitle title={t("term:custom")} titleType="secondary" />
             <div className="width-100">
               <textarea
                 className="textarea textarea-height-fit-content"

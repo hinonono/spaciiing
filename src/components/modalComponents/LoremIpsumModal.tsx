@@ -21,7 +21,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
   show,
   handleClose,
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
   const {
     licenseManagement,
     setShowCTSubscribe,
@@ -83,13 +83,13 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
         </SegmentedControl>
       </div>
       <div className="mt-xxsmall">
-        <SectionTitle title={t("module:text")} />
+        <SectionTitle title={t("term:text")} />
         <textarea
           className="textarea"
           rows={5}
           value={editorPreference.lorem}
           onChange={handleLoremChange}
-          placeholder={t("module:text")}
+          placeholder={t("term:text")}
         />
       </div>
 

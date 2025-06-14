@@ -26,7 +26,7 @@ const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
   targetItemConnectPointPosition,
   setTargetItemConnectPointPosition
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["term"]);
 
   return (
     <div className={`connect-point-container ${direction}`}>
@@ -46,7 +46,7 @@ const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
               }
             />
           ))}
-          <span className='text-color-secondary font-size-large'>{isStart ? t("module:start") : t("module:end")}</span>
+          <span className='text-color-secondary font-size-large'>{isStart ? t("term:start") : t("term:end")}</span>
         </div>
       ))}
     </div>
