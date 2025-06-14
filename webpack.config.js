@@ -57,7 +57,7 @@ module.exports = (env, argv) => {
             new TerserPlugin({
               terserOptions: {
                 compress: {
-                  drop_console: false, // Remove console logs
+                  drop_console: true, // Remove console logs
                   drop_debugger: true,
                   dead_code: true,// Eliminates unused code
                   unused: true,
@@ -72,17 +72,5 @@ module.exports = (env, argv) => {
           ],
         }
       : {},
-    // devServer: {
-    //   static: [
-    //     {
-    //       directory: path.join(__dirname, "dist"),
-    //     },
-    //     {
-    //       directory: path.join(__dirname, "public"),
-    //     },
-    //   ],
-    //   compress: true,
-    //   port: 9000,
-    // },
   };
 };
