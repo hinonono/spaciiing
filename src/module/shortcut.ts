@@ -85,7 +85,8 @@ export function executeShortcut(message: MessageShortcut) {
         createAutoLayoutIndividually();
         break;
       case "updateCatalogueDescBackToFigma":
-        writeCatalogueDescBackToFigma();
+        if (!message.lang) { throw new Error("Lang is required to update catalogue description back to figma.") }
+        writeCatalogueDescBackToFigma(message.lang);
         break;
       case "numbering":
         numbering(message as MessageShortcutNumbering);

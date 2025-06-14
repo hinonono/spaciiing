@@ -25,7 +25,7 @@ import SvgTag from "../assets/icons/SvgTag";
 import SvgSection from "../assets/icons/SvgSection";
 
 const Shortcut: React.FC = () => {
-  const { t } = useTranslation(["module", "term"]);
+  const { t, i18n } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -92,6 +92,7 @@ const Shortcut: React.FC = () => {
       action: action,
       direction: "Inner",
       phase: "Actual",
+      lang: i18n.language
     };
 
     switch (action) {

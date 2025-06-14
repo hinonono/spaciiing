@@ -3,6 +3,7 @@ import * as util from "../util";
 import * as CLUtil from "./catalogueUtil";
 import * as styledTextSegments from "../styledTextSegments";
 import { semanticTokens } from "../tokens";
+import { createCatalogueLocalizationResource } from "./catalogueLocalization";
 
 // 檢查是否啟用cataloge item link功能
 // 啟用的話，當產生型錄物件時，可以透過alias物件來連結回參照的物件那裡
@@ -18,7 +19,7 @@ export function checkCatalogueItemLinkFeatureAvailability(): { availability: boo
 }
 
 // 將型錄的描述寫回Figma的原生欄位
-export async function writeCatalogueDescBackToFigma() {
+export async function writeCatalogueDescBackToFigma(lang: string) {
     const selection = util.getCurrentSelection();
 
     if (selection.length !== 1) {
@@ -98,7 +99,7 @@ export async function writeCatalogueDescBackToFigma() {
         }
     }
 
-    const dateString = `Description updated back to Figma at ${util.getFormattedDate("fullDateTime", "western")}.`;
+    const dateString = createUpdatedString(lang);
     const wroteBackDateNode = util.createTextNode(
         dateString,
         { family: "Inter", style: "Semi Bold" },
@@ -116,4 +117,11 @@ export async function writeCatalogueDescBackToFigma() {
     wroteBackDateNode.textAlignHorizontal = "RIGHT";
 
     figma.notify(`✅ ${updatedCount} styles/variables have been updated successfully.`);
+}
+
+function createUpdatedString(lang: string) {
+    const lr = createCatalogueLocalizationResource(lang);
+    const format = lr.lang === "enUS" ? "western" : "eastern"
+
+    return lr.module["descriptionUpdatedBack"].replace("$TIME", util.getFormattedDate("fullDateTime", format));
 }

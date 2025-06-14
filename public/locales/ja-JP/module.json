@@ -202,5 +202,6 @@
     "vertical": "縦",
     "widthRatio": "幅の比",
     "createdAt": "作成時間：$TIME$。",
-    "crossCatalogueReferenceEnabled": "カタログ間参照機能作動中。"
+    "crossCatalogueReferenceEnabled": "カタログ間参照機能作動中。",
+    "descriptionUpdatedBack": "説明が成功にFigmaへ更新しました。更新時間：$TIME。"
 }

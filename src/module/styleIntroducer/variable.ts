@@ -43,8 +43,8 @@ export async function applyStyleIntroducerForVariable(
     )
     if (explanationItems.length === 0) { throw new Error("Termination due to explanationItems length is 0."); }
 
-    const wrapperTitle = title == "" ? "Variables" : title
-    const titleSecondary = "Catalogue";
+    const wrapperTitle = title == "" ? lr.term["variable"] : title
+    const titleSecondary = lr.module["moduleCatalogue"];
     const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
         lr,
         form,

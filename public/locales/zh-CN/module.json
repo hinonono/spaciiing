@@ -202,5 +202,6 @@
     "vertical": "垂直",
     "widthRatio": "宽比",
     "createdAt": "制作时间：$TIME$。",
-    "crossCatalogueReferenceEnabled": "跨型录引用功能已启用。"
+    "crossCatalogueReferenceEnabled": "跨型录引用功能已启用。",
+    "descriptionUpdatedBack": "成功将说明更新回Figma。更新时间：$TIME。"
 }

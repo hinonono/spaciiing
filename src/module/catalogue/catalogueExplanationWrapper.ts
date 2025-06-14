@@ -40,7 +40,7 @@ export function createExplanationWrapper(
 
     if (form === "VARIABLE") {
         if (!modes) { throw new Error("Modes are required for variable type."); }
-        pushAdditionalContent(modes, fontName, titleWrapperContents)
+        pushAdditionalContent(lr, modes, fontName, titleWrapperContents)
     }
 
     const titleWrapper = util.createAutolayoutFrame(titleWrapperContents, semanticTokens.spacing.xsmall, "VERTICAL");
@@ -88,13 +88,14 @@ function createDateString(lr: CatalogueLocalizationResources, isItemLinkEnabled:
 }
 
 function pushAdditionalContent(
+    lr: CatalogueLocalizationResources,
     modes: string[],
     fontName: FontName,
     target: SceneNode[]
 ) {
     const modesText = modes.length === 1
-        ? `Variable Modes: ${modes[0]}`
-        : `Variable Modes: ${modes.join(", ")}`;
+        ? lr.term["variableModes"].replace("$VALUE$", modes[0])
+        : lr.term["variableModes"].replace("$VALUE$", modes.join(", "));
 
     const modesNode = util.createTextNode(modesText, fontName, semanticTokens.fontSize.base);
 

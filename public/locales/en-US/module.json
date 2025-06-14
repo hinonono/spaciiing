@@ -202,5 +202,6 @@
     "vertical": "Vertical",
     "widthRatio": "Width Ratio",
     "createdAt": "Created at $TIME$.　",
-    "crossCatalogueReferenceEnabled": "Cross-catalogue reference enabled."
+    "crossCatalogueReferenceEnabled": "Cross-catalogue reference enabled.",
+    "descriptionUpdatedBack": "Description updated back to Figma at $TIME."
 }

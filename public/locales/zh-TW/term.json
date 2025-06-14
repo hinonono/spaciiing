@@ -101,5 +101,6 @@
 	"mono": "單色",
 	"duo": "雙色",
 	"multi": "多色",
-	"textCase": "大小寫"
+	"textCase": "大小寫",
+	"variableModes": "變數模式：$VALUE$"
 }

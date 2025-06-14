@@ -28,8 +28,8 @@
 	"float": "数値",
 	"fontFamily": "フォントファミリー",
 	"fontName": "フォント名",
-	"fontSize": "フォントサイズ",
-	"fontStyle": "フォントの太さまたはスタイル",
+	"fontSize": "サイズ",
+	"fontStyle": "フォントスタイル",
 	"fontWeight": "フォントの太さ",
 	"frame": "フレーム",
 	"frameFill": "フレーム塗り",
@@ -101,5 +101,6 @@
   "mono": "モノ",
   "duo": "デュオ",
   "multi": "マルチ",
-  "textCase": "テキストの大文字小文字"
+  "textCase": "大文字と小文字",
+  "variableModes": "バリアブルモード：$VALUE$"
 }

@@ -8,6 +8,7 @@ export interface Message {
   phase: MessagePhase;
   shouldSaveEditorPreference?: boolean;
   editorPreference?: EditorPreference;
+  lang?: string,
 }
 
 // 訊息的階段

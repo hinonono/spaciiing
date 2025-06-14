@@ -23,7 +23,7 @@ export async function applyStyleIntroducer(
     const selectedStyleList = await getSelectedStyleList(scopes, styleMode);
     const explanationItems = createExplanationItemsHandler(lr, form, styleMode, fontNameRegular, selectedStyleList)
 
-    const wrapperTitle = title == "" ? "Styles" : title
+    const wrapperTitle = title == "" ? lr.term["style"] : title
     const titleSecondary = lr.module["moduleCatalogue"];
     const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
         lr,

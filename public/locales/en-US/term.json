@@ -101,5 +101,6 @@
 	"mono": "Mono",
 	"duo": "Duo",
 	"multi": "Multi",
-	"textCase": "textCase"
+	"textCase": "textCase",
+	"variableModes": "Variable Modes: $VALUE$"
 }
