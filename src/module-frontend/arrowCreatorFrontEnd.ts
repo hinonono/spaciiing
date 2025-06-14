@@ -56,18 +56,18 @@ export const strokeCaps: StrokeCapOption[] = [
         value: "ARROW_EQUILATERAL",
         labelKey: "module:triangleArrow",
     },
-    {
-        value: "TRIANGLE_FILLED",
-        labelKey: "module:reversedTriangle",
-    },
-    {
-        value: "CIRCLE_FILLED",
-        labelKey: "module:circleArrow",
-    },
-    {
-        value: "DIAMOND_FILLED",
-        labelKey: "module:diamondArrow"
-    },
+    // {
+    //     value: "TRIANGLE_FILLED",
+    //     labelKey: "module:reversedTriangle",
+    // },
+    // {
+    //     value: "CIRCLE_FILLED",
+    //     labelKey: "module:circleArrow",
+    // },
+    // {
+    //     value: "DIAMOND_FILLED",
+    //     labelKey: "module:diamondArrow"
+    // },
     {
         value: "ROUND",
         labelKey: "module:round",

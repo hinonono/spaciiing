@@ -207,16 +207,16 @@ const effectOptions: PropertyClipboardOption[] = [
         keys: ["EFFECT_BACKGROUND_BLUR"],
         useModal: true,
     },
-    {
-        lableKey: "term:noise",
-        keys: ["EFFECT_NOISE"],
-        useModal: true,
-    },
-    {
-        lableKey: "term:texture",
-        keys: ["EFFECT_TEXTURE"],
-        useModal: true,
-    },
+    // {
+    //     lableKey: "term:noise",
+    //     keys: ["EFFECT_NOISE"],
+    //     useModal: true,
+    // },
+    // {
+    //     lableKey: "term:texture",
+    //     keys: ["EFFECT_TEXTURE"],
+    //     useModal: true,
+    // },
 ];
 
 const fillOptions: PropertyClipboardOption[] = [

@@ -200,10 +200,10 @@ const Shortcut: React.FC = () => {
         title: t("module:numberingTextLayers"),
         onClick: handleOpenNumberingModal,
       },
-      {
-        title: t("module:spiltText"),
-        onClick: handleOpenSpiltTextModal,
-      }
+      // {
+      //   title: t("module:spiltText"),
+      //   onClick: handleOpenSpiltTextModal,
+      // }
     ];
 
 

@@ -213,36 +213,12 @@ function getEffectPropertiesToCreate(
 ): SinglePropertyString[] {
   if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
     const effectPropertiesToCreate: SinglePropertyString[] = [
-      {
-        title: "Color",
-        content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
-        show: true
-      },
-      {
-        title: "Opacity",
-        content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
-        show: true
-      },
-      {
-        title: "X",
-        content: `${effect.offset.x}`,
-        show: true
-      },
-      {
-        title: "Y",
-        content: `${effect.offset.y}`,
-        show: true
-      },
-      {
-        title: "Blur",
-        content: `${effect.radius}`,
-        show: true
-      },
-      {
-        title: "Spread",
-        content: effect.spread ? `${effect.spread}` : "0",
-        show: true
-      }
+      { title: "Color", content: rgbToHex(effect.color.r, effect.color.g, effect.color.b), show: true },
+      { title: "Opacity", content: `${formatNumberToDecimals(effect.color.a * 100)}%`, show: true },
+      { title: "X", content: `${effect.offset.x}`, show: true },
+      { title: "Y", content: `${effect.offset.y}`, show: true },
+      { title: "Blur", content: `${effect.radius}`, show: true },
+      { title: "Spread", content: effect.spread ? `${effect.spread}` : "0", show: true }
     ]
     return effectPropertiesToCreate
   } else if (effect.type === "LAYER_BLUR" || effect.type === "BACKGROUND_BLUR") {

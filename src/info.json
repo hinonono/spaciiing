@@ -2,10 +2,8 @@
   "name": "Spaciiing",
   "version": "30",
   "whatsNew": [
-    "Catalogue now supports noise and texture effects",
-    "Property Clipboard now supports noise and texture effects",
-    "More arrows types added in Draw Arrows tool",
-    "Now you can spilt the text with brand new \"Spilt Text\" shortcut",
+    
+    "Bug fixes",
     "Overall enhancements"
   ],
   "price": {
