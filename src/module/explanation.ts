@@ -9,6 +9,7 @@ import {
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
 import { SinglePropertyString } from "../types/SinglePropertyString";
+import { CatalogueLocalizationResources } from "../types/CatalogueLocalization";
 
 
 /**
@@ -93,6 +94,7 @@ function pairNodesByTwo(source: FrameNode[]): FrameNode[] {
 
 
 export function createTextPropertiesWrappers(
+  lr: CatalogueLocalizationResources,
   textStyle: TextStyle,
   fontName: FontName
 ): FrameNode[] {
@@ -105,32 +107,32 @@ export function createTextPropertiesWrappers(
 
   const textPropertiesToCreate: SinglePropertyString[] = [
     {
-      title: "Font Name",
+      title: lr.term["fontName"],
       content: fontNameContent,
       show: true
     },
     {
-      title: "Font Size",
+      title: lr.term["fontSize"],
       content: fontSizeContent,
       show: true
     },
     {
-      title: "Line Height",
+      title: lr.term["lineHeight"],
       content: lineHeightContent,
       show: true
     },
     {
-      title: "Letter Spacing",
+      title: lr.term["letterSpacing"],
       content: letterSpacingContent,
       show: true
     },
     {
-      title: "Paragraph Spacing",
+      title: lr.term["paragraphSpacing"],
       content: paragraphSpacingContent,
       show: true
     },
     {
-      title: "Text Case",
+      title: lr.term["textCase"],
       content: textCaseContent,
       show: true
     }
@@ -152,6 +154,7 @@ export function createTextPropertiesWrappers(
 }
 
 function createGenericEffectTitle(
+  lr: CatalogueLocalizationResources,
   effect: Effect,
   index: number,
   fontName: FontName,
@@ -159,40 +162,40 @@ function createGenericEffectTitle(
   let title: string;
   switch (effect.type) {
     case "DROP_SHADOW":
-      title = `Layer ${index + 1} - Drop Shadow`
+      title = `${lr.term["layer"]} ${index + 1} - ${lr.term["dropShadow"]}`
       break;
     case "INNER_SHADOW":
-      title = `Layer ${index + 1} - Inner Shadow`
+      title = `${lr.term["layer"]} ${index + 1} - ${lr.term["innerShadow"]}`
       break;
     case "LAYER_BLUR":
       if (effect.blurType === "NORMAL") {
         // Uniform
-        title = `Layer ${index + 1} - Layer Blur (Uniform)`
+        title = `${lr.term["layer"]} ${index + 1} - ${lr.term["layerBlur"]} (${lr.term["uniform"]})`
       } else {
         // Progressive
-        title = `Layer ${index + 1} - Layer Blur (Progressive)`
+        title = `${lr.term["layer"]} ${index + 1} - ${lr.term["layerBlur"]} (${lr.term["progressive"]})`
       }
       break;
     case "BACKGROUND_BLUR":
       if (effect.blurType === "NORMAL") {
         // Uniform
-        title = `Layer ${index + 1} - Background Blur (Uniform)`
+        title = `${lr.term["layer"]} ${index + 1} - ${lr.term["backgroundBlur"]} (${lr.term["uniform"]})`
       } else {
         // Progressive
-        title = `Layer ${index + 1} - Background Blur (Progressive)`
+        title = `${lr.term["layer"]} ${index + 1} - ${lr.term["backgroundBlur"]} (${lr.term["progressive"]})`
       }
       break;
     case "NOISE":
       if (effect.noiseType === "MONOTONE") {
-        title = `Layer ${index + 1} - Noise (Mono)`
+        title = `${lr.term["layer"]} ${index + 1} - ${lr.term["noise"]} (${lr.term["mono"]})`
       } else if (effect.noiseType === "DUOTONE") {
-        title = `Layer ${index + 1} - Noise (Duo)`
+        title = `${lr.term["layer"]} ${index + 1} - ${lr.term["noise"]} (${lr.term["duo"]})`
       } else {
-        title = `Layer ${index + 1} - Noise (Multi)`
+        title = `${lr.term["layer"]} ${index + 1} - ${lr.term["noise"]} (${lr.term["multi"]})`
       }
       break;
     case "TEXTURE":
-      title = `Layer ${index + 1} - Texture`
+      title = `${lr.term["layer"]} ${index + 1} - ${lr.term["texture"]}`
       break;
     default:
       throw new Error("Unsupported effect type.")
@@ -209,16 +212,17 @@ function createGenericEffectTitle(
 }
 
 function getEffectPropertiesToCreate(
+  lr: CatalogueLocalizationResources,
   effect: Effect
 ): SinglePropertyString[] {
   if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
     const effectPropertiesToCreate: SinglePropertyString[] = [
-      { title: "Color", content: rgbToHex(effect.color.r, effect.color.g, effect.color.b), show: true },
-      { title: "Opacity", content: `${formatNumberToDecimals(effect.color.a * 100)}%`, show: true },
+      { title: lr.term["color"], content: rgbToHex(effect.color.r, effect.color.g, effect.color.b), show: true },
+      { title: lr.term["opacity"], content: `${formatNumberToDecimals(effect.color.a * 100)}%`, show: true },
       { title: "X", content: `${effect.offset.x}`, show: true },
       { title: "Y", content: `${effect.offset.y}`, show: true },
-      { title: "Blur", content: `${effect.radius}`, show: true },
-      { title: "Spread", content: effect.spread ? `${effect.spread}` : "0", show: true }
+      { title: lr.term["blur"], content: `${effect.radius}`, show: true },
+      { title: lr.term["spread"], content: effect.spread ? `${effect.spread}` : "0", show: true }
     ]
     return effectPropertiesToCreate
   } else if (effect.type === "LAYER_BLUR" || effect.type === "BACKGROUND_BLUR") {
@@ -226,12 +230,12 @@ function getEffectPropertiesToCreate(
       // Normal
       const effectPropertiesToCreate: SinglePropertyString[] = [
         {
-          title: "Blur Type",
+          title: lr.term["blurType"],
           content: `${effect.blurType}`,
           show: true
         },
         {
-          title: "Blur",
+          title: lr.term["blur"],
           content: `${effect.radius}`,
           show: true
         }
@@ -242,22 +246,22 @@ function getEffectPropertiesToCreate(
       // Progressive
       const effectPropertiesToCreate: SinglePropertyString[] = [
         {
-          title: "Blur Type",
+          title: lr.term["blurType"],
           content: `${effect.blurType}`,
           show: true
         },
         {
-          title: "Start",
+          title: lr.term["start"],
           content: `${effect.startRadius}`,
           show: true
         },
         {
-          title: "End",
+          title: lr.term["end"],
           content: `${effect.radius}`,
           show: true
         },
         {
-          title: "Place Holder",
+          title: "Placeholder",
           content: "0",
           show: false
         }
@@ -269,28 +273,28 @@ function getEffectPropertiesToCreate(
     if (effect.noiseType === "MONOTONE") {
       const effectPropertiesToCreate: SinglePropertyString[] = [
         {
-          title: "Noise Type",
+          title: lr.term["noiseType"],
           content: `${effect.noiseType}`,
           show: true
         },
         {
-          title: "Noise Size",
+          title: lr.term["noiseSize"],
           content: `${effect.noiseSize}`,
           show: true
         },
         {
-          title: "Density",
+          title: lr.term["density"],
           content: `${effect.density}`,
           show: true
         },
         {
-          title: "Color",
+          title: lr.term["color"],
           //@ts-ignore
           content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
           show: true
         },
         {
-          title: "Opacity",
+          title: lr.term["opacity"],
           //@ts-ignore
           content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
           show: true
@@ -306,39 +310,39 @@ function getEffectPropertiesToCreate(
     } else if (effect.noiseType === "DUOTONE") {
       const effectPropertiesToCreate: SinglePropertyString[] = [
         {
-          title: "Noise Type",
+          title: lr.term["noiseType"],
           content: `${effect.noiseType}`,
           show: true
         },
         {
-          title: "Noise Size",
+          title: lr.term["noiseSize"],
           content: `${effect.noiseSize}`,
           show: true
         },
         {
-          title: "Density",
+          title: lr.term["density"],
           content: `${effect.density}`,
           show: true
         },
         {
-          title: "Color 1",
+          title: `${lr.term["color"]} 1`,
           //@ts-ignore
           content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
           show: true
         },
         {
-          title: "Opacity (Color 1)",
+          title: `${lr.term["opacity"]} (${lr.term["color"]} 1)`,
           //@ts-ignore
           content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
           show: true
         },
         {
-          title: "Color 2",
+          title: `${lr.term["color"]} 2`,
           content: rgbToHex(effect.secondaryColor.r, effect.secondaryColor.g, effect.secondaryColor.b),
           show: true
         },
         {
-          title: "Opacity (Color 2)",
+          title: `${lr.term["opacity"]} (${lr.term["color"]} 2)`,
           content: `${formatNumberToDecimals(effect.secondaryColor.a * 100)}%`,
           show: true
         },
@@ -353,22 +357,22 @@ function getEffectPropertiesToCreate(
     } else {
       const effectPropertiesToCreate: SinglePropertyString[] = [
         {
-          title: "Noise Type",
+          title: lr.term["noiseType"],
           content: `${effect.noiseType}`,
           show: true
         },
         {
-          title: "Noise Size",
+          title: lr.term["noiseSize"],
           content: `${effect.noiseSize}`,
           show: true
         },
         {
-          title: "Density",
+          title: lr.term["density"],
           content: `${effect.density}`,
           show: true
         },
         {
-          title: "Opacity",
+          title: lr.term["opacity"],
           content: `${formatNumberToDecimals(effect.opacity * 100)}%`,
           show: true
         },
@@ -380,17 +384,17 @@ function getEffectPropertiesToCreate(
   } else if (effect.type === "TEXTURE") {
     const effectPropertiesToCreate: SinglePropertyString[] = [
       {
-        title: "Size",
+        title: lr.term["size"],
         content: `${effect.noiseSize}`,
         show: true
       },
       {
-        title: "Radius",
+        title: lr.term["radius"],
         content: `${effect.radius}`,
         show: true
       },
       {
-        title: "Clip To Shape",
+        title: lr.term["clipToShape"],
         content: capitalizeFirstLetter(`${effect.clipToShape}`),
         show: true
       },
@@ -416,6 +420,7 @@ function getEffectPropertiesToCreate(
 }
 
 export function createEffectPropertiesWrappers(
+  lr: CatalogueLocalizationResources,
   effects: Effect[],
   fontName: FontName
 ): FrameNode[] {
@@ -424,7 +429,7 @@ export function createEffectPropertiesWrappers(
   for (let i = 0; i < effects.length; i++) {
     const effect = effects[i];
 
-    const countNode = createGenericEffectTitle(effect, i, fontName)
+    const countNode = createGenericEffectTitle(lr, effect, i, fontName)
 
     let effectWrapper = createAutolayoutFrame([countNode], semanticTokens.spacing.xsmall, "VERTICAL");
     effectWrapper.name = "Effects";
@@ -433,7 +438,7 @@ export function createEffectPropertiesWrappers(
 
     if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
       // 處理陰影類型的properties
-      const effectPropertiesToCreate = getEffectPropertiesToCreate(effect);
+      const effectPropertiesToCreate = getEffectPropertiesToCreate(lr, effect);
 
       let effectPropertiesNodes: FrameNode[] = [];
       effectPropertiesToCreate.forEach((property) => {
@@ -472,7 +477,7 @@ export function createEffectPropertiesWrappers(
 
     } else {
       // 處理其他效果類型的properties
-      const effectPropertiesToCreate = getEffectPropertiesToCreate(effect);
+      const effectPropertiesToCreate = getEffectPropertiesToCreate(lr, effect);
 
       let effectPropertiesNodes: FrameNode[] = [];
       effectPropertiesToCreate.forEach((property) => {
@@ -522,9 +527,9 @@ export function createEffectPropertiesWrappers(
  * of the node is set to uppercase.
  */
 export function createStyleColorHexNode(
+  lr: CatalogueLocalizationResources,
   colors: RGBA[],
   fontName: FontName,
-  fontSize: number
 ): FrameNode {
   const color = colors[0];
   let hexValue = rgbToHex(color.r, color.g, color.b, true);
@@ -535,19 +540,10 @@ export function createStyleColorHexNode(
   const hexValueNode = createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
   hexValueNode.textAlignHorizontal = "RIGHT";
 
-  const node = createExplanationSinglePropertyItem("Color", hexValueNode, fontName);
+  const node = createExplanationSinglePropertyItem(lr.term["color"], hexValueNode, fontName);
   node.layoutSizingVertical = "HUG";
 
   return node;
-
-
-
-  // const colorHexNode = createTextNode(text, fontName, fontSize, [
-  //   { type: "SOLID", color: semanticTokens.text.secondary },
-  // ]);
-  // colorHexNode.textCase = "UPPER";
-
-  // return colorHexNode;
 }
 
 /**
@@ -620,7 +616,8 @@ export function createStyleGradientNode(
   gradientTransform: Transform,
   gradientStops: ColorStop[],
   fontName: FontName,
-  fontSize: number
+  fontSize: number,
+  lr: CatalogueLocalizationResources,
 ): FrameNode[] {
 
   const typeString = gradientType.replace("GRADIENT_", "");
@@ -629,14 +626,14 @@ export function createStyleGradientNode(
   const type = createTextNode(formatted, fontName, fontSize, [
     { type: "SOLID", color: semanticTokens.text.secondary },
   ]);
-  const typeNode = createExplanationSinglePropertyItem("Gradient Type", type, fontName);
+  const typeNode = createExplanationSinglePropertyItem(lr.term["gradientType"], type, fontName);
 
 
   const colorsString = colorStopsToString(gradientStops);
   const colors = createTextNode(colorsString, fontName, fontSize, [
     { type: "SOLID", color: semanticTokens.text.secondary },
   ]);
-  const colorsNode = createExplanationSinglePropertyItem("Colors", colors, fontName);
+  const colorsNode = createExplanationSinglePropertyItem(lr.term["color"], colors, fontName);
 
 
   return pairNodesByTwo([typeNode, colorsNode]);

@@ -8,6 +8,7 @@ import { semanticTokens } from "../tokens";
 import { CatalogueItemDescriptionSchema } from "../../types/CatalogueItemShema";
 import * as CLExplanationInfo from "./catalogueExplanationInfo"
 import * as CLExplanationPreview from "./catalogueExplanationPreview"
+import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 
 
 /**
@@ -29,7 +30,8 @@ export function createExplanationItem(
     description: string,
     fontName: FontName,
     previewResouces: PreviewResources,
-    aliasResources: AliasResources
+    aliasResources: AliasResources,
+    lr: CatalogueLocalizationResources,
 ) {
     const titleNode = createTitle(title, fontName);
     const descNode = createDescription(description, fontName);
@@ -39,7 +41,7 @@ export function createExplanationItem(
 
     // 建立右側資訊區的內容
     const titleWrapperContents: SceneNode[] = [titleNode];
-    CLExplanationInfo.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, titleWrapperContents)
+    CLExplanationInfo.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, lr, titleWrapperContents)
     const explanationTextsWrapperNode = CLExplanationInfo.setUpInfoWrapperLayout(styleMode, titleWrapperContents, titleNode, descNode)
 
     // 建立左側預覽區的內容

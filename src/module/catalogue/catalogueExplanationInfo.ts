@@ -2,6 +2,7 @@ import { AliasResources, PreviewResources, StyleForm, StyleMode } from "../../ty
 import * as util from "../util";
 import { createEffectPropertiesWrappers, createStyleColorHexNode, createStyleGradientNode, createTextPropertiesWrappers, createVariableColorHexNodes, createVariableNumberNodes, createVariableStringNodes } from "../explanation";
 import { semanticTokens } from "../tokens";
+import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 
 export function pushInfoAreaAdditionalContent(
     form: StyleForm,
@@ -9,14 +10,16 @@ export function pushInfoAreaAdditionalContent(
     fontName: FontName,
     previewResources: PreviewResources,
     aliasResources: AliasResources,
+    lr: CatalogueLocalizationResources,
     target: SceneNode[]
-) {    
+) {
     if (styleMode === "COLOR") {
         if (!previewResources.colors) { throw new Error("Colors is required for this style mode.") }
 
         if (previewResources.colors.type === "SOLID") {
             if (!previewResources.colors.colors) { throw new Error("Unable to generate preview info due to previewResources.colors.colors is undefined."); }
             const items = createPropertiesForColor(
+                lr,
                 form,
                 fontName,
                 previewResources.colors.colors,
@@ -33,9 +36,7 @@ export function pushInfoAreaAdditionalContent(
                 previewResources.colors.type,
                 previewResources.colors.gradientTransform[0],
                 previewResources.colors.gradientStops[0],
-                aliasResources.aliasNames,
-                aliasResources.variableModes,
-                aliasResources.aliasVariableIds
+                lr
             )
             target.push(...items);
         }
@@ -54,12 +55,12 @@ export function pushInfoAreaAdditionalContent(
 
     } else if (styleMode === "TEXT") {
         if (!previewResources.textStyle) { throw new Error("Missing text style."); }
-        const items = createPropertiesForText(form, fontName, previewResources.textStyle);
+        const items = createPropertiesForText(lr, form, fontName, previewResources.textStyle);
         target.push(...items);
 
     } else if (styleMode === "EFFECT") {
         if (!previewResources.effects) { throw new Error("Missing effect style."); }
-        const items = createPropertiesForEffect(form, fontName, previewResources.effects);
+        const items = createPropertiesForEffect(lr, form, fontName, previewResources.effects);
         target.push(...items);
 
     } else if (styleMode === "STRING") {
@@ -118,6 +119,7 @@ export function setUpInfoWrapperLayout(
 }
 
 export function createPropertiesForColor(
+    lr: CatalogueLocalizationResources,
     form: StyleForm,
     fontName: FontName,
     colors: RGBA[],
@@ -129,9 +131,9 @@ export function createPropertiesForColor(
 
     if (form === "STYLE" && colors.length == 1) {
         const colorHexNode = createStyleColorHexNode(
+            lr,
             colors,
-            fontName,
-            semanticTokens.fontSize.small
+            fontName
         );
 
         return [colorHexNode];
@@ -150,9 +152,7 @@ export function createPropertiesForGradient(
     gradientType: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND",
     gradientTransform: Transform,
     gradientStops: ColorStop[],
-    aliasNames?: (string | undefined)[],
-    variableModes?: string[],
-    aliasVariableIds?: (string | undefined)[]
+    lr: CatalogueLocalizationResources,
 ): SceneNode[] {
     if (gradientStops.length === 0) { throw new Error("Termination due to color.length is 0."); }
 
@@ -162,7 +162,8 @@ export function createPropertiesForGradient(
             gradientTransform,
             gradientStops,
             fontName,
-            semanticTokens.fontSize.small
+            semanticTokens.fontSize.small,
+            lr
         );
 
         return gradientNodes;
@@ -190,24 +191,26 @@ export function createPropertiesForNumber(
 }
 
 export function createPropertiesForText(
+    lr: CatalogueLocalizationResources,
     form: StyleForm,
     fontName: FontName,
     textStyle: TextStyle,
 ): SceneNode[] {
     if (form === "VARIABLE") { throw new Error("Text style is not supported on VARIRABLE type.") }
 
-    const textPropertiesWrappers = createTextPropertiesWrappers(textStyle, fontName);
+    const textPropertiesWrappers = createTextPropertiesWrappers(lr, textStyle, fontName);
     return textPropertiesWrappers;
 }
 
 export function createPropertiesForEffect(
+    lr: CatalogueLocalizationResources,
     form: StyleForm,
     fontName: FontName,
     effects: Effect[],
 ): SceneNode[] {
     if (form === "VARIABLE") { throw new Error("Text style is not supported on VARIRABLE type.") }
 
-    const effectWrappers = createEffectPropertiesWrappers(effects, fontName);
+    const effectWrappers = createEffectPropertiesWrappers(lr, effects, fontName);
     return effectWrappers;
 }
 

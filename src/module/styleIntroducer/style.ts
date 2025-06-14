@@ -24,7 +24,7 @@ export async function applyStyleIntroducer(
         module: getCatalogueLocalization(lang, "module")
     }
     const selectedStyleList = await getSelectedStyleList(scopes, styleMode);
-    const explanationItems = createExplanationItemsHandler(form, styleMode, fontNameRegular, selectedStyleList)
+    const explanationItems = createExplanationItemsHandler(lr, form, styleMode, fontNameRegular, selectedStyleList)
 
     const wrapperTitle = title == "" ? "Styles" : title
     const titleSecondary = lr.module["moduleCatalogue"];
@@ -64,6 +64,7 @@ async function getSelectedStyleList(scopes: string[], styleMode: StyleMode) {
 }
 
 function createExplanationItemsHandler(
+    lr: CatalogueLocalizationResources,
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
@@ -71,6 +72,7 @@ function createExplanationItemsHandler(
 ): FrameNode[] {
     if (styleMode === "COLOR") {
         const items = createItemColor(
+            lr,
             styleList as PaintStyle[],
             form,
             styleMode,
@@ -80,6 +82,7 @@ function createExplanationItemsHandler(
 
     } else if (styleMode === "TEXT") {
         const items = createItemText(
+            lr,
             styleList as TextStyle[],
             form,
             styleMode,
@@ -89,6 +92,7 @@ function createExplanationItemsHandler(
 
     } else if (styleMode === "EFFECT") {
         const items = createItemEffect(
+            lr,
             styleList as EffectStyle[],
             form,
             styleMode,
@@ -102,6 +106,7 @@ function createExplanationItemsHandler(
 }
 
 function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
+    lr: CatalogueLocalizationResources,
     styleList: T[],
     form: StyleForm,
     styleMode: StyleMode,
@@ -125,7 +130,8 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
             description,
             fontName,
             previewResources,
-            aliasResources
+            aliasResources,
+            lr
         );
 
         explanationItem.primaryAxisSizingMode = "AUTO";
@@ -139,12 +145,13 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
 
 
 function createItemColor(
+    lr: CatalogueLocalizationResources,
     styleList: PaintStyle[],
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(styleList, form, styleMode, fontName, (style) => {
+    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => {
         const paint = style.paints[0];
 
         if (!paint) {
@@ -192,23 +199,25 @@ function createItemColor(
 }
 
 function createItemText(
+    lr: CatalogueLocalizationResources,
     styleList: TextStyle[],
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(styleList, form, styleMode, fontName, (style) => ({
+    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => ({
         textStyle: style
     }));
 }
 
 function createItemEffect(
+    lr: CatalogueLocalizationResources,
     styleList: EffectStyle[],
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(styleList, form, styleMode, fontName, (style) => ({
+    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => ({
         effects: [...style.effects]
     }));
 }
