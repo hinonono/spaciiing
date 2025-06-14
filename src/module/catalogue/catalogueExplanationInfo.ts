@@ -10,8 +10,8 @@ export function pushInfoAreaAdditionalContent(
     fontName: FontName,
     previewResources: PreviewResources,
     aliasResources: AliasResources,
-    lr: CatalogueLocalizationResources,
-    target: SceneNode[]
+    target: SceneNode[],
+    lr?: CatalogueLocalizationResources
 ) {
     if (styleMode === "COLOR") {
         if (!previewResources.colors) { throw new Error("Colors is required for this style mode.") }
@@ -19,13 +19,13 @@ export function pushInfoAreaAdditionalContent(
         if (previewResources.colors.type === "SOLID") {
             if (!previewResources.colors.colors) { throw new Error("Unable to generate preview info due to previewResources.colors.colors is undefined."); }
             const items = createPropertiesForColor(
-                lr,
                 form,
                 fontName,
                 previewResources.colors.colors,
                 aliasResources.aliasNames,
                 aliasResources.variableModes,
-                aliasResources.aliasVariableIds
+                aliasResources.aliasVariableIds,
+                lr
             )
             target.push(...items);
         } else {
@@ -55,11 +55,13 @@ export function pushInfoAreaAdditionalContent(
 
     } else if (styleMode === "TEXT") {
         if (!previewResources.textStyle) { throw new Error("Missing text style."); }
+        if (!lr) { throw new Error("Localization resource is require for STLYE type TEXT.") }
         const items = createPropertiesForText(lr, form, fontName, previewResources.textStyle);
         target.push(...items);
 
     } else if (styleMode === "EFFECT") {
         if (!previewResources.effects) { throw new Error("Missing effect style."); }
+        if (!lr) { throw new Error("Localization resource is require for STLYE type EFFECT.") }
         const items = createPropertiesForEffect(lr, form, fontName, previewResources.effects);
         target.push(...items);
 
@@ -119,17 +121,18 @@ export function setUpInfoWrapperLayout(
 }
 
 export function createPropertiesForColor(
-    lr: CatalogueLocalizationResources,
     form: StyleForm,
     fontName: FontName,
     colors: RGBA[],
     aliasNames?: (string | undefined)[],
     variableModes?: string[],
-    aliasVariableIds?: (string | undefined)[]
+    aliasVariableIds?: (string | undefined)[],
+    lr?: CatalogueLocalizationResources,
 ): SceneNode[] {
     if (colors.length === 0) { throw new Error("Termination due to color.length is 0."); }
 
     if (form === "STYLE" && colors.length == 1) {
+        if (!lr) { throw new Error("Localization resource is required for STYLE type COLOR.") }
         const colorHexNode = createStyleColorHexNode(
             lr,
             colors,
@@ -152,11 +155,12 @@ export function createPropertiesForGradient(
     gradientType: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND",
     gradientTransform: Transform,
     gradientStops: ColorStop[],
-    lr: CatalogueLocalizationResources,
+    lr?: CatalogueLocalizationResources,
 ): SceneNode[] {
     if (gradientStops.length === 0) { throw new Error("Termination due to color.length is 0."); }
 
     if (form === "STYLE") {
+        if (!lr) { throw new Error("Localization resource is require for STYLE type GRADIENT.") }
         const gradientNodes = createStyleGradientNode(
             gradientType,
             gradientTransform,

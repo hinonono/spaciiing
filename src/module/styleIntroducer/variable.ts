@@ -8,6 +8,7 @@ import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper"
 
 import * as styledTextSegments from "../styledTextSegments";
 import * as typeChecking from "../typeChecking";
+import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 
 export async function applyStyleIntroducerForVariable(
     message: MessageStyleIntroducer
@@ -222,7 +223,7 @@ async function createGenericItem<T>(
             description,
             fontName,
             previewResources,
-            aliasResources
+            aliasResources,
         );
 
         explanationItem.primaryAxisSizingMode = "AUTO";

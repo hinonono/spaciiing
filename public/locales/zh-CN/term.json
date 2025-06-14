@@ -27,8 +27,8 @@
 	"faq": "常见问题",
 	"float": "浮点值",
 	"fontFamily": "文字家族",
-	"fontName": "字体名称",
-	"fontSize": "字体大小",
+	"fontName": "字体",
+	"fontSize": "大小",
 	"fontStyle": "文字样式",
 	"fontWeight": "字重",
 	"frame": "框",
@@ -101,5 +101,5 @@
 	"mono": "单色",
 	"duo": "双色",
 	"multi": "多色",
-	"textCase": "文字大小写"
+	"textCase": "大小写"
 }

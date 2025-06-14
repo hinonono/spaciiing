@@ -31,7 +31,7 @@ export function createExplanationItem(
     fontName: FontName,
     previewResouces: PreviewResources,
     aliasResources: AliasResources,
-    lr: CatalogueLocalizationResources,
+    lr?: CatalogueLocalizationResources,
 ) {
     const titleNode = createTitle(title, fontName);
     const descNode = createDescription(description, fontName);
@@ -41,7 +41,7 @@ export function createExplanationItem(
 
     // 建立右側資訊區的內容
     const titleWrapperContents: SceneNode[] = [titleNode];
-    CLExplanationInfo.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, lr, titleWrapperContents)
+    CLExplanationInfo.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, titleWrapperContents, lr)
     const explanationTextsWrapperNode = CLExplanationInfo.setUpInfoWrapperLayout(styleMode, titleWrapperContents, titleNode, descNode)
 
     // 建立左側預覽區的內容
