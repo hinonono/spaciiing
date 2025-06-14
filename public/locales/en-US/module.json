@@ -200,5 +200,7 @@
     "variableScope": "Variable Scope",
     "variableScopeDesc": "Select which scope will the variable being created apply.",
     "vertical": "Vertical",
-    "widthRatio": "Width Ratio"
+    "widthRatio": "Width Ratio",
+    "createdAt": "Created at $TIME$.　",
+    "crossCatalogueReferenceEnabled": "Cross-catalogue reference enabled."
 }

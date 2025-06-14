@@ -200,5 +200,7 @@
     "variableScope": "バリアブルのスコープ",
     "variableScopeDesc": "バリアブルが適用されるスコープを選択してください。",
     "vertical": "縦",
-    "widthRatio": "幅の比"
+    "widthRatio": "幅の比",
+    "createdAt": "作成時間：$TIME$。",
+    "crossCatalogueReferenceEnabled": "カタログ間参照機能作動中。"
 }

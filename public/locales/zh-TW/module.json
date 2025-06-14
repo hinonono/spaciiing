@@ -200,5 +200,7 @@
     "variableScope": "適用範圍",
     "variableScopeDesc": "選擇變數的適用範圍。",
     "vertical": "垂直",
-    "widthRatio": "寬度比"
+    "widthRatio": "寬度比",
+    "createdAt": "製作時間：$TIME$。",
+    "crossCatalogueReferenceEnabled": "跨型錄參照功能已啟用。"
 }

@@ -29,6 +29,7 @@ export async function applyStyleIntroducer(
     const wrapperTitle = title == "" ? "Styles" : title
     const titleSecondary = lr.module["moduleCatalogue"];
     const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
+        lr,
         form,
         explanationItems,
         wrapperTitle,

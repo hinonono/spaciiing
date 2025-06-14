@@ -4,6 +4,7 @@
 import { StyleForm, } from "../../types/Messages/MessageStyleIntroducer";
 import * as util from "../util";
 import { semanticTokens } from "../tokens";
+import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 
 /**
  * Create wrapper for explanation items (New version).
@@ -18,6 +19,7 @@ import { semanticTokens } from "../tokens";
  * @returns 
  */
 export function createExplanationWrapper(
+    lr: CatalogueLocalizationResources,
     form: StyleForm,
     items: FrameNode[],
     title: string,
@@ -26,7 +28,7 @@ export function createExplanationWrapper(
     isItemLinkEnabled: boolean = false,
     modes?: string[]
 ) {
-    const dateString = createDateString(isItemLinkEnabled);
+    const dateString = createDateString(lr, isItemLinkEnabled);
 
     const dateNode = util.createTextNode(dateString, fontName, semanticTokens.fontSize.xsmall, [{ type: "SOLID", color: semanticTokens.text.tertiary }]);
     dateNode.textAlignHorizontal = "RIGHT";
@@ -72,8 +74,11 @@ export function createExplanationWrapper(
     return wrapperFrame;
 }
 
-function createDateString(isItemLinkEnabled: boolean) {
-    return isItemLinkEnabled ? `Created at ${util.getFormattedDate("fullDateTime")}. Cross-catalogue reference enabled.` : `Created at ${util.getFormattedDate("fullDateTime")}`;
+function createDateString(lr: CatalogueLocalizationResources, isItemLinkEnabled: boolean) {
+    let text = `${lr.module["createdAt"].replace("$TIME$", util.getFormattedDate("fullDateTime"))}`;
+    if (isItemLinkEnabled) { text.concat(lr.module["crossCatalogueReferenceEnabled"]); }
+
+    return text;
 }
 
 function pushAdditionalContent(

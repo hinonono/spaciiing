@@ -9,11 +9,12 @@ import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper"
 import * as styledTextSegments from "../styledTextSegments";
 import * as typeChecking from "../typeChecking";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
+import { getCatalogueLocalization } from "../catalogue/catalogueLocalization";
 
 export async function applyStyleIntroducerForVariable(
     message: MessageStyleIntroducer
 ) {
-    const { styleSelection, styleMode, form } = message;
+    const { styleSelection, styleMode, form, lang } = message;
 
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
@@ -24,6 +25,11 @@ export async function applyStyleIntroducerForVariable(
     const fontNameSemi = { family: "Inter", style: "Semi Bold" };
     const fontsToLoad = [fontNameRegular, fontNameSemi];
     await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+
+    const lr: CatalogueLocalizationResources = {
+        term: getCatalogueLocalization(lang, "term"),
+        module: getCatalogueLocalization(lang, "module")
+    }
 
     const localVariables = await getLocalVariables(styleMode);
     const selectedVariables = await getSelectedVariables(scopes, localVariables);
@@ -43,6 +49,7 @@ export async function applyStyleIntroducerForVariable(
     const wrapperTitle = title == "" ? "Variables" : title
     const titleSecondary = "Catalogue";
     const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
+        lr,
         form,
         explanationItems,
         wrapperTitle,
