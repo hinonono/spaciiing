@@ -2,11 +2,13 @@ import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, St
 import * as util from "../util"
 import * as CLExplanationItem from "../catalogue/catalogueExplanationItem"
 import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper";
+import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
+import { getCatalogueLocalization } from "../catalogue/catalogueLocalization";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
 ) {
-    const { styleSelection, styleMode, form } = message;
+    const { styleSelection, styleMode, form, lang } = message;
 
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
@@ -17,11 +19,15 @@ export async function applyStyleIntroducer(
     const fontsToLoad = [fontNameRegular, fontNameSemi];
     await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
+    const lr: CatalogueLocalizationResources = {
+        term: getCatalogueLocalization(lang, "term"),
+        module: getCatalogueLocalization(lang, "module")
+    }
     const selectedStyleList = await getSelectedStyleList(scopes, styleMode);
     const explanationItems = createExplanationItemsHandler(form, styleMode, fontNameRegular, selectedStyleList)
 
     const wrapperTitle = title == "" ? "Styles" : title
-    const titleSecondary = "Catalogue";
+    const titleSecondary = lr.module["moduleCatalogue"];
     const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
         form,
         explanationItems,

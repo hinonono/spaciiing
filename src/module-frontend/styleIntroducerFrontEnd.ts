@@ -51,6 +51,7 @@ export const buildNestedStructure = (
 
 export function initStyleIntroducer() {
   const message: MessageStyleIntroducer = {
+    lang: "",
     styleSelection: undefined,
     form: "STYLE",
     styleMode: "COLOR",

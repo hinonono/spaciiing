@@ -21,7 +21,7 @@ interface StyleIntroducerProps { }
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
   const { licenseManagement, setShowCTSubscribe, styleList, setFreeUserDelayModalConfig } = useAppContext();
-  const { t } = useTranslation(["common", "settings", "license", "term"]);
+  const { t, i18n } = useTranslation(["common", "settings", "license", "term"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -59,6 +59,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       module: "StyleIntroducer",
       phase: "Actual",
       direction: "Inner",
+      lang: i18n.language,
       form: form,
       styleMode: mode,
       styleSelection: selectedScopes,
@@ -127,6 +128,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     setNestedStructure(null);
     // 當form改變時，傳送初始化訊息
     const message: MessageStyleIntroducer = {
+      lang: i18n.language,
       form: form,
       styleMode: mode,
       module: "StyleIntroducer",
@@ -145,6 +147,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
     setNestedStructure(null);
     // 當Mode改變時，傳送初始化訊息
     const message: MessageStyleIntroducer = {
+      lang: i18n.language,
       form: form,
       styleMode: mode,
       module: "StyleIntroducer",

@@ -19,10 +19,13 @@ export function tabController(
   appContext: AppContextType
 ) {
   tabWillEndController(activeTab, prevTab, appContext);
-  activeTabController(activeTab);
+  activeTabController(activeTab, appContext);
 }
 
-function activeTabController(activeTab: Module) {
+function activeTabController(
+  activeTab: Module,
+  appContext: AppContextType
+) {
   switch (activeTab) {
     case "Init":
       // Handle Init case

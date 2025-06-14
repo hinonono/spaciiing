@@ -9,6 +9,7 @@ export type StyleMode = StyleModeForFigmaVariable | StyleModeForFigmaStyle;
 export type StyleForm = "STYLE" | "VARIABLE";
 
 export interface MessageStyleIntroducer extends Message {
+  lang: string;
   form: StyleForm;
   styleMode: StyleMode;
   styleSelection?: StyleSelection;
