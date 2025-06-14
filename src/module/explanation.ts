@@ -525,19 +525,29 @@ export function createStyleColorHexNode(
   colors: RGBA[],
   fontName: FontName,
   fontSize: number
-): TextNode {
+): FrameNode {
   const color = colors[0];
-  let text = rgbToHex(color.r, color.g, color.b, true);
+  let hexValue = rgbToHex(color.r, color.g, color.b, true);
   if (color.a !== 1) {
-    text = `${text}(${Math.round(color.a * 100)}%)`;
+    hexValue = `${hexValue}(${Math.round(color.a * 100)}%)`;
   }
 
-  const colorHexNode = createTextNode(text, fontName, fontSize, [
-    { type: "SOLID", color: semanticTokens.text.secondary },
-  ]);
-  colorHexNode.textCase = "UPPER";
+  const hexValueNode = createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+  hexValueNode.textAlignHorizontal = "RIGHT";
 
-  return colorHexNode;
+  const node = createExplanationSinglePropertyItem("Color", hexValueNode, fontName);
+  node.layoutSizingVertical = "HUG";
+
+  return node;
+
+
+
+  // const colorHexNode = createTextNode(text, fontName, fontSize, [
+  //   { type: "SOLID", color: semanticTokens.text.secondary },
+  // ]);
+  // colorHexNode.textCase = "UPPER";
+
+  // return colorHexNode;
 }
 
 /**

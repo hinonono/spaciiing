@@ -157,7 +157,7 @@ export function createPropertiesForGradient(
     if (gradientStops.length === 0) { throw new Error("Termination due to color.length is 0."); }
 
     if (form === "STYLE") {
-        const gradientNode = createStyleGradientNode(
+        const gradientNodes = createStyleGradientNode(
             gradientType,
             gradientTransform,
             gradientStops,
@@ -165,7 +165,7 @@ export function createPropertiesForGradient(
             semanticTokens.fontSize.small
         );
 
-        return gradientNode;
+        return gradientNodes;
     } else {
         throw new Error("Gradient is not supported in variables mode.")
     }
