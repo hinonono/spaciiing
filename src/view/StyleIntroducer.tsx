@@ -3,24 +3,18 @@ import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import Modal from "../components/Modal";
-import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
-import {
-  MessageStyleIntroducer,
-  StyleForm,
-  StyleMode,
-} from "../types/Messages/MessageStyleIntroducer";
+import { StyleForm, StyleMode, } from "../types/Messages/MessageStyleIntroducer";
 import { NestedStructure, StyleSelection } from "../types/General";
-import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd";
+import { applyStyleIntroducer, buildNestedStructure, reInitStyleIntroducer } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
 import SegmentedControl from "../components/SegmentedControl";
 import { CatalogueSettingModal } from "../components/modalComponents";
-import * as info from "../info.json";
 
 interface StyleIntroducerProps { }
 
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
-  const { licenseManagement, setShowCTSubscribe, styleList, setFreeUserDelayModalConfig } = useAppContext();
+  const appContext = useAppContext();
   const { t, i18n } = useTranslation(["common", "settings", "license", "term"]);
 
   // 功能說明彈窗
@@ -35,38 +29,8 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
 
   // 形式：樣式、變數
   const [form, setForm] = useState<StyleForm>("STYLE");
-
   // 模式：色彩、效果、文字
   const [mode, setMode] = useState<StyleMode>("COLOR");
-
-  const applyStyleIntroducer = (isRealCall = false) => {
-    if (!isRealCall) {
-      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-        setFreeUserDelayModalConfig({
-          show: true,
-          initialTime: info.freeUserWaitingTime,
-          onProceed: () => applyStyleIntroducer(true),
-        });
-        return;
-      }
-    }
-
-    if (selectedScopes.scopes.length <= 0) {
-      return;
-    }
-
-    const message: MessageStyleIntroducer = {
-      module: "StyleIntroducer",
-      phase: "Actual",
-      direction: "Inner",
-      lang: i18n.language,
-      form: form,
-      styleMode: mode,
-      styleSelection: selectedScopes,
-    };
-
-    parent.postMessage({ pluginMessage: message, }, "*");
-  };
 
   const [selectedScopes, setSelectedScopes] = useState<StyleSelection>({
     title: "",
@@ -82,7 +46,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const [errorPath, setErrorPath] = useState<string | undefined>(undefined); //  state for error path
 
   useEffect(() => {
-    const result = buildNestedStructure(styleList);
+    const result = buildNestedStructure(appContext.styleList);
 
     if (result.structure) {
       setNestedStructure(result.structure);
@@ -92,7 +56,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       setHasError(true);
       setErrorPath(result.errorPath); // Store the error path for the error message
     }
-  }, [styleList, mode]);
+  }, [appContext.styleList, mode]);
 
   const folderNavigator = () => {
     if (hasError) {
@@ -120,43 +84,20 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   };
 
   useEffect(() => {
-    setSelectedScopes({
-      title: "",
-      scopes: [],
-    });
     setMode("COLOR");
-    setNestedStructure(null);
-    // 當form改變時，傳送初始化訊息
-    const message: MessageStyleIntroducer = {
-      lang: i18n.language,
-      form: form,
-      styleMode: mode,
-      module: "StyleIntroducer",
-      phase: "Init",
-      direction: "Inner",
-    };
-
-    parent.postMessage({ pluginMessage: message, }, "*");
+    clearScopeAndStructure();
+    reInitStyleIntroducer(i18n.language, form, mode,)
   }, [form]);
 
   useEffect(() => {
-    setSelectedScopes({
-      title: "",
-      scopes: [],
-    });
-    setNestedStructure(null);
-    // 當Mode改變時，傳送初始化訊息
-    const message: MessageStyleIntroducer = {
-      lang: i18n.language,
-      form: form,
-      styleMode: mode,
-      module: "StyleIntroducer",
-      phase: "Init",
-      direction: "Inner",
-    };
-
-    parent.postMessage({ pluginMessage: message, }, "*");
+    clearScopeAndStructure();
+    reInitStyleIntroducer(i18n.language, form, mode);
   }, [mode]);
+
+  function clearScopeAndStructure() {
+    setSelectedScopes({ title: "", scopes: [], });
+    setNestedStructure(null);
+  }
 
   return (
     <div>
@@ -236,7 +177,17 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         <div className="mt-xsmall">
           <FigmaButton
             title={t("module:generate")}
-            onClick={() => applyStyleIntroducer(false)}
+            onClick={() => {
+              applyStyleIntroducer(
+                appContext,
+                selectedScopes,
+                form,
+                mode,
+                // i18n.language,
+                "enUS",
+                false
+              )
+            }}
             disabled={hasError}
           />
         </div>

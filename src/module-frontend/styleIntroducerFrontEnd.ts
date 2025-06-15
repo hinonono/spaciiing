@@ -1,8 +1,10 @@
-import { AppContextType } from "../AppProvider";
-import { StyleListItemFrontEnd, NestedStructure } from "../types/General";
+import { AppContextType } from './../AppProvider';
+import { StyleListItemFrontEnd, NestedStructure, StyleSelection } from "../types/General";
 import { ExternalMessage } from "../types/Messages/ExternalMessage";
-import { MessageStyleIntroducer } from "../types/Messages/MessageStyleIntroducer";
+import { MessageStyleIntroducer, StyleForm, StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { ExternalMessageUpdatePaintStyleList as ExternalMessageUpdateStyleList } from "../types/Messages/MessageStyleIntroducer";
+import info from "../info.json";
+import { checkProFeatureAccessibleForUser } from './utilFrontEnd';
 
 export const buildNestedStructure = (
   data: StyleListItemFrontEnd[]
@@ -86,3 +88,57 @@ const updateStyleListHandler = (
   const { setStyleList } = appContext;
   setStyleList(message.styleList);
 };
+
+export function applyStyleIntroducer(
+  appContext: AppContextType,
+  selectedScopes: StyleSelection,
+  form: StyleForm,
+  mode: StyleMode,
+  lang: string,
+  isRealCall = false
+) {
+  if (!isRealCall) {
+    if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
+      appContext.setFreeUserDelayModalConfig({
+        show: true,
+        initialTime: info.freeUserWaitingTime,
+        onProceed: () => applyStyleIntroducer(appContext, selectedScopes, form, mode, lang, true),
+      });
+      return;
+    }
+  }
+
+  if (selectedScopes.scopes.length <= 0) {
+    return;
+  }
+
+  const message: MessageStyleIntroducer = {
+    module: "StyleIntroducer",
+    phase: "Actual",
+    direction: "Inner",
+    lang: lang,
+    form: form,
+    styleMode: mode,
+    styleSelection: selectedScopes,
+  };
+
+  parent.postMessage({ pluginMessage: message, }, "*");
+};
+
+export function reInitStyleIntroducer(
+  lang: string,
+  form: StyleForm,
+  mode: StyleMode
+) {
+  // 當form或mode改變時，傳送初始化訊息
+  const message: MessageStyleIntroducer = {
+    lang: lang,
+    form: form,
+    styleMode: mode,
+    module: "StyleIntroducer",
+    phase: "Init",
+    direction: "Inner",
+  };
+
+  parent.postMessage({ pluginMessage: message, }, "*");
+}
