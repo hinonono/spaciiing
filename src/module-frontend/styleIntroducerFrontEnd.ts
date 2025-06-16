@@ -112,6 +112,9 @@ export function applyStyleIntroducer(
     return;
   }
 
+
+
+
   const message: MessageStyleIntroducer = {
     module: "StyleIntroducer",
     phase: "Actual",
@@ -121,7 +124,7 @@ export function applyStyleIntroducer(
     styleMode: mode,
     styleSelection: selectedScopes,
   };
-
+  // console.log(message);
   parent.postMessage({ pluginMessage: message, }, "*");
 };
 
