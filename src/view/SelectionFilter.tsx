@@ -42,7 +42,7 @@ const SelectionFilter: React.FC = () => {
       setFindCriteria("");
     }
   };
-  const [includeParentLayer, setIncludeParentLayer] = useState(false);
+  const [includeParentLayer, setIncludeParentLayer] = useState(true);
   const handleIncludeParentLayerChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
   }) => {

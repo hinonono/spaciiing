@@ -1,11 +1,12 @@
 
 import { ArrowSchema } from "../types/ArrowSchema";
 import { MessageSelectionFilter } from "../types/Messages/MessageSelectionFilter";
+import { getProcessedNodes } from "./nodeProcessing";
 import * as util from "./util";
 
 export function reception(message: MessageSelectionFilter) {
   if (message.phase == "Actual") {
-    filterSelection(message);
+    filterSelection2(message);
   }
 }
 
@@ -176,6 +177,111 @@ function filterSelection(message: MessageSelectionFilter) {
   figma.notify(
     `✅ Found ${finalSelection.length} layer(s) matching the criteria.`
   );
+}
+
+/**
+ * Filters the current selection based on various criteria such as visibility, locked status,
+ * name matching, and node type. It uses getProcessedNodes for preprocessing and highlights
+ * the resulting matching nodes in the Figma UI.
+ */
+function filterSelection2(message: MessageSelectionFilter) {
+  const selection = util.getCurrentSelection();
+  const afo = message.additionalFilterOptions;
+
+  // If nothing is selected, notify and exit
+  if (selection.length === 0) {
+    figma.notify("❌ No layers selected.");
+    return;
+  }
+
+  // Check if a node is an image (rectangle with image fill)
+  function isImageNode(node: SceneNode): boolean {
+    if (node.type === "RECTANGLE" && node.fills) {
+      return util.hasImageFill(node);
+    }
+    return false;
+  }
+
+  // Check if a node is a SPACIIING_ARROW group
+  function isSpaciiingArrowNode(node: SceneNode): boolean {
+    const schema = getArrowSchema(node);
+    if (!schema) { return false };
+    return node.type === "GROUP" && schema.objectType === "SPACIIING_ARROW";
+  }
+
+  // Check if a node has auto layout
+  function hasAutoLayout(node: SceneNode): boolean {
+    return (
+      node.type === "FRAME" &&
+      (node.layoutMode === "HORIZONTAL" || node.layoutMode === "VERTICAL")
+    );
+  }
+
+  // Recursively find nodes that match the requested filter scopes
+  function findAllMatchingNodes(nodes: readonly SceneNode[]): SceneNode[] {
+    let matchingNodes: SceneNode[] = [];
+    for (const node of nodes) {
+      // Check if node matches any of the filter scopes
+      if (
+        message.filterScopes.includes(node.type) ||
+        (message.filterScopes.includes("IMAGE") && isImageNode(node)) ||
+        (message.filterScopes.includes("AUTO_LAYOUT") && hasAutoLayout(node)) ||
+        (message.filterScopes.includes("SPACIIING_ARROW") && isSpaciiingArrowNode(node))
+      ) {
+        matchingNodes.push(node);
+      }
+
+      // Recursively inspect children unless it's a SPACIIING_ARROW node
+      if (!isSpaciiingArrowNode(node)) {
+        if ("children" in node) {
+          matchingNodes = matchingNodes.concat(
+            findAllMatchingNodes(node.children)
+          );
+        }
+      }
+    }
+    return matchingNodes;
+  }
+
+  // Flatten the selection to the children of selected containers if any
+  let filteredSelection: SceneNode[] = [];
+  let hasChildren = false;
+
+  for (const node of selection) {
+    if ("children" in node) {
+      hasChildren = true;
+      filteredSelection = filteredSelection.concat(node.children);
+    }
+  }
+
+  // If no parent containers, fall back to direct selection
+  if (!hasChildren) {
+    filteredSelection = selection;
+  }
+
+  // Preprocess the selection using filtering options
+  const processedNodes = getProcessedNodes(
+    filteredSelection,
+    {
+      skipHidden: afo.skipHiddenLayers,
+      skipLocked: afo.skipLockLayers,
+      findCriteria: afo.findWithName ? afo.findCriteria : undefined,
+      includeParentLayer: afo.includeParentLayer,
+    }
+  );
+
+  // Find nodes within the processed set that match the defined filter scopes
+  let finalSelection = findAllMatchingNodes(processedNodes);
+
+  // If no nodes match the filters, notify and exit
+  if (finalSelection.length === 0) {
+    figma.notify("❌ No layers match the specified types.");
+    return;
+  }
+
+  // Set the final result as the current selection and notify the user
+  figma.currentPage.selection = finalSelection;
+  figma.notify(`✅ Found ${finalSelection.length} layer(s) matching the criteria.`);
 }
 
 function getArrowSchema(obj: SceneNode): ArrowSchema | null {
