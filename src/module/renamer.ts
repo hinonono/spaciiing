@@ -11,32 +11,8 @@ import enUSData from "../assets/renamer/en-US.json"
  * and optionally deleting hidden layers.
  */
 export function renameSelectedObjects(message: MessageRenamer) {
-  const selection = util.getCurrentSelection();
-  // let filteredSelection: SceneNode[] = [];
-  // let hasChildren = false;
-  const topLevelNodesWithChildren: SceneNode[] = [];
-
-  // Flatten selection to children if any container nodes are selected
-  // for (const node of selection) {
-  //   if ("children" in node) {
-  //     hasChildren = true;
-  //     filteredSelection = filteredSelection.concat(node.children);
-  //   }
-  // }
-
-  // Track all top-level nodes for later use
-  for (let i = 0; i < selection.length; i++) {
-    topLevelNodesWithChildren.push(selection[i]);
-    console.log(selection[i].name);
-  }
-
-  // If no container nodes selected, operate on the selection directly
-  // if (!hasChildren) {
-  //   filteredSelection = selection;
-  // }
-
   // Apply filtering: skip locked layers using shared utility
-  const filteredSelection = getProcessedNodes(
+  const processedNodes = getProcessedNodes(
     {
       skipLocked: message.options.skipLockedLayer,
       skipHidden: message.options.skipHiddenLayers,
@@ -44,7 +20,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
     }
   );
 
-  if (filteredSelection.length === 0) {
+  if (processedNodes.length === 0) {
     figma.notify("❌ Please select at least one object.");
     return;
   }
@@ -76,7 +52,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
   }
 
   // Iterate through filtered nodes and rename or delete them
-  filteredSelection.forEach((selectedNode) => {
+  processedNodes.forEach((selectedNode) => {
     if (!selectedNode) {
       figma.notify("❌ The selected object is invalid.");
       return;

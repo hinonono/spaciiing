@@ -185,16 +185,7 @@ export function reception(message: MessageSelectionFilter) {
  * the resulting matching nodes in the Figma UI.
  */
 function filterSelection2(message: MessageSelectionFilter) {
-  // const selection = util.getCurrentSelection();
-  // console.log("selection", selection);
-
   const afo = message.additionalFilterOptions;
-
-  // If nothing is selected, notify and exit
-  // if (selection.length === 0) {
-  //   figma.notify("❌ No layers selected.");
-  //   return;
-  // }
 
   // Check if a node is an image (rectangle with image fill)
   function isImageNode(node: SceneNode): boolean {
@@ -235,25 +226,6 @@ function filterSelection2(message: MessageSelectionFilter) {
     }
     return matchingNodes;
   }
-
-  // Flatten the selection to the children of selected containers if any
-  // let filteredSelection: SceneNode[] = [];
-  // let hasChildren = false;
-
-  // for (const node of selection) {
-  //   if ("children" in node) {
-  //     hasChildren = true;
-  //     filteredSelection = filteredSelection.concat(node.children);
-  //   }
-  // }
-
-  // If no parent containers, fall back to direct selection
-  // if (hasChildren === false) {
-  //   filteredSelection = selection;
-  // }
-
-  // console.log("filteredSelection", filteredSelection);
-
 
   // Preprocess the selection using filtering options
   const processedNodes = getProcessedNodes(
