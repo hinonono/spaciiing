@@ -39,17 +39,17 @@ export function renameSelectedObjects(message: MessageRenamer) {
   }
 
   // Recursively delete hidden nodes
-  function deleteHiddenLayers(node: SceneNode) {
-    if (node.visible === false) {
-      node.remove();
-      return;
-    }
-    if ("children" in node) {
-      for (const child of node.children) {
-        deleteHiddenLayers(child);
-      }
-    }
-  }
+  // function deleteHiddenLayers(node: SceneNode) {
+  //   if (node.visible === false) {
+  //     node.remove();
+  //     return;
+  //   }
+  //   if ("children" in node) {
+  //     for (const child of node.children) {
+  //       deleteHiddenLayers(child);
+  //     }
+  //   }
+  // }
 
   // Iterate through filtered nodes and rename or delete them
   processedNodes.forEach((selectedNode) => {
@@ -58,7 +58,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
       return;
     }
     if (message.options.deleteHiddenLayer) {
-      deleteHiddenLayers(selectedNode);
+      // deleteHiddenLayers(selectedNode);
     } else {
       renameNode(selectedNode, false);
     }
