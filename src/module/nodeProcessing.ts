@@ -12,7 +12,6 @@ import * as util from "./util";
  * Returns a flat array of nodes that match the criteria.
  */
 export function getProcessedNodes(
-    nodes2: readonly SceneNode[],
     options: {
         skipLocked?: boolean;
         skipHidden?: boolean;

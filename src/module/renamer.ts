@@ -12,17 +12,17 @@ import enUSData from "../assets/renamer/en-US.json"
  */
 export function renameSelectedObjects(message: MessageRenamer) {
   const selection = util.getCurrentSelection();
-  let filteredSelection: SceneNode[] = [];
-  let hasChildren = false;
+  // let filteredSelection: SceneNode[] = [];
+  // let hasChildren = false;
   const topLevelNodesWithChildren: SceneNode[] = [];
 
   // Flatten selection to children if any container nodes are selected
-  for (const node of selection) {
-    if ("children" in node) {
-      hasChildren = true;
-      filteredSelection = filteredSelection.concat(node.children);
-    }
-  }
+  // for (const node of selection) {
+  //   if ("children" in node) {
+  //     hasChildren = true;
+  //     filteredSelection = filteredSelection.concat(node.children);
+  //   }
+  // }
 
   // Track all top-level nodes for later use
   for (let i = 0; i < selection.length; i++) {
@@ -31,13 +31,12 @@ export function renameSelectedObjects(message: MessageRenamer) {
   }
 
   // If no container nodes selected, operate on the selection directly
-  if (!hasChildren) {
-    filteredSelection = selection;
-  }
+  // if (!hasChildren) {
+  //   filteredSelection = selection;
+  // }
 
   // Apply filtering: skip locked layers using shared utility
-  filteredSelection = getProcessedNodes(
-    filteredSelection,
+  const filteredSelection = getProcessedNodes(
     {
       skipLocked: message.options.skipLockedLayer,
       skipHidden: message.options.skipHiddenLayers,
