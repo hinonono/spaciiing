@@ -186,6 +186,8 @@ export function reception(message: MessageSelectionFilter) {
  */
 function filterSelection2(message: MessageSelectionFilter) {
   const selection = util.getCurrentSelection();
+  console.log("selection", selection);
+
   const afo = message.additionalFilterOptions;
 
   // If nothing is selected, notify and exit
@@ -230,15 +232,6 @@ function filterSelection2(message: MessageSelectionFilter) {
       ) {
         matchingNodes.push(node);
       }
-
-      // Recursively inspect children unless it's a SPACIIING_ARROW node
-      if (!isSpaciiingArrowNode(node)) {
-        if ("children" in node) {
-          matchingNodes = matchingNodes.concat(
-            findAllMatchingNodes(node.children)
-          );
-        }
-      }
     }
     return matchingNodes;
   }
@@ -255,9 +248,12 @@ function filterSelection2(message: MessageSelectionFilter) {
   }
 
   // If no parent containers, fall back to direct selection
-  if (!hasChildren) {
+  if (hasChildren === false) {
     filteredSelection = selection;
   }
+
+  console.log("filteredSelection", filteredSelection);
+
 
   // Preprocess the selection using filtering options
   const processedNodes = getProcessedNodes(

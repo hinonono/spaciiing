@@ -170,11 +170,11 @@ const SelectionFilter: React.FC = () => {
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
           <div className="cy-checkbox-group">
-            <CYCheckbox
+            {/* <CYCheckbox
               label={t("module:includeParentLayers")}
               checked={includeParentLayer}
               onChange={handleIncludeParentLayerChange}
-            />
+            /> */}
             <CYCheckbox
               label={t("module:skipHiddenLayers")}
               checked={skipHiddenLayer}

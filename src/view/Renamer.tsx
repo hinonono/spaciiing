@@ -198,11 +198,11 @@ const Renamer: React.FC = () => {
               checked={deleteHiddenLayer}
               onChange={handleDeleteHiddenLayerChange}
             /> */}
-            <CYCheckbox
+            {/* <CYCheckbox
               label={t("module:includeParentLayers")}
               checked={includeParentLayer}
               onChange={handleIncludeParentLayerChange}
-            />
+            /> */}
             <CYCheckbox
               label={t("module:skipHiddenLayers")}
               checked={skipHiddenLayer}

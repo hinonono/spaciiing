@@ -1,3 +1,5 @@
+import * as util from "./util";
+
 /**
  * Processes a list of SceneNodes by applying various filtering options.
  * 
@@ -10,7 +12,7 @@
  * Returns a flat array of nodes that match the criteria.
  */
 export function getProcessedNodes(
-    nodes: readonly SceneNode[],
+    nodes2: readonly SceneNode[],
     options: {
         skipLocked?: boolean;
         skipHidden?: boolean;
@@ -18,6 +20,8 @@ export function getProcessedNodes(
         includeParentLayer?: boolean;
     }
 ): SceneNode[] {
+    const nodes = util.getCurrentSelection();
+
     // Recursively exclude locked nodes and their children
     function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
         let result: SceneNode[] = [];
@@ -72,13 +76,33 @@ export function getProcessedNodes(
     // Start with the initial node list
     let processed = [...nodes];
 
+    console.log("BERORE PROCESSED");
+    console.log(processed);
+
+    // Optionally include parent layers of matched nodes
+    // if (options.includeParentLayer === true) {
+    //     const parentSet = new Set<SceneNode>();
+    //     for (const node of processed) {
+    //         let current = node.parent;
+    //         while (current && current.type !== "PAGE" && current.type !== "DOCUMENT") {
+    //             if (!parentSet.has(current)) {
+    //                 parentSet.add(current);
+    //             }
+    //             current = current.parent;
+    //         }
+    //     }
+    //     processed = [...processed, ...Array.from(parentSet)];
+    // }
+    console.log("INCLUDE PROCESSED");
+    console.log(processed);
+
     // Apply visibility filter if requested
-    if (options.skipHidden) {
+    if (options.skipHidden === true) {
         processed = skipHiddenLayersAndChildren(processed);
     }
 
     // Apply locked layer filter if requested
-    if (options.skipLocked) {
+    if (options.skipLocked === true) {
         processed = skipLockLayersAndChildren(processed);
     }
 
@@ -87,20 +111,20 @@ export function getProcessedNodes(
         processed = filterByName(processed, options.findCriteria);
     }
 
-    // Optionally include parent layers of matched nodes
-    if (options.includeParentLayer) {
-        const parentSet = new Set<SceneNode>();
-        for (const node of processed) {
-            let current = node.parent;
-            while (current && current.type !== "PAGE" && current.type !== "DOCUMENT") {
-                if (!parentSet.has(current)) {
-                    parentSet.add(current);
-                }
-                current = current.parent;
-            }
-        }
-        processed = [...processed, ...Array.from(parentSet)];
-    }
+    console.log("3");
+    console.log(processed);
 
-    return processed;
+
+
+    const seen = new Set<string>();
+    const uniqueNodes = processed.filter(node => {
+        if (seen.has(node.id)) return false;
+        seen.add(node.id);
+        return true;
+    });
+
+    console.log("PROCESSED");
+    console.log(uniqueNodes);
+
+    return uniqueNodes;
 }

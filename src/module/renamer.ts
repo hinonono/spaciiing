@@ -74,11 +74,11 @@ export function renameSelectedObjects(message: MessageRenamer) {
     }
 
     // Continue renaming children recursively
-    if ("children" in node) {
-      for (const child of node.children) {
-        renameNode(child, false);
-      }
-    }
+    // if ("children" in node) {
+    //   for (const child of node.children) {
+    //     renameNode(child, false);
+    //   }
+    // }
   }
 
   // Recursively delete hidden nodes
