@@ -7,6 +7,7 @@ export type RenamerSupportedTargets = "text" | "image" | "auto_layout";
 export interface RenamerOptions {
   deleteHiddenLayer: boolean;
   skipLockedLayer: boolean;
+  skipHiddenLayers: boolean;
   includeParentLayer: boolean;
   useTextLayerContent: boolean;
 }

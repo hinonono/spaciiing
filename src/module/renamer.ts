@@ -1,15 +1,22 @@
 import { NodeRenamable } from './../types/NodeRenamable';
 import { MessageRenamer, PredifinedNames, RenamerOptions } from "../types/Messages/MessageRenamer";
+import { getProcessedNodes } from "./nodeProcessing";
 import * as util from "./util";
 import jaJPData from "../assets/renamer/ja-JP.json"
 import enUSData from "../assets/renamer/en-US.json"
 
+/**
+ * Renames selected Figma objects based on the provided naming options.
+ * Supports skipping locked layers, including/excluding parent layers,
+ * and optionally deleting hidden layers.
+ */
 export function renameSelectedObjects(message: MessageRenamer) {
   const selection = util.getCurrentSelection();
   let filteredSelection: SceneNode[] = [];
   let hasChildren = false;
   const topLevelNodesWithChildren: SceneNode[] = [];
 
+  // Flatten selection to children if any container nodes are selected
   for (const node of selection) {
     if ("children" in node) {
       hasChildren = true;
@@ -17,18 +24,27 @@ export function renameSelectedObjects(message: MessageRenamer) {
     }
   }
 
+  // Track all top-level nodes for later use
   for (let i = 0; i < selection.length; i++) {
     topLevelNodesWithChildren.push(selection[i]);
     console.log(selection[i].name);
   }
 
+  // If no container nodes selected, operate on the selection directly
   if (!hasChildren) {
     filteredSelection = selection;
   }
 
-  if (message.options.skipLockedLayer) {
-    filteredSelection = skipLockLayersAndChildren(filteredSelection);
-  }
+  // Apply filtering: skip locked layers using shared utility
+  filteredSelection = getProcessedNodes(
+    filteredSelection,
+    {
+      skipLocked: message.options.skipLockedLayer,
+      skipHidden: message.options.skipHiddenLayers,
+      findCriteria: undefined,
+      includeParentLayer: message.options.includeParentLayer,
+    }
+  );
 
   if (filteredSelection.length === 0) {
     figma.notify("❌ Please select at least one object.");
@@ -37,25 +53,10 @@ export function renameSelectedObjects(message: MessageRenamer) {
 
   const predefinedNames = getPredefinedName(message.lang);
 
-  function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
-    let result: SceneNode[] = [];
-
-    for (const node of nodes) {
-      if (!node.locked) {
-        if ("children" in node && node.children.length > 0) {
-          const filteredChildren = skipLockLayersAndChildren(node.children);
-          result = result.concat(filteredChildren);
-        }
-        result.push(node);
-      }
-    }
-
-    return result;
-  }
-
+  // Recursive function to rename a node and its children
   function renameNode(node: SceneNode, isTopLevel: boolean) {
+    // Optionally skip renaming top-level nodes
     if (isTopLevel && !message.options.includeParentLayer) {
-      // Skip renaming the top-level node if includeParentLayer is false
       if ("children" in node) {
         for (const child of node.children) {
           renameNode(child, false);
@@ -64,6 +65,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
       return;
     }
 
+    // Skip locked or variable-format layers
     if (shouldRenameNode(message.options.skipLockedLayer, node)) {
       const newName = getNewName(message.renameTarget, predefinedNames, node, message.options);
       if (newName !== null) {
@@ -71,6 +73,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
       }
     }
 
+    // Continue renaming children recursively
     if ("children" in node) {
       for (const child of node.children) {
         renameNode(child, false);
@@ -78,6 +81,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
     }
   }
 
+  // Recursively delete hidden nodes
   function deleteHiddenLayers(node: SceneNode) {
     if (node.visible === false) {
       node.remove();
@@ -90,6 +94,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
     }
   }
 
+  // Iterate through filtered nodes and rename or delete them
   filteredSelection.forEach((selectedNode) => {
     if (!selectedNode) {
       figma.notify("❌ The selected object is invalid.");
@@ -102,6 +107,7 @@ export function renameSelectedObjects(message: MessageRenamer) {
     }
   });
 
+  // Optionally rename top-level parent layers
   topLevelNodesWithChildren.forEach((topLevelNode) => {
     if (message.options.includeParentLayer) {
       const newName = getNewName(message.renameTarget, predefinedNames, topLevelNode, message.options);
@@ -113,6 +119,104 @@ export function renameSelectedObjects(message: MessageRenamer) {
 
   figma.notify("✅ The selected object has been renamed.");
 }
+
+// function renameSelectedObjects2(message: MessageRenamer) {
+//   const selection = util.getCurrentSelection();
+//   let filteredSelection: SceneNode[] = [];
+//   let hasChildren = false;
+//   const topLevelNodesWithChildren: SceneNode[] = [];
+
+//   for (const node of selection) {
+//     if ("children" in node) {
+//       hasChildren = true;
+//       filteredSelection = filteredSelection.concat(node.children);
+//     }
+//   }
+
+//   for (let i = 0; i < selection.length; i++) {
+//     topLevelNodesWithChildren.push(selection[i]);
+//     console.log(selection[i].name);
+//   }
+
+//   if (!hasChildren) {
+//     filteredSelection = selection;
+//   }
+
+//   filteredSelection = getProcessedNodes(filteredSelection, {
+//     skipLocked: message.options.skipLockedLayer,
+//     skipHidden: false,
+//     findCriteria: undefined,
+//     includeParentLayer: false,
+//   });
+
+//   if (filteredSelection.length === 0) {
+//     figma.notify("❌ Please select at least one object.");
+//     return;
+//   }
+
+//   const predefinedNames = getPredefinedName(message.lang);
+
+
+//   function renameNode(node: SceneNode, isTopLevel: boolean) {
+//     if (isTopLevel && !message.options.includeParentLayer) {
+//       // Skip renaming the top-level node if includeParentLayer is false
+//       if ("children" in node) {
+//         for (const child of node.children) {
+//           renameNode(child, false);
+//         }
+//       }
+//       return;
+//     }
+
+//     if (shouldRenameNode(message.options.skipLockedLayer, node)) {
+//       const newName = getNewName(message.renameTarget, predefinedNames, node, message.options);
+//       if (newName !== null) {
+//         node.name = newName;
+//       }
+//     }
+
+//     if ("children" in node) {
+//       for (const child of node.children) {
+//         renameNode(child, false);
+//       }
+//     }
+//   }
+
+//   function deleteHiddenLayers(node: SceneNode) {
+//     if (node.visible === false) {
+//       node.remove();
+//       return;
+//     }
+//     if ("children" in node) {
+//       for (const child of node.children) {
+//         deleteHiddenLayers(child);
+//       }
+//     }
+//   }
+
+//   filteredSelection.forEach((selectedNode) => {
+//     if (!selectedNode) {
+//       figma.notify("❌ The selected object is invalid.");
+//       return;
+//     }
+//     if (message.options.deleteHiddenLayer) {
+//       deleteHiddenLayers(selectedNode);
+//     } else {
+//       renameNode(selectedNode, false);
+//     }
+//   });
+
+//   topLevelNodesWithChildren.forEach((topLevelNode) => {
+//     if (message.options.includeParentLayer) {
+//       const newName = getNewName(message.renameTarget, predefinedNames, topLevelNode, message.options);
+//       if (newName !== null) {
+//         topLevelNode.name = newName;
+//       }
+//     }
+//   });
+
+//   figma.notify("✅ The selected object has been renamed.");
+// }
 
 function shouldRenameNode(skipLockedLayer: boolean, node: SceneNode): boolean {
   if (skipLockedLayer && node.locked) {
