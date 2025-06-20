@@ -261,8 +261,7 @@ function filterSelection2(message: MessageSelectionFilter) {
     {
       skipHidden: afo.skipHiddenLayers,
       skipLocked: afo.skipLockLayers,
-      findCriteria: afo.findWithName ? afo.findCriteria : undefined,
-      includeParentLayer: afo.includeParentLayer,
+      findCriteria: afo.findWithName ? afo.findCriteria : undefined
     }
   );
 

@@ -17,7 +17,6 @@ export function getProcessedNodes(
         skipLocked?: boolean;
         skipHidden?: boolean;
         findCriteria?: string;
-        includeParentLayer?: boolean;
     }
 ): SceneNode[] {
     const nodes = util.getCurrentSelection();

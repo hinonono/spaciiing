@@ -8,7 +8,6 @@ export interface RenamerOptions {
   deleteHiddenLayer: boolean;
   skipLockedLayer: boolean;
   skipHiddenLayers: boolean;
-  includeParentLayer: boolean;
   useTextLayerContent: boolean;
 }
 

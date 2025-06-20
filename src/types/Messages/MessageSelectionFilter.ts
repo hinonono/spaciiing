@@ -7,7 +7,6 @@ export interface AdditionalFilterOptions {
   skipHiddenLayers: boolean;
   findWithName: boolean;
   findCriteria: string;
-  includeParentLayer: boolean;
 }
 export interface MessageSelectionFilter extends Message {
   filterScopes: NodeFilterable[];

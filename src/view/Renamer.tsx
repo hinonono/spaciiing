@@ -40,7 +40,6 @@ const Renamer: React.FC = () => {
   };
 
   const [useTextLayerContent, setUseTextLayerContent] = useState(true);
-  const [includeParentLayer, setIncludeParentLayer] = useState(false);
 
   // Handle checkbox change
   const handleDeleteHiddenLayerChange = (event: {
@@ -59,12 +58,6 @@ const Renamer: React.FC = () => {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
   }) => {
     setUseTextLayerContent(event.target.checked);
-  };
-
-  const handleIncludeParentLayerChange = (event: {
-    target: { checked: boolean | ((prevState: boolean) => boolean) };
-  }) => {
-    setIncludeParentLayer(event.target.checked);
   };
 
   const handleScopeChange = (scope: NodeRenamable) => {
@@ -126,7 +119,6 @@ const Renamer: React.FC = () => {
         deleteHiddenLayer: deleteHiddenLayer,
         skipHiddenLayers: skipHiddenLayer,
         skipLockedLayer: skipLockedLayer,
-        includeParentLayer: includeParentLayer,
         useTextLayerContent: useTextLayerContent,
       },
       lang: i18n.language
@@ -193,16 +185,6 @@ const Renamer: React.FC = () => {
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
           <div className="cy-checkbox-group">
-            {/* <CYCheckbox
-              label={t("module:deleteHiddenLayers")}
-              checked={deleteHiddenLayer}
-              onChange={handleDeleteHiddenLayerChange}
-            /> */}
-            {/* <CYCheckbox
-              label={t("module:includeParentLayers")}
-              checked={includeParentLayer}
-              onChange={handleIncludeParentLayerChange}
-            /> */}
             <CYCheckbox
               label={t("module:skipHiddenLayers")}
               checked={skipHiddenLayer}
