@@ -102,5 +102,6 @@
 	"duo": "Duo",
 	"multi": "Multi",
 	"textCase": "textCase",
-	"variableModes": "Variable Modes: $VALUE$"
+	"variableModes": "Variable Modes: $VALUE$",
+	"arrowSpaciiing": "Arrow (Spaciiing)"
 }

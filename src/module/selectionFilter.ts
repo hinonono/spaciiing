@@ -1,4 +1,5 @@
 
+import { ArrowSchema } from "../types/ArrowSchema";
 import { MessageSelectionFilter } from "../types/Messages/MessageSelectionFilter";
 import * as util from "./util";
 
@@ -24,6 +25,17 @@ function filterSelection(message: MessageSelectionFilter) {
     return false;
   }
 
+  function isSpaciiingArrowNode(node: SceneNode): boolean {
+    const schema = getArrowSchema(node);
+
+    if (!schema) { return false };
+
+    if (node.type === "GROUP" && schema.objectType === "SPACIIING_ARROW") {
+      return true
+    }
+    return false;
+  }
+
   // Function to check if a node has auto layout applied
   function hasAutoLayout(node: SceneNode): boolean {
     return (
@@ -35,20 +47,24 @@ function filterSelection(message: MessageSelectionFilter) {
   // Recursive function to find all nodes of specified types within the selection
   function findAllMatchingNodes(nodes: readonly SceneNode[]): SceneNode[] {
     let matchingNodes: SceneNode[] = [];
+    console.log(nodes);
 
     for (const node of nodes) {
       if (
         message.filterScopes.includes(node.type) ||
         (message.filterScopes.includes("IMAGE") && isImageNode(node)) ||
-        (message.filterScopes.includes("AUTO_LAYOUT") && hasAutoLayout(node))
+        (message.filterScopes.includes("AUTO_LAYOUT") && hasAutoLayout(node)) ||
+        (message.filterScopes.includes("SPACIIING_ARROW") && isSpaciiingArrowNode(node))
       ) {
         matchingNodes.push(node);
       }
 
-      if ("children" in node) {
-        matchingNodes = matchingNodes.concat(
-          findAllMatchingNodes(node.children)
-        );
+      if (!isSpaciiingArrowNode(node)) {
+        if ("children" in node) {
+          matchingNodes = matchingNodes.concat(
+            findAllMatchingNodes(node.children)
+          );
+        }
       }
     }
 
@@ -131,7 +147,7 @@ function filterSelection(message: MessageSelectionFilter) {
 
   const overlappedSelection = getIntersection(filteredSelection1, filteredSelection2);
 
-  
+
 
   // Find all matching nodes from the filtered selection
   let finalSelection = findAllMatchingNodes(overlappedSelection);
@@ -160,4 +176,17 @@ function filterSelection(message: MessageSelectionFilter) {
   figma.notify(
     `✅ Found ${finalSelection.length} layer(s) matching the criteria.`
   );
+}
+
+function getArrowSchema(obj: SceneNode): ArrowSchema | null {
+  const key = "arrow-schema"
+
+  const data = obj.getPluginData(key)
+
+  if (data) {
+    const decodedData = JSON.parse(data) as ArrowSchema;
+    return decodedData;
+  } else {
+    return null;
+  }
 }

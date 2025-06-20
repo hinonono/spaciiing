@@ -391,6 +391,7 @@ function setArrowSchemaData(
 ) {
     const key = "arrow-schema"
     const schema: ArrowSchema = {
+        objectType: "SPACIIING_ARROW",
         arrowNodeId: arrowNodeId,
         annotationNodeId: annotationNodeId,
         direction: direction,

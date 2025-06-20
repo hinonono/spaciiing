@@ -42,6 +42,12 @@ const SelectionFilter: React.FC = () => {
       setFindCriteria("");
     }
   };
+  const [includeParentLayer, setIncludeParentLayer] = useState(false);
+  const handleIncludeParentLayerChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setIncludeParentLayer(event.target.checked);
+  };
 
   // 主要功能
   const [selectedScopes, setSelectedScopes] = useState<NodeFilterable[]>([]);
@@ -105,6 +111,7 @@ const SelectionFilter: React.FC = () => {
       skipHiddenLayers: skipHiddenLayer,
       findWithName: findWithName,
       findCriteria: findCriteria,
+      includeParentLayer: includeParentLayer,
     };
 
     const message: MessageSelectionFilter = {
@@ -163,6 +170,11 @@ const SelectionFilter: React.FC = () => {
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
           <div className="cy-checkbox-group">
+            <CYCheckbox
+              label={t("module:includeParentLayers")}
+              checked={includeParentLayer}
+              onChange={handleIncludeParentLayerChange}
+            />
             <CYCheckbox
               label={t("module:skipHiddenLayers")}
               checked={skipHiddenLayer}

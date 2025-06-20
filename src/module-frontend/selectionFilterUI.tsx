@@ -2,19 +2,23 @@ import React from "react";
 import { SvgImage } from "../assets/icons";
 import { EditorType } from "../types/EditorType";
 import { NodeFilterable } from "../types/NodeFilterable";
-import SvgText from "../assets/icons/SvgText";
-import SvgFrame from "../assets/icons/SvgFrame";
-import SvgGroup from "../assets/icons/SvgGroup";
-import SvgAutoLayout from "../assets/icons/SvgAutoLayout";
-import SvgInstance from "../assets/icons/SvgInstance";
-import SvgComponent from "../assets/icons/SvgComponent";
-import SvgShape from "../assets/icons/SvgShape";
-import SvgRect from "../assets/icons/SvgRect";
-import SvgCircle from "../assets/icons/SvgCircle";
-import SvgLine from "../assets/icons/SvgLine";
-import SvgPolygon from "../assets/icons/SvgPolygon";
-import SvgStar from "../assets/icons/SvgStar";
-import SvgVector from "../assets/icons/SvgVector";
+
+import {
+    SvgText,
+    SvgFrame,
+    SvgGroup,
+    SvgAutoLayout,
+    SvgInstance,
+    SvgComponent,
+    SvgShape,
+    SvgRect,
+    SvgCircle,
+    SvgLine,
+    SvgPolygon,
+    SvgStar,
+    SvgVector,
+    SvgDrawArrows,
+} from "../assets/icons/index";
 
 interface FilterScopeItem {
     nameKey: string;
@@ -132,5 +136,11 @@ export const FilterableScopesNew: FilterScopeItem[] = [
         indentLevel: 1,
         supportedEditorTypes: ["figma", "slides"],
         svg: <SvgVector color="var(--figma-color-text)" />
+    },
+    {
+        nameKey: "term:arrowSpaciiing",
+        scope: "SPACIIING_ARROW",
+        supportedEditorTypes: ["figma"],
+        svg: <SvgDrawArrows color="var(--figma-color-text)" />
     },
 ];

@@ -3,6 +3,7 @@ import { CYStroke } from "./CYStroke";
 import { Direction } from "./General";
 
 export type ArrowSchema = {
+    objectType: string,
     arrowNodeId: string,
     annotationNodeId?: string,
     direction: Direction
