@@ -205,7 +205,7 @@ const Renamer: React.FC = () => {
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={t("module:cleanUp")}
+            title={`${t("module:cleanUp")} (${selectedScopes.length})`}
             id={"renamer-apply"}
             onClick={() => applyRenamer(false)}
           />

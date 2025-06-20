@@ -194,7 +194,7 @@ const SelectionFilter: React.FC = () => {
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={t("module:filter")}
+            title={`${t("module:filter")} (${selectedScopes.length})`}
             id={"selection-filter-apply"}
             onClick={() => applySelectionFilter(false)}
           />
