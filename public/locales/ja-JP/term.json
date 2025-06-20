@@ -102,5 +102,6 @@
   "duo": "デュオ",
   "multi": "マルチ",
   "textCase": "大文字と小文字",
-  "variableModes": "バリアブルモード：$VALUE$"
+  "variableModes": "バリアブルモード：$VALUE$",
+  "arrowSpaciiing": "矢印 (Spaciiing)"
 }

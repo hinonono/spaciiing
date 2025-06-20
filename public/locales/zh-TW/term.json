@@ -102,5 +102,6 @@
 	"duo": "雙色",
 	"multi": "多色",
 	"textCase": "大小寫",
-	"variableModes": "變數模式：$VALUE$"
+	"variableModes": "變數模式：$VALUE$",
+	"arrowSpaciiing": "箭頭 (Spaciiing)"
 }
