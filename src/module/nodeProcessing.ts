@@ -1,3 +1,14 @@
+/**
+ * Processes a list of SceneNodes by applying various filtering options.
+ * 
+ * Options:
+ * - skipLocked: Exclude locked nodes and their children
+ * - skipHidden: Exclude nodes that are not visible (including inherited visibility)
+ * - findCriteria: Only include nodes whose name matches the given string
+ * - includeParentLayer: Include all parent layers of the resulting nodes
+ *
+ * Returns a flat array of nodes that match the criteria.
+ */
 export function getProcessedNodes(
     nodes: readonly SceneNode[],
     options: {
@@ -7,6 +18,7 @@ export function getProcessedNodes(
         includeParentLayer?: boolean;
     }
 ): SceneNode[] {
+    // Recursively exclude locked nodes and their children
     function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
         let result: SceneNode[] = [];
         for (const node of nodes) {
@@ -21,6 +33,7 @@ export function getProcessedNodes(
         return result;
     }
 
+    // Recursively exclude nodes that are hidden, including inherited visibility from parents
     function skipHiddenLayersAndChildren(
         nodes: readonly SceneNode[],
         parentVisible: boolean = true
@@ -39,6 +52,7 @@ export function getProcessedNodes(
         return result;
     }
 
+    // Recursively filter nodes whose name matches the provided findCriteria
     function filterByName(
         nodes: readonly SceneNode[],
         name: string
@@ -55,17 +69,25 @@ export function getProcessedNodes(
         return matches;
     }
 
+    // Start with the initial node list
     let processed = [...nodes];
+
+    // Apply visibility filter if requested
     if (options.skipHidden) {
         processed = skipHiddenLayersAndChildren(processed);
     }
+
+    // Apply locked layer filter if requested
     if (options.skipLocked) {
         processed = skipLockLayersAndChildren(processed);
     }
+
+    // Filter by name if criteria is provided
     if (options.findCriteria) {
         processed = filterByName(processed, options.findCriteria);
     }
 
+    // Optionally include parent layers of matched nodes
     if (options.includeParentLayer) {
         const parentSet = new Set<SceneNode>();
         for (const node of processed) {
