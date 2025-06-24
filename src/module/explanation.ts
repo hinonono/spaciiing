@@ -1,6 +1,5 @@
 import { semanticTokens } from "./tokens";
 import {
-  createTextNode,
   formatNumberToDecimals,
   capitalizeFirstLetter
 } from "./util";
@@ -29,7 +28,7 @@ export function createExplanationSinglePropertyItem(
   content: TextNode | FrameNode,
   fontName: FontName
 ) {
-  const titleNode = createTextNode(title, fontName, 12);
+  const titleNode = utils.node.createTextNode(title, fontName, 12);
   titleNode.fills = [{ type: "SOLID", color: semanticTokens.text.primary }];
   titleNode.lineHeight = { unit: "PIXELS", value: 12 * 1.5 };
 
@@ -140,7 +139,7 @@ export function createTextPropertiesWrappers(
   let textPropertiesNodes: FrameNode[] = [];
 
   textPropertiesToCreate.forEach((property) => {
-    const contentNode = createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+    const contentNode = utils.node.createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
     contentNode.textAlignHorizontal = "RIGHT";
 
     const propertyNode = createExplanationSinglePropertyItem(property.title, contentNode, fontName);
@@ -200,7 +199,7 @@ function createGenericEffectTitle(
       throw new Error("Unsupported effect type.")
   }
 
-  const node = createTextNode(
+  const node = utils.node.createTextNode(
     title,
     { family: fontName.family, style: "Semi Bold" },
     semanticTokens.fontSize.small,
@@ -441,7 +440,7 @@ export function createEffectPropertiesWrappers(
 
       let effectPropertiesNodes: FrameNode[] = [];
       effectPropertiesToCreate.forEach((property) => {
-        const contentNode = createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+        const contentNode = utils.node.createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
         contentNode.textAlignHorizontal = "RIGHT";
 
         const propertyNode = createExplanationSinglePropertyItem(property.title, contentNode, fontName);
@@ -480,7 +479,7 @@ export function createEffectPropertiesWrappers(
 
       let effectPropertiesNodes: FrameNode[] = [];
       effectPropertiesToCreate.forEach((property) => {
-        const contentNode = createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+        const contentNode = utils.node.createTextNode(property.content, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
         contentNode.textAlignHorizontal = "RIGHT";
 
         const propertyNode = createExplanationSinglePropertyItem(property.title, contentNode, fontName);
@@ -536,7 +535,7 @@ export function createStyleColorHexNode(
     hexValue = `${hexValue}(${Math.round(color.a * 100)}%)`;
   }
 
-  const hexValueNode = createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+  const hexValueNode = utils.node.createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
   hexValueNode.textAlignHorizontal = "RIGHT";
 
   const node = createExplanationSinglePropertyItem(lr.term["color"], hexValueNode, fontName);
@@ -594,7 +593,7 @@ export function createVariableColorHexNodes(
 
       return node;
     } else {
-      const hexValueNode = createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
+      const hexValueNode = utils.node.createTextNode(hexValue, fontName, 12, [{ type: "SOLID", color: semanticTokens.text.secondary }], { unit: "PIXELS", value: 12 * 1.5 })
       hexValueNode.textAlignHorizontal = "RIGHT";
 
       const node = createExplanationSinglePropertyItem(variableMode, hexValueNode, fontName);
@@ -622,14 +621,14 @@ export function createStyleGradientNode(
   const typeString = gradientType.replace("GRADIENT_", "");
   const formatted = typeString.charAt(0) + typeString.slice(1).toLowerCase();
 
-  const type = createTextNode(formatted, fontName, fontSize, [
+  const type = utils.node.createTextNode(formatted, fontName, fontSize, [
     { type: "SOLID", color: semanticTokens.text.secondary },
   ]);
   const typeNode = createExplanationSinglePropertyItem(lr.term["gradientType"], type, fontName);
 
 
   const colorsString = colorStopsToString(gradientStops);
-  const colors = createTextNode(colorsString, fontName, fontSize, [
+  const colors = utils.node.createTextNode(colorsString, fontName, fontSize, [
     { type: "SOLID", color: semanticTokens.text.secondary },
   ]);
   const colorsNode = createExplanationSinglePropertyItem(lr.term["color"], colors, fontName);
@@ -673,7 +672,7 @@ export function createVariableNumberNodes(
 
       return node;
     } else {
-      const numberNode = createTextNode(
+      const numberNode = utils.node.createTextNode(
         number.toString(),
         fontName,
         semanticTokens.fontSize.small,
@@ -718,7 +717,7 @@ export function createVariableStringNodes(
 
       return node;
     } else {
-      const stringNode = createTextNode(
+      const stringNode = utils.node.createTextNode(
         string,
         fontName,
         semanticTokens.fontSize.small,
@@ -744,7 +743,7 @@ function createAliasNameWrapper(
   fontSize: number,
   aliasVariableId: string | undefined
 ): FrameNode {
-  const aliasNameNode = createTextNode(
+  const aliasNameNode = utils.node.createTextNode(
     `→ ${aliasName.replace(/\//g, ".")}`,
     { family: fontName.family, style: "Semi Bold" },
     fontSize,

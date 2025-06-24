@@ -960,7 +960,7 @@ async function generateTextStyleNode(collection: TypographyCollection) {
   await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
 
   const notificationText = `Change the typeface of below text layer, then click "Shortcut => Generate Text Style" from plugin.`;
-  const notificationTextNode = util.createTextNode(
+  const notificationTextNode = utils.node.createTextNode(
     notificationText,
     { family: "Inter", style: "Regular" },
     32,
@@ -977,7 +977,7 @@ async function generateTextStyleNode(collection: TypographyCollection) {
       item.fontWeight === "regular" ? "Regular" : "Semi Bold";
     const fontName = { family: "Inter", style: fontWeightStyle };
 
-    const textNode = util.createTextNode(
+    const textNode = utils.node.createTextNode(
       `${collection.brand} - ${collection.name}/${item.name}`,
       fontName,
       item.fontSize,

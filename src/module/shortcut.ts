@@ -738,7 +738,7 @@ function createAndPlaceTextNode(
   selectedNode: SceneNode,
   fontName: FontName
 ) {
-  const textNode = util.createTextNode(label, fontName, 16);
+  const textNode = utils.node.createTextNode(label, fontName, 16);
   textNode.name = `${type}_LABEL`;
   textNode.x = selectedNode.x;
   textNode.y = selectedNode.y + selectedNode.height + 16;

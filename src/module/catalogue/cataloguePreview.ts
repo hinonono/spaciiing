@@ -32,7 +32,7 @@ export function createColorFrame(color: RGBA): FrameNode {
     const newPaint = figma.util.solidPaint(color);
     colorFrame.fills = [newPaint];
 
-    if (util.isWhite(color)) {
+    if (utils.color.isWhite(color)) {
         colorFrame.strokes = [{ type: "SOLID", color: semanticTokens.strokeColor }];
         colorFrame.strokeWeight = 1;
     }
@@ -64,7 +64,7 @@ export function createNumberFrame(number: number, fontName: FontName): FrameNode
         limitedNumber = number.toFixed(2); // Limit to 2 decimal places for non-integers
     }
 
-    const numberTextNode = util.createTextNode(
+    const numberTextNode = utils.node.createTextNode(
         limitedNumber,
         fontName,
         semanticTokens.fontSize.base,

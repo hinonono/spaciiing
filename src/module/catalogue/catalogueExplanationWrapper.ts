@@ -31,11 +31,11 @@ export function createExplanationWrapper(
 ) {
     const dateString = createDateString(lr, isItemLinkEnabled);
 
-    const dateNode = util.createTextNode(dateString, fontName, semanticTokens.fontSize.xsmall, [{ type: "SOLID", color: semanticTokens.text.tertiary }]);
+    const dateNode = utils.node.createTextNode(dateString, fontName, semanticTokens.fontSize.xsmall, [{ type: "SOLID", color: semanticTokens.text.tertiary }]);
     dateNode.textAlignHorizontal = "RIGHT";
 
-    const titleNode = util.createTextNode(title, fontName, semanticTokens.fontSize.xxlarge);
-    const titleSecondaryNode = util.createTextNode(titleSecondary, fontName, semanticTokens.fontSize.base, [{ type: "SOLID", color: semanticTokens.text.secondary }]);
+    const titleNode = utils.node.createTextNode(title, fontName, semanticTokens.fontSize.xxlarge);
+    const titleSecondaryNode = utils.node.createTextNode(titleSecondary, fontName, semanticTokens.fontSize.base, [{ type: "SOLID", color: semanticTokens.text.secondary }]);
 
     const titleWrapperContents = [dateNode, titleSecondaryNode, titleNode];
 
@@ -98,7 +98,7 @@ function pushAdditionalContent(
         ? lr.term["variableModes"].replace("$VALUE$", modes[0])
         : lr.term["variableModes"].replace("$VALUE$", modes.join(", "));
 
-    const modesNode = util.createTextNode(modesText, fontName, semanticTokens.fontSize.base);
+    const modesNode = utils.node.createTextNode(modesText, fontName, semanticTokens.fontSize.base);
 
     target.push(modesNode);
 }

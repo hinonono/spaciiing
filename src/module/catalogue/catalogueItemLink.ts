@@ -101,7 +101,7 @@ export async function writeCatalogueDescBackToFigma(lang: string) {
     }
 
     const dateString = createUpdatedString(lang);
-    const wroteBackDateNode = util.createTextNode(
+    const wroteBackDateNode = utils.node.createTextNode(
         dateString,
         { family: "Inter", style: "Semi Bold" },
         semanticTokens.fontSize.xsmall,

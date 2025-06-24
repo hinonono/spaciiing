@@ -25,47 +25,6 @@ export function deepClone(val: unknown) {
   return JSON.parse(JSON.stringify(val));
 }
 
-/**
- * Checks if the given RGB color is white.
- *
- * @param {RGB} color - The RGB color to check.
- * @returns {boolean} True if the color is white, false otherwise.
- */
-export function isWhite(color: RGB): boolean {
-  return color.r === 1 && color.g === 1 && color.b === 1;
-}
-
-/**
- * Creates a new text node with the specified properties.
- *
- * @param {string} text - The text content for the text node.
- * @param {FontName} fontName - The font name to be applied to the text node.
- * @param {number} fontSize - The font size to be applied to the text node.
- * @param {Paint[]} paint - The paint (color) to be applied to the text node.
- * @param {LineHeight} lineHeight - The line height to be applied to the text node.
- * @returns {TextNode} The created text node with the specified properties.
- */
-export function createTextNode(
-  text: string,
-  fontName: FontName,
-  fontSize: number,
-  paint?: Paint[],
-  lineHeight?: LineHeight
-): TextNode {
-  const textNode = figma.createText();
-  textNode.characters = text;
-  textNode.fontSize = fontSize;
-  textNode.fontName = fontName;
-  if (paint) {
-    textNode.fills = paint;
-  } else {
-    textNode.fills = [{ type: "SOLID", color: semanticTokens.text.primary }];
-  }
-  if (lineHeight) {
-    textNode.lineHeight = lineHeight;
-  }
-  return textNode;
-}
 
 /**
  * Formats a number to two decimal places if it has decimals;

@@ -235,3 +235,13 @@ function hslToRgba(h: number, s: number, l: number, a: number): RGBA {
 
     return { r, g, b, a };
 }
+
+/**
+ * Checks if the given RGB color is white.
+ *
+ * @param {RGB} color - The RGB color to check.
+ * @returns {boolean} True if the color is white, false otherwise.
+ */
+export function isWhite(color: RGB): boolean {
+    return color.r === 1 && color.g === 1 && color.b === 1;
+}

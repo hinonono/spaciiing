@@ -336,7 +336,7 @@ async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
         fontSize: strokeStlye.strokeWeight * 3,
     }
 
-    const annotation = util.createTextNode(
+    const annotation = utils.node.createTextNode(
         "Sample Text",
         { family: "Inter", style: "Semi Bold" },
         annotationNodeSize.fontSize

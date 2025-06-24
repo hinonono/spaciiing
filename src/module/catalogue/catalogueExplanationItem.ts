@@ -70,7 +70,7 @@ function createTitle(
     content: string, fontName: FontName
 ): TextNode {
     const { family } = fontName;
-    const node = util.createTextNode(
+    const node = utils.node.createTextNode(
         content,
         { family: family, style: "Semi Bold" },
         semanticTokens.fontSize.large
@@ -82,7 +82,7 @@ function createTitle(
 function createDescription(
     content: string, fontName: FontName
 ): TextNode {
-    const node = util.createTextNode(
+    const node = utils.node.createTextNode(
         content == "" ? "(blank)" : content,
         fontName,
         semanticTokens.fontSize.small,
