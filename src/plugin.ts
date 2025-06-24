@@ -39,6 +39,8 @@ import { ExternalMessage } from "./types/Messages/ExternalMessage";
 import { MessagePropertyClipboard } from "./types/Messages/MessagePropertyClipboard";
 import { MessageArrowCreator } from "./types/Messages/MessageArrowCreator";
 
+import { utils } from "./module/utils"
+
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(360, 480);
 
@@ -152,7 +154,7 @@ const handlePluginClose = () => {
     phase: "WillEnd",
   };
 
-  util.sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
 };
 
 // Add event listener for plugin close
