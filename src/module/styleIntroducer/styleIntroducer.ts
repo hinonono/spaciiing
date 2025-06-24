@@ -3,6 +3,8 @@ import {
   MessageStyleIntroducer,
 } from "../../types/Messages/MessageStyleIntroducer";
 import * as util from "../util";
+import { utils } from "../utils";
+
 import * as CLUtil from "../catalogue/catalogueUtil";
 
 import * as SIStyle from "./style"
@@ -41,7 +43,7 @@ async function initStageHandler(message: MessageStyleIntroducer) {
     direction: "Outer",
     phase: "Init",
   };
-  util.sendMessageBack(externalMessage);
+  utils.communication.sendMessageBack(externalMessage);
 }
 
 function actualStageHandler(message: MessageStyleIntroducer) {

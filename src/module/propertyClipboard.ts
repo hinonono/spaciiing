@@ -8,6 +8,7 @@ import {
 } from "../types/Messages/MessagePropertyClipboard";
 import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import * as util from "./util";
+import { utils } from "./utils";
 
 export function reception(message: MessagePropertyClipboard) {
   const { action } = message;
@@ -43,7 +44,7 @@ function setReferenceObject() {
     mode: "UpdateReferenceObject"
   }
 
-  util.sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
 
 
   if (selectedNode.type === "INSTANCE") {
@@ -56,7 +57,7 @@ function setReferenceObject() {
       phase: "Actual",
       extractedProperties: extractedProperties
     };
-    util.sendMessageBack(message);
+    utils.communication.sendMessageBack(message);
   }
 }
 

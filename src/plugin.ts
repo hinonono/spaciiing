@@ -39,7 +39,7 @@ import { ExternalMessage } from "./types/Messages/ExternalMessage";
 import { MessagePropertyClipboard } from "./types/Messages/MessagePropertyClipboard";
 import { MessageArrowCreator } from "./types/Messages/MessageArrowCreator";
 
-import { utils } from "./module/utils"
+import { utils } from "./module/utils";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(360, 480);

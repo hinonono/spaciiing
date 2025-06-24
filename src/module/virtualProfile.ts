@@ -11,6 +11,7 @@ import {
   MessageVirtualProfileWholeObject,
   VirtualProfileSingleValue,
 } from "../types/Messages/MessageVirtualProfile";
+import { utils } from "./utils";
 
 export function reception(message: MessageVirtualProfile) {
   if (message.phase == undefined) {
@@ -165,7 +166,7 @@ function initVirtualProfileGroups() {
       phase: "Init",
     };
 
-    util.sendMessageBack(message);
+    utils.communication.sendMessageBack(message);
   } else {
     // 有設置virtual profile
     const vpg = JSON.parse(newVpdata) as VirtualProfileGroup[];
@@ -177,7 +178,7 @@ function initVirtualProfileGroups() {
       phase: "Init",
     };
 
-    util.sendMessageBack(message);
+    utils.communication.sendMessageBack(message);
   }
 }
 

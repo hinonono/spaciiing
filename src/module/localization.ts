@@ -3,6 +3,7 @@ import {
   ExternalMessageLocalization,
   MessageLocalization,
 } from "../types/Messages/MessageLocalization";
+import { utils } from "./utils";
 
 export async function initLocalization() {
   // 檢查用戶的Client Storage是否有儲存license key
@@ -21,7 +22,7 @@ export async function initLocalization() {
       phase: "Init",
       direction: "Outer",
     };
-    util.sendMessageBack(message);
+    utils.communication.sendMessageBack(message);
   } else {
     // 沒有偏好語言，進行初始化
     await figma.clientStorage.setAsync(KEY, "enUS");

@@ -16,6 +16,8 @@ import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { Coordinates, Direction } from "../types/General";
 import { CYStrokeCap } from "../types/CYStroke";
 
+import { utils } from "./utils";
+
 const isDevelopment = process.env.REACT_APP_ENV === "development";
 
 // 取代原有的 fundamental-module.ts
@@ -23,13 +25,13 @@ export function deepClone(val: unknown) {
   return JSON.parse(JSON.stringify(val));
 }
 
-export function sendMessageBack(message: object) {
-  // console.log("Message sent back");
-  // console.log(message);
-  figma.ui.postMessage({
-    pluginMessage: message,
-  });
-}
+// export function sendMessageBack(message: object) {
+//   // console.log("Message sent back");
+//   // console.log(message);
+//   figma.ui.postMessage({
+//     pluginMessage: message,
+//   });
+// }
 
 /**
  * Saves the editor preference to the current page's plugin data.
@@ -118,7 +120,7 @@ export function updateEditorPreference(
     mode: "UpdateEditorPreference",
     phase: "Init",
   };
-  sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
   console.log(
     `😍使用者偏好已更新至前端，呼叫自${source !== undefined ? String(source) : "未知"
     }`, editorPreference
@@ -132,7 +134,7 @@ export function updateEditorType(editorType: EditorType) {
     phase: "Actual",
     editorType: editorType,
   };
-  sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
 }
 
 export function updateTriggeredCommand() {
@@ -142,7 +144,7 @@ export function updateTriggeredCommand() {
     phase: "Actual",
     triggeredCommand: figma.command
   };
-  sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
   console.log(figma.command);
 
 }

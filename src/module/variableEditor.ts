@@ -13,6 +13,7 @@ import {
   ExternalMessageUpdateVariableCollectionMode,
 } from "../types/Messages/MessageVariableEditor";
 import * as util from "./util";
+import { utils } from "./utils";
 
 export function reception(message: MessageVariableEditor) {
   if (message.phase == undefined) {
@@ -144,7 +145,7 @@ function returnExecutionResults(results: Array<string>) {
     direction: "Outer",
     mode: "UpdateCustomCodeExecutionResults",
   };
-  util.sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
 }
 
 async function updateVariableCollectionListMessage() {
@@ -164,7 +165,7 @@ async function updateVariableCollectionListMessage() {
     mode: "UpdateVariableCollectionList",
   };
 
-  util.sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
 }
 
 async function findExistingVariables(ids: string[]): Promise<Variable[]> {
@@ -314,7 +315,7 @@ async function handleGetAvailableModeList(
     phase: "Actual",
     mode: "UpdateVariableCollectionMode",
   };
-  util.sendMessageBack(messageToSent);
+  utils.communication.sendMessageBack(messageToSent);
 }
 
 async function initVariableEditor() {

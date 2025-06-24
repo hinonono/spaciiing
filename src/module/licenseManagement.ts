@@ -1,6 +1,7 @@
 import { LicenseManagement } from "../types/LicenseManagement";
 import { ExternalMessageLicenseManagement, MessageLicenseManagement } from "../types/Messages/MessageLicenseManagement";
 import * as util from "./util";
+import { utils } from "./utils";
 
 export async function initLicenseCheck() {
   // 檢查用戶的Client Storage是否有儲存license key
@@ -17,7 +18,7 @@ export async function initLicenseCheck() {
       phase: "Init",
       direction: "Outer",
     };
-    util.sendMessageBack(message);
+    utils.communication.sendMessageBack(message);
   } else {
     // 沒有License Data
     const expiredTime = util.addHours(new Date(), 3).toUTCString();
