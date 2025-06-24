@@ -2,7 +2,6 @@ import { semanticTokens } from "./tokens";
 import {
   createAutolayoutFrame,
   createTextNode,
-  rgbToHex,
   formatNumberToDecimals,
   capitalizeFirstLetter
 } from "./util";
@@ -218,7 +217,7 @@ function getEffectPropertiesToCreate(
 ): SinglePropertyString[] {
   if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
     const effectPropertiesToCreate: SinglePropertyString[] = [
-      { title: lr.term["color"], content: rgbToHex(effect.color.r, effect.color.g, effect.color.b), show: true },
+      { title: lr.term["color"], content: utils.color.rgbToHex(effect.color.r, effect.color.g, effect.color.b), show: true },
       { title: lr.term["opacity"], content: `${formatNumberToDecimals(effect.color.a * 100)}%`, show: true },
       { title: "X", content: `${effect.offset.x}`, show: true },
       { title: "Y", content: `${effect.offset.y}`, show: true },
@@ -291,7 +290,7 @@ function getEffectPropertiesToCreate(
         {
           title: lr.term["color"],
           //@ts-ignore
-          content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
+          content: utils.color.rgbToHex(effect.color.r, effect.color.g, effect.color.b),
           show: true
         },
         {
@@ -328,7 +327,7 @@ function getEffectPropertiesToCreate(
         {
           title: `${lr.term["color"]} 1`,
           //@ts-ignore
-          content: rgbToHex(effect.color.r, effect.color.g, effect.color.b),
+          content: utils.color.rgbToHex(effect.color.r, effect.color.g, effect.color.b),
           show: true
         },
         {
@@ -339,7 +338,7 @@ function getEffectPropertiesToCreate(
         },
         {
           title: `${lr.term["color"]} 2`,
-          content: rgbToHex(effect.secondaryColor.r, effect.secondaryColor.g, effect.secondaryColor.b),
+          content: utils.color.rgbToHex(effect.secondaryColor.r, effect.secondaryColor.g, effect.secondaryColor.b),
           show: true
         },
         {
@@ -533,7 +532,7 @@ export function createStyleColorHexNode(
   fontName: FontName,
 ): FrameNode {
   const color = colors[0];
-  let hexValue = rgbToHex(color.r, color.g, color.b, true);
+  let hexValue = utils.color.rgbToHex(color.r, color.g, color.b, true);
   if (color.a !== 1) {
     hexValue = `${hexValue}(${Math.round(color.a * 100)}%)`;
   }
@@ -569,7 +568,7 @@ export function createVariableColorHexNodes(
   // console.log({ colors: colors, fontName: fontName, aliasNames: aliasNames, variableModes: variableModes });
 
   const hexValues = colors.map((color) => {
-    let hex = rgbToHex(color.r, color.g, color.b, true);
+    let hex = utils.color.rgbToHex(color.r, color.g, color.b, true);
     if (color.a !== 1) {
       hex = `${hex}(${Math.round(color.a * 100)}%)`;
     }
@@ -644,7 +643,7 @@ function colorStopsToString(colorStops: ColorStop[]): string {
   return `[${colorStops.map(stop => {
     const { r, g, b, a } = stop.color;
 
-    const hex = rgbToHex(stop.color.r, stop.color.g, stop.color.b)
+    const hex = utils.color.rgbToHex(stop.color.r, stop.color.g, stop.color.b)
     return `{${hex}, ${(stop.position * 100).toFixed(0)}%}`;
   }).join(", ")}]`;
 }

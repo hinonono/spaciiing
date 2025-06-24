@@ -2,6 +2,7 @@ import { StyleListItemFrontEnd } from "../../types/General";
 import { StyleMode, StyleModeForFigmaStyle, StyleModeForFigmaVariable } from "../../types/Messages/MessageStyleIntroducer";
 import { isRGBAType, isRGBType } from "../typeChecking";
 import * as util from "../util"
+import { utils } from "../utils";
 
 // Type guard function for StyleModeForFigmaStyle
 export function isStyleModeForFigmaStyle(
@@ -29,7 +30,7 @@ export async function getStyleList(
                 const isSolid = firstPaint?.type === "SOLID";
 
                 if (isSolid) {
-                    const color = util.rgbToHex(firstPaint.color.r, firstPaint.color.g, firstPaint.color.b, true);
+                    const color = utils.color.rgbToHex(firstPaint.color.r, firstPaint.color.g, firstPaint.color.b, true);
                     return {
                         id: style.id,
                         name: style.name,
@@ -73,9 +74,9 @@ export async function getVariableList(
             let colorValue: string | undefined = undefined;
 
             if (isRGBType(firstValue)) {
-                colorValue = util.rgbToHex(firstValue.r, firstValue.g, firstValue.b, true);
+                colorValue = utils.color.rgbToHex(firstValue.r, firstValue.g, firstValue.b, true);
             } else if (isRGBAType(firstValue)) {
-                colorValue = util.rgbToHexWithTransparency(firstValue.r, firstValue.g, firstValue.b, firstValue.a);
+                colorValue = utils.color.rgbToHexWithTransparency(firstValue.r, firstValue.g, firstValue.b, firstValue.a);
             }
 
             return {

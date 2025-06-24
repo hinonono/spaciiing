@@ -686,14 +686,14 @@ async function generateLabelFromObjectFillColor(
 
         switch (type) {
           case "HEX":
-            label = util.rgbToHex(
+            label = utils.color.rgbToHex(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b
             );
             break;
           case "RGB":
-            label = util.rgbToRGB255(
+            label = utils.color.rgbToRGB255(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b
@@ -701,7 +701,7 @@ async function generateLabelFromObjectFillColor(
             break;
           case "RGBA":
             if (rectColor.opacity != null) {
-              label = util.rgbToRGBA255(
+              label = utils.color.rgbToRGBA255(
                 rectColor.color.r,
                 rectColor.color.g,
                 rectColor.color.b,
@@ -715,7 +715,7 @@ async function generateLabelFromObjectFillColor(
             }
             break;
           case "HEX_WITH_TRANSPARENCY":
-            label = util.rgbToHexWithTransparency(
+            label = utils.color.rgbToHexWithTransparency(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b,
