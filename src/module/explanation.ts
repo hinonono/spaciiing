@@ -1,6 +1,5 @@
 import { semanticTokens } from "./tokens";
 import {
-  formatNumberToDecimals,
   capitalizeFirstLetter
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
@@ -97,10 +96,10 @@ export function createTextPropertiesWrappers(
   fontName: FontName
 ): FrameNode[] {
   const fontNameContent = `${textStyle.fontName.family} ${textStyle.fontName.style}`;
-  const fontSizeContent = formatNumberToDecimals(textStyle.fontSize, 2);
-  const lineHeightContent = textStyle.lineHeight.unit == "AUTO" ? "Auto" : formatNumberToDecimals(textStyle.lineHeight.value, 2);
-  const letterSpacingContent = formatNumberToDecimals(textStyle.letterSpacing.value, 2);
-  const paragraphSpacingContent = formatNumberToDecimals(textStyle.paragraphSpacing, 2);
+  const fontSizeContent = utils.string.formatNumberToDecimals(textStyle.fontSize, 2);
+  const lineHeightContent = textStyle.lineHeight.unit == "AUTO" ? "Auto" : utils.string.formatNumberToDecimals(textStyle.lineHeight.value, 2);
+  const letterSpacingContent = utils.string.formatNumberToDecimals(textStyle.letterSpacing.value, 2);
+  const paragraphSpacingContent = utils.string.formatNumberToDecimals(textStyle.paragraphSpacing, 2);
   const textCaseContent = textStyle.textCase.charAt(0).toUpperCase() + textStyle.textCase.slice(1).toLowerCase();
 
   const textPropertiesToCreate: SinglePropertyString[] = [
@@ -216,7 +215,7 @@ function getEffectPropertiesToCreate(
   if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
     const effectPropertiesToCreate: SinglePropertyString[] = [
       { title: lr.term["color"], content: utils.color.rgbToHex(effect.color.r, effect.color.g, effect.color.b), show: true },
-      { title: lr.term["opacity"], content: `${formatNumberToDecimals(effect.color.a * 100)}%`, show: true },
+      { title: lr.term["opacity"], content: `${utils.string.formatNumberToDecimals(effect.color.a * 100)}%`, show: true },
       { title: "X", content: `${effect.offset.x}`, show: true },
       { title: "Y", content: `${effect.offset.y}`, show: true },
       { title: lr.term["blur"], content: `${effect.radius}`, show: true },
@@ -294,7 +293,7 @@ function getEffectPropertiesToCreate(
         {
           title: lr.term["opacity"],
           //@ts-ignore
-          content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
+          content: `${utils.string.formatNumberToDecimals(effect.color.a * 100)}%`,
           show: true
         },
         {
@@ -331,7 +330,7 @@ function getEffectPropertiesToCreate(
         {
           title: `${lr.term["opacity"]} (${lr.term["color"]} 1)`,
           //@ts-ignore
-          content: `${formatNumberToDecimals(effect.color.a * 100)}%`,
+          content: `${utils.string.formatNumberToDecimals(effect.color.a * 100)}%`,
           show: true
         },
         {
@@ -341,7 +340,7 @@ function getEffectPropertiesToCreate(
         },
         {
           title: `${lr.term["opacity"]} (${lr.term["color"]} 2)`,
-          content: `${formatNumberToDecimals(effect.secondaryColor.a * 100)}%`,
+          content: `${utils.string.formatNumberToDecimals(effect.secondaryColor.a * 100)}%`,
           show: true
         },
         {
@@ -371,7 +370,7 @@ function getEffectPropertiesToCreate(
         },
         {
           title: lr.term["opacity"],
-          content: `${formatNumberToDecimals(effect.opacity * 100)}%`,
+          content: `${utils.string.formatNumberToDecimals(effect.opacity * 100)}%`,
           show: true
         },
       ]

@@ -363,8 +363,8 @@ function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
 
   selection.forEach((object) => {
     if (
-      util.isNodeSupportSingleCornerRadius(object) &&
-      util.isNodeSupportSingleCornerRadius(referenceObject)
+      utils.typeCheck.isNodeSupportSingleCornerRadius(object) &&
+      utils.typeCheck.isNodeSupportSingleCornerRadius(referenceObject)
     ) {
       // Applies single corner radii if both support single corners
       object.topLeftRadius = referenceObject.topLeftRadius;
@@ -372,8 +372,8 @@ function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
       object.bottomRightRadius = referenceObject.bottomRightRadius;
       object.bottomLeftRadius = referenceObject.bottomLeftRadius;
     } else if (
-      util.isNodeSupportCornerRadius(object) &&
-      util.isNodeSupportCornerRadius(referenceObject)
+      utils.typeCheck.isNodeSupportCornerRadius(object) &&
+      utils.typeCheck.isNodeSupportCornerRadius(referenceObject)
     ) {
       // Applies full radius and smoothing if supported by both
       console.log("Here I am");
