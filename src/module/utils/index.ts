@@ -2,7 +2,8 @@ import * as colorUtil from "./color";
 import * as communicationUtil from "./communication";
 import * as dataUtil from "./data";
 import * as editorUtil from "./editor";
-import * as nodeEditUtil from "./nodeEdit";
+import * as mathUtil from "./math";
+import * as nodeUtil from "./node";
 import * as runtimeUtil from "./runtime";
 import * as typeCheckUtil from "./typeCheck";
 
@@ -11,7 +12,8 @@ export const utils = {
   communication: communicationUtil,
   data: dataUtil,
   editor: editorUtil,
-  nodeEdit: nodeEditUtil,
+  math: mathUtil,
+  node: nodeUtil,
   runtime: runtimeUtil,
   typeCheck: typeCheckUtil
 };

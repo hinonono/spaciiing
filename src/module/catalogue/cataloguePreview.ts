@@ -82,7 +82,7 @@ export function createNumberFrame(number: number, fontName: FontName): FrameNode
     numberFrame.name = "Number";
     numberFrame.fills = [{ type: "SOLID", color: semanticTokens.background.primary }];
     numberFrame.cornerRadius = semanticTokens.cornerRadius.small;
-    utils.nodeEdit.setStroke(numberFrame, semanticTokens.strokeColor, { top: 1, bottom: 1, left: 1, right: 1 });
+    utils.node.setStroke(numberFrame, semanticTokens.strokeColor, { top: 1, bottom: 1, left: 1, right: 1 });
 
     // Set layout mode for centering
     numberFrame.layoutMode = "VERTICAL"; // Vertical stack layout

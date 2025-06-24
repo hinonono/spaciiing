@@ -120,7 +120,7 @@ function finalSetUp(target: FrameNode) {
     // Set height to hug content
     target.primaryAxisSizingMode = "AUTO";
 
-    utils.nodeEdit.setPadding(target, {
+    utils.node.setPadding(target, {
         top: semanticTokens.padding.large,
         bottom: semanticTokens.padding.large,
         left: semanticTokens.padding.xsmall,
@@ -128,7 +128,7 @@ function finalSetUp(target: FrameNode) {
     });
 
     // Set border properties for top edge only
-    utils.nodeEdit.setStroke(target, semanticTokens.dividerColor, {
+    utils.node.setStroke(target, semanticTokens.dividerColor, {
         top: 1,
         bottom: 0,
         left: 0,

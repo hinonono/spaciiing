@@ -54,7 +54,7 @@ export function createExplanationWrapper(
     const wrapperFrame = util.createAutolayoutFrame([titleWrapper, itemsFrame], semanticTokens.spacing.xlarge, "VERTICAL");
     titleWrapper.layoutSizingHorizontal = "FILL";
 
-    utils.nodeEdit.setPadding(wrapperFrame, {
+    utils.node.setPadding(wrapperFrame, {
         top: semanticTokens.padding.xlarge,
         bottom: semanticTokens.padding.xlarge,
         left: semanticTokens.padding.xlarge,

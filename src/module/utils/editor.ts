@@ -36,3 +36,17 @@ export function isNodeWithResizeMethod(node: SceneNode): node is ResizableNode {
         node.type === "RECTANGLE"
     );
 }
+
+export function getSelectionPosition(layers: SceneNode[]) {
+    let minX = Infinity;
+    let minY = Infinity;
+
+    layers.forEach((layer) => {
+        const { x, y } = layer;
+
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+    });
+
+    return { x: minX, y: minY };
+}

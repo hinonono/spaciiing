@@ -3,6 +3,7 @@ import { ArrowSchema } from "../types/ArrowSchema";
 import { MessageSelectionFilter } from "../types/Messages/MessageSelectionFilter";
 import { getProcessedNodes } from "./nodeProcessing";
 import * as util from "./util";
+import { utils } from "./utils";
 
 export function reception(message: MessageSelectionFilter) {
   if (message.phase == "Actual") {
@@ -190,7 +191,7 @@ function filterSelection2(message: MessageSelectionFilter) {
   // Check if a node is an image (rectangle with image fill)
   function isImageNode(node: SceneNode): boolean {
     if (node.type === "RECTANGLE" && node.fills) {
-      return util.hasImageFill(node);
+      return utils.node.hasImageFill(node);
     }
     return false;
   }

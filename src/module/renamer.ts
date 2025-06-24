@@ -2,6 +2,7 @@ import { NodeRenamable } from './../types/NodeRenamable';
 import { MessageRenamer, PredifinedNames, RenamerOptions } from "../types/Messages/MessageRenamer";
 import { getProcessedNodes } from "./nodeProcessing";
 import * as util from "./util";
+import { utils } from "./utils";
 import jaJPData from "../assets/renamer/ja-JP.json"
 import enUSData from "../assets/renamer/en-US.json"
 
@@ -90,7 +91,7 @@ function getNewName(renameTarget: NodeRenamable[], predefinedNames: PredifinedNa
   } else if (
     renameTarget.includes("IMAGE") &&
     node.type === "RECTANGLE" &&
-    util.hasImageFill(node as RectangleNode)
+    utils.node.hasImageFill(node as RectangleNode)
   ) {
     return predefinedNames.image;
   } else if (

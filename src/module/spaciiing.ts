@@ -157,8 +157,8 @@ export function applySpacingToLayers(
   }
 
   // Calculate the bounding box dimensions of the selected layers
-  const selectionBoundingBox = util.getBoundingBox(layers);
-  const selectionPosition = util.getSelectionPosition(layers);
+  const selectionBoundingBox = utils.node.getBoundingBox(layers);
+  const selectionPosition = utils.editor.getSelectionPosition(layers);
 
   if (addAutolayout) {
     const autolayoutFrame = util.createAutolayoutFrame(

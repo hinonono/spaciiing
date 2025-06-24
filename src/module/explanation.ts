@@ -788,7 +788,7 @@ function createAliasNameWrapper(
   aliasNameWrapper.layoutSizingHorizontal = "HUG";
   aliasNameWrapper.cornerRadius = semanticTokens.cornerRadius.xxsmall;
 
-  utils.nodeEdit.setPadding(aliasNameWrapper, {
+  utils.node.setPadding(aliasNameWrapper, {
     top: 2,
     bottom: 2,
     left: 8,

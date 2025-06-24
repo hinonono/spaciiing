@@ -921,9 +921,9 @@ function generateColorStyle(collection: ColorCollection, type: ColorType) {
       {
         type: "SOLID",
         color: {
-          r: util.mapToUnitRange(color.r),
-          g: util.mapToUnitRange(color.g),
-          b: util.mapToUnitRange(color.b),
+          r: utils.math.mapToUnitRange(color.r),
+          g: utils.math.mapToUnitRange(color.g),
+          b: utils.math.mapToUnitRange(color.b),
         },
         opacity: color.a,
       },
