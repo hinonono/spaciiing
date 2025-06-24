@@ -5,6 +5,8 @@ import {
   LicenseResponseSuccess,
 } from "./../types/LicenseManagement";
 import * as util from "../module/util";
+import { utils } from "../module/utils";
+
 import * as paymentsUtil from "./paymentsUtil";
 import { SalesConfig } from "../types/SalesConfig";
 import {
@@ -123,14 +125,14 @@ const licenseVerifyHandler = async (
   appContext: AppContextType
 ) => {
   let newLicense = { ...license };
-  const oldDate = util.convertUTCStringToDate(license.sessionExpiredAt);
+  const oldDate = utils.data.convertUTCStringToDate(license.sessionExpiredAt);
 
   // console.log("Is old date:", oldDate);
 
   appContext.setIsVerifying(true);
 
   if (oldDate <= new Date()) {
-    const newExpiredTime = util.addHours(new Date(), 3).toUTCString();
+    const newExpiredTime = utils.data.addHours(new Date(), 3).toUTCString();
     newLicense.sessionExpiredAt = newExpiredTime;
 
     // 過期

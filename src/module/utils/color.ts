@@ -92,3 +92,51 @@ export function rgbToRGBA255(
 
     return `rgba(${newR}, ${newG}, ${newB}, ${newA})`;
 }
+
+// Utility function to convert RGBA from 0-255 range to 0-1 range
+export function convertColorRange(rgba: {
+    r: number;
+    g: number;
+    b: number;
+    a: number;
+}): RGBA {
+    return {
+        r: rgba.r / 255,
+        g: rgba.g / 255,
+        b: rgba.b / 255,
+        a: rgba.a,
+    };
+}
+
+export function hexToRgb(hex: string): RGB {
+    // Remove the hash at the start if it's there
+    hex = hex.replace(/^#/, "");
+
+    // Parse the r, g, b values
+    const bigint = parseInt(hex, 16);
+    const r = ((bigint >> 16) & 255) / 255;
+    const g = ((bigint >> 8) & 255) / 255;
+    const b = (bigint & 255) / 255;
+
+    return { r, g, b };
+}
+
+export function hexToRgba(hex: string, opacity: number): RGBA | null {
+    // Check if opacity is within the valid range
+    if (opacity < 0 || opacity > 1) {
+        console.error("Opacity must be between 0 and 1.");
+        return null;
+    }
+
+    // Remove the hash at the start if it's there
+    hex = hex.replace(/^#/, "");
+
+    // Parse the r, g, b values
+    const bigint = parseInt(hex, 16);
+    const r = ((bigint >> 16) & 255) / 255;
+    const g = ((bigint >> 8) & 255) / 255;
+    const b = (bigint & 255) / 255;
+
+    // Return the RGBA value
+    return { r, g, b, a: opacity };
+}

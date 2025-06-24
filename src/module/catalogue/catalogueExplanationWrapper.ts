@@ -77,7 +77,7 @@ export function createExplanationWrapper(
 
 function createDateString(lr: CatalogueLocalizationResources, isItemLinkEnabled: boolean): string {
     const localeFormat = lr.lang === "enUS" ? "western" : "eastern";
-    const formattedDate = util.getFormattedDate("fullDateTime", localeFormat);
+    const formattedDate = utils.data.getFormattedDate("fullDateTime", localeFormat);
 
     let text = lr.module["createdAt"].replace("$TIME$", formattedDate);
 

@@ -25,108 +25,6 @@ export function deepClone(val: unknown) {
   return JSON.parse(JSON.stringify(val));
 }
 
-// Utility function to convert RGBA from 0-255 range to 0-1 range
-export function convertColorRange(rgba: {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-}): RGBA {
-  return {
-    r: rgba.r / 255,
-    g: rgba.g / 255,
-    b: rgba.b / 255,
-    a: rgba.a,
-  };
-}
-
-export function hexToRgb(hex: string): RGB {
-  // Remove the hash at the start if it's there
-  hex = hex.replace(/^#/, "");
-
-  // Parse the r, g, b values
-  const bigint = parseInt(hex, 16);
-  const r = ((bigint >> 16) & 255) / 255;
-  const g = ((bigint >> 8) & 255) / 255;
-  const b = (bigint & 255) / 255;
-
-  return { r, g, b };
-}
-
-export function hexToRgba(hex: string, opacity: number): RGBA | null {
-  // Check if opacity is within the valid range
-  if (opacity < 0 || opacity > 1) {
-    console.error("Opacity must be between 0 and 1.");
-    return null;
-  }
-
-  // Remove the hash at the start if it's there
-  hex = hex.replace(/^#/, "");
-
-  // Parse the r, g, b values
-  const bigint = parseInt(hex, 16);
-  const r = ((bigint >> 16) & 255) / 255;
-  const g = ((bigint >> 8) & 255) / 255;
-  const b = (bigint & 255) / 255;
-
-  // Return the RGBA value
-  return { r, g, b, a: opacity };
-}
-
-/**
- * Formats the current date and time into a specified format.
- *
- * @export
- * @function getFormattedDate
- * @param {("shortDate" | "fullDateTime")} format - Specifies the date format:
- *   - "shortDate": Returns the date in "DD/MM" format.
- *   - "fullDateTime": Returns the full date and time in "DD/MM/YYYY HOUR:MINUTE:SECOND" format.
- * @returns {string} A formatted date string in the specified format.
- *
- * @throws {Error} If the provided format is unsupported.
- */
-export function getFormattedDate(
-  format: "shortDate" | "fullDateTime",
-  preferredStyle: "western" | "eastern"
-): string {
-  const date = new Date();
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-  const day = String(date.getDate()).padStart(2, "0");
-
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  const seconds = String(date.getSeconds()).padStart(2, "0");
-
-  if (format === "shortDate") {
-    return preferredStyle === "western" ? `${day}/${month}` : `${month}/${day}`;
-  } else if (format === "fullDateTime") {
-    return preferredStyle === "western" ? `${day}/${month}/${year} ${hours}:${minutes}:${seconds}` : `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
-  } else {
-    throw new Error("Unsupported format");
-  }
-}
-
-/**
- * Adds a specified number of hours to the given date.
- * @param date The original date.
- * @param hours The number of hours to add.
- * @returns A new date object with the hours added.
- */
-export function addHours(date: Date, hours: number): Date {
-  // Create a new date object based on the provided date
-  const resultDate = new Date(date);
-  // Add the specified number of hours
-  resultDate.setHours(resultDate.getHours() + hours);
-  // Return the modified date
-  return resultDate;
-}
-
-export function convertUTCStringToDate(utcString: string) {
-  return new Date(utcString);
-}
-
 // Utility function to capitalize the first letter of every word
 export const capitalizeWords = (str: string) => {
   return str.replace(/\b\w/g, (char) => char.toUpperCase());
@@ -198,7 +96,7 @@ export function parseColorToRgba(
       );
     }
   } else if (hexRegex.test(color)) {
-    return hexToRgba(color, opacity);
+    return utils.color.hexToRgba(color, opacity);
   } else {
     console.error("Invalid color format");
     return null;

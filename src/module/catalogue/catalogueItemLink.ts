@@ -124,5 +124,5 @@ function createUpdatedString(lang: string) {
     const lr = createCatalogueLocalizationResource(lang);
     const format = lr.lang === "enUS" ? "western" : "eastern"
 
-    return lr.module["descriptionUpdatedBack"].replace("$TIME", util.getFormattedDate("fullDateTime", format));
+    return lr.module["descriptionUpdatedBack"].replace("$TIME", utils.data.getFormattedDate("fullDateTime", format));
 }

@@ -887,11 +887,11 @@ async function generateColorVariable(
     // Set the values for light and dark modes
     variable.setValueForMode(
       lightModeId,
-      util.convertColorRange(member.color.light)
+      utils.color.convertColorRange(member.color.light)
     );
     variable.setValueForMode(
       darkModeId,
-      util.convertColorRange(member.color.dark)
+      utils.color.convertColorRange(member.color.dark)
     );
   }
 

@@ -203,7 +203,7 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
 }
 
 function applyStrokeStyle(node: VectorNode, strokeStyle: CYStroke) {
-    const strokeColor = util.hexToRgb(strokeStyle.color);
+    const strokeColor = utils.color.hexToRgb(strokeStyle.color);
     node.strokes = [{ type: "SOLID", color: strokeColor, opacity: strokeStyle.opacity }];
     if (strokeStyle.dashAndGap) {
         node.dashPattern = strokeStyle.dashAndGap
@@ -346,7 +346,7 @@ async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
     annotation.textAlignVertical = "CENTER";
     annotation.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
 
-    const backgroundColor = util.hexToRgb(strokeStlye.color);
+    const backgroundColor = utils.color.hexToRgb(strokeStlye.color);
 
     const annotationNode = util.createAutolayoutFrame(
         [annotation],

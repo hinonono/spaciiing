@@ -21,7 +21,7 @@ export async function initLicenseCheck() {
     utils.communication.sendMessageBack(message);
   } else {
     // 沒有License Data
-    const expiredTime = util.addHours(new Date(), 3).toUTCString();
+    const expiredTime = utils.data.addHours(new Date(), 3).toUTCString();
     const license: LicenseManagement = {
       tier: "FREE",
       recurrence: "",
