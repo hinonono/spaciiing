@@ -103,22 +103,22 @@ export function deepClone(val: unknown) {
  * @param {EditorPreference} editorPreference - The updated editor preference to send.
  * @param {Module} [source] - Optional source of the call, used for logging purposes.
  */
-export function updateEditorPreference(
-  editorPreference: EditorPreference,
-  source?: Module
-) {
-  const message: ExternalMessageUpdateEditorPreference = {
-    editorPreference: editorPreference,
-    module: "PluginSetting",
-    mode: "UpdateEditorPreference",
-    phase: "Init",
-  };
-  utils.communication.sendMessageBack(message);
-  console.log(
-    `😍使用者偏好已更新至前端，呼叫自${source !== undefined ? String(source) : "未知"
-    }`, editorPreference
-  );
-}
+// export function updateEditorPreference(
+//   editorPreference: EditorPreference,
+//   source?: Module
+// ) {
+//   const message: ExternalMessageUpdateEditorPreference = {
+//     editorPreference: editorPreference,
+//     module: "PluginSetting",
+//     mode: "UpdateEditorPreference",
+//     phase: "Init",
+//   };
+//   utils.communication.sendMessageBack(message);
+//   console.log(
+//     `😍使用者偏好已更新至前端，呼叫自${source !== undefined ? String(source) : "未知"
+//     }`, editorPreference
+//   );
+// }
 
 export function updateEditorType(editorType: EditorType) {
   const message: ExternalMessage = {
@@ -857,6 +857,7 @@ export function stripBoundVariables(effect: Effect): Effect {
 export function incrementSavedClicks(incrementBy: number) {
   const ep = utils.data.readEditorPreference()
   const newEp: EditorPreference = { ...ep, savedClicks: ep.savedClicks + incrementBy };
+  
   utils.data.saveEditorPreference(newEp, "General")
-  updateEditorPreference(newEp);
+  utils.data.updateEditorPreference(newEp);
 }

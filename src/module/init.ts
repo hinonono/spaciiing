@@ -11,7 +11,7 @@ export async function init() {
 
   // V20：新版
   const editorPreference = utils.data.readEditorPreference();
-  util.updateEditorPreference(editorPreference, "Init");
+  utils.data.updateEditorPreference(editorPreference, "Init");
 
   const editorType = figma.editorType as EditorType;
   util.updateEditorType(editorType);
