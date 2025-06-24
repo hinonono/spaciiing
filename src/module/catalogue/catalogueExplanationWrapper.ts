@@ -44,14 +44,14 @@ export function createExplanationWrapper(
         pushAdditionalContent(lr, modes, fontName, titleWrapperContents)
     }
 
-    const titleWrapper = util.createAutolayoutFrame(titleWrapperContents, semanticTokens.spacing.xsmall, "VERTICAL");
+    const titleWrapper = utils.node.createAutolayoutFrame(titleWrapperContents, semanticTokens.spacing.xsmall, "VERTICAL");
     titleWrapper.name = "Title Wrapper";
     dateNode.layoutSizingHorizontal = "FILL";
     titleNode.layoutSizingHorizontal = "FILL";
     titleSecondaryNode.layoutSizingHorizontal = "FILL";
 
     const itemsFrame = createItemsFrame(items);
-    const wrapperFrame = util.createAutolayoutFrame([titleWrapper, itemsFrame], semanticTokens.spacing.xlarge, "VERTICAL");
+    const wrapperFrame = utils.node.createAutolayoutFrame([titleWrapper, itemsFrame], semanticTokens.spacing.xlarge, "VERTICAL");
     titleWrapper.layoutSizingHorizontal = "FILL";
 
     utils.node.setPadding(wrapperFrame, {
@@ -104,7 +104,7 @@ function pushAdditionalContent(
 }
 
 function createItemsFrame(items: FrameNode[]) {
-    const itemsFrame = util.createAutolayoutFrame(items, 0, "VERTICAL");
+    const itemsFrame = utils.node.createAutolayoutFrame(items, 0, "VERTICAL");
     itemsFrame.name = "Explanation Items";
     itemsFrame.clipsContent = false;
     itemsFrame.layoutSizingHorizontal = "HUG";

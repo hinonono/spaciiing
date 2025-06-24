@@ -1,6 +1,5 @@
 import { semanticTokens } from "./tokens";
 import {
-  createAutolayoutFrame,
   createTextNode,
   formatNumberToDecimals,
   capitalizeFirstLetter
@@ -38,7 +37,7 @@ export function createExplanationSinglePropertyItem(
     content.textAlignHorizontal = "RIGHT"
   }
 
-  const wrapper = createAutolayoutFrame(
+  const wrapper = utils.node.createAutolayoutFrame(
     [titleNode, content],
     semanticTokens.spacing.xsmall,
     "HORIZONTAL"
@@ -77,7 +76,7 @@ function pairNodesByTwo(source: FrameNode[]): FrameNode[] {
 
   for (let i = 0; i < source.length; i += 2) {
     const pair = source.slice(i, i + 2);
-    const pairWrapper = createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
+    const pairWrapper = utils.node.createAutolayoutFrame(pair, semanticTokens.spacing.xsmall, "HORIZONTAL");
     pairWrapper.name = "Properties";
     pairWrapper.layoutSizingVertical = "HUG";
 
@@ -431,7 +430,7 @@ export function createEffectPropertiesWrappers(
 
     const countNode = createGenericEffectTitle(lr, effect, i, fontName)
 
-    let effectWrapper = createAutolayoutFrame([countNode], semanticTokens.spacing.xsmall, "VERTICAL");
+    let effectWrapper = utils.node.createAutolayoutFrame([countNode], semanticTokens.spacing.xsmall, "VERTICAL");
     effectWrapper.name = "Effects";
     countNode.layoutSizingHorizontal = "FILL";
 
@@ -455,8 +454,8 @@ export function createEffectPropertiesWrappers(
       const secondGroup = effectPropertiesNodes.slice(2, 6);
 
       // Create pairs for the first group (2 elements and 4 elements)
-      const firstGroupWrapper = createAutolayoutFrame(firstGroup, semanticTokens.spacing.xsmall, "HORIZONTAL");
-      const secondGroupWrapper = createAutolayoutFrame(secondGroup, semanticTokens.spacing.xsmall, "HORIZONTAL");
+      const firstGroupWrapper = utils.node.createAutolayoutFrame(firstGroup, semanticTokens.spacing.xsmall, "HORIZONTAL");
+      const secondGroupWrapper = utils.node.createAutolayoutFrame(secondGroup, semanticTokens.spacing.xsmall, "HORIZONTAL");
 
       effectPropertiesNodes.forEach(
         (n) => {
@@ -780,7 +779,7 @@ function createAliasNameWrapper(
   }
 
   // Proceed with the rest of the code outside the if-else
-  const aliasNameWrapper = createAutolayoutFrame(
+  const aliasNameWrapper = utils.node.createAutolayoutFrame(
     [aliasNameNode],
     0,
     "VERTICAL"

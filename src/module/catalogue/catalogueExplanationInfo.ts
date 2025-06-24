@@ -3,6 +3,7 @@ import * as util from "../util";
 import { createEffectPropertiesWrappers, createStyleColorHexNode, createStyleGradientNode, createTextPropertiesWrappers, createVariableColorHexNodes, createVariableNumberNodes, createVariableStringNodes } from "../explanation";
 import { semanticTokens } from "../tokens";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
+import { utils } from "../utils";
 
 export function pushInfoAreaAdditionalContent(
     form: StyleForm,
@@ -90,7 +91,7 @@ export function setUpInfoWrapperLayout(
     descNode: TextNode,
 ): FrameNode {
     const spacing = styleMode === "EFFECT" ? semanticTokens.spacing.base : semanticTokens.spacing.small
-    const titleWrapper = util.createAutolayoutFrame(itemsToPutInTitleWrapper, spacing, "VERTICAL");
+    const titleWrapper = utils.node.createAutolayoutFrame(itemsToPutInTitleWrapper, spacing, "VERTICAL");
     titleWrapper.name = "Title Wrapper";
 
     itemsToPutInTitleWrapper.forEach((node) => {
@@ -104,7 +105,7 @@ export function setUpInfoWrapperLayout(
     titleNode.layoutSizingHorizontal = "FILL";
     // 這裡可能要讓text properties wrapper horizontal = fill
 
-    const explanationTextsWrapperNode = util.createAutolayoutFrame(
+    const explanationTextsWrapperNode = utils.node.createAutolayoutFrame(
         [titleWrapper, descNode],
         semanticTokens.spacing.base,
         "VERTICAL"

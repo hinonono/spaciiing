@@ -48,3 +48,34 @@ export function hasImageFill(node: RectangleNode): boolean {
         node.fills.some((fill) => fill.type === "IMAGE")
     );
 }
+
+/**
+ * Creates a new auto-layout frame and adds the specified layers to it.
+ *
+ * @param {SceneNode[]} layers - The layers to be added to the auto-layout frame.
+ * @param {number} spacing - The spacing between the layers in the auto-layout frame.
+ * @param {"NONE" | "HORIZONTAL" | "VERTICAL"} mode - The layout mode for the auto-layout frame.
+ * @returns {FrameNode} The created auto-layout frame containing the specified layers.
+ */
+export function createAutolayoutFrame(
+    layers: SceneNode[],
+    spacing: number,
+    mode: "NONE" | "HORIZONTAL" | "VERTICAL"
+): FrameNode {
+    // Create a new frame with autolayout
+    const autolayoutFrame = figma.createFrame();
+
+    // Set the autolayout properties
+    autolayoutFrame.layoutMode = mode;
+    autolayoutFrame.itemSpacing = spacing;
+
+    // Add the selected layers to the autolayout frame
+    layers.forEach((layer) => {
+        autolayoutFrame.appendChild(layer);
+    });
+
+    // Ensure no fill is applied to the autolayout frame
+    autolayoutFrame.fills = [];
+
+    return autolayoutFrame;
+}

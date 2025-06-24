@@ -348,7 +348,7 @@ async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
 
     const backgroundColor = utils.color.hexToRgb(strokeStlye.color);
 
-    const annotationNode = util.createAutolayoutFrame(
+    const annotationNode = utils.node.createAutolayoutFrame(
         [annotation],
         8,
         "HORIZONTAL"

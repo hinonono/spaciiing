@@ -50,7 +50,7 @@ export function createExplanationItem(
     const preview = CLExplanationPreview.createPreviewHandler(form, styleMode, fontName, previewResouces);
     const array = preview === null ? [explanationTextsWrapperNode] : [preview, explanationTextsWrapperNode]
 
-    const result = util.createAutolayoutFrame(
+    const result = utils.node.createAutolayoutFrame(
         array,
         semanticTokens.spacing.base,
         "HORIZONTAL"

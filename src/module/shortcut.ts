@@ -312,7 +312,7 @@ function createAutoLayoutIndividually() {
     const originalX = item.x;
     const originalY = item.y;
 
-    const autoLayoutFrame = util.createAutolayoutFrame([item], 0, "HORIZONTAL");
+    const autoLayoutFrame = utils.node.createAutolayoutFrame([item], 0, "HORIZONTAL");
     autoLayoutFrame.resize(item.width, item.height);
     autoLayoutFrame.x = originalX;
     autoLayoutFrame.y = originalY;

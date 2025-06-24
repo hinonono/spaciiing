@@ -140,13 +140,13 @@ export function applySpacingToLayers(
 
       const offset = isVerticalMode
         ? currentLayerBounds.y +
-          currentLayerBounds.height +
-          spacing -
-          nextLayerBounds.y
+        currentLayerBounds.height +
+        spacing -
+        nextLayerBounds.y
         : currentLayerBounds.x +
-          currentLayerBounds.width +
-          spacing -
-          nextLayerBounds.x;
+        currentLayerBounds.width +
+        spacing -
+        nextLayerBounds.x;
 
       if (isVerticalMode) {
         nextLayer.y += offset;
@@ -161,7 +161,7 @@ export function applySpacingToLayers(
   const selectionPosition = utils.editor.getSelectionPosition(layers);
 
   if (addAutolayout) {
-    const autolayoutFrame = util.createAutolayoutFrame(
+    const autolayoutFrame = utils.node.createAutolayoutFrame(
       layers,
       spacing,
       isVerticalMode ? "VERTICAL" : "HORIZONTAL"

@@ -1,6 +1,7 @@
 import { PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
 import { semanticTokens } from "../tokens";
 import * as util from "../util";
+import { utils } from "../utils";
 import { createColorFrame, createEffectFrame, createGradientFrame, createNumberFrame } from "./cataloguePreview";
 
 export function createPreviewHandler(
@@ -54,7 +55,7 @@ function createPreviewForGradient(
     }
 
     // 將色塊們包裝入一個AutolayoutFrame中
-    const wrapper = util.createAutolayoutFrame(
+    const wrapper = utils.node.createAutolayoutFrame(
         colorFrames,
         semanticTokens.spacing.xsmall,
         "HORIZONTAL"
@@ -81,7 +82,7 @@ function createPreviewForColor(
     });
 
     // 將色塊們包裝入一個AutolayoutFrame中
-    const wrapper = util.createAutolayoutFrame(
+    const wrapper = utils.node.createAutolayoutFrame(
         colorFrames,
         semanticTokens.spacing.xsmall,
         "HORIZONTAL"
@@ -98,7 +99,7 @@ function createPreviewForEffect(
     const effectFrame = createEffectFrame(effects);
 
     // 將色塊們包裝入一個AutolayoutFrame中
-    const wrapper = util.createAutolayoutFrame(
+    const wrapper = utils.node.createAutolayoutFrame(
         [effectFrame],
         semanticTokens.spacing.xsmall,
         "HORIZONTAL"
@@ -121,7 +122,7 @@ function createPreviewForNumber(
     });
 
     // 將數字框框們包裝入一個AutolayoutFrame中
-    const wrapper = util.createAutolayoutFrame(
+    const wrapper = utils.node.createAutolayoutFrame(
         numberFrames,
         semanticTokens.spacing.xsmall,
         "HORIZONTAL"
