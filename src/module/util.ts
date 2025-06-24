@@ -120,27 +120,26 @@ export function deepClone(val: unknown) {
 //   );
 // }
 
-export function updateEditorType(editorType: EditorType) {
-  const message: ExternalMessage = {
-    module: "Init",
-    direction: "Outer",
-    phase: "Actual",
-    editorType: editorType,
-  };
-  utils.communication.sendMessageBack(message);
-}
+// export function updateEditorType(editorType: EditorType) {
+//   const message: ExternalMessage = {
+//     module: "Init",
+//     direction: "Outer",
+//     phase: "Actual",
+//     editorType: editorType,
+//   };
+//   utils.communication.sendMessageBack(message);
+// }
 
-export function updateTriggeredCommand() {
-  const message: ExternalMessage = {
-    module: "Init",
-    direction: "Outer",
-    phase: "Actual",
-    triggeredCommand: figma.command
-  };
-  utils.communication.sendMessageBack(message);
-  console.log(figma.command);
-
-}
+// export function updateTriggeredCommand() {
+//   const message: ExternalMessage = {
+//     module: "Init",
+//     direction: "Outer",
+//     phase: "Actual",
+//     triggeredCommand: figma.command
+//   };
+//   utils.communication.sendMessageBack(message);
+//   console.log(figma.command);
+// }
 
 export function isColorCollection(
   collection: CollectionExplanationable
@@ -857,7 +856,7 @@ export function stripBoundVariables(effect: Effect): Effect {
 export function incrementSavedClicks(incrementBy: number) {
   const ep = utils.data.readEditorPreference()
   const newEp: EditorPreference = { ...ep, savedClicks: ep.savedClicks + incrementBy };
-  
+
   utils.data.saveEditorPreference(newEp, "General")
   utils.data.updateEditorPreference(newEp);
 }

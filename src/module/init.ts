@@ -14,8 +14,8 @@ export async function init() {
   utils.data.updateEditorPreference(editorPreference, "Init");
 
   const editorType = figma.editorType as EditorType;
-  util.updateEditorType(editorType);
-  util.updateTriggeredCommand();
+  utils.runtime.updateEditorType(editorType);
+  utils.runtime.updateTriggeredCommand();
 
   figma.root.setRelaunchData({ open: '' })
 }
