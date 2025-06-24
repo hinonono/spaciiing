@@ -7,6 +7,7 @@ import * as nodeUtil from "./node";
 import * as runtimeUtil from "./runtime";
 import * as stringUtil from "./string";
 import * as typeCheckUtil from "./typeCheck";
+import * as vectorUtil from "./vector";
 
 export const utils = {
   color: colorUtil,
@@ -17,5 +18,6 @@ export const utils = {
   node: nodeUtil,
   runtime: runtimeUtil,
   string: stringUtil,
-  typeCheck: typeCheckUtil
+  typeCheck: typeCheckUtil,
+  vector: vectorUtil,
 };

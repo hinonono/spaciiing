@@ -305,7 +305,7 @@ async function drawArrowAndAnnotation(
     }
 
     if (createAnnotationBool) {
-        const midPoint = util.calcMidpoint(route)
+        const midPoint = utils.vector.calcMidpoint(route)
         const annotationNode = await createAnnotation(midPoint, strokeStyle);
 
         const arrowGroup = figma.group([line, annotationNode], figma.currentPage);
@@ -475,7 +475,7 @@ export async function updateArrowPosition() {
             applyStrokeStyle(arrowNode, schema.strokeStyle)
 
             if (annotationNode) {
-                const midPoint = util.calcMidpoint(newRoute);
+                const midPoint = utils.vector.calcMidpoint(newRoute);
                 setAnnotationNodePosition(annotationNode, midPoint);
             }
 
