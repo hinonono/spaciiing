@@ -142,7 +142,7 @@ figma.ui.onmessage = (message: Message) => {
       break;
   }
 
-  util.incrementSavedClicks(incrementSavedClicks);
+  utils.service.incrementSavedClicks(incrementSavedClicks);
 };
 
 // Function to execute before the plugin is closed

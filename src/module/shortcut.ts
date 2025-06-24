@@ -147,7 +147,7 @@ async function spiltText(message: MessageShortcutSpiltText) {
     return;
   }
 
-  await util.ensureFontIsLoaded(node);
+  await utils.editor.ensureFontIsLoaded(node);
   await figma.loadFontAsync({ family: "Inter", style: "Regular" })
 
   const originalText = node.characters;
@@ -265,7 +265,7 @@ async function numbering(message: MessageShortcutNumbering) {
     return;
   }
 
-  const sortedSelection = util.sortSelectionBasedOnXAndY(numberingdirection, selection) as TextNode[];
+  const sortedSelection = utils.editor.sortSelectionBasedOnXAndY(numberingdirection, selection) as TextNode[];
 
   for (let i = 0; i < sortedSelection.length; i++) {
     const textNode = sortedSelection[i];
@@ -274,16 +274,16 @@ async function numbering(message: MessageShortcutNumbering) {
     let value: string;
     switch (numberingForm) {
       case "ALPHABETIC_LOWERCASE":
-        value = util.getAlphabet(i, false);
+        value = utils.string.getAlphabet(i, false);
         break;
       case "ALPHABETIC_UPPERCASE":
-        value = util.getAlphabet(i, true);
+        value = utils.string.getAlphabet(i, true);
         break;
       case "ZHTW_SIMPLE_HANZI":
-        value = util.getSimpleHanziNumber(i);
+        value = utils.string.getSimpleHanziNumber(i);
         break;
       case "ZHTW_COMPLEX_HANZI":
-        value = util.getComplexHanziNumber(i);
+        value = utils.string.getComplexHanziNumber(i);
         break;
       case "NUMBER":
       default:

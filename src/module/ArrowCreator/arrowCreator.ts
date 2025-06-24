@@ -21,7 +21,7 @@ export function reception(message: MessageArrowCreator) {
         return;
     }
 
-    const sortedSelction = util.sortSelectionBasedOnXAndY(message.layoutDirection, selection)
+    const sortedSelction = utils.editor.sortSelectionBasedOnXAndY(message.layoutDirection, selection)
 
     for (let i = 0; i < sortedSelction.length - 1; i++) {
         const sourceItem = sortedSelction[i];
@@ -194,7 +194,7 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
     figma.currentPage.appendChild(vector);
 
     const vectorNetwork = createVectorNetwork(points);
-    await util.setStrokeCap(vector, vectorNetwork, strokeStyle.startPointCap, strokeStyle.endPointCap)
+    await utils.node.setStrokeCap(vector, vectorNetwork, strokeStyle.startPointCap, strokeStyle.endPointCap)
     applyStrokeStyle(vector, strokeStyle);
 
     vector.name = "Arrow Vector"
@@ -471,7 +471,7 @@ export async function updateArrowPosition() {
             }));
 
             const newVectorNetwork = createVectorNetwork(relativeRoute);
-            await util.setStrokeCap(arrowNode, newVectorNetwork, schema.strokeStyle.startPointCap, schema.strokeStyle.endPointCap);
+            await utils.node.setStrokeCap(arrowNode, newVectorNetwork, schema.strokeStyle.startPointCap, schema.strokeStyle.endPointCap);
             applyStrokeStyle(arrowNode, schema.strokeStyle)
 
             if (annotationNode) {

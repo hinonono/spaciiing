@@ -50,7 +50,7 @@ export function createEffectFrame(effects: Effect[]): FrameNode {
         { type: "SOLID", color: semanticTokens.background.primary },
     ];
     effectFrame.cornerRadius = semanticTokens.cornerRadius.small;
-    effectFrame.effects = effects.map(util.stripBoundVariables);
+    effectFrame.effects = effects.map(utils.editor.stripBoundVariables);
 
     return effectFrame;
 }

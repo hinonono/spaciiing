@@ -1,7 +1,4 @@
 import { semanticTokens } from "./tokens";
-import {
-  capitalizeFirstLetter
-} from "./util";
 import * as styledTextSegments from "./styledTextSegments";
 import { SinglePropertyString } from "../types/SinglePropertyString";
 import { CatalogueLocalizationResources } from "../types/CatalogueLocalization";
@@ -392,7 +389,7 @@ function getEffectPropertiesToCreate(
       },
       {
         title: lr.term["clipToShape"],
-        content: capitalizeFirstLetter(`${effect.clipToShape}`),
+        content: utils.string.capitalizeFirstLetter(`${effect.clipToShape}`),
         show: true
       },
       {
