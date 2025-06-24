@@ -47,6 +47,7 @@ figma.ui.onmessage = (message: Message) => {
   // console.log("plugin.ts", message);
   const selectionLength = utils.editor.getCurrentSelection().length;
   let incrementSavedClicks = 0;
+  let shouldIncrementTime = true;
 
   if (
     message.shouldSaveEditorPreference &&
@@ -62,9 +63,11 @@ figma.ui.onmessage = (message: Message) => {
   switch (message.module) {
     case "Init":
       init.init();
+      shouldIncrementTime = false;
       break;
     case "Localization":
       localization.reception(message as MessageLocalization);
+      shouldIncrementTime = false;
       break;
     case "Spaciiing":
       spaciiing.useSpacing(message as MessageSpaciiing);
@@ -121,6 +124,7 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "LicenseManagement":
       licenseManagement.reception(message as MessageLicenseManagement);
+      shouldIncrementTime = false;
       break;
     case "AspectRatioHelper":
       aspectRatioHelper.reception(message as MessageAspectRatio);
@@ -138,10 +142,11 @@ figma.ui.onmessage = (message: Message) => {
       }
       break;
     default:
+      shouldIncrementTime = false;
       break;
   }
 
-  utils.service.incrementSavedClicks(incrementSavedClicks);
+  utils.service.incrementSavedClicks(incrementSavedClicks, shouldIncrementTime);
 };
 
 // Function to execute before the plugin is closed

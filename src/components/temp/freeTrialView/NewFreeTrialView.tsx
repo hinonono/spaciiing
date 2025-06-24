@@ -3,6 +3,7 @@ import FreeTrialGraph from "../../FreeTrialGraph";
 import SubscriptionPlanBlock from "../../SubscriptionPlanBlock";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../../AppProvider";
+import SavedTimeMessage from "../../SavedTimeMessage";
 
 interface NewFreeTrialViewProps { }
 
@@ -15,12 +16,7 @@ const NewFreeTrialView: React.FC<NewFreeTrialViewProps> = () => {
       <h2>{t("license:upgradeToSkipWaiting")}</h2>
       {/* Plan block */}
       <div className="mt-xsmall">
-        <span className="note note-large special">
-          {t("license:youSaved")
-            .replace("$SAVED_CLICKS$", `${editorPreference.savedClicks}`)
-            .replace("$SAVED_MIN$", `${editorPreference.savedClicks / 20}`)
-          }
-        </span>
+        <SavedTimeMessage />
       </div>
       <div className="mt-xsmall">
         <SubscriptionPlanBlock

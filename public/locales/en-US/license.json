@@ -55,6 +55,6 @@
   "upgradeToSkipWaiting": "Do it fast. Do it right.",
   "upgrade": "Upgrade",
   "youNeedToWait": "Save hours of clicking and skip the delay with only $3/month.",
-  "youSaved": "You’ve already saved $SAVED_CLICKS$ mouse clicks — that’s roughly $SAVED_MIN$ minutes of boring, repetitive work! 🚀Upgrade to Pro now and become a productivity powerhouse!",
+  "youSaved": "You’ve already saved $SAVED_CLICKS$ clicks — that’s about $SAVED_MIN$ minutes of tedious work avoided! 🚀 Upgrade to Pro to skip the wait time and save even more — up to $SAVED_TIME$ minutes back in your day!",
   "minSaved": "🚀$SAVED_MIN$ min saved!"
 }

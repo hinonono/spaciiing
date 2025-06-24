@@ -37,7 +37,8 @@ function createEditorPreference(): EditorPreference {
             outerFrame: 24,
         },
         strokeStyles: [],
-        savedClicks: 0
+        savedClicks: 0,
+        savedSecs: 0
     };
 
     return createdEditorPreference;

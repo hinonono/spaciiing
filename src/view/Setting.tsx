@@ -6,6 +6,7 @@ import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
 import info from "../info.json";
 import { SvgEraser, SvgKey } from "../assets/icons";
+import SavedTimeMessage from "../components/SavedTimeMessage";
 
 const Setting: React.FC = () => {
   // Context
@@ -46,12 +47,7 @@ const Setting: React.FC = () => {
               ) : (
                 <>
                   <h4>{t("license:free")}</h4>
-                  <span className="note note-large special">
-                    {t("license:youSaved")
-                      .replace("$SAVED_CLICKS$", `${editorPreference.savedClicks}`)
-                      .replace("$SAVED_MIN$", `${editorPreference.savedClicks / 20}`)
-                    }
-                  </span>
+                  <SavedTimeMessage />
                 </>
               )}
             </div>

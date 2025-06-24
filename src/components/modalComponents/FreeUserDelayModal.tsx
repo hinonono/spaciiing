@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import FigmaButton from "../FigmaButton";
 import SubscriptionPlanBlock from "../SubscriptionPlanBlock";
 import { SvgSkip } from "../../assets/icons";
+import SavedTimeMessage from "../SavedTimeMessage";
 
 interface FreeUserDelayModalProps {
 }
@@ -58,12 +59,7 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
       <div className="free-trial-modal">
         <h2>{t("license:upgradeToSkipWaiting")}</h2>
         <div>
-          <span className="note note-large special">
-            {t("license:youSaved")
-              .replace("$SAVED_CLICKS$", `${editorPreference.savedClicks}`)
-              .replace("$SAVED_MIN$", `${editorPreference.savedClicks / 20}`)
-            }
-          </span>
+          <SavedTimeMessage />
         </div>
         <div className="mt-xsmall">
           <SubscriptionPlanBlock

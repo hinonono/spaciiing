@@ -55,6 +55,6 @@
   "upgradeToSkipWaiting": "有料プランは待ち時間なし",
   "upgrade": "アップグレード",
   "youNeedToWait": "ただいま操作するたびに $WAIT_TIME$ 秒の待つ時間制限があります。",
-  "youSaved": "このプラグインのおかげで、すでに $SAVED_CLICKS$ 回のクリックを節約しました。これはおよそ $SAVED_MIN$ 分の作業時間に相当します！🚀今すぐ Pro にアップグレードして、効率的なデザイナーになろう！",
+  "youSaved": "このプラグインのおかげで、すでに $SAVED_CLICKS$ 回のクリックを節約できました。これはおよそ $SAVED_MIN$ 分の単調な作業に相当します！🚀 Pro にアップグレードすれば、待ち時間もスキップして、さらに最大 $SAVED_TIME$ 分の時間を節約できます！",
   "minSaved": "🚀$SAVED_MIN$分の作業時間を節約しました！"
 }
