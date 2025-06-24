@@ -102,6 +102,20 @@ const Setting: React.FC = () => {
             <option value="zhCN">简体中文</option>
           </select>
         </div>
+        {/* Click Saved */}
+        <div className="mt-large">
+          <h3>Productivity Dashboard</h3>
+          <div className="grid">
+            <div className="membership-block">
+              <p className="color--secondary">Mouse clicks saved</p>
+              <span>{editorPreference.savedClicks}</span>
+            </div>
+            <div className="membership-block">
+              <p className="color--secondary">Repetitive, boring work time saved</p>
+              <span>{editorPreference.savedClicks / 20} min</span>
+            </div>
+          </div>
+        </div>
         {/* 關於本Plugin */}
         <div className="mt-large">
           <h3>{t("settings:about")}</h3>

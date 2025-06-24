@@ -26,6 +26,7 @@
   --drop-shadow-2: 0px 9px 28px 8px rgba(0, 0, 0, 0.05), 0px 6px 16px 0px rgba(0, 0, 0, 0.08), 0px 3px 6px -4px rgba(0, 0, 0, 0.12);
   --drop-shadow-3: 0px 12px 48px 16px rgba(0, 0, 0, 0.03), 0px 9px 28px 0px rgba(0, 0, 0, 0.05), 0px 6px 16px -8px rgba(0, 0, 0, 0.08);
   --cy-animation-default: all 0.3s;
+  --cy-glass-color-default: rgba(0, 0, 0, 0.05);
   /* spaciiing色盤 color palette */
   /* cy-purple */
   --cy-purple-50: #f6f4ff;
@@ -39,6 +40,7 @@
   --cy-purple-800: #6515bc;
   --cy-purple-900: #54149e;
   --cy-purple-950: #380e6b;
+  --cy-text-color-special: var(--cy-purple-600);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -56,6 +58,8 @@
     --tab-bar-bg: #2c2c2c;
     --tab-bar-icon: white;
     --color-bg-selected: #4a5878;
+    --cy-glass-color-default: rgba(255, 255, 255, 0.2);
+    --cy-text-color-special: var(--cy-purple-400);
   }
 }
 h1,
@@ -1347,6 +1351,25 @@ details summary {
     transform: rotate(360deg);
   }
 }
+.app {
+  position: relative;
+}
+
+.saved-click-counter {
+  position: fixed;
+  bottom: 8;
+  left: 8;
+  -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(16px);
+  border-radius: 8px;
+  background-color: var(--cy-glass-color-default);
+  transition: var(--cy-animation-default);
+  z-index: 999;
+  padding: 6px 12px;
+  font-size: var(--font-size-small);
+  color: var(--figma-color-text);
+}
+
 h2 {
   font-size: 1.4rem;
 }
@@ -1389,7 +1412,7 @@ a {
   color: var(--figma-color-text-success);
 }
 .note.special {
-  color: var(--cy-purple-600);
+  color: var(--cy-text-color-special);
 }
 .note a {
   color: var(--figma-color-text-secondary);

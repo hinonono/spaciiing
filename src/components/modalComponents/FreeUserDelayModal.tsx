@@ -57,7 +57,7 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
     <Modal show={freeUserDelayModalConfig.show} handleClose={handleCloseFreeUserDelay}>
       <div className="free-trial-modal">
         <h2>{t("license:upgradeToSkipWaiting")}</h2>
-        <div className="mt-xsmall">
+        <div>
           <span className="note note-large special">
             {t("license:youSaved")
               .replace("$SAVED_CLICKS$", `${editorPreference.savedClicks}`)
@@ -65,7 +65,7 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
             }
           </span>
         </div>
-        <div>
+        <div className="mt-xsmall">
           <SubscriptionPlanBlock
             plan={"monthly"}
             additionalClass={["subscription-background", "pro"]}

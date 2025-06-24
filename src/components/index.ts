@@ -10,3 +10,4 @@ export { default as ListViewHeader } from "./ListViewHeader";
 export { default as LicenseKeyInput } from "./LicenseKeyInput";
 export { default as Spinner } from "./Spinner";
 export { default as CYCheckbox } from "./CYCheckbox";
+export { default as SavedClickCounter } from "./SavedClickCounter";

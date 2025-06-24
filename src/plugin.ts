@@ -67,7 +67,7 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "Spaciiing":
       spaciiing.useSpacing(message as MessageSpaciiing);
-      incrementSavedClicks = selectionLength
+      incrementSavedClicks = selectionLength * 4
       break;
     case "ArrowCreator":
       arrowCreator.reception(message as MessageArrowCreator)
@@ -116,7 +116,7 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "SelectionFilter":
       selectionFilter.reception(message as MessageSelectionFilter);
-      incrementSavedClicks = selectionLength * 8
+      incrementSavedClicks = selectionLength * 16
       break;
     case "LicenseManagement":
       licenseManagement.reception(message as MessageLicenseManagement);

@@ -27,6 +27,24 @@
 @import "./components/accordion";
 @import "./components/spinner";
 
+.app {
+    position: relative;
+}
+
+.saved-click-counter {
+    position: fixed;
+    bottom: 8;
+    left: 8;
+    backdrop-filter: blur(16px);
+    border-radius: 8px;
+    background-color: var(--cy-glass-color-default);
+    transition: var(--cy-animation-default);
+    z-index: 999;
+    padding: 6px 12px;
+    font-size: var(--font-size-small);
+    color: var(--figma-color-text)
+}
+
 h2 {
     font-size: 1.4rem;
 }
@@ -81,7 +99,7 @@ a {
     }
 
     &.special {
-        color: var(--cy-purple-600)
+        color: var(--cy-text-color-special)
     }
 
     a {

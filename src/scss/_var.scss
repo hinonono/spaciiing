@@ -35,6 +35,9 @@
 
     --cy-animation-default: all 0.3s;
 
+    --cy-glass-color-default: rgba(0, 0, 0, 0.05);
+
+
     /* spaciiing色盤 color palette */
 
     /* cy-purple */
@@ -49,6 +52,8 @@
     --cy-purple-800: #6515bc;
     --cy-purple-900: #54149e;
     --cy-purple-950: #380e6b;
+
+    --cy-text-color-special: var(--cy-purple-600);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -72,5 +77,9 @@
         --tab-bar-icon: white;
 
         --color-bg-selected: #4a5878;
+
+        --cy-glass-color-default: rgba(255, 255, 255, 0.2);
+
+        --cy-text-color-special: var(--cy-purple-400);
     }
 }

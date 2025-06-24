@@ -10,6 +10,7 @@ import {
 } from "../types/Messages/MessageSpaciiing";
 import SegmentedControl from "../components/SegmentedControl";
 import CYCheckbox from "../components/CYCheckbox";
+import { applySpacing } from "../module-frontend/spaciiingFrontEnd";
 
 const SpacingValue: {
   nameKey: string;
@@ -33,7 +34,7 @@ const SpaciiingView: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { editorPreference, setEditorPreference } = useAppContext();
+  const appContext = useAppContext();
 
   // 水平或垂直模式
   const [mode, setMode] = useState<SpacingMode>("vertical");
@@ -82,7 +83,7 @@ const SpaciiingView: React.FC = () => {
     const numberValue = Number(value);
 
     if (!isNaN(numberValue)) {
-      setEditorPreference((prevPreference) => ({
+      appContext.setEditorPreference((prevPreference) => ({
         ...prevPreference,
         spacing: numberValue,
       }));
@@ -97,66 +98,66 @@ const SpaciiingView: React.FC = () => {
   const multipliers = [1, 2, 3, 4, 5];
 
   useEffect(() => {
-    if (editorPreference.spacing) {
-      setEnteredCustomSpacing(editorPreference.spacing);
+    if (appContext.editorPreference.spacing) {
+      setEnteredCustomSpacing(appContext.editorPreference.spacing);
     }
-  }, [editorPreference]);
+  }, [appContext.editorPreference]);
 
-  const applySpacing = () => {
-    let finalSpacing: number;
-    let useCustomValue: boolean;
+  // const applySpacing = () => {
+  //   let finalSpacing: number;
+  //   let useCustomValue: boolean;
 
-    if (typeof space === "string") {
-      // 使用者選擇了自定義間距
-      finalSpacing = enteredCustomSpacing;
-      useCustomValue = true;
-    } else {
-      // 預設間距
-      finalSpacing = space * multiplier;
-      useCustomValue = false;
-    }
+  //   if (typeof space === "string") {
+  //     // 使用者選擇了自定義間距
+  //     finalSpacing = enteredCustomSpacing;
+  //     useCustomValue = true;
+  //   } else {
+  //     // 預設間距
+  //     finalSpacing = space * multiplier;
+  //     useCustomValue = false;
+  //   }
 
-    if (mode === "grid") {
-      const message: MessageSpaciiing = {
-        module: "Spaciiing",
-        mode: mode,
-        spacing: finalSpacing,
-        useCustomValue: useCustomValue,
-        addAutolayout: isChecked,
-        direction: "Inner",
-        phase: "Actual",
-        shouldSaveEditorPreference: true,
-        editorPreference: editorPreference,
-        gridColumn: column,
-      };
+  //   if (mode === "grid") {
+  //     const message: MessageSpaciiing = {
+  //       module: "Spaciiing",
+  //       mode: mode,
+  //       spacing: finalSpacing,
+  //       useCustomValue: useCustomValue,
+  //       addAutolayout: isChecked,
+  //       direction: "Inner",
+  //       phase: "Actual",
+  //       shouldSaveEditorPreference: true,
+  //       editorPreference: editorPreference,
+  //       gridColumn: column,
+  //     };
 
-      parent.postMessage(
-        {
-          pluginMessage: message,
-        },
-        "*"
-      );
-    } else {
-      const message: MessageSpaciiing = {
-        module: "Spaciiing",
-        mode: mode,
-        spacing: finalSpacing,
-        useCustomValue: useCustomValue,
-        addAutolayout: isChecked,
-        direction: "Inner",
-        phase: "Actual",
-        shouldSaveEditorPreference: true,
-        editorPreference: editorPreference,
-      };
+  //     parent.postMessage(
+  //       {
+  //         pluginMessage: message,
+  //       },
+  //       "*"
+  //     );
+  //   } else {
+  //     const message: MessageSpaciiing = {
+  //       module: "Spaciiing",
+  //       mode: mode,
+  //       spacing: finalSpacing,
+  //       useCustomValue: useCustomValue,
+  //       addAutolayout: isChecked,
+  //       direction: "Inner",
+  //       phase: "Actual",
+  //       shouldSaveEditorPreference: true,
+  //       editorPreference: editorPreference,
+  //     };
 
-      parent.postMessage(
-        {
-          pluginMessage: message,
-        },
-        "*"
-      );
-    }
-  };
+  //     parent.postMessage(
+  //       {
+  //         pluginMessage: message,
+  //       },
+  //       "*"
+  //     );
+  //   }
+  // };
 
   return (
     <div>
@@ -300,7 +301,18 @@ const SpaciiingView: React.FC = () => {
         <FigmaButton
           title={t("module:execute")}
           id={"sp-apply"}
-          onClick={applySpacing}
+          onClick={() => {
+            applySpacing(
+              appContext,
+              false,
+              space,
+              enteredCustomSpacing,
+              multiplier,
+              mode,
+              isChecked,
+              column
+            )
+          }}
         />
       </div>
     </div>
