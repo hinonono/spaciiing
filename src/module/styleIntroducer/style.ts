@@ -1,5 +1,4 @@
 import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
-import * as util from "../util"
 import * as CLExplanationItem from "../catalogue/catalogueExplanationItem"
 import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";

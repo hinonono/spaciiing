@@ -1,4 +1,4 @@
-import * as util from "./util";
+
 import { MessageLoremGenerator } from "../types/Messages/MessageLoremGenerator";
 import { utils } from "./utils";
 

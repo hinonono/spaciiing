@@ -24,7 +24,6 @@ import * as renamer from "./module/renamer";
 import * as variableEditor from "./module/variableEditor";
 import * as virtualProfile from "./module/virtualProfile";
 import * as selectionFilter from "./module/selectionFilter";
-import * as util from "./module/util";
 import * as licenseManagement from "./module/licenseManagement";
 import * as localization from "./module/localization";
 import * as aspectRatioHelper from "./module/aspectRatioHelper";

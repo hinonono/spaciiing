@@ -1,7 +1,7 @@
 import { NodeRenamable } from './../types/NodeRenamable';
 import { MessageRenamer, PredifinedNames, RenamerOptions } from "../types/Messages/MessageRenamer";
 import { getProcessedNodes } from "./nodeProcessing";
-import * as util from "./util";
+
 import { utils } from "./utils";
 import jaJPData from "../assets/renamer/ja-JP.json"
 import enUSData from "../assets/renamer/en-US.json"

@@ -1,4 +1,3 @@
-import * as util from "./util";
 import * as licenseManagement from "./licenseManagement";
 import * as localization from "./localization";
 import { EditorType } from "../types/EditorType";

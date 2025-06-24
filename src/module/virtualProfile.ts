@@ -3,7 +3,7 @@ import {
   VirtualProfileChild,
   VirtualProfileGroup,
 } from "./../types/VirtualProfile";
-import * as util from "./util";
+
 import {
   ExternalMessageUpdateVirtualProfile,
   MessageVirtualProfile,

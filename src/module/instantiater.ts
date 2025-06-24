@@ -1,4 +1,3 @@
-import * as util from "./util";
 import * as colors from "../assets/colors";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
 import { utils } from "./utils";

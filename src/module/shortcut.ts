@@ -1,4 +1,4 @@
-import * as util from "./util";
+
 import * as spaciiing from "./spaciiing";
 import * as propertyClipboard from "./propertyClipboard";
 import { MagicObjectMembers } from "../types/MagicObject";

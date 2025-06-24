@@ -1,6 +1,6 @@
 import { Direction } from "../types/General";
 import { MessageSpaciiing } from "../types/Messages/MessageSpaciiing";
-import * as util from "./util";
+
 import { utils } from "./utils";
 
 function compareWithAxis(axis: "x" | "y") {

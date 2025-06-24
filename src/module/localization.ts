@@ -1,4 +1,4 @@
-import * as util from "./util";
+
 import {
   ExternalMessageLocalization,
   MessageLocalization,

@@ -1,5 +1,4 @@
 import { CatalogueItemDescriptionSchema } from "../../types/CatalogueItemShema";
-import * as util from "../util";
 import * as CLUtil from "./catalogueUtil";
 import * as styledTextSegments from "../styledTextSegments";
 import { semanticTokens } from "../tokens";

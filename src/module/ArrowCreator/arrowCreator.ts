@@ -2,7 +2,6 @@ import { ConnectPointPosition, RectangleSegmentMap, RectangleSegmentType, Segmen
 import { CYStroke } from "../../types/CYStroke";
 import { Coordinates, Direction } from "../../types/General";
 import { MessageArrowCreator } from "../../types/Messages/MessageArrowCreator";
-import * as util from "../util";
 import { utils } from "../utils";
 import * as rh from "./routeHorizontal"
 import * as rv from "./routeVertical";

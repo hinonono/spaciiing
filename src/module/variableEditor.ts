@@ -12,7 +12,7 @@ import {
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
 } from "../types/Messages/MessageVariableEditor";
-import * as util from "./util";
+
 import { utils } from "./utils";
 
 export function reception(message: MessageVariableEditor) {
@@ -43,10 +43,10 @@ export function reception(message: MessageVariableEditor) {
 
 async function handleVariableCreation<
   T extends
-    | CustomVariableCodeNumber
-    | CustomVariableCodeString
-    | CustomVariableCodeBool
-    | CustomVariableCodeColor
+  | CustomVariableCodeNumber
+  | CustomVariableCodeString
+  | CustomVariableCodeBool
+  | CustomVariableCodeColor
 >(
   parsedCode: T[],
   collection: VariableCollection,

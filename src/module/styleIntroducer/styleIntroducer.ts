@@ -2,7 +2,6 @@ import {
   ExternalMessageUpdatePaintStyleList,
   MessageStyleIntroducer,
 } from "../../types/Messages/MessageStyleIntroducer";
-import * as util from "../util";
 import { utils } from "../utils";
 
 import * as CLUtil from "../catalogue/catalogueUtil";

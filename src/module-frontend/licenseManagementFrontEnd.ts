@@ -4,7 +4,6 @@ import {
   LicenseResponseError,
   LicenseResponseSuccess,
 } from "./../types/LicenseManagement";
-import * as util from "../module/util";
 import { utils } from "../module/utils";
 
 import * as paymentsUtil from "./paymentsUtil";

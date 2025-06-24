@@ -2,7 +2,7 @@
 import { ArrowSchema } from "../types/ArrowSchema";
 import { MessageSelectionFilter } from "../types/Messages/MessageSelectionFilter";
 import { getProcessedNodes } from "./nodeProcessing";
-import * as util from "./util";
+
 import { utils } from "./utils";
 
 export function reception(message: MessageSelectionFilter) {

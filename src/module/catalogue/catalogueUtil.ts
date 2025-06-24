@@ -1,7 +1,6 @@
 import { StyleListItemFrontEnd } from "../../types/General";
 import { StyleMode, StyleModeForFigmaStyle, StyleModeForFigmaVariable } from "../../types/Messages/MessageStyleIntroducer";
 import { isRGBAType, isRGBType } from "../typeChecking";
-import * as util from "../util"
 import { utils } from "../utils";
 
 // Type guard function for StyleModeForFigmaStyle

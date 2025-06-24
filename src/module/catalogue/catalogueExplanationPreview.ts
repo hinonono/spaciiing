@@ -1,6 +1,5 @@
 import { PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
 import { semanticTokens } from "../tokens";
-import * as util from "../util";
 import { utils } from "../utils";
 import { createColorFrame, createEffectFrame, createGradientFrame, createNumberFrame } from "./cataloguePreview";
 

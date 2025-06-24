@@ -1,6 +1,5 @@
 import { Dimension } from "../types/General";
 import { MessageAspectRatio } from "../types/Messages/MessageAspectRatio";
-import * as util from "./util";
 import { utils } from "./utils";
 
 export function reception(message: MessageAspectRatio) {

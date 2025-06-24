@@ -2,7 +2,6 @@
 // V25: 重構原先 explanation.ts 裡頭已經混亂得不得了的func
 
 import { StyleForm, } from "../../types/Messages/MessageStyleIntroducer";
-import * as util from "../util";
 import { semanticTokens } from "../tokens";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 import { utils } from "../utils";

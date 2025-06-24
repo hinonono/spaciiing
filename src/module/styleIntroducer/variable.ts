@@ -1,5 +1,4 @@
 import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
-import * as util from "../util"
 import { utils } from "../utils";
 
 import * as CLVar from "../catalogue/catalogueVariable";

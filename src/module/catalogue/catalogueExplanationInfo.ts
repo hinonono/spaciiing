@@ -1,5 +1,4 @@
 import { AliasResources, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
-import * as util from "../util";
 import { createEffectPropertiesWrappers, createStyleColorHexNode, createStyleGradientNode, createTextPropertiesWrappers, createVariableColorHexNodes, createVariableNumberNodes, createVariableStringNodes } from "../explanation";
 import { semanticTokens } from "../tokens";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";

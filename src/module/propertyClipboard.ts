@@ -7,7 +7,7 @@ import {
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
 import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
-import * as util from "./util";
+
 import { utils } from "./utils";
 
 export function reception(message: MessagePropertyClipboard) {
