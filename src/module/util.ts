@@ -141,40 +141,40 @@ export function deepClone(val: unknown) {
 //   console.log(figma.command);
 // }
 
-export function isColorCollection(
-  collection: CollectionExplanationable
-): collection is ColorCollection {
-  return (collection as ColorCollection).members[0]?.color !== undefined;
-}
+// export function isColorCollection(
+//   collection: CollectionExplanationable
+// ): collection is ColorCollection {
+//   return (collection as ColorCollection).members[0]?.color !== undefined;
+// }
 
-export function isNumberCollection(
-  collection: CollectionExplanationable
-): collection is NumberCollection {
-  return (collection as NumberCollection).members[0]?.value !== undefined;
-}
+// export function isNumberCollection(
+//   collection: CollectionExplanationable
+// ): collection is NumberCollection {
+//   return (collection as NumberCollection).members[0]?.value !== undefined;
+// }
 
-export function setStroke(
-  node: FrameNode,
-  color: RGB,
-  weight: { top: number; bottom: number; left: number; right: number }
-) {
-  node.strokes = [{ type: "SOLID", color: color }];
-  node.strokeWeight = weight.top;
-  node.strokeTopWeight = weight.top;
-  node.strokeBottomWeight = weight.bottom;
-  node.strokeLeftWeight = weight.left;
-  node.strokeRightWeight = weight.right;
-}
+// export function setStroke(
+//   node: FrameNode,
+//   color: RGB,
+//   weight: { top: number; bottom: number; left: number; right: number }
+// ) {
+//   node.strokes = [{ type: "SOLID", color: color }];
+//   node.strokeWeight = weight.top;
+//   node.strokeTopWeight = weight.top;
+//   node.strokeBottomWeight = weight.bottom;
+//   node.strokeLeftWeight = weight.left;
+//   node.strokeRightWeight = weight.right;
+// }
 
-export function setPadding(
-  node: FrameNode,
-  padding: { top: number; bottom: number; left: number; right: number }
-) {
-  node.paddingTop = padding.top;
-  node.paddingBottom = padding.bottom;
-  node.paddingLeft = padding.left;
-  node.paddingRight = padding.right;
-}
+// export function setPadding(
+//   node: FrameNode,
+//   padding: { top: number; bottom: number; left: number; right: number }
+// ) {
+//   node.paddingTop = padding.top;
+//   node.paddingBottom = padding.bottom;
+//   node.paddingLeft = padding.left;
+//   node.paddingRight = padding.right;
+// }
 
 /**
  * Converts RGB values (0-1) to a hexadecimal color string.

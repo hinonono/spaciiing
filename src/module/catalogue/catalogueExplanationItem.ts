@@ -10,6 +10,8 @@ import * as CLExplanationInfo from "./catalogueExplanationInfo"
 import * as CLExplanationPreview from "./catalogueExplanationPreview"
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 
+import { utils } from "../utils";
+
 
 /**
  * Create a explanation item (New version).
@@ -118,7 +120,7 @@ function finalSetUp(target: FrameNode) {
     // Set height to hug content
     target.primaryAxisSizingMode = "AUTO";
 
-    util.setPadding(target, {
+    utils.nodeEdit.setPadding(target, {
         top: semanticTokens.padding.large,
         bottom: semanticTokens.padding.large,
         left: semanticTokens.padding.xsmall,
@@ -126,7 +128,7 @@ function finalSetUp(target: FrameNode) {
     });
 
     // Set border properties for top edge only
-    util.setStroke(target, semanticTokens.dividerColor, {
+    utils.nodeEdit.setStroke(target, semanticTokens.dividerColor, {
         top: 1,
         bottom: 0,
         left: 0,

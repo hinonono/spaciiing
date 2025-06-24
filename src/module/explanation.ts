@@ -3,13 +3,14 @@ import {
   createAutolayoutFrame,
   createTextNode,
   rgbToHex,
-  setPadding,
   formatNumberToDecimals,
   capitalizeFirstLetter
 } from "./util";
 import * as styledTextSegments from "./styledTextSegments";
 import { SinglePropertyString } from "../types/SinglePropertyString";
 import { CatalogueLocalizationResources } from "../types/CatalogueLocalization";
+
+import { utils } from "./utils";
 
 
 /**
@@ -788,7 +789,7 @@ function createAliasNameWrapper(
   aliasNameWrapper.layoutSizingHorizontal = "HUG";
   aliasNameWrapper.cornerRadius = semanticTokens.cornerRadius.xxsmall;
 
-  setPadding(aliasNameWrapper, {
+  utils.nodeEdit.setPadding(aliasNameWrapper, {
     top: 2,
     bottom: 2,
     left: 8,

@@ -1,6 +1,7 @@
 import * as util from "./util";
 import * as colors from "../assets/colors";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
+import { utils } from "./utils";
 
 import {
   ColorCollection,
@@ -751,7 +752,7 @@ export function instantiateTarget(message: MessageInstantiater) {
           throw new Error("newCollectionName is required");
         }
 
-        if (util.isNumberCollection(collectionToBeUse)) {
+        if (utils.typeCheck.isNumberCollection(collectionToBeUse)) {
           // 傳回的collection是NumberCollection，生成Number Variable
           generateNumberVariable(
             collectionToBeUse,

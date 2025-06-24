@@ -5,6 +5,7 @@ import { StyleForm, } from "../../types/Messages/MessageStyleIntroducer";
 import * as util from "../util";
 import { semanticTokens } from "../tokens";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
+import { utils } from "../utils";
 
 /**
  * Create wrapper for explanation items (New version).
@@ -53,7 +54,7 @@ export function createExplanationWrapper(
     const wrapperFrame = util.createAutolayoutFrame([titleWrapper, itemsFrame], semanticTokens.spacing.xlarge, "VERTICAL");
     titleWrapper.layoutSizingHorizontal = "FILL";
 
-    util.setPadding(wrapperFrame, {
+    utils.nodeEdit.setPadding(wrapperFrame, {
         top: semanticTokens.padding.xlarge,
         bottom: semanticTokens.padding.xlarge,
         left: semanticTokens.padding.xlarge,

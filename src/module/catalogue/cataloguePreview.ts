@@ -1,5 +1,6 @@
 import { semanticTokens } from "../tokens";
 import * as util from "../util"
+import { utils } from "../utils";
 
 export function createGradientFrame(
     gradientType: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND",
@@ -81,7 +82,7 @@ export function createNumberFrame(number: number, fontName: FontName): FrameNode
     numberFrame.name = "Number";
     numberFrame.fills = [{ type: "SOLID", color: semanticTokens.background.primary }];
     numberFrame.cornerRadius = semanticTokens.cornerRadius.small;
-    util.setStroke(numberFrame, semanticTokens.strokeColor, { top: 1, bottom: 1, left: 1, right: 1 });
+    utils.nodeEdit.setStroke(numberFrame, semanticTokens.strokeColor, { top: 1, bottom: 1, left: 1, right: 1 });
 
     // Set layout mode for centering
     numberFrame.layoutMode = "VERTICAL"; // Vertical stack layout
