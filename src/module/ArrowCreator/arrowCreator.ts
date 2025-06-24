@@ -3,13 +3,14 @@ import { CYStroke } from "../../types/CYStroke";
 import { Coordinates, Direction } from "../../types/General";
 import { MessageArrowCreator } from "../../types/Messages/MessageArrowCreator";
 import * as util from "../util";
+import { utils } from "../utils";
 import * as rh from "./routeHorizontal"
 import * as rv from "./routeVertical";
 import { semanticTokens } from "../tokens";
 import { ArrowSchema } from "../../types/ArrowSchema";
 
 export function reception(message: MessageArrowCreator) {
-    const selection = util.getCurrentSelection();
+    const selection = utils.editor.getCurrentSelection();
 
     // Check if there are any nodes selected
     if (selection.length === 0) {
@@ -422,7 +423,7 @@ function getArrowSchema(obj: SceneNode): ArrowSchema {
 }
 
 export async function updateArrowPosition() {
-    const selection = util.getCurrentSelection();
+    const selection = utils.editor.getCurrentSelection();
 
     if (selection.length === 0) {
         figma.notify("No nodes selected.");

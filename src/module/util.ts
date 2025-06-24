@@ -27,43 +27,43 @@ export function deepClone(val: unknown) {
 
 
 // Function to get the current viewport and return it as a Vector type
-export function getCurrentViewport(): Vector {
-  // Get the current viewport
-  const viewport = figma.viewport;
+// export function getCurrentViewport(): Vector {
+//   // Get the current viewport
+//   const viewport = figma.viewport;
 
-  // Create a Vector object with the current viewport center coordinates
-  const vector: Vector = {
-    x: Math.round(viewport.center.x),
-    y: Math.round(viewport.center.y),
-  };
+//   // Create a Vector object with the current viewport center coordinates
+//   const vector: Vector = {
+//     x: Math.round(viewport.center.x),
+//     y: Math.round(viewport.center.y),
+//   };
 
-  return vector;
-}
+//   return vector;
+// }
 
-export function getCurrentSelection(): Array<SceneNode> {
-  // Get an array of the currently selected layers
-  return [...figma.currentPage.selection];
-}
+// export function getCurrentSelection(): Array<SceneNode> {
+//   // Get an array of the currently selected layers
+//   return [...figma.currentPage.selection];
+// }
 
-export function getNodesInSelectedFrame(): Array<SceneNode> | null {
-  const selectedNode = figma.currentPage.selection[0];
+// export function getNodesInSelectedFrame(): Array<SceneNode> | null {
+//   const selectedNode = figma.currentPage.selection[0];
 
-  if (selectedNode && selectedNode.type === "FRAME") {
-    return [...selectedNode.children];
-  }
+//   if (selectedNode && selectedNode.type === "FRAME") {
+//     return [...selectedNode.children];
+//   }
 
-  return null;
-}
+//   return null;
+// }
 
-export function isNodeWithResizeMethod(node: SceneNode): node is ResizableNode {
-  return (
-    node.type === "FRAME" ||
-    node.type === "STAR" ||
-    node.type === "ELLIPSE" ||
-    node.type === "POLYGON" ||
-    node.type === "RECTANGLE"
-  );
-}
+// export function isNodeWithResizeMethod(node: SceneNode): node is ResizableNode {
+//   return (
+//     node.type === "FRAME" ||
+//     node.type === "STAR" ||
+//     node.type === "ELLIPSE" ||
+//     node.type === "POLYGON" ||
+//     node.type === "RECTANGLE"
+//   );
+// }
 
 export function mapToUnitRange(value: number): number {
   if (value < 0) {

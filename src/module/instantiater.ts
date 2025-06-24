@@ -950,7 +950,7 @@ async function generateTextStyleNode(collection: TypographyCollection) {
   let currentYPosition = 0;
 
   const texts: Array<TextNode> = [];
-  const viewport = util.getCurrentViewport();
+  const viewport = utils.editor.getCurrentViewport();
 
   // Load all necessary fonts
   const fontsToLoad = [

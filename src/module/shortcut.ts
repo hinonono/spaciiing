@@ -108,7 +108,7 @@ export function executeShortcut(message: MessageShortcut) {
 }
 
 function debugFunction() {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Filter selection to only include text nodes
   const textNodes = selection.filter(
@@ -128,7 +128,7 @@ function debugFunction() {
 
 async function spiltText(message: MessageShortcutSpiltText) {
   const { spiltType, spiltSymbol } = message;
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("No nodes selected.");
@@ -247,7 +247,7 @@ async function spiltText(message: MessageShortcutSpiltText) {
 
 async function numbering(message: MessageShortcutNumbering) {
   const { numberingdirection, numberingForm, startFrom } = message;
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Check if there are any nodes selected
   if (selection.length === 0) {
@@ -300,7 +300,7 @@ async function numbering(message: MessageShortcutNumbering) {
 
 
 function createAutoLayoutIndividually() {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No layers selected. Please select at least 1 layers.");
@@ -327,7 +327,7 @@ function createAutoLayoutIndividually() {
  */
 function unifyText(message: MessageUnifyText) {
   const targetTextContent = message.targetTextContent;
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Filter selection to only include text nodes
   const textNodes = selection.filter(
@@ -358,7 +358,7 @@ function unifyText(message: MessageUnifyText) {
 async function findAndReplaceInSelection(
   message: MessageShortcutFindAndReplace
 ) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Recursive function to find all text layers within the selection
   function findAllTextLayers(nodes: readonly SceneNode[]): SceneNode[] {
@@ -531,7 +531,7 @@ async function updateDateText(node: SceneNode) {
 }
 
 function memorizeSelectedNodeId(member: MagicObjectMembers) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length !== 1) {
     figma.notify("❌ Please select only one layer.");
@@ -575,7 +575,7 @@ function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
   const receivedOuterFrame = message.outerFrame;
   const quantity = message.quantity;
 
-  const viewport = util.getCurrentViewport();
+  const viewport = utils.editor.getCurrentViewport();
 
   const outerFrameSize = Math.max(receivedInnerFrame, receivedOuterFrame);
   const innerFrameSize = Math.min(receivedInnerFrame, receivedOuterFrame);
@@ -750,7 +750,7 @@ function createAndPlaceTextNode(
  */
 function makeOverlay() {
   // Get the current selection of nodes
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Iterate over each selected item
   selection.forEach((selectedItem) => {

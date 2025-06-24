@@ -4,6 +4,7 @@ import * as CLExplanationItem from "../catalogue/catalogueExplanationItem"
 import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 import { createCatalogueLocalizationResource } from "../catalogue/catalogueLocalization";
+import { utils } from "../utils";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
@@ -12,7 +13,7 @@ export async function applyStyleIntroducer(
 
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
-    const viewport = util.getCurrentViewport();
+    const viewport = utils.editor.getCurrentViewport();
 
     const fontNameRegular = { family: "Inter", style: "Regular" };
     const fontNameSemi = { family: "Inter", style: "Semi Bold" };

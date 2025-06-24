@@ -29,7 +29,7 @@ export function reception(message: MessagePropertyClipboard) {
 }
 
 function setReferenceObject() {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length !== 1) {
     figma.notify("❌ Please select exactly one object.");
@@ -130,7 +130,7 @@ async function pasteInstancePropertyController(message: MessagePropertyClipboard
 function pasteInstancePropertyToObject(
   property: ComponentPropertiesFrontEnd,
 ) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -354,7 +354,7 @@ async function pastePropertyToObject(
 
 // Set corner radius of selected layers from the reference object
 function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -401,7 +401,7 @@ async function applyFillToSelection(
   behavior: PasteBehavior,
   specifiedFill: "ALL" | "SOLID" | "GRADIENT" | "IMAGE" | "VIDEO"
 ) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -475,7 +475,7 @@ async function applyFillToSelection(
 }
 
 function setSelectionSize(referenceObject: CopyPastableNode, options: { width?: boolean; height?: boolean }) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -494,7 +494,7 @@ function setSelectionSize(referenceObject: CopyPastableNode, options: { width?: 
 }
 
 function setSelectionStrokeDash(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -529,7 +529,7 @@ function setSelectionStrokeDash(referenceObject: CopyPastableNode) {
 }
 
 function setSelectionStrokeGap(referenceObject: CopyPastableNode) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -584,7 +584,7 @@ function applyPropertyToSelection(
   propertyName: keyof CopyPastableNode,
   notifyUnsupported: boolean = true
 ) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -623,7 +623,7 @@ async function applyEffectToSelection(
     | "NOISE"
     | "TEXTURE"
 ) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -696,7 +696,7 @@ async function pasteFontName(referenceObject: SceneNode) {
   if (referenceObject.type !== "TEXT") {
     throw new Error("Reference object should be text node in order to paste typography properties.")
   }
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -721,7 +721,7 @@ async function pasteFontSize(referenceObject: SceneNode) {
   if (referenceObject.type !== "TEXT") {
     throw new Error("Reference object should be text node in order to paste typography properties.")
   }
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -742,7 +742,7 @@ async function pasteLineHeight(referenceObject: SceneNode) {
   if (referenceObject.type !== "TEXT") {
     throw new Error("Reference object should be text node in order to paste typography properties.")
   }
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -763,7 +763,7 @@ async function pasteLetterSpacing(referenceObject: SceneNode) {
   if (referenceObject.type !== "TEXT") {
     throw new Error("Reference object should be text node in order to paste typography properties.")
   }
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");
@@ -784,7 +784,7 @@ async function pasteTextAlign(referenceObject: SceneNode) {
   if (referenceObject.type !== "TEXT") {
     throw new Error("Reference object should be text node in order to paste typography properties.")
   }
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object selected.");

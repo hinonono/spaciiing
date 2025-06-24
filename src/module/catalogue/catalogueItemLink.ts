@@ -21,7 +21,7 @@ export function checkCatalogueItemLinkFeatureAvailability(): { availability: boo
 
 // 將型錄的描述寫回Figma的原生欄位
 export async function writeCatalogueDescBackToFigma(lang: string) {
-    const selection = util.getCurrentSelection();
+    const selection = utils.editor.getCurrentSelection();
 
     if (selection.length !== 1) {
         figma.notify("❌ Please select only one catalogue frame.");

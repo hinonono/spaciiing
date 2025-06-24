@@ -1,6 +1,7 @@
 import { Direction } from "../types/General";
 import { MessageSpaciiing } from "../types/Messages/MessageSpaciiing";
 import * as util from "./util";
+import { utils } from "./utils";
 
 function compareWithAxis(axis: "x" | "y") {
   return (a: SceneNode, b: SceneNode) => {
@@ -15,7 +16,7 @@ function compareWithAxis(axis: "x" | "y") {
 }
 
 export function useSpacing(message: MessageSpaciiing) {
-  const selectedLayers = util.getCurrentSelection();
+  const selectedLayers = utils.editor.getCurrentSelection();
 
   // Check if message.spacing is a valid number
   const spacing = Number(message.spacing);

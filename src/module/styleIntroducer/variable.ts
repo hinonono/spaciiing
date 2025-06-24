@@ -1,5 +1,6 @@
 import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
 import * as util from "../util"
+import { utils } from "../utils";
 
 import * as CLVar from "../catalogue/catalogueVariable";
 import * as CLItemLink from "../catalogue/catalogueItemLink"
@@ -18,7 +19,7 @@ export async function applyStyleIntroducerForVariable(
 
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
-    const viewport = util.getCurrentViewport();
+    const viewport = utils.editor.getCurrentViewport();
     const isCatalogueItemLinkFeatureAvailable = CLItemLink.checkCatalogueItemLinkFeatureAvailability();
 
     const fontNameRegular = { family: "Inter", style: "Regular" };

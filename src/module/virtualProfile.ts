@@ -199,7 +199,7 @@ function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
 async function applyVirtualProfileValueToTextNode(
   message: MessageVirtualProfileSingleValue
 ) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ Please select at least one text layer.");

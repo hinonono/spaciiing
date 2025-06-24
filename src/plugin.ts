@@ -46,7 +46,7 @@ figma.ui.resize(360, 480);
 
 figma.ui.onmessage = (message: Message) => {
   // console.log("plugin.ts", message);
-  const selectionLength = util.getCurrentSelection().length;
+  const selectionLength = utils.editor.getCurrentSelection().length;
   let incrementSavedClicks = 0;
 
   if (

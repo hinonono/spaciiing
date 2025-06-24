@@ -1,4 +1,5 @@
 import * as util from "./util";
+import { utils } from "./utils";
 
 /**
  * Processes a list of SceneNodes by applying various filtering options.
@@ -18,7 +19,7 @@ export function getProcessedNodes(
         findCriteria?: string;
     }
 ): SceneNode[] {
-    const nodes = util.getCurrentSelection();
+    const nodes = utils.editor.getCurrentSelection();
 
     // Recursively exclude locked nodes and their children
     function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
