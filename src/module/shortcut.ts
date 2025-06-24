@@ -15,6 +15,7 @@ import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 import { writeCatalogueDescBackToFigma } from "./catalogue/catalogueItemLink";
 import { updateArrowPosition } from "./arrowCreator/arrowCreator";
 import { Direction } from "../types/General";
+import { utils } from "./utils";
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -548,7 +549,7 @@ function memorizeSelectedNodeId(member: MagicObjectMembers) {
   }
 
   // 新版
-  const editorPreference = util.readEditorPreference();
+  const editorPreference = utils.data.readEditorPreference();
   switch (member) {
     case "note":
       editorPreference.magicObjects.noteId = selectedNode.id;
@@ -562,7 +563,7 @@ function memorizeSelectedNodeId(member: MagicObjectMembers) {
     default:
       break;
   }
-  util.saveEditorPreference(editorPreference, "Shortcut");
+  utils.data.saveEditorPreference(editorPreference, "Shortcut");
   util.updateEditorPreference(editorPreference, "Shortcut");
   figma.notify(
     `✅ The id is memorized successfully from object ${selectedNode.name}`

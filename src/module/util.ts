@@ -25,13 +25,6 @@ export function deepClone(val: unknown) {
   return JSON.parse(JSON.stringify(val));
 }
 
-// export function sendMessageBack(message: object) {
-//   // console.log("Message sent back");
-//   // console.log(message);
-//   figma.ui.postMessage({
-//     pluginMessage: message,
-//   });
-// }
 
 /**
  * Saves the editor preference to the current page's plugin data.
@@ -39,70 +32,70 @@ export function deepClone(val: unknown) {
  * @param {EditorPreference} editorPreference - The editor preference to save.
  * @param {Module} [source] - Optional source of the call, used for logging purposes.
  */
-export function saveEditorPreference(
-  editorPreference: EditorPreference,
-  source?: Module
-) {
-  figma.root.setPluginData(
-    "editor-preference",
-    JSON.stringify(editorPreference)
-  );
-  console.log(
-    `😍使用者偏好已儲存，呼叫自${source !== undefined ? String(source) : "未知"
-    }`, editorPreference
-  );
-}
+// export function saveEditorPreference(
+//   editorPreference: EditorPreference,
+//   source?: Module
+// ) {
+//   figma.root.setPluginData(
+//     "editor-preference",
+//     JSON.stringify(editorPreference)
+//   );
+//   console.log(
+//     `😍使用者偏好已儲存，呼叫自${source !== undefined ? String(source) : "未知"
+//     }`, editorPreference
+//   );
+// }
 
-function createEditorPreference(): EditorPreference {
-  const createdEditorPreference: EditorPreference = {
-    magicObjects: {
-      noteId: "",
-      tagId: "",
-      sectionId: "",
-    },
-    lorem: loremText.en,
-    iconFrame: {
-      innerFrame: 20,
-      outerFrame: 24,
-    },
-    strokeStyles: [],
-    savedClicks: 0
-  };
+// function createEditorPreference(): EditorPreference {
+//   const createdEditorPreference: EditorPreference = {
+//     magicObjects: {
+//       noteId: "",
+//       tagId: "",
+//       sectionId: "",
+//     },
+//     lorem: loremText.en,
+//     iconFrame: {
+//       innerFrame: 20,
+//       outerFrame: 24,
+//     },
+//     strokeStyles: [],
+//     savedClicks: 0
+//   };
 
-  return createdEditorPreference;
-}
+//   return createdEditorPreference;
+// }
 
 /**
  * Reads the editor preference from the root plugin data.
  *
  * @returns {EditorPreference} The decoded editor preference if it exists, otherwise a new empty EditorPreference object.
  */
-export function readEditorPreference(): EditorPreference {
-  const editorPreference = figma.root.getPluginData("editor-preference");
+// export function readEditorPreference(): EditorPreference {
+//   const editorPreference = figma.root.getPluginData("editor-preference");
 
-  if (!editorPreference) {
-    // 當之前未建立過Preference物件時，新建一個
-    const createdEditorPreference: EditorPreference = createEditorPreference();
+//   if (!editorPreference) {
+//     // 當之前未建立過Preference物件時，新建一個
+//     const createdEditorPreference: EditorPreference = createEditorPreference();
 
-    saveEditorPreference(createdEditorPreference);
+//     saveEditorPreference(createdEditorPreference);
 
-    return createdEditorPreference;
-  } else {
-    // 當之前已建立過Preference物件時，進行解碼
-    const decodedEditorPreference = JSON.parse(
-      editorPreference
-    ) as EditorPreference;
+//     return createdEditorPreference;
+//   } else {
+//     // 當之前已建立過Preference物件時，進行解碼
+//     const decodedEditorPreference = JSON.parse(
+//       editorPreference
+//     ) as EditorPreference;
 
-    // Merge with default preferences to ensure all properties are present
-    const defaultEditorPreference = createEditorPreference();
-    const mergedEditorPreference = {
-      ...defaultEditorPreference,
-      ...decodedEditorPreference,
-    };
+//     // Merge with default preferences to ensure all properties are present
+//     const defaultEditorPreference = createEditorPreference();
+//     const mergedEditorPreference = {
+//       ...defaultEditorPreference,
+//       ...decodedEditorPreference,
+//     };
 
-    return mergedEditorPreference;
-  }
-}
+//     return mergedEditorPreference;
+//   }
+// }
 
 /**
  * Updates the editor preference by sending the updated preference back as a message.
@@ -862,8 +855,8 @@ export function stripBoundVariables(effect: Effect): Effect {
 }
 
 export function incrementSavedClicks(incrementBy: number) {
-  const ep = readEditorPreference()
+  const ep = utils.data.readEditorPreference()
   const newEp: EditorPreference = { ...ep, savedClicks: ep.savedClicks + incrementBy };
-  saveEditorPreference(newEp, "General")
+  utils.data.saveEditorPreference(newEp, "General")
   updateEditorPreference(newEp);
 }

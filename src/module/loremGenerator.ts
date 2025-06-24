@@ -1,10 +1,11 @@
 import * as util from "./util";
 import { MessageLoremGenerator } from "../types/Messages/MessageLoremGenerator";
+import { utils } from "./utils";
 
 export async function makeLorem(message: MessageLoremGenerator) {
   const { length } = message;
 
-  let textContent: string = util.readEditorPreference().lorem;
+  let textContent: string = utils.data.readEditorPreference().lorem;
 
   const requiredLength = {
     short: 100,

@@ -54,7 +54,7 @@ figma.ui.onmessage = (message: Message) => {
     message.shouldSaveEditorPreference == true
   ) {
     if (message.editorPreference) {
-      util.saveEditorPreference(message.editorPreference, "General");
+      utils.data.saveEditorPreference(message.editorPreference, "General");
     } else {
       throw new Error("Missing Editor Preference.");
     }
