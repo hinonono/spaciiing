@@ -10,7 +10,7 @@ interface FreeUserDelayModalProps {
 }
 
 const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
-  const { freeUserDelayModalConfig, setFreeUserDelayModalConfig } = useAppContext();
+  const { freeUserDelayModalConfig, setFreeUserDelayModalConfig, editorPreference } = useAppContext();
   const { t } = useTranslation(["module", "license", "term"]);
 
   //Param
@@ -57,6 +57,14 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
     <Modal show={freeUserDelayModalConfig.show} handleClose={handleCloseFreeUserDelay}>
       <div className="free-trial-modal">
         <h2>{t("license:upgradeToSkipWaiting")}</h2>
+        <div className="mt-xsmall">
+          <span className="note note-large special">
+            {t("license:youSaved")
+              .replace("$SAVED_CLICKS$", `${editorPreference.savedClicks}`)
+              .replace("$SAVED_MIN$", `${editorPreference.savedClicks / 20}`)
+            }
+          </span>
+        </div>
         <div>
           <SubscriptionPlanBlock
             plan={"monthly"}

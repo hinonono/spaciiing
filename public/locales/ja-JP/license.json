@@ -54,5 +54,6 @@
   "freeUsersNeedToWait": "無料プランをご利用中の方は、次のステップに進むまで$TIME_REMAINING$秒お待ちいただく必要があります。有料プランに購読すると、この待ち時間をスキップできます。",
   "upgradeToSkipWaiting": "有料プランは待ち時間なし",
   "upgrade": "アップグレード",
-  "youNeedToWait": "ただいま操作するたびに $WAIT_TIME$ 秒の待つ時間制限があります。"
+  "youNeedToWait": "ただいま操作するたびに $WAIT_TIME$ 秒の待つ時間制限があります。",
+  "youSaved": "You’ve already saved $SAVED_CLICKS$ mouse clicks — that’s roughly $SAVED_MIN$ minutes of boring, repetitive work! 🚀Upgrade to Pro now and become a productivity powerhouse!"
 }

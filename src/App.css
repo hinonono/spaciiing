@@ -1376,6 +1376,9 @@ a {
   color: var(--figma-color-text-secondary);
   display: block;
 }
+.note-large {
+  font-size: var(--font-size-large);
+}
 .note-xlarge {
   font-size: var(--font-size-xlarge);
 }
@@ -1384,6 +1387,9 @@ a {
 }
 .note.success {
   color: var(--figma-color-text-success);
+}
+.note.special {
+  color: var(--cy-purple-600);
 }
 .note a {
   color: var(--figma-color-text-secondary);

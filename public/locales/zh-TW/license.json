@@ -52,7 +52,8 @@
   "savePercent": "節省 $PERCENT$",
   "freeTrialWorks": "免費試用說明",
   "freeUsersNeedToWait": "免費用戶需要等待$TIME_REMAINING$秒才能繼續。立即升級即可跳過等待。",
-  "upgradeToSkipWaiting": "升級PRO即可跳過等待",
+  "upgradeToSkipWaiting": "讓設計流程事半功倍",
   "upgrade": "升級",
-    "youNeedToWait": "目前每次操作需要等待 $WAIT_TIME$ 秒"
+  "youNeedToWait": "滑鼠點到手冒煙，Spaciiing來做僅一鍵",
+  "youSaved": "想不到吧？你已經省下了 $SAVED_CLICKS$ 次滑鼠點擊，相當於 $SAVED_MIN$ 分鐘的無聊重複工作！🚀馬上升級 Pro，當個效率爆表的設計師！"
 }

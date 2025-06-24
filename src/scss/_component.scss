@@ -64,6 +64,10 @@ a {
     color: var(--figma-color-text-secondary);
     display: block;
 
+    &-large {
+        font-size: var(--font-size-large);
+    }
+
     &-xlarge {
         font-size: var(--font-size-xlarge);
     }
@@ -74,6 +78,10 @@ a {
 
     &.success {
         color: var(--figma-color-text-success);
+    }
+
+    &.special {
+        color: var(--cy-purple-600)
     }
 
     a {

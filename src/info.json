@@ -1,9 +1,9 @@
 {
   "name": "Spaciiing",
-  "version": "30",
+  "version": "31",
   "whatsNew": [
     "Catalogue now supports creation in Japanese, Chinese(Simplified) and Chinese(Traditional).",
-    "Overall enhancements"
+    "Overall enhancements."
   ],
   "price": {
     "monthly": "3",

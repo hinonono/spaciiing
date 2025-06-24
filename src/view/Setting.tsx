@@ -14,6 +14,7 @@ const Setting: React.FC = () => {
     setLicenseManagement,
     setShowActivateModal,
     setShowCTSubscribe,
+    editorPreference
   } = useAppContext();
 
   const { t, i18n } = useTranslation(["common", "settings", "license"]);
@@ -43,19 +44,17 @@ const Setting: React.FC = () => {
               {licenseManagement.tier == "PAID" ? (
                 <h4>{licenseManagement.recurrence === "monthly" ? t("license:monthly") : t("license:yearly")}</h4>
               ) : (
-                <h4>{t("license:free")}</h4>
+                <>
+                  <h4>{t("license:free")}</h4>
+                  <span className="note note-large special">
+                    {t("license:youSaved")
+                      .replace("$SAVED_CLICKS$", `${editorPreference.savedClicks}`)
+                      .replace("$SAVED_MIN$", `${editorPreference.savedClicks / 20}`)
+                    }
+                  </span>
+                </>
               )}
             </div>
-            {/* <div className="mt-xxsmall">
-              {licenseManagement.tier !== "FREE" && (
-                <span className="note">
-                  {t("license:licenseStatus")}:{" "}
-                  {licenseManagement.isLicenseActive == true
-                    ? t("license:licenseActive")
-                    : t("license:licenseInactive")}
-                </span>
-              )}
-            </div> */}
             <div className="mt-xsmall grid">
               <FigmaButton
                 buttonType="tertiary"

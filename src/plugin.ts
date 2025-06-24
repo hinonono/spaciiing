@@ -5,8 +5,8 @@ import { MessageResize } from "./types/Messages/MessageResize";
 import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";
 import { MessageLocalization } from "./types/Messages/MessageLocalization";
 import { MessageSelectionFilter } from "./types/Messages/MessageSelectionFilter";
-import { MessageVirtualProfile } from "./types/Messages/MessageVirtualProfile";
-import { MessageVariableEditor } from "./types/Messages/MessageVariableEditor";
+import { MessageVirtualProfile, MessageVirtualProfileSingleValue } from "./types/Messages/MessageVirtualProfile";
+import { MessageVariableEditor, MessageVariableEditorExecuteCode } from "./types/Messages/MessageVariableEditor";
 import { MessageInstantiater } from "./types/Messages/MessageInstantiater";
 import { MessageLoremGenerator } from "./types/Messages/MessageLoremGenerator";
 import { MessageFramer } from "./types/Messages/MessageFramer";
@@ -43,7 +43,9 @@ figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(360, 480);
 
 figma.ui.onmessage = (message: Message) => {
-  console.log("plugin.ts", message);
+  // console.log("plugin.ts", message);
+  const selectionLength = util.getCurrentSelection().length;
+  let incrementSavedClicks = 0;
 
   if (
     message.shouldSaveEditorPreference &&
@@ -65,52 +67,80 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "Spaciiing":
       spaciiing.useSpacing(message as MessageSpaciiing);
+      incrementSavedClicks = selectionLength
       break;
     case "ArrowCreator":
       arrowCreator.reception(message as MessageArrowCreator)
+      incrementSavedClicks = (selectionLength - 1) * 18
       break;
     case "Framer":
       framer.useEqual(message as MessageFramer);
+      incrementSavedClicks = selectionLength
       break;
     case "PropertyClipboard":
-      propertyClipboard.reception(message as MessagePropertyClipboard);
+      const pcMessage = message as MessagePropertyClipboard;
+      propertyClipboard.reception(pcMessage);
+      if (pcMessage.property) {
+        incrementSavedClicks = selectionLength * pcMessage.property.length
+      }
       break;
     case "Shortcut":
       shortcut.executeShortcut(message as MessageShortcut);
+      incrementSavedClicks = selectionLength * 16
       break;
     case "Renamer":
       renamer.renameSelectedObjects(message as MessageRenamer);
+      incrementSavedClicks = selectionLength * 2
       break;
     case "VariableEditor":
-      variableEditor.reception(message as MessageVariableEditor);
+      const veMessage = message as MessageVariableEditor;
+      variableEditor.reception(veMessage);
+
+      if (veMessage.intent === "executeCode") {
+        const veMessage2 = veMessage as MessageVariableEditorExecuteCode;
+        incrementSavedClicks = Math.round(veMessage2.code.length / 114) * 5
+      }
       break;
     case "VirtualProfile":
       virtualProfile.reception(message as MessageVirtualProfile);
+      incrementSavedClicks = selectionLength * 4
       break;
     case "Instantiater":
-      instantiater.instantiateTarget(message as MessageInstantiater);
+      const iMessage = message as MessageInstantiater;
+      instantiater.instantiateTarget(iMessage);
+      incrementSavedClicks = iMessage.targets.length * 80
       break;
     case "LoremGenerator":
       lorem.makeLorem(message as MessageLoremGenerator);
+      incrementSavedClicks = selectionLength * 4
       break;
     case "SelectionFilter":
       selectionFilter.reception(message as MessageSelectionFilter);
+      incrementSavedClicks = selectionLength * 8
       break;
     case "LicenseManagement":
       licenseManagement.reception(message as MessageLicenseManagement);
       break;
     case "AspectRatioHelper":
       aspectRatioHelper.reception(message as MessageAspectRatio);
+      incrementSavedClicks = selectionLength * 2
       break;
     case "Resize":
       resize.reception(message as MessageResize);
       break;
     case "StyleIntroducer":
-      styleIntroducer.reception(message as MessageStyleIntroducer);
+      const siMessage = message as MessageStyleIntroducer;
+      styleIntroducer.reception(siMessage);
+
+      if (siMessage.styleSelection) {
+        incrementSavedClicks = siMessage.styleSelection.scopes.length * 15 + 8
+      }
       break;
     default:
       break;
   }
+
+  util.incrementSavedClicks(incrementSavedClicks);
 };
 
 // Function to execute before the plugin is closed

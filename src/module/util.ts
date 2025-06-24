@@ -63,7 +63,8 @@ function createEditorPreference(): EditorPreference {
       innerFrame: 20,
       outerFrame: 24,
     },
-    strokeStyles: []
+    strokeStyles: [],
+    savedClicks: 0
   };
 
   return createdEditorPreference;
@@ -856,4 +857,11 @@ export function stripBoundVariables(effect: Effect): Effect {
   // Make a shallow copy of the effect
   const { boundVariables, ...cleanEffect } = effect as any;
   return cleanEffect as Effect;
+}
+
+export function incrementSavedClicks(incrementBy: number) {
+  const ep = readEditorPreference()
+  const newEp: EditorPreference = { ...ep, savedClicks: ep.savedClicks + incrementBy };
+  saveEditorPreference(newEp, "General")
+  updateEditorPreference(newEp);
 }
