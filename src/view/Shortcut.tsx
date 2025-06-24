@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { TitleBar, FigmaButton, ListViewHeader } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
@@ -23,6 +23,7 @@ import * as info from "../info.json";
 import { SvgNote } from "../assets/icons";
 import SvgTag from "../assets/icons/SvgTag";
 import SvgSection from "../assets/icons/SvgSection";
+import { exportArrowStyle, importArrowStyle } from "../module-frontend/arrowCreatorFrontEnd";
 
 const Shortcut: React.FC = () => {
   const { t, i18n } = useTranslation(["module", "term"]);
@@ -170,6 +171,14 @@ const Shortcut: React.FC = () => {
         {
           title: t("module:updateArrowPosition"),
           onClick: () => applyShortcut("updateArrowPosition", false),
+        },
+        {
+          title: t("module:exportArrowStyle"),
+          onClick: () => exportArrowStyle(appContext, false),
+        },
+        {
+          title: t("module:importArrowStyle"),
+          onClick: () => fileInputRef.current?.click(),
         },
       ]
 
@@ -340,6 +349,8 @@ const Shortcut: React.FC = () => {
     )
   }
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div>
       <div>
@@ -405,6 +416,15 @@ const Shortcut: React.FC = () => {
         }
       />
       <div className="content">
+        <input
+          type="file"
+          accept=".json"
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            importArrowStyle(event, appContext, false)
+          }
+          ref={fileInputRef}
+          style={{ display: "none" }}
+        />
         {/* 箭頭 */}
         {renderArrowCreatorShortcut()}
         {/* 型錄 */}

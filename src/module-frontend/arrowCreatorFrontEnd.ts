@@ -5,6 +5,8 @@ import { Direction } from "../types/General";
 import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as info from "../info.json";
+import { CYStrokeStyle } from "../types/CYStrokeStyle";
+import { MessageSaveEditorPreference } from "../types/Messages/MessageSaveEditorPreference";
 
 export function applyArrowCreator(
     isRealCall: boolean,
@@ -104,3 +106,76 @@ export const defaultStroke: CYStroke = {
 }
 
 export const defaultOffset: number = 8
+
+export function exportArrowStyle(
+    appContext: AppContextType,
+    isRealCall: boolean
+) {
+    if (!isRealCall) {
+        if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
+            appContext.setFreeUserDelayModalConfig({
+                show: true,
+                initialTime: info.freeUserWaitingTime,
+                onProceed: () => { exportArrowStyle(appContext, true) }, // Re-invoke with the real call
+            });
+            return;
+        }
+    }
+
+    const arrowStyles = appContext.editorPreference.strokeStyles;
+
+    const blob = new Blob([JSON.stringify(arrowStyles, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "spaciiing_arrow-styles.json";
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+export async function importArrowStyle(
+    event: React.ChangeEvent<HTMLInputElement>,
+    appContext: AppContextType,
+    isRealCall: boolean
+) {
+    if (!isRealCall) {
+        if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
+            appContext.setFreeUserDelayModalConfig({
+                show: true,
+                initialTime: info.freeUserWaitingTime,
+                onProceed: () => { importArrowStyle(event, appContext, true) }, // Re-invoke with the real call
+            });
+            return;
+        }
+    }
+
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+        const text = await file.text();
+        const arrowStyles = JSON.parse(text) as CYStrokeStyle[];
+
+        const existingStyles = appContext.editorPreference.strokeStyles;
+        const existingIds = new Set(existingStyles.map(style => style.id));
+
+        // Filter out any styles with conflicting IDs
+        const newStyles = arrowStyles.filter(style => !existingIds.has(style.id));
+
+        // Merge safely
+        const updatedStyles = [...existingStyles, ...newStyles];
+        appContext.editorPreference.strokeStyles = updatedStyles;
+
+        const message: MessageSaveEditorPreference = {
+            editorPreference: appContext.editorPreference,
+            shouldSaveEditorPreference: true,
+            module: "Shortcut",
+            phase: "Actual"
+        };
+
+        parent.postMessage({ pluginMessage: message }, "*");
+        alert(`${newStyles.length} styles has been imported successfully.`);
+    } catch (err) {
+        alert("Invalid JSON file");
+    }
+}
