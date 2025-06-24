@@ -63,26 +63,26 @@ function ConvertOldVpToNew(oldVpdata: VirtualProfile) {
     keys: (keyof VirtualProfile)[]
   ): VirtualProfileChild[] =>
     keys.map((key) => ({
-      id: util.generateUUID(),
+      id: utils.data.generateUUID(),
       title: key,
       content: oldVpdata[key] || "",
     }));
 
   return [
     {
-      id: util.generateUUID(),
+      id: utils.data.generateUUID(),
       title: "Personal",
       children: createChildren(personalKeys as (keyof VirtualProfile)[]),
       isCollapsed: false,
     },
     {
-      id: util.generateUUID(),
+      id: utils.data.generateUUID(),
       title: "Personal",
       children: createChildren(financialKeys as (keyof VirtualProfile)[]),
       isCollapsed: false,
     },
     {
-      id: util.generateUUID(),
+      id: utils.data.generateUUID(),
       title: "Other",
       children: createChildren(customKeys as (keyof VirtualProfile)[]),
       isCollapsed: false,
@@ -134,12 +134,12 @@ function initVirtualProfileGroups() {
     if (oldVpData === "") {
       vpg = [
         {
-          id: util.generateUUID(),
+          id: utils.data.generateUUID(),
           title: "Category Name",
           children: [
             {
               content: "Value",
-              id: util.generateUUID(),
+              id: utils.data.generateUUID(),
               title: "Title",
             },
           ],

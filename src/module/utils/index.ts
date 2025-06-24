@@ -5,6 +5,7 @@ import * as editorUtil from "./editor";
 import * as mathUtil from "./math";
 import * as nodeUtil from "./node";
 import * as runtimeUtil from "./runtime";
+import * as stringUtil from "./string";
 import * as typeCheckUtil from "./typeCheck";
 
 export const utils = {
@@ -15,5 +16,6 @@ export const utils = {
   math: mathUtil,
   node: nodeUtil,
   runtime: runtimeUtil,
+  string: stringUtil,
   typeCheck: typeCheckUtil
 };

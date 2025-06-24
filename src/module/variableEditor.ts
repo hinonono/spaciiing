@@ -85,7 +85,7 @@ async function createVariable(
   let value: string | number | boolean | RGB | RGBA | null = item.value;
 
   if (message.variableResolvedDataType === "COLOR") {
-    value = util.parseColorToRgba(item.value as string, 1);
+    value = utils.color.parseColorToRgba(item.value as string, 1);
     if (!value) {
       return `❌ Invalid color format for variable "${item.name}". Skipping creation.`;
     }
