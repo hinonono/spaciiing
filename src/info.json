@@ -11,5 +11,27 @@
   },
   "featureFlag": {
   },
-  "freeUserWaitingTime": 30
+  "freeUserWaitingTime": 30,
+  "clickTier": [
+    {
+      "tier": "BRONZE",
+      "max": 1000
+    },
+    {
+      "tier": "SLIVER",
+      "max": 5000
+    },
+    {
+      "tier": "GOLD",
+      "max": 15000
+    },
+    {
+      "tier": "PLATINUM",
+      "max": 30000
+    },
+    {
+      "tier": "DIAMOND",
+      "max": 99999
+    }
+  ]
 }

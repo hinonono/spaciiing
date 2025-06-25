@@ -1,5 +1,5 @@
 import React from "react";
-import { TitleBar, FigmaButton } from "../components";
+import { TitleBar, FigmaButton, ProductivityDashboard, PreferredLanguageView } from "../components";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
@@ -40,7 +40,7 @@ const Setting: React.FC = () => {
         {/*  訂閱 */}
         <div>
           <h3>{t("license:subscriptionSectionTitle")}</h3>
-          <div className={`subscription-background ${licenseManagement.tier === "PAID" ? "pro" : ""}`}>
+          <div className={`shadow-view subscription-background ${licenseManagement.tier === "PAID" ? "pro" : ""}`}>
             <div>
               {licenseManagement.tier == "PAID" ? (
                 <h4>{licenseManagement.recurrence === "monthly" ? t("license:monthly") : t("license:yearly")}</h4>
@@ -81,37 +81,16 @@ const Setting: React.FC = () => {
               )}
             </div>
           </div>
-
-        </div>
-        {/* 偏好語言 */}
-        <div className="mt-large">
-          <h3>{t("settings:preferredLanguage")}</h3>
-          <select
-            id="brand_select"
-            className="custom-select"
-            value={i18n.language} // current language
-            onChange={handleLangChange}
-          >
-            <option value="enUS">English</option>
-            <option value="jaJP">日本語</option>
-            <option value="zhTW">繁體中文</option>
-            <option value="zhCN">简体中文</option>
-          </select>
         </div>
         {/* Click Saved */}
-        <div className="mt-large">
-          <h3>Productivity Dashboard</h3>
-          <div className="grid">
-            <div className="membership-block">
-              <p className="color--secondary">Mouse clicks saved</p>
-              <span>{editorPreference.savedClicks}</span>
-            </div>
-            <div className="membership-block">
-              <p className="color--secondary">Repetitive, boring work time saved</p>
-              <span>{editorPreference.savedClicks / 20} min</span>
-            </div>
-          </div>
-        </div>
+        <ProductivityDashboard
+          savedClicks={editorPreference.savedClicks}
+        />
+        {/* 偏好語言 */}
+        <PreferredLanguageView
+          lang={i18n.language}
+          onChange={handleLangChange}
+        />
         {/* 關於本Plugin */}
         <div className="mt-large">
           <h3>{t("settings:about")}</h3>

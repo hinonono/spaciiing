@@ -41,6 +41,7 @@
   --cy-purple-900: #54149e;
   --cy-purple-950: #380e6b;
   --cy-text-color-special: var(--cy-purple-600);
+  --cy-bg-primary-dark-elevated: var(--figma-color-bg-primary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -60,6 +61,7 @@
     --color-bg-selected: #4a5878;
     --cy-glass-color-default: rgba(255, 255, 255, 0.2);
     --cy-text-color-special: var(--cy-purple-400);
+    --cy-bg-primary-dark-elevated: var(--figma-color-bg-secondary);
   }
 }
 h1,
@@ -1014,8 +1016,7 @@ input {
 .subscription-background {
   padding: 16px;
   border-radius: var(--cy-border-radius-xxxlarge);
-  background: var(--figma-color-bg-primary);
-  box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.1);
+  background: var(--cy-bg-primary-dark-elevated);
 }
 .subscription-background.pro {
   background: linear-gradient(46deg, rgb(204, 228, 255) 0%, rgb(220, 204, 255) 53%, rgb(255, 230, 240) 100%);
@@ -1029,9 +1030,6 @@ input {
 }
 
 @media (prefers-color-scheme: dark) {
-  .subscription-background {
-    background: var(--figma-color-bg-secondary);
-  }
   .subscription-background.pro h4 {
     color: rgba(0, 0, 0, 0.8980392157);
   }
@@ -1527,6 +1525,58 @@ a {
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
   align-items: center;
+}
+
+.shadow-view {
+  box-shadow: var(--drop-shadow-2);
+}
+
+.productivity-dashboard {
+  padding: 16px;
+  border-radius: var(--cy-border-radius-xxxlarge);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: var(--cy-bg-primary-dark-elevated);
+}
+.productivity-dashboard .tooltip-wrap {
+  width: 100%;
+  text-align: right;
+}
+.productivity-dashboard .icon-tooltip {
+  position: relative;
+  display: inline-block;
+}
+.productivity-dashboard .icon-tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  height: 30px;
+  font-size: 0.8rem;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: var(--cy-border-radius-xxxlarge);
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: 130%;
+  box-shadow: var(--drop-shadow-1);
+}
+.productivity-dashboard .icon-tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 99%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent black;
+}
+.productivity-dashboard .icon-tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
 body {

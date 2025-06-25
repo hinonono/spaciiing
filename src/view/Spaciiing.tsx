@@ -4,10 +4,7 @@ import { useAppContext } from "../AppProvider";
 import { SvgGrid, SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
-import {
-  SpacingMode,
-  MessageSpaciiing,
-} from "../types/Messages/MessageSpaciiing";
+import { SpacingMode, } from "../types/Messages/MessageSpaciiing";
 import SegmentedControl from "../components/SegmentedControl";
 import CYCheckbox from "../components/CYCheckbox";
 import { applySpacing } from "../module-frontend/spaciiingFrontEnd";
@@ -102,62 +99,6 @@ const SpaciiingView: React.FC = () => {
       setEnteredCustomSpacing(appContext.editorPreference.spacing);
     }
   }, [appContext.editorPreference]);
-
-  // const applySpacing = () => {
-  //   let finalSpacing: number;
-  //   let useCustomValue: boolean;
-
-  //   if (typeof space === "string") {
-  //     // 使用者選擇了自定義間距
-  //     finalSpacing = enteredCustomSpacing;
-  //     useCustomValue = true;
-  //   } else {
-  //     // 預設間距
-  //     finalSpacing = space * multiplier;
-  //     useCustomValue = false;
-  //   }
-
-  //   if (mode === "grid") {
-  //     const message: MessageSpaciiing = {
-  //       module: "Spaciiing",
-  //       mode: mode,
-  //       spacing: finalSpacing,
-  //       useCustomValue: useCustomValue,
-  //       addAutolayout: isChecked,
-  //       direction: "Inner",
-  //       phase: "Actual",
-  //       shouldSaveEditorPreference: true,
-  //       editorPreference: editorPreference,
-  //       gridColumn: column,
-  //     };
-
-  //     parent.postMessage(
-  //       {
-  //         pluginMessage: message,
-  //       },
-  //       "*"
-  //     );
-  //   } else {
-  //     const message: MessageSpaciiing = {
-  //       module: "Spaciiing",
-  //       mode: mode,
-  //       spacing: finalSpacing,
-  //       useCustomValue: useCustomValue,
-  //       addAutolayout: isChecked,
-  //       direction: "Inner",
-  //       phase: "Actual",
-  //       shouldSaveEditorPreference: true,
-  //       editorPreference: editorPreference,
-  //     };
-
-  //     parent.postMessage(
-  //       {
-  //         pluginMessage: message,
-  //       },
-  //       "*"
-  //     );
-  //   }
-  // };
 
   return (
     <div>

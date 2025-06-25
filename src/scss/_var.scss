@@ -54,6 +54,8 @@
     --cy-purple-950: #380e6b;
 
     --cy-text-color-special: var(--cy-purple-600);
+
+    --cy-bg-primary-dark-elevated: var(--figma-color-bg-primary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -81,5 +83,7 @@
         --cy-glass-color-default: rgba(255, 255, 255, 0.2);
 
         --cy-text-color-special: var(--cy-purple-400);
+
+        --cy-bg-primary-dark-elevated: var(--figma-color-bg-secondary);
     }
 }

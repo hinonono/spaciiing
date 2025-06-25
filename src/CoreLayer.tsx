@@ -12,7 +12,7 @@ import { SavedClickCounter } from "./components";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<Module>("Spaciiing");
+  const [activeTab, setActiveTab] = useState<Module>("PluginSetting");
   const [prevTab, setPrevTab] = useState<Module | null>(null);
 
   const appContext = useAppContext();
