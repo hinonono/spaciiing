@@ -1,0 +1,101 @@
+.productivity-dashboard {
+    padding: 16px;
+    border-radius: var(--cy-border-radius-xxxlarge);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: var(--cy-bg-primary-dark-elevated);
+
+    p {
+        margin-bottom: 0rem;
+    }
+
+    .tier-badge {
+        transition: all 0.75s;
+
+        &:hover {
+            transform: rotateY(360deg) translateY(-4px);
+        }
+    }
+
+    .tooltip-wrap {
+        width: 100%;
+        text-align: right;
+    }
+
+    .icon-tooltip {
+        position: relative;
+        display: inline-block;
+
+        .tooltiptext {
+            visibility: hidden;
+            width: max-content;
+            height: 30px;
+            font-size: 0.8rem;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: var(--cy-border-radius-xxxlarge);
+            padding: 5px 16px;
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            right: 130%;
+            box-shadow: var(--drop-shadow-1);
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 99%;
+                margin-top: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: transparent transparent transparent black;
+            }
+        }
+
+        &:hover {
+            .tooltiptext {
+                visibility: visible;
+            }
+        }
+    }
+
+    .tier-name {
+        font-size: 1rem;
+        font-weight: bold;
+
+        &-BRONZE {
+            background: linear-gradient(0deg, #cd7f32, #a97142);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        &-SLIVER {
+            background: linear-gradient(0deg, #737373, #929292, #cbcbcb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        &-GOLD {
+            background: linear-gradient(0deg, #ffd700, #e4941f, #ffac33);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        &-PLATINUM {
+            background: linear-gradient(0deg, #b9f2ff, #6dd5ed, #2193b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        &-DIAMOND {
+            background: linear-gradient(0deg, #8850ff, #b267fd, #f9a3ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+}

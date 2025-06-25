@@ -1,4 +1,10 @@
 .cy-checkbox-group {
+    color: var(--figma-color-text);
+    font-size: var(--font-size-small);
+    display: flex;
+    align-content: center;
+    align-items: center;
+
     .container {
         display: block;
         position: relative;

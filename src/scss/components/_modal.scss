@@ -1,0 +1,93 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* Black with opacity */
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
+
+    .modal-content {
+        transform: translateY(0px);
+    }
+}
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--figma-color-bg);
+    padding: 16px;
+    overflow-y: scroll;
+    border-radius: var(--cy-border-radius-xxxlarge);
+    min-width: calc(100% - 32px);
+    max-width: calc(100% - 32px);
+    max-height: calc(100% - 32px);
+    margin: 16px;
+    transition: all 0.5s ease-in-out;
+    transform: translateY(10px);
+
+    p {
+        color: var(--figma-color-text-secondary);
+    }
+}
+
+.close-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    .icon-24 {
+        backdrop-filter: blur(16px);
+        border-radius: 9999px;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.05);
+        transition: var(--cy-animation-default);
+
+        &:hover {
+            scale: 0.9;
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .close-wrap {
+        .icon-24 {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+}
+
+.close {
+    color: var(--tooltip-icon);
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        cursor: pointer;
+    }
+}

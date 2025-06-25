@@ -1,3 +1,21 @@
+body {
+    margin: 0 !important;
+}
+
+pre {
+    font-family: "Inter", sans-serif;
+    line-height: 150%;
+    text-wrap: wrap;
+}
+
+h2 {
+    font-size: 1.4rem;
+}
+
+a {
+    color: var(--figma-color-text-brand)
+}
+
 // Text elements styling
 h1,
 h2,

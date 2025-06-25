@@ -1,11 +1,19 @@
-.border-1 {
-    border: 1px solid var(--figma-color-border);
-
-    &-cy-border-light {
-        border: 1px solid var(--cy-border-light);
-    }
+@mixin border-style($width, $color) {
+  border: $width solid $color;
 }
 
-.border-1-top {
+.border-1 {
+  @include border-style(1px, var(--figma-color-border));
+
+  &.cy-border-light {
+    @include border-style(1px, var(--cy-border-light));
+  }
+
+  &-top {
     border-top: 1px solid var(--cy-border-light);
+  }
+}
+
+.border-none {
+  border: none;
 }

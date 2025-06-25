@@ -1,0 +1,38 @@
+.banner {
+    background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
+    padding: 0.5rem 1rem;
+    min-height: 40px;
+
+    &--development-mode {
+        background: #a0ff41;
+        color: rgb(0, 0, 0);
+        text-align: center;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button {
+        width: fit-content;
+    }
+
+    .message-primary {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .message-secondary {
+        color: rgba($color: #000000, $alpha: 0.6);
+        font-size: 0.75rem;
+    }
+
+    .time-left {
+        margin-left: 4px;
+    }
+
+    .note {
+        font-size: 9px;
+    }
+}
