@@ -21,13 +21,8 @@
   "back": "Back",
   "finish": "Finish",
   "pro": "PRO",
-  "subscribeToUnlock": "Subscribe to unlock all features.",
-  "youHaveNoActiveLicense": "You have no active license. Upgrade to unlock virtual profile, selection filter, variable editor and more features!",
   "subscribe": "Subscribe",
   "endIn": "End in",
-  "validForFirstBillingCycle": "Valid for first billing cycle.",
-  "50percentOff": "Now 50% OFF!",
-  "30percentOff": "Now 30% OFF!",
   "eraseLicense": "Erase License from this device",
   "trySevenDaysFree": "Try pro features 7 days free",
   "unleashYourProductivity": "Unleash your productivity.",
@@ -55,6 +50,7 @@
   "upgradeToSkipWaiting": "Do it fast. Do it right.",
   "upgrade": "Upgrade",
   "youNeedToWait": "Save hours of clicking and skip the delay with only $3/month.",
-  "youSaved": "You’ve already saved $SAVED_CLICKS$ clicks — that’s about $SAVED_MIN$ minutes of tedious work avoided! 🚀 Upgrade to Pro to skip the wait time and save even more — up to $SAVED_TIME$ minutes back in your day!",
+  "youSaved": "You’ve already saved $SAVED_CLICKS$ clicks — that’s about $SAVED_MIN$ minutes of tedious work avoided!",
+  "saveTimeAsWell": " 🚀 Upgrade to Pro to skip the wait time and save even more — up to $SAVED_TIME$ minutes back in your day!",
   "minSaved": "🚀$SAVED_MIN$ min saved!"
 }

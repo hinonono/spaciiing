@@ -21,13 +21,8 @@
   "back": "戻る",
   "finish": "完了",
   "pro": "プロ",
-  "subscribeToUnlock": "有料プランで全ての機能を利用可能",
-  "youHaveNoActiveLicense": "有料プランを購読することで、バーチャルプロフィール、選択フィルター、バリアブルエディタなど、全ての機能をご利用いただけます。",
   "subscribe": "購読する",
   "endIn": "あと",
-  "validForFirstBillingCycle": "最初のサブスクリプションサイクルのみに適用されます",
-  "50percentOff": "今なら50%OFF!",
-  "30percentOff": "今なら30%OFF!",
   "eraseLicense": "このデバイスのライセンスを解除する",
   "trySevenDaysFree": "全ての機能を7日間無料トライアル",
   "unleashYourProductivity": "生産性を全面解放。",
@@ -55,6 +50,7 @@
   "upgradeToSkipWaiting": "有料プランは待ち時間なし",
   "upgrade": "アップグレード",
   "youNeedToWait": "ただいま操作するたびに $WAIT_TIME$ 秒の待つ時間制限があります。",
-  "youSaved": "このプラグインのおかげで、すでに $SAVED_CLICKS$ 回のクリックを節約できました。これはおよそ $SAVED_MIN$ 分の単調な作業に相当します！🚀 Pro にアップグレードすれば、待ち時間もスキップして、さらに最大 $SAVED_TIME$ 分の時間を節約できます！",
+  "youSaved": "このプラグインのおかげで、すでに $SAVED_CLICKS$ 回のクリックを節約できました。これはおよそ $SAVED_MIN$ 分の単調な作業に相当します！",
+  "saveTimeAsWell":"🚀 Pro にアップグレードすれば、待ち時間もスキップして、さらに最大 $SAVED_TIME$ 分の時間を節約できます！",
   "minSaved": "🚀$SAVED_MIN$分の作業時間を節約しました！"
 }

@@ -21,13 +21,8 @@
   "back": "返回",
   "finish": "完成",
   "pro": "PRO",
-  "subscribeToUnlock": "訂閱以解鎖所有功能。",
-  "youHaveNoActiveLicense": "您尚未訂閱PRO功能。立即訂閱以解鎖虛擬檔案、選取範圍過濾器、變數編輯器等10種以上功能！",
   "subscribe": "訂閱",
   "endIn": "結束於",
-  "validForFirstBillingCycle": "適用於首個訂閱循環",
-  "50percentOff": "訂閱現省50%！",
-  "30percentOff": "訂閱現省30%！",
   "eraseLicense": "清除此裝置的授權",
   "trySevenDaysFree": "免費試用所有功能7天",
   "unleashYourProductivity": "全面釋放您的設計生產力。",
@@ -55,6 +50,7 @@
   "upgradeToSkipWaiting": "讓設計流程事半功倍",
   "upgrade": "升級",
   "youNeedToWait": "滑鼠點到手冒煙，Spaciiing來做僅一鍵",
-  "youSaved": "想不到吧！你已經省下 $SAVED_CLICKS$ 次滑鼠點擊，相當於 $SAVED_MIN$ 分鐘的無聊重複工作！🚀馬上升級 Pro，把 $SAVED_TIME$ 分鐘的等待時間也省下來吧！",
-    "minSaved": "🚀已省下$SAVED_MIN$分鐘!"
+  "youSaved": "想不到吧！你已經省下 $SAVED_CLICKS$ 次滑鼠點擊，相當於 $SAVED_MIN$ 分鐘的無聊重複工作！",
+  "saveTimeAsWell":"🚀馬上升級 Pro，把 $SAVED_TIME$ 分鐘的等待時間也省下來吧！",
+  "minSaved": "🚀已省下$SAVED_MIN$分鐘!"
 }

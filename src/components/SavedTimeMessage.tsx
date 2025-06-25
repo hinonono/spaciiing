@@ -15,6 +15,8 @@ const SavedTimeMessage: React.FC<SavedTimeMessageProps> = () => {
       {t("license:youSaved")
         .replace("$SAVED_CLICKS$", `${editorPreference.savedClicks}`)
         .replace("$SAVED_MIN$", `${editorPreference.savedClicks / 20}`)
+      }
+      {t("license:saveTimeAsWell")
         .replace("$SAVED_TIME$", `${editorPreference.savedSecs / 60}`)
       }
     </span>

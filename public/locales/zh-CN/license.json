@@ -21,13 +21,8 @@
   "back": "返回",
   "finish": "完成",
   "pro": "PRO",
-  "subscribeToUnlock": "订阅以解锁所有功能。",
-  "youHaveNoActiveLicense": "您没有有效的授权。升级以解锁虚拟档案、选择过滤器、变量编辑器等更多功能！",
   "subscribe": "订阅",
   "endIn": "结束于",
-  "validForFirstBillingCycle": "适用于首个订阅循环",
-  "50percentOff": "订阅现省50%！",
-  "30percentOff": "订阅现省30%！",
   "eraseLicense": "擦除此装置的授权",
   "trySevenDaysFree": "免费试用所有功能7天",
   "unleashYourProductivity": "全面释放您的设计生产力。",
@@ -55,6 +50,7 @@
   "upgradeToSkipWaiting": "升级PRO即可跳过等待",
   "upgrade": "升级",
     "youNeedToWait": "目前每次操作需要等待 $WAIT_TIME$ 秒",
-    "youSaved": "想不到吧！你已经省下 $SAVED_CLICKS$ 次滑鼠点击，相当于 $SAVED_MIN$ 分钟的无聊重复工作！🚀马上升级 Pro，把 $SAVED_TIME$ 分钟的等待时间也省下来吧！",
+    "youSaved": "想不到吧！你已经省下 $SAVED_CLICKS$ 次滑鼠点击，相当于 $SAVED_MIN$ 分钟的无聊重复工作！",
+    "saveTimeAsWell":"🚀马上升级 Pro，把 $SAVED_TIME$ 分钟的等待时间也省下来吧！",
       "minSaved": "🚀已省下$SAVED_MIN$分钟!"
 }

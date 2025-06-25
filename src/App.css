@@ -1479,7 +1479,7 @@ a {
   transform: rotate(0deg);
 }
 .arrowIcon.expanded {
-  transform: rotate(90deg);
+  transform: rotate(0deg);
 }
 
 .virtual-profile-toolbar {
@@ -1541,6 +1541,15 @@ a {
   position: relative;
   background: var(--cy-bg-primary-dark-elevated);
 }
+.productivity-dashboard p {
+  margin-bottom: 0.5rem;
+}
+.productivity-dashboard .tier-badge {
+  transition: all 0.75s;
+}
+.productivity-dashboard .tier-badge:hover {
+  transform: rotateY(360deg) translateY(-4px);
+}
 .productivity-dashboard .tooltip-wrap {
   width: 100%;
   text-align: right;
@@ -1551,14 +1560,15 @@ a {
 }
 .productivity-dashboard .icon-tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: -moz-max-content;
+  width: max-content;
   height: 30px;
   font-size: 0.8rem;
   background-color: black;
   color: #fff;
   text-align: center;
   border-radius: var(--cy-border-radius-xxxlarge);
-  padding: 5px 0;
+  padding: 5px 16px;
   position: absolute;
   z-index: 1;
   top: -5px;
@@ -1577,6 +1587,35 @@ a {
 }
 .productivity-dashboard .icon-tooltip:hover .tooltiptext {
   visibility: visible;
+}
+.productivity-dashboard .tier-name {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.productivity-dashboard .tier-name-BRONZE {
+  background: linear-gradient(0deg, #cd7f32, #a97142);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.productivity-dashboard .tier-name-SLIVER {
+  background: linear-gradient(0deg, #737373, #929292, #cbcbcb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.productivity-dashboard .tier-name-GOLD {
+  background: linear-gradient(0deg, #ffd700, #e4941f, #ffac33);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.productivity-dashboard .tier-name-PLATINUM {
+  background: linear-gradient(0deg, #b9f2ff, #6dd5ed, #2193b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.productivity-dashboard .tier-name-DIAMOND {
+  background: linear-gradient(0deg, #8850ff, #b267fd, #f9a3ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 body {

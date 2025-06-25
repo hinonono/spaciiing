@@ -8,21 +8,24 @@ interface ProductivityDashboardProps {
 }
 
 const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClicks }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["license", "module"]);
   const tier = getNextTier(savedClicks);
 
   return (
     <div className="mt-large">
-      <h3>Productivity Dashboard</h3>
+      <h3>{t("module:productivityDashboard")}</h3>
       <div className='productivity-dashboard shadow-view'>
         <div className='tooltip-wrap'>
           <div className="icon-tooltip icon-20 icon-hover">
             <SvgInfo color="var(--tooltip-icon)" />
-            <span className="tooltiptext"><span>{savedClicks}</span>{tier.tier !== "DIAMOND" && <span className='text-color-secondary'> /{tier.max}</span>}</span>
+            <span className="tooltiptext">
+              {tier.tier === "DIAMOND" ? t("module:maxedTier") : t("module:toNextTier").replace("$CLICK_LEFT$", `${tier.max - savedClicks}`)}
+            </span>
           </div>
         </div>
-        <div className="icon-48"><SvgGrid color="var(--figma-color-text)" /></div>
-        <span className="mt-xxsmall note note-large text-center">
+        <div className="icon-48 tier-badge"><SvgGrid color="var(--figma-color-text)" /></div>
+        <p className={`tier-name tier-name-${tier.tier} mt-xxsmall`}>{t(tier.translateKey)}</p>
+        <span className="note note-large text-center">
           {t("license:youSaved")
             .replace("$SAVED_CLICKS$", `${savedClicks}`)
             .replace("$SAVED_MIN$", `${savedClicks / 20}`)
@@ -33,7 +36,7 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
   );
 };
 
-function getNextTier(click: number): { tier: string; max: number } {
+function getNextTier(click: number): { tier: string; max: number; translateKey: string } {
   const tierList = info.clickTier;
 
   for (let i = 0; i < tierList.length; i++) {
@@ -44,13 +47,14 @@ function getNextTier(click: number): { tier: string; max: number } {
     } else if (i === tierList.length - 1) {
       return {
         tier: tier.tier,
-        max: Infinity
+        max: Infinity,
+        translateKey: tier.translateKey
       }
     }
   }
 
   // Fallback in case tierList is empty (optional safety)
-  return { tier: "UNKNOWN", max: Infinity };
+  return { tier: "UNKNOWN", max: Infinity, translateKey: "unknown" };
 }
 
 export default ProductivityDashboard;

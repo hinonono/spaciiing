@@ -203,5 +203,13 @@
     "widthRatio": "Width Ratio",
     "createdAt": "Created at $TIME$.　",
     "crossCatalogueReferenceEnabled": "Cross-catalogue reference enabled.",
-    "descriptionUpdatedBack": "Description updated back to Figma at $TIME."
+    "descriptionUpdatedBack": "Description updated back to Figma at $TIME.",
+    "productivityDashboard": "Productivity Report",
+    "toNextTier": "Save $CLICK_LEFT$ clicks more to unlock next tier.",
+    "maxedTier": "You have achieved the highest tier.",
+    "bronze": "Bronze",
+    "sliver": "Sliver",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "diamond": "Diamond"
 }

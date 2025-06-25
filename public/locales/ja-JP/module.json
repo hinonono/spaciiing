@@ -203,5 +203,13 @@
     "widthRatio": "幅の比",
     "createdAt": "作成時間：$TIME$。",
     "crossCatalogueReferenceEnabled": "カタログ間参照機能作動中。",
-    "descriptionUpdatedBack": "説明が成功にFigmaへ更新しました。更新時間：$TIME。"
+    "descriptionUpdatedBack": "説明が成功にFigmaへ更新しました。更新時間：$TIME。",
+    "productivityDashboard": "デザイン効率レポート",
+    "toNextTier": "あと $CLICK_LEFT$ 回のクリックを節約すると、次のランクにアップします",
+    "maxedTier": "最高ランクに到達しました",
+  "bronze": "ブロンズ",
+  "sliver": "シルバー",
+  "gold": "ゴールド",
+  "platinum": "プラチナ",
+  "diamond": "ダイヤモンド"
 }

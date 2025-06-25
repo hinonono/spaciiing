@@ -15,23 +15,28 @@
   "clickTier": [
     {
       "tier": "BRONZE",
-      "max": 1000
+      "max": 1000,
+      "translateKey": "module:bronze"
     },
     {
       "tier": "SLIVER",
-      "max": 5000
+      "max": 5000,
+      "translateKey": "module:sliver"
     },
     {
       "tier": "GOLD",
-      "max": 15000
+      "max": 15000,
+      "translateKey": "module:gold"
     },
     {
       "tier": "PLATINUM",
-      "max": 30000
+      "max": 30000,
+      "translateKey": "module:platinum"
     },
     {
       "tier": "DIAMOND",
-      "max": 99999
+      "max": 99999,
+      "translateKey": "module:diamond"
     }
   ]
 }

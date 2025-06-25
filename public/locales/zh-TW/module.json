@@ -203,5 +203,13 @@
     "widthRatio": "寬度比",
     "createdAt": "製作時間：$TIME$。",
     "crossCatalogueReferenceEnabled": "跨型錄參照功能已啟用。",
-    "descriptionUpdatedBack": "成功將說明更新回Figma。更新時間：$TIME。"
+    "descriptionUpdatedBack": "成功將說明更新回Figma。更新時間：$TIME。",
+    "productivityDashboard": "設計效率儀表板",
+    "toNextTier": "再節省 $CLICK_LEFT$ 次點擊即可升至下一等級",
+    "maxedTier": "你已達到最高等級",
+  "bronze": "銅牌",
+  "sliver": "銀牌",
+  "gold": "金牌",
+  "platinum": "白金",
+  "diamond": "鑽石"
 }
