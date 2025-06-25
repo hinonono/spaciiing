@@ -84,25 +84,25 @@
     width: fit-content;
 }
 
-// .variable-list {
-//     padding: 8px;
-//     background-color: var(--figma-color-bg-secondary);
-//     border-radius: var(--cy-border-radius-large);
-//     min-height: 40px;
-//     flex-wrap: wrap;
-// }
+.variable-list {
+    padding: 8px;
+    background-color: var(--figma-color-bg-secondary);
+    border-radius: var(--cy-border-radius-large);
+    min-height: 40px;
+    flex-wrap: wrap;
+}
 
-// .variable {
-//     font-size: var(--font-size-small);
-//     padding: 4px 8px;
-//     background-color: var(--figma-color-bg-secondary);
-//     border-radius: var(--cy-border-radius-large);
-//     padding: 16px;
+.variable {
+    font-size: var(--font-size-small);
+    padding: 4px 8px;
+    background-color: var(--figma-color-bg-secondary);
+    border-radius: var(--cy-border-radius-large);
+    padding: 16px;
 
-//     .text-primary {
-//         color: var(--figma-color-text);
-//     }
-// }
+    .text-primary {
+        color: var(--figma-color-text);
+    }
+}
 
 .saved-click-counter {
     position: fixed;
