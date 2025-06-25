@@ -1,7 +1,6 @@
 import { NodeRenamable } from './../types/NodeRenamable';
 import { MessageRenamer, PredifinedNames, RenamerOptions } from "../types/Messages/MessageRenamer";
 import { getProcessedNodes } from "./nodeProcessing";
-
 import { utils } from "./utils";
 import jaJPData from "../assets/renamer/ja-JP.json"
 import enUSData from "../assets/renamer/en-US.json"
@@ -38,19 +37,6 @@ export function renameSelectedObjects(message: MessageRenamer) {
       }
     }
   }
-
-  // Recursively delete hidden nodes
-  // function deleteHiddenLayers(node: SceneNode) {
-  //   if (node.visible === false) {
-  //     node.remove();
-  //     return;
-  //   }
-  //   if ("children" in node) {
-  //     for (const child of node.children) {
-  //       deleteHiddenLayers(child);
-  //     }
-  //   }
-  // }
 
   // Iterate through filtered nodes and rename or delete them
   processedNodes.forEach((selectedNode) => {
