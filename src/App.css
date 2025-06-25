@@ -1542,7 +1542,7 @@ a {
   background: var(--cy-bg-primary-dark-elevated);
 }
 .productivity-dashboard p {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0rem;
 }
 .productivity-dashboard .tier-badge {
   transition: all 0.75s;

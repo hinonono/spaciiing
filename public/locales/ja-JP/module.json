@@ -207,9 +207,10 @@
     "productivityDashboard": "デザイン効率レポート",
     "toNextTier": "あと $CLICK_LEFT$ 回のクリックを節約すると、次のランクにアップします",
     "maxedTier": "最高ランクに到達しました",
-  "bronze": "ブロンズ",
-  "sliver": "シルバー",
-  "gold": "ゴールド",
-  "platinum": "プラチナ",
-  "diamond": "ダイヤモンド"
+  "bronze": "ブロンズマウス",
+  "sliver": "シルバーマウス",
+  "gold": "ゴールドマウス",
+  "platinum": "プラチナマウス",
+  "diamond": "ダイヤモンドマウス",
+  "progress": "進捗状況"
 }

@@ -90,7 +90,7 @@ figma.ui.onmessage = (message: Message) => {
       break;
     case "Shortcut":
       shortcut.executeShortcut(message as MessageShortcut);
-      incrementSavedClicks = selectionLength * 16
+      incrementSavedClicks = selectionLength * 8
       break;
     case "Renamer":
       renamer.renameSelectedObjects(message as MessageRenamer);

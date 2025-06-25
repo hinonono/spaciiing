@@ -207,9 +207,10 @@
     "productivityDashboard": "设计效率报告",
     "toNextTier": "再节省 $CLICK_LEFT$ 次点击即可升级到下个等级",
     "maxedTier": "你已达到最高等级",
-  "bronze": "铜牌",
-  "sliver": "银牌",
-  "gold": "金牌",
-  "platinum": "白金",
-  "diamond": "钻石"
+  "bronze": "铜制滑鼠手",
+  "sliver": "银制滑鼠手",
+  "gold": "金制滑鼠手",
+  "platinum": "白金滑鼠手",
+  "diamond": "钻石滑鼠手",
+  "progress": "进度"
 }

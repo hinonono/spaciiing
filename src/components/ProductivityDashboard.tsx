@@ -1,7 +1,9 @@
 import React from 'react';
-import { SvgGrid, SvgInfo } from '../assets/icons';
+import { SvgBadgeBronze, SvgBadgeDiamond, SvgBadgeGold, SvgBadgePlatinum, SvgBadgeSliver, SvgGrid, SvgInfo } from '../assets/icons';
 import { useTranslation } from 'react-i18next';
 import info from "../info.json";
+import { SavedClicksTier, SavedClicksTierObj } from '../types/Tier';
+import ProgressBar from './ProgressBar';
 
 interface ProductivityDashboardProps {
   savedClicks: number
@@ -15,15 +17,7 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
     <div className="mt-large">
       <h3>{t("module:productivityDashboard")}</h3>
       <div className='productivity-dashboard shadow-view'>
-        <div className='tooltip-wrap'>
-          <div className="icon-tooltip icon-20 icon-hover">
-            <SvgInfo color="var(--tooltip-icon)" />
-            <span className="tooltiptext">
-              {tier.tier === "DIAMOND" ? t("module:maxedTier") : t("module:toNextTier").replace("$CLICK_LEFT$", `${tier.max - savedClicks}`)}
-            </span>
-          </div>
-        </div>
-        <div className="icon-48 tier-badge"><SvgGrid color="var(--figma-color-text)" /></div>
+        <div className="icon-48 tier-badge">{getBadge(tier.tier)}</div>
         <p className={`tier-name tier-name-${tier.tier} mt-xxsmall`}>{t(tier.translateKey)}</p>
         <span className="note note-large text-center">
           {t("license:youSaved")
@@ -31,13 +25,26 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
             .replace("$SAVED_MIN$", `${savedClicks / 20}`)
           }
         </span>
+        {tier.tier !== "DIAMOND" &&
+          <div className='width-100 mt-small'>
+            <div className='width-100 flex flex-justify-space-between'>
+              <span className='note'>{t("module:progress")}</span>
+              <span className='note'>{savedClicks} / {tier.max}</span>
+            </div>
+            <ProgressBar
+              additionalClass='mt-xxxsmall'
+              progress={savedClicks}
+              max={tier.max}
+            />
+          </div>
+        }
       </div>
     </div>
   );
 };
 
-function getNextTier(click: number): { tier: string; max: number; translateKey: string } {
-  const tierList = info.clickTier;
+function getNextTier(click: number): SavedClicksTierObj {
+  const tierList = info.clickTier as SavedClicksTierObj[];
 
   for (let i = 0; i < tierList.length; i++) {
     const tier = tierList[i];
@@ -55,6 +62,23 @@ function getNextTier(click: number): { tier: string; max: number; translateKey: 
 
   // Fallback in case tierList is empty (optional safety)
   return { tier: "UNKNOWN", max: Infinity, translateKey: "unknown" };
+}
+
+function getBadge(tier: SavedClicksTier) {
+  switch (tier) {
+    case "BRONZE":
+      return <SvgBadgeBronze />
+    case "SLIVER":
+      return <SvgBadgeSliver />
+    case "GOLD":
+      return <SvgBadgeGold />
+    case "PLATINUM":
+      return <SvgBadgePlatinum />
+    case "DIAMOND":
+      return <SvgBadgeDiamond />
+    default:
+      return null;
+  }
 }
 
 export default ProductivityDashboard;

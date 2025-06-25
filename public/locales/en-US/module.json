@@ -207,9 +207,10 @@
     "productivityDashboard": "Productivity Report",
     "toNextTier": "Save $CLICK_LEFT$ clicks more to unlock next tier.",
     "maxedTier": "You have achieved the highest tier.",
-    "bronze": "Bronze",
-    "sliver": "Sliver",
-    "gold": "Gold",
-    "platinum": "Platinum",
-    "diamond": "Diamond"
+    "bronze": "Bronze Mouse",
+    "sliver": "Sliver Mouse",
+    "gold": "Gold Mouse",
+    "platinum": "Platinum Mouse",
+    "diamond": "Diamond Mouse",
+    "progress": "Progress"
 }

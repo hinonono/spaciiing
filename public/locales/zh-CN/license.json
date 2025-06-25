@@ -50,7 +50,7 @@
   "upgradeToSkipWaiting": "升级PRO即可跳过等待",
   "upgrade": "升级",
     "youNeedToWait": "目前每次操作需要等待 $WAIT_TIME$ 秒",
-    "youSaved": "想不到吧！你已经省下 $SAVED_CLICKS$ 次滑鼠点击，相当于 $SAVED_MIN$ 分钟的无聊重复工作！",
+    "youSaved": "你已经省下 $SAVED_CLICKS$ 次滑鼠点击，相当于 $SAVED_MIN$ 分钟的无聊重复工作！",
     "saveTimeAsWell":"🚀马上升级 Pro，把 $SAVED_TIME$ 分钟的等待时间也省下来吧！",
       "minSaved": "🚀已省下$SAVED_MIN$分钟!"
 }

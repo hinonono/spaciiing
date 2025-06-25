@@ -50,7 +50,7 @@
   "upgradeToSkipWaiting": "讓設計流程事半功倍",
   "upgrade": "升級",
   "youNeedToWait": "滑鼠點到手冒煙，Spaciiing來做僅一鍵",
-  "youSaved": "想不到吧！你已經省下 $SAVED_CLICKS$ 次滑鼠點擊，相當於 $SAVED_MIN$ 分鐘的無聊重複工作！",
+  "youSaved": "你已經省下 $SAVED_CLICKS$ 次滑鼠點擊，相當於 $SAVED_MIN$ 分鐘的無聊重複工作！",
   "saveTimeAsWell":"🚀馬上升級 Pro，把 $SAVED_TIME$ 分鐘的等待時間也省下來吧！",
   "minSaved": "🚀已省下$SAVED_MIN$分鐘!"
 }

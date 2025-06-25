@@ -59,3 +59,9 @@ export { default as SvgSkip } from "./SvgSkip";
 export { default as SvgNote } from "./SvgNote";
 
 export { default as SvgImage } from "./SvgImage";
+
+export { default as SvgBadgeBronze } from "./SvgBadgeBronze";
+export { default as SvgBadgeSliver } from "./SvgBadgeSliver";
+export { default as SvgBadgeGold } from "./SvgBadgeGold";
+export { default as SvgBadgePlatinum } from "./SvgBadgePlatinum";
+export { default as SvgBadgeDiamond } from "./SvgBadgeDiamond";
