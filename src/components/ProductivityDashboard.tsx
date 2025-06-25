@@ -22,7 +22,7 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
         <span className="note note-large text-center">
           {t("license:youSaved")
             .replace("$SAVED_CLICKS$", `${savedClicks}`)
-            .replace("$SAVED_MIN$", `${savedClicks / 20}`)
+            .replace("$SAVED_MIN$", `${Math.round(savedClicks / 20)}`)
           }
         </span>
         {tier.tier !== "DIAMOND" &&

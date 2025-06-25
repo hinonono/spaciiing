@@ -29,6 +29,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
     backgroundColor: color,
     height: "100%",
     transition: "width 0.3s ease-in-out",
+    borderRadius: "6px",
   };
 
   return (
