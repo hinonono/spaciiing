@@ -28,7 +28,7 @@
   "unleashYourProductivity": "生産性を全面解放。",
   "tryItFree": "Gumroadでプランを購読",
   "today": "今日",
-  "todayMessage": "すぐにすべてのプロ機能にアクセスし、待ち時間の制限をスキップできます。",
+  "todayMessage": "すぐに待ち時間の制限をスキップできます。",
   "dayFive": "5日目",
   "dayFiveMessage": "トライアルが間もなく終了することをお知らせするメールをお送りします。Gumroadからのメールで詳しい情報をご確認ください。",
   "daySeven": "7日目",
@@ -50,7 +50,7 @@
   "upgradeToSkipWaiting": "有料プランは待ち時間なし",
   "upgrade": "アップグレード",
   "youNeedToWait": "ただいま操作するたびに $WAIT_TIME$ 秒の待つ時間制限があります。",
-  "youSaved": "このプラグインのおかげで、すでに $SAVED_CLICKS$ 回のクリックを節約できました。これはおよそ $SAVED_MIN$ 分の単調な作業に相当します！",
-  "saveTimeAsWell":"🚀 Pro にアップグレードすれば、待ち時間もスキップして、さらに最大 $SAVED_TIME$ 分の時間を節約できます！",
+  "youSaved": "あなたはすでに $SAVED_CLICKS$ 回のクリックを節約できました。これはおよそ $SAVED_MIN$ 分の単調な作業に相当します！",
+  "saveTimeAsWell":"🚀 Pro にアップグレードすれば、さらに最大 $SAVED_TIME$ 分の待ち時間を節約できます！",
   "minSaved": "🚀$SAVED_MIN$分の作業時間を節約しました！"
 }

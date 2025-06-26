@@ -47,7 +47,6 @@ const Setting: React.FC = () => {
               ) : (
                 <>
                   <h4>{t("license:free")}</h4>
-                  <SavedTimeMessage />
                 </>
               )}
             </div>
