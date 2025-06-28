@@ -149,14 +149,6 @@ function createSegmentConnectionGroup(
                     y: Math.max(source.withMargin[RectSegmentType.BR].y, target.withMargin[RectSegmentType.BL].y)
                 }
             },
-            // betweenItemTopCenter: {
-            //     x: source.withMargin[RectSegmentType.TR].x,
-            //     y: Math.min(source.withMargin[RectSegmentType.TR].y, target.withMargin[RectSegmentType.TL].y)
-            // },
-            // betweenItemBottomCenter: {
-            //     x: source.withMargin[RectSegmentType.TR].x,
-            //     y: Math.max(source.withMargin[RectSegmentType.BR].y, target.withMargin[RectSegmentType.BL].y)
-            // }
         }
     } else {
         return {
@@ -172,14 +164,6 @@ function createSegmentConnectionGroup(
                     y: source.withMargin[RectSegmentType.BL].y
                 }
             }
-            // betweenItemMiddleLeft: {
-            //     x: Math.min(source.withMargin[RectSegmentType.BL].x, target.withMargin[RectSegmentType.TL].x),
-            //     y: source.withMargin[RectSegmentType.BL].y
-            // },
-            // betweenItemMiddleRight: {
-            //     x: Math.max(source.withMargin[RectSegmentType.BR].x, target.withMargin[RectSegmentType.TR].x),
-            //     y: source.withMargin[RectSegmentType.BL].y
-            // },
         }
     }
 }
@@ -258,31 +242,33 @@ function determineRoute(
 
     if (direction === "horizontal") {
         if (sourceItemConnectPoint === RectSegmentType.TC) {
-            route = router.horizontal.determineRouteFromTopCenter(targetItemConnectPoint, group);
+            route = router.horizontal.routeFromTC(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectSegmentType.BC) {
-            route = router.horizontal.determineRouteFromBottomCenter(targetItemConnectPoint, group);
+            route = router.horizontal.routeFromBC(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectSegmentType.ML) {
-            route = router.horizontal.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
+            route = router.horizontal.routeFromML(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectSegmentType.MR) {
-            route = router.horizontal.determineRouteFromMiddleRight(targetItemConnectPoint, group);
+            route = router.horizontal.routeFromMR(targetItemConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }
     } else {
         if (sourceItemConnectPoint === RectSegmentType.TC) {
-            route = router.vertical.determineRouteFromTopCenter(targetItemConnectPoint, group);
+            route = router.vertical.routeFromTC(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectSegmentType.BC) {
-            route = router.vertical.determineRouteFromBottomCenter(targetItemConnectPoint, group);
+            route = router.vertical.routeFromBC(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectSegmentType.ML) {
-            route = router.vertical.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
+            route = router.vertical.routeFromML(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectSegmentType.MR) {
-            route = router.vertical.determineRouteFromMiddleRight(targetItemConnectPoint, group);
+            route = router.vertical.routeFromMR(targetItemConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }
     }
 
-    return route;
+    const optimizedRoute = utils.vector.removeDuplicateCoordinatesFromPath(route);
+
+    return optimizedRoute;
 }
 
 async function drawArrowAndAnnotation(
