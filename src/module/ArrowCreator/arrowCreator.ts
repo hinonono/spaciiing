@@ -99,33 +99,33 @@ function calcNodeSegments(node: SceneNode, margin: { horizontal: number, vertica
     return { actual, withMargin };
 }
 
-function calcNodeGap(sourceNode: SceneNode, targetNode: SceneNode): { horizontal: number, vertical: number } {
-    if (!sourceNode.absoluteBoundingBox || !targetNode.absoluteBoundingBox) {
+function calcNodeGap(start: SceneNode, end: SceneNode): { horizontal: number, vertical: number } {
+    if (!start.absoluteBoundingBox || !end.absoluteBoundingBox) {
         throw new Error("Absolute bounding box is required to calculate node gap.")
     }
 
     let hGap: number, vGap: number;
 
-    const rightOfSourceNode = sourceNode.absoluteBoundingBox.x + sourceNode.width;
-    const rightOfTargetNode = targetNode.absoluteBoundingBox.x + targetNode.width;
+    const rightOfSourceNode = start.absoluteBoundingBox.x + start.width;
+    const rightOfTargetNode = end.absoluteBoundingBox.x + end.width;
 
-    const bottomOfSourceNode = sourceNode.absoluteBoundingBox.y + sourceNode.height;
-    const bottomOfTargetNode = targetNode.absoluteBoundingBox.y + targetNode.height;
+    const bottomOfSourceNode = start.absoluteBoundingBox.y + start.height;
+    const bottomOfTargetNode = end.absoluteBoundingBox.y + end.height;
 
     // Calculate vertical gap
-    if (targetNode.absoluteBoundingBox.y >= bottomOfSourceNode) {
-        vGap = targetNode.absoluteBoundingBox.y - bottomOfSourceNode; // target is below
-    } else if (sourceNode.absoluteBoundingBox.y >= bottomOfTargetNode) {
-        vGap = sourceNode.absoluteBoundingBox.y - bottomOfTargetNode; // target is above
+    if (end.absoluteBoundingBox.y >= bottomOfSourceNode) {
+        vGap = end.absoluteBoundingBox.y - bottomOfSourceNode; // target is below
+    } else if (start.absoluteBoundingBox.y >= bottomOfTargetNode) {
+        vGap = start.absoluteBoundingBox.y - bottomOfTargetNode; // target is above
     } else {
         vGap = 0; // overlapping vertically
     }
 
     // Calculate horizontal gap
-    if (targetNode.absoluteBoundingBox.x >= rightOfSourceNode) {
-        hGap = targetNode.absoluteBoundingBox.x - rightOfSourceNode; // target is to the right
-    } else if (sourceNode.absoluteBoundingBox.x >= rightOfTargetNode) {
-        hGap = sourceNode.absoluteBoundingBox.x - rightOfTargetNode; // target is to the left
+    if (end.absoluteBoundingBox.x >= rightOfSourceNode) {
+        hGap = end.absoluteBoundingBox.x - rightOfSourceNode; // target is to the right
+    } else if (start.absoluteBoundingBox.x >= rightOfTargetNode) {
+        hGap = start.absoluteBoundingBox.x - rightOfTargetNode; // target is to the left
     } else {
         hGap = 0; // overlapping horizontally
     }
@@ -288,10 +288,10 @@ async function drawArrowAndAnnotation(
     strokeStyle: CYStroke,
     createAnnotationBool: boolean,
     direction: Direction,
-    sourceNodeId: string,
-    sourceItemConnectPoint: ConnectPointPosition,
-    targetNodeId: string,
-    targetItemConnectPoint: ConnectPointPosition,
+    startNodeId: string,
+    startConnectPoint: ConnectPointPosition,
+    endNodeId: string,
+    endConnectPoint: ConnectPointPosition,
     offset: number,
 ) {
     let line: VectorNode;
@@ -307,10 +307,10 @@ async function drawArrowAndAnnotation(
                 arrowGroup,
                 line.id,
                 direction,
-                sourceNodeId,
-                sourceItemConnectPoint,
-                targetNodeId,
-                targetItemConnectPoint,
+                startNodeId,
+                startConnectPoint,
+                endNodeId,
+                endConnectPoint,
                 offset,
                 strokeStyle,
                 createAnnotationBool
@@ -331,10 +331,10 @@ async function drawArrowAndAnnotation(
             arrowGroup,
             line.id,
             direction,
-            sourceNodeId,
-            sourceItemConnectPoint,
-            targetNodeId,
-            targetItemConnectPoint,
+            startNodeId,
+            startConnectPoint,
+            endNodeId,
+            endConnectPoint,
             offset,
             strokeStyle,
             createAnnotationBool,
@@ -344,8 +344,6 @@ async function drawArrowAndAnnotation(
 }
 
 async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
-    // await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-    // await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
     await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
     const annotationNodeSize = {
         width: strokeStlye.strokeWeight * 30,
@@ -398,10 +396,10 @@ function setArrowSchemaData(
     groupNode: SceneNode,
     arrowNodeId: string,
     direction: Direction,
-    sourceNodeId: string,
-    sourceItemConnectPoint: ConnectPointPosition,
-    targetNodeId: string,
-    targetItemConnectPoint: ConnectPointPosition,
+    startNodeId: string,
+    startConnectPoint: ConnectPointPosition,
+    endNodeId: string,
+    endItemConnectPoint: ConnectPointPosition,
     offset: number,
     strokeStyle: CYStroke,
     hasAnnotation: boolean,
@@ -413,10 +411,10 @@ function setArrowSchemaData(
         arrowNodeId: arrowNodeId,
         annotationNodeId: annotationNodeId,
         direction: direction,
-        sourceNodeId: sourceNodeId,
-        sourceItemConnectPoint: sourceItemConnectPoint,
-        targetNodeId: targetNodeId,
-        targetItemConnectPoint: targetItemConnectPoint,
+        startNodeId: startNodeId,
+        startConnectPoint: startConnectPoint,
+        endNodeId: endNodeId,
+        endConnectPoint: endItemConnectPoint,
         offset: offset,
         strokeStyle: strokeStyle,
         hasAnnotation: hasAnnotation,
@@ -457,8 +455,8 @@ export async function updateArrowPosition() {
             const schema = getArrowSchema(item);
             const arrowNode = figma.currentPage.findOne(n => n.id === schema.arrowNodeId);
             const annotationNode = figma.currentPage.findOne(n => n.id === schema.annotationNodeId);
-            const sourceNode = figma.currentPage.findOne(n => n.id === schema.sourceNodeId);
-            const targetNode = figma.currentPage.findOne(n => n.id === schema.targetNodeId);
+            const sourceNode = figma.currentPage.findOne(n => n.id === schema.startNodeId);
+            const targetNode = figma.currentPage.findOne(n => n.id === schema.endNodeId);
 
             if (!sourceNode || !targetNode) {
                 throw new Error("Missing source or target node.");
@@ -471,9 +469,9 @@ export async function updateArrowPosition() {
             const newRoute = determineRoute(
                 schema.direction,
                 sourceNode,
-                schema.sourceItemConnectPoint,
+                schema.startConnectPoint,
                 targetNode,
-                schema.targetItemConnectPoint,
+                schema.endConnectPoint,
                 schema.offset
             );
 

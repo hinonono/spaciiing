@@ -7,10 +7,10 @@ export type ArrowSchema = {
     arrowNodeId: string,
     annotationNodeId?: string,
     direction: Direction
-    sourceNodeId: string;
-    sourceItemConnectPoint: ConnectPointPosition;
-    targetNodeId: string;
-    targetItemConnectPoint: ConnectPointPosition,
+    startNodeId: string;
+    startConnectPoint: ConnectPointPosition;
+    endNodeId: string;
+    endConnectPoint: ConnectPointPosition,
     offset: number,
     strokeStyle: CYStroke,
     hasAnnotation: boolean
