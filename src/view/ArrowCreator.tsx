@@ -29,8 +29,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 連接點
-  const [sourceItemConnectPointPosition, setSourceItemConnectPointPosition] = useState<ConnectPointPosition>(RectSegmentType.MiddleRight);
-  const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectSegmentType.MiddleLeft);
+  const [sourceItemConnectPointPosition, setSourceItemConnectPointPosition] = useState<ConnectPointPosition>(RectSegmentType.MR);
+  const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectSegmentType.ML);
 
   // 安全間距
   const [safeMargin, setSafeMargin] = useState<number>(defaultOffset);
@@ -71,11 +71,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [direction, setDirection] = useState<Direction>("horizontal");
   useEffect(() => {
     if (direction === "horizontal") {
-      setSourceItemConnectPointPosition(RectSegmentType.MiddleRight);
-      setTargetItemConnectPointPosition(RectSegmentType.MiddleLeft);
+      setSourceItemConnectPointPosition(RectSegmentType.MR);
+      setTargetItemConnectPointPosition(RectSegmentType.ML);
     } else if (direction === "vertical") {
-      setSourceItemConnectPointPosition(RectSegmentType.BottomCenter);
-      setTargetItemConnectPointPosition(RectSegmentType.TopCenter);
+      setSourceItemConnectPointPosition(RectSegmentType.BC);
+      setTargetItemConnectPointPosition(RectSegmentType.TC);
     }
   }, [direction])
 

@@ -6,54 +6,54 @@ export function determineRouteFromMiddleRight(
     targetItemConnectPoint: ConnectPointPosition,
     group: SegmentConnectionGroup
 ): Coordinates[] {
-    if (targetItemConnectPoint === RectSegmentType.MiddleRight) {
+    if (targetItemConnectPoint === RectSegmentType.MR) {
         if (!group.betweenItemMiddleRight || !group.betweenItemMiddleLeft) {
             throw new Error("Required properties for determin route is undefined.")
         }
         const path = [
-            group.source.actual[RectSegmentType.MiddleRight],
+            group.source.actual[RectSegmentType.MR],
             {
                 x: group.betweenItemMiddleRight.x,
-                y: group.source.withMargin[RectSegmentType.MiddleRight].y
+                y: group.source.withMargin[RectSegmentType.MR].y
             },
             {
                 x: group.betweenItemMiddleRight.x,
-                y: group.target.withMargin[RectSegmentType.MiddleRight].y
+                y: group.target.withMargin[RectSegmentType.MR].y
             },
-            group.target.actual[RectSegmentType.MiddleRight],
+            group.target.actual[RectSegmentType.MR],
         ]
         const uniquePath = utils.vector.removeDuplicateCoordinatesFromPath(path)
         return uniquePath;
-    } else if (targetItemConnectPoint === RectSegmentType.BottomCenter) {
+    } else if (targetItemConnectPoint === RectSegmentType.BC) {
         const path = [
-            group.source.actual[RectSegmentType.MiddleRight],
-            group.source.withMargin[RectSegmentType.MiddleRight],
-            group.source.withMargin[RectSegmentType.BottomRight],
-            group.target.withMargin[RectSegmentType.TopLeft],
-            group.target.withMargin[RectSegmentType.BottomLeft],
-            group.target.withMargin[RectSegmentType.BottomCenter],
-            group.target.actual[RectSegmentType.BottomCenter],
+            group.source.actual[RectSegmentType.MR],
+            group.source.withMargin[RectSegmentType.MR],
+            group.source.withMargin[RectSegmentType.BR],
+            group.target.withMargin[RectSegmentType.TL],
+            group.target.withMargin[RectSegmentType.BL],
+            group.target.withMargin[RectSegmentType.BC],
+            group.target.actual[RectSegmentType.BC],
         ];
         const uniquePath = utils.vector.removeDuplicateCoordinatesFromPath(path)
         return uniquePath
-    } else if (targetItemConnectPoint === RectSegmentType.MiddleLeft) {
+    } else if (targetItemConnectPoint === RectSegmentType.ML) {
         const path = [
-            group.source.actual[RectSegmentType.MiddleRight],
-            group.source.withMargin[RectSegmentType.MiddleRight],
-            group.source.withMargin[RectSegmentType.BottomRight],
-            group.target.withMargin[RectSegmentType.TopLeft],
-            group.target.withMargin[RectSegmentType.MiddleLeft],
-            group.target.actual[RectSegmentType.MiddleLeft],
+            group.source.actual[RectSegmentType.MR],
+            group.source.withMargin[RectSegmentType.MR],
+            group.source.withMargin[RectSegmentType.BR],
+            group.target.withMargin[RectSegmentType.TL],
+            group.target.withMargin[RectSegmentType.ML],
+            group.target.actual[RectSegmentType.ML],
         ]
         const uniquePath = utils.vector.removeDuplicateCoordinatesFromPath(path);
         return uniquePath;
-    } else if (targetItemConnectPoint === RectSegmentType.TopCenter) {
+    } else if (targetItemConnectPoint === RectSegmentType.TC) {
         const path = [
-            group.source.actual[RectSegmentType.MiddleRight],
-            group.source.withMargin[RectSegmentType.MiddleRight],
-            group.source.withMargin[RectSegmentType.BottomRight],
-            group.target.withMargin[RectSegmentType.TopCenter],
-            group.target.actual[RectSegmentType.TopCenter],
+            group.source.actual[RectSegmentType.MR],
+            group.source.withMargin[RectSegmentType.MR],
+            group.source.withMargin[RectSegmentType.BR],
+            group.target.withMargin[RectSegmentType.TC],
+            group.target.actual[RectSegmentType.TC],
         ]
         const uniquePath = utils.vector.removeDuplicateCoordinatesFromPath(path);
         return uniquePath;
@@ -69,52 +69,52 @@ export function determineRouteFromMiddleLeft(
     if (!group.betweenItemMiddleLeft || !group.betweenItemMiddleRight) {
         throw new Error("Required properties for determining route are undefined.");
     }
-    if (targetItemConnectPoint === RectSegmentType.MiddleRight) {
+    if (targetItemConnectPoint === RectSegmentType.MR) {
         const path = [
-            group.source.actual[RectSegmentType.MiddleLeft],
-            group.source.withMargin[RectSegmentType.MiddleLeft],
-            group.source.withMargin[RectSegmentType.BottomLeft],
-            group.target.withMargin[RectSegmentType.TopRight],
-            group.target.withMargin[RectSegmentType.MiddleRight],
-            group.target.actual[RectSegmentType.MiddleRight],
+            group.source.actual[RectSegmentType.ML],
+            group.source.withMargin[RectSegmentType.ML],
+            group.source.withMargin[RectSegmentType.BL],
+            group.target.withMargin[RectSegmentType.TR],
+            group.target.withMargin[RectSegmentType.MR],
+            group.target.actual[RectSegmentType.MR],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.BottomCenter) {
+    } else if (targetItemConnectPoint === RectSegmentType.BC) {
         const path = [
-            group.source.actual[RectSegmentType.MiddleLeft],
+            group.source.actual[RectSegmentType.ML],
             {
                 x: group.betweenItemMiddleLeft.x,
-                y: group.source.withMargin[RectSegmentType.MiddleLeft].y
+                y: group.source.withMargin[RectSegmentType.ML].y
             },
             {
                 x: group.betweenItemMiddleLeft.x,
-                y: group.target.withMargin[RectSegmentType.BottomLeft].y
+                y: group.target.withMargin[RectSegmentType.BL].y
             },
-            group.target.withMargin[RectSegmentType.BottomCenter],
-            group.target.actual[RectSegmentType.BottomCenter],
+            group.target.withMargin[RectSegmentType.BC],
+            group.target.actual[RectSegmentType.BC],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.MiddleLeft) {
+    } else if (targetItemConnectPoint === RectSegmentType.ML) {
         const path = [
-            group.source.actual[RectSegmentType.MiddleLeft],
+            group.source.actual[RectSegmentType.ML],
             {
                 x: group.betweenItemMiddleLeft.x,
-                y: group.source.withMargin[RectSegmentType.MiddleLeft].y
+                y: group.source.withMargin[RectSegmentType.ML].y
             },
             {
                 x: group.betweenItemMiddleLeft.x,
-                y: group.target.withMargin[RectSegmentType.MiddleLeft].y
+                y: group.target.withMargin[RectSegmentType.ML].y
             },
-            group.target.actual[RectSegmentType.MiddleLeft],
+            group.target.actual[RectSegmentType.ML],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.TopCenter) {
+    } else if (targetItemConnectPoint === RectSegmentType.TC) {
         const path = [
-            group.source.actual[RectSegmentType.MiddleLeft],
-            group.source.withMargin[RectSegmentType.MiddleLeft],
-            group.source.withMargin[RectSegmentType.BottomLeft],
-            group.target.withMargin[RectSegmentType.TopCenter],
-            group.target.actual[RectSegmentType.TopCenter],
+            group.source.actual[RectSegmentType.ML],
+            group.source.withMargin[RectSegmentType.ML],
+            group.source.withMargin[RectSegmentType.BL],
+            group.target.withMargin[RectSegmentType.TC],
+            group.target.actual[RectSegmentType.TC],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
     } else {
@@ -129,60 +129,60 @@ export function determineRouteFromTopCenter(
     if (!group.betweenItemMiddleLeft || !group.betweenItemMiddleRight) {
         throw new Error("Required properties for determin route is undefined.")
     }
-    if (targetItemConnectPoint === RectSegmentType.MiddleRight) {
+    if (targetItemConnectPoint === RectSegmentType.MR) {
         const path = [
-            group.source.actual[RectSegmentType.TopCenter],
-            group.source.withMargin[RectSegmentType.TopCenter],
+            group.source.actual[RectSegmentType.TC],
+            group.source.withMargin[RectSegmentType.TC],
             {
                 x: group.betweenItemMiddleRight.x,
-                y: group.source.withMargin[RectSegmentType.TopCenter].y
+                y: group.source.withMargin[RectSegmentType.TC].y
             },
             {
                 x: group.betweenItemMiddleRight.x,
-                y: group.target.withMargin[RectSegmentType.MiddleRight].y
+                y: group.target.withMargin[RectSegmentType.MR].y
             },
-            group.target.actual[RectSegmentType.MiddleRight],
+            group.target.actual[RectSegmentType.MR],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.BottomCenter) {
+    } else if (targetItemConnectPoint === RectSegmentType.BC) {
         const path = [
-            group.source.actual[RectSegmentType.TopCenter],
-            group.source.withMargin[RectSegmentType.TopCenter],
+            group.source.actual[RectSegmentType.TC],
+            group.source.withMargin[RectSegmentType.TC],
             {
                 x: group.betweenItemMiddleRight.x,
-                y: group.source.withMargin[RectSegmentType.TopCenter].y
+                y: group.source.withMargin[RectSegmentType.TC].y
             },
             {
                 x: group.betweenItemMiddleRight.x,
-                y: group.target.withMargin[RectSegmentType.BottomRight].y
+                y: group.target.withMargin[RectSegmentType.BR].y
             },
-            group.target.withMargin[RectSegmentType.BottomCenter],
-            group.target.actual[RectSegmentType.BottomCenter],
+            group.target.withMargin[RectSegmentType.BC],
+            group.target.actual[RectSegmentType.BC],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.MiddleLeft) {
+    } else if (targetItemConnectPoint === RectSegmentType.ML) {
         const path = [
-            group.source.actual[RectSegmentType.TopCenter],
-            group.source.withMargin[RectSegmentType.TopCenter],
+            group.source.actual[RectSegmentType.TC],
+            group.source.withMargin[RectSegmentType.TC],
             {
                 x: group.betweenItemMiddleLeft.x,
-                y: group.source.withMargin[RectSegmentType.TopLeft].y
+                y: group.source.withMargin[RectSegmentType.TL].y
             },
             {
                 x: group.betweenItemMiddleLeft.x,
-                y: group.target.withMargin[RectSegmentType.MiddleLeft].y
+                y: group.target.withMargin[RectSegmentType.ML].y
             },
-            group.target.actual[RectSegmentType.MiddleLeft],
+            group.target.actual[RectSegmentType.ML],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.TopCenter) {
+    } else if (targetItemConnectPoint === RectSegmentType.TC) {
         const path = [
-            group.source.actual[RectSegmentType.TopCenter],
-            group.source.withMargin[RectSegmentType.TopCenter],
-            group.source.withMargin[RectSegmentType.TopRight],
-            group.source.withMargin[RectSegmentType.BottomRight],
-            group.target.withMargin[RectSegmentType.TopCenter],
-            group.target.actual[RectSegmentType.TopCenter],
+            group.source.actual[RectSegmentType.TC],
+            group.source.withMargin[RectSegmentType.TC],
+            group.source.withMargin[RectSegmentType.TR],
+            group.source.withMargin[RectSegmentType.BR],
+            group.target.withMargin[RectSegmentType.TC],
+            group.target.actual[RectSegmentType.TC],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
     } else {
@@ -194,40 +194,40 @@ export function determineRouteFromBottomCenter(
     targetItemConnectPoint: ConnectPointPosition,
     group: SegmentConnectionGroup
 ): Coordinates[] {
-    if (targetItemConnectPoint === RectSegmentType.MiddleRight) {
+    if (targetItemConnectPoint === RectSegmentType.MR) {
         const path = [
-            group.source.actual[RectSegmentType.BottomCenter],
-            group.source.withMargin[RectSegmentType.BottomCenter],
-            group.target.withMargin[RectSegmentType.TopRight],
-            group.target.withMargin[RectSegmentType.MiddleRight],
-            group.target.actual[RectSegmentType.MiddleRight],
+            group.source.actual[RectSegmentType.BC],
+            group.source.withMargin[RectSegmentType.BC],
+            group.target.withMargin[RectSegmentType.TR],
+            group.target.withMargin[RectSegmentType.MR],
+            group.target.actual[RectSegmentType.MR],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.BottomCenter) {
+    } else if (targetItemConnectPoint === RectSegmentType.BC) {
         const path = [
-            group.source.actual[RectSegmentType.BottomCenter],
-            group.source.withMargin[RectSegmentType.BottomCenter],
-            group.target.withMargin[RectSegmentType.TopLeft],
-            group.target.withMargin[RectSegmentType.BottomLeft],
-            group.target.withMargin[RectSegmentType.BottomCenter],
-            group.target.actual[RectSegmentType.BottomCenter],
+            group.source.actual[RectSegmentType.BC],
+            group.source.withMargin[RectSegmentType.BC],
+            group.target.withMargin[RectSegmentType.TL],
+            group.target.withMargin[RectSegmentType.BL],
+            group.target.withMargin[RectSegmentType.BC],
+            group.target.actual[RectSegmentType.BC],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.MiddleLeft) {
+    } else if (targetItemConnectPoint === RectSegmentType.ML) {
         const path = [
-            group.source.actual[RectSegmentType.BottomCenter],
-            group.source.withMargin[RectSegmentType.BottomCenter],
-            group.target.withMargin[RectSegmentType.TopLeft],
-            group.target.withMargin[RectSegmentType.MiddleLeft],
-            group.target.actual[RectSegmentType.MiddleLeft],
+            group.source.actual[RectSegmentType.BC],
+            group.source.withMargin[RectSegmentType.BC],
+            group.target.withMargin[RectSegmentType.TL],
+            group.target.withMargin[RectSegmentType.ML],
+            group.target.actual[RectSegmentType.ML],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
-    } else if (targetItemConnectPoint === RectSegmentType.TopCenter) {
+    } else if (targetItemConnectPoint === RectSegmentType.TC) {
         const path = [
-            group.source.actual[RectSegmentType.BottomCenter],
-            group.source.withMargin[RectSegmentType.BottomCenter],
-            group.target.withMargin[RectSegmentType.TopCenter],
-            group.target.actual[RectSegmentType.TopCenter],
+            group.source.actual[RectSegmentType.BC],
+            group.source.withMargin[RectSegmentType.BC],
+            group.target.withMargin[RectSegmentType.TC],
+            group.target.actual[RectSegmentType.TC],
         ];
         return utils.vector.removeDuplicateCoordinatesFromPath(path);
     } else {

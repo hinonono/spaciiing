@@ -2,21 +2,21 @@ import { Coordinates } from "./General";
 
 // Enum to represent different segments of the rectangular layer
 export enum RectSegmentType {
-    TopLeft = "topLeft",
-    TopCenter = "topCenter",
-    TopRight = "topRight",
-    MiddleLeft = "middleLeft",
-    MiddleCenter = "middleCenter",
-    MiddleRight = "middleRight",
-    BottomLeft = "bottomLeft",
-    BottomCenter = "bottomCenter",
-    BottomRight = "bottomRight"
+    TL = "topLeft",
+    TC = "topCenter",
+    TR = "topRight",
+    ML = "middleLeft",
+    MC = "middleCenter",
+    MR = "middleRight",
+    BL = "bottomLeft",
+    BC = "bottomCenter",
+    BR = "bottomRight"
 }
 export type ConnectPointPosition =
-    | RectSegmentType.TopCenter
-    | RectSegmentType.BottomCenter
-    | RectSegmentType.MiddleLeft
-    | RectSegmentType.MiddleRight;
+    | RectSegmentType.TC
+    | RectSegmentType.BC
+    | RectSegmentType.ML
+    | RectSegmentType.MR;
 
 export type StrokeMode = "freeform" | "style";
 
@@ -29,15 +29,15 @@ export interface ConnectPointPositionPair {
 
 // Interface to hold all segments of a rectangle
 export interface RectangleSegmentMap {
-    [RectSegmentType.TopLeft]: Coordinates;
-    [RectSegmentType.TopCenter]: Coordinates;
-    [RectSegmentType.TopRight]: Coordinates;
-    [RectSegmentType.MiddleLeft]: Coordinates;
-    [RectSegmentType.MiddleCenter]: Coordinates;
-    [RectSegmentType.MiddleRight]: Coordinates;
-    [RectSegmentType.BottomLeft]: Coordinates;
-    [RectSegmentType.BottomCenter]: Coordinates;
-    [RectSegmentType.BottomRight]: Coordinates;
+    [RectSegmentType.TL]: Coordinates;
+    [RectSegmentType.TC]: Coordinates;
+    [RectSegmentType.TR]: Coordinates;
+    [RectSegmentType.ML]: Coordinates;
+    [RectSegmentType.MC]: Coordinates;
+    [RectSegmentType.MR]: Coordinates;
+    [RectSegmentType.BL]: Coordinates;
+    [RectSegmentType.BC]: Coordinates;
+    [RectSegmentType.BR]: Coordinates;
 }
 
 // Extended interface to include margins

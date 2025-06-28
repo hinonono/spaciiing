@@ -13,10 +13,10 @@ interface ConnectPointSelectorViewProps {
 
 // Available connection point positions around each item
 const connectPoints: ConnectPointPosition[] = [
-  RectSegmentType.TopCenter,
-  RectSegmentType.BottomCenter,
-  RectSegmentType.MiddleLeft,
-  RectSegmentType.MiddleRight
+  RectSegmentType.TC,
+  RectSegmentType.BC,
+  RectSegmentType.ML,
+  RectSegmentType.MR
 ];
 
 const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
