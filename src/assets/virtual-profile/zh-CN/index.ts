@@ -8,6 +8,7 @@ import { default as zhCN_vpdata_flight } from "./flight.json";
 import { default as zhCN_vpdata_movie } from "./movie.json";
 import { default as zhCN_vpdata_product } from "./product.json";
 import { default as zhCN_vpdata_stock } from "./stock.json";
+import { default as zhCN_vpdata_flow } from "./flow.json";
 
 export const VPPreset_zhCN: Record<SupportedPresetVirtualProfileCategory, VirtualProfileGroupRaw> = {
     PERSONAL: zhCN_vpdata_personal,
@@ -16,5 +17,6 @@ export const VPPreset_zhCN: Record<SupportedPresetVirtualProfileCategory, Virtua
     FLIGHT: zhCN_vpdata_flight,
     MOVIE: zhCN_vpdata_movie,
     PRODUCT: zhCN_vpdata_product,
-    STOCK: zhCN_vpdata_stock
+    STOCK: zhCN_vpdata_stock,
+    FLOW: zhCN_vpdata_flow
 }

@@ -8,6 +8,7 @@ import { default as enUS_vpdata_flight } from "./flight.json";
 import { default as enUS_vpdata_movie } from "./movie.json";
 import { default as enUS_vpdata_product } from "./product.json";
 import { default as enUS_vpdata_stock } from "./stock.json";
+import { default as enUS_vpdata_flow } from "./flow.json";
 
 export const VPPreset_enUS: Record<SupportedPresetVirtualProfileCategory, VirtualProfileGroupRaw> = {
     PERSONAL: enUS_vpdata_personal,
@@ -16,5 +17,6 @@ export const VPPreset_enUS: Record<SupportedPresetVirtualProfileCategory, Virtua
     FLIGHT: enUS_vpdata_flight,
     MOVIE: enUS_vpdata_movie,
     PRODUCT: enUS_vpdata_product,
-    STOCK: enUS_vpdata_stock
+    STOCK: enUS_vpdata_stock,
+    FLOW: enUS_vpdata_flow,
 }

@@ -212,5 +212,6 @@
     "gold": "Gold Mouse",
     "platinum": "Platinum Mouse",
     "diamond": "Diamond Mouse",
-    "progress": "Progress"
+    "progress": "Progress",
+    "userFlow": "User flow"
 }

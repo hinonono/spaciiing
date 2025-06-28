@@ -8,6 +8,7 @@ import { default as jaJP_vpdata_flight } from "./flight.json";
 import { default as jaJP_vpdata_movie } from "./movie.json";
 import { default as jaJP_vpdata_product } from "./product.json";
 import { default as jaJP_vpdata_stock } from "./stock.json";
+import { default as jaJP_vpdata_flow } from "./flow.json";
 
 export const VPPreset_jaJP: Record<SupportedPresetVirtualProfileCategory, VirtualProfileGroupRaw> = {
     PERSONAL: jaJP_vpdata_personal,
@@ -17,4 +18,5 @@ export const VPPreset_jaJP: Record<SupportedPresetVirtualProfileCategory, Virtua
     MOVIE: jaJP_vpdata_movie,
     PRODUCT: jaJP_vpdata_product,
     STOCK: jaJP_vpdata_stock,
+    FLOW: jaJP_vpdata_flow
 };

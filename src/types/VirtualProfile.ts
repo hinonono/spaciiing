@@ -68,4 +68,5 @@ export type SupportedPresetVirtualProfileCategory =
   | "MOVIE"
   | "PERSONAL"
   | "PRODUCT"
-  | "STOCK";
+  | "STOCK"
+  | "FLOW";

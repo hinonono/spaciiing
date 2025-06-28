@@ -570,6 +570,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
     const categories: CategoryAndKey[] = [
       {
+        category: "FLOW",
+        key: "module:userFlow"
+      },
+      {
         category: "BOOK",
         key: "module:book",
       },
