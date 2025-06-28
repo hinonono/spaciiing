@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SvgBadgeBronze, SvgBadgeDiamond, SvgBadgeGold, SvgBadgePlatinum, SvgBadgeSliver, SvgGrid, SvgInfo } from '../assets/icons';
 import { useTranslation } from 'react-i18next';
 import info from "../info.json";
@@ -12,6 +12,15 @@ interface ProductivityDashboardProps {
 const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClicks }) => {
   const { t } = useTranslation(["license", "module"]);
   const tier = getNextTier(savedClicks);
+
+  const [showPercentage, setShowPercentage] = useState(false);
+  const content = showPercentage
+    ? `${Math.round((savedClicks / tier.max) * 100)}%`
+    : `${savedClicks} / ${tier.max}`;
+
+  function toggleShowPercentage() {
+    setShowPercentage(!showPercentage);
+  }
 
   return (
     <div className="mt-large">
@@ -29,7 +38,7 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
           <div className='width-100 mt-small'>
             <div className='width-100 flex flex-justify-space-between'>
               <span className='note'>{t("module:progress")}</span>
-              <span className='note'>{savedClicks} / {tier.max}</span>
+              <span className='note' style={{ cursor: 'pointer' }} onClick={toggleShowPercentage}>{content}</span>
             </div>
             <ProgressBar
               additionalClass='mt-xxxsmall'

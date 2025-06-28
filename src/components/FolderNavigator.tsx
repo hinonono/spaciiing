@@ -13,6 +13,8 @@ interface FolderNavigatorProps {
   structure: NestedStructure;
   selectedScopes: StyleSelection;
   setSelectedScopes: React.Dispatch<React.SetStateAction<StyleSelection>>;
+  onNextPageClicked?: () => void;
+  onPreviousPageClicked?: () => void;
 }
 
 const FolderNavigator: React.FC<FolderNavigatorProps> = ({
@@ -21,6 +23,8 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
   structure,
   selectedScopes,
   setSelectedScopes,
+  onNextPageClicked,
+  onPreviousPageClicked,
 }) => {
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [currentStructure, setCurrentStructure] =
@@ -47,8 +51,12 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       setCurrentStructure(currentStructure[folder].children as NestedStructure);
       setSelectedScopes((prev) => ({
         title: currentPath.join("/"),
-        scopes: prev.scopes,
+        scopes: [],
       }));
+
+      if (onNextPageClicked) {
+        onNextPageClicked();
+      }
     }
   };
 
@@ -66,6 +74,10 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       title: currentPath.join("/"),
       scopes: [],
     }));
+
+    if (onPreviousPageClicked) {
+      onPreviousPageClicked();
+    }
   };
 
   const handleScopeChange = (id: string) => {

@@ -112,9 +112,6 @@ export function applyStyleIntroducer(
     return;
   }
 
-
-
-
   const message: MessageStyleIntroducer = {
     module: "StyleIntroducer",
     phase: "Actual",
