@@ -3,8 +3,7 @@ import { CYStroke } from "../../types/CYStroke";
 import { Coordinates, Direction } from "../../types/General";
 import { MessageArrowCreator } from "../../types/Messages/MessageArrowCreator";
 import { utils } from "../utils";
-import * as rh from "./routeHorizontal"
-import * as rv from "./routeVertical";
+import { router } from "./router";
 import { semanticTokens } from "../tokens";
 import { ArrowSchema } from "../../types/ArrowSchema";
 
@@ -239,25 +238,25 @@ function determineRoute(
 
     if (direction === "horizontal") {
         if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
-            route = rh.determineRouteFromTopCenter(targetItemConnectPoint, group);
+            route = router.horizontal.determineRouteFromTopCenter(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
-            route = rh.determineRouteFromBottomCenter(targetItemConnectPoint, group);
+            route = router.horizontal.determineRouteFromBottomCenter(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
-            route = rh.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
+            route = router.horizontal.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
-            route = rh.determineRouteFromMiddleRight(targetItemConnectPoint, group);
+            route = router.horizontal.determineRouteFromMiddleRight(targetItemConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }
     } else {
         if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
-            route = rv.determineRouteFromTopCenter(targetItemConnectPoint, group);
+            route = router.vertical.determineRouteFromTopCenter(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
-            route = rv.determineRouteFromBottomCenter(targetItemConnectPoint, group);
+            route = router.vertical.determineRouteFromBottomCenter(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
-            route = rv.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
+            route = router.vertical.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
         } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
-            route = rv.determineRouteFromMiddleRight(targetItemConnectPoint, group);
+            route = router.vertical.determineRouteFromMiddleRight(targetItemConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }

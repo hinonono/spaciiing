@@ -1,6 +1,6 @@
-import { ConnectPointPosition, RectangleSegmentType, SegmentConnectionGroup } from "../../types/ArrowCreator";
-import { Coordinates } from "../../types/General";
-import { utils } from "../utils";
+import { ConnectPointPosition, RectangleSegmentType, SegmentConnectionGroup } from "../../../types/ArrowCreator";
+import { Coordinates } from "../../../types/General";
+import { utils } from "../../utils";
 
 export function determineRouteFromTopCenter(
     targetItemConnectPoint: ConnectPointPosition,
