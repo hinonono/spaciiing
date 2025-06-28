@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConnectPointPosition, RectangleSegmentType } from '../../types/ArrowCreator';
+import { ConnectPointPosition, RectSegmentType } from '../../types/ArrowCreator';
 import { Direction } from '../../types/General';
 import { useTranslation } from 'react-i18next';
 
@@ -13,10 +13,10 @@ interface ConnectPointSelectorViewProps {
 
 // Available connection point positions around each item
 const connectPoints: ConnectPointPosition[] = [
-  RectangleSegmentType.TopCenter,
-  RectangleSegmentType.BottomCenter,
-  RectangleSegmentType.MiddleLeft,
-  RectangleSegmentType.MiddleRight
+  RectSegmentType.TopCenter,
+  RectSegmentType.BottomCenter,
+  RectSegmentType.MiddleLeft,
+  RectSegmentType.MiddleRight
 ];
 
 const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({

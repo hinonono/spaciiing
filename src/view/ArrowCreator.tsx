@@ -4,7 +4,7 @@ import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
 import { CYCheckbox, FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
-import { ConnectPointPosition, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
+import { ConnectPointPosition, RectSegmentType, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator, defaultOffset, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
 import ConnectPointSelectorView from '../components/arrowCreator/ConnectPointSelectorView';
 import { CYStroke } from '../types/CYStroke';
@@ -29,8 +29,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 連接點
-  const [sourceItemConnectPointPosition, setSourceItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleRight);
-  const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleLeft);
+  const [sourceItemConnectPointPosition, setSourceItemConnectPointPosition] = useState<ConnectPointPosition>(RectSegmentType.MiddleRight);
+  const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectSegmentType.MiddleLeft);
 
   // 安全間距
   const [safeMargin, setSafeMargin] = useState<number>(defaultOffset);
@@ -71,11 +71,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [direction, setDirection] = useState<Direction>("horizontal");
   useEffect(() => {
     if (direction === "horizontal") {
-      setSourceItemConnectPointPosition(RectangleSegmentType.MiddleRight);
-      setTargetItemConnectPointPosition(RectangleSegmentType.MiddleLeft);
+      setSourceItemConnectPointPosition(RectSegmentType.MiddleRight);
+      setTargetItemConnectPointPosition(RectSegmentType.MiddleLeft);
     } else if (direction === "vertical") {
-      setSourceItemConnectPointPosition(RectangleSegmentType.BottomCenter);
-      setTargetItemConnectPointPosition(RectangleSegmentType.TopCenter);
+      setSourceItemConnectPointPosition(RectSegmentType.BottomCenter);
+      setTargetItemConnectPointPosition(RectSegmentType.TopCenter);
     }
   }, [direction])
 

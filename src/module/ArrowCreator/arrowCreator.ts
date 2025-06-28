@@ -1,4 +1,4 @@
-import { ConnectPointPosition, RectangleSegmentMap, RectangleSegmentType, SegmentConnectionData, SegmentConnectionGroup } from "../../types/ArrowCreator";
+import { ConnectPointPosition, RectangleSegmentMap, RectSegmentType, SegmentConnectionData, SegmentConnectionGroup } from "../../types/ArrowCreator";
 import { CYStroke } from "../../types/CYStroke";
 import { Coordinates, Direction } from "../../types/General";
 import { MessageArrowCreator } from "../../types/Messages/MessageArrowCreator";
@@ -69,26 +69,26 @@ export function reception(message: MessageArrowCreator) {
  */
 function calcNodeSegments(x: number, y: number, width: number, height: number, hMargin: number, vMargin: number, offset: number): SegmentConnectionData {
     const actual: RectangleSegmentMap = {
-        [RectangleSegmentType.TopLeft]: { x: x - offset, y: y - offset },
-        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - offset },
-        [RectangleSegmentType.TopRight]: { x: x + width + offset, y: y - offset },
-        [RectangleSegmentType.MiddleLeft]: { x: x - offset, y: y + height / 2 },
-        [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
-        [RectangleSegmentType.MiddleRight]: { x: x + width + offset, y: y + height / 2 },
-        [RectangleSegmentType.BottomLeft]: { x: x - offset, y: y + height + offset },
-        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + offset },
-        [RectangleSegmentType.BottomRight]: { x: x + width + offset, y: y + height + offset },
+        [RectSegmentType.TopLeft]: { x: x - offset, y: y - offset },
+        [RectSegmentType.TopCenter]: { x: x + width / 2, y: y - offset },
+        [RectSegmentType.TopRight]: { x: x + width + offset, y: y - offset },
+        [RectSegmentType.MiddleLeft]: { x: x - offset, y: y + height / 2 },
+        [RectSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
+        [RectSegmentType.MiddleRight]: { x: x + width + offset, y: y + height / 2 },
+        [RectSegmentType.BottomLeft]: { x: x - offset, y: y + height + offset },
+        [RectSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + offset },
+        [RectSegmentType.BottomRight]: { x: x + width + offset, y: y + height + offset },
     };
     const withMargin: RectangleSegmentMap = {
-        [RectangleSegmentType.TopLeft]: { x: x - hMargin, y: y - vMargin },
-        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - vMargin },
-        [RectangleSegmentType.TopRight]: { x: x + width + hMargin, y: y - vMargin },
-        [RectangleSegmentType.MiddleLeft]: { x: x - hMargin, y: y + height / 2 },
-        [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
-        [RectangleSegmentType.MiddleRight]: { x: x + width + hMargin, y: y + height / 2 },
-        [RectangleSegmentType.BottomLeft]: { x: x - hMargin, y: y + height + vMargin },
-        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + vMargin },
-        [RectangleSegmentType.BottomRight]: { x: x + width + hMargin, y: y + height + vMargin },
+        [RectSegmentType.TopLeft]: { x: x - hMargin, y: y - vMargin },
+        [RectSegmentType.TopCenter]: { x: x + width / 2, y: y - vMargin },
+        [RectSegmentType.TopRight]: { x: x + width + hMargin, y: y - vMargin },
+        [RectSegmentType.MiddleLeft]: { x: x - hMargin, y: y + height / 2 },
+        [RectSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
+        [RectSegmentType.MiddleRight]: { x: x + width + hMargin, y: y + height / 2 },
+        [RectSegmentType.BottomLeft]: { x: x - hMargin, y: y + height + vMargin },
+        [RectSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + vMargin },
+        [RectSegmentType.BottomRight]: { x: x + width + hMargin, y: y + height + vMargin },
     };
     return { actual, withMargin };
 }
@@ -140,12 +140,12 @@ function createSegmentConnectionGroup(
             source: source,
             target: target,
             betweenItemTopCenter: {
-                x: source.withMargin[RectangleSegmentType.TopRight].x,
-                y: Math.min(source.withMargin[RectangleSegmentType.TopRight].y, target.withMargin[RectangleSegmentType.TopLeft].y)
+                x: source.withMargin[RectSegmentType.TopRight].x,
+                y: Math.min(source.withMargin[RectSegmentType.TopRight].y, target.withMargin[RectSegmentType.TopLeft].y)
             },
             betweenItemBottomCenter: {
-                x: source.withMargin[RectangleSegmentType.TopRight].x,
-                y: Math.max(source.withMargin[RectangleSegmentType.BottomRight].y, target.withMargin[RectangleSegmentType.BottomLeft].y)
+                x: source.withMargin[RectSegmentType.TopRight].x,
+                y: Math.max(source.withMargin[RectSegmentType.BottomRight].y, target.withMargin[RectSegmentType.BottomLeft].y)
             }
         }
     } else {
@@ -153,12 +153,12 @@ function createSegmentConnectionGroup(
             source: source,
             target: target,
             betweenItemMiddleLeft: {
-                x: Math.min(source.withMargin[RectangleSegmentType.BottomLeft].x, target.withMargin[RectangleSegmentType.TopLeft].x),
-                y: source.withMargin[RectangleSegmentType.BottomLeft].y
+                x: Math.min(source.withMargin[RectSegmentType.BottomLeft].x, target.withMargin[RectSegmentType.TopLeft].x),
+                y: source.withMargin[RectSegmentType.BottomLeft].y
             },
             betweenItemMiddleRight: {
-                x: Math.max(source.withMargin[RectangleSegmentType.BottomRight].x, target.withMargin[RectangleSegmentType.TopRight].x),
-                y: source.withMargin[RectangleSegmentType.BottomLeft].y
+                x: Math.max(source.withMargin[RectSegmentType.BottomRight].x, target.withMargin[RectSegmentType.TopRight].x),
+                y: source.withMargin[RectSegmentType.BottomLeft].y
             },
         }
     }
@@ -237,25 +237,25 @@ function determineRoute(
     let route: Coordinates[] = [];
 
     if (direction === "horizontal") {
-        if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
+        if (sourceItemConnectPoint === RectSegmentType.TopCenter) {
             route = router.horizontal.determineRouteFromTopCenter(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
+        } else if (sourceItemConnectPoint === RectSegmentType.BottomCenter) {
             route = router.horizontal.determineRouteFromBottomCenter(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+        } else if (sourceItemConnectPoint === RectSegmentType.MiddleLeft) {
             route = router.horizontal.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
+        } else if (sourceItemConnectPoint === RectSegmentType.MiddleRight) {
             route = router.horizontal.determineRouteFromMiddleRight(targetItemConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }
     } else {
-        if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
+        if (sourceItemConnectPoint === RectSegmentType.TopCenter) {
             route = router.vertical.determineRouteFromTopCenter(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
+        } else if (sourceItemConnectPoint === RectSegmentType.BottomCenter) {
             route = router.vertical.determineRouteFromBottomCenter(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
+        } else if (sourceItemConnectPoint === RectSegmentType.MiddleLeft) {
             route = router.vertical.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
+        } else if (sourceItemConnectPoint === RectSegmentType.MiddleRight) {
             route = router.vertical.determineRouteFromMiddleRight(targetItemConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
