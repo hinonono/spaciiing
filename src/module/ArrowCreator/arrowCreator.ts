@@ -67,7 +67,13 @@ export function reception(message: MessageArrowCreator) {
  *   - `actual`: The connection points without any margin.
  *   - `withMargin`: The connection points adjusted by the specified margin.
  */
-function calcNodeSegments(x: number, y: number, width: number, height: number, hMargin: number, vMargin: number, offset: number): SegmentConnectionData {
+function calcNodeSegments(node: SceneNode, margin: { horizontal: number, vertical: number }, offset: number): SegmentConnectionData {
+    const { absoluteBoundingBox, width, height } = node;
+    if (!absoluteBoundingBox) {
+        throw new Error("absoluteBondingBox is required in order to calculate node segments.");
+    }
+    const { x, y } = absoluteBoundingBox;
+
     const actual: RectangleSegmentMap = {
         [RectSegmentType.TL]: { x: x - offset, y: y - offset },
         [RectSegmentType.TC]: { x: x + width / 2, y: y - offset },
@@ -80,15 +86,15 @@ function calcNodeSegments(x: number, y: number, width: number, height: number, h
         [RectSegmentType.BR]: { x: x + width + offset, y: y + height + offset },
     };
     const withMargin: RectangleSegmentMap = {
-        [RectSegmentType.TL]: { x: x - hMargin, y: y - vMargin },
-        [RectSegmentType.TC]: { x: x + width / 2, y: y - vMargin },
-        [RectSegmentType.TR]: { x: x + width + hMargin, y: y - vMargin },
-        [RectSegmentType.ML]: { x: x - hMargin, y: y + height / 2 },
+        [RectSegmentType.TL]: { x: x - margin.horizontal, y: y - margin.vertical },
+        [RectSegmentType.TC]: { x: x + width / 2, y: y - margin.vertical },
+        [RectSegmentType.TR]: { x: x + width + margin.horizontal, y: y - margin.vertical },
+        [RectSegmentType.ML]: { x: x - margin.horizontal, y: y + height / 2 },
         [RectSegmentType.MC]: { x: x + width / 2, y: y + height / 2 },
-        [RectSegmentType.MR]: { x: x + width + hMargin, y: y + height / 2 },
-        [RectSegmentType.BL]: { x: x - hMargin, y: y + height + vMargin },
-        [RectSegmentType.BC]: { x: x + width / 2, y: y + height + vMargin },
-        [RectSegmentType.BR]: { x: x + width + hMargin, y: y + height + vMargin },
+        [RectSegmentType.MR]: { x: x + width + margin.horizontal, y: y + height / 2 },
+        [RectSegmentType.BL]: { x: x - margin.horizontal, y: y + height + margin.vertical },
+        [RectSegmentType.BC]: { x: x + width / 2, y: y + height + margin.vertical },
+        [RectSegmentType.BR]: { x: x + width + margin.horizontal, y: y + height + margin.vertical },
     };
     return { actual, withMargin };
 }
@@ -214,53 +220,59 @@ function applyStrokeStyle(node: VectorNode, strokeStyle: CYStroke) {
     node.cornerRadius = strokeStyle.cornerRadius
 }
 
-function determineRoute(
-    direction: Direction,
-    sourceNode: SceneNode,
-    sourceItemConnectPoint: ConnectPointPosition,
-    targetNode: SceneNode,
-    targetItemConnectPoint: ConnectPointPosition,
-    offset: number,
-) {
-    const gap = calcNodeGap(sourceNode, targetNode);
-    const finalDecidedGap = {
+function calcMargin(gap: { horizontal: number, vertical: number }): { horizontal: number, vertical: number } {
+    const margin = {
         horizontal: gap.horizontal === 0 ? gap.vertical / 2 : gap.horizontal / 2,
         vertical: gap.vertical === 0 ? gap.horizontal / 2 : gap.vertical / 2
     }
 
-    if (!sourceNode.absoluteBoundingBox || !targetNode.absoluteBoundingBox) {
+    return margin;
+}
+
+function determineRoute(
+    direction: Direction,
+    start: SceneNode,
+    startConnectPoint: ConnectPointPosition,
+    end: SceneNode,
+    endConnectPoint: ConnectPointPosition,
+    offset: number,
+) {
+    const gap = calcNodeGap(start, end);
+    const margin = calcMargin(gap);
+
+    if (!start.absoluteBoundingBox || !end.absoluteBoundingBox) {
         throw new Error("Absolute bounding box is required to determine route.")
     }
 
-    console.log(sourceNode.absoluteBoundingBox, targetNode.absoluteBoundingBox)
+    console.log(start.absoluteBoundingBox, end.absoluteBoundingBox)
 
-    const sourceNodeConnectionData = calcNodeSegments(sourceNode.absoluteBoundingBox.x, sourceNode.absoluteBoundingBox.y, sourceNode.absoluteBoundingBox.width, sourceNode.absoluteBoundingBox.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
-    const targetNodeConnectionData = calcNodeSegments(targetNode.absoluteBoundingBox.x, targetNode.absoluteBoundingBox.y, targetNode.absoluteBoundingBox.width, targetNode.absoluteBoundingBox.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
-    const group = createSegmentConnectionGroup(direction, sourceNodeConnectionData, targetNodeConnectionData)
+    const startConnectionData = calcNodeSegments(start, margin, offset);
+    const endConnectionData = calcNodeSegments(end, margin, offset);
+    const group = createSegmentConnectionGroup(direction, startConnectionData, endConnectionData)
 
     let route: Coordinates[] = [];
 
     if (direction === "horizontal") {
-        if (sourceItemConnectPoint === RectSegmentType.TC) {
-            route = router.horizontal.routeFromTC(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectSegmentType.BC) {
-            route = router.horizontal.routeFromBC(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectSegmentType.ML) {
-            route = router.horizontal.routeFromML(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectSegmentType.MR) {
-            route = router.horizontal.routeFromMR(targetItemConnectPoint, group);
+        if (startConnectPoint === RectSegmentType.TC) {
+            route = router.horizontal.routeFromTC(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.BC) {
+            route = router.horizontal.routeFromBC(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.ML) {
+            route = router.horizontal.routeFromML(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.MR) {
+            route = router.horizontal.routeFromMR(endConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }
     } else {
-        if (sourceItemConnectPoint === RectSegmentType.TC) {
-            route = router.vertical.routeFromTC(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectSegmentType.BC) {
-            route = router.vertical.routeFromBC(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectSegmentType.ML) {
-            route = router.vertical.routeFromML(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectSegmentType.MR) {
-            route = router.vertical.routeFromMR(targetItemConnectPoint, group);
+        if (startConnectPoint === RectSegmentType.TC) {
+            route = router.vertical.routeFromTC(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.BC) {
+            route = router.vertical.routeFromBC(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.ML) {
+            route = router.vertical.routeFromML(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.MR) {
+            route = router.vertical.routeFromMR(endConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }
