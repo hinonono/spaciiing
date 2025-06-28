@@ -690,8 +690,7 @@ async function generateLabelFromObjectFillColor(
             label = utils.color.rgbToHex(
               rectColor.color.r,
               rectColor.color.g,
-              rectColor.color.b,
-              1
+              rectColor.color.b
             );
             break;
           case "RGB":
@@ -717,7 +716,7 @@ async function generateLabelFromObjectFillColor(
             }
             break;
           case "HEX_WITH_TRANSPARENCY":
-            label = utils.color.rgbToHex(
+            label = utils.color.rgbToHexWithTransparency(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b,

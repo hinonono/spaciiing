@@ -6,7 +6,6 @@ import { utils } from "../utils";
  * @param {number} r - Red component (0 to 1).
  * @param {number} g - Green component (0 to 1).
  * @param {number} b - Blue component (0 to 1).
- * @param {number} opacity - Opacity (0 to 1).
  * @param {boolean} [withHashTag=true] - Whether to prepend a '#' to the hex string.
  * @returns {string} Hexadecimal color string.
  */
@@ -14,52 +13,48 @@ export function rgbToHex(
     r: number,
     g: number,
     b: number,
-    opacity: number,
     withHashTag: boolean = true
 ): string {
-    // Clamp and convert from [0, 1] to [0, 255]
-    r = Math.round(Math.max(0, Math.min(1, r)) * 255);
-    g = Math.round(Math.max(0, Math.min(1, g)) * 255);
-    b = Math.round(Math.max(0, Math.min(1, b)) * 255);
-    const convertedOpacity = Math.round(Math.max(0, Math.min(1, opacity)) * 255);
+    // Ensure the RGB values are within the valid range
+    r = Math.round(r * 255);
+    g = Math.round(g * 255);
+    b = Math.round(b * 255);
 
+    // Convert each component to a 2-digit hexadecimal string
     const hexR = r.toString(16).padStart(2, "0");
     const hexG = g.toString(16).padStart(2, "0");
     const hexB = b.toString(16).padStart(2, "0");
-    const hexA = convertedOpacity.toString(16).padStart(2, "0");
-
-    let result = opacity === 1
-        ? `${hexR}${hexG}${hexB}`.toUpperCase()
-        : `${hexR}${hexG}${hexB}${hexA}`.toUpperCase();
 
     if (withHashTag) {
-        result = `#${result}`;
+        // Concatenate the hex components and prepend a '#'
+        return `#${hexR}${hexG}${hexB}`.toUpperCase();
+    } else {
+        // Concatenate the hex components and prepend a '#'
+        return `${hexR}${hexG}${hexB}`.toUpperCase();
     }
-
-    return result;
 }
 
-// export function rgbToHexWithTransparency(
-//     r: number,
-//     g: number,
-//     b: number,
-//     opacity: number
-// ): string {
-//     // Ensure the RGB values are within the valid range
-//     r = Math.round(r * 255);
-//     g = Math.round(g * 255);
-//     b = Math.round(b * 255);
-//     opacity = Math.round(opacity * 255);
+export function rgbToHexWithTransparency(
+    r: number,
+    g: number,
+    b: number,
+    opacity: number
+): string {
+    // Ensure the RGB values are within the valid range
+    r = Math.round(r * 255);
+    g = Math.round(g * 255);
+    b = Math.round(b * 255);
+    opacity = Math.round(opacity * 255);
 
-//     // Convert each component to a 2-digit hexadecimal string
-//     const hexR = r.toString(16).padStart(2, "0");
-//     const hexG = g.toString(16).padStart(2, "0");
-//     const hexB = b.toString(16).padStart(2, "0");
-//     const hexA = opacity.toString(16).padStart(2, "0");
+    // Convert each component to a 2-digit hexadecimal string
+    const hexR = r.toString(16).padStart(2, "0");
+    const hexG = g.toString(16).padStart(2, "0");
+    const hexB = b.toString(16).padStart(2, "0");
+    const hexA = opacity.toString(16).padStart(2, "0");
 
-//     // Concatenate the hex components and prepend a '#'
-//     return `#${hexR}${hexG}${hexB}${hexA}`;
-// }
+    // Concatenate the hex components and prepend a '#'
+    return `#${hexR}${hexG}${hexB}${hexA}`;
+}
 
 /**
  * Converts RGB values (0-1) to an RGB string.
