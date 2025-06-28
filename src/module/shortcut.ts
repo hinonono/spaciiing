@@ -148,7 +148,8 @@ async function spiltText(message: MessageShortcutSpiltText) {
   }
 
   await utils.editor.loadFontOnTextNode(node);
-  await figma.loadFontAsync({ family: "Inter", style: "Regular" })
+  await utils.editor.loadFont("Inter", ["Regular"]);
+  // await figma.loadFontAsync({ family: "Inter", style: "Regular" })
 
   const originalText = node.characters;
 

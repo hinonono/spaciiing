@@ -90,6 +90,15 @@ export async function loadFontOnTextNode(textNode: TextNode) {
     await figma.loadFontAsync(fontName);
 }
 
+export async function loadFont(family: string, styles: string[]) {
+    const fontsToLoad: FontName[] = styles.map((style) => ({
+        family,
+        style,
+    }));
+
+    await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+}
+
 /**
  * Figma API不認得BoundVariables但它自己又有傳，所以把它去掉
  * @param effect 

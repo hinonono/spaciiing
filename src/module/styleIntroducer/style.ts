@@ -16,8 +16,9 @@ export async function applyStyleIntroducer(
 
     const fontNameRegular = { family: "Inter", style: "Regular" };
     const fontNameSemi = { family: "Inter", style: "Semi Bold" };
-    const fontsToLoad = [fontNameRegular, fontNameSemi];
-    await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+    // const fontsToLoad = [fontNameRegular, fontNameSemi];
+    // await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+    await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
 
     const lr: CatalogueLocalizationResources = createCatalogueLocalizationResource(lang);
     const selectedStyleList = await getSelectedStyleList(scopes, styleMode);

@@ -28,7 +28,8 @@ export async function makeLorem(message: MessageLoremGenerator) {
 
   if (selection.length === 0) {
     // 使用者沒有選擇任何物件
-    await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+    // await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+    await utils.editor.loadFont("Inter", ["Regular"]);
     const textNode = utils.node.createTextNode(
       textContent,
       {

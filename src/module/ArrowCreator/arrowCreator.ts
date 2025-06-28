@@ -327,8 +327,9 @@ async function drawArrowAndAnnotation(
 }
 
 async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
-    await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-    await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
+    // await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+    // await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
+    await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
     const annotationNodeSize = {
         width: strokeStlye.strokeWeight * 30,
         height: strokeStlye.strokeWeight * 8,

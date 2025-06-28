@@ -49,11 +49,12 @@ export async function writeCatalogueDescBackToFigma(lang: string) {
         throw new Error("No description nodes found.");
     }
 
-    const fontsToLoad = [
-        { family: "Inter", style: "Regular" },
-        { family: "Inter", style: "Semi Bold" },
-    ];
-    await Promise.all(fontsToLoad.map(font => figma.loadFontAsync(font)));
+    // const fontsToLoad = [
+    //     { family: "Inter", style: "Regular" },
+    //     { family: "Inter", style: "Semi Bold" },
+    // ];
+    // await Promise.all(fontsToLoad.map(font => figma.loadFontAsync(font)));
+    await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
 
     let updatedCount = 0;
 

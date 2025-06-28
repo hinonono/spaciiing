@@ -952,11 +952,13 @@ async function generateTextStyleNode(collection: TypographyCollection) {
   const viewport = utils.editor.getCurrentViewport();
 
   // Load all necessary fonts
-  const fontsToLoad = [
-    { family: "Inter", style: "Regular" },
-    { family: "Inter", style: "Semi Bold" },
-  ];
-  await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+  // const fontsToLoad = [
+  //   { family: "Inter", style: "Regular" },
+  //   { family: "Inter", style: "Semi Bold" },
+  // ];
+  // await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+
+  await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
 
   const notificationText = `Change the typeface of below text layer, then click "Shortcut => Generate Text Style" from plugin.`;
   const notificationTextNode = utils.node.createTextNode(
