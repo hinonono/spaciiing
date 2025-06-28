@@ -705,7 +705,7 @@ async function pasteFontName(referenceObject: SceneNode) {
 
   for (const object of selection) {
     if (object.type === "TEXT") {
-      await utils.editor.ensureFontIsLoaded(object)
+      await utils.editor.loadFontOnTextNode(object)
 
       const fontName = referenceObject.fontName as FontName;
       await figma.loadFontAsync(fontName);
@@ -730,7 +730,7 @@ async function pasteFontSize(referenceObject: SceneNode) {
 
   for (const object of selection) {
     if (object.type === "TEXT") {
-      await utils.editor.ensureFontIsLoaded(object);
+      await utils.editor.loadFontOnTextNode(object);
       object.fontSize = referenceObject.fontSize;
     } else {
       figma.notify(`❌ Object of type ${object.type} is not a text layer.`);
@@ -751,7 +751,7 @@ async function pasteLineHeight(referenceObject: SceneNode) {
 
   for (const object of selection) {
     if (object.type === "TEXT") {
-      await utils.editor.ensureFontIsLoaded(object);
+      await utils.editor.loadFontOnTextNode(object);
       object.lineHeight = referenceObject.lineHeight;
     } else {
       figma.notify(`❌ Object of type ${object.type} is not a text layer.`);
@@ -772,7 +772,7 @@ async function pasteLetterSpacing(referenceObject: SceneNode) {
 
   for (const object of selection) {
     if (object.type === "TEXT") {
-      await utils.editor.ensureFontIsLoaded(object);
+      await utils.editor.loadFontOnTextNode(object);
       object.letterSpacing = referenceObject.letterSpacing;
     } else {
       figma.notify(`❌ Object of type ${object.type} is not a text layer.`);
@@ -793,7 +793,7 @@ async function pasteTextAlign(referenceObject: SceneNode) {
 
   for (const object of selection) {
     if (object.type === "TEXT") {
-      await utils.editor.ensureFontIsLoaded(object);
+      await utils.editor.loadFontOnTextNode(object);
       object.textAlignHorizontal = referenceObject.textAlignHorizontal;
       object.textAlignVertical = referenceObject.textAlignVertical;
     } else {

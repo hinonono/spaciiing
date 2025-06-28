@@ -6,8 +6,7 @@ import { utils } from "../utils";
 
 import * as CLUtil from "../catalogue/catalogueUtil";
 
-import * as SIStyle from "./style"
-import * as SIVariable from "./variable";
+import { styleIntroducer } from "./index";
 
 
 export function reception(message: MessageStyleIntroducer) {
@@ -49,8 +48,8 @@ function actualStageHandler(message: MessageStyleIntroducer) {
   const { form } = message
 
   if (form === "STYLE") {
-    SIStyle.applyStyleIntroducer(message);
+    styleIntroducer.style.applyStyleIntroducer(message);
   } else if (form === "VARIABLE") {
-    SIVariable.applyStyleIntroducerForVariable(message);
+    styleIntroducer.variable.applyStyleIntroducer(message);
   }
 }

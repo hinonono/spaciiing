@@ -85,7 +85,7 @@ export function sortSelectionBasedOnXAndY(direction: Direction, selection: Scene
     });
 }
 
-export async function ensureFontIsLoaded(textNode: TextNode) {
+export async function loadFontOnTextNode(textNode: TextNode) {
     const fontName = textNode.fontName as FontName;
     await figma.loadFontAsync(fontName);
 }

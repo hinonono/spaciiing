@@ -11,7 +11,7 @@ import * as typeChecking from "../typeChecking";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 import { createCatalogueLocalizationResource } from "../catalogue/catalogueLocalization";
 
-export async function applyStyleIntroducerForVariable(
+export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
 ) {
     const { styleSelection, styleMode, form, lang } = message;
