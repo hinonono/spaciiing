@@ -246,8 +246,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
                 appContext,
                 safeMargin,
                 {
-                  source: sourceItemConnectPointPosition,
-                  target: targetItemConnectPointPosition
+                  start: sourceItemConnectPointPosition,
+                  end: targetItemConnectPointPosition
                 },
                 stroke,
                 createAnnotationBox,

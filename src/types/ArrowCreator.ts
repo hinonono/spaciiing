@@ -22,8 +22,8 @@ export type StrokeMode = "freeform" | "style";
 
 
 export interface ConnectPointPositionPair {
-    source: ConnectPointPosition;
-    target: ConnectPointPosition;
+    start: ConnectPointPosition;
+    end: ConnectPointPosition;
 }
 
 
@@ -47,10 +47,16 @@ export interface SegmentConnectionData {
 }
 
 export interface SegmentConnectionGroup {
-    source: SegmentConnectionData;
-    target: SegmentConnectionData;
-    betweenItemTopCenter?: Coordinates
-    betweenItemBottomCenter?: Coordinates;
-    betweenItemMiddleLeft?: Coordinates;
-    betweenItemMiddleRight?: Coordinates;
+    start: SegmentConnectionData;
+    end: SegmentConnectionData;
+    betweenItem: {
+        [RectSegmentType.TC]?: Coordinates;
+        [RectSegmentType.BC]?:Coordinates;
+        [RectSegmentType.ML]?: Coordinates;
+        [RectSegmentType.MR]?:Coordinates;
+    };
+    // betweenItemTopCenter?: Coordinates;
+    // betweenItemBottomCenter?: Coordinates;
+    // betweenItemMiddleLeft?: Coordinates;
+    // betweenItemMiddleRight?: Coordinates;
 }

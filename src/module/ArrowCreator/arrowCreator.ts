@@ -28,9 +28,9 @@ export function reception(message: MessageArrowCreator) {
         const route = determineRoute(
             message.layoutDirection,
             sourceItem,
-            message.connectPointPositionPair.source,
+            message.connectPointPositionPair.start,
             targetItem,
-            message.connectPointPositionPair.target,
+            message.connectPointPositionPair.end,
             message.safeMargin,
         )
 
@@ -40,9 +40,9 @@ export function reception(message: MessageArrowCreator) {
             message.createAnnotationBox,
             message.layoutDirection,
             sourceItem.id,
-            message.connectPointPositionPair.source,
+            message.connectPointPositionPair.start,
             targetItem.id,
-            message.connectPointPositionPair.target,
+            message.connectPointPositionPair.end,
             message.safeMargin,
         )
     }
@@ -137,29 +137,49 @@ function createSegmentConnectionGroup(
 ): SegmentConnectionGroup {
     if (mode === "horizontal") {
         return {
-            source: source,
-            target: target,
-            betweenItemTopCenter: {
-                x: source.withMargin[RectSegmentType.TR].x,
-                y: Math.min(source.withMargin[RectSegmentType.TR].y, target.withMargin[RectSegmentType.TL].y)
+            start: source,
+            end: target,
+            betweenItem: {
+                topCenter: {
+                    x: source.withMargin[RectSegmentType.TR].x,
+                    y: Math.min(source.withMargin[RectSegmentType.TR].y, target.withMargin[RectSegmentType.TL].y)
+                },
+                bottomCenter: {
+                    x: source.withMargin[RectSegmentType.TR].x,
+                    y: Math.max(source.withMargin[RectSegmentType.BR].y, target.withMargin[RectSegmentType.BL].y)
+                }
             },
-            betweenItemBottomCenter: {
-                x: source.withMargin[RectSegmentType.TR].x,
-                y: Math.max(source.withMargin[RectSegmentType.BR].y, target.withMargin[RectSegmentType.BL].y)
-            }
+            // betweenItemTopCenter: {
+            //     x: source.withMargin[RectSegmentType.TR].x,
+            //     y: Math.min(source.withMargin[RectSegmentType.TR].y, target.withMargin[RectSegmentType.TL].y)
+            // },
+            // betweenItemBottomCenter: {
+            //     x: source.withMargin[RectSegmentType.TR].x,
+            //     y: Math.max(source.withMargin[RectSegmentType.BR].y, target.withMargin[RectSegmentType.BL].y)
+            // }
         }
     } else {
         return {
-            source: source,
-            target: target,
-            betweenItemMiddleLeft: {
-                x: Math.min(source.withMargin[RectSegmentType.BL].x, target.withMargin[RectSegmentType.TL].x),
-                y: source.withMargin[RectSegmentType.BL].y
-            },
-            betweenItemMiddleRight: {
-                x: Math.max(source.withMargin[RectSegmentType.BR].x, target.withMargin[RectSegmentType.TR].x),
-                y: source.withMargin[RectSegmentType.BL].y
-            },
+            start: source,
+            end: target,
+            betweenItem: {
+                middleLeft: {
+                    x: Math.min(source.withMargin[RectSegmentType.BL].x, target.withMargin[RectSegmentType.TL].x),
+                    y: source.withMargin[RectSegmentType.BL].y
+                },
+                middleRight: {
+                    x: Math.max(source.withMargin[RectSegmentType.BR].x, target.withMargin[RectSegmentType.TR].x),
+                    y: source.withMargin[RectSegmentType.BL].y
+                }
+            }
+            // betweenItemMiddleLeft: {
+            //     x: Math.min(source.withMargin[RectSegmentType.BL].x, target.withMargin[RectSegmentType.TL].x),
+            //     y: source.withMargin[RectSegmentType.BL].y
+            // },
+            // betweenItemMiddleRight: {
+            //     x: Math.max(source.withMargin[RectSegmentType.BR].x, target.withMargin[RectSegmentType.TR].x),
+            //     y: source.withMargin[RectSegmentType.BL].y
+            // },
         }
     }
 }
