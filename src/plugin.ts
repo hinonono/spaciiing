@@ -63,10 +63,12 @@ figma.ui.onmessage = (message: Message) => {
   switch (message.module) {
     case "Init":
       init.init();
+      incrementSavedClicks = 0;
       shouldIncrementTime = false;
       break;
     case "Localization":
       localization.reception(message as MessageLocalization);
+      incrementSavedClicks = 0;
       shouldIncrementTime = false;
       break;
     case "Spaciiing":
@@ -89,8 +91,11 @@ figma.ui.onmessage = (message: Message) => {
       }
       break;
     case "Shortcut":
-      shortcut.executeShortcut(message as MessageShortcut);
-      incrementSavedClicks = selectionLength * 8
+      const scMessage = message as MessageShortcut;
+      shortcut.executeShortcut(scMessage);
+      if (scMessage.phase !== "Init") {
+        incrementSavedClicks = selectionLength * 8
+      }
       break;
     case "Renamer":
       renamer.renameSelectedObjects(message as MessageRenamer);
@@ -140,6 +145,14 @@ figma.ui.onmessage = (message: Message) => {
       if (siMessage.styleSelection) {
         incrementSavedClicks = siMessage.styleSelection.scopes.length * 18 + 8
       }
+      break;
+    case "General":
+      shouldIncrementTime = false;
+      incrementSavedClicks = 0;
+      break;
+    case "PluginSetting":
+      shouldIncrementTime = false;
+      incrementSavedClicks = 0;
       break;
     default:
       shouldIncrementTime = false;
