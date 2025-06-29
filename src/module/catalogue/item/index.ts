@@ -1,5 +1,5 @@
-import * as CLExplanationInfo from "./catalogueExplanationInfo";
-import * as CLExplanationPreview from "./catalogueExplanationPreview";
+import * as CLExplanationInfo from "./info";
+import * as CLExplanationPreview from "./preview";
 import * as Explainer from "./explainer";
 import * as Main from "./catalogueExplanationItem";
 
