@@ -28,7 +28,7 @@ export function createExplanationWrapper(
     // isItemLinkEnabled: boolean = false,
     modes?: string[]
 ) {
-    const dateString = createDateString(lr, true);
+    const dateString = createDateString(lr);
 
     const dateNode = utils.node.createTextNode(dateString, fontName, semanticTokens.fontSize.xsmall, [{ type: "SOLID", color: semanticTokens.text.tertiary }]);
     dateNode.textAlignHorizontal = "RIGHT";
@@ -74,15 +74,18 @@ export function createExplanationWrapper(
     return wrapperFrame;
 }
 
-function createDateString(lr: CatalogueLocalizationResources, isItemLinkEnabled: boolean): string {
+function createDateString(
+    lr: CatalogueLocalizationResources,
+    // isItemLinkEnabled: boolean
+): string {
     const localeFormat = lr.lang === "enUS" ? "western" : "eastern";
     const formattedDate = utils.data.getFormattedDate("fullDateTime", localeFormat);
 
     let text = lr.module["createdAt"].replace("$TIME$", formattedDate);
 
-    if (isItemLinkEnabled) {
-        text += lr.module["crossCatalogueReferenceEnabled"];
-    }
+    // if (isItemLinkEnabled) {
+    //     text += lr.module["crossCatalogueReferenceEnabled"];
+    // }
 
     return text;
 }
