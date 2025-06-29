@@ -32,6 +32,7 @@ import {
 import { SupportedLangCode } from "../types/Localization";
 import * as info from "../info.json";
 import { addChildToRow, addRecordToLastTitle, addTitleRow, deleteChild, deleteRow, duplicateContentRow, duplicateTitleRow, onDragEnd, toggleAll } from "../module-frontend/virtualProfileUI";
+import { ButtonIcon24 } from "../components";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -407,6 +408,29 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
   };
 
+  const btnColor = "var(--figma-color-bg-brand)";
+  const btnColorDisabled = "var(--figma-color-text-disabled)"
+
+  const toolBtns: { disabled?: boolean, onClick: (e: React.MouseEvent<HTMLButtonElement>) => void, svg: React.ReactNode }[] = [
+    {
+      disabled: runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? true : false,
+      onClick: saveVirtualProfile,
+      svg: <SvgSave color={runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? btnColorDisabled : btnColor} />
+    },
+    {
+      onClick: (e) => handleAdditionalContextMenu(e),
+      svg: <SvgAddFromPreset color={btnColor} />
+    },
+    {
+      onClick: () => { addTitleRow(appContext, false) },
+      svg: <SvgAddFolder color={btnColor} />,
+    },
+    {
+      onClick: () => { addRecordToLastTitle(appContext, false) },
+      svg: <SvgAdd color={btnColor} />
+    }
+  ]
+
   return (
     <div ref={containerRef} className="position-relative">
       {renderContextMenu()}
@@ -414,61 +438,21 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       <DragDropContext onDragEnd={(result) => { onDragEnd(result, appContext) }}>
         <div className="flex flex-justify-space-between virtual-profile-toolbar">
           <div>
-            <button
-              className="button-reset margin-0 width-auto"
+            <ButtonIcon24
               onClick={() => { toggleAll(appContext, setIsFolderCollapsed) }}
-            >
-              <div className="icon-24 icon-hover">
-                {!isFolderCollapsed ? (
-                  <SvgExpand color="var(--figma-color-bg-brand)" />
-                ) : (
-                  <SvgCollapse color="var(--figma-color-bg-brand)" />
-                )}
-              </div>
-            </button>
+              svg={!isFolderCollapsed ? (<SvgExpand color={btnColor} />) : (<SvgCollapse color={btnColor} />)}
+            />
           </div>
           <div className="flex flex-row">
-            <button
-              className="button-reset margin-0 width-auto"
-              onClick={saveVirtualProfile}
-              disabled={
-                runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? true : false
-              }
-            >
-              <div className="icon-24 icon-hover">
-                <SvgSave
-                  color={
-                    runtimeSyncedResources.virtualProfiles == previousVirtualProfile
-                      ? `var(--figma-color-text-disabled)`
-                      : `var(--figma-color-bg-brand)`
-                  }
+            {
+              toolBtns.map(btn =>
+                <ButtonIcon24
+                  disabled={btn.disabled}
+                  onClick={btn.onClick}
+                  svg={btn.svg}
                 />
-              </div>
-            </button>
-            <button
-              className="button-reset margin-0 width-auto"
-              onClick={(e) => handleAdditionalContextMenu(e)}
-            >
-              <div className="icon-24 icon-hover">
-                <SvgAddFromPreset color="var(--figma-color-bg-brand)" />
-              </div>
-            </button>
-            <button
-              className="button-reset margin-0 width-auto"
-              onClick={() => { addTitleRow(appContext, false) }}
-            >
-              <div className="icon-24 icon-hover">
-                <SvgAddFolder color="var(--figma-color-bg-brand)" />
-              </div>
-            </button>
-            <button
-              className="button-reset margin-0 width-auto"
-              onClick={() => { addRecordToLastTitle(appContext, false) }}
-            >
-              <div className="icon-24 icon-hover">
-                <SvgAdd color="var(--figma-color-bg-brand)" />
-              </div>
-            </button>
+              )
+            }
           </div>
         </div>
         <Droppable droppableId="all-rows" type="row">
@@ -597,13 +581,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                                         }
                                       />
                                     </div>
-                                    <div
-                                      {...provided.dragHandleProps}
-                                      className="dragHandle"
-                                    >
-                                      <div className="icon-16">
-                                        <SvgDragHandle color="var(--figma-color-text-secondary)" />
-                                      </div>
+                                    <div {...provided.dragHandleProps} className="dragHandle"     >
+                                      <div className="icon-16"><SvgDragHandle color={"var(--figma-color-text-secondary)"} /> </div>
                                     </div>
                                   </div>
                                 )}
