@@ -3,6 +3,7 @@ import { Module } from "../../types/Module";
 import loremText from "../../assets/loremText.json";
 import { ExternalMessageUpdateEditorPreference } from "../../types/Messages/MessageEditorPreference";
 import { utils } from "../utils";
+import { defaultEp } from "../../assets/const/editorPreference";
 
 /**
  * Saves the editor preference to the current page's plugin data.
@@ -14,31 +15,50 @@ export function saveEditorPreference(
     editorPreference: EditorPreference,
     source?: Module
 ) {
-    figma.root.setPluginData(
-        "editor-preference",
-        JSON.stringify(editorPreference)
-    );
-    console.log(
-        `😍使用者偏好已儲存，呼叫自${source !== undefined ? String(source) : "未知"
-        }`, editorPreference
-    );
+    const dataKey = "editor-preferences";
+
+    if (!figma.currentUser?.id) {
+        throw new Error("User must be logged in to save preferences.");
+    }
+
+    const userId = figma.currentUser.id;
+    const rawData = figma.root.getPluginData(dataKey);
+
+    let decoded: EditorPreference[] = [];
+    if (rawData) {
+        try {
+            decoded = JSON.parse(rawData) as EditorPreference[];
+            if (!Array.isArray(decoded)) {
+                console.warn("Editor preferences data is not an array. Resetting.");
+                decoded = [];
+            }
+        } catch (e) {
+            console.error("Failed to parse editor preferences. Resetting.", e);
+            decoded = [];
+        }
+    }
+
+    const existedIndex = decoded.findIndex((item) => item.userId === userId);
+
+    if (existedIndex === -1) {
+        decoded.push(editorPreference);
+    } else {
+        decoded[existedIndex] = editorPreference;
+    }
+
+    figma.root.setPluginData(dataKey, JSON.stringify(decoded));
 }
 
 function createEditorPreference(): EditorPreference {
+    if (!figma.currentUser?.id) {
+        throw new Error("In order to use this plugin, please log in.")
+    }
+
+    const userId = figma.currentUser.id;
+
     const createdEditorPreference: EditorPreference = {
-        magicObjects: {
-            noteId: "",
-            tagId: "",
-            sectionId: "",
-        },
-        lorem: loremText.en,
-        iconFrame: {
-            innerFrame: 20,
-            outerFrame: 24,
-        },
-        strokeStyles: [],
-        savedClicks: 0,
-        savedSecs: 0
+        ...defaultEp,
+        userId: userId
     };
 
     return createdEditorPreference;
@@ -50,29 +70,41 @@ function createEditorPreference(): EditorPreference {
  * @returns {EditorPreference} The decoded editor preference if it exists, otherwise a new empty EditorPreference object.
  */
 export function readEditorPreference(): EditorPreference {
-    const editorPreference = figma.root.getPluginData("editor-preference");
+    const dataKey = "editor-preferences";
 
-    if (!editorPreference) {
-        // 當之前未建立過Preference物件時，新建一個
-        const createdEditorPreference: EditorPreference = createEditorPreference();
+    if (!figma.currentUser?.id) {
+        throw new Error("User must be logged in to load preferences.");
+    }
 
-        saveEditorPreference(createdEditorPreference);
+    const userId = figma.currentUser.id;
+    const rawData = figma.root.getPluginData(dataKey);
 
-        return createdEditorPreference;
+    let decoded: EditorPreference[] = [];
+    if (rawData) {
+        try {
+            decoded = JSON.parse(rawData) as EditorPreference[];
+            if (!Array.isArray(decoded)) {
+                console.warn("Editor preferences is not an array. Resetting.");
+                decoded = [];
+            }
+        } catch (error) {
+            console.error("Error parsing editor preferences. Resetting.", error);
+            decoded = [];
+        }
+    }
+
+    const preference = decoded.find((item) => item.userId === userId);
+
+    if (!preference) {
+        const newPref = createEditorPreference();
+        saveEditorPreference(newPref);
+        return newPref;
     } else {
-        // 當之前已建立過Preference物件時，進行解碼
-        const decodedEditorPreference = JSON.parse(
-            editorPreference
-        ) as EditorPreference;
-
-        // Merge with default preferences to ensure all properties are present
-        const defaultEditorPreference = createEditorPreference();
-        const mergedEditorPreference = {
-            ...defaultEditorPreference,
-            ...decodedEditorPreference,
+        const defaultPref = createEditorPreference();
+        return {
+            ...defaultPref,
+            ...preference,
         };
-
-        return mergedEditorPreference;
     }
 }
 

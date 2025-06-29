@@ -11,6 +11,7 @@ import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
 import { EditorType } from "./types/EditorType";
 import * as info from "./info.json";
 import { ComponentPropertiesFrontEnd, ReferenceObject } from "./types/PropertClipboard";
+import { defaultEp } from "./assets/const/editorPreference";
 
 // #region Definition
 export interface AppContextType {
@@ -101,21 +102,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [isVerifying, setIsVerifying] = useState(true);
 
   // V20：Editor Preference整合
-  const [editorPreference, setEditorPreference] = useState<EditorPreference>({
-    magicObjects: {
-      noteId: "",
-      tagId: "",
-      sectionId: "",
-    },
-    lorem: "",
-    iconFrame: {
-      innerFrame: 0,
-      outerFrame: 0,
-    },
-    strokeStyles: [],
-    savedClicks: 0,
-    savedSecs: 0,
-  });
+  const [editorPreference, setEditorPreference] = useState<EditorPreference>(defaultEp);
 
   // 判斷用戶在哪個模式下開啟了plugin
   const [editorType, setEditorType] = useState<EditorType>("figma");
