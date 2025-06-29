@@ -1,9 +1,7 @@
 import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
-import * as CLExplanationItem from "../catalogue/catalogueExplanationItem"
-import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
-import { createCatalogueLocalizationResource } from "../catalogue/catalogueLocalization";
 import { utils } from "../utils";
+import { CatalogueKit } from "../catalogue";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
@@ -16,17 +14,15 @@ export async function applyStyleIntroducer(
 
     const fontNameRegular = { family: "Inter", style: "Regular" };
     const fontNameSemi = { family: "Inter", style: "Semi Bold" };
-    // const fontsToLoad = [fontNameRegular, fontNameSemi];
-    // await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
     await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
 
-    const lr: CatalogueLocalizationResources = createCatalogueLocalizationResource(lang);
+    const lr: CatalogueLocalizationResources = CatalogueKit.localizer.createLocalizationResource(lang);
     const selectedStyleList = await getSelectedStyleList(scopes, styleMode);
     const explanationItems = createExplanationItemsHandler(lr, form, styleMode, fontNameRegular, selectedStyleList)
 
     const wrapperTitle = title == "" ? lr.term["style"] : title
     const titleSecondary = lr.module["moduleCatalogue"];
-    const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
+    const explanationWrapper = CatalogueKit.wrapper.create(
         lr,
         form,
         explanationItems,
@@ -34,7 +30,7 @@ export async function applyStyleIntroducer(
         titleSecondary,
         fontNameSemi
     )
-    CLExplanationWrapper.setUpWrapper(explanationWrapper, viewport);
+    CatalogueKit.wrapper.setup(explanationWrapper, viewport);
 
     figma.currentPage.appendChild(explanationWrapper);
     figma.currentPage.selection = [explanationWrapper];
@@ -121,7 +117,7 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
         const previewResources = getPreviewResources(member);
         const aliasResources: AliasResources = {};
 
-        const explanationItem = CLExplanationItem.createExplanationItem(
+        const explanationItem = CatalogueKit.explanationItemKit.main.createExplanationItem(
             form,
             styleMode,
             id,

@@ -18,7 +18,7 @@ import { utils } from "../utils";
  * @param modes - String array for mode names
  * @returns 
  */
-export function createExplanationWrapper(
+export function create(
     lr: CatalogueLocalizationResources,
     form: StyleForm,
     items: FrameNode[],
@@ -129,7 +129,7 @@ function determineFrameWidth(modes?: string[]): number {
     }
 }
 
-export function setUpWrapper(wrapper: FrameNode, viewport: Vector) {
+export function setup(wrapper: FrameNode, viewport: Vector) {
     wrapper.fills = [
         {
             type: "SOLID",

@@ -1,3 +1,4 @@
+import { CatalogueKit } from './catalogue';
 
 import * as spaciiing from "./spaciiing";
 import * as propertyClipboard from "./propertyClipboard";
@@ -12,7 +13,6 @@ import {
   MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
-import { writeCatalogueDescBackToFigma } from "./catalogue/catalogueItemLink";
 import { updateArrowPosition } from "./arrowCreator/arrowCreator";
 import { Direction } from "../types/General";
 import { utils } from "./utils";
@@ -87,7 +87,7 @@ export function executeShortcut(message: MessageShortcut) {
         break;
       case "updateCatalogueDescBackToFigma":
         if (!message.lang) { throw new Error("Lang is required to update catalogue description back to figma.") }
-        writeCatalogueDescBackToFigma(message.lang);
+        CatalogueKit.linker.writeCatalogueDescBackToFigma(message.lang);
         break;
       case "numbering":
         numbering(message as MessageShortcutNumbering);

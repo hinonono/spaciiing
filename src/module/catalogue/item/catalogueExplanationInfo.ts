@@ -1,8 +1,9 @@
-import { AliasResources, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
-import { createEffectPropertiesWrappers, createStyleColorHexNode, createStyleGradientNode, createTextPropertiesWrappers, createVariableColorHexNodes, createVariableNumberNodes, createVariableStringNodes } from "../explanation";
-import { semanticTokens } from "../tokens";
-import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
-import { utils } from "../utils";
+import { AliasResources, PreviewResources, StyleForm, StyleMode } from "../../../types/Messages/MessageStyleIntroducer";
+import { semanticTokens } from "../../tokens";
+import { CatalogueLocalizationResources } from "../../../types/CatalogueLocalization";
+import { utils } from "../../utils";
+
+import { CatalogueKit } from "../index";
 
 export function pushInfoAreaAdditionalContent(
     form: StyleForm,
@@ -133,7 +134,7 @@ export function createPropertiesForColor(
 
     if (form === "STYLE" && colors.length == 1) {
         if (!lr) { throw new Error("Localization resource is required for STYLE type COLOR.") }
-        const colorHexNode = createStyleColorHexNode(
+        const colorHexNode = CatalogueKit.explanationItemKit.explainer.createStyleColorHexNode(
             lr,
             colors,
             fontName
@@ -144,7 +145,7 @@ export function createPropertiesForColor(
         if (!aliasNames) { throw new Error("Alias names are required for variable type."); }
         if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
 
-        const colorHexNodes = createVariableColorHexNodes(colors, fontName, aliasNames, aliasVariableIds, variableModes);
+        const colorHexNodes = CatalogueKit.explanationItemKit.explainer.createVariableColorHexNodes(colors, fontName, aliasNames, aliasVariableIds, variableModes);
         return [...colorHexNodes]
     }
 }
@@ -161,7 +162,7 @@ export function createPropertiesForGradient(
 
     if (form === "STYLE") {
         if (!lr) { throw new Error("Localization resource is require for STYLE type GRADIENT.") }
-        const gradientNodes = createStyleGradientNode(
+        const gradientNodes = CatalogueKit.explanationItemKit.explainer.createStyleGradientNode(
             gradientType,
             gradientTransform,
             gradientStops,
@@ -190,7 +191,7 @@ export function createPropertiesForNumber(
     if (!aliasNames) { throw new Error("Alias names are required for variable type."); }
     if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
 
-    const numberNodes = createVariableNumberNodes(numbers, fontName, aliasNames, aliasVariableIds, variableModes);
+    const numberNodes = CatalogueKit.explanationItemKit.explainer.createVariableNumberNodes(numbers, fontName, aliasNames, aliasVariableIds, variableModes);
     return [...numberNodes]
 }
 
@@ -202,7 +203,7 @@ export function createPropertiesForText(
 ): SceneNode[] {
     if (form === "VARIABLE") { throw new Error("Text style is not supported on VARIRABLE type.") }
 
-    const textPropertiesWrappers = createTextPropertiesWrappers(lr, textStyle, fontName);
+    const textPropertiesWrappers = CatalogueKit.explanationItemKit.explainer.createTextPropertiesWrappers(lr, textStyle, fontName);
     return textPropertiesWrappers;
 }
 
@@ -214,7 +215,7 @@ export function createPropertiesForEffect(
 ): SceneNode[] {
     if (form === "VARIABLE") { throw new Error("Text style is not supported on VARIRABLE type.") }
 
-    const effectWrappers = createEffectPropertiesWrappers(lr, effects, fontName);
+    const effectWrappers = CatalogueKit.explanationItemKit.explainer.createEffectPropertiesWrappers(lr, effects, fontName);
     return effectWrappers;
 }
 
@@ -232,6 +233,6 @@ export function createPropertiesForString(
     if (!aliasNames) { throw new Error("Alias names are required for variable type."); }
     if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
 
-    const stringNodes = createVariableStringNodes(strings, fontName, aliasNames, aliasVariableIds, variableModes);
+    const stringNodes = CatalogueKit.explanationItemKit.explainer.createVariableStringNodes(strings, fontName, aliasNames, aliasVariableIds, variableModes);
     return [...stringNodes]
 }

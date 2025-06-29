@@ -40,7 +40,7 @@ function getCatalogueLocalization(lang: string, file: "module" | "term"): { [key
     }
 }
 
-export function createCatalogueLocalizationResource(lang: string): CatalogueLocalizationResources {
+export function createLocalizationResource(lang: string): CatalogueLocalizationResources {
     return {
         lang: lang,
         term: getCatalogueLocalization(lang, "term"),

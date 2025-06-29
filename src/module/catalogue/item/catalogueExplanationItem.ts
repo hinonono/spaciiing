@@ -1,15 +1,14 @@
 // 2025-04-09
 // V25: 重構原先 explanation.ts 裡頭已經混亂得不得了的func
 
-import { AliasResources, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
-import * as STS from "../styledTextSegments";
-import { semanticTokens } from "../tokens";
-import { CatalogueItemDescriptionSchema } from "../../types/CatalogueItemShema";
-import * as CLExplanationInfo from "./catalogueExplanationInfo"
-import * as CLExplanationPreview from "./catalogueExplanationPreview"
-import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
+import { AliasResources, PreviewResources, StyleForm, StyleMode } from "../../../types/Messages/MessageStyleIntroducer";
+import * as STS from "../../styledTextSegments";
+import { semanticTokens } from "../../tokens";
+import { CatalogueItemDescriptionSchema } from "../../../types/CatalogueItemShema";
+import { CatalogueLocalizationResources } from "../../../types/CatalogueLocalization";
 
-import { utils } from "../utils";
+import { utils } from "../../utils";
+import { CatalogueKit } from "..";
 
 
 /**
@@ -42,11 +41,11 @@ export function createExplanationItem(
 
     // 建立右側資訊區的內容
     const titleWrapperContents: SceneNode[] = [titleNode];
-    CLExplanationInfo.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, titleWrapperContents, lr)
-    const explanationTextsWrapperNode = CLExplanationInfo.setUpInfoWrapperLayout(styleMode, titleWrapperContents, titleNode, descNode)
+    CatalogueKit.explanationItemKit.info.pushInfoAreaAdditionalContent(form, styleMode, fontName, previewResouces, aliasResources, titleWrapperContents, lr)
+    const explanationTextsWrapperNode = CatalogueKit.explanationItemKit.info.setUpInfoWrapperLayout(styleMode, titleWrapperContents, titleNode, descNode)
 
     // 建立左側預覽區的內容
-    const preview = CLExplanationPreview.createPreviewHandler(form, styleMode, fontName, previewResouces);
+    const preview = CatalogueKit.explanationItemKit.preview.createPreviewHandler(form, styleMode, fontName, previewResouces);
     const array = preview === null ? [explanationTextsWrapperNode] : [preview, explanationTextsWrapperNode]
 
     const result = utils.node.createAutolayoutFrame(

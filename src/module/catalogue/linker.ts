@@ -1,25 +1,8 @@
+import { CatalogueKit } from './index';
 import { CatalogueItemDescriptionSchema } from "../../types/CatalogueItemShema";
-import * as CLUtil from "./catalogueUtil";
 import * as styledTextSegments from "../styledTextSegments";
 import { semanticTokens } from "../tokens";
-import { createCatalogueLocalizationResource } from "./catalogueLocalization";
 import { utils } from "../utils";
-
-// 檢查是否啟用cataloge item link功能
-// 啟用的話，當產生型錄物件時，可以透過alias物件來連結回參照的物件那裡
-// export function checkCatalogueItemLinkFeatureAvailability(): { availability: boolean, url: string | null } {
-//     //是否啟用cataloge item link功能
-//     // const editorPreference = utils.data.readEditorPreference();
-//     const url = utils.data.readCrossCatalogueReferenceURL();
-//     console.log("cross", url);
-
-
-//     if (url !== "") {
-//         return { availability: true, url: url };
-//     } else {
-//         return { availability: false, url: null };
-//     }
-// }
 
 // 將型錄的描述寫回Figma的原生欄位
 export async function writeCatalogueDescBackToFigma(lang: string) {
@@ -52,11 +35,6 @@ export async function writeCatalogueDescBackToFigma(lang: string) {
         throw new Error("No description nodes found.");
     }
 
-    // const fontsToLoad = [
-    //     { family: "Inter", style: "Regular" },
-    //     { family: "Inter", style: "Semi Bold" },
-    // ];
-    // await Promise.all(fontsToLoad.map(font => figma.loadFontAsync(font)));
     await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
 
     let updatedCount = 0;
@@ -69,7 +47,7 @@ export async function writeCatalogueDescBackToFigma(lang: string) {
         const decodedCatalogueItemSchema = JSON.parse(catalogueItemSchema) as CatalogueItemDescriptionSchema;
 
         if (decodedCatalogueItemSchema.format === "STYLE") {
-            const matchingStyle = await CLUtil.findStyleById(decodedCatalogueItemSchema.id);
+            const matchingStyle = await CatalogueKit.util.findStyleById(decodedCatalogueItemSchema.id);
 
             if (!matchingStyle) {
                 figma.notify(`❌ Style with ID ${decodedCatalogueItemSchema.id} not found.`);
@@ -84,7 +62,7 @@ export async function writeCatalogueDescBackToFigma(lang: string) {
 
             updatedCount++;
         } else if (decodedCatalogueItemSchema.format === "VARIABLE") {
-            const matchingVariable = await CLUtil.findVariableById(decodedCatalogueItemSchema.id);
+            const matchingVariable = await CatalogueKit.util.findVariableById(decodedCatalogueItemSchema.id);
 
             if (!matchingVariable) {
                 figma.notify(`❌ Variable with ID ${decodedCatalogueItemSchema.id} not found.`);
@@ -124,7 +102,7 @@ export async function writeCatalogueDescBackToFigma(lang: string) {
 }
 
 function createUpdatedString(lang: string) {
-    const lr = createCatalogueLocalizationResource(lang);
+    const lr = CatalogueKit.localizer.createLocalizationResource(lang);
     const format = lr.lang === "enUS" ? "western" : "eastern"
 
     return lr.module["descriptionUpdatedBack"].replace("$TIME", utils.data.getFormattedDate("fullDateTime", format));

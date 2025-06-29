@@ -2,10 +2,8 @@ import {
   ExternalMessageUpdatePaintStyleList,
   MessageStyleIntroducer,
 } from "../../types/Messages/MessageStyleIntroducer";
+import { CatalogueKit } from "../catalogue";
 import { utils } from "../utils";
-
-import * as CLUtil from "../catalogue/catalogueUtil";
-
 import { styleIntroducer } from "./index";
 
 
@@ -23,7 +21,7 @@ async function initStageHandler(message: MessageStyleIntroducer) {
   const isStyleForm = form === "STYLE";
   const isVariableForm = form === "VARIABLE";
 
-  const validateMode = isStyleForm ? CLUtil.isStyleModeForFigmaStyle : CLUtil.isStyleModeForFigmaVariable;
+  const validateMode = isStyleForm ? CatalogueKit.util.isStyleModeForFigmaStyle : CatalogueKit.util.isStyleModeForFigmaVariable;
 
   if (!validateMode(styleMode)) {
     throw new Error(
@@ -31,7 +29,7 @@ async function initStageHandler(message: MessageStyleIntroducer) {
     );
   }
 
-  const getList = isStyleForm ? CLUtil.getStyleList : CLUtil.getVariableList;
+  const getList = isStyleForm ? CatalogueKit.util.getStyleList : CatalogueKit.util.getVariableList;
   const styleList = await getList(styleMode as any); // TS needs a hint here
 
   const externalMessage: ExternalMessageUpdatePaintStyleList = {

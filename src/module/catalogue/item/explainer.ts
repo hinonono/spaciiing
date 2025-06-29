@@ -1,9 +1,9 @@
-import { semanticTokens } from "./tokens";
-import * as styledTextSegments from "./styledTextSegments";
-import { SinglePropertyString } from "../types/SinglePropertyString";
-import { CatalogueLocalizationResources } from "../types/CatalogueLocalization";
+import { semanticTokens } from "../../tokens";
+import * as styledTextSegments from "../../styledTextSegments";
+import { SinglePropertyString } from "../../../types/SinglePropertyString";
+import { CatalogueLocalizationResources } from "../../../types/CatalogueLocalization";
 
-import { utils } from "./utils";
+import { utils } from "../../utils";
 
 
 /**

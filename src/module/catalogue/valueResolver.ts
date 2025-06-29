@@ -40,29 +40,29 @@ async function resolveToActualValue<T>(
     }
 }
 
-export async function resolveToActualRgbaValue(value: any): Promise<RGBA | null> {
+export async function resolveRGBA(value: any): Promise<RGBA | null> {
     return resolveToActualValue<RGBA>(
         value,
         (v) => typeChecking.isRGBType(v) || typeChecking.isRGBAType(v),
         (v) => typeChecking.isRGBType(v) ? { ...v, a: 1 } : v,
-        resolveToActualRgbaValue
+        resolveRGBA
     );
 }
 
-export async function resolveToActualNumberValue(value: any): Promise<number | null> {
+export async function resolveNum(value: any): Promise<number | null> {
     return resolveToActualValue<number>(
         value,
         typeChecking.isFloatType,
         (v) => v,
-        resolveToActualNumberValue
+        resolveNum
     );
 }
 
-export async function resolveToActualStringValue(value: any): Promise<string | null> {
+export async function resolveString(value: any): Promise<string | null> {
     return resolveToActualValue<string>(
         value,
         typeChecking.isStringType,
         (v) => v,
-        resolveToActualStringValue
+        resolveString
     );
 }
