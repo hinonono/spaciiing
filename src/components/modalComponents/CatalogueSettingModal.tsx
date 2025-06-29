@@ -85,13 +85,13 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
           {t("module:crossCatalogueIndexDesc")}
         </span>
         <div className="mt-xxsmall">
-          <textarea
+          {/* <textarea
             className="textarea"
             rows={5}
             value={runtimeSyncedResources.exampleFileUrl}
             onChange={handleFileUrlChange}
             placeholder={t("term:text")}
-          />
+          /> */}
         </div>
       </div>
 

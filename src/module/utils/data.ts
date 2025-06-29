@@ -15,7 +15,7 @@ export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSy
             figma.root.setPluginData(utils.dataKeys.ARROW_STYLES, JSON.stringify(resource.strokeStyles));
             break;
         case "catalogueReferenceFileURL":
-            figma.root.setPluginData(utils.dataKeys.CROSS_CATALOGUE_REFERENCE_URL, JSON.stringify(resource.exampleFileUrl));
+            // figma.root.setPluginData(utils.dataKeys.CROSS_CATALOGUE_REFERENCE_URL, JSON.stringify(resource.exampleFileUrl));
             break;
         default:
             break;
@@ -24,11 +24,11 @@ export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSy
 
 export function compileSyncedResources(): RuntimeSyncedResources {
     const strokeStyles = readStrokeStyles();
-    const crossCatalogueReferenceURL = readCrossCatalogueReferenceURL();
+    // const crossCatalogueReferenceURL = readCrossCatalogueReferenceURL();
 
     return {
         strokeStyles: strokeStyles,
-        exampleFileUrl: crossCatalogueReferenceURL,
+        // exampleFileUrl: crossCatalogueReferenceURL,
     }
 }
 
@@ -66,15 +66,15 @@ function readStrokeStyles(): CYStrokeStyle[] {
     return decodedStrokeStyles;
 }
 
-export function readCrossCatalogueReferenceURL(): string {
-    const rawURL = figma.root.getPluginData(utils.dataKeys.CROSS_CATALOGUE_REFERENCE_URL);
+// export function readCrossCatalogueReferenceURL(): string {
+//     const rawURL = figma.root.getPluginData(utils.dataKeys.CROSS_CATALOGUE_REFERENCE_URL);
 
-    if (rawURL) {
-        return rawURL;
-    } else {
-        return "";
-    }
-}
+//     if (rawURL) {
+//         return rawURL;
+//     } else {
+//         return "";
+//     }
+// }
 
 /**
  * Saves the editor preference to the current page's plugin data.

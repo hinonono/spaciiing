@@ -8,7 +8,6 @@ import { NestedStructure, StyleSelection } from "../types/General";
 import { applyStyleIntroducer, buildNestedStructure, reInitStyleIntroducer } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
 import SegmentedControl from "../components/SegmentedControl";
-import { CatalogueSettingModal } from "../components/modalComponents";
 
 interface StyleIntroducerProps { }
 
@@ -23,9 +22,9 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 型錄功能彈窗
-  const [showCatalogueModal, setShowCatalogueModal] = useState(false);
-  const handleOpenCatalogueModal = () => setShowCatalogueModal(true);
-  const handleCloseCatalogueModal = () => setShowCatalogueModal(false);
+  // const [showCatalogueModal, setShowCatalogueModal] = useState(false);
+  // const handleOpenCatalogueModal = () => setShowCatalogueModal(true);
+  // const handleCloseCatalogueModal = () => setShowCatalogueModal(false);
 
   // 形式：樣式、變數
   const [form, setForm] = useState<StyleForm>("STYLE");
@@ -111,25 +110,15 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             <p>{t("module:moduleCatalogueDesc")}</p>
           </div>
         </Modal>
-        <CatalogueSettingModal
+        {/* <CatalogueSettingModal
           show={showCatalogueModal}
           handleClose={handleCloseCatalogueModal}
-        />
+        /> */}
       </div>
       <TitleBar
         title={t("module:moduleCatalogue")}
         onClick={handleOpenExplanationModal}
         isProFeature={true}
-        rightItem={
-          <FigmaButton
-            title={t("module:setting")}
-            onClick={handleOpenCatalogueModal}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="grain"
-            hasMargin={false}
-          />
-        }
       />
       <div className="content">
         <div className="mt-xxsmall">

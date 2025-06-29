@@ -7,19 +7,19 @@ import { utils } from "../utils";
 
 // 檢查是否啟用cataloge item link功能
 // 啟用的話，當產生型錄物件時，可以透過alias物件來連結回參照的物件那裡
-export function checkCatalogueItemLinkFeatureAvailability(): { availability: boolean, url: string | null } {
-    //是否啟用cataloge item link功能
-    // const editorPreference = utils.data.readEditorPreference();
-    const url = utils.data.readCrossCatalogueReferenceURL();
-    console.log("cross", url);
+// export function checkCatalogueItemLinkFeatureAvailability(): { availability: boolean, url: string | null } {
+//     //是否啟用cataloge item link功能
+//     // const editorPreference = utils.data.readEditorPreference();
+//     const url = utils.data.readCrossCatalogueReferenceURL();
+//     console.log("cross", url);
 
 
-    if (url !== "") {
-        return { availability: true, url: url };
-    } else {
-        return { availability: false, url: null };
-    }
-}
+//     if (url !== "") {
+//         return { availability: true, url: url };
+//     } else {
+//         return { availability: false, url: null };
+//     }
+// }
 
 // 將型錄的描述寫回Figma的原生欄位
 export async function writeCatalogueDescBackToFigma(lang: string) {
