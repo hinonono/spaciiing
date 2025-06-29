@@ -7,6 +7,7 @@ import ColorThumbnailView from '../ColorThumbnailView';
 import { defaultStroke } from '../../module-frontend/arrowCreatorFrontEnd';
 import { SvgAdd, SvgEdit, SvgMinus } from '../../assets/icons';
 import ListViewHeader from '../ListViewHeader';
+import { MessageSaveSyncedResource } from '../../types/Messages/MessageSaveSyncedResource';
 
 interface StrokeStyleSelectorProps {
   setEditStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
@@ -21,9 +22,9 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
     setStrokeModalMode,
   }
 ) => {
-  const { editorPreference, setEditorPreference } = useAppContext();
+  const { setRuntimeSyncedResources, runtimeSyncedResources } = useAppContext();
   const [selectedStyleId, setSelectedStyleId] = useState<string | null>(
-    editorPreference.strokeStyles.length > 0 ? editorPreference.strokeStyles[0].id : null
+    runtimeSyncedResources.strokeStyles.length > 0 ? runtimeSyncedResources.strokeStyles[0].id : null
   );
   const [savingPreference, setSavingPreference] = useState(false);
 
@@ -34,7 +35,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
 
   const handleDeleteButtonClicked = () => {
     if (selectedStyleId) {
-      setEditorPreference((prev) => ({
+      setRuntimeSyncedResources((prev) => ({
         ...prev,
         strokeStyles: prev.strokeStyles.filter(style => style.id !== selectedStyleId)
       }));
@@ -45,35 +46,44 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
 
   useEffect(() => {
     if (savingPreference) {
-      const message: MessageSaveEditorPreference = {
-        editorPreference: editorPreference,
-        shouldSaveEditorPreference: true,
+      // const message: MessageSaveEditorPreference = {
+      //   editorPreference: editorPreference,
+      //   shouldSaveEditorPreference: true,
+      //   module: "General",
+      //   phase: "Actual"
+      // };
+
+      const message: MessageSaveSyncedResource = {
+        shouldSaveSyncedReources: true,
+        shouldSaveSyncedReourcesType: "strokeStyles",
+        syncedResources: runtimeSyncedResources,
         module: "General",
-        phase: "Actual"
-      };
+        phase: "Actual",
+        direction: "Inner"
+      }
 
       parent.postMessage({ pluginMessage: message }, "*");
       setSavingPreference(false);
     }
-  }, [editorPreference]); // Run when `editorPreference` updates
+  }, [runtimeSyncedResources]); // Run when `editorPreference` updates
 
   useEffect(() => {
-    const stillExists = editorPreference.strokeStyles.find(style => style.id === selectedStyleId);
+    const stillExists = runtimeSyncedResources.strokeStyles.find(style => style.id === selectedStyleId);
 
     if (stillExists) {
       setEditStroke(stillExists.style);
-    } else if (editorPreference.strokeStyles.length > 0) {
-      const firstStroke = editorPreference.strokeStyles[0];
+    } else if (runtimeSyncedResources.strokeStyles.length > 0) {
+      const firstStroke = runtimeSyncedResources.strokeStyles[0];
       setSelectedStyleId(firstStroke.id);
       setEditStroke(firstStroke.style);
     } else {
       setSelectedStyleId(null);
       setEditStroke(defaultStroke);
     }
-  }, [editorPreference.strokeStyles]);
+  }, [runtimeSyncedResources.strokeStyles]);
 
   const renderStrokeStyleList = () => {
-    const s = editorPreference.strokeStyles;
+    const s = runtimeSyncedResources.strokeStyles;
 
     if (s && s.length > 0) {
       return (
@@ -105,7 +115,7 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
 
   const handleEditButtonClicked = () => {
     if (selectedStyleId) {
-      const foundStroke = editorPreference.strokeStyles.find(style => style.id === selectedStyleId);
+      const foundStroke = runtimeSyncedResources.strokeStyles.find(style => style.id === selectedStyleId);
       if (!foundStroke) {
         console.warn("No stroke found for the selected ID:", selectedStyleId);
         return;

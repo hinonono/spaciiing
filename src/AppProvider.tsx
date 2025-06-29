@@ -12,12 +12,18 @@ import { EditorType } from "./types/EditorType";
 import * as info from "./info.json";
 import { ComponentPropertiesFrontEnd, ReferenceObject } from "./types/PropertClipboard";
 import { defaultEp } from "./assets/const/editorPreference";
+import { defaultRuntimeSyncedResources } from "./assets/const/runtimeSyncedResource";
+import { RuntimeSyncedResources } from "./types/RuntimeSyncedResources";
 
 // #region Definition
 export interface AppContextType {
   // V20：新的editor preference物件，統一管理相關的偏好值
   editorPreference: EditorPreference;
   setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;
+
+  // V32: 統一管理前端中需要透過figma，在不同用戶間同步的資料
+  runtimeSyncedResources: RuntimeSyncedResources;
+  setRuntimeSyncedResources: React.Dispatch<React.SetStateAction<RuntimeSyncedResources>>;
 
   // 判斷用戶在哪個模式下開啟了plugin
   editorType: EditorType;
@@ -103,6 +109,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
   // V20：Editor Preference整合
   const [editorPreference, setEditorPreference] = useState<EditorPreference>(defaultEp);
+  // V32: Runtime synced resources
+  const [runtimeSyncedResources, setRuntimeSyncedResources] = useState<RuntimeSyncedResources>(defaultRuntimeSyncedResources);
+
 
   // 判斷用戶在哪個模式下開啟了plugin
   const [editorType, setEditorType] = useState<EditorType>("figma");
@@ -142,6 +151,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       value={{
         editorPreference,
         setEditorPreference,
+        runtimeSyncedResources,
+        setRuntimeSyncedResources,
         variableCollectionList,
         setVariableCollectionList,
         variableCollectionModes,

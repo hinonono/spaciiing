@@ -4,6 +4,62 @@ import loremText from "../../assets/loremText.json";
 import { ExternalMessageUpdateEditorPreference } from "../../types/Messages/MessageEditorPreference";
 import { utils } from "../utils";
 import { defaultEp } from "../../assets/const/editorPreference";
+import { SyncedResourceType } from "../../types/Messages/MessageSaveSyncedResource";
+import { RuntimeSyncedResources } from "../../types/RuntimeSyncedResources";
+import { CYStrokeStyle } from "../../types/CYStrokeStyle";
+import { ExternalMessageUpdateRuntimeSyncedResources } from "../../types/Messages/MessageRuntimeSyncedResources";
+
+export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSyncedResources) {
+    switch (type) {
+        case "strokeStyles":
+            figma.root.setPluginData(utils.dataKeys.ARROW_STYLES, JSON.stringify(resource.strokeStyles));
+            break;
+        default:
+            break;
+    }
+}
+
+export function compileSyncedResources(): RuntimeSyncedResources {
+    const strokeStyles = readStrokeStyles();
+
+    return {
+        strokeStyles: strokeStyles
+    }
+}
+
+export function updateRuntimeSyncedResources(
+    resources: RuntimeSyncedResources,
+    source?: Module
+) {
+    const message: ExternalMessageUpdateRuntimeSyncedResources = {
+        runtimeSyncedResources: resources,
+        module: "PluginSetting",
+        mode: "UpdateRuntimeSyncedResources",
+        phase: "Init",
+    };
+    utils.communication.sendMessageBack(message);
+}
+
+function readStrokeStyles(): CYStrokeStyle[] {
+    const rawStrokeStyles = figma.root.getPluginData(utils.dataKeys.ARROW_STYLES);
+
+    let decodedStrokeStyles: CYStrokeStyle[] = [];
+    if (rawStrokeStyles) {
+        try {
+            decodedStrokeStyles = JSON.parse(rawStrokeStyles) as CYStrokeStyle[];
+            if (!Array.isArray(decodedStrokeStyles)) {
+                console.warn("strokestyles is not an array. Resetting.");
+                decodedStrokeStyles = [];
+            }
+        } catch (error) {
+            console.error("Error parsing strokestyles. Resetting.", error);
+            decodedStrokeStyles = [];
+            throw new Error("Error parsing stroke styles.")
+        }
+    }
+
+    return decodedStrokeStyles;
+}
 
 /**
  * Saves the editor preference to the current page's plugin data.

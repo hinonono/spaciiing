@@ -12,6 +12,9 @@ export async function init() {
   const editorPreference = utils.data.readEditorPreference();
   utils.data.updateEditorPreference(editorPreference, "Init");
 
+  const runtimeSyncedResources = utils.data.compileSyncedResources();
+  utils.data.updateRuntimeSyncedResources(runtimeSyncedResources, "Init");
+
   const editorType = figma.editorType as EditorType;
   utils.runtime.updateEditorType(editorType);
   utils.runtime.updateTriggeredCommand();

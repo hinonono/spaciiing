@@ -1,5 +1,3 @@
-import { CYStrokeStyle } from "./CYStrokeStyle";
-
 export interface EditorPreference {
   userId: string,
   spacing?: number;
@@ -7,7 +5,7 @@ export interface EditorPreference {
   lorem: string; //預設寫英文
   iconFrame: IconFrame;
   exampleFileUrl?: string; //用戶填入的，目前的設計檔案的網址，用於型錄的相關物件索引連結
-  strokeStyles: CYStrokeStyle[];
+  // strokeStyles: CYStrokeStyle[];
   savedClicks: number;
   savedSecs: number;
 }

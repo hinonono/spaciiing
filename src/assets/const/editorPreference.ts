@@ -11,7 +11,6 @@ export const defaultEp: EditorPreference = {
         innerFrame: 0,
         outerFrame: 0,
     },
-    strokeStyles: [],
     savedClicks: 0,
     savedSecs: 0,
     userId: ""

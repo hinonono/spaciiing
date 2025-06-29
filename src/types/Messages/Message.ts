@@ -1,5 +1,7 @@
 import { EditorPreference } from "../EditorPreference";
 import { Module } from "../Module";
+import { RuntimeSyncedResources } from "../RuntimeSyncedResources";
+import { SyncedResourceType } from "./MessageSaveSyncedResource";
 
 // 訊息的基底屬性
 export interface Message {
@@ -8,6 +10,9 @@ export interface Message {
   phase: MessagePhase;
   shouldSaveEditorPreference?: boolean;
   editorPreference?: EditorPreference;
+  shouldSaveSyncedReources?: boolean;
+  shouldSaveSyncedReourcesType?: SyncedResourceType;
+  syncedResources?: RuntimeSyncedResources;
   lang?: string,
 }
 

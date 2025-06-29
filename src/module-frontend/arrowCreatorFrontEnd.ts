@@ -7,6 +7,7 @@ import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as info from "../info.json";
 import { CYStrokeStyle } from "../types/CYStrokeStyle";
 import { MessageSaveEditorPreference } from "../types/Messages/MessageSaveEditorPreference";
+import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 export function applyArrowCreator(
     isRealCall: boolean,
@@ -122,7 +123,7 @@ export function exportArrowStyle(
         }
     }
 
-    const arrowStyles = appContext.editorPreference.strokeStyles;
+    const arrowStyles = appContext.runtimeSyncedResources.strokeStyles;
 
     const blob = new Blob([JSON.stringify(arrowStyles, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -156,7 +157,7 @@ export async function importArrowStyle(
         const text = await file.text();
         const arrowStyles = JSON.parse(text) as CYStrokeStyle[];
 
-        const existingStyles = appContext.editorPreference.strokeStyles;
+        const existingStyles = appContext.runtimeSyncedResources.strokeStyles;
         const existingIds = new Set(existingStyles.map(style => style.id));
 
         // Filter out any styles with conflicting IDs
@@ -164,14 +165,16 @@ export async function importArrowStyle(
 
         // Merge safely
         const updatedStyles = [...existingStyles, ...newStyles];
-        appContext.editorPreference.strokeStyles = updatedStyles;
+        appContext.runtimeSyncedResources.strokeStyles = updatedStyles;
 
-        const message: MessageSaveEditorPreference = {
-            editorPreference: appContext.editorPreference,
-            shouldSaveEditorPreference: true,
-            module: "Shortcut",
-            phase: "Actual"
-        };
+        const message: MessageSaveSyncedResource = {
+            shouldSaveSyncedReources: true,
+            shouldSaveSyncedReourcesType: "strokeStyles",
+            syncedResources: appContext.runtimeSyncedResources,
+            module: "General",
+            phase: "Actual",
+            direction: "Inner"
+        }
 
         parent.postMessage({ pluginMessage: message }, "*");
         alert(`${newStyles.length} styles has been imported successfully.`);

@@ -4,6 +4,7 @@ export const dataKeys = {
     VIRTUAL_PROFILE_GROUPS: "virtual-profile-groups",
     VIRTUAL_PROFILE_OBJECT: "virtual-profile-object",
     ARROW_SCHEMA: "arrow-schema",
+    ARROW_STYLES: "arrow-styles",
     CATALOGUE_ITEM_SCHEMA: "catalogue-item-schema",
     EDITOR_PREFERENCES: "editor-preferences"
 }

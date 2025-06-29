@@ -60,6 +60,18 @@ figma.ui.onmessage = (message: Message) => {
     }
   }
 
+  if (
+    message.shouldSaveSyncedReources &&
+    message.shouldSaveSyncedReourcesType &&
+    message.shouldSaveSyncedReources === true
+  ) {
+    if (message.syncedResources) {
+      utils.data.saveSyncedResource(message.shouldSaveSyncedReourcesType, message.syncedResources);
+    } else {
+      throw new Error("Missing synced resources.")
+    }
+  }
+
   switch (message.module) {
     case "Init":
       init.init();
