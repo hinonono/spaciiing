@@ -40,10 +40,10 @@ export interface AppContextType {
   setvariableCollectionModes: React.Dispatch<
     React.SetStateAction<ExternalVariableMode[]>
   >;
-  virtualProfileGroups: VirtualProfileGroup[];
-  setVirtualProfileGroups: React.Dispatch<
-    React.SetStateAction<VirtualProfileGroup[]>
-  >;
+  // virtualProfileGroups: VirtualProfileGroup[];
+  // setVirtualProfileGroups: React.Dispatch<
+  //   React.SetStateAction<VirtualProfileGroup[]>
+  // >;
 
   // Property Clipboard
   referenceObject: ReferenceObject;
@@ -126,9 +126,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     ExternalVariableMode[]
   >([]);
   const [styleList, setStyleList] = useState<StyleListItemFrontEnd[]>([]);
-  const [virtualProfileGroups, setVirtualProfileGroups] = useState<
-    VirtualProfileGroup[]
-  >([]);
+  // const [virtualProfileGroups, setVirtualProfileGroups] = useState<
+  //   VirtualProfileGroup[]
+  // >([]);
 
   const [extractedProperties, setExtractedProperties] = useState<ComponentPropertiesFrontEnd[]>([]);
 
@@ -167,8 +167,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setShowActivateModal,
         customCodeExecutionResults,
         setCustomCodeExecutionResults,
-        virtualProfileGroups,
-        setVirtualProfileGroups,
+        // virtualProfileGroups,
+        // setVirtualProfileGroups,
         styleList,
         setStyleList,
         editorType,

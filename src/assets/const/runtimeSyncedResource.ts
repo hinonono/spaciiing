@@ -3,4 +3,5 @@ import { defaultStrokeStyles } from "./strokeStyles";
 
 export const defaultRuntimeSyncedResources: RuntimeSyncedResources = {
     strokeStyles: defaultStrokeStyles,
+    virtualProfiles: [],
 }

@@ -59,10 +59,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
 
   //Context
   const {
-    virtualProfileGroups,
-    setVirtualProfileGroups,
+    // virtualProfileGroups,
+    // setVirtualProfileGroups,
+    runtimeSyncedResources,
+    setRuntimeSyncedResources,
     licenseManagement,
-    setShowCTSubscribe,
     setFreeUserDelayModalConfig
   } = useAppContext();
 
@@ -70,8 +71,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const [isFolderCollapsed, setIsFolderCollapsed] = useState(false);
 
   useEffect(() => {
-    setIsFolderCollapsed(!virtualProfileGroups.every((row) => row.isCollapsed));
-  }, [virtualProfileGroups]);
+    setIsFolderCollapsed(!runtimeSyncedResources.virtualProfiles.every((row) => row.isCollapsed));
+  }, [runtimeSyncedResources.virtualProfiles]);
 
   const handleInputChange = (
     groupId: string,
@@ -82,8 +83,9 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     console.log(value);
 
     if (type == "CONTENT") {
-      setVirtualProfileGroups((prevGroups) =>
-        prevGroups.map((group) => {
+      setRuntimeSyncedResources((prev) => ({
+        ...prev,
+        virtualProfiles: prev.virtualProfiles.map((group) => {
           if (group.id === groupId) {
             return {
               ...group,
@@ -96,11 +98,29 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
             };
           }
           return group;
-        })
-      );
+        }),
+      }));
+
+      // setVirtualProfileGroups((prevGroups) =>
+      //   prevGroups.map((group) => {
+      //     if (group.id === groupId) {
+      //       return {
+      //         ...group,
+      //         children: group.children.map((child) => {
+      //           if (child.id === childId) {
+      //             return { ...child, content: value };
+      //           }
+      //           return child;
+      //         }),
+      //       };
+      //     }
+      //     return group;
+      //   })
+      // );
     } else {
-      setVirtualProfileGroups((prevGroups) =>
-        prevGroups.map((group) => {
+      setRuntimeSyncedResources((prev) => ({
+        ...prev,
+        virtualProfiles: prev.virtualProfiles.map((group) => {
           if (group.id === groupId) {
             return {
               ...group,
@@ -114,13 +134,30 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           }
           return group;
         })
-      );
+      }));
+      // setVirtualProfileGroups((prevGroups) =>
+      //   prevGroups.map((group) => {
+      //     if (group.id === groupId) {
+      //       return {
+      //         ...group,
+      //         children: group.children.map((child) => {
+      //           if (child.id === childId) {
+      //             return { ...child, title: value };
+      //           }
+      //           return child;
+      //         }),
+      //       };
+      //     }
+      //     return group;
+      //   })
+      // );
     }
   };
 
   const handleGroupTitleChange = (groupId: string, value: string) => {
-    setVirtualProfileGroups((prevGroups) =>
-      prevGroups.map((group) => {
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: prev.virtualProfiles.map((group) => {
         if (group.id === groupId) {
           return {
             ...group,
@@ -129,7 +166,18 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }
         return group;
       })
-    );
+    }));
+    // setVirtualProfileGroups((prevGroups) =>
+    //   prevGroups.map((group) => {
+    //     if (group.id === groupId) {
+    //       return {
+    //         ...group,
+    //         title: value,
+    //       };
+    //     }
+    //     return group;
+    //   })
+    // );
   };
 
   //
@@ -146,13 +194,20 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const [hoveredRowIndex, setHoveredRowIndex] = useState<string | null>(null);
 
   const toggleAll = () => {
-    const allCollapsed = virtualProfileGroups.every((row) => row.isCollapsed);
-    setVirtualProfileGroups(
-      virtualProfileGroups.map((row) => ({
+    const allCollapsed = runtimeSyncedResources.virtualProfiles.every((row) => row.isCollapsed);
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: prev.virtualProfiles.map((row) => ({
         ...row,
         isCollapsed: !allCollapsed,
       }))
-    );
+    }));
+    // setVirtualProfileGroups(
+    //   virtualProfileGroups.map((row) => ({
+    //     ...row,
+    //     isCollapsed: !allCollapsed,
+    //   }))
+    // );
     setIsFolderCollapsed(allCollapsed);
   };
 
@@ -169,35 +224,45 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       source.droppableId === destination.droppableId &&
       source.droppableId === "all-rows"
     ) {
-      const newRows = Array.from(virtualProfileGroups);
+      const newRows = Array.from(runtimeSyncedResources.virtualProfiles);
       const [reordered] = newRows.splice(source.index, 1);
       newRows.splice(destination.index, 0, reordered);
-      setVirtualProfileGroups(newRows);
+
+      setRuntimeSyncedResources((prev) => ({
+        ...prev,
+        virtualProfiles: newRows,
+      }));
+      // setVirtualProfileGroups(newRows);
     }
     // Reordering within the same title row
     else if (source.droppableId === destination.droppableId) {
-      const parentRow = virtualProfileGroups.find(
+      const parentRow = runtimeSyncedResources.virtualProfiles.find(
         (row) => row.id === source.droppableId
       );
       if (parentRow) {
         const newChildren = Array.from(parentRow.children);
         const [reordered] = newChildren.splice(source.index, 1);
         newChildren.splice(destination.index, 0, reordered);
-        const newRows = virtualProfileGroups.map((row) => {
+        const newRows = runtimeSyncedResources.virtualProfiles.map((row) => {
           if (row.id === parentRow.id) {
             return { ...row, children: newChildren };
           }
           return row;
         });
-        setVirtualProfileGroups(newRows);
+
+        setRuntimeSyncedResources((prev) => ({
+          ...prev,
+          virtualProfiles: newRows,
+        }));
+        // setVirtualProfileGroups(newRows);
       }
     }
     // Moving items between different title rows
     else if (source.droppableId !== destination.droppableId) {
-      const sourceRow = virtualProfileGroups.find(
+      const sourceRow = runtimeSyncedResources.virtualProfiles.find(
         (row) => row.id === source.droppableId
       );
-      const destRow = virtualProfileGroups.find(
+      const destRow = runtimeSyncedResources.virtualProfiles.find(
         (row) => row.id === destination.droppableId
       );
       if (sourceRow && destRow) {
@@ -206,7 +271,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         const [removed] = sourceChildren.splice(source.index, 1);
         destChildren.splice(destination.index, 0, removed);
 
-        const newRows = virtualProfileGroups.map((row) => {
+        const newRows = runtimeSyncedResources.virtualProfiles.map((row) => {
           if (row.id === source.droppableId) {
             return { ...row, children: sourceChildren };
           } else if (row.id === destination.droppableId) {
@@ -215,17 +280,28 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           return row;
         });
 
-        setVirtualProfileGroups(newRows);
+        setRuntimeSyncedResources((prev) => ({
+          ...prev,
+          virtualProfiles: newRows,
+        }));
+        // setVirtualProfileGroups(newRows);
       }
     }
   };
 
   const toggleCollapse = useCallback((id: string) => {
-    setVirtualProfileGroups((prevRows) =>
-      prevRows.map((row) =>
+    // setVirtualProfileGroups((prevRows) =>
+    //   prevRows.map((row) =>
+    //     row.id === id ? { ...row, isCollapsed: !row.isCollapsed } : row
+    //   )
+    // );
+
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: prev.virtualProfiles.map((row) =>
         row.id === id ? { ...row, isCollapsed: !row.isCollapsed } : row
       )
-    );
+    }));
   }, []);
 
   // Handler to add a new title row
@@ -247,7 +323,13 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       children: [],
       isCollapsed: false,
     };
-    setVirtualProfileGroups([...virtualProfileGroups, newRow]);
+
+    // setVirtualProfileGroups([...virtualProfileGroups, newRow]);
+
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: [...prev.virtualProfiles, newRow]
+    }));
   };
 
   // Handler to add a new record to the last title row
@@ -263,7 +345,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       }
     }
 
-    if (virtualProfileGroups.length === 0) {
+    if (runtimeSyncedResources.virtualProfiles.length === 0) {
       console.warn("No title rows available to add a record");
       return;
     }
@@ -274,9 +356,14 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       title: "Content Title",
     };
 
-    const newRows = [...virtualProfileGroups];
+    const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows[newRows.length - 1].children.push(newRecord);
-    setVirtualProfileGroups(newRows);
+
+    // setVirtualProfileGroups(newRows);
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: newRows,
+    }));
   };
 
   // Inside your component
@@ -347,9 +434,14 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       }
     }
 
-    setVirtualProfileGroups(
-      virtualProfileGroups.filter((row) => row.id !== rowId)
-    );
+    // setVirtualProfileGroups(
+    //   virtualProfileGroups.filter((row) => row.id !== rowId)
+    // );
+
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: prev.virtualProfiles.filter((row) => row.id !== rowId)
+    }));
 
     handleClose();
   };
@@ -366,8 +458,21 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       }
     }
 
-    setVirtualProfileGroups(
-      virtualProfileGroups.map((row) => {
+    // setVirtualProfileGroups(
+    //   virtualProfileGroups.map((row) => {
+    //     if (row.id === rowId) {
+    //       return {
+    //         ...row,
+    //         children: row.children.filter((child) => child.id !== childId),
+    //       };
+    //     }
+    //     return row;
+    //   })
+    // );
+
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: prev.virtualProfiles.map((row) => {
         if (row.id === rowId) {
           return {
             ...row,
@@ -376,7 +481,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }
         return row;
       })
-    );
+    }));
 
     handleClose();
   };
@@ -399,8 +504,21 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       title: "Title",
     };
 
-    setVirtualProfileGroups(
-      virtualProfileGroups.map((row) => {
+    // setVirtualProfileGroups(
+    //   virtualProfileGroups.map((row) => {
+    //     if (row.id === rowId) {
+    //       return {
+    //         ...row,
+    //         children: [...row.children, newChild], // Append the new child to the existing children array
+    //       };
+    //     }
+    //     return row;
+    //   })
+    // );
+
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: prev.virtualProfiles.map((row) => {
         if (row.id === rowId) {
           return {
             ...row,
@@ -409,7 +527,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         }
         return row;
       })
-    );
+    }));
 
     handleClose(); // Close any open context menus or modal dialogs
   };
@@ -426,10 +544,10 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       }
     }
 
-    const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
+    const rowIndex = runtimeSyncedResources.virtualProfiles.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
 
-    const rowToDuplicate = virtualProfileGroups[rowIndex];
+    const rowToDuplicate = runtimeSyncedResources.virtualProfiles[rowIndex];
     const duplicatedRow = {
       ...rowToDuplicate,
       id: uuidv4(), // Generate a new unique ID for the duplicated row
@@ -439,9 +557,15 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       })),
     };
 
-    const newRows = [...virtualProfileGroups];
+    const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows.splice(rowIndex + 1, 0, duplicatedRow);
-    setVirtualProfileGroups(newRows);
+    // setVirtualProfileGroups(newRows);
+
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: newRows,
+    }));
+
     handleClose(); // Close any open context menus or modals
   };
 
@@ -461,24 +585,29 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       }
     }
 
-    const rowIndex = virtualProfileGroups.findIndex((row) => row.id === rowId);
+    const rowIndex = runtimeSyncedResources.virtualProfiles.findIndex((row) => row.id === rowId);
     if (rowIndex === -1) return;
 
-    const childIndex = virtualProfileGroups[rowIndex].children.findIndex(
+    const childIndex = runtimeSyncedResources.virtualProfiles[rowIndex].children.findIndex(
       (child) => child.id === childId
     );
     if (childIndex === -1) return;
 
     const childToDuplicate =
-      virtualProfileGroups[rowIndex].children[childIndex];
+      runtimeSyncedResources.virtualProfiles[rowIndex].children[childIndex];
     const duplicatedChild = {
       ...childToDuplicate,
       id: uuidv4(), // Generate a unique ID for the duplicated child
     };
 
-    const newRows = [...virtualProfileGroups];
+    const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows[rowIndex].children.splice(childIndex + 1, 0, duplicatedChild);
-    setVirtualProfileGroups(newRows);
+    // setVirtualProfileGroups(newRows);
+
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: newRows
+    }));
 
     handleClose();
   };
@@ -560,7 +689,12 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
 
     if (newGroup) {
-      setVirtualProfileGroups((prevGroups) => [...prevGroups, newGroup]);
+      // setVirtualProfileGroups((prevGroups) => [...prevGroups, newGroup]);
+
+      setRuntimeSyncedResources((prev) => ({
+        ...prev,
+        virtualProfiles: [...prev.virtualProfiles, newGroup]
+      }));
     }
   };
 
@@ -654,13 +788,13 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               className="button-reset margin-0 width-auto"
               onClick={saveVirtualProfile}
               disabled={
-                virtualProfileGroups == previousVirtualProfile ? true : false
+                runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? true : false
               }
             >
               <div className="icon-24 icon-hover">
                 <SvgSave
                   color={
-                    virtualProfileGroups == previousVirtualProfile
+                    runtimeSyncedResources.virtualProfiles == previousVirtualProfile
                       ? `var(--figma-color-text-disabled)`
                       : `var(--figma-color-bg-brand)`
                   }
@@ -700,7 +834,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               ref={provided.innerRef}
               className="tableContainer"
             >
-              {virtualProfileGroups.map((row, index) => (
+              {runtimeSyncedResources.virtualProfiles.map((row, index) => (
                 <Draggable key={row.id} draggableId={row.id} index={index}>
                   {(provided, snapshot) => (
                     <div

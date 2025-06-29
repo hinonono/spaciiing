@@ -8,6 +8,7 @@ import { SyncedResourceType } from "../../types/Messages/MessageSaveSyncedResour
 import { RuntimeSyncedResources } from "../../types/RuntimeSyncedResources";
 import { CYStrokeStyle } from "../../types/CYStrokeStyle";
 import { ExternalMessageUpdateRuntimeSyncedResources } from "../../types/Messages/MessageRuntimeSyncedResources";
+import { VirtualProfileGroup } from "../../types/VirtualProfile";
 
 export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSyncedResources) {
     switch (type) {
@@ -24,12 +25,33 @@ export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSy
 
 export function compileSyncedResources(): RuntimeSyncedResources {
     const strokeStyles = readStrokeStyles();
-    // const crossCatalogueReferenceURL = readCrossCatalogueReferenceURL();
+    const virtualProfiles = readVirtualProfileGroups();
 
     return {
         strokeStyles: strokeStyles,
-        // exampleFileUrl: crossCatalogueReferenceURL,
+        virtualProfiles: virtualProfiles,
     }
+}
+
+function readVirtualProfileGroups(): VirtualProfileGroup[] {
+    const rawData = figma.root.getPluginData(utils.dataKeys.VIRTUAL_PROFILE_GROUPS);
+    let decoded: VirtualProfileGroup[] = [];
+
+    if (rawData) {
+        try {
+            decoded = JSON.parse(rawData) as VirtualProfileGroup[];
+            if (!Array.isArray(decoded)) {
+                console.warn("Virtural profile groups is not an array. Resetting.");
+                decoded = [];
+            }
+        } catch (error) {
+            console.error("Error parsing strokestyles. Resetting.", error);
+            decoded = [];
+            throw new Error("Error parsing stroke styles.")
+        }
+    }
+
+    return decoded;
 }
 
 export function updateRuntimeSyncedResources(

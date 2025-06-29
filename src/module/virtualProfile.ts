@@ -35,60 +35,6 @@ export function reception(message: MessageVirtualProfile) {
   }
 }
 
-// Function to create the vpg structure
-// function ConvertOldVpToNew(oldVpdata: VirtualProfile) {
-//   const personalKeys = [
-//     "nickname",
-//     "age",
-//     "gender",
-//     "birthday",
-//     "email",
-//     "landlineNum",
-//     "phoneNum",
-//     "country",
-//     "city",
-//     "address",
-//     "userId",
-//     "jobTitle",
-//     "industry",
-//     "companyName",
-//     "companyAddress",
-//     "companyPhoneNum",
-//   ];
-
-//   const financialKeys = ["cardNum", "expirationDate", "cvv", "cardNetwork"];
-//   const customKeys = ["custom1", "custom2", "custom3"];
-
-//   const createChildren = (
-//     keys: (keyof VirtualProfile)[]
-//   ): VirtualProfileChild[] =>
-//     keys.map((key) => ({
-//       id: utils.data.generateUUID(),
-//       title: key,
-//       content: oldVpdata[key] || "",
-//     }));
-
-//   return [
-//     {
-//       id: utils.data.generateUUID(),
-//       title: "Personal",
-//       children: createChildren(personalKeys as (keyof VirtualProfile)[]),
-//       isCollapsed: false,
-//     },
-//     {
-//       id: utils.data.generateUUID(),
-//       title: "Personal",
-//       children: createChildren(financialKeys as (keyof VirtualProfile)[]),
-//       isCollapsed: false,
-//     },
-//     {
-//       id: utils.data.generateUUID(),
-//       title: "Other",
-//       children: createChildren(customKeys as (keyof VirtualProfile)[]),
-//       isCollapsed: false,
-//     },
-//   ];
-// }
 
 function initVirtualProfileGroups() {
   // const pluginDataKey = "virtual-profile-groups";

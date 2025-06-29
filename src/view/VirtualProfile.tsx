@@ -21,7 +21,7 @@ const VirtualProfile: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { virtualProfileGroups } = useAppContext();
+  const { runtimeSyncedResources } = useAppContext();
   const [previousVirtualProfile, setPreviousVirtualProfile] = useState<
     VirtualProfileGroup[] | null
   >(null);
@@ -64,7 +64,7 @@ const VirtualProfile: React.FC = () => {
 
     const message: MessageVirtualProfileWholeObject = {
       // virtualProfile: virtualProfile,
-      virtualProfileGroups: virtualProfileGroups,
+      virtualProfileGroups: runtimeSyncedResources.virtualProfiles,
       module: "VirtualProfile",
       phase: "WillEnd",
       direction: "Inner",
@@ -72,7 +72,7 @@ const VirtualProfile: React.FC = () => {
 
     parent.postMessage({ pluginMessage: message, }, "*");
 
-    setPreviousVirtualProfile(virtualProfileGroups);
+    setPreviousVirtualProfile(runtimeSyncedResources.virtualProfiles);
   };
 
   return (

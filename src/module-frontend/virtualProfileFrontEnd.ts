@@ -60,12 +60,18 @@ export function virtualProfileHandler(
   message: ExternalMessageUpdateVirtualProfile,
   appContext: AppContextType
 ) {
-  const { setVirtualProfileGroups } = appContext;
+  const { setRuntimeSyncedResources } = appContext;
 
   if (message.virtualProfileGroups) {
-    console.log("VirtualProfileHandler GROUPS");
-    console.log(message.virtualProfileGroups);
-    setVirtualProfileGroups(message.virtualProfileGroups);
+    const { virtualProfileGroups } = message;
+    // console.log("VirtualProfileHandler GROUPS");
+    // console.log(message.virtualProfileGroups);
+
+    // setVirtualProfileGroups(message.virtualProfileGroups);
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: virtualProfileGroups,
+    }));
   }
 }
 
@@ -73,14 +79,19 @@ export function virtualProfileWillEnd(
   virtualProfileGroups: VirtualProfileGroup[],
   appContext: AppContextType
 ) {
-  const { setVirtualProfileGroups } = appContext;
+  const { setRuntimeSyncedResources } = appContext;
   const message: MessageVirtualProfileWholeObject = {
     module: "VirtualProfile",
     phase: "WillEnd",
     direction: "Inner",
     virtualProfileGroups: virtualProfileGroups,
   };
-  setVirtualProfileGroups(virtualProfileGroups);
+
+  // setVirtualProfileGroups(virtualProfileGroups);
+  setRuntimeSyncedResources((prev) => ({
+    ...prev,
+    virtualProfiles: virtualProfileGroups,
+  }));
 
   parent.postMessage(
     {
