@@ -1,5 +1,5 @@
 import {
-  VirtualProfile,
+  // VirtualProfile,
   VirtualProfileChild,
   VirtualProfileGroup,
 } from "./../types/VirtualProfile";
@@ -36,126 +36,125 @@ export function reception(message: MessageVirtualProfile) {
 }
 
 // Function to create the vpg structure
-function ConvertOldVpToNew(oldVpdata: VirtualProfile) {
-  const personalKeys = [
-    "nickname",
-    "age",
-    "gender",
-    "birthday",
-    "email",
-    "landlineNum",
-    "phoneNum",
-    "country",
-    "city",
-    "address",
-    "userId",
-    "jobTitle",
-    "industry",
-    "companyName",
-    "companyAddress",
-    "companyPhoneNum",
-  ];
+// function ConvertOldVpToNew(oldVpdata: VirtualProfile) {
+//   const personalKeys = [
+//     "nickname",
+//     "age",
+//     "gender",
+//     "birthday",
+//     "email",
+//     "landlineNum",
+//     "phoneNum",
+//     "country",
+//     "city",
+//     "address",
+//     "userId",
+//     "jobTitle",
+//     "industry",
+//     "companyName",
+//     "companyAddress",
+//     "companyPhoneNum",
+//   ];
 
-  const financialKeys = ["cardNum", "expirationDate", "cvv", "cardNetwork"];
-  const customKeys = ["custom1", "custom2", "custom3"];
+//   const financialKeys = ["cardNum", "expirationDate", "cvv", "cardNetwork"];
+//   const customKeys = ["custom1", "custom2", "custom3"];
 
-  const createChildren = (
-    keys: (keyof VirtualProfile)[]
-  ): VirtualProfileChild[] =>
-    keys.map((key) => ({
-      id: utils.data.generateUUID(),
-      title: key,
-      content: oldVpdata[key] || "",
-    }));
+//   const createChildren = (
+//     keys: (keyof VirtualProfile)[]
+//   ): VirtualProfileChild[] =>
+//     keys.map((key) => ({
+//       id: utils.data.generateUUID(),
+//       title: key,
+//       content: oldVpdata[key] || "",
+//     }));
 
-  return [
-    {
-      id: utils.data.generateUUID(),
-      title: "Personal",
-      children: createChildren(personalKeys as (keyof VirtualProfile)[]),
-      isCollapsed: false,
-    },
-    {
-      id: utils.data.generateUUID(),
-      title: "Personal",
-      children: createChildren(financialKeys as (keyof VirtualProfile)[]),
-      isCollapsed: false,
-    },
-    {
-      id: utils.data.generateUUID(),
-      title: "Other",
-      children: createChildren(customKeys as (keyof VirtualProfile)[]),
-      isCollapsed: false,
-    },
-  ];
-}
+//   return [
+//     {
+//       id: utils.data.generateUUID(),
+//       title: "Personal",
+//       children: createChildren(personalKeys as (keyof VirtualProfile)[]),
+//       isCollapsed: false,
+//     },
+//     {
+//       id: utils.data.generateUUID(),
+//       title: "Personal",
+//       children: createChildren(financialKeys as (keyof VirtualProfile)[]),
+//       isCollapsed: false,
+//     },
+//     {
+//       id: utils.data.generateUUID(),
+//       title: "Other",
+//       children: createChildren(customKeys as (keyof VirtualProfile)[]),
+//       isCollapsed: false,
+//     },
+//   ];
+// }
 
 function initVirtualProfileGroups() {
   // const pluginDataKey = "virtual-profile-groups";
   const newVpdata = figma.root.getPluginData(utils.dataKeys.VIRTUAL_PROFILE_GROUPS);
-  const oldVpData = figma.root.getPluginData(utils.dataKeys.VIRTUAL_PROFILE);
+  // const oldVpData = figma.root.getPluginData(utils.dataKeys.VIRTUAL_PROFILE);
 
-  let vpg: VirtualProfileGroup[];
+  let vpg: VirtualProfileGroup[] = [];
 
-  const vp: VirtualProfile = {
-    name: "John Doe",
-    nickname: "Johnny",
-    gender: "Male",
-    birthday: "1990/01/01",
-    email: "johndoe@example.com",
-    cardNum: "1234-5678-9012-3456",
-    landlineNum: "555-1234",
-    phoneNum: "555-987-6543",
-    address: "123 Main St, Anytown, USA",
-    companyName: "Doe Industries",
-    companyAddress: "456 Industrial Way, Suite 100, Anytown, USA",
-    companyPhoneNum: "555-1122",
-    custom1: "Custom Field 1",
-    custom2: "Custom Field 2",
-    custom3: "Custom Field 3",
-    age: "20",
-    country: "Country",
-    city: "City",
-    expirationDate: "1990/01/01",
-    cvv: "000",
-    cardNetwork: "MasterCard",
-    username: "@johnniedoe123",
-    userId: "0000-1234-5678",
-    jobTitle: "Designer",
-    industry: "Art & Design",
-  };
+  // const vp: VirtualProfile = {
+  //   name: "John Doe",
+  //   nickname: "Johnny",
+  //   gender: "Male",
+  //   birthday: "1990/01/01",
+  //   email: "johndoe@example.com",
+  //   cardNum: "1234-5678-9012-3456",
+  //   landlineNum: "555-1234",
+  //   phoneNum: "555-987-6543",
+  //   address: "123 Main St, Anytown, USA",
+  //   companyName: "Doe Industries",
+  //   companyAddress: "456 Industrial Way, Suite 100, Anytown, USA",
+  //   companyPhoneNum: "555-1122",
+  //   custom1: "Custom Field 1",
+  //   custom2: "Custom Field 2",
+  //   custom3: "Custom Field 3",
+  //   age: "20",
+  //   country: "Country",
+  //   city: "City",
+  //   expirationDate: "1990/01/01",
+  //   cvv: "000",
+  //   cardNetwork: "MasterCard",
+  //   username: "@johnniedoe123",
+  //   userId: "0000-1234-5678",
+  //   jobTitle: "Designer",
+  //   industry: "Art & Design",
+  // };
 
   if (newVpdata === "") {
     // 未設置過virtual profile
-    if (oldVpData === "") {
-      vpg = [
-        {
-          id: utils.data.generateUUID(),
-          title: "Category Name",
-          children: [
-            {
-              content: "Value",
-              id: utils.data.generateUUID(),
-              title: "Title",
-            },
-          ],
-          isCollapsed: false,
-        },
-      ];
-    } else {
-      // 針對曾經設置過舊版VP的用戶進行資料轉換
-      const oldVp = JSON.parse(oldVpData) as VirtualProfile;
-      vpg = ConvertOldVpToNew(oldVp);
+    // if (oldVpData === "") {
+    //   vpg = [
+    //     {
+    //       id: utils.data.generateUUID(),
+    //       title: "Category Name",
+    //       children: [
+    //         {
+    //           content: "Value",
+    //           id: utils.data.generateUUID(),
+    //           title: "Title",
+    //         },
+    //       ],
+    //       isCollapsed: false,
+    //     },
+    //   ];
+    // } else {
+    //   // 針對曾經設置過舊版VP的用戶進行資料轉換
+    //   const oldVp = JSON.parse(oldVpData) as VirtualProfile;
+    //   vpg = ConvertOldVpToNew(oldVp);
 
-      // 轉換完成後清空舊的
-      figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
-    }
+    //   // 轉換完成後清空舊的
+    //   figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
+    // }
 
     // Save vp as a JSON string
     figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE_GROUPS, JSON.stringify(vpg));
 
     const message: ExternalMessageUpdateVirtualProfile = {
-      virtualProfile: vp,
       virtualProfileGroups: vpg,
       module: "VirtualProfile",
       direction: "Outer",
@@ -188,7 +187,7 @@ function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
       JSON.stringify(message.virtualProfileGroups)
     );
     // 清空舊的
-    figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
+    // figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
   }
 }
 

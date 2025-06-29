@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TitleBar } from "../components";
 import { useAppContext } from "../AppProvider";
-import { VirtualProfile, VirtualProfileGroup } from "../types/VirtualProfile";
+import { VirtualProfileGroup } from "../types/VirtualProfile";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
