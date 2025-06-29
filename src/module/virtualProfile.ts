@@ -8,7 +8,7 @@ import {
   ExternalMessageUpdateVirtualProfile,
   MessageVirtualProfile,
   MessageVirtualProfileSingleValue,
-  MessageVirtualProfileWholeObject,
+  // MessageVirtualProfileWholeObject,
   VirtualProfileSingleValue,
 } from "../types/Messages/MessageVirtualProfile";
 import { utils } from "./utils";
@@ -31,7 +31,7 @@ export function reception(message: MessageVirtualProfile) {
   }
 
   if (message.phase == "WillEnd") {
-    virtualProfileWillEnd(message as MessageVirtualProfileWholeObject);
+    // virtualProfileWillEnd(message as MessageVirtualProfileWholeObject);
   }
 }
 
@@ -123,19 +123,19 @@ function initVirtualProfileGroups() {
   }
 }
 
-function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
-  console.log("🔴 virtualProfileWillEnd");
+// function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
+//   console.log("🔴 virtualProfileWillEnd");
 
-  if (message.virtualProfileGroups) {
-    // Save vp as a JSON string
-    figma.root.setPluginData(
-      utils.dataKeys.VIRTUAL_PROFILE_GROUPS,
-      JSON.stringify(message.virtualProfileGroups)
-    );
-    // 清空舊的
-    // figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
-  }
-}
+//   if (message.virtualProfileGroups) {
+//     // Save vp as a JSON string
+//     figma.root.setPluginData(
+//       utils.dataKeys.VIRTUAL_PROFILE_GROUPS,
+//       JSON.stringify(message.virtualProfileGroups)
+//     );
+//     // 清空舊的
+//     // figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
+//   }
+// }
 
 async function applyVirtualProfileValueToTextNode(
   message: MessageVirtualProfileSingleValue

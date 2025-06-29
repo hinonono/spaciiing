@@ -9,10 +9,11 @@ import { SupportedLangCode } from "../types/Localization";
 import { VPPreset } from "../assets/virtual-profile";
 import {
   ExternalMessageUpdateVirtualProfile,
-  MessageVirtualProfileWholeObject,
+  // MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
 import { Message } from "../types/Messages/Message";
 import { AppContextType } from "../AppProvider";
+import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 function getPreset(
   dataType: SupportedPresetVirtualProfileCategory,
@@ -79,13 +80,13 @@ export function virtualProfileWillEnd(
   virtualProfileGroups: VirtualProfileGroup[],
   appContext: AppContextType
 ) {
-  const { setRuntimeSyncedResources } = appContext;
-  const message: MessageVirtualProfileWholeObject = {
-    module: "VirtualProfile",
-    phase: "WillEnd",
-    direction: "Inner",
-    virtualProfileGroups: virtualProfileGroups,
-  };
+  const { runtimeSyncedResources, setRuntimeSyncedResources } = appContext;
+  // const message: MessageVirtualProfileWholeObject = {
+  //   module: "VirtualProfile",
+  //   phase: "WillEnd",
+  //   direction: "Inner",
+  //   virtualProfileGroups: virtualProfileGroups,
+  // };
 
   // setVirtualProfileGroups(virtualProfileGroups);
   setRuntimeSyncedResources((prev) => ({
@@ -93,10 +94,14 @@ export function virtualProfileWillEnd(
     virtualProfiles: virtualProfileGroups,
   }));
 
-  parent.postMessage(
-    {
-      pluginMessage: message,
-    },
-    "*"
-  );
+  const message: MessageSaveSyncedResource = {
+    shouldSaveSyncedReources: true,
+    shouldSaveSyncedReourcesType: "virtualProfiles",
+    syncedResources: runtimeSyncedResources,
+    module: "General",
+    phase: "Actual",
+    direction: "Inner"
+  }
+
+  parent.postMessage({ pluginMessage: message, }, "*");
 }

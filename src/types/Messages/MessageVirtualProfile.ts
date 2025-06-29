@@ -8,11 +8,10 @@ export interface MessageVirtualProfileSingleValue
   extends MessageVirtualProfile,
   VirtualProfileSingleValue { }
 
-export interface MessageVirtualProfileWholeObject
-  extends MessageVirtualProfile {
-  // virtualProfile?: VirtualProfile;
-  virtualProfileGroups?: VirtualProfileGroup[];
-}
+// export interface MessageVirtualProfileWholeObject
+//   extends MessageVirtualProfile {
+//   virtualProfileGroups?: VirtualProfileGroup[];
+// }
 
 export interface VirtualProfileSingleValue {
   virtualProfileKey?: string;

@@ -15,8 +15,8 @@ export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSy
         case "strokeStyles":
             figma.root.setPluginData(utils.dataKeys.ARROW_STYLES, JSON.stringify(resource.strokeStyles));
             break;
-        case "catalogueReferenceFileURL":
-            // figma.root.setPluginData(utils.dataKeys.CROSS_CATALOGUE_REFERENCE_URL, JSON.stringify(resource.exampleFileUrl));
+        case "virtualProfiles":
+            figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE_GROUPS, JSON.stringify(resource.virtualProfiles));
             break;
         default:
             break;

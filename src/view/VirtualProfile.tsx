@@ -8,9 +8,10 @@ import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEn
 import VirtualProfileNew from "./VirtualProfileNew";
 import {
   MessageVirtualProfileSingleValue,
-  MessageVirtualProfileWholeObject,
+  // MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
 import * as info from "../info.json";
+import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 const VirtualProfile: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -62,13 +63,22 @@ const VirtualProfile: React.FC = () => {
       }
     }
 
-    const message: MessageVirtualProfileWholeObject = {
-      // virtualProfile: virtualProfile,
-      virtualProfileGroups: runtimeSyncedResources.virtualProfiles,
-      module: "VirtualProfile",
-      phase: "WillEnd",
-      direction: "Inner",
-    };
+    // const message: MessageVirtualProfileWholeObject = {
+    //   // virtualProfile: virtualProfile,
+    //   virtualProfileGroups: runtimeSyncedResources.virtualProfiles,
+    //   module: "VirtualProfile",
+    //   phase: "WillEnd",
+    //   direction: "Inner",
+    // };
+
+    const message: MessageSaveSyncedResource = {
+      shouldSaveSyncedReources: true,
+      shouldSaveSyncedReourcesType: "virtualProfiles",
+      syncedResources: runtimeSyncedResources,
+      module: "General",
+      phase: "Actual",
+      direction: "Inner"
+    }
 
     parent.postMessage({ pluginMessage: message, }, "*");
 

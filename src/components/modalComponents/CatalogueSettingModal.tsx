@@ -52,16 +52,16 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
     //   action: "updateExampleFileUrl",
     // };
 
-    const message: MessageSaveSyncedResource = {
-      shouldSaveSyncedReources: true,
-      shouldSaveSyncedReourcesType: "catalogueReferenceFileURL",
-      syncedResources: runtimeSyncedResources,
-      module: "General",
-      phase: "Actual",
-      direction: "Inner"
-    }
+    // const message: MessageSaveSyncedResource = {
+    //   shouldSaveSyncedReources: true,
+    //   shouldSaveSyncedReourcesType: "catalogueReferenceFileURL",
+    //   syncedResources: runtimeSyncedResources,
+    //   module: "General",
+    //   phase: "Actual",
+    //   direction: "Inner"
+    // }
 
-    parent.postMessage({ pluginMessage: message, }, "*");
+    // parent.postMessage({ pluginMessage: message, }, "*");
 
     handleClose();
   };
