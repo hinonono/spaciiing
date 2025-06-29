@@ -47,8 +47,6 @@ function createPreviewForGradient(
 
         if (form === "STYLE") {
             colorFrame.cornerRadius = semanticTokens.cornerRadius.infinite;
-        } else {
-            colorFrame.cornerRadius = semanticTokens.cornerRadius.small;
         }
         colorFrames.push(colorFrame);
     }
@@ -74,8 +72,6 @@ function createPreviewForColor(
 
         if (form === "STYLE") {
             colorFrame.cornerRadius = semanticTokens.cornerRadius.infinite;
-        } else {
-            colorFrame.cornerRadius = semanticTokens.cornerRadius.small;
         }
         colorFrames.push(colorFrame);
     });
@@ -131,8 +127,14 @@ function createPreviewForNumber(
     return wrapper;
 }
 
-// import { semanticTokens } from "../tokens";
-// import { utils } from "../utils";
+function createFundamentalFrame(name: string): FrameNode {
+    const frame = figma.createFrame();
+    frame.resize(64, 64);
+    frame.name = name;
+    frame.cornerRadius = semanticTokens.cornerRadius.small;
+
+    return frame;
+}
 
 export function createGradientFrame(
     gradientType: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND",
@@ -140,9 +142,7 @@ export function createGradientFrame(
     stops: ColorStop[],
     opacity: number,
 ): FrameNode {
-    const colorFrame = figma.createFrame();
-    colorFrame.resize(64, 64);
-    colorFrame.name = "Swatch";
+    const colorFrame = createFundamentalFrame("Swatch");
 
     const gradientPaint: GradientPaint = {
         type: gradientType,
@@ -158,9 +158,7 @@ export function createGradientFrame(
 }
 
 export function createColorFrame(color: RGBA): FrameNode {
-    const colorFrame = figma.createFrame();
-    colorFrame.resize(64, 64);
-    colorFrame.name = "Swatch";
+    const colorFrame = createFundamentalFrame("Swatch");
     const newPaint = figma.util.solidPaint(color);
     colorFrame.fills = [newPaint];
 
@@ -175,13 +173,10 @@ export function createColorFrame(color: RGBA): FrameNode {
 
 
 export function createEffectFrame(effects: Effect[]): FrameNode {
-    const effectFrame = figma.createFrame();
-    effectFrame.resize(64, 64);
-    effectFrame.name = "Effect";
+    const effectFrame = createFundamentalFrame("Effect");
     effectFrame.fills = [
         { type: "SOLID", color: semanticTokens.background.primary },
     ];
-    effectFrame.cornerRadius = semanticTokens.cornerRadius.small;
     effectFrame.effects = effects.map(utils.editor.stripBoundVariables);
 
     return effectFrame;
@@ -210,20 +205,16 @@ export function createNumberFrame(number: number, fontName: FontName): FrameNode
     numberTextNode.textAlignHorizontal = "CENTER";
 
     // Create the frame
-    const numberFrame = figma.createFrame();
-    numberFrame.name = "Number";
+    const numberFrame = createFundamentalFrame("Number");
     numberFrame.fills = [{ type: "SOLID", color: semanticTokens.background.primary }];
-    numberFrame.cornerRadius = semanticTokens.cornerRadius.small;
     utils.node.setStroke(numberFrame, semanticTokens.strokeColor, { top: 1, bottom: 1, left: 1, right: 1 });
 
     // Set layout mode for centering
     numberFrame.layoutMode = "VERTICAL"; // Vertical stack layout
     numberFrame.primaryAxisAlignItems = "CENTER"; // Center horizontally
     numberFrame.counterAxisAlignItems = "CENTER"; // Center vertically
-    numberFrame.paddingLeft = 0;
-    numberFrame.paddingRight = 0;
-    numberFrame.paddingTop = 0;
-    numberFrame.paddingBottom = 0;
+
+    utils.node.setPadding(numberFrame, { top: 0, bottom: 0, left: 0, right: 0 });
     numberFrame.resize(64, 48);
 
     // Add the text node to the frame
