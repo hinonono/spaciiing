@@ -748,29 +748,40 @@ function createAliasNameWrapper(
 
   // Attempt to resolve the provided variable ID
   if (aliasVariableId) {
-    const aliasVariableCatalogueItemUrl = styledTextSegments.getCatalogueItemUrlFromRoot(aliasVariableId);
-    console.log("aliasVariableCatalogueItemUrl", aliasVariableCatalogueItemUrl);
+    // const aliasVariableCatalogueItemUrl = styledTextSegments.getCatalogueItemIdFromRoot(aliasVariableId);
+    // console.log("aliasVariableCatalogueItemUrl", aliasVariableCatalogueItemUrl);
 
+    const catalogueItemId = styledTextSegments.getCatalogueItemIdFromRoot(aliasVariableId);
+    const resolvedCatalogueItem = figma.currentPage.findOne(
+      (node) => node.id === catalogueItemId && node.removed === false
+    );
 
-    if (!aliasVariableCatalogueItemUrl) {
-      console.warn(`No URL found for ${aliasVariableId}`);
+    if (resolvedCatalogueItem) {
+      aliasNameNode.hyperlink = { type: "NODE", value: resolvedCatalogueItem.id, };
+      aliasNameNode.textDecoration = "UNDERLINE";
     } else {
-      const resolvedCatalogueItemId = styledTextSegments.extractNodeIdFromFigmaUrl(aliasVariableCatalogueItemUrl);
-      const resolvedCatalogueItem = figma.currentPage.findOne(
-        (node) => node.id === resolvedCatalogueItemId && node.removed === false
-      );
-
-      // If resolved catalogue item is not found, skip this block only
-      if (resolvedCatalogueItem) {
-        aliasNameNode.hyperlink = {
-          type: "NODE",
-          value: resolvedCatalogueItem.id,
-        };
-        aliasNameNode.textDecoration = "UNDERLINE";
-      } else {
-        console.warn(`No resolved CatalogueItem found for ${aliasVariableId}`);
-      }
+      console.warn(`Variable with id ${aliasVariableId} was already removed.`);
     }
+
+    // if (!aliasVariableCatalogueItemUrl) {
+    //   console.warn(`No URL found for ${aliasVariableId}`);
+    // } else {
+    //   const resolvedCatalogueItemId = styledTextSegments.extractNodeIdFromFigmaUrl(aliasVariableCatalogueItemUrl);
+    //   const resolvedCatalogueItem = figma.currentPage.findOne(
+    //     (node) => node.id === resolvedCatalogueItemId && node.removed === false
+    //   );
+
+    //   // If resolved catalogue item is not found, skip this block only
+    //   if (resolvedCatalogueItem) {
+    //     aliasNameNode.hyperlink = {
+    //       type: "NODE",
+    //       value: resolvedCatalogueItem.id,
+    //     };
+    //     aliasNameNode.textDecoration = "UNDERLINE";
+    //   } else {
+    //     console.warn(`No resolved CatalogueItem found for ${aliasVariableId}`);
+    //   }
+    // }
   } else {
     console.warn(`No aliasVariableId provided`);
   }

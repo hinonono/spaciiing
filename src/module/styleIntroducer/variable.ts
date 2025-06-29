@@ -19,7 +19,8 @@ export async function applyStyleIntroducer(
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
     const viewport = utils.editor.getCurrentViewport();
-    const isCatalogueItemLinkFeatureAvailable = CLItemLink.checkCatalogueItemLinkFeatureAvailability();
+
+    // const isCatalogueItemLinkFeatureAvailable = CLItemLink.checkCatalogueItemLinkFeatureAvailability();
 
     const fontNameRegular = { family: "Inter", style: "Regular" };
     const fontNameSemi = { family: "Inter", style: "Semi Bold" };
@@ -41,7 +42,7 @@ export async function applyStyleIntroducer(
         localVariables,
         selectedVariables,
         modeNames,
-        isCatalogueItemLinkFeatureAvailable
+        // isCatalogueItemLinkFeatureAvailable
     )
     if (explanationItems.length === 0) { throw new Error("Termination due to explanationItems length is 0."); }
 
@@ -54,7 +55,7 @@ export async function applyStyleIntroducer(
         wrapperTitle,
         titleSecondary,
         fontNameSemi,
-        isCatalogueItemLinkFeatureAvailable.availability,
+        // isCatalogueItemLinkFeatureAvailable.availability,
         modeNames
     )
 
@@ -110,10 +111,10 @@ async function createExplanationItemsHandler(
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
+    // isCatalogueItemLinkFeatureAvailable: {
+    //     availability: boolean;
+    //     url: string | null;
+    // }
 ): Promise<FrameNode[]> {
     if (styleMode === "COLOR") {
         const items = await createItemColor(
@@ -123,7 +124,7 @@ async function createExplanationItemsHandler(
             localVariables,
             selectedVariables,
             modeNames,
-            isCatalogueItemLinkFeatureAvailable
+            // isCatalogueItemLinkFeatureAvailable
         );
         return items;
 
@@ -135,7 +136,7 @@ async function createExplanationItemsHandler(
             localVariables,
             selectedVariables,
             modeNames,
-            isCatalogueItemLinkFeatureAvailable
+            // isCatalogueItemLinkFeatureAvailable
         );
         return items;
 
@@ -147,7 +148,7 @@ async function createExplanationItemsHandler(
             localVariables,
             selectedVariables,
             modeNames,
-            isCatalogueItemLinkFeatureAvailable
+            // isCatalogueItemLinkFeatureAvailable
         );
         return items;
 
@@ -165,10 +166,10 @@ async function createGenericItem<T>(
     modeNames: string[],
     resolveValueFn: (value: VariableValue) => Promise<T | null>,
     previewKey: "colors" | "numbers" | "strings",
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
+    // isCatalogueItemLinkFeatureAvailable: {
+    //     availability: boolean;
+    //     url: string | null;
+    // }
 ): Promise<FrameNode[]> {
     const explanationItems: FrameNode[] = [];
 
@@ -235,12 +236,16 @@ async function createGenericItem<T>(
         explanationItem.primaryAxisSizingMode = "AUTO";
         explanationItem.counterAxisSizingMode = "AUTO";
 
-        if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
-            const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
-            
-            console.log("isss", url);
-            styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
-        }
+        // if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
+        //     const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
+
+        //     console.log("isss", url);
+        //     styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
+        // }
+
+        //V32: 去除對前端設定中的example file url 的依賴
+        styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, explanationItem.id);
+
 
         explanationItems.push(explanationItem);
     }
@@ -255,10 +260,10 @@ async function createItemColor(
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
+    // isCatalogueItemLinkFeatureAvailable: {
+    //     availability: boolean;
+    //     url: string | null;
+    // }
 ): Promise<FrameNode[]> {
     return createGenericItem<RGBA>(
         form,
@@ -269,7 +274,7 @@ async function createItemColor(
         modeNames,
         CLVar.resolveToActualRgbaValue,
         "colors",
-        isCatalogueItemLinkFeatureAvailable
+        // isCatalogueItemLinkFeatureAvailable
     );
 }
 
@@ -280,10 +285,10 @@ async function createItemNumber(
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
+    // isCatalogueItemLinkFeatureAvailable: {
+    //     availability: boolean;
+    //     url: string | null;
+    // }
 ): Promise<FrameNode[]> {
     return createGenericItem<number>(
         form,
@@ -294,7 +299,7 @@ async function createItemNumber(
         modeNames,
         CLVar.resolveToActualNumberValue,
         "numbers",
-        isCatalogueItemLinkFeatureAvailable
+        // isCatalogueItemLinkFeatureAvailable
     );
 }
 
@@ -305,10 +310,10 @@ async function createItemString(
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
+    // isCatalogueItemLinkFeatureAvailable: {
+    //     availability: boolean;
+    //     url: string | null;
+    // }
 ): Promise<FrameNode[]> {
     return createGenericItem<string>(
         form,
@@ -319,7 +324,7 @@ async function createItemString(
         modeNames,
         CLVar.resolveToActualStringValue,
         "strings",
-        isCatalogueItemLinkFeatureAvailable
+        // isCatalogueItemLinkFeatureAvailable
     );
 }
 

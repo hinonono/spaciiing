@@ -25,10 +25,10 @@ export function createExplanationWrapper(
     title: string,
     titleSecondary: string,
     fontName: FontName,
-    isItemLinkEnabled: boolean = false,
+    // isItemLinkEnabled: boolean = false,
     modes?: string[]
 ) {
-    const dateString = createDateString(lr, isItemLinkEnabled);
+    const dateString = createDateString(lr, true);
 
     const dateNode = utils.node.createTextNode(dateString, fontName, semanticTokens.fontSize.xsmall, [{ type: "SOLID", color: semanticTokens.text.tertiary }]);
     dateNode.textAlignHorizontal = "RIGHT";
