@@ -240,11 +240,11 @@ async function createGenericItem<T>(
         //     const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
 
         //     console.log("isss", url);
-        //     styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
+        //     styledTextSegments.writeCatalogueItemId(variable.id, url);
         // }
 
         //V32: 去除對前端設定中的example file url 的依賴
-        styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, explanationItem.id);
+        styledTextSegments.writeCatalogueItemId(variable.id, explanationItem.id);
 
 
         explanationItems.push(explanationItem);

@@ -748,10 +748,10 @@ function createAliasNameWrapper(
 
   // Attempt to resolve the provided variable ID
   if (aliasVariableId) {
-    // const aliasVariableCatalogueItemUrl = styledTextSegments.getCatalogueItemIdFromRoot(aliasVariableId);
+    // const aliasVariableCatalogueItemUrl = styledTextSegments.getCatalogueItemId(aliasVariableId);
     // console.log("aliasVariableCatalogueItemUrl", aliasVariableCatalogueItemUrl);
 
-    const catalogueItemId = styledTextSegments.getCatalogueItemIdFromRoot(aliasVariableId);
+    const catalogueItemId = styledTextSegments.getCatalogueItemId(aliasVariableId);
     const resolvedCatalogueItem = figma.currentPage.findOne(
       (node) => node.id === catalogueItemId && node.removed === false
     );

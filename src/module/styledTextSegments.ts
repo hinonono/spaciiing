@@ -187,43 +187,10 @@ export async function applyCatalogueItemRichStyle(node: TextNode, styles: Return
  * @param variableId 
  * @param explanationItemId 
  */
-export function writeCatalogueItemUrlToRoot(variableId: string, explanationItemId: string) {
+export function writeCatalogueItemId(variableId: string, explanationItemId: string) {
     figma.root.setPluginData(`catalogue-item-url_${variableId}`, explanationItemId);
 }
 
-export function getCatalogueItemIdFromRoot(id: string): string | null {
+export function getCatalogueItemId(id: string): string | null {
     return figma.root.getPluginData(`catalogue-item-url_${id}`) || null;
 }
-
-/**
- * Generates a modified Figma URL with the updated node ID.
- *
- * @param {string} baseUrl - The base Figma URL.
- * @param {string} nodeId - The node(Frame) ID to be updated in the URL.
- * @returns {string} - The updated URL with the new node ID.
- */
-// export function generateFigmaUrlWithNodeId(baseUrl: string, nodeId: string): string {
-//     if (!baseUrl.includes("?node-id=")) {
-//         throw new Error("The provided URL does not contain a 'node-id' parameter.");
-//     }
-
-//     const result = baseUrl.replace(/(\?node-id=)[^&]+/, `$1${nodeId}`);
-//     // Use regex to replace the node-id parameter
-//     return result;
-// }
-
-
-/**
- * @deprecated
- * Extracts the node ID from a Figma URL.
- *
- * @param {string} url - The Figma URL containing the node ID.
- * @returns {string | null} - The extracted node ID, or null if the `node-id` parameter is not found.
- */
-// export function extractNodeIdFromFigmaUrl(url: string): string | null {
-//     // Check if the URL contains the `node-id` parameter
-//     const match = url.match(/[\?&]node-id=([^&]+)/);
-
-//     // If a match is found, return the captured node ID; otherwise, return null
-//     return match ? decodeURIComponent(match[1]) : null;
-// }
