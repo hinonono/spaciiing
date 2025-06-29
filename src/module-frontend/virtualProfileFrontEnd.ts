@@ -9,7 +9,6 @@ import { SupportedLangCode } from "../types/Localization";
 import { VPPreset } from "../assets/virtual-profile";
 import {
   ExternalMessageUpdateVirtualProfile,
-  // MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
 import { Message } from "../types/Messages/Message";
 import { AppContextType } from "../AppProvider";
