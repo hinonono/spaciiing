@@ -2,8 +2,7 @@
   "name": "Spaciiing",
   "version": "32",
   "whatsNew": [
-    "Catalogue now support noise and texture effects",
-    "Explore your saved time and clicks through Productivity Report",
+    "This version introduces major structural changes under the hood that were necessary to improve performance and stability. You may notice that some of your preference data is missing. We are sorry for the inconvenience. If that happens, please take a moment to re-enter your preferences.",
     "Overall enhancements"
   ],
   "price": {
