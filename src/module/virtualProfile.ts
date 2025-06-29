@@ -91,15 +91,11 @@ function ConvertOldVpToNew(oldVpdata: VirtualProfile) {
 }
 
 function initVirtualProfileGroups() {
-  const pluginDataKey = "virtual-profile-groups";
-  const newVpdata = figma.root.getPluginData(pluginDataKey);
-
-  const oldVpData = figma.root.getPluginData("virtual-profile");
+  // const pluginDataKey = "virtual-profile-groups";
+  const newVpdata = figma.root.getPluginData(utils.dataKeys.VIRTUAL_PROFILE_GROUPS);
+  const oldVpData = figma.root.getPluginData(utils.dataKeys.VIRTUAL_PROFILE);
 
   let vpg: VirtualProfileGroup[];
-
-  // console.log("Plugin Data");
-  // console.log(data);
 
   const vp: VirtualProfile = {
     name: "John Doe",
@@ -152,11 +148,11 @@ function initVirtualProfileGroups() {
       vpg = ConvertOldVpToNew(oldVp);
 
       // 轉換完成後清空舊的
-      figma.root.setPluginData("virtual-profile", "");
+      figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
     }
 
     // Save vp as a JSON string
-    figma.root.setPluginData(pluginDataKey, JSON.stringify(vpg));
+    figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE_GROUPS, JSON.stringify(vpg));
 
     const message: ExternalMessageUpdateVirtualProfile = {
       virtualProfile: vp,
@@ -188,11 +184,11 @@ function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
   if (message.virtualProfileGroups) {
     // Save vp as a JSON string
     figma.root.setPluginData(
-      "virtual-profile-groups",
+      utils.dataKeys.VIRTUAL_PROFILE_GROUPS,
       JSON.stringify(message.virtualProfileGroups)
     );
     // 清空舊的
-    figma.root.setPluginData("virtual-profile", "");
+    figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
   }
 }
 
@@ -230,7 +226,7 @@ async function applyVirtualProfileValueToTextNode(
         virtualProfileValue: message.virtualProfileValue,
       };
 
-      textNode.setPluginData("virtual-profile-object", JSON.stringify(vp));
+      textNode.setPluginData(utils.dataKeys.VIRTUAL_PROFILE_OBJECT, JSON.stringify(vp));
     }
 
     figma.notify(`✅ Text nodes updated successfully.`);

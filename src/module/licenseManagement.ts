@@ -4,8 +4,7 @@ import { utils } from "./utils";
 
 export async function initLicenseCheck() {
   // 檢查用戶的Client Storage是否有儲存license key
-  const STORAGE_KEY = "license-management";
-  const licenseData = await figma.clientStorage.getAsync(STORAGE_KEY);
+  const licenseData = await figma.clientStorage.getAsync(utils.dataKeys.LICENSE_MANAGEMENT);
 
   if (licenseData) {
     // 有License Data
@@ -28,7 +27,7 @@ export async function initLicenseCheck() {
       licenseKey: "",
       sessionExpiredAt: expiredTime,
     };
-    await figma.clientStorage.setAsync(STORAGE_KEY, JSON.stringify(license));
+    await figma.clientStorage.setAsync(utils.dataKeys.LICENSE_MANAGEMENT, JSON.stringify(license));
   }
 }
 
@@ -39,6 +38,5 @@ export async function reception(message: MessageLicenseManagement) {
 }
 
 async function setLicenseToLocalStorage(license: LicenseManagement) {
-  const STORAGE_KEY = "license-management";
-  await figma.clientStorage.setAsync(STORAGE_KEY, JSON.stringify(license));
+  await figma.clientStorage.setAsync(utils.dataKeys.LICENSE_MANAGEMENT, JSON.stringify(license));
 }

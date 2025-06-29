@@ -405,7 +405,7 @@ function setArrowSchemaData(
     hasAnnotation: boolean,
     annotationNodeId?: string,
 ) {
-    const key = "arrow-schema"
+    // const key = "arrow-schema"
     const schema: ArrowSchema = {
         objectType: "SPACIIING_ARROW",
         arrowNodeId: arrowNodeId,
@@ -420,14 +420,14 @@ function setArrowSchemaData(
         hasAnnotation: hasAnnotation,
     }
 
-    groupNode.setPluginData(key, JSON.stringify(schema));
+    groupNode.setPluginData(utils.dataKeys.ARROW_SCHEMA, JSON.stringify(schema));
     groupNode.setRelaunchData(({ updateArrowsPosition: "Update arrows position" }))
 }
 
 function getArrowSchema(obj: SceneNode): ArrowSchema {
-    const key = "arrow-schema"
+    // const key = "arrow-schema"
 
-    const data = obj.getPluginData(key)
+    const data = obj.getPluginData(utils.dataKeys.ARROW_SCHEMA);
 
     if (data) {
         const decodedData = JSON.parse(data) as ArrowSchema;

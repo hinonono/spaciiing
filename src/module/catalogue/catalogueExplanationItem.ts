@@ -100,7 +100,7 @@ function setItemSchema(form: StyleForm, referId: string, targetNode: SceneNode) 
     }
 
     // 將該descriptionNode所連結至的style/variable的id存入其自身的pluginData中
-    targetNode.setPluginData("catalogue-item-schema", JSON.stringify(schema));
+    targetNode.setPluginData(utils.dataKeys.CATALOGUE_ITEM_SCHEMA, JSON.stringify(schema));
 }
 
 function checkAndApplyRichStyle(referId: string, targetNode: TextNode) {

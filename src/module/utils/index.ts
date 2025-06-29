@@ -9,6 +9,7 @@ import * as serviceUtil from "./service";
 import * as stringUtil from "./string";
 import * as typeCheckUtil from "./typeCheck";
 import * as vectorUtil from "./vector";
+import { dataKeys } from "./dataKeys";
 
 export const utils = {
   color: colorUtil,
@@ -22,4 +23,5 @@ export const utils = {
   string: stringUtil,
   typeCheck: typeCheckUtil,
   vector: vectorUtil,
+  dataKeys: dataKeys,
 };

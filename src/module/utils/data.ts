@@ -15,14 +15,14 @@ export function saveEditorPreference(
     editorPreference: EditorPreference,
     source?: Module
 ) {
-    const dataKey = "editor-preferences";
+    // const dataKey = "editor-preferences";
 
     if (!figma.currentUser?.id) {
         throw new Error("User must be logged in to save preferences.");
     }
 
     const userId = figma.currentUser.id;
-    const rawData = figma.root.getPluginData(dataKey);
+    const rawData = figma.root.getPluginData(utils.dataKeys.EDITOR_PREFERENCES);
 
     let decoded: EditorPreference[] = [];
     if (rawData) {
@@ -46,7 +46,7 @@ export function saveEditorPreference(
         decoded[existedIndex] = editorPreference;
     }
 
-    figma.root.setPluginData(dataKey, JSON.stringify(decoded));
+    figma.root.setPluginData(utils.dataKeys.EDITOR_PREFERENCES, JSON.stringify(decoded));
 }
 
 function createEditorPreference(): EditorPreference {
@@ -70,14 +70,14 @@ function createEditorPreference(): EditorPreference {
  * @returns {EditorPreference} The decoded editor preference if it exists, otherwise a new empty EditorPreference object.
  */
 export function readEditorPreference(): EditorPreference {
-    const dataKey = "editor-preferences";
+    // const dataKey = "editor-preferences";
 
     if (!figma.currentUser?.id) {
         throw new Error("User must be logged in to load preferences.");
     }
 
     const userId = figma.currentUser.id;
-    const rawData = figma.root.getPluginData(dataKey);
+    const rawData = figma.root.getPluginData(utils.dataKeys.EDITOR_PREFERENCES);
 
     let decoded: EditorPreference[] = [];
     if (rawData) {
