@@ -27,12 +27,12 @@
     },
     {
       "tier": "GOLD",
-      "max": 15000,
+      "max": 10000,
       "translateKey": "module:gold"
     },
     {
       "tier": "PLATINUM",
-      "max": 30000,
+      "max": 18000,
       "translateKey": "module:platinum"
     },
     {

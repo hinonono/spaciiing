@@ -138,7 +138,7 @@ figma.ui.onmessage = (message: Message) => {
       styleIntroducer.reception(siMessage);
 
       if (siMessage.styleSelection) {
-        incrementSavedClicks = siMessage.styleSelection.scopes.length * 15 + 8
+        incrementSavedClicks = siMessage.styleSelection.scopes.length * 18 + 8
       }
       break;
     default:
