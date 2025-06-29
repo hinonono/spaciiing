@@ -94,7 +94,7 @@ figma.ui.onmessage = (message: Message) => {
       const scMessage = message as MessageShortcut;
       shortcut.executeShortcut(scMessage);
       if (scMessage.phase !== "Init") {
-        incrementSavedClicks = selectionLength * 8
+        incrementSavedClicks = selectionLength * 10;
       }
       break;
     case "Renamer":
