@@ -9,10 +9,13 @@ import { utils } from "../utils";
 // 啟用的話，當產生型錄物件時，可以透過alias物件來連結回參照的物件那裡
 export function checkCatalogueItemLinkFeatureAvailability(): { availability: boolean, url: string | null } {
     //是否啟用cataloge item link功能
-    const editorPreference = utils.data.readEditorPreference();
+    // const editorPreference = utils.data.readEditorPreference();
+    const url = utils.data.readCrossCatalogueReferenceURL();
+    console.log("cross", url);
 
-    if (editorPreference.exampleFileUrl) {
-        return { availability: true, url: editorPreference.exampleFileUrl };
+
+    if (url !== "") {
+        return { availability: true, url: url };
     } else {
         return { availability: false, url: null };
     }

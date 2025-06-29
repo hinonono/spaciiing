@@ -203,7 +203,6 @@ export function generateFigmaUrlWithNodeId(baseUrl: string, nodeId: string): str
     }
 
     const result = baseUrl.replace(/(\?node-id=)[^&]+/, `$1${nodeId}`);
-
     // Use regex to replace the node-id parameter
     return result;
 }

@@ -4,4 +4,5 @@ import { CYStrokeStyle } from "./CYStrokeStyle";
 // 這個物件裝的都是希望透過figma在不同用戶間同步的資料
 export interface RuntimeSyncedResources {
     strokeStyles: CYStrokeStyle[];
+    exampleFileUrl: string;
 }

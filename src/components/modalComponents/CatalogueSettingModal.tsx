@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MessageShortcut } from "../../types/Messages/MessageShortcut";
 import * as info from "../../info.json";
+import { MessageSaveSyncedResource } from "../../types/Messages/MessageSaveSyncedResource";
 
 interface CatalogueSettingModalProps {
   show: boolean;
@@ -20,8 +21,10 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
   const {
     licenseManagement,
     setShowCTSubscribe,
-    editorPreference,
-    setEditorPreference,
+    // editorPreference,
+    // setEditorPreference,
+    runtimeSyncedResources,
+    setRuntimeSyncedResources,
     setFreeUserDelayModalConfig,
   } = useAppContext();
 
@@ -40,14 +43,23 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
       }
     }
 
-    const message: MessageShortcut = {
-      module: "Shortcut",
-      direction: "Inner",
+    // const message: MessageShortcut = {
+    //   module: "Shortcut",
+    //   direction: "Inner",
+    //   phase: "Actual",
+    //   shouldSaveEditorPreference: shouldSavePreference,
+    //   editorPreference: editorPreference,
+    //   action: "updateExampleFileUrl",
+    // };
+
+    const message: MessageSaveSyncedResource = {
+      shouldSaveSyncedReources: true,
+      shouldSaveSyncedReourcesType: "catalogueReferenceFileURL",
+      syncedResources: runtimeSyncedResources,
+      module: "General",
       phase: "Actual",
-      shouldSaveEditorPreference: shouldSavePreference,
-      editorPreference: editorPreference,
-      action: "updateExampleFileUrl",
-    };
+      direction: "Inner"
+    }
 
     parent.postMessage({ pluginMessage: message, }, "*");
 
@@ -58,8 +70,8 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
     if (shouldSavePreference == false) {
       setShouldSavePreference(true);
     }
-    setEditorPreference((prevPreference) => ({
-      ...prevPreference,
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
       exampleFileUrl: event.target.value,
     }));
   };
@@ -76,7 +88,7 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
           <textarea
             className="textarea"
             rows={5}
-            value={editorPreference.exampleFileUrl}
+            value={runtimeSyncedResources.exampleFileUrl}
             onChange={handleFileUrlChange}
             placeholder={t("term:text")}
           />

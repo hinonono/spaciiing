@@ -14,6 +14,9 @@ export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSy
         case "strokeStyles":
             figma.root.setPluginData(utils.dataKeys.ARROW_STYLES, JSON.stringify(resource.strokeStyles));
             break;
+        case "catalogueReferenceFileURL":
+            figma.root.setPluginData(utils.dataKeys.CROSS_CATALOGUE_REFERENCE_URL, JSON.stringify(resource.exampleFileUrl));
+            break;
         default:
             break;
     }
@@ -21,9 +24,11 @@ export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSy
 
 export function compileSyncedResources(): RuntimeSyncedResources {
     const strokeStyles = readStrokeStyles();
+    const crossCatalogueReferenceURL = readCrossCatalogueReferenceURL();
 
     return {
-        strokeStyles: strokeStyles
+        strokeStyles: strokeStyles,
+        exampleFileUrl: crossCatalogueReferenceURL,
     }
 }
 
@@ -59,6 +64,16 @@ function readStrokeStyles(): CYStrokeStyle[] {
     }
 
     return decodedStrokeStyles;
+}
+
+export function readCrossCatalogueReferenceURL(): string {
+    const rawURL = figma.root.getPluginData(utils.dataKeys.CROSS_CATALOGUE_REFERENCE_URL);
+
+    if (rawURL) {
+        return rawURL;
+    } else {
+        return "";
+    }
 }
 
 /**

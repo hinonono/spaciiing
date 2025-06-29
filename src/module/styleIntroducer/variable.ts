@@ -237,6 +237,8 @@ async function createGenericItem<T>(
 
         if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
             const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
+            
+            console.log("isss", url);
             styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
         }
 

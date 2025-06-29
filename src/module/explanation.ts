@@ -749,6 +749,8 @@ function createAliasNameWrapper(
   // Attempt to resolve the provided variable ID
   if (aliasVariableId) {
     const aliasVariableCatalogueItemUrl = styledTextSegments.getCatalogueItemUrlFromRoot(aliasVariableId);
+    console.log("aliasVariableCatalogueItemUrl", aliasVariableCatalogueItemUrl);
+
 
     if (!aliasVariableCatalogueItemUrl) {
       console.warn(`No URL found for ${aliasVariableId}`);
@@ -761,8 +763,8 @@ function createAliasNameWrapper(
       // If resolved catalogue item is not found, skip this block only
       if (resolvedCatalogueItem) {
         aliasNameNode.hyperlink = {
-          type: "URL",
-          value: aliasVariableCatalogueItemUrl,
+          type: "NODE",
+          value: resolvedCatalogueItem.id,
         };
         aliasNameNode.textDecoration = "UNDERLINE";
       } else {

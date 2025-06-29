@@ -6,5 +6,6 @@ export const dataKeys = {
     ARROW_SCHEMA: "arrow-schema",
     ARROW_STYLES: "arrow-styles",
     CATALOGUE_ITEM_SCHEMA: "catalogue-item-schema",
+    CROSS_CATALOGUE_REFERENCE_URL: "cross-catalogue-reference-url",
     EDITOR_PREFERENCES: "editor-preferences"
 }
