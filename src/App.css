@@ -1948,7 +1948,7 @@ details summary {
   transform: rotate(0deg);
 }
 .arrowIcon.expanded {
-  transform: rotate(0deg);
+  transform: rotate(90deg);
 }
 
 .list-style-none {
