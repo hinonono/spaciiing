@@ -4,6 +4,7 @@ import * as styledTextSegments from "../styledTextSegments";
 import * as typeChecking from "../typeChecking";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 import { CatalogueKit } from "../catalogue";
+import { semanticTokens } from "../tokens";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
@@ -12,12 +13,11 @@ export async function applyStyleIntroducer(
 
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
-    const viewport = utils.editor.getCurrentViewport();
 
-    const fontNameRegular = { family: "Inter", style: "Regular" };
-    const fontNameSemi = { family: "Inter", style: "Semi Bold" };
-
-    await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
+    await utils.editor.loadFont([
+        semanticTokens.fontFamily.regular,
+        semanticTokens.fontFamily.semiBold
+    ]);
 
     const lr: CatalogueLocalizationResources = CatalogueKit.localizer.createLocalizationResource(lang);
 
@@ -28,11 +28,10 @@ export async function applyStyleIntroducer(
     const explanationItems = await createExplanationItemsHandler(
         form,
         styleMode,
-        fontNameRegular,
+        semanticTokens.fontFamily.regular,
         localVariables,
         selectedVariables,
         modeNames,
-        // isCatalogueItemLinkFeatureAvailable
     )
     if (explanationItems.length === 0) { throw new Error("Termination due to explanationItems length is 0."); }
 
@@ -44,12 +43,9 @@ export async function applyStyleIntroducer(
         explanationItems,
         wrapperTitle,
         titleSecondary,
-        fontNameSemi,
-        // isCatalogueItemLinkFeatureAvailable.availability,
+        semanticTokens.fontFamily.semiBold,
         modeNames
     )
-
-    CatalogueKit.wrapper.setup(explanationWrapper, viewport);
 
     figma.currentPage.appendChild(explanationWrapper);
     figma.currentPage.selection = [explanationWrapper];

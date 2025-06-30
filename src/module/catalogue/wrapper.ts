@@ -25,7 +25,6 @@ export function create(
     title: string,
     titleSecondary: string,
     fontName: FontName,
-    // isItemLinkEnabled: boolean = false,
     modes?: string[]
 ) {
     const dateString = createDateString(lr);
@@ -59,8 +58,6 @@ export function create(
         left: semanticTokens.padding.xlarge,
         right: semanticTokens.padding.xlarge,
     });
-    wrapperFrame.primaryAxisSizingMode = "AUTO";
-    wrapperFrame.counterAxisSizingMode = "FIXED";
 
     const frameWidth = determineFrameWidth(modes);
     wrapperFrame.resize(frameWidth, wrapperFrame.height);
@@ -71,22 +68,32 @@ export function create(
 
     wrapperFrame.setRelaunchData(({ updateCatalogueDesc: 'Update description back to styles or variables' }))
 
+    const viewport = utils.editor.getCurrentViewport();
+    wrapperFrame.fills = [
+        {
+            type: "SOLID",
+            color: semanticTokens.background.primary,
+        },
+    ];
+
+    wrapperFrame.name = `Catalogue`;
+
+    wrapperFrame.cornerRadius = 16;
+    wrapperFrame.primaryAxisSizingMode = "AUTO";
+    wrapperFrame.counterAxisSizingMode = "FIXED";
+
+    wrapperFrame.x = viewport.x;
+    wrapperFrame.y = viewport.y;
+
     return wrapperFrame;
 }
 
 function createDateString(
     lr: CatalogueLocalizationResources,
-    // isItemLinkEnabled: boolean
 ): string {
     const localeFormat = lr.lang === "enUS" ? "western" : "eastern";
     const formattedDate = utils.data.getFormattedDate("fullDateTime", localeFormat);
-
     let text = lr.module["createdAt"].replace("$TIME$", formattedDate);
-
-    // if (isItemLinkEnabled) {
-    //     text += lr.module["crossCatalogueReferenceEnabled"];
-    // }
-
     return text;
 }
 
@@ -127,22 +134,4 @@ function determineFrameWidth(modes?: string[]): number {
     } else {
         return basicWidth;
     }
-}
-
-export function setup(wrapper: FrameNode, viewport: Vector) {
-    wrapper.fills = [
-        {
-            type: "SOLID",
-            color: semanticTokens.background.primary,
-        },
-    ];
-
-    wrapper.name = `Catalogue`;
-
-    wrapper.cornerRadius = 16;
-    wrapper.primaryAxisSizingMode = "AUTO";
-    wrapper.counterAxisSizingMode = "FIXED";
-
-    wrapper.x = viewport.x;
-    wrapper.y = viewport.y;
 }

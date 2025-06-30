@@ -35,7 +35,10 @@ export async function writeCatalogueDescBackToFigma(lang: string) {
         throw new Error("No description nodes found.");
     }
 
-    await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
+    await utils.editor.loadFont([
+        semanticTokens.fontFamily.regular,
+        semanticTokens.fontFamily.semiBold
+    ]);
 
     let updatedCount = 0;
 

@@ -344,7 +344,10 @@ async function drawArrowAndAnnotation(
 }
 
 async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
-    await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
+    await utils.editor.loadFont([
+        semanticTokens.fontFamily.regular,
+        semanticTokens.fontFamily.semiBold
+    ]);
     const annotationNodeSize = {
         width: strokeStlye.strokeWeight * 30,
         height: strokeStlye.strokeWeight * 8,

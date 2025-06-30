@@ -16,6 +16,7 @@ import { SpacingMode } from "../types/Messages/MessageSpaciiing";
 import { updateArrowPosition } from "./arrowCreator/arrowCreator";
 import { Direction } from "../types/General";
 import { utils } from "./utils";
+import { semanticTokens } from './tokens';
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -148,8 +149,10 @@ async function spiltText(message: MessageShortcutSpiltText) {
   }
 
   await utils.editor.loadFontOnTextNode(node);
-  await utils.editor.loadFont("Inter", ["Regular"]);
-  // await figma.loadFontAsync({ family: "Inter", style: "Regular" })
+
+  await utils.editor.loadFont([
+      semanticTokens.fontFamily.regular,
+    ]);
 
   const originalText = node.characters;
 

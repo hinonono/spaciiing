@@ -76,6 +76,10 @@ export const semanticTokens = {
   },
   dividerColor: primitiveTokens.slate[200],
   strokeColor: primitiveTokens.slate[300],
+  fontFamily: {
+    regular: { family: "Inter", style: "Regular" },
+    semiBold: { family: "Inter", style: "Semi Bold" },
+  },
   fontSize: {
     xsmall: 8,
     small: 12,

@@ -2,6 +2,7 @@ import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, St
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 import { utils } from "../utils";
 import { CatalogueKit } from "../catalogue";
+import { semanticTokens } from "../tokens";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
@@ -10,16 +11,19 @@ export async function applyStyleIntroducer(
 
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
-    const viewport = utils.editor.getCurrentViewport();
 
-    const fontNameRegular = { family: "Inter", style: "Regular" };
-    const fontNameSemi = { family: "Inter", style: "Semi Bold" };
-    await utils.editor.loadFont("Inter", ["Regular", "Semi Bold"]);
+    await utils.editor.loadFont([
+        semanticTokens.fontFamily.regular,
+        semanticTokens.fontFamily.semiBold
+    ]);
 
     const lr: CatalogueLocalizationResources = CatalogueKit.localizer.createLocalizationResource(lang);
     const selectedStyleList = await getSelectedStyleList(scopes, styleMode);
-    const explanationItems = createExplanationItemsHandler(lr, form, styleMode, fontNameRegular, selectedStyleList)
 
+    // Explanation Items
+    const explanationItems = createExplanationItemsHandler(lr, form, styleMode, semanticTokens.fontFamily.regular, selectedStyleList)
+
+    // Wrapper
     const wrapperTitle = title == "" ? lr.term["style"] : title
     const titleSecondary = lr.module["moduleCatalogue"];
     const explanationWrapper = CatalogueKit.wrapper.create(
@@ -28,9 +32,8 @@ export async function applyStyleIntroducer(
         explanationItems,
         wrapperTitle,
         titleSecondary,
-        fontNameSemi
+        semanticTokens.fontFamily.semiBold
     )
-    CatalogueKit.wrapper.setup(explanationWrapper, viewport);
 
     figma.currentPage.appendChild(explanationWrapper);
     figma.currentPage.selection = [explanationWrapper];

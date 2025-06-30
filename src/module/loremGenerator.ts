@@ -1,5 +1,6 @@
 
 import { MessageLoremGenerator } from "../types/Messages/MessageLoremGenerator";
+import { semanticTokens } from "./tokens";
 import { utils } from "./utils";
 
 export async function makeLorem(message: MessageLoremGenerator) {
@@ -28,14 +29,13 @@ export async function makeLorem(message: MessageLoremGenerator) {
 
   if (selection.length === 0) {
     // 使用者沒有選擇任何物件
-    // await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-    await utils.editor.loadFont("Inter", ["Regular"]);
+
+    await utils.editor.loadFont([
+      semanticTokens.fontFamily.regular,
+    ]);
     const textNode = utils.node.createTextNode(
       textContent,
-      {
-        family: "Inter",
-        style: "Regular",
-      },
+      semanticTokens.fontFamily.regular,
       16,
       undefined,
       {
