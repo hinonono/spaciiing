@@ -10,6 +10,7 @@ import * as stringUtil from "./string";
 import * as typeCheckUtil from "./typeCheck";
 import * as vectorUtil from "./vector";
 import { dataKeys } from "./dataKeys";
+import { relaunchCommand } from "./relaunchCommand";
 
 export const utils = {
   color: colorUtil,
@@ -24,4 +25,5 @@ export const utils = {
   typeCheck: typeCheckUtil,
   vector: vectorUtil,
   dataKeys: dataKeys,
+  relaunchCommand: relaunchCommand,
 };

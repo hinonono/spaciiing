@@ -18,6 +18,8 @@ export async function init() {
   const editorType = figma.editorType as EditorType;
   utils.runtime.updateEditorType(editorType);
   utils.runtime.updateTriggeredCommand();
+  utils.runtime.directlyExecuteCommand();
 
-  figma.root.setRelaunchData({ open: 'All in one edit tool' })
+
+  figma.root.setRelaunchData({ [utils.relaunchCommand.open.name]: utils.relaunchCommand.open.desc })
 }

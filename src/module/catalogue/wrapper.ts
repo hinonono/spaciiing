@@ -66,7 +66,7 @@ export function create(
         item.layoutSizingHorizontal = "FILL";
     });
 
-    wrapperFrame.setRelaunchData(({ updateCatalogueDesc: 'Update description back to styles or variables' }))
+    wrapperFrame.setRelaunchData(({ [utils.relaunchCommand.updateCatalogueDesc.name]: utils.relaunchCommand.updateCatalogueDesc.desc }))
 
     const viewport = utils.editor.getCurrentViewport();
     wrapperFrame.fills = [

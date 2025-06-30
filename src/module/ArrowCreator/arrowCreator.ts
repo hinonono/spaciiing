@@ -46,10 +46,6 @@ export function reception(message: MessageArrowCreator) {
             message.safeMargin,
         )
     }
-
-    for (const item of sortedSelction) {
-        item.setRelaunchData({ drawArrows: '' });
-    }
 }
 
 
@@ -424,7 +420,7 @@ function setArrowSchemaData(
     }
 
     groupNode.setPluginData(utils.dataKeys.ARROW_SCHEMA, JSON.stringify(schema));
-    groupNode.setRelaunchData(({ updateArrowsPosition: "Update arrows position" }))
+    groupNode.setRelaunchData(({ [utils.relaunchCommand.updateArrowsPosition.name]: utils.relaunchCommand.updateArrowsPosition.desc }))
 }
 
 function getArrowSchema(obj: SceneNode): ArrowSchema {
