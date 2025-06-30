@@ -802,8 +802,8 @@ input {
 .folder-navigator li .container {
   margin-left: 16px;
   margin-right: 16px;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 .folder-navigator li .container:hover {
   background-color: var(--figma-color-bg-secondary);
@@ -840,17 +840,16 @@ input {
 }
 
 .button-folder {
-  border-bottom: 1px solid var(--cy-border-light);
-  padding: 8px 16px;
+  padding: 0px 8px;
+  margin: 0px 0px 0px 8px;
   display: inline-block;
+  border-radius: var(--cy-border-radius-medium);
   text-align: left;
-  margin: 0;
   position: relative;
   min-height: 40px;
-  /* Add this line */
 }
 .button-folder:hover {
-  background-color: var(--color-bg-selected);
+  background-color: var(--figma-color-bg-secondary);
 }
 
 .tooltip {
@@ -1023,13 +1022,13 @@ input {
 .chevron-right {
   /* Add this block */
   position: absolute;
-  right: 16px;
-  top: 50%;
+  right: 28px;
+  top: 45%;
   transform: translateY(-50%);
-  border: solid var(--figma-color-text-secondary);
+  border: solid var(--figma-color-text-tertiary);
   border-width: 0 1.5px 1.5px 0;
   display: inline-block;
-  padding: 3px;
+  padding: 2px;
   transform: rotate(315deg);
 }
 

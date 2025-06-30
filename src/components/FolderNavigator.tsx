@@ -171,7 +171,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       <div
         className={`cy-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical`}
       >
-        <ul className="list-style-none">
+        <ul className="list-style-none pt-xxsmall pb-xxsmall">
           {Object.keys(currentStructure).map((key) => (
             <li key={key}>
               {currentStructure[key].children ? (
@@ -184,28 +184,6 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
                 </button>
               ) : (
                 <>
-                  {/* <label
-                    key={currentStructure[key].id} // Use id as the key to ensure uniqueness
-                    className="container" // You can add indentation styles or other classes here
-                  >
-                    <div className="flex flex-row align-items-center flex-justify-space-between">
-                      <div className="flex flex-row align-items-center">
-                        {currentStructure[key].color && <ColorThumbnailView color={currentStructure[key].color} opacity={1} size={20} type={form === "STYLE" ? "rounded" : "square"} extraClassName="mr-xxsmall" />}
-                        {key}
-                      </div>
-                      <input
-                        type="checkbox"
-                        value={currentStructure[key].id}
-                        checked={selectedScopes.scopes.includes(
-                          currentStructure[key].id!
-                        )}
-                        onChange={() =>
-                          handleScopeChange(currentStructure[key].id!)
-                        }
-                      />
-                      <span className="checkmark"></span>
-                    </div>
-                  </label> */}
                   <CYCheckbox
                     label={
                       <div className="flex flex-row align-items-center">

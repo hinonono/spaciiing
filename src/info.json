@@ -2,7 +2,10 @@
   "name": "Spaciiing",
   "version": "32",
   "whatsNew": [
-    "This version introduces major structural changes under the hood that were necessary to improve performance and stability. You may notice that some of your preference data is missing. We are sorry for the inconvenience. If that happens, please take a moment to re-enter your preferences.",
+    "This version introduces major structural changes under the hood that were necessary to improve performance and stability. You may notice that some of your preference data is missing. If that happens, please take a moment to re-enter your preferences.",
+    "Now Catalogue automatically enable cross-catalogue reference feature without further settings. Corresponding interface has been removed.",
+    "Catalogue support noise and texture effects",
+    "Explore your design effort through Productivity Report",
     "Overall enhancements"
   ],
   "price": {

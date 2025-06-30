@@ -15,8 +15,8 @@
         .container {
             margin-left: 16px;
             margin-right: 16px;
-            margin-top: 0px;
-            margin-bottom: 0px;
+            margin-top: 4px;
+            margin-bottom: 4px;
 
             &:hover {
                 background-color: var(--figma-color-bg-secondary);
@@ -72,17 +72,16 @@
 }
 
 .button-folder {
-    border-bottom: 1px solid var(--cy-border-light);
-    padding: 8px 16px;
+    padding: 0px 8px;
+    margin: 0px 0px 0px 8px;
     display: inline-block;
+    border-radius: var(--cy-border-radius-medium);
     text-align: left;
-    margin: 0;
     position: relative;
     min-height: 40px;
-    /* Add this line */
 
     &:hover {
-        background-color: var(--color-bg-selected);
+        background-color: var(--figma-color-bg-secondary);
     }
 
 
