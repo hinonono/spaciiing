@@ -124,13 +124,13 @@ const licenseVerifyHandler = async (
   appContext: AppContextType
 ) => {
   let newLicense = { ...license };
-  const oldDate = utils.data.convertUTCStringToDate(license.sessionExpiredAt);
+  const expiredAt = utils.data.convertUTCStringToDate(license.sessionExpiredAt);
 
   // console.log("Is old date:", oldDate);
 
   appContext.setIsVerifying(true);
 
-  if (oldDate <= new Date()) {
+  if (expiredAt <= new Date()) {
     const newExpiredTime = utils.data.addHours(new Date(), 3).toUTCString();
     newLicense.sessionExpiredAt = newExpiredTime;
 
@@ -178,12 +178,7 @@ const licenseVerifyHandler = async (
     direction: "Inner",
     action: "UPDATE",
   };
-  parent.postMessage(
-    {
-      pluginMessage: message,
-    },
-    "*"
-  );
+  parent.postMessage({ pluginMessage: message, }, "*");
   setLicenseManagement(newLicense);
 };
 
