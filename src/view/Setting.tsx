@@ -107,58 +107,56 @@ const Setting: React.FC = () => {
             <div className="grid">
               <div className="membership-block">
                 <p className="color--secondary">Share Spaciiing on X(Twitter)</p>
-                <span>
-                  <a
-                    className="text-color-primary"
-                    href="https://x.com/intent/post?url=https%3A%2F%2Fwww.figma.com%2Fcommunity%2Fplugin%2F1129646367083296027%2Fspaciiing"
-                    target="_blank"
-                  >
+                <a
+                  href="https://x.com/intent/post?url=https%3A%2F%2Fwww.figma.com%2Fcommunity%2Fplugin%2F1129646367083296027%2Fspaciiing"
+                  target="_blank"
+                >
+                  <span className="text-color-primary">
+
                     Share
-                  </a>
-                </span>
+
+                  </span>
+                </a>
               </div>
               <div className="membership-block">
                 <p className="color--secondary">
                   {t("settings:provideFeedback")}
                 </p>
-                <span>
-                  <a
-                    className="text-color-primary"
-                    href="https://forms.gle/jFgzJfs1nw259Kgk8"
-                    target="_blank"
-                  >
+                <a
+                  href="https://forms.gle/jFgzJfs1nw259Kgk8"
+                  target="_blank"
+                ><span className="text-color-primary">
+
                     {t("settings:feedbackForm")}
-                  </a>
-                </span>
+
+                  </span></a>
               </div>
             </div>
             <div className="membership-block">
               <p className="color--secondary">
                 {t("settings:forBugReportOrSupport")}
               </p>
-              <span>
-                <a
-                  className="text-color-primary"
-                  href="mailto:contact@hsiehchengyi.com"
-                  target="_blank"
-                >
+              <a
+                href="mailto:contact@hsiehchengyi.com"
+                target="_blank"
+              >
+                <span className="text-color-primary">
                   contact@hsiehchengyi.com
-                </a>
-              </span>
+                </span>
+              </a>
             </div>
             <div className="membership-block">
               <p className="color--secondary">
                 {t("settings:developer")}
               </p>
-              <span>
-                <a
-                  className="text-color-primary"
-                  href="https://www.linkedin.com/in/cheng-yi-hsieh/"
-                  target="_blank"
-                >
+              <a
+                href="https://www.linkedin.com/in/cheng-yi-hsieh/"
+                target="_blank"
+              >
+                <span className="text-color-primary">
                   Cheng-Yi Hsieh
-                </a>
-              </span>
+                </span>
+              </a>
             </div>
           </div>
         </div>

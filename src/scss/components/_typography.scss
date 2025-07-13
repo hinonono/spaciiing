@@ -18,6 +18,10 @@
         background: linear-gradient(180deg, var(--cy-purple-300), var(--cy-purple-600))
     }
 
+    span {
+        word-break: break-word;
+    }
+
     p {
         margin-bottom: 1rem;
     }

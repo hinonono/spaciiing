@@ -8,7 +8,7 @@ export function reception(message: MessageMinMaxWindow) {
 function toggleWindow(shouldMinimize: boolean) {
 
   if (shouldMinimize) {
-    figma.ui.resize(240, 80);
+    figma.ui.resize(180, 80);
   } else {
     figma.ui.resize(360, 480);
   }
