@@ -14,3 +14,4 @@ export { default as SavedClickCounter } from "./SavedClickCounter";
 export { default as ProductivityDashboard } from "./ProductivityDashboard";
 export { default as PreferredLanguageView } from "./PreferredLanguageView";
 export { default as ButtonIcon24 } from "./ButtonIcon24";
+export { default as Portal } from "./Portal";

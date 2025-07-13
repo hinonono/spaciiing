@@ -1,14 +1,28 @@
-.main-window-toolbar {
-    position: fixed;
+#main-window-toolbar {
+   position: fixed;
     bottom: 4;
     right: 4;
-    background: transparent;
+    background: var(--cy-glass-color-default);
     z-index: 9999;
+    -webkit-backdrop-filter: var(--blur-1);
+    backdrop-filter: var(--blur-1);
+    border-radius: var(--cy-border-radius-small);
+    overflow: hidden;
+}
 
+.main-window-toolbar {
     &-wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0rem;
+
+        .min-max-window {
+            cursor: pointer;
+        }
+
+        .resize {
+            cursor: nwse-resize;
+        }
     }
 
     &-icon-wrapper {
@@ -17,7 +31,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 4px;
+        border-radius: 0px;
 
         &:hover {
             background-color: yellow;

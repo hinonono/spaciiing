@@ -59,22 +59,14 @@
     z-index: 1;
 
     .icon-24 {
-        backdrop-filter: blur(16px);
+        backdrop-filter: var(--blur-1);
         border-radius: 9999px;
         overflow: hidden;
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: var(--cy-glass-color-default);
         transition: var(--cy-animation-default);
 
         &:hover {
             scale: 0.9;
-        }
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .close-wrap {
-        .icon-24 {
-            background-color: rgba(255, 255, 255, 0.2);
         }
     }
 }
