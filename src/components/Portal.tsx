@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 interface PortalProps {
@@ -7,48 +7,58 @@ interface PortalProps {
 
 const Portal: React.FC<PortalProps> = () => {
 
-  // Resizing logic
-  const resizeHandle = document.getElementById("resize-handle");
-  let isResizing = false;
+  useEffect(() => {
+    const resizeHandle = document.getElementById("resize-handle");
+    if (!resizeHandle) return;
 
-  resizeHandle?.addEventListener("mousedown", (e) => {
-    isResizing = true;
-    document.body.style.cursor = "se-resize";
-    e.preventDefault(); // Prevent text selection
+    let isResizing = false;
 
-    console.log("hhh", isResizing);
-  });
+    const onMouseDown = (e: MouseEvent) => {
+      isResizing = true;
+      document.body.style.cursor = "se-resize";
+      e.preventDefault();
+    };
 
-  document.addEventListener("mousemove", (e) => {
-    console.log("wwww", isResizing);
-
-    if (isResizing) {
-      const newWidth = e.clientX;
-      const newHeight = e.clientY;
-      parent.postMessage(
-        {
-          pluginMessage: {
-            module: "Resize",
-            width: newWidth,
-            height: newHeight,
+    const onMouseMove = (e: MouseEvent) => {
+      if (isResizing) {
+        const newWidth = e.clientX;
+        const newHeight = e.clientY;
+        parent.postMessage(
+          {
+            pluginMessage: {
+              module: "Resize",
+              width: newWidth,
+              height: newHeight,
+            },
           },
-        },
-        "*"
-      );
-    }
-  });
+          "*"
+        );
+      }
+    };
 
-  document.addEventListener("mouseup", () => {
-    if (isResizing) {
-      isResizing = false;
-      document.body.style.cursor = "default";
-    }
-  });
+    const onMouseUp = () => {
+      if (isResizing) {
+        isResizing = false;
+        document.body.style.cursor = "default";
+      }
+    };
 
-  // Prevent default drag behavior on the resize handle
-  resizeHandle?.addEventListener("dragstart", (e) => {
-    e.preventDefault();
-  });
+    const onDragStart = (e: DragEvent) => {
+      e.preventDefault();
+    };
+
+    resizeHandle.addEventListener("mousedown", onMouseDown);
+    resizeHandle.addEventListener("dragstart", onDragStart);
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+
+    return () => {
+      resizeHandle.removeEventListener("mousedown", onMouseDown);
+      resizeHandle.removeEventListener("dragstart", onDragStart);
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+  }, []);
 
 
   return createPortal(
