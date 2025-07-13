@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { MessageResize } from '../types/Messages/MessageResize';
+import { MessageMinMaxWindow } from '../types/Messages/MessageMinMaxWindow';
+import { SvgAdd, SvgMinus } from '../assets/icons';
 
 interface PortalProps {
 
 }
 
 const Portal: React.FC<PortalProps> = () => {
+  const [toggled, setToggled] = useState(false);
 
   useEffect(() => {
     const resizeHandle = document.getElementById("resize-handle");
@@ -23,16 +27,18 @@ const Portal: React.FC<PortalProps> = () => {
       if (isResizing) {
         const newWidth = e.clientX;
         const newHeight = e.clientY;
-        parent.postMessage(
-          {
-            pluginMessage: {
-              module: "Resize",
-              width: newWidth,
-              height: newHeight,
-            },
-          },
-          "*"
-        );
+
+        const message: MessageResize = {
+          module: "Resize",
+          direction: "Inner",
+          phase: "Actual",
+          shouldSaveEditorPreference: false,
+          shouldSaveSyncedReources: false,
+          width: newWidth,
+          height: newHeight
+        }
+
+        parent.postMessage({ pluginMessage: message, }, "*");
       }
     };
 
@@ -60,24 +66,47 @@ const Portal: React.FC<PortalProps> = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const toggleBtn = document.getElementById("min-max-window");
+    if (!toggleBtn) return;
+
+    toggleBtn.onclick = () => {
+      const currentToggle = toggleBtn.getAttribute("should-window-minimize") === "true";
+      const newToggle = !currentToggle;
+      toggleBtn.setAttribute("should-window-minimize", String(newToggle));
+      setToggled(newToggle);
+
+      const message: MessageMinMaxWindow = {
+        module: "MinMaxWindow",
+        direction: "Inner",
+        phase: "Actual",
+        shouldSaveEditorPreference: false,
+        shouldSaveSyncedReources: false,
+        toggle: newToggle
+      };
+      parent.postMessage({ pluginMessage: message }, "*");
+    };
+  }, [])
+
+  const iconColor = "var(--figma-color-text-secondary)";
+
 
   return createPortal(
     <div className="main-window-toolbar-wrapper">
-      <div className="main-window-toolbar-icon-wrapper min-max-window">
-        <div style={{ width: 8, height: 8 }}>
-          <svg width="8" height="8" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 20L20 0" stroke="var(--figma-color-text-secondary)" stroke-width="2" />
-            <path d="M10 20L20 10" stroke="var(--figma-color-text-secondary)" stroke-width="2" />
-            <path d="M0 10L10 0" stroke="var(--figma-color-text-secondary)" stroke-width="2" />
-          </svg>
+      <div id="min-max-window" className="main-window-toolbar-icon-wrapper min-max-window">
+        <div style={{ width: 12, height: 12 }}>
+          {toggled
+            ? <SvgAdd color={iconColor} />
+            : <SvgMinus color={iconColor} />
+          }
         </div>
       </div>
       <div id="resize-handle" className="main-window-toolbar-icon-wrapper resize">
         <div style={{ width: 8, height: 8 }}>
           <svg width="8" height="8" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 20L20 0" stroke="var(--figma-color-text-secondary)" stroke-width="2" />
-            <path d="M10 20L20 10" stroke="var(--figma-color-text-secondary)" stroke-width="2" />
-            <path d="M0 10L10 0" stroke="var(--figma-color-text-secondary)" stroke-width="2" />
+            <path d="M0 20L20 0" stroke={iconColor} strokeWidth="2" />
+            <path d="M10 20L20 10" stroke={iconColor} strokeWidth="2" />
+            <path d="M0 10L10 0" stroke={iconColor} strokeWidth="2" />
           </svg>
         </div>
       </div>

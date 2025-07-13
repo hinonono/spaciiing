@@ -1,8 +1,8 @@
 #main-window-toolbar {
-   position: fixed;
+    position: fixed;
     bottom: 4;
     right: 4;
-    background: var(--cy-glass-color-default);
+    background: var(--cy-glass-color-1);
     z-index: 9999;
     -webkit-backdrop-filter: var(--blur-1);
     backdrop-filter: var(--blur-1);
@@ -34,7 +34,7 @@
         border-radius: 0px;
 
         &:hover {
-            background-color: yellow;
+            background-color: var(--cy-glass-color-2);
         }
     }
 }

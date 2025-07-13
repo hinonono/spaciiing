@@ -15,6 +15,7 @@ export type Module =
   | "LicenseManagement"
   | "AspectRatioHelper"
   | "Resize"
+  | "MinMaxWindow"
   | "StyleIntroducer"
   | "PropertyClipboard"
   | "ArrowCreator";

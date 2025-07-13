@@ -28,6 +28,7 @@ import * as licenseManagement from "./module/licenseManagement";
 import * as localization from "./module/localization";
 import * as aspectRatioHelper from "./module/aspectRatioHelper";
 import * as resize from "./module/resize";
+import * as minMaxWindow from "./module/minMaxWindow";
 import * as styleIntroducer from "./module/styleIntroducer/styleIntroducer";
 import * as propertyClipboard from "./module/propertyClipboard";
 import * as arrowCreator from "./module/arrowCreator/arrowCreator";
@@ -39,6 +40,7 @@ import { MessagePropertyClipboard } from "./types/Messages/MessagePropertyClipbo
 import { MessageArrowCreator } from "./types/Messages/MessageArrowCreator";
 
 import { utils } from "./module/utils";
+import { MessageMinMaxWindow } from "./types/Messages/MessageMinMaxWindow";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(360, 480);
@@ -148,7 +150,14 @@ figma.ui.onmessage = (message: Message) => {
       incrementSavedClicks = selectionLength * 2
       break;
     case "Resize":
+      shouldIncrementTime = false;
+      incrementSavedClicks = 0;
       resize.reception(message as MessageResize);
+      break;
+    case "MinMaxWindow":
+      shouldIncrementTime = false;
+      incrementSavedClicks = 0;
+      minMaxWindow.reception(message as MessageMinMaxWindow);
       break;
     case "StyleIntroducer":
       const siMessage = message as MessageStyleIntroducer;
@@ -171,7 +180,9 @@ figma.ui.onmessage = (message: Message) => {
       break;
   }
 
-  utils.service.incrementSavedClicks(incrementSavedClicks, shouldIncrementTime);
+  if (shouldIncrementTime) {
+    utils.service.incrementSavedClicks(incrementSavedClicks, shouldIncrementTime);
+  }
 };
 
 // Function to execute before the plugin is closed

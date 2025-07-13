@@ -37,7 +37,8 @@
 
     --cy-animation-default: all 0.3s;
 
-    --cy-glass-color-default: rgba(0, 0, 0, 0.05);
+    --cy-glass-color-1: rgba(0, 0, 0, 0.05);
+    --cy-glass-color-2: rgba(0, 0, 0, 0.1);
 
 
     /* spaciiing色盤 color palette */
@@ -82,7 +83,8 @@
 
         --color-bg-selected: #4a5878;
 
-        --cy-glass-color-default: rgba(255, 255, 255, 0.2);
+        --cy-glass-color-1: rgba(255, 255, 255, 0.2);
+        --cy-glass-color-2: rgba(255, 255, 255, 0.4);
 
         --cy-text-color-special: var(--cy-purple-400);
 
