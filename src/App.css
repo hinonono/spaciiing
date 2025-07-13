@@ -64,6 +64,30 @@
     --cy-bg-primary-dark-elevated: var(--figma-color-bg-secondary);
   }
 }
+.main-window-toolbar {
+  position: fixed;
+  bottom: 4;
+  right: 4;
+  background: transparent;
+  z-index: 9999;
+}
+.main-window-toolbar-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0rem;
+}
+.main-window-toolbar-icon-wrapper {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+}
+.main-window-toolbar-icon-wrapper:hover {
+  background-color: yellow;
+}
+
 body {
   margin: 0 !important;
 }

@@ -1,0 +1,26 @@
+.main-window-toolbar {
+    position: fixed;
+    bottom: 4;
+    right: 4;
+    background: transparent;
+    z-index: 9999;
+
+    &-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0rem;
+    }
+
+    &-icon-wrapper {
+        width: 16px;
+        height: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+
+        &:hover {
+            background-color: yellow;
+        }
+    }
+}
