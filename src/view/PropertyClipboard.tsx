@@ -125,7 +125,6 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       <TitleBar
         title={t("module:modulePropertyClipboard")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         {/* 已記憶 */}

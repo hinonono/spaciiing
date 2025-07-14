@@ -8,7 +8,6 @@ interface TitleBarProps {
   children?: React.ReactNode;
   onClick?: () => void;
   showInfoIcon?: boolean;
-  isProFeature?: boolean;
   leftItem?: React.ReactNode,
   rightItem?: React.ReactNode
 }
@@ -18,14 +17,9 @@ const TitleBar: React.FC<TitleBarProps> = ({
   children,
   onClick,
   showInfoIcon = true,
-  isProFeature = false,
   leftItem,
   rightItem
 }) => {
-  const isDevelopment = process.env.REACT_APP_ENV === "development";
-  const { licenseManagement, setShowCTSubscribe } = useAppContext();
-  const { t } = useTranslation(["license"]);
-
   return (
     <div className="title-bar property-clipboard-header">
       <div>{leftItem}</div>

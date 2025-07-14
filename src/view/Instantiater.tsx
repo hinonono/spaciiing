@@ -162,7 +162,6 @@ const Instantiater: React.FC = () => {
       <TitleBar
         title={t("module:modulePresetLibrary")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         <div>

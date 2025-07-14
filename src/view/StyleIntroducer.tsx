@@ -118,7 +118,6 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       <TitleBar
         title={t("module:moduleCatalogue")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         <div className="mt-xxsmall">

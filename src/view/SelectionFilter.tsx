@@ -134,7 +134,6 @@ const SelectionFilter: React.FC = () => {
       <TitleBar
         title={t("module:moduleSelectionFilter")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         {/* 圖層類型 */}

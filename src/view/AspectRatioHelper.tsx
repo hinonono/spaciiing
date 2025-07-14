@@ -158,7 +158,6 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
       <TitleBar
         title={t("module:moduleAspectRatioHelper")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         <div>

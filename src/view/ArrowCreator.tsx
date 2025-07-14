@@ -158,7 +158,6 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         <TitleBar
           title={t("module:moduleDrawArrows")}
           onClick={handleOpenExplanationModal}
-          isProFeature={true}
         />
       </div>
       <div className="content">

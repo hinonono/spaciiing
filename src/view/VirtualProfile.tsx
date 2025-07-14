@@ -103,7 +103,6 @@ const VirtualProfile: React.FC = () => {
       <TitleBar
         title={t("module:moduleVirtualProfile")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         <VirtualProfileNew

@@ -155,7 +155,6 @@ const Renamer: React.FC = () => {
       <TitleBar
         title={t("module:moduleNamingClener")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         {/* 選項 */}

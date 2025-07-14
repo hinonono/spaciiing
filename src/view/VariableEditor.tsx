@@ -274,7 +274,6 @@ const VariableEditor: React.FC = () => {
       <TitleBar
         title={t("module:moduleVariableGenerator")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         {/* Destination */}

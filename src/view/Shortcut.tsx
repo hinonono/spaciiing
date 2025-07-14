@@ -403,7 +403,6 @@ const Shortcut: React.FC = () => {
       <TitleBar
         title={t("module:moduleShortcut")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
         rightItem={
           <FigmaButton
             title={t("module:setting")}
