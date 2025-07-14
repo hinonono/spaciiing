@@ -1,10 +1,10 @@
 {
-  "moduleName": "設定",
-  "preferredLanguage": "偏好語言",
-  "about": "關於",
-  "version": "版本",
-  "forBugReportOrSupport": "提交錯誤報告/取得幫助",
-  "provideFeedback": "提供意見回饋",
-  "feedbackForm": "回饋表單",
-  "developer": "開發者"
+	"about": "關於",
+	"developer": "開發者",
+	"feedbackForm": "回饋表單",
+	"forBugReportOrSupport": "提交錯誤報告/取得幫助",
+	"moduleName": "設定",
+	"preferredLanguage": "偏好語言",
+	"provideFeedback": "提供意見回饋",
+	"version": "版本"
 }

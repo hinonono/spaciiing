@@ -1,10 +1,10 @@
 {
-  "moduleName": "设置",
-  "preferredLanguage": "首选语言",
-  "about": "关于",
-  "version": "版本",
-  "forBugReportOrSupport": "报告错误/获取支持",
-  "provideFeedback": "意见反馈",
-  "feedbackForm": "反馈表单",
-  "developer": "开发者"
+	"about": "关于",
+	"developer": "开发者",
+	"feedbackForm": "反馈表单",
+	"forBugReportOrSupport": "报告错误/获取支持",
+	"moduleName": "设置",
+	"preferredLanguage": "首选语言",
+	"provideFeedback": "意见反馈",
+	"version": "版本"
 }

@@ -1,10 +1,10 @@
 {
-  "moduleName": "Settings",
-  "preferredLanguage": "Preferred Language",
-  "about": "About",
-  "version": "Version",
-  "forBugReportOrSupport": "Bug report/Support",
-  "provideFeedback": "Provide Feedback",
-  "feedbackForm": "Feedback Form",
-  "developer": "Developer"
+	"about": "About",
+	"developer": "Developer",
+	"feedbackForm": "Feedback Form",
+	"forBugReportOrSupport": "Bug report/Support",
+	"moduleName": "Settings",
+	"preferredLanguage": "Preferred Language",
+	"provideFeedback": "Provide Feedback",
+	"version": "Version"
 }
