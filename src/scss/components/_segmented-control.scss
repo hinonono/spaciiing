@@ -71,7 +71,7 @@
         color: var(--figma-color-text);
         align-items: center;
         min-height: 28px;
-        border-radius: var(--border-radius-large);
+        border-radius: var(--cy-border-radius-small);
     }
 
     &>input:checked+label {
