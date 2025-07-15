@@ -1,7 +1,8 @@
 {
   "name": "Spaciiing",
-  "version": "33",
+  "version": "34",
   "whatsNew": [
+    "Catalogue now support generate localized content. Change your preferred language to generate catalogue in different languages.",
     "Overall enhancements"
   ],
   "price": {

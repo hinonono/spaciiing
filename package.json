@@ -5,7 +5,7 @@
   "main": "code.js",
   "scripts": {
     "start": "webpack serve --mode development",
-    "build": "REACT_APP_ENV=development webpack --mode development && npm run inline",
+    "build": "REACT_APP_ENV=development webpack --mode production && npm run inline",
     "freebuild": "REACT_APP_ENV=developmentfree webpack --mode production && npm run inline",
     "production": "REACT_APP_ENV=production webpack --mode production && npm run inline",
     "lint": "eslint --ext .ts,.tsx --ignore-pattern node_modules .",

@@ -171,8 +171,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
                 selectedScopes,
                 form,
                 mode,
-                "enUS",
-                // i18n.language,
+                i18n.language,
                 false
               )
             }}
