@@ -350,6 +350,16 @@ input {
   padding: 16px;
 }
 
+.padding-tb-16 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.padding-lr-8 {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
 .button {
   height: var(--cy-button-height-medium);
   border-radius: var(--cy-border-radius-large);
@@ -838,20 +848,14 @@ input {
   margin: 0;
 }
 .folder-navigator li .container {
-  margin-left: 16px;
-  margin-right: 16px;
+  margin-left: 0px;
+  margin-right: 0px;
   margin-top: 4px;
   margin-bottom: 4px;
 }
 .folder-navigator li .container:hover {
   background-color: var(--figma-color-bg-secondary);
   border-radius: var(--cy-border-radius-medium);
-}
-.folder-navigator li:first-child .container {
-  margin-top: 16px;
-}
-.folder-navigator li:last-child .container {
-  margin-bottom: 16px;
 }
 
 .folder-navigator-items-group {
@@ -879,7 +883,7 @@ input {
 
 .button-folder {
   padding: 0px 8px;
-  margin: 0px 0px 0px 8px;
+  margin: 0px;
   display: inline-block;
   border-radius: var(--cy-border-radius-medium);
   text-align: left;
@@ -1060,7 +1064,7 @@ input {
 .chevron-right {
   /* Add this block */
   position: absolute;
-  right: 28px;
+  right: 16px;
   top: 45%;
   transform: translateY(-50%);
   border: solid var(--figma-color-text-tertiary);

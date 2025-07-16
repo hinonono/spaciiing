@@ -171,7 +171,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       <div
         className={`cy-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical`}
       >
-        <ul className="list-style-none pt-xxsmall pb-xxsmall">
+        <ul className="padding-tb-16 padding-lr-8">
           {Object.keys(currentStructure).map((key) => (
             <li key={key}>
               {currentStructure[key].children ? (

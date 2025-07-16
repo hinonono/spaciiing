@@ -13,8 +13,8 @@
         margin: 0;
 
         .container {
-            margin-left: 16px;
-            margin-right: 16px;
+            margin-left: 0px;
+            margin-right: 0px;
             margin-top: 4px;
             margin-bottom: 4px;
 
@@ -24,17 +24,17 @@
             }
         }
 
-        &:first-child {
-            .container {
-                margin-top: 16px;
-            }
-        }
+        // &:first-child {
+        //     .container {
+        //         margin-top: 16px;
+        //     }
+        // }
 
-        &:last-child {
-            .container {
-                margin-bottom: 16px;
-            }
-        }
+        // &:last-child {
+        //     .container {
+        //         margin-bottom: 16px;
+        //     }
+        // }
     }
 
 }
@@ -73,7 +73,7 @@
 
 .button-folder {
     padding: 0px 8px;
-    margin: 0px 0px 0px 8px;
+    margin: 0px;
     display: inline-block;
     border-radius: var(--cy-border-radius-medium);
     text-align: left;
