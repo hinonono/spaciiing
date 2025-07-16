@@ -7,8 +7,8 @@
     .container {
         display: block;
         position: relative;
-        padding: 8px 0px;
-        padding-left: 28px;
+        padding: 8px;
+        padding-left: 34px;
         cursor: pointer;
         font-size: var(--font-size-small);
         color: var(--figma-color-text);
@@ -45,7 +45,7 @@
 }
 
 .scope-group {
-    padding: 16px;
+    padding: 16px 8px;
     border-radius: var(--cy-border-radius-large);
 
     max-height: 160px;
@@ -53,10 +53,6 @@
     width: 100%;
     overflow: scroll;
     transition: var(--cy-animation-default);
-
-    // &:hover {
-    //     border-color: var(--cy-border-dark);
-    // }
 
     &-large {
         max-height: 320px;
@@ -66,7 +62,7 @@
 .checkmark {
     position: absolute;
     top: 4;
-    left: 4;
+    left: 8;
     height: 18px;
     width: 18px;
     border: 1px solid var(--cy-border-light);

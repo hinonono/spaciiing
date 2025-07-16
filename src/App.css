@@ -271,7 +271,7 @@ input {
   color: var(--figma-color-text);
   align-items: center;
   min-height: 28px;
-  border-radius: var(--border-radius-large);
+  border-radius: var(--cy-border-radius-small);
 }
 .custom-segmented-control > input:checked + label {
   z-index: -1;
@@ -672,8 +672,8 @@ input {
 .cy-checkbox-group .container {
   display: block;
   position: relative;
-  padding: 8px 0px;
-  padding-left: 28px;
+  padding: 8px;
+  padding-left: 34px;
   cursor: pointer;
   font-size: var(--font-size-small);
   color: var(--figma-color-text);
@@ -701,7 +701,7 @@ input {
 }
 
 .scope-group {
-  padding: 16px;
+  padding: 16px 8px;
   border-radius: var(--cy-border-radius-large);
   max-height: 160px;
   height: -moz-fit-content;
@@ -717,7 +717,7 @@ input {
 .checkmark {
   position: absolute;
   top: 4;
-  left: 4;
+  left: 8;
   height: 18px;
   width: 18px;
   border: 1px solid var(--cy-border-light);
