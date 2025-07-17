@@ -103,5 +103,11 @@
 	"multi": "Multi",
 	"textCase": "textCase",
 	"variableModes": "Variable Modes: $VALUE$",
-	"arrowSpaciiing": "Arrow (Spaciiing)"
+	"arrowSpaciiing": "Arrow (Spaciiing)",
+	"layoutMode": "Layout Mode",
+	"autoLayoutAlignment": "Alignment",
+	"autoLayoutGap": "Gap",
+	"autoLayoutPaddingHorizontal": "Horizontal Padding",
+	"autoLayoutPaddingVertical": "Vertical Padding",
+	"autoLayoutClipContent": "Clip content"
 }

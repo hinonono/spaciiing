@@ -346,10 +346,87 @@ async function pastePropertyToObject(
     case "ALIGNMENT":
       await pasteTextAlign(referenceObject);
       break;
+    case "LAYOUT_MODE":
+      pasteGeneralAutoLayout(referenceObject, pasteLayoutMode);
+      break;
+    case "AUTOLAYOUT_ALIGNMENT":
+      pasteGeneralAutoLayout(referenceObject, pasteAutoLayoutAlignment);
+      break;
+    case "AUTOLAYOUT_GAP":
+      pasteGeneralAutoLayout(referenceObject, pasteAutoLayoutItemSpacing);
+      break;
+    case "AUTOLAYOUT_PADDING_HORITONTAL":
+      pasteGeneralAutoLayout(referenceObject, pasteAutoLayoutPaddingHorizontal);
+      break;
+    case "AUTOLAYOUT_PADDING_VERTICAL":
+      pasteGeneralAutoLayout(referenceObject, pasteAutoLayoutPaddingVertical);
+      break;
+    case "AUTOLAYOUT_CLIP_CONTENT":
+      pasteGeneralAutoLayout(referenceObject, pasteAutoLayoutClipContent);
+      break;
     default:
       figma.notify(`Unsupported property type: ${property}`);
       break;
   }
+}
+
+function pasteGeneralAutoLayout(
+  referenceObject: SceneNode,
+  actionFunc: (referenceObject: FrameNode, targetObject: FrameNode) => void,
+) {
+  const selection = utils.editor.getCurrentSelection();
+
+  if (guardHasAutoLayout(selection, referenceObject)) {
+    selection.forEach((object) => {
+      if (object.type === "FRAME") {
+        actionFunc(referenceObject as FrameNode, object);
+      } else {
+        figma.notify(
+          `❌ Object of type ${object.type} cannot have auto latout set.`
+        );
+      }
+    });
+  }
+}
+
+function guardHasAutoLayout(selection: SceneNode[], referenceObject: SceneNode): boolean {
+  if (selection.length === 0) {
+    figma.notify("❌ No object selected.");
+    return false;
+  }
+
+  if (referenceObject.type !== "FRAME") {
+    figma.notify("❌ Reference object must be a frame with auto layout.");
+    return false;
+  }
+
+  return true;
+}
+
+function pasteLayoutMode(referenceObject: FrameNode, targetObject: FrameNode) {
+  targetObject.layoutMode = referenceObject.layoutMode;
+}
+
+function pasteAutoLayoutAlignment(referenceObject: FrameNode, targetObject: FrameNode) {
+  targetObject.layoutAlign = referenceObject.layoutAlign;
+}
+
+function pasteAutoLayoutItemSpacing(referenceObject: FrameNode, targetObject: FrameNode) {
+  targetObject.itemSpacing = referenceObject.itemSpacing;
+}
+
+function pasteAutoLayoutPaddingHorizontal(referenceObject: FrameNode, targetObject: FrameNode) {
+  targetObject.paddingLeft = referenceObject.paddingLeft;
+  targetObject.paddingRight = referenceObject.paddingRight;
+}
+
+function pasteAutoLayoutPaddingVertical(referenceObject: FrameNode, targetObject: FrameNode) {
+  targetObject.paddingTop = referenceObject.paddingTop;
+  targetObject.paddingBottom = referenceObject.paddingBottom;
+}
+
+function pasteAutoLayoutClipContent(referenceObject: FrameNode, targetObject: FrameNode) {
+  targetObject.clipsContent = referenceObject.clipsContent;
 }
 
 // Set corner radius of selected layers from the reference object

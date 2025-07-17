@@ -8,6 +8,7 @@ export type PropertyClipboardSupportedProperty =
   | PropertyClipboardSupportedStroke
   | PropertyClipboardSupportedEffect
   | PropertyClipboardSupportedTypography
+  | PropertyClipboardSupportedAutoLayout
   | "EXPORT_SETTINGS";
 
 export interface ComponentPropertiesFrontEnd {
@@ -22,6 +23,14 @@ export interface ReferenceObject {
   id: string;
   layerType: string;
 }
+
+type PropertyClipboardSupportedAutoLayout = 
+| "LAYOUT_MODE"
+| "AUTOLAYOUT_ALIGNMENT"
+| "AUTOLAYOUT_GAP"
+| "AUTOLAYOUT_PADDING_HORITONTAL"
+| "AUTOLAYOUT_PADDING_VERTICAL"
+| "AUTOLAYOUT_CLIP_CONTENT"
 
 type PropertyClipboardSupportedFill =
   | "FILL_ALL"

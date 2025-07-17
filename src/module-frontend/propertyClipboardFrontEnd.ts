@@ -132,6 +132,7 @@ interface PropertyClipboardOptions {
     size: PropertyClipboardCategory;
     appearance: PropertyClipboardCategory;
     typography: PropertyClipboardCategory;
+    autoLayout: PropertyClipboardCategory;
     fill: PropertyClipboardCategory;
     stroke: PropertyClipboardCategory;
     effect: PropertyClipboardCategory;
@@ -309,6 +310,38 @@ const typographyOptions: PropertyClipboardOption[] = [
     }
 ]
 
+const autolayoutOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:layoutMode",
+        keys: ["LAYOUT_MODE"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutAlignment",
+        keys: ["AUTOLAYOUT_ALIGNMENT"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutGap",
+        keys: ["AUTOLAYOUT_GAP"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutPaddingHorizontal",
+        keys: ["AUTOLAYOUT_PADDING_HORITONTAL"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutPaddingVertical",
+        keys: ["AUTOLAYOUT_PADDING_VERTICAL"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutClipContent",
+        keys: ["AUTOLAYOUT_CLIP_CONTENT"],
+        useModal: false
+    },
+]
 
 
 export const propertyClipboardOptions: PropertyClipboardOptions = {
@@ -339,6 +372,19 @@ export const propertyClipboardOptions: PropertyClipboardOptions = {
         ],
         useModal: false,
         items: typographyOptions
+    },
+    autoLayout: {
+        titleKey: "term:autoLayout",
+        applyAllKeys: [
+            "LAYOUT_MODE",
+            "AUTOLAYOUT_ALIGNMENT",
+            "AUTOLAYOUT_GAP",
+            "AUTOLAYOUT_PADDING_HORITONTAL",
+            "AUTOLAYOUT_PADDING_VERTICAL",
+            "AUTOLAYOUT_CLIP_CONTENT"
+        ],
+        useModal: false,
+        items: autolayoutOptions,
     },
     fill: {
         titleKey: "term:allFills",

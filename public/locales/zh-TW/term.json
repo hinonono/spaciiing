@@ -103,5 +103,11 @@
 	"multi": "多色",
 	"textCase": "大小寫",
 	"variableModes": "變數模式：$VALUE$",
-	"arrowSpaciiing": "箭頭 (Spaciiing)"
+	"arrowSpaciiing": "箭頭 (Spaciiing)",
+		"layoutMode": "排版模式",
+	"autoLayoutAlignment": "對齊",
+	"autoLayoutGap": "物件間距",
+	"autoLayoutPaddingHorizontal": "內間距(上下)",
+	"autoLayoutPaddingVertical": "內間距(左右)",
+	"autoLayoutClipContent": "剪裁到框範圍"
 }

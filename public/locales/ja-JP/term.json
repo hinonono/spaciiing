@@ -103,5 +103,11 @@
   "multi": "マルチ",
   "textCase": "大文字と小文字",
   "variableModes": "バリアブルモード：$VALUE$",
-  "arrowSpaciiing": "矢印 (Spaciiing)"
+  "arrowSpaciiing": "矢印 (Spaciiing)",
+  	"layoutMode": "フロー",
+	"autoLayoutAlignment": "配置",
+	"autoLayoutGap": "間隔",
+	"autoLayoutPaddingHorizontal": "パディング（上と下）",
+	"autoLayoutPaddingVertical": "パディング（右と左）",
+	"autoLayoutClipContent": "コンテンツを隠す"
 }

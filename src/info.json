@@ -11,6 +11,7 @@
     "yearlyAvg": "3"
   },
   "featureFlag": {
+    "propertyClipboardSupportAutoLayout": false
   },
   "freeUserWaitingTime": 30,
   "clickTier": [
