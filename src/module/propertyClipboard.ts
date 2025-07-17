@@ -371,12 +371,12 @@ function setSelectionCornerRadius(referenceObject: CopyPastableNode) {
       object.topRightRadius = referenceObject.topRightRadius;
       object.bottomRightRadius = referenceObject.bottomRightRadius;
       object.bottomLeftRadius = referenceObject.bottomLeftRadius;
+      object.cornerSmoothing = referenceObject.cornerSmoothing;
     } else if (
       utils.typeCheck.isNodeSupportCornerRadius(object) &&
       utils.typeCheck.isNodeSupportCornerRadius(referenceObject)
     ) {
       // Applies full radius and smoothing if supported by both
-      console.log("Here I am");
 
       object.cornerRadius = referenceObject.cornerRadius;
       object.cornerSmoothing = referenceObject.cornerSmoothing;
