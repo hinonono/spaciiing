@@ -151,8 +151,8 @@ async function spiltText(message: MessageShortcutSpiltText) {
   await utils.editor.loadFontOnTextNode(node);
 
   await utils.editor.loadFont([
-      semanticTokens.fontFamily.regular,
-    ]);
+    semanticTokens.fontFamily.regular,
+  ]);
 
   const originalText = node.characters;
 
@@ -525,7 +525,13 @@ async function updateDateText(node: SceneNode) {
     const textNode = node as TextNode;
 
     await figma.loadFontAsync(textNode.fontName as FontName);
-    textNode.characters = utils.data.getFormattedDate("shortDate", "western");
+    textNode.characters = textNode.characters.replace("YY", utils.data.getCurrentTime("YEAR"));
+    textNode.characters = textNode.characters.replace("MO", utils.data.getCurrentTime("MONTH"));
+    textNode.characters = textNode.characters.replace("DD", utils.data.getCurrentTime("DAY"));
+    textNode.characters = textNode.characters.replace("HH", utils.data.getCurrentTime("HOUR"));
+    textNode.characters = textNode.characters.replace("MI", utils.data.getCurrentTime("MIN"));
+    textNode.characters = textNode.characters.replace("SS", utils.data.getCurrentTime("SECOND"));
+
     textNode.locked = true;
   } else if ("children" in node) {
     for (const child of node.children) {

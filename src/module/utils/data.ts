@@ -9,6 +9,7 @@ import { RuntimeSyncedResources } from "../../types/RuntimeSyncedResources";
 import { CYStrokeStyle } from "../../types/CYStrokeStyle";
 import { ExternalMessageUpdateRuntimeSyncedResources } from "../../types/Messages/MessageRuntimeSyncedResources";
 import { VirtualProfileGroup } from "../../types/VirtualProfile";
+import { TimeComponent } from "../../types/TimeComponent";
 
 export function saveSyncedResource(type: SyncedResourceType, resource: RuntimeSyncedResources) {
     switch (type) {
@@ -220,6 +221,27 @@ export function updateEditorPreference(
     utils.communication.sendMessageBack(message);
 }
 
+export function getCurrentTime(comp: TimeComponent): string {
+    const date = new Date();
+
+    switch (comp) {
+        case "YEAR":
+            return date.getFullYear().toString();
+        case "MONTH":
+            return String(date.getMonth() + 1).padStart(2, "0");
+        case "DAY":
+            return String(date.getDate()).padStart(2, "0");
+        case "HOUR":
+            return String(date.getHours()).padStart(2, "0");
+        case "MIN":
+            return String(date.getMinutes()).padStart(2, "0");
+        case "SECOND":
+            return String(date.getSeconds()).padStart(2, "0");
+        default:
+            throw new Error(`Time component ${comp} is not supported.`);
+    }
+}
+
 /**
  * Formats the current date and time into a specified format.
  *
@@ -236,15 +258,14 @@ export function getFormattedDate(
     format: "shortDate" | "fullDateTime",
     preferredStyle: "western" | "eastern"
 ): string {
-    const date = new Date();
 
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, "0");
+    const year = getCurrentTime("YEAR");
+    const month = getCurrentTime("MONTH");
+    const day = getCurrentTime("DAY")
 
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
+    const hours = getCurrentTime("HOUR");
+    const minutes = getCurrentTime("MIN");
+    const seconds = getCurrentTime("SECOND");
 
     if (format === "shortDate") {
         return preferredStyle === "western" ? `${day}/${month}` : `${month}/${day}`;
