@@ -58,7 +58,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   };
 
   // 筆畫模式
-  const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
+  const [strokeMode, setStrokeMode] = useState<StrokeMode>(appContext.runtimeSyncedResources.strokeStyles.length > 0 ? "style" : "freeform");
   useEffect(() => {
     if (strokeMode === "freeform") {
 
@@ -235,7 +235,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             />
             <SegmentedControl.Option
               value="style"
-              label={t("term:style")}
+              label={`${t("term:style")} (${appContext.runtimeSyncedResources.strokeStyles.length})`}
             />
           </SegmentedControl>
           {renderEditorBasedOnStrokeMode()}
