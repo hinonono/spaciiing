@@ -221,7 +221,7 @@ input {
   justify-content: space-between;
   overflow: hidden;
   transition: var(--cy-animation-default);
-  padding: 4px;
+  padding: 6px;
   background: var(--figma-color-bg-secondary);
   min-height: 40px;
 }
