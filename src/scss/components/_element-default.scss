@@ -92,3 +92,11 @@ section {
 input {
     display: block;
 }
+
+select {
+    cursor: pointer;
+}
+
+textarea {
+    min-height: 36px;
+}

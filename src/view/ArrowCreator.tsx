@@ -195,13 +195,25 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
           />
           <div className="width-100 mt-xxsmall">
             <SectionTitle title={t("module:offset")} titleType="secondary" />
-            <textarea
-              className="textarea textarea-height-fit-content"
-              rows={1}
-              value={safeMargin}
-              onChange={handleSafeMarginChange}
-              placeholder={t("module:customValueNumbersOnly")}
-            />
+            <div className="flex">
+              <textarea
+                className="textarea"
+                rows={1}
+                value={safeMargin}
+                onChange={handleSafeMarginChange}
+                placeholder={t("module:customValueNumbersOnly")}
+              />
+              {[8, 16, 32].map((num) =>
+                <div className='ml-xxxsmall'>
+                  <FigmaButton
+                    buttonType="tertiary"
+                    title={`${num}`}
+                    onClick={() => setSafeMargin(num)}
+                    hasTopBottomMargin={false}
+                  />
+                </div>
+              )}
+            </div>
             {safeMarginFieldNote && (
               <span className="note error">{safeMarginFieldNote}</span>
             )}

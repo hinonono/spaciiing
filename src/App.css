@@ -191,6 +191,14 @@ input {
   display: block;
 }
 
+select {
+  cursor: pointer;
+}
+
+textarea {
+  min-height: 36px;
+}
+
 .cy-input {
   padding: 4px;
   padding-bottom: 0;
@@ -1234,7 +1242,7 @@ input {
   background-color: var(--figma-color-bg-secondary);
   color: var(--figma-color-text);
   font-size: var(--font-size-small);
-  min-height: 48px;
+  min-height: 36px;
   border: 0px;
 }
 .textarea-height-fit-content {
@@ -1945,6 +1953,7 @@ details summary {
   background-color: var(--figma-color-bg-secondary);
   border-radius: var(--cy-border-radius-large);
   padding: 16px;
+  min-height: 76px;
 }
 .variable .text-primary {
   color: var(--figma-color-text);
