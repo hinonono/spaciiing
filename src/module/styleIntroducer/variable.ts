@@ -37,7 +37,7 @@ export async function applyStyleIntroducer(
 
     const wrapperTitle = title == "" ? lr.term["variable"] : title
     const titleSecondary = lr.module["moduleCatalogue"];
-    const explanationWrapper = CatalogueKit.wrapper.create(
+    const explanationWrapper = await CatalogueKit.wrapper.create(
         lr,
         form,
         explanationItems,

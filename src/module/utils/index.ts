@@ -9,6 +9,7 @@ import * as serviceUtil from "./service";
 import * as stringUtil from "./string";
 import * as typeCheckUtil from "./typeCheck";
 import * as vectorUtil from "./vector";
+import * as licenseUtil from "./license";
 import { dataKeys } from "./dataKeys";
 import { relaunchCommand } from "./relaunchCommand";
 
@@ -23,6 +24,7 @@ export const utils = {
   service: serviceUtil,
   string: stringUtil,
   typeCheck: typeCheckUtil,
+  license: licenseUtil,
   vector: vectorUtil,
   dataKeys: dataKeys,
   relaunchCommand: relaunchCommand,

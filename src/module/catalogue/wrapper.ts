@@ -18,7 +18,7 @@ import { utils } from "../utils";
  * @param modes - String array for mode names
  * @returns 
  */
-export function create(
+export async function create(
     lr: CatalogueLocalizationResources,
     form: StyleForm,
     items: FrameNode[],
@@ -27,8 +27,9 @@ export function create(
     fontName: FontName,
     modes?: string[]
 ) {
-    const dateString = createDateString(lr);
+    const freeUserBanner = await createFreeUserBanner(fontName, lr);
 
+    const dateString = createDateString(lr);
     const dateNode = utils.node.createTextNode(dateString, fontName, semanticTokens.fontSize.xsmall, [{ type: "SOLID", color: semanticTokens.text.tertiary }]);
     dateNode.textAlignHorizontal = "RIGHT";
 
@@ -49,8 +50,21 @@ export function create(
     titleSecondaryNode.layoutSizingHorizontal = "FILL";
 
     const itemsFrame = createItemsFrame(items);
-    const wrapperFrame = utils.node.createAutolayoutFrame([titleWrapper, itemsFrame], semanticTokens.spacing.xlarge, "VERTICAL");
+    const wrapperFrame = utils.node.createAutolayoutFrame(
+        [
+            ...(freeUserBanner ? [freeUserBanner] : []),
+            titleWrapper,
+            itemsFrame,
+        ],
+        semanticTokens.spacing.xlarge,
+        "VERTICAL"
+    );
     titleWrapper.layoutSizingHorizontal = "FILL";
+
+    if (freeUserBanner) {
+        freeUserBanner.layoutSizingHorizontal = "FILL";
+        freeUserBanner.layoutSizingVertical = "HUG";
+    }
 
     utils.node.setPadding(wrapperFrame, {
         top: semanticTokens.padding.xlarge,
@@ -133,5 +147,34 @@ function determineFrameWidth(modes?: string[]): number {
         return basicWidth + Math.ceil(additionalModes / 2) * 160;
     } else {
         return basicWidth;
+    }
+}
+
+async function createFreeUserBanner(fontName: FontName, lr: CatalogueLocalizationResources): Promise<FrameNode | null> {
+    const userTier = await utils.license.getUserTier();
+
+    // 當為免費用戶時，製作宣導訂閱Banner於型錄中
+    if (userTier === "FREE") {
+        const freeUserBannerTextNode = utils.node.createTextNode(lr.module["freeUserSubscribeEncourage"], fontName, semanticTokens.fontSize.small, [{ type: "SOLID", color: semanticTokens.text.white }]);
+        freeUserBannerTextNode.lineHeight = { unit: "PERCENT", value: 150 };
+        freeUserBannerTextNode.hyperlink = { type: "URL", value: "https://hsiehchengyi.gumroad.com/l/spaciiing-pro" };
+
+        const freeUserBanner = utils.node.createAutolayoutFrame([freeUserBannerTextNode], 0, "HORIZONTAL");
+        freeUserBanner.name = "Please consider to upgrade";
+        freeUserBanner.fills = [{ type: "SOLID", color: semanticTokens.backgroundSpecial.primary }];
+        utils.node.setPadding(freeUserBanner, {
+            top: semanticTokens.padding.large,
+            bottom: semanticTokens.padding.large,
+            left: semanticTokens.padding.large,
+            right: semanticTokens.padding.large,
+        });
+        freeUserBanner.cornerRadius = semanticTokens.cornerRadius.xsmall;
+        freeUserBannerTextNode.layoutSizingHorizontal = "FILL";
+        freeUserBannerTextNode.layoutSizingVertical = "FILL";
+        freeUserBannerTextNode.textAlignVertical = "CENTER";
+
+        return freeUserBanner;
+    } else {
+        return null;
     }
 }
