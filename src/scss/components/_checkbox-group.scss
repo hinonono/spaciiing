@@ -5,7 +5,8 @@
     align-items: center;
 
     .container {
-        display: block;
+        display: flex;
+        align-items: center;
         position: relative;
         padding: 8px;
         padding-left: 34px;
@@ -70,16 +71,6 @@
     background: var(--figma-color-bg-secondary);
     box-shadow: 0px 1.5px 2px 0px rgba(0, 0, 0, 0.10) inset, 0px 0px 2px 0px rgba(0, 0, 0, 0.08) inset;
 
-    &-large {
-        top: 25%;
-        margin: 0;
-    }
-
-    &-round {
-        border-radius: 999px;
-        scale: 110%;
-    }
-
     &:after {
         content: "";
         position: absolute;
@@ -91,6 +82,30 @@
         border: solid white;
         border-width: 0 2px 2px 0;
         transform: rotate(45deg);
+    }
+
+    &-large {
+        top: 8;
+        margin: 0;
+    }
+
+    &-round {
+        border-radius: 999px;
+        width: 20px;
+        height: 20px;
+
+        &:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 7px;
+            top: 4px;
+            width: 4px;
+            height: 7px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
     }
 }
 

@@ -688,7 +688,8 @@ textarea {
   align-items: center;
 }
 .cy-checkbox-group .container {
-  display: block;
+  display: flex;
+  align-items: center;
   position: relative;
   padding: 8px;
   padding-left: 34px;
@@ -745,20 +746,33 @@ textarea {
   background: var(--figma-color-bg-secondary);
   box-shadow: 0px 1.5px 2px 0px rgba(0, 0, 0, 0.1) inset, 0px 0px 2px 0px rgba(0, 0, 0, 0.08) inset;
 }
-.checkmark-large {
-  top: 25%;
-  margin: 0;
-}
-.checkmark-round {
-  border-radius: 999px;
-  scale: 110%;
-}
 .checkmark:after {
   content: "";
   position: absolute;
   display: none;
   left: 6px;
   top: 3px;
+  width: 4px;
+  height: 7px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.checkmark-large {
+  top: 8;
+  margin: 0;
+}
+.checkmark-round {
+  border-radius: 999px;
+  width: 20px;
+  height: 20px;
+}
+.checkmark-round:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 7px;
+  top: 4px;
   width: 4px;
   height: 7px;
   border: solid white;
@@ -1054,7 +1068,7 @@ textarea {
 .list-view-content .container {
   display: block;
   position: relative;
-  padding: 10px 0px;
+  padding: 8px 0px;
   padding-left: 34px;
   cursor: pointer;
   font-size: var(--font-size-small);

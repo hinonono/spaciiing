@@ -193,31 +193,32 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             targetItemConnectPointPosition={targetItemConnectPointPosition}
             setTargetItemConnectPointPosition={setTargetItemConnectPointPosition}
           />
-          <div className="width-100 mt-xxsmall">
-            <SectionTitle title={t("module:offset")} titleType="secondary" />
-            <div className="flex">
-              <textarea
-                className="textarea"
-                rows={1}
-                value={safeMargin}
-                onChange={handleSafeMarginChange}
-                placeholder={t("module:customValueNumbersOnly")}
-              />
-              {[8, 16, 32].map((num) =>
-                <div className='ml-xxxsmall'>
-                  <FigmaButton
-                    buttonType="tertiary"
-                    title={`${num}`}
-                    onClick={() => setSafeMargin(num)}
-                    hasTopBottomMargin={false}
-                  />
-                </div>
-              )}
-            </div>
-            {safeMarginFieldNote && (
-              <span className="note error">{safeMarginFieldNote}</span>
+        </div>
+        {/* 間隔距離 */}
+        <div className="mt-xsmall">
+          <SectionTitle title={t("module:offset")} />
+          <div className="flex">
+            <textarea
+              className="textarea"
+              rows={1}
+              value={safeMargin}
+              onChange={handleSafeMarginChange}
+              placeholder={t("module:customValueNumbersOnly")}
+            />
+            {[8, 16, 32].map((num) =>
+              <div className='ml-xxxsmall'>
+                <FigmaButton
+                  buttonType="tertiary"
+                  title={`${num}`}
+                  onClick={() => setSafeMargin(num)}
+                  hasTopBottomMargin={false}
+                />
+              </div>
             )}
           </div>
+          {safeMarginFieldNote && (
+            <span className="note error">{safeMarginFieldNote}</span>
+          )}
         </div>
         {/* 筆畫模式 */}
         <div className='mt-xsmall'>
