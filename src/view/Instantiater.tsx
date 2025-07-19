@@ -245,7 +245,7 @@ const Instantiater: React.FC = () => {
             {options.map((option) => (
               <CYCheckbox
                 label={
-                  <div className="flex flex-row align-items-center flex-justify-space-between">
+                  <div className="width-100 flex flex-row align-items-center flex-justify-space-between">
                     <div className="flex flex-row align-items-center">
                       {option.label !== "ALL" && selectedCat === "color" && option.thumbnailColor && (
                         <ColorThumbnailView color={option.thumbnailColor} opacity={1} size={20} type={form === "style" ? "rounded" : "square"} extraClassName="mr-xxsmall" />
@@ -262,7 +262,6 @@ const Instantiater: React.FC = () => {
                 checked={selectedTargets.includes(option.value)}
                 onChange={() => handleTargetChange(option.value)}
                 labelKey={option.value}
-                spanAddtionClass={"checkmark-large"}
                 value={option.value}
               />
             ))}
