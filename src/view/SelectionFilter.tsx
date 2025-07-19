@@ -154,7 +154,6 @@ const SelectionFilter: React.FC = () => {
                 onChange={() => handleScopeChange(item.scope)}
                 labelKey={t(item.nameKey)}
                 labelAdditionClass={`${item.indented ? `indent-level-${item.indentLevel}` : ""}`}
-                spanAddtionClass={`${item.svg && "when-has-icon"}`}
               />
             ))}
           </div>

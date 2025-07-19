@@ -17,26 +17,14 @@
             margin-right: 0px;
             margin-top: 4px;
             margin-bottom: 4px;
+            border-radius: var(--cy-border-radius-large);
+            min-height: 36px;
 
             &:hover {
                 background-color: var(--figma-color-bg-secondary);
-                border-radius: var(--cy-border-radius-medium);
             }
         }
-
-        // &:first-child {
-        //     .container {
-        //         margin-top: 16px;
-        //     }
-        // }
-
-        // &:last-child {
-        //     .container {
-        //         margin-bottom: 16px;
-        //     }
-        // }
     }
-
 }
 
 .folder-navigator-items-group {
@@ -75,10 +63,10 @@
     padding: 0px 8px;
     margin: 0px;
     display: inline-block;
-    border-radius: var(--cy-border-radius-medium);
+    border-radius: var(--cy-border-radius-large);
     text-align: left;
     position: relative;
-    min-height: 40px;
+    min-height: 36px;
 
     &:hover {
         background-color: var(--figma-color-bg-secondary);

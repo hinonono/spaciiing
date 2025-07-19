@@ -175,7 +175,6 @@ const Renamer: React.FC = () => {
                 onChange={() => handleScopeChange(item.scope)}
                 labelKey={item.scope}
                 labelAdditionClass={`${item.indented ? `indent-level-${item.indentLevel}` : ""}`}
-                spanAddtionClass={`${item.svg && "when-has-icon"}`}
                 value={item.scope}
               />
             ))}
