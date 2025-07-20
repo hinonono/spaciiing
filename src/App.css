@@ -682,7 +682,6 @@ textarea {
 }
 
 .cy-checkbox-group {
-  border-radius: var(--cy-border-radius-large);
   color: var(--figma-color-text);
   font-size: var(--font-size-small);
   align-content: center;
@@ -2260,4 +2259,8 @@ details summary {
   -moz-column-gap: 4px;
        column-gap: 4px;
   row-gap: 12px;
+}
+
+.spacing-option-set {
+  border-radius: var(--cy-border-radius-large);
 }/*# sourceMappingURL=App.css.map */
