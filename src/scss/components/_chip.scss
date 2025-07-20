@@ -1,0 +1,45 @@
+.chip {
+    height: var(--cy-button-height-medium);
+    border-radius: var(--cy-border-radius-large);
+    position: relative;
+    min-width: 16px;
+
+    background-color: var(--figma-color-bg) !important;
+    color: var(--figma-color-text) !important;
+    border: 1px solid var(--cy-border-light);
+    padding: 8px !important;
+    cursor: pointer;
+
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    font-size: var(--font-size-small);
+    transition: scale 0.3s;
+
+    &.highlighted {
+        background-color: var(--figma-color-bg-brand-tertiary) !important;
+        border-color: var(--figma-color-bg-brand);
+    }
+
+    &:hover {
+        scale: 0.95;
+    }
+
+    &:active {
+        scale: 0.8;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        color: var(--button-disabled) !important;
+    }
+
+    &:enabled:focus {
+        text-decoration: none !important;
+    }
+
+    &-destructive {
+        &:enabled:focus {
+            text-decoration: none !important;
+        }
+    }
+}

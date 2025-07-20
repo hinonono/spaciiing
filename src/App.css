@@ -682,6 +682,7 @@ textarea {
 }
 
 .cy-checkbox-group {
+  border-radius: var(--cy-border-radius-large);
   color: var(--figma-color-text);
   font-size: var(--font-size-small);
   align-content: center;
@@ -2100,6 +2101,42 @@ details summary {
   color: var(--figma-color-text-secondary);
 }
 
+.chip {
+  height: var(--cy-button-height-medium);
+  border-radius: var(--cy-border-radius-large);
+  position: relative;
+  min-width: 16px;
+  background-color: var(--figma-color-bg) !important;
+  color: var(--figma-color-text) !important;
+  border: 1px solid var(--cy-border-light);
+  padding: 8px !important;
+  cursor: pointer;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  font-size: var(--font-size-small);
+  transition: scale 0.3s;
+}
+.chip.highlighted {
+  background-color: var(--figma-color-bg-brand-tertiary) !important;
+  border-color: var(--figma-color-bg-brand);
+}
+.chip:hover {
+  scale: 0.95;
+}
+.chip:active {
+  scale: 0.8;
+}
+.chip:disabled {
+  cursor: not-allowed;
+  color: var(--button-disabled) !important;
+}
+.chip:enabled:focus {
+  text-decoration: none !important;
+}
+.chip-destructive:enabled:focus {
+  text-decoration: none !important;
+}
+
 .property-clipboard-header {
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
@@ -2204,4 +2241,23 @@ details summary {
   background: linear-gradient(0deg, #8850ff, #b267fd, #f9a3ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.spacing-option-custom {
+  grid-column: span 4;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.spacing-option-custom input {
+  height: 100%;
+  padding: 0;
+  text-align: right;
+}
+
+.spacing-option-numbers {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  -moz-column-gap: 4px;
+       column-gap: 4px;
+  row-gap: 12px;
 }/*# sourceMappingURL=App.css.map */

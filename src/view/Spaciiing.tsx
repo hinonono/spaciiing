@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, Chip } from "../components";
 import { useAppContext } from "../AppProvider";
 import { SvgGrid, SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
@@ -8,6 +8,7 @@ import { SpacingMode, } from "../types/Messages/MessageSpaciiing";
 import SegmentedControl from "../components/SegmentedControl";
 import CYCheckbox from "../components/CYCheckbox";
 import { applySpacing } from "../module-frontend/spaciiingFrontEnd";
+import * as info from "../info.json";
 
 const SpacingValue: {
   nameKey: string;
@@ -26,6 +27,9 @@ const SpacingValue: {
 const SpaciiingView: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
 
+  // 2025-07-20 新版UI
+  const [activeOption, setActiveOption] = useState<string>("16");
+
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
@@ -40,7 +44,7 @@ const SpaciiingView: React.FC = () => {
   const [multiplier, setMultiplier] = useState<number>(1);
 
   // 間距值
-  const [space, setSpace] = useState<string | number>(0);
+  const [space, setSpace] = useState<string | number>(Number(activeOption));
   const [enteredCustomSpacing, setEnteredCustomSpacing] = useState<number>(0);
 
   // 格線
@@ -92,6 +96,23 @@ const SpaciiingView: React.FC = () => {
     }
   };
 
+  const handleCustomValueChangeInput = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
+
+    const numberValue = Number(value);
+
+    if (!isNaN(numberValue)) {
+      appContext.setEditorPreference((prevPreference) => ({
+        ...prevPreference,
+        spacing: numberValue,
+      }));
+      setEnteredCustomSpacing(numberValue);
+      setSpace(numberValue);
+    }
+  };
+
   const multipliers = [1, 2, 3, 4, 5];
 
   useEffect(() => {
@@ -99,6 +120,8 @@ const SpaciiingView: React.FC = () => {
       setEnteredCustomSpacing(appContext.editorPreference.spacing);
     }
   }, [appContext.editorPreference]);
+
+
 
   return (
     <div>
@@ -160,78 +183,121 @@ const SpaciiingView: React.FC = () => {
             </div>
           </div>
         )}
-        {/* 倍率 */}
-        <div className="mt-xxsmall">
-          <SectionTitle title={t("module:multiplySpacingBy")} />
-          <div className="flex flex-row">
-            <SegmentedControl
-              inputName="multiply"
-              value={String(multiplier)}
-              onChange={(newMultiplier) => {
-                setMultiplier(Number(newMultiplier));
-              }}
-            >
-              {multipliers.map((singleMultiplier) => (
-                <SegmentedControl.Option
-                  value={String(singleMultiplier)}
-                  label={String(singleMultiplier)}
-                  translatable={false}
-                />
-              ))}
-            </SegmentedControl>
-          </div>
-        </div>
-        {/* 間距值 */}
-        <div className="mt-xxsmall">
-          <SectionTitle title={t("module:spacingValue")} />
-          <div className="flex flex-row">
-            <SegmentedControl
-              inputName="prevalue"
-              value={String(space)}
-              onChange={(newSpace) => {
-                if (!isNaN(Number(newSpace))) {
-                  setSpace(Number(newSpace));
-                } else {
-                  setSpace(newSpace);
-                }
-              }}
-            >
-              {SpacingValue.map((item) => (
-                <SegmentedControl.Option
-                  value={String(item.value)}
-                  label={
-                    typeof item.value === "string"
-                      ? String(item.nameKey)
-                      : String(item.value * multiplier)
+        {info.featureFlag.enableSpaciiingNewInterface === true ?
+          <>
+            <div className="mt-xxsmall">
+              <SectionTitle title={t("module:spacingValue")} />
+              <div className="cy-checkbox-group border-1-cy-border-light padding-16 hide-scrollbar-vertical">
+                <div className="spacing-option-numbers">
+                  {
+                    [0, 4, 8, 12, 16, 24, 32, 40, 48, 64, 96, 112, 128, 160].map((num) =>
+                      <Chip
+                        label={num.toString()}
+                        onClick={() => {
+                          setActiveOption(num.toString());
+                          setSpace(num);
+                        }}
+                        highlighted={activeOption === num.toString() ? true : false}
+                      />
+                    )
                   }
-                  translatable={item.translatable}
-                />
-              ))}
-            </SegmentedControl>
-            {space === "custom" && (
-              <div className="width-100">
-                <div className="width-100 mt-xxsmall">
-                  <textarea
-                    id="sp-space-custom"
-                    className="textarea"
-                    rows={1}
-                    value={enteredCustomSpacing}
-                    onChange={handleCustomValueChange}
-                    placeholder={t("module:customValueNumbersOnly")}
-                  />
-                  {customSpacingFieldNote && (
-                    <span className="note error">{customSpacingFieldNote}</span>
-                  )}
-                </div>
-                <div className="mt-xxsmall">
-                  <span className="note">
-                    {t("module:customValueIsNotAffect")}
-                  </span>
+                  <div
+                    className={`chip spacing-option-custom ${activeOption === "custom" ? "highlighted" : ""}`}
+                    onClick={() => {
+                      setActiveOption("custom");
+                      setSpace(enteredCustomSpacing);
+                    }}
+                  >
+                    <span>{t("term:custom")}</span>
+                    <input
+                      className="cy-input"
+                      type="text"
+                      value={enteredCustomSpacing}
+                      onChange={handleCustomValueChangeInput}
+                    />
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          </>
+          :
+          <>
+            {/* 倍率 */}
+            <div className="mt-xxsmall">
+              <SectionTitle title={t("module:multiplySpacingBy")} />
+              <div className="flex flex-row">
+                <SegmentedControl
+                  inputName="multiply"
+                  value={String(multiplier)}
+                  onChange={(newMultiplier) => {
+                    setMultiplier(Number(newMultiplier));
+                  }}
+                >
+                  {multipliers.map((singleMultiplier) => (
+                    <SegmentedControl.Option
+                      value={String(singleMultiplier)}
+                      label={String(singleMultiplier)}
+                      translatable={false}
+                    />
+                  ))}
+                </SegmentedControl>
+              </div>
+            </div>
+            {/* 間距值 */}
+            <div className="mt-xxsmall">
+              <SectionTitle title={t("module:spacingValue")} />
+              <div className="flex flex-row">
+                <SegmentedControl
+                  inputName="prevalue"
+                  value={String(space)}
+                  onChange={(newSpace) => {
+                    if (!isNaN(Number(newSpace))) {
+                      setSpace(Number(newSpace));
+                    } else {
+                      setSpace(newSpace);
+                    }
+                  }}
+                >
+                  {SpacingValue.map((item) => (
+                    <SegmentedControl.Option
+                      value={String(item.value)}
+                      label={
+                        typeof item.value === "string"
+                          ? String(item.nameKey)
+                          : String(item.value * multiplier)
+                      }
+                      translatable={item.translatable}
+                    />
+                  ))}
+                </SegmentedControl>
+                {space === "custom" && (
+                  <div className="width-100">
+                    <div className="width-100 mt-xxsmall">
+                      <textarea
+                        id="sp-space-custom"
+                        className="textarea"
+                        rows={1}
+                        value={enteredCustomSpacing}
+                        onChange={handleCustomValueChange}
+                        placeholder={t("module:customValueNumbersOnly")}
+                      />
+                      {customSpacingFieldNote && (
+                        <span className="note error">{customSpacingFieldNote}</span>
+                      )}
+                    </div>
+                    <div className="mt-xxsmall">
+                      <span className="note">
+                        {t("module:customValueIsNotAffect")}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        }
+
+
         <div className="cy-checkbox-group mt-xsmall">
           <CYCheckbox
             label={t("module:addAutoLayoutAfterApply")}
