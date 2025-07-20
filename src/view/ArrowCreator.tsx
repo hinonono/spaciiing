@@ -236,7 +236,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             />
             <SegmentedControl.Option
               value="style"
-              label={`${t("term:style")} (${appContext.runtimeSyncedResources.strokeStyles.length})`}
+              label={`${t("term:style")}`}
             />
           </SegmentedControl>
           {renderEditorBasedOnStrokeMode()}
