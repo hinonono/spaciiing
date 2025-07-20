@@ -3,6 +3,10 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
+    span {
+        text-align: left;
+    }
+
     input {
         height: 100%;
         padding: 0;

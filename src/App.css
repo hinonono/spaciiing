@@ -2247,6 +2247,9 @@ details summary {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
+.spacing-option-custom span {
+  text-align: left;
+}
 .spacing-option-custom input {
   height: 100%;
   padding: 0;

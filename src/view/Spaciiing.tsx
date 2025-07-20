@@ -121,7 +121,7 @@ const SpaciiingView: React.FC = () => {
     }
   }, [appContext.editorPreference]);
 
-
+  const defaultSpacingOptions = [0, 4, 8, 12, 16, 24, 32, 40, 48, 64, 96, 112, 128, 160];
 
   return (
     <div>
@@ -189,20 +189,18 @@ const SpaciiingView: React.FC = () => {
               <SectionTitle title={t("module:spacingValue")} />
               <div className="cy-checkbox-group spacing-option-set border-1-cy-border-light padding-16 hide-scrollbar-vertical">
                 <div className="spacing-option-numbers">
-                  {
-                    [0, 4, 8, 12, 16, 24, 32, 40, 48, 64, 96, 112, 128, 160].map((num) =>
-                      <Chip
-                        label={num.toString()}
-                        onClick={() => {
-                          setActiveOption(num.toString());
-                          setSpace(num);
-                        }}
-                        highlighted={activeOption === num.toString() ? true : false}
-                      />
-                    )
-                  }
-                  <div
-                    className={`chip spacing-option-custom ${activeOption === "custom" ? "highlighted" : ""}`}
+                  {defaultSpacingOptions.map((num) =>
+                    <Chip
+                      label={num.toString()}
+                      onClick={() => {
+                        setActiveOption(num.toString());
+                        setSpace(num);
+                      }}
+                      highlighted={activeOption === num.toString() ? true : false}
+                    />
+                  )}
+                  <button
+                    className={`button chip spacing-option-custom ${activeOption === "custom" ? "highlighted" : ""}`}
                     onClick={() => {
                       setActiveOption("custom");
                       setSpace(enteredCustomSpacing);
@@ -215,7 +213,7 @@ const SpaciiingView: React.FC = () => {
                       value={enteredCustomSpacing}
                       onChange={handleCustomValueChangeInput}
                     />
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>
