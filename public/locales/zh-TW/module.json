@@ -133,7 +133,7 @@
     "numberingTextLayers": "將文字圖層編號",
     "objectIsMemorizedWithId": "物件已被記憶 (ID: $LAYER_ID$)",
     "objectIsNotMemorized": "物件尚未被記憶",
-    "offset": "箭頭與物件間的距離",
+    "offset": "偏移",
     "options": "選項",
     "originalTextContent": "文字圖層原本的內容",
     "outerFrame": "外框",
