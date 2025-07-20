@@ -347,7 +347,7 @@ const autolayoutOptions: PropertyClipboardOption[] = [
 export const propertyClipboardOptions: PropertyClipboardOptions = {
     size: {
         titleKey: "term:size",
-        applyAllKeys: ["HEIGHT", "WIDTH"],
+        applyAllKeys: ["WIDTH_AND_HEIGHT"],
         useModal: false,
         items: sizeOptions
     },

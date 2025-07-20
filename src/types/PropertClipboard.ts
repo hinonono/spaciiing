@@ -1,6 +1,7 @@
 export type PropertyClipboardSupportedProperty =
   | "WIDTH"
   | "HEIGHT"
+  | "WIDTH_AND_HEIGHT"
   | "LAYER_OPACITY"
   | "LAYER_CORNER_RADIUS"
   | "LAYER_BLEND_MODE"

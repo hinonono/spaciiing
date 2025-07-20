@@ -250,12 +250,13 @@ async function pastePropertyToObject(
 ) {
   switch (property) {
     case "WIDTH":
-      setSelectionSize(referenceObject, { width: true });
-      // setSelectionWidth(referenceObject);
+      setSelectionSize(referenceObject, { width: true, ignoreAspectRatio: false });
       break;
     case "HEIGHT":
-      setSelectionSize(referenceObject, { height: true });
-      // setSelectionHeight(referenceObject);
+      setSelectionSize(referenceObject, { height: true, ignoreAspectRatio: false });
+      break;
+    case "WIDTH_AND_HEIGHT":
+      setSelectionSize(referenceObject, { width: true, height: true, ignoreAspectRatio: true });
       break;
     case "LAYER_OPACITY":
       applyPropertyToSelection(referenceObject, "opacity");
@@ -551,7 +552,7 @@ async function applyFillToSelection(
   }
 }
 
-function setSelectionSize(referenceObject: CopyPastableNode, options: { width?: boolean; height?: boolean }) {
+function setSelectionSize(referenceObject: CopyPastableNode, options: { width?: boolean; height?: boolean, ignoreAspectRatio: boolean }) {
   const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
@@ -561,9 +562,29 @@ function setSelectionSize(referenceObject: CopyPastableNode, options: { width?: 
 
   selection.forEach((object) => {
     if ("resize" in object) {
-      const newWidth = options.width ? referenceObject.width : object.width;
-      const newHeight = options.height ? referenceObject.height : object.height;
-      object.resize(newWidth, newHeight);
+      if ("targetAspectRatio" in object && object.width && object.height && options.ignoreAspectRatio === false) {
+        const aspectRatio = object.width / object.height;
+
+        let newWidth = object.width;
+        let newHeight = object.height;
+
+        if (options.width && !options.height) {
+          newWidth = referenceObject.width;
+          newHeight = newWidth / aspectRatio;
+        } else if (!options.width && options.height) {
+          newHeight = referenceObject.height;
+          newWidth = newHeight * aspectRatio;
+        } else {
+          newWidth = referenceObject.width;
+          newHeight = referenceObject.height;
+        }
+
+        object.resize(newWidth, newHeight);
+      } else {
+        const newWidth = options.width ? referenceObject.width : object.width;
+        const newHeight = options.height ? referenceObject.height : object.height;
+        object.resize(newWidth, newHeight);
+      }
     } else {
       figma.notify(`❌ Object of type ${object.type} cannot be resized.`);
     }
