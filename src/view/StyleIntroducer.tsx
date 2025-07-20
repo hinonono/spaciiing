@@ -8,6 +8,7 @@ import { NestedStructure, StyleSelection } from "../types/General";
 import { applyStyleIntroducer, buildNestedStructure, reInitStyleIntroducer } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
 import SegmentedControl from "../components/SegmentedControl";
+import * as info from "../info.json";
 
 interface StyleIntroducerProps { }
 
@@ -171,7 +172,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
                 selectedScopes,
                 form,
                 mode,
-                i18n.language,
+                info.featureFlag.localizedCatalogue === true ? i18n.language : "en-US",
                 false
               )
             }}

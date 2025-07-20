@@ -2,7 +2,6 @@
   "name": "Spaciiing",
   "version": "34",
   "whatsNew": [
-    "Catalogue now support generate localized content. Change your preferred language to generate catalogue in different languages.",
     "Now you can customize time format when generating file organizing objects.",
     "Overall enhancements"
   ],
@@ -13,7 +12,8 @@
   },
   "featureFlag": {
     "propertyClipboardSupportAutoLayout": false,
-    "enableSpaciiingNewInterface": false
+    "enableSpaciiingNewInterface": false,
+    "localizedCatalogue": false
   },
   "freeUserWaitingTime": 30,
   "clickTier": [
