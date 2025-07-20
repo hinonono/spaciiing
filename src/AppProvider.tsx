@@ -29,6 +29,10 @@ export interface AppContextType {
   editorType: EditorType;
   setEditorType: React.Dispatch<React.SetStateAction<EditorType>>;
 
+  // 判斷目前視窗是否為最小化狀態
+  isWindowMinimized: boolean;
+  setIsWindowMinimized: React.Dispatch<React.SetStateAction<boolean>>;
+
   triggeredCommand: string;
   setTriggeredCommand: React.Dispatch<React.SetStateAction<string>>;
 
@@ -40,10 +44,6 @@ export interface AppContextType {
   setvariableCollectionModes: React.Dispatch<
     React.SetStateAction<ExternalVariableMode[]>
   >;
-  // virtualProfileGroups: VirtualProfileGroup[];
-  // setVirtualProfileGroups: React.Dispatch<
-  //   React.SetStateAction<VirtualProfileGroup[]>
-  // >;
 
   // Property Clipboard
   referenceObject: ReferenceObject;
@@ -126,9 +126,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     ExternalVariableMode[]
   >([]);
   const [styleList, setStyleList] = useState<StyleListItemFrontEnd[]>([]);
-  // const [virtualProfileGroups, setVirtualProfileGroups] = useState<
-  //   VirtualProfileGroup[]
-  // >([]);
 
   const [extractedProperties, setExtractedProperties] = useState<ComponentPropertiesFrontEnd[]>([]);
 
@@ -145,10 +142,14 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     layerType: ""
   });
 
+  const [isWindowMinimized, setIsWindowMinimized] = useState(false);
+
   // #region JSX elements
   return (
     <AppContext.Provider
       value={{
+        isWindowMinimized,
+        setIsWindowMinimized,
         editorPreference,
         setEditorPreference,
         runtimeSyncedResources,
@@ -167,8 +168,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setShowActivateModal,
         customCodeExecutionResults,
         setCustomCodeExecutionResults,
-        // virtualProfileGroups,
-        // setVirtualProfileGroups,
         styleList,
         setStyleList,
         editorType,

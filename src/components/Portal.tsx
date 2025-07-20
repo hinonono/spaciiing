@@ -3,13 +3,16 @@ import { createPortal } from 'react-dom';
 import { MessageResize } from '../types/Messages/MessageResize';
 import { MessageMinMaxWindow } from '../types/Messages/MessageMinMaxWindow';
 import { SvgAdd, SvgMinus } from '../assets/icons';
+import { useAppContext } from '../AppProvider';
+import * as utilFrontEnd from "../module-frontend/utilFrontEnd";
 
 interface PortalProps {
 
 }
 
 const Portal: React.FC<PortalProps> = () => {
-  const [toggled, setToggled] = useState(false);
+
+  const { isWindowMinimized, setIsWindowMinimized } = useAppContext();
 
   useEffect(() => {
     const resizeHandle = document.getElementById("resize-handle");
@@ -74,28 +77,27 @@ const Portal: React.FC<PortalProps> = () => {
       const currentToggle = toggleBtn.getAttribute("should-window-minimize") === "true";
       const newToggle = !currentToggle;
       toggleBtn.setAttribute("should-window-minimize", String(newToggle));
-      setToggled(newToggle);
+      setIsWindowMinimized(newToggle);
 
-      const message: MessageMinMaxWindow = {
-        module: "MinMaxWindow",
-        direction: "Inner",
-        phase: "Actual",
-        shouldSaveEditorPreference: false,
-        shouldSaveSyncedReources: false,
-        toggle: newToggle
-      };
-      parent.postMessage({ pluginMessage: message }, "*");
+      utilFrontEnd.setWindowSize(newToggle);
     };
   }, [])
 
-  const iconColor = "var(--figma-color-text-secondary)";
+  useEffect(() => {
+    const toggleBtn = document.getElementById("min-max-window");
+    if (!toggleBtn) return;
 
+    toggleBtn.setAttribute("should-window-minimize", String(isWindowMinimized));
+
+  }, [isWindowMinimized])
+
+  const iconColor = "var(--figma-color-text-secondary)";
 
   return createPortal(
     <div className="main-window-toolbar-wrapper">
       <div id="min-max-window" className="main-window-toolbar-icon-wrapper min-max-window">
         <div style={{ width: 12, height: 12 }}>
-          {toggled
+          {isWindowMinimized
             ? <SvgAdd color={iconColor} />
             : <SvgMinus color={iconColor} />
           }

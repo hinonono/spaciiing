@@ -1,6 +1,7 @@
 import { Dimension } from "../types/General";
 import { LicenseManagement } from "../types/LicenseManagement";
 import { MessageAspectRatio } from "../types/Messages/MessageAspectRatio";
+import { MessageMinMaxWindow } from "../types/Messages/MessageMinMaxWindow";
 
 export const applyAspectRatio = (
   widthRatio: number,
@@ -85,3 +86,15 @@ export const generateUUID = () => {
     return v.toString(16);
   });
 };
+
+export function setWindowSize(shouldMinimize: boolean) {
+  const message: MessageMinMaxWindow = {
+    module: "MinMaxWindow",
+    direction: "Inner",
+    phase: "Actual",
+    shouldSaveEditorPreference: false,
+    shouldSaveSyncedReources: false,
+    toggle: shouldMinimize
+  };
+  parent.postMessage({ pluginMessage: message }, "*");
+}

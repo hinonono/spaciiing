@@ -6,8 +6,8 @@ export function reception(message: MessageResize) {
 }
 
 function resize(width: number, height: number) {
-  const minWidth = 180;
-  const minHeight = 80;
+  const minWidth = 204;
+  const minHeight = 50;
 
   const maxWidth = 640;
   const maxHeight = 720;
