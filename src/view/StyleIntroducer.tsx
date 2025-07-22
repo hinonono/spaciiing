@@ -172,7 +172,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
                 selectedScopes,
                 form,
                 mode,
-                info.featureFlag.localizedCatalogue === true ? i18n.language : "en-US",
+                info.featureFlag.localizedCatalogue === true ? i18n.language : "enUS",
                 false
               )
             }}
