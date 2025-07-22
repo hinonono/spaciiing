@@ -30,7 +30,7 @@ const availableTabs: AvailableTabs[] = [
     {
         tabName: "ArrowCreator",
         svgComponent: SvgDrawArrows,
-        supportedEditorTypes: ["figma"]
+        supportedEditorTypes: ["figma", "slides"]
     },
     {
         tabName: "PropertyClipboard",
