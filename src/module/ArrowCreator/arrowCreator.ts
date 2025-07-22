@@ -34,6 +34,8 @@ export function reception(message: MessageArrowCreator) {
             message.safeMargin,
         )
 
+        console.log("normal route", route);
+
         drawArrowAndAnnotation(
             route,
             message.stroke,
@@ -474,17 +476,25 @@ export async function updateArrowPosition() {
                 schema.offset
             );
 
-            // Align arrow node to first point in route
-            arrowNode.x = newRoute[0].x;
-            arrowNode.y = newRoute[0].y;
+            if (figma.editorType === "slides") {
+                // 將ArrowNode的位置歸零，使得記載著「畫布絕對位置」的向量線段可以反映在正確的位置上
+                // 在簡報模式中，若要取得畫布的(0,0)點位置，需要考慮當前投影片之於畫布的相對位置
+                // 由於簡報模式無法直接抓取「簡報node」，因此使用「起始點node」替代來計算相對於當前畫布而言的畫布（0,0）位置
+                // 以此使得記載著「畫布絕對位置」的向量線段可以反映在正確的位置上
+                if (!sourceNode.absoluteBoundingBox) {
+                    throw new Error("Source node must include absolute bounding box in order to calculate new arrow position.")
+                }
+                const pageOriginRelativeToCurrentSlide: Vector = { x: sourceNode.x - sourceNode.absoluteBoundingBox.x, y: sourceNode.y - sourceNode.absoluteBoundingBox.y };
 
-            // Then translate route points relative to (0,0)
-            const relativeRoute = newRoute.map(point => ({
-                x: point.x - newRoute[0].x,
-                y: point.y - newRoute[0].y,
-            }));
+                arrowNode.x = pageOriginRelativeToCurrentSlide.x;
+                arrowNode.y = pageOriginRelativeToCurrentSlide.y;
+            } else {
+                // 將ArrowNode的位置歸零，使得記載著「畫布絕對位置」的向量線段可以反映在正確的位置上
+                arrowNode.x = 0;
+                arrowNode.y = 0;
+            }
 
-            const newVectorNetwork = createVectorNetwork(relativeRoute);
+            const newVectorNetwork = createVectorNetwork(newRoute);
             await utils.node.setStrokeCap(arrowNode, newVectorNetwork, schema.strokeStyle.startPointCap, schema.strokeStyle.endPointCap);
             applyStrokeStyle(arrowNode, schema.strokeStyle)
 

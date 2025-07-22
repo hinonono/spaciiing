@@ -37,7 +37,7 @@ const CoreLayer: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (appContext.triggeredCommand === "updateCatalogueDesc" || appContext.triggeredCommand === "updateArrowsPosition") {
+    if (appContext.triggeredCommand === "updateCatalogueDesc") {
       setActiveTab("Shortcut");
     } else if (appContext.triggeredCommand === "drawArrows") {
       setActiveTab("ArrowCreator");

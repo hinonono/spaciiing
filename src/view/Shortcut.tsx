@@ -166,7 +166,7 @@ const Shortcut: React.FC = () => {
   }
 
   const renderArrowCreatorShortcut = () => {
-    if (appContext.editorType === "figma") {
+    if (appContext.editorType === "figma" || appContext.editorType === "slides") {
       const buttons: ShortcutButtonConfig[] = [
         {
           title: t("module:updateArrowPosition"),
