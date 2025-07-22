@@ -173,12 +173,12 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
               <SegmentedControl.Option
                 value="height"
                 label="term:width"
-                icon={<SvgVertical color="var(--figma-color-text)" />}
+                icon={<SvgHorizontal color="var(--figma-color-text)" />}
               />
               <SegmentedControl.Option
                 value="width"
                 label="term:height"
-                icon={<SvgHorizontal color="var(--figma-color-text)" />}
+                icon={<SvgVertical color="var(--figma-color-text)" />}
               />
             </SegmentedControl>
           </div>
