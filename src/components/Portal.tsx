@@ -79,6 +79,13 @@ const Portal: React.FC<PortalProps> = () => {
       toggleBtn.setAttribute("should-window-minimize", String(newToggle));
       setIsWindowMinimized(newToggle);
 
+      if (newToggle) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth' // optional for smooth scrolling
+        });
+      }
+
       utilFrontEnd.setWindowSize(newToggle);
     };
   }, [])
