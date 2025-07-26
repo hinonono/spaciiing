@@ -112,7 +112,17 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   };
 
   // 筆畫樣式
-  const [strokeStyle, setStrokeStyle] = useState("");
+  const [strokeStyle, setStrokeStyle] = useState(() => {
+    if (!editingStroke.dashAndGap) return "solid";
+    if (editingStroke.dashAndGap.length === 2) {
+      if (editingStroke.dashAndGap[0] === 0 && editingStroke.dashAndGap[1] === 0) {
+        return "solid";
+      } else {
+        return "dash";
+      }
+    };
+    return "custom";
+  });
   const handleStrokeStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newStyle = e.target.value;
     setStrokeStyle(newStyle);

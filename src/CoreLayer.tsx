@@ -12,7 +12,7 @@ import { SavedClickCounter } from "./components";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<Module>("Spaciiing");
+  const [activeTab, setActiveTab] = useState<Module>("ArrowCreator");
   const [prevTab, setPrevTab] = useState<Module | null>(null);
 
   const appContext = useAppContext();
@@ -51,9 +51,18 @@ const CoreLayer: React.FC = () => {
     setPrevTab(activeTab);
   }, [activeTab]);
 
+  const isDevelopment =
+    process.env.REACT_APP_ENV === "development" ||
+    process.env.REACT_APP_ENV === "developmentfree";
+
   // #region JSX Elements
   return (
     <div className="App">
+      {isDevelopment && (
+        <div className="banner banner--development-mode">
+          開發者模式
+        </div>
+      )}
       {/* <SavedClickCounter /> */}
       <SubscriptionModal />
       <ActivateLicenseModal />

@@ -8,16 +8,16 @@
         background: #a0ff41;
         color: rgb(0, 0, 0);
         text-align: center;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         position: fixed;
-        bottom: 0;
+        bottom: 6;
+        left: 6;
+        border-radius: var(--cy-border-radius-large);
         z-index: 999;
         font-size: var(--font-size-small);
-        padding: 8px 12px;
+        padding: 4px 8px;
         min-height: auto;
     }
 

@@ -1096,7 +1096,7 @@ details summary {
 .list-view-content .container {
   display: block;
   position: relative;
-  padding: 8px 0px;
+  padding: 8px;
   padding-left: 34px;
   cursor: pointer;
   font-size: var(--font-size-small);
@@ -2048,10 +2048,12 @@ details summary {
   align-items: center;
   justify-content: center;
   position: fixed;
-  bottom: 0;
+  bottom: 6;
+  left: 6;
+  border-radius: var(--cy-border-radius-large);
   z-index: 999;
   font-size: var(--font-size-small);
-  padding: 8px 12px;
+  padding: 4px 8px;
   min-height: auto;
 }
 .banner button {

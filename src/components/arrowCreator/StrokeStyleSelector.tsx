@@ -5,9 +5,10 @@ import { CYStroke } from '../../types/CYStroke';
 import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEditorPreference';
 import ColorThumbnailView from '../ColorThumbnailView';
 import { defaultStroke } from '../../module-frontend/arrowCreatorFrontEnd';
-import { SvgAdd, SvgEdit, SvgMinus } from '../../assets/icons';
+import { SvgAdd, SvgCornerRadius, SvgEdit, SvgMinus, SvgStrokeWeight } from '../../assets/icons';
 import ListViewHeader from '../ListViewHeader';
 import { MessageSaveSyncedResource } from '../../types/Messages/MessageSaveSyncedResource';
+import CYCheckbox from '../CYCheckbox';
 
 interface StrokeStyleSelectorProps {
   setEditStroke: React.Dispatch<React.SetStateAction<CYStroke>>;
@@ -46,13 +47,6 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
 
   useEffect(() => {
     if (savingPreference) {
-      // const message: MessageSaveEditorPreference = {
-      //   editorPreference: editorPreference,
-      //   shouldSaveEditorPreference: true,
-      //   module: "General",
-      //   phase: "Actual"
-      // };
-
       const message: MessageSaveSyncedResource = {
         shouldSaveSyncedReources: true,
         shouldSaveSyncedReourcesType: "strokeStyles",
@@ -88,22 +82,30 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
     if (s && s.length > 0) {
       return (
         s.map((item) => (
-          <label key={item.id} className={`container`}>
-            <div className="flex flex-row align-items-center flex-justify-space-between">
-              <div className="flex flex-row align-items-center">
-                <ColorThumbnailView color={item.style.color} opacity={1} size={20} type={"rounded"} extraClassName="mr-xxsmall" />
-                {item.name}
+          <CYCheckbox
+            label={
+              <div className="width-100 flex flex-row align-items-center flex-justify-space-between">
+                <div className="flex flex-row align-items-center">
+                  <ColorThumbnailView color={item.style.color} opacity={1} size={20} type={"rounded"} extraClassName="mr-xxsmall" />
+                  {item.name}
+                </div>
+                <div className='flex flex-row align-items-center'>
+                  <div className='flex flex-row align-items-center text-color-secondary mr-xxxsmall'>
+                    <div className="icon-16"><SvgStrokeWeight color={"var(--figma-color-text-secondary)"} /></div>
+                    {item.style.strokeWeight}
+                  </div>
+                  <div className='flex flex-row align-items-center text-color-secondary'>
+                    <div className="icon-16"><SvgCornerRadius color={"var(--figma-color-text-secondary)"} /></div>
+                    {item.style.cornerRadius}
+                  </div>
+                </div>
               </div>
-              <input
-                type="radio"
-                name="strokeStyle"
-                value={item.id}
-                checked={selectedStyleId === item.id}
-                onChange={() => handleTargetChange(item.style, item.id)}
-              />
-              <span className="checkmark checkmark-round checkmark-large"></span>
-            </div>
-          </label>
+            }
+            value={item.id}
+            checked={selectedStyleId === item.id}
+            onChange={() => handleTargetChange(item.style, item.id)}
+            spanAddtionClass={"checkmark-round checkmark-large"}
+          />
         ))
       )
     } else {

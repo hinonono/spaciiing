@@ -26,9 +26,6 @@ interface TabBarProps {
 }
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
-  const isDevelopment =
-    process.env.REACT_APP_ENV === "development" ||
-    process.env.REACT_APP_ENV === "developmentfree";
   const { licenseManagement, editorType, isWindowMinimized, setIsWindowMinimized } = useAppContext();
 
   const availableTabs = getAvailableTabs(editorType);
@@ -130,11 +127,6 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="tabs">
-      {isDevelopment && (
-        <div className="banner banner--development-mode">
-          開發者模式
-        </div>
-      )}
       <SaleBannerWrapper licenseManagement={licenseManagement} />
       <div
         className="tab-bar scroll-container hide-scrollbar-horizontal"
