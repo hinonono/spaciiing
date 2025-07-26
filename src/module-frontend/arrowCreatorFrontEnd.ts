@@ -103,7 +103,7 @@ export const defaultStroke: CYStroke = {
     cornerRadius: 16,
     startPointCap: "ROUND",
     endPointCap: "ARROW_LINES",
-    dashAndGap: [0, 0],
+    dashAndGap: undefined,
 }
 
 export const defaultOffset: number = 8

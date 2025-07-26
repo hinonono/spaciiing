@@ -59,12 +59,18 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   };
 
   // 虛線與斷點 - using temporary states for editing
-  const [editingDash, setEditingDash] = useState<string>(editingStroke.dashAndGap?.[0]?.toString() || "");
-  const [editingGap, setEditingGap] = useState<string>(editingStroke.dashAndGap?.[1]?.toString() || "");
+  const [editingDash, setEditingDash] = useState<string>(editingStroke.dashAndGap?.[0]?.toString() || "0");
+  const [editingGap, setEditingGap] = useState<string>(editingStroke.dashAndGap?.[1]?.toString() || "0");
   const [editingCustomDashAndGap, setEditingCustomDashAndGap] = useState<string>(editingStroke.dashAndGap?.toString() || "");
 
   const handleDashChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditingDash(event.target.value); // Update UI only
+
+    const numberValue = Number(editingDash);
+    const gap = editingStroke.dashAndGap?.[1] || 0;
+    if (!isNaN(numberValue)) {
+      setEditingStroke((prev) => ({ ...prev, dashAndGap: [numberValue, gap] }));
+    }
   }
 
   const handleDashBlur = () => {
@@ -77,6 +83,12 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
 
   const handleGapChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditingGap(event.target.value); // Update UI only
+
+    const numberValue = Number(editingGap);
+    const dash = editingStroke.dashAndGap?.[0] || 0;
+    if (!isNaN(numberValue)) {
+      setEditingStroke((prev) => ({ ...prev, dashAndGap: [dash, numberValue] }));
+    }
   }
 
   const handleGapBlur = () => {
@@ -115,11 +127,12 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   const [strokeStyle, setStrokeStyle] = useState(() => {
     if (!editingStroke.dashAndGap) return "solid";
     if (editingStroke.dashAndGap.length === 2) {
-      if (editingStroke.dashAndGap[0] === 0 && editingStroke.dashAndGap[1] === 0) {
-        return "solid";
-      } else {
-        return "dash";
-      }
+      return "dash";
+      // if (editingStroke.dashAndGap[0] === 0 && editingStroke.dashAndGap[1] === 0) {
+      //   return "solid";
+      // } else {
+      //   return "dash";
+      // }
     };
     return "custom";
   });
@@ -127,10 +140,16 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
     const newStyle = e.target.value;
     setStrokeStyle(newStyle);
 
-    if (newStyle === "solid" || newStyle === "dash") {
+    if (newStyle === "solid") {
+      setEditingStroke((prev) => ({ ...prev, dashAndGap: undefined }));
+    } else if (newStyle === "dash") {
       setEditingStroke((prev) => ({ ...prev, dashAndGap: [0, 0] }));
     }
   }
+
+  useEffect(() => {
+    console.log("Editing stroke changed", editingStroke);
+  }, [editingStroke]);
 
   // 起始點樣式
   const handleStartingPointStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
