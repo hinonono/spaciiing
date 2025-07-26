@@ -58,7 +58,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
     }
   };
 
-  // 虛線與斷點 - using temporary states for editing
+  // 虛線與斷點
   const editingDash = React.useMemo(() => {
     if (editingStroke.dashAndGap && editingStroke.dashAndGap.length === 2) {
       return editingStroke.dashAndGap[0].toString();
@@ -66,7 +66,6 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
       return "0";
     }
   }, [editingStroke.dashAndGap]);
-  // const [editingDash, setEditingDash] = useState<string>(editingStroke.dashAndGap?.[0]?.toString() || "0");
 
   const editingGap = React.useMemo(() => {
     if (editingStroke.dashAndGap && editingStroke.dashAndGap.length === 2) {
@@ -75,7 +74,6 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
       return "0";
     }
   }, [editingStroke.dashAndGap]);
-  // const [editingGap, setEditingGap] = useState<string>(editingStroke.dashAndGap?.[1]?.toString() || "0");
 
   const editingCustomDashAndGap = React.useMemo(() => {
     if (editingStroke.dashAndGap && editingStroke.dashAndGap.length > 2) {
@@ -84,17 +82,8 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
       return "2,2,2,2";
     }
   }, [editingStroke.dashAndGap]);
-  // const [editingCustomDashAndGap, setEditingCustomDashAndGap] = useState<string>(editingStroke.dashAndGap?.toString() || "2,2,2,2");
 
   const handleDashChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    // setEditingDash(event.target.value); // Update UI only
-
-    // const numberValue = Number(editingDash);
-    // const gap = editingStroke.dashAndGap?.[1] || 0;
-    // if (!isNaN(numberValue)) {
-    //   setEditingStroke((prev) => ({ ...prev, dashAndGap: [numberValue, gap] }));
-    // }
-
     const newDashString = event.target.value;
     const numberValue = Number(newDashString);
     const gap = editingStroke.dashAndGap?.[1] || 0;
@@ -112,14 +101,6 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   }
 
   const handleGapChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    // setEditingGap(event.target.value); // Update UI only
-
-    // const numberValue = Number(editingGap);
-    // const dash = editingStroke.dashAndGap?.[0] || 0;
-    // if (!isNaN(numberValue)) {
-    //   setEditingStroke((prev) => ({ ...prev, dashAndGap: [dash, numberValue] }));
-    // }
-
     const newGapString = event.target.value;
     const numberValue = Number(newGapString);
     const dash = editingStroke.dashAndGap?.[0] || 0;
@@ -137,8 +118,6 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   }
 
   const handleCustomDashAndGapChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    // setEditingCustomDashAndGap(event.target.value); // Update UI only
-
     const newCustomDashAndGapString = event.target.value;
     const parsedValues = newCustomDashAndGapString
       .split(',')
