@@ -13,7 +13,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   max,
   additionalClass,
   color = "var(--cy-purple-600)",
-  background = "var(--figma-color-bg-secondary)"
+  background = "var(--cy-bg-secondary-dark-elevated)"
 }) => {
 
   const containerStyle = {

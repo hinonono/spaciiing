@@ -132,7 +132,7 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
     <div className="tabs">
       {isDevelopment && (
         <div className="banner banner--development-mode">
-          現在正執行開發者模式
+          開發者模式
         </div>
       )}
       <SaleBannerWrapper licenseManagement={licenseManagement} />

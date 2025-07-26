@@ -1,9 +1,7 @@
 {
   "name": "Spaciiing",
-  "version": "34",
+  "version": "35",
   "whatsNew": [
-    "Now you can customize time format when generating file organizing objects.",
-    "Draw arrows tool along with update arrows position shortcut are now available in figma slides file.",
     "Overall enhancements"
   ],
   "price": {

@@ -44,6 +44,7 @@
   --cy-purple-950: #380e6b;
   --cy-text-color-special: var(--cy-purple-600);
   --cy-bg-primary-dark-elevated: var(--figma-color-bg-primary);
+  --cy-bg-secondary-dark-elevated: var(--figma-color-bg-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -65,6 +66,7 @@
     --cy-glass-color-2: rgba(255, 255, 255, 0.4);
     --cy-text-color-special: var(--cy-purple-400);
     --cy-bg-primary-dark-elevated: var(--figma-color-bg-secondary);
+    --cy-bg-secondary-dark-elevated: #535353;
   }
 }
 #main-window-toolbar {
@@ -137,6 +139,7 @@ h2,
 h3,
 h4,
 h5 {
+  font-weight: 500;
   line-height: 130%;
 }
 
@@ -146,6 +149,10 @@ li,
 ol,
 span {
   line-height: 150%;
+}
+
+span {
+  font-weight: 500;
 }
 
 p {
@@ -170,7 +177,6 @@ h3 {
 h4 {
   margin: 0.3rem 0;
   padding-top: 0.5rem;
-  font-weight: 600;
 }
 
 button {
@@ -197,6 +203,25 @@ select {
 
 textarea {
   min-height: 36px;
+}
+
+details {
+  margin: 5px;
+}
+details > div {
+  background: var(--figma-color-bg-secondary);
+  border-radius: var(--cy-border-radius-large);
+  margin-top: 8px;
+}
+details summary {
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--figma-color-text);
+}
+[open] details summary {
+  border-radius: var(--cy-border-radius-large) var(--cy-border-radius-large) 0 0;
 }
 
 .cy-input {
@@ -519,7 +544,7 @@ textarea {
 }
 
 .cy-table-group-header {
-  font-weight: bold;
+  font-weight: 500;
   background-color: var(--figma-color-bg-secondary);
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
@@ -624,7 +649,7 @@ textarea {
   color: var(--figma-color-bg-brand);
   cursor: pointer;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 500;
   font-size: var(--font-size-small);
   padding: 0;
 }
@@ -648,7 +673,7 @@ textarea {
 }
 .table .table-header {
   background-color: var(--figma-color-bg-brand-tertiary);
-  font-weight: bold;
+  font-weight: 500;
   color: var(--figma-color-text);
 }
 
@@ -835,6 +860,10 @@ textarea {
 }
 .flex button:first-child {
   margin-left: 0;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .flex-justify-space-between {
@@ -1045,7 +1074,6 @@ textarea {
   margin-bottom: 5px;
   font-size: 18px;
   color: #333;
-  font-weight: bold;
 }
 .free-trial-graph .step-content p {
   color: var(--figma-color-text-secondary);
@@ -1060,7 +1088,7 @@ textarea {
   padding: 8px;
   min-height: 48px;
   background-color: var(--figma-color-bg-secondary);
-  font-weight: bold;
+  font-weight: 500;
 }
 .list-view-content {
   padding: 16px;
@@ -1272,7 +1300,7 @@ textarea {
   outline: 1.5px solid rgba(0, 0, 0, 0.1);
   color: var(--figma-color-text);
 }
-.textarea:-moz-placeholder-shown:hover {
+.textarea:-moz-placeholder:hover {
   border: none;
 }
 .textarea:placeholder-shown:hover {
@@ -1284,7 +1312,7 @@ textarea {
   outline-offset: 0;
   color: var(--figma-color-text);
 }
-.textarea:active:-moz-placeholder-shown, .textarea:focus:-moz-placeholder-shown {
+.textarea:active:-moz-placeholder, .textarea:focus:-moz-placeholder {
   border: 0px solid var(--blue);
   outline: 1.5px solid var(--figma-color-bg-brand);
   outline-offset: 0;
@@ -1436,25 +1464,6 @@ textarea {
   border-width: 0px;
   border: none;
   outline: none;
-}
-
-details {
-  margin: 5px;
-}
-details > div {
-  background: var(--figma-color-bg-secondary);
-  border-radius: var(--cy-border-radius-large);
-  margin-top: 8px;
-}
-details summary {
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  color: var(--figma-color-text);
-}
-[open] details summary {
-  border-radius: var(--cy-border-radius-large) var(--cy-border-radius-large) 0 0;
 }
 
 .spinner-container {
@@ -1642,32 +1651,25 @@ details summary {
 
 @keyframes l20-1 {
   0% {
-    -webkit-clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
-            clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
   }
   12.5% {
-    -webkit-clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 0%, 100% 0%, 100% 0%);
-            clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 0%, 100% 0%, 100% 0%);
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 0%, 100% 0%, 100% 0%);
   }
   25% {
-    -webkit-clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 100% 100%, 100% 100%);
-            clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 100% 100%, 100% 100%);
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 100% 100%, 100% 100%);
   }
   50% {
-    -webkit-clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
-            clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
   }
   62.5% {
-    -webkit-clip-path: polygon(50% 50%, 100% 0, 100% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
-            clip-path: polygon(50% 50%, 100% 0, 100% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
+    clip-path: polygon(50% 50%, 100% 0, 100% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
   }
   75% {
-    -webkit-clip-path: polygon(50% 50%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 50% 100%, 0% 100%);
-            clip-path: polygon(50% 50%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 50% 100%, 0% 100%);
+    clip-path: polygon(50% 50%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 50% 100%, 0% 100%);
   }
   100% {
-    -webkit-clip-path: polygon(50% 50%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 0% 100%);
-            clip-path: polygon(50% 50%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 0% 100%);
+    clip-path: polygon(50% 50%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 0% 100%);
   }
 }
 @keyframes l20-2 {
@@ -1914,24 +1916,6 @@ details summary {
   box-shadow: var(--shadow-floating-window);
 }
 
-.title-bar {
-  width: 100%;
-  border-bottom: 1px solid var(--figma-color-border);
-  min-height: 46px;
-}
-.title-bar .content-wrap {
-  padding: 0.5rem 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-.title-bar h5 {
-  color: var(--figma-color-text);
-  margin: 0;
-  text-align: center;
-}
-
 .floating-text {
   position: fixed;
   background-color: var(--figma-color-text);
@@ -2045,8 +2029,9 @@ details summary {
 
 .banner {
   background: linear-gradient(46deg, rgb(204, 228, 255) 0%, rgb(220, 204, 255) 53%, rgb(255, 230, 240) 100%);
-  padding: 0.5rem 1rem;
+  padding: 16px 8px;
   min-height: 40px;
+  max-height: 49px;
 }
 .banner--development-mode {
   background: #a0ff41;
@@ -2055,14 +2040,20 @@ details summary {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  font-size: var(--font-size-small);
+  padding: 8px 12px;
+  min-height: auto;
 }
 .banner button {
   width: -moz-fit-content;
   width: fit-content;
 }
 .banner .message-primary {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   margin-bottom: 0.25rem;
 }
 .banner .message-secondary {
@@ -2134,6 +2125,24 @@ details summary {
 }
 .chip-destructive:enabled:focus {
   text-decoration: none !important;
+}
+
+.title-bar {
+  width: 100%;
+  border-bottom: 1px solid var(--figma-color-border);
+  min-height: 40px;
+}
+.title-bar .content-wrap {
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.title-bar h5 {
+  color: var(--figma-color-text);
+  margin: 0;
+  text-align: center;
 }
 
 .property-clipboard-header {
@@ -2214,7 +2223,7 @@ details summary {
 }
 .productivity-dashboard .tier-name {
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 500;
 }
 .productivity-dashboard .tier-name-BRONZE {
   background: linear-gradient(0deg, #cd7f32, #a97142);

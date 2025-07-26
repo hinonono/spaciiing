@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { MessageResize } from '../types/Messages/MessageResize';
-import { MessageMinMaxWindow } from '../types/Messages/MessageMinMaxWindow';
 import { SvgAdd, SvgMinus } from '../assets/icons';
 import { useAppContext } from '../AppProvider';
 import * as utilFrontEnd from "../module-frontend/utilFrontEnd";
 
-interface PortalProps {
+interface MainWindowToolBarProps {
 
 }
 
-const Portal: React.FC<PortalProps> = () => {
+const MainWindowToolBar: React.FC<MainWindowToolBarProps> = () => {
 
   const { isWindowMinimized, setIsWindowMinimized } = useAppContext();
 
@@ -124,4 +123,4 @@ const Portal: React.FC<PortalProps> = () => {
   );
 };
 
-export default Portal;
+export default MainWindowToolBar;

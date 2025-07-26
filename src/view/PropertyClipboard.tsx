@@ -146,7 +146,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             </div>
           ) : (
             <div className="variable flex flex-justify-space-between align-items-center">
-              <span className="text-color-secondary">
+              <span className="text-color-secondary mr-xxxsmall">
                 {t("module:selectLayerAsReference")}
               </span>
               <FigmaButton

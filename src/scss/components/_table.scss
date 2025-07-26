@@ -10,7 +10,7 @@
 
 //.row-header
 .cy-table-group-header {
-    font-weight: bold;
+    font-weight: 500;
     background-color: var(--figma-color-bg-secondary);
     display: grid;
     grid-template-columns: 1fr 10fr 1fr;
@@ -139,7 +139,7 @@
             color: var(--figma-color-bg-brand);
             cursor: pointer;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 500;
             font-size: var(--font-size-small);
             padding: 0;
         }
@@ -168,7 +168,7 @@
 
     .table-header {
         background-color: var(--figma-color-bg-brand-tertiary);
-        font-weight: bold;
+        font-weight: 500;
         color: var(--figma-color-text);
     }
 }

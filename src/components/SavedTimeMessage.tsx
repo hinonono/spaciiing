@@ -11,7 +11,7 @@ const SavedTimeMessage: React.FC<SavedTimeMessageProps> = () => {
   const { t } = useTranslation(["license"]);
 
   return (
-    <span className="note note-large special">
+    <span className="note note-large">
       {t("license:youSaved")
         .replace("$SAVED_CLICKS$", `${editorPreference.savedClicks}`)
         .replace("$SAVED_MIN$", `${Math.round(editorPreference.savedClicks / 20)}`)

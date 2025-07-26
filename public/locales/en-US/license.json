@@ -47,7 +47,7 @@
   "savePercent": "Save $PERCENT$",
   "freeTrialWorks": "How free trial works",
   "freeUsersNeedToWait": "Free users need to wait $TIME_REMAINING$ seconds before proceeding. Consider upgrading to skip waiting.",
-  "upgradeToSkipWaiting": "Do it fast. Do it right.",
+  "upgradeToSkipWaiting": "Upgrade to skip waiting.",
   "upgrade": "Upgrade",
   "youNeedToWait": "Save hours of clicking and skip the delay with only $3/month.",
   "youSaved": "You’ve already saved $SAVED_CLICKS$ clicks — that’s about $SAVED_MIN$ minutes of tedious work avoided!",

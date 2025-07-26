@@ -59,6 +59,7 @@
     --cy-text-color-special: var(--cy-purple-600);
 
     --cy-bg-primary-dark-elevated: var(--figma-color-bg-primary);
+    --cy-bg-secondary-dark-elevated: var(--figma-color-bg-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -89,5 +90,6 @@
         --cy-text-color-special: var(--cy-purple-400);
 
         --cy-bg-primary-dark-elevated: var(--figma-color-bg-secondary);
+        --cy-bg-secondary-dark-elevated: #535353;
     }
 }

@@ -1,0 +1,20 @@
+.title-bar {
+    width: 100%;
+    border-bottom: 1px solid var(--figma-color-border);
+    min-height: 40px;
+
+
+    .content-wrap {
+        padding: 0.5rem 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h5 {
+        color: var(--figma-color-text);
+        margin: 0;
+        text-align: center;
+    }
+}
