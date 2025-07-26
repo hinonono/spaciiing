@@ -1875,6 +1875,13 @@ details summary {
 
 .app {
   position: relative;
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  /* IE 10+ */
+  user-select: none;
+  /* Standard syntax */
 }
 
 .content {
