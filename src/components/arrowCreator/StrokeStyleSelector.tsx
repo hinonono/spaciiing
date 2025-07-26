@@ -94,10 +94,9 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
                     <div className="icon-16"><SvgStrokeWeight color={"var(--figma-color-text-secondary)"} /></div>
                     {item.style.strokeWeight}
                   </div>
-                  <div className='flex flex-row align-items-center text-color-secondary'>
-                    <div className="icon-16"><SvgCornerRadius color={"var(--figma-color-text-secondary)"} /></div>
-                    {item.style.cornerRadius}
-                  </div>
+                  {item.style.dashAndGap && <div className='flex flex-row align-items-center text-color-secondary'>
+                    / [{item.style.dashAndGap.join(', ')}]
+                  </div>}
                 </div>
               </div>
             }
