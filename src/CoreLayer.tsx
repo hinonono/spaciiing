@@ -60,7 +60,7 @@ const CoreLayer: React.FC = () => {
     <div className="App">
       {isDevelopment && (
         <div className="banner banner--development-mode">
-          開發者模式
+          {process.env.REACT_APP_ENV}模式
         </div>
       )}
       {/* <SavedClickCounter /> */}

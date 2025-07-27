@@ -5,7 +5,7 @@ import { CYStroke } from '../../types/CYStroke';
 import { MessageSaveEditorPreference } from '../../types/Messages/MessageSaveEditorPreference';
 import ColorThumbnailView from '../ColorThumbnailView';
 import { defaultStroke } from '../../module-frontend/arrowCreatorFrontEnd';
-import { SvgAdd, SvgCornerRadius, SvgEdit, SvgMinus, SvgStrokeWeight } from '../../assets/icons';
+import { SvgAdd, SvgCornerRadius, SvgDashAndGap, SvgEdit, SvgMinus, SvgStrokeWeight } from '../../assets/icons';
 import ListViewHeader from '../ListViewHeader';
 import { MessageSaveSyncedResource } from '../../types/Messages/MessageSaveSyncedResource';
 import CYCheckbox from '../CYCheckbox';
@@ -95,7 +95,8 @@ const StrokeStyleSelector: React.FC<StrokeStyleSelectorProps> = (
                     {item.style.strokeWeight}
                   </div>
                   {item.style.dashAndGap && <div className='flex flex-row align-items-center text-color-secondary'>
-                    / [{item.style.dashAndGap.join(', ')}]
+                    <div className="icon-16"><SvgDashAndGap color={"var(--figma-color-text-secondary)"} /></div>
+                    [{item.style.dashAndGap.join(', ')}]
                   </div>}
                 </div>
               </div>

@@ -151,10 +151,6 @@ span {
   line-height: 150%;
 }
 
-span {
-  font-weight: 500;
-}
-
 p {
   font-size: var(--font-size-small);
   margin: 0 0 1rem 0;
@@ -1395,6 +1391,7 @@ details summary {
 }
 .section-title span {
   width: 100%;
+  font-weight: 500;
 }
 .section-title .plain-text-button {
   background: none;

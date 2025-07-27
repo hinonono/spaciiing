@@ -136,20 +136,6 @@ const Renamer: React.FC = () => {
         <div>
           <h3>{t("module:moduleNamingClener")}</h3>
           <p>{t("module:moduleNamingClenerDesc")}</p>
-          <h4>{t("module:renameFormat")}</h4>
-          <ul>
-            <li>{t("module:renameImage")}</li>
-            <li>{t("module:renameAutoLayout")}</li>
-            <li>{t("module:renameText")}</li>
-            <li>{t("module:renameFrame")}</li>
-            <li>{t("module:renameGroup")}</li>
-            <li>{t("module:renameRectangle")}</li>
-            <li>{t("module:renameEllipse")}</li>
-            <li>{t("module:renameLine")}</li>
-            <li>{t("module:renamePolygon")}</li>
-            <li>{t("module:renameStar")}</li>
-            <li>{t("module:renameVector")}</li>
-          </ul>
         </div>
       </Modal>
       <TitleBar

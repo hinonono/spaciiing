@@ -65,3 +65,4 @@ export { default as SvgBadgeSliver } from "./SvgBadgeSliver";
 export { default as SvgBadgeGold } from "./SvgBadgeGold";
 export { default as SvgBadgePlatinum } from "./SvgBadgePlatinum";
 export { default as SvgBadgeDiamond } from "./SvgBadgeDiamond";
+export { default as SvgDashAndGap } from "./SvgDashAndGap";
