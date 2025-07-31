@@ -25,14 +25,14 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
         {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
       </span>
       {plan === "monthly" ? (
-        <span className="note note-xlarge">
+        <span className="note note-large">
           {t("license:monthlyPriceDesc").replace(
             "$MONTHLY_PRICE$",
             "US$" + info.price.monthly
           )}
         </span>
       ) : (
-        <span className="note note-xlarge">
+        <span className="note note-large">
           {t("license:yearlyPriceDesc").replace(
             "$YEARLY_PRICE$",
             "US$" + info.price.yearlyAvg

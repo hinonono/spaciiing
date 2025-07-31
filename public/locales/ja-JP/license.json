@@ -46,7 +46,7 @@
   "yearly": "年額プラン",
   "savePercent": "$PERCENT$ 割引",
   "freeTrialWorks": "無料トライアルの仕組み",
-  "freeUsersNeedToWait": "無料プランをご利用中の方は、次のステップに進むまで$TIME_REMAINING$秒お待ちいただく必要があります。有料プランに購読すると、この待ち時間をスキップできます。",
+  "freeUsersNeedToWait": "無料プランでは次のステップまで$TIME_REMAINING$秒待機が必要です。有料プランなら待ち時間なしで進めます。",
   "upgradeToSkipWaiting": "有料プランは待ち時間なし",
   "upgrade": "アップグレード",
   "youNeedToWait": "ただいま操作するたびに $WAIT_TIME$ 秒の待つ時間制限があります。",

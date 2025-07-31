@@ -4,6 +4,8 @@ import SubscriptionPlanBlock from "../../SubscriptionPlanBlock";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../../AppProvider";
 import SavedTimeMessage from "../../SavedTimeMessage";
+import FigmaButton from "../../FigmaButton";
+import { SvgExternalLink } from "../../../assets/icons";
 
 interface NewFreeTrialViewProps { }
 

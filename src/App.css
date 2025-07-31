@@ -1178,11 +1178,11 @@ details summary {
   background: linear-gradient(46deg, rgb(204, 228, 255) 0%, rgb(220, 204, 255) 53%, rgb(255, 230, 240) 100%);
   box-shadow: 0px 6px 12px 0px rgba(180, 121, 255, 0.5);
 }
+.subscription-background.pro .note {
+  color: rgba(0, 0, 0, 0.5019607843);
+}
 .subscription-background .subscription-plan-title {
   color: rgba(0, 0, 0, 0.8980392157);
-}
-.subscription-background .note {
-  color: rgba(0, 0, 0, 0.5019607843);
 }
 
 @media (prefers-color-scheme: dark) {
