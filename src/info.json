@@ -1,6 +1,6 @@
 {
   "name": "Spaciiing",
-  "version": "36",
+  "version": "37",
   "whatsNew": [
     "Bug fixes",
     "Overall enhancements"
@@ -12,7 +12,7 @@
   },
   "featureFlag": {
     "propertyClipboardSupportAutoLayout": false,
-    "enableSpaciiingNewInterface": true,
+    "enableSpaciiingNewInterface": false,
     "localizedCatalogue": false
   },
   "freeUserWaitingTime": 30,
