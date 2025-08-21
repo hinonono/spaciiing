@@ -168,6 +168,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
 
   return (
     <Modal show={show} handleClose={handleClose}>
+      <h3>{t("module:createIconTemplate")}</h3>
       <div>
         <SectionTitle title={t("term:size")} />
         <SegmentedControl

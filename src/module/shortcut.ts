@@ -1,9 +1,9 @@
 import { CatalogueKit } from './catalogue';
-
 import * as spaciiing from "./spaciiing";
 import * as propertyClipboard from "./propertyClipboard";
 import { MagicObjectMembers } from "../types/MagicObject";
 import {
+  MessageCreateSection,
   MessageShortcut,
   MessageShortcutFindAndReplace,
   MessageShortcutGenerateIconTemplate,
@@ -97,7 +97,10 @@ export function executeShortcut(message: MessageShortcut) {
         updateArrowPosition();
         break;
       case "spiltText":
-        spiltText(message as MessageShortcutSpiltText)
+        spiltText(message as MessageShortcutSpiltText);
+        break;
+      case "createSection":
+        createSection(message as MessageCreateSection);
         break;
       case "debug":
         debugFunction();
@@ -124,7 +127,36 @@ function debugFunction() {
   }
 
   figma.notify("OK!")
+}
 
+function createSection(message: MessageCreateSection) {
+  const { padding } = message;
+  const selection = utils.editor.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("No nodes selected.");
+    return;
+  }
+
+  const group = figma.group(selection, figma.currentPage);
+  if (!group.absoluteBoundingBox) {
+    figma.notify("❌ Absolute bounding box is not availabe.");
+    return;
+  }
+
+  //Create section
+  const section = figma.createSection();
+  section.name = "Section";
+
+  section.resizeWithoutConstraints(group.absoluteBoundingBox.width + padding * 2, group.absoluteBoundingBox.height + padding * 2);
+  section.x = group.absoluteBoundingBox.x - padding;
+  section.y = group.absoluteBoundingBox.y - padding;
+  section.appendChild(group);
+  group.x = padding;
+  group.y = padding;
+
+  figma.ungroup(group);
+  figma.notify(`✅ Created section with ${selection.length} nodes and ${padding}pt padding.`);
 }
 
 async function spiltText(message: MessageShortcutSpiltText) {

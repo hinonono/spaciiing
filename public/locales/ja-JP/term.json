@@ -109,5 +109,11 @@
 	"autoLayoutGap": "間隔",
 	"autoLayoutPaddingHorizontal": "パディング（上と下）",
 	"autoLayoutPaddingVertical": "パディング（右と左）",
-	"autoLayoutClipContent": "コンテンツを隠す"
+	"autoLayoutClipContent": "コンテンツを隠す",
+	"short": "ショート",
+    "medium": "ミディアム",
+    "long": "ロング",
+    "small": "小さい",
+    "large": "大きい",
+    "padding": "パディング"
 }

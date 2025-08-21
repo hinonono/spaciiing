@@ -25,6 +25,7 @@ export type ShortcutAction =
   | "numbering"
   | "updateArrowPosition"
   | "spiltText"
+  | "createSection"
   | "debug";
 
 export type NumberingForm =
@@ -69,4 +70,8 @@ export interface MessageShortcutNumbering extends MessageShortcut {
 export interface MessageShortcutSpiltText extends MessageShortcut {
   spiltType: SpiltType;
   spiltSymbol?: string;
+}
+
+export interface MessageCreateSection extends MessageShortcut {
+  padding: number
 }

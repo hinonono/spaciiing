@@ -96,7 +96,6 @@
     "long": "長い",
     "loremIpsumText": "Lorem ipsum テキスト",
     "ltrTtb": "左から右へ、次に上から下へ",
-    "medium": "中",
     "memorize": "記憶する",
     "memorizeDesignStatusTag": "デザインステータスタグコンポーネントを記憶する",
     "memorizeNote": "メモコンポーネントを記憶する",
@@ -202,5 +201,8 @@
   "diamond": "ダイヤモンドマウス",
   "progress": "進捗状況",
   "userFlow": "ユーザーフロー",
-  "freeUserSubscribeEncourage": "「Spaciiing」の無料版をご利用中です。アップグレードして遅延制限を解除し、よりスピーディにデザインしましょう！"
+  "freeUserSubscribeEncourage": "「Spaciiing」の無料版をご利用中です。アップグレードして遅延制限を解除し、よりスピーディにデザインしましょう！",
+  "createLoremIpsum": "ロレムイプサムテキストを作成",
+    "createIconTemplate": "アイコンテンプレートを作成",
+    "createSection": "セクションを作成"
 }

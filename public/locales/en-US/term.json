@@ -109,5 +109,11 @@
 	"autoLayoutGap": "Gap",
 	"autoLayoutPaddingHorizontal": "Horizontal Padding",
 	"autoLayoutPaddingVertical": "Vertical Padding",
-	"autoLayoutClipContent": "Clip content"
+	"autoLayoutClipContent": "Clip content",
+	"short": "Short",
+	"medium": "Medium",
+	"long": "Long",
+	"small": "Small",
+	"large": "Large",
+	"padding": "Padding"
 }

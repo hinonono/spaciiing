@@ -11,6 +11,7 @@ import {
   NumberingModal,
   SpiltTextModal,
   UnifyTextModal,
+  CreateSectionModal
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -40,6 +41,11 @@ const Shortcut: React.FC = () => {
   const handleOpenIconModal = () => setShowIconModal(true);
   const handleCloseIconModal = () => setShowIconModal(false);
 
+  // section
+  const [showSectionModal, setShowSectionModal] = useState(false);
+  const handleOpenSectionModal = () => setShowSectionModal(true);
+  const handleCloseSectionModal = () => setShowSectionModal(false);
+
   // lorem ipsum
   const [showLoremModal, setShowLoremModal] = useState(false);
   const handleOpenLoremModal = () => setShowLoremModal(true);
@@ -66,9 +72,9 @@ const Shortcut: React.FC = () => {
   const handleCloseNumberingModal = () => setShowNumberingModal(false);
 
   // 文字分割彈窗
-  const [spiltTextModal, setSpiltTextModal] = useState(false);
-  const handleOpenSpiltTextModal = () => setSpiltTextModal(true)
-  const handleCloseSpiltTextModal = () => setSpiltTextModal(false);
+  const [showSpiltTextModal, setShowSpiltTextModal] = useState(false);
+  const handleOpenSpiltTextModal = () => setShowSpiltTextModal(true)
+  const handleCloseSpiltTextModal = () => setShowSpiltTextModal(false);
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -323,6 +329,10 @@ const Shortcut: React.FC = () => {
       {
         title: t("module:iconTemplate"),
         onClick: handleOpenIconModal,
+      },
+      {
+        title: t("module:createSection"),
+        onClick: handleOpenSectionModal,
       }
     ];
 
@@ -396,8 +406,12 @@ const Shortcut: React.FC = () => {
           handleClose={handleCloseNumberingModal}
         />
         <SpiltTextModal
-          show={spiltTextModal}
+          show={showSpiltTextModal}
           handleClose={handleCloseSpiltTextModal}
+        />
+        <CreateSectionModal
+          show={showSectionModal}
+          handleClose={handleCloseSectionModal}
         />
       </div>
       <TitleBar

@@ -12,7 +12,7 @@
   },
   "featureFlag": {
     "propertyClipboardSupportAutoLayout": false,
-    "enableSpaciiingNewInterface": false,
+    "enableSpaciiingNewInterface": true,
     "localizedCatalogue": false
   },
   "freeUserWaitingTime": 30,

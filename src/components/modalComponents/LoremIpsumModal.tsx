@@ -70,6 +70,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
 
   return (
     <Modal show={show} handleClose={handleClose}>
+      <h3>{t("module:createLoremIpsum")}</h3>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:length")} />
         <SegmentedControl
@@ -77,9 +78,9 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
           value={length}
           onChange={(newLength) => setLength(newLength as LoremLength)}
         >
-          <SegmentedControl.Option label="module:short" value="short" />
-          <SegmentedControl.Option label="module:medium" value="medium" />
-          <SegmentedControl.Option label="module:long" value="long" />
+          <SegmentedControl.Option label="term:short" value="short" />
+          <SegmentedControl.Option label="term:medium" value="medium" />
+          <SegmentedControl.Option label="term:long" value="long" />
         </SegmentedControl>
       </div>
       <div className="mt-xxsmall">

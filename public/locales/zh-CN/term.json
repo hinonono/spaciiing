@@ -109,5 +109,11 @@
     "autoLayoutGap": "物件间距",
 "autoLayoutPaddingHorizontal": "内间距(上下)",
     "autoLayoutPaddingVertical": "内间距(左右)",
-    "autoLayoutClipContent": "剪裁到框范围"
+    "autoLayoutClipContent": "剪裁到框范围",
+	"short": "短",
+    "medium": "中",
+    "long": "长",
+    "small": "小",
+    "large": "大",
+    "padding": "内边距"
 }

@@ -96,7 +96,6 @@
     "long": "Long",
     "loremIpsumText": "Lorem ipsum text",
     "ltrTtb": "From left to right, then from top to bottom",
-    "medium": "Medium",
     "memorize": "Memorize",
     "memorizeDesignStatusTag": "Memorize Design Status Tag",
     "memorizeNote": "Memorize Note",
@@ -202,5 +201,8 @@
     "diamond": "Diamond Mouse",
     "progress": "Progress",
     "userFlow": "User flow",
-    "freeUserSubscribeEncourage": "Enjoying the free version of Spaciiing? Upgrade to remove delay limits and design faster than ever!"
+    "freeUserSubscribeEncourage": "Enjoying the free version of Spaciiing? Upgrade to remove delay limits and design faster than ever!",
+    "createLoremIpsum": "Create lorem ipsum text",
+    "createIconTemplate": "Create icon template",
+    "createSection": "Create section"
 }

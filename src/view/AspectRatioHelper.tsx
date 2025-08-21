@@ -18,6 +18,7 @@ import { Dimension } from "../types/General";
 import {
   checkProFeatureAccessibleForUser,
   applyAspectRatio,
+  isStringNumber,
 } from "../module-frontend/utilFrontEnd";
 import SegmentedControl from "../components/SegmentedControl";
 import * as info from "../info.json";
@@ -48,14 +49,20 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
   const handleWidthCustomRatioChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setWidthCustomRatio(Number(event.target.value));
+    const newRatio = event.target.value
+    if (isStringNumber(newRatio)) {
+      setWidthCustomRatio(Number(newRatio));
+    }
   };
 
   const [heightCustomRatio, setHeightCustomRatio] = useState(1);
   const handleHeightCustomRatioChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setHeightCustomRatio(Number(event.target.value));
+    const newRatio = event.target.value
+    if (isStringNumber(newRatio)) {
+      setHeightCustomRatio(Number(newRatio));
+    }
   };
 
   const aspectRatioOptionsUI: {
