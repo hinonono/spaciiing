@@ -11,6 +11,7 @@ import {
     SvgVirtualProfile,
     SvgAspectRatioHelper,
     SvgCatalogue,
+    SvgDrawArrows
 } from "../assets/icons";
 import { EditorType } from "../types/EditorType";
 
@@ -24,6 +25,11 @@ const availableTabs: AvailableTabs[] = [
     {
         tabName: "Spaciiing",
         svgComponent: SvgSpaciiing,
+        supportedEditorTypes: ["figma", "slides"]
+    },
+    {
+        tabName: "ArrowCreator",
+        svgComponent: SvgDrawArrows,
         supportedEditorTypes: ["figma", "slides"]
     },
     {
@@ -41,19 +47,27 @@ const availableTabs: AvailableTabs[] = [
         svgComponent: SvgSelectionFilter,
         supportedEditorTypes: ["figma", "slides"]
     },
-    {
-        tabName: "Renamer",
-        svgComponent: SvgRenamer,
-        supportedEditorTypes: ["figma", "slides"]
-    },
+
     {
         tabName: "AspectRatioHelper",
         svgComponent: SvgAspectRatioHelper,
         supportedEditorTypes: ["figma", "slides"]
     },
+
+    {
+        tabName: "StyleIntroducer",
+        svgComponent: SvgCatalogue,
+        supportedEditorTypes: ["figma"]
+    },
+
     {
         tabName: "Shortcut",
         svgComponent: SvgShortcut,
+        supportedEditorTypes: ["figma", "slides"]
+    },
+    {
+        tabName: "Renamer",
+        svgComponent: SvgRenamer,
         supportedEditorTypes: ["figma", "slides"]
     },
     {
@@ -66,11 +80,7 @@ const availableTabs: AvailableTabs[] = [
         svgComponent: SvgDefaultStyleLibrary,
         supportedEditorTypes: ["figma"]
     },
-    {
-        tabName: "StyleIntroducer",
-        svgComponent: SvgCatalogue,
-        supportedEditorTypes: ["figma"]
-    },
+
     {
         tabName: "PluginSetting",
         svgComponent: SvgSetting,

@@ -1121,3 +1121,37 @@ export const getOptionsForSelectedBrandAndForm = (
       option.forms.includes(form)
   );
 };
+
+
+export const getAvailableBrands = (): { value: InstantiaterSupportedBrand, label: string }[] => {
+  return [
+    {
+      value: "antDesign",
+      label: "Ant Design"
+    },
+    {
+      value: "bootstrap",
+      label: "Bootstrap"
+    },
+    {
+      value: "ios",
+      label: "iOS"
+    },
+    {
+      value: "carbon",
+      label: "IBM Carbon"
+    },
+    {
+      value: "materialDesign",
+      label: "Material Design 3"
+    },
+    {
+      value: "polaris",
+      label: "Shopify Polaris"
+    },
+    {
+      value: "tailwind",
+      label: "Tailwind CSS 4.0"
+    }
+  ]
+}

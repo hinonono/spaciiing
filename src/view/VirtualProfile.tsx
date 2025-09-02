@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { TitleBar } from "../components";
 import { useAppContext } from "../AppProvider";
-import { VirtualProfile, VirtualProfileGroup } from "../types/VirtualProfile";
+import { VirtualProfileGroup } from "../types/VirtualProfile";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import VirtualProfileNew from "./VirtualProfileNew";
 import {
   MessageVirtualProfileSingleValue,
-  MessageVirtualProfileWholeObject,
+  // MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
+import * as info from "../info.json";
+import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 const VirtualProfile: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -20,7 +22,7 @@ const VirtualProfile: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { virtualProfileGroups } = useAppContext();
+  const { runtimeSyncedResources } = useAppContext();
   const [previousVirtualProfile, setPreviousVirtualProfile] = useState<
     VirtualProfileGroup[] | null
   >(null);
@@ -30,13 +32,13 @@ const VirtualProfile: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30,
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => applyVirtualProfile(key, value, true), // Re-invoke with the real call
         });
         return;
       }
     }
-  
+
     // Real logic to apply the virtual profile
     const message: MessageVirtualProfileSingleValue = {
       module: "VirtualProfile",
@@ -45,13 +47,8 @@ const VirtualProfile: React.FC = () => {
       virtualProfileValue: value,
       phase: "Actual",
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const saveVirtualProfile = (isRealCall = false) => {
@@ -59,29 +56,33 @@ const VirtualProfile: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30,
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => saveVirtualProfile(true), // Re-invoke with the real call
         });
         return;
       }
     }
 
-    const message: MessageVirtualProfileWholeObject = {
-      // virtualProfile: virtualProfile,
-      virtualProfileGroups: virtualProfileGroups,
-      module: "VirtualProfile",
-      phase: "WillEnd",
-      direction: "Inner",
-    };
+    // const message: MessageVirtualProfileWholeObject = {
+    //   // virtualProfile: virtualProfile,
+    //   virtualProfileGroups: runtimeSyncedResources.virtualProfiles,
+    //   module: "VirtualProfile",
+    //   phase: "WillEnd",
+    //   direction: "Inner",
+    // };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    const message: MessageSaveSyncedResource = {
+      shouldSaveSyncedReources: true,
+      shouldSaveSyncedReourcesType: "virtualProfiles",
+      syncedResources: runtimeSyncedResources,
+      module: "General",
+      phase: "Actual",
+      direction: "Inner"
+    }
 
-    setPreviousVirtualProfile(virtualProfileGroups);
+    parent.postMessage({ pluginMessage: message, }, "*");
+
+    setPreviousVirtualProfile(runtimeSyncedResources.virtualProfiles);
   };
 
   return (
@@ -102,7 +103,6 @@ const VirtualProfile: React.FC = () => {
       <TitleBar
         title={t("module:moduleVirtualProfile")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         <VirtualProfileNew

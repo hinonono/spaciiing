@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView, CYCheckbox } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
-import { getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
+import { getAvailableBrands, getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
 import {
@@ -14,6 +14,7 @@ import {
   MessageInstantiater,
 } from "../types/Messages/MessageInstantiater";
 import SegmentedControl from "../components/SegmentedControl";
+import * as info from "../info.json";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -105,8 +106,8 @@ const Instantiater: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => applyInstantiater(type, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyInstantiater(type, true),
         });
         return;
       }
@@ -128,12 +129,7 @@ const Instantiater: React.FC = () => {
       phase: "Actual",
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const [destination, setDestination] = useState("new");
@@ -166,7 +162,6 @@ const Instantiater: React.FC = () => {
       <TitleBar
         title={t("module:modulePresetLibrary")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         <div>
@@ -220,13 +215,9 @@ const Instantiater: React.FC = () => {
             value={selectedBrand}
             onChange={handleBrandChange}
           >
-            <option value="antDesign">Ant Design</option>
-            <option value="bootstrap">Bootstrap</option>
-            <option value="ios">iOS</option>
-            <option value="carbon">IBM Carbon</option>
-            <option value="materialDesign">Material Design</option>
-            <option value="polaris">Shopify Polaris</option>
-            <option value="tailwind">Tailwind CSS</option>
+            {getAvailableBrands().map((item) => (
+              <option value={item.value}>{item.label}</option>
+            ))}
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選擇類型 */}
@@ -250,48 +241,33 @@ const Instantiater: React.FC = () => {
           </select>
           <div className="mt-xxsmall"></div>
           {/* 選項 */}
-          <div className="custom-checkbox-group scope-group scope-group-large hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {options.map((option) => (
-              <label key={option.value} className={`container`}>
-                <div className="flex flex-row align-items-center flex-justify-space-between">
-                  <div className="flex flex-row align-items-center">
-                    {option.label !== "ALL" && selectedCat === "color" && (
-                      <div
-                        className={`color-thumbnail color-thumbnail-${form === "style" ? "style" : "variable"
-                          } mr-xxsmall`}
-                        style={{ background: option.thumbnailColor }}
-                      ></div>
+              <CYCheckbox
+                label={
+                  <div className="width-100 flex flex-row align-items-center flex-justify-space-between">
+                    <div className="flex flex-row align-items-center">
+                      {option.label !== "ALL" && selectedCat === "color" && option.thumbnailColor && (
+                        <ColorThumbnailView color={option.thumbnailColor} opacity={1} size={20} type={form === "style" ? "rounded" : "square"} extraClassName="mr-xxsmall" />
+                      )}
+                      {option.label === "ALL"
+                        ? t("term:allOptions")
+                        : option.label}
+                    </div>
+                    {option.count && (
+                      <div className="text-color-secondary">{option.count}</div>
                     )}
-                    {option.label === "ALL"
-                      ? t("term:allOptions")
-                      : option.label}
                   </div>
-                  {option.count && (
-                    <div className="text-color-secondary">{option.count}</div>
-                  )}
-                  <input
-                    type="checkbox"
-                    value={option.value}
-                    checked={selectedTargets.includes(option.value)}
-                    onChange={() => handleTargetChange(option.value)}
-                  />
-                  <span className="checkmark checkmark-large"></span>
-                </div>
-              </label>
+                }
+                checked={selectedTargets.includes(option.value)}
+                onChange={() => handleTargetChange(option.value)}
+                labelKey={option.value}
+                value={option.value}
+              />
             ))}
           </div>
         </div>
-        <div className="mt-xsmall"></div>
-        <div>
-          {/* <FigmaButton
-            buttonType="secondary"
-            title={
-              t("module:generateUsageDefinition") +
-              ` (${selectedTargets.length})`
-            }
-            id={"instantiater-intantiate-explanation-text"}
-            onClick={() => applyInstantiater("explanation")}
-          /> */}
+        <div className="mt-xsmall">
           <FigmaButton
             title={t("module:generate") + ` (${selectedTargets.length})`}
             id={"instantiater-apply"}

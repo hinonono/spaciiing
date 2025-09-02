@@ -7,6 +7,26 @@
         padding: 8px;
         min-height: 48px;
         background-color: var(--figma-color-bg-secondary);
-        font-weight: bold;
+        font-weight: 500;
+    }
+
+    &-content {
+        padding: 16px;
+
+        .container {
+            display: block;
+            position: relative;
+            padding: 8px;
+            padding-left: 34px;
+            cursor: pointer;
+            font-size: var(--font-size-small);
+            color: var(--figma-color-text);
+            user-select: none;
+            border-radius: var(--cy-border-radius-large);
+
+            &:hover {
+                background-color: var(--figma-color-bg-secondary);
+            }
+        }
     }
 }

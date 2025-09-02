@@ -9,6 +9,11 @@ import {
 import { EditorPreference } from "./types/EditorPreference";
 import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
 import { EditorType } from "./types/EditorType";
+import * as info from "./info.json";
+import { ComponentPropertiesFrontEnd, ReferenceObject } from "./types/PropertClipboard";
+import { defaultEp } from "./assets/const/editorPreference";
+import { defaultRuntimeSyncedResources } from "./assets/const/runtimeSyncedResource";
+import { RuntimeSyncedResources } from "./types/RuntimeSyncedResources";
 
 // #region Definition
 export interface AppContextType {
@@ -16,9 +21,20 @@ export interface AppContextType {
   editorPreference: EditorPreference;
   setEditorPreference: React.Dispatch<React.SetStateAction<EditorPreference>>;
 
+  // V32: 統一管理前端中需要透過figma，在不同用戶間同步的資料
+  runtimeSyncedResources: RuntimeSyncedResources;
+  setRuntimeSyncedResources: React.Dispatch<React.SetStateAction<RuntimeSyncedResources>>;
+
   // 判斷用戶在哪個模式下開啟了plugin
   editorType: EditorType;
   setEditorType: React.Dispatch<React.SetStateAction<EditorType>>;
+
+  // 判斷目前視窗是否為最小化狀態
+  isWindowMinimized: boolean;
+  setIsWindowMinimized: React.Dispatch<React.SetStateAction<boolean>>;
+
+  triggeredCommand: string;
+  setTriggeredCommand: React.Dispatch<React.SetStateAction<string>>;
 
   variableCollectionList: ExternalVariableCollection[];
   setVariableCollectionList: React.Dispatch<
@@ -28,14 +44,19 @@ export interface AppContextType {
   setvariableCollectionModes: React.Dispatch<
     React.SetStateAction<ExternalVariableMode[]>
   >;
-  virtualProfileGroups: VirtualProfileGroup[];
-  setVirtualProfileGroups: React.Dispatch<
-    React.SetStateAction<VirtualProfileGroup[]>
-  >;
+
+  // Property Clipboard
+  referenceObject: ReferenceObject;
+  setReferenceObject: React.Dispatch<React.SetStateAction<ReferenceObject>>;
+  extractedProperties: ComponentPropertiesFrontEnd[];
+  setExtractedProperties: React.Dispatch<React.SetStateAction<ComponentPropertiesFrontEnd[]>>;
 
   // 其他
   licenseManagement: LicenseManagement;
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>;
+  isVerifying: boolean;
+  setIsVerifying: React.Dispatch<React.SetStateAction<boolean>>;
+
   showCTSubscribe: boolean;
   setShowCTSubscribe: React.Dispatch<React.SetStateAction<boolean>>;
   showActivateModal: boolean;
@@ -83,24 +104,18 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   // 訂閱呼籲用
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
-  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: 30, onProceed: () => { } });
+  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: info.freeUserWaitingTime, onProceed: () => { } });
+  const [isVerifying, setIsVerifying] = useState(true);
 
   // V20：Editor Preference整合
-  const [editorPreference, setEditorPreference] = useState<EditorPreference>({
-    magicObjects: {
-      noteId: "",
-      tagId: "",
-      sectionId: "",
-    },
-    lorem: "",
-    iconFrame: {
-      innerFrame: 0,
-      outerFrame: 0,
-    },
-  });
+  const [editorPreference, setEditorPreference] = useState<EditorPreference>(defaultEp);
+  // V32: Runtime synced resources
+  const [runtimeSyncedResources, setRuntimeSyncedResources] = useState<RuntimeSyncedResources>(defaultRuntimeSyncedResources);
+
 
   // 判斷用戶在哪個模式下開啟了plugin
   const [editorType, setEditorType] = useState<EditorType>("figma");
+  const [triggeredCommand, setTriggeredCommand] = useState("");
 
   // 模組用
 
@@ -111,9 +126,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     ExternalVariableMode[]
   >([]);
   const [styleList, setStyleList] = useState<StyleListItemFrontEnd[]>([]);
-  const [virtualProfileGroups, setVirtualProfileGroups] = useState<
-    VirtualProfileGroup[]
-  >([]);
+
+  const [extractedProperties, setExtractedProperties] = useState<ComponentPropertiesFrontEnd[]>([]);
 
   const [licenseManagement, setLicenseManagement] =
     useState<LicenseManagement>(lm);
@@ -122,12 +136,24 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     string[]
   >([]);
 
+  const [referenceObject, setReferenceObject] = useState<ReferenceObject>({
+    name: "",
+    id: "",
+    layerType: ""
+  });
+
+  const [isWindowMinimized, setIsWindowMinimized] = useState(false);
+
   // #region JSX elements
   return (
     <AppContext.Provider
       value={{
+        isWindowMinimized,
+        setIsWindowMinimized,
         editorPreference,
         setEditorPreference,
+        runtimeSyncedResources,
+        setRuntimeSyncedResources,
         variableCollectionList,
         setVariableCollectionList,
         variableCollectionModes,
@@ -142,12 +168,18 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setShowActivateModal,
         customCodeExecutionResults,
         setCustomCodeExecutionResults,
-        virtualProfileGroups,
-        setVirtualProfileGroups,
         styleList,
         setStyleList,
         editorType,
         setEditorType,
+        triggeredCommand,
+        setTriggeredCommand,
+        extractedProperties,
+        setExtractedProperties,
+        referenceObject,
+        setReferenceObject,
+        isVerifying,
+        setIsVerifying,
       }}
     >
       {children}

@@ -10,6 +10,7 @@ import {
   MessageLoremGenerator,
 } from "../../types/Messages/MessageLoremGenerator";
 import SegmentedControl from "../SegmentedControl";
+import * as info from "../../info.json";
 
 interface LoremIpsumModalProps {
   show: boolean;
@@ -20,7 +21,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
   show,
   handleClose,
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
   const {
     licenseManagement,
     setShowCTSubscribe,
@@ -38,13 +39,13 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => generateLorem(length, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => generateLorem(length, true),
         });
         return;
       }
     }
-  
+
     const message: MessageLoremGenerator = {
       module: "LoremGenerator",
       length,
@@ -53,13 +54,8 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
       shouldSaveEditorPreference: shouldSavePreference,
       editorPreference: editorPreference,
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   const handleLoremChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -74,6 +70,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
 
   return (
     <Modal show={show} handleClose={handleClose}>
+      <h3>{t("module:createLoremIpsum")}</h3>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:length")} />
         <SegmentedControl
@@ -81,19 +78,19 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
           value={length}
           onChange={(newLength) => setLength(newLength as LoremLength)}
         >
-          <SegmentedControl.Option label="module:short" value="short" />
-          <SegmentedControl.Option label="module:medium" value="medium" />
-          <SegmentedControl.Option label="module:long" value="long" />
+          <SegmentedControl.Option label="term:short" value="short" />
+          <SegmentedControl.Option label="term:medium" value="medium" />
+          <SegmentedControl.Option label="term:long" value="long" />
         </SegmentedControl>
       </div>
       <div className="mt-xxsmall">
-        <SectionTitle title={t("module:text")} />
+        <SectionTitle title={t("term:text")} />
         <textarea
           className="textarea"
           rows={5}
           value={editorPreference.lorem}
           onChange={handleLoremChange}
-          placeholder={t("module:text")}
+          placeholder={t("term:text")}
         />
       </div>
 

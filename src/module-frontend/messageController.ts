@@ -14,6 +14,7 @@ import { licenseManagementHandler } from "./licenseManagementFrontEnd";
 import { styleIntroducerHandler } from "./styleIntroducerFrontEnd";
 import { pluginSettingHandler } from "./pluginSetting";
 import { i18n } from "i18next";
+import { propertyClipboardHandler } from "./propertyClipboardFrontEnd";
 
 export function messageController(
   message: Message,
@@ -36,16 +37,18 @@ function messageActualController(
   i18n: i18n
 ) {
   const { module } = message;
-  const { setLicenseManagement, setEditorType } = appContext;
+  const { setLicenseManagement, setEditorType, setTriggeredCommand } = appContext;
 
   switch (module) {
     case "Init":
       // Handle Init case
       const castedMessage = message as ExternalMessage;
       if (castedMessage.editorType) {
-        console.log(castedMessage.editorType, "vmkmvv");
-
         setEditorType(castedMessage.editorType);
+      }
+
+      if (castedMessage.triggeredCommand) {
+        setTriggeredCommand(castedMessage.triggeredCommand);
       }
 
       break;
@@ -56,6 +59,7 @@ function messageActualController(
       // Handle Spaciiing case
       break;
     case "PropertyClipboard":
+      propertyClipboardHandler(message, appContext)
       break;
     case "Shortcut":
       break;
@@ -88,7 +92,8 @@ function messageActualController(
     case "LicenseManagement":
       licenseManagementHandler(
         message as ExternalMessageLicenseManagement,
-        setLicenseManagement
+        setLicenseManagement,
+        appContext
       );
       break;
     case "AspectRatioHelper":
@@ -115,7 +120,7 @@ function messageWillEndController(
   }
 
   const { module } = message;
-  const { virtualProfileGroups } = appContext;
+  // const { virtualProfileGroups } = appContext;
 
   switch (module) {
     case "Init":
@@ -146,7 +151,7 @@ function messageWillEndController(
     case "VariableEditor":
       break;
     case "VirtualProfile":
-      virtualProfileWillEnd(virtualProfileGroups, appContext);
+      virtualProfileWillEnd(appContext.runtimeSyncedResources.virtualProfiles, appContext);
       break;
     case "SelectionFilter":
       // Handle SelectionFilter case

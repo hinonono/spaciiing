@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import SectionTitle from "../SectionTitle";
 import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MessageShortcut } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
+import { MessageSaveSyncedResource } from "../../types/Messages/MessageSaveSyncedResource";
 
 interface CatalogueSettingModalProps {
   show: boolean;
@@ -16,12 +17,14 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
   show,
   handleClose
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
   const {
     licenseManagement,
     setShowCTSubscribe,
-    editorPreference,
-    setEditorPreference,
+    // editorPreference,
+    // setEditorPreference,
+    runtimeSyncedResources,
+    setRuntimeSyncedResources,
     setFreeUserDelayModalConfig,
   } = useAppContext();
 
@@ -33,29 +36,33 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => updateExampleFileUrl(true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => updateExampleFileUrl(true),
         });
         return;
       }
     }
-  
-    const message: MessageShortcut = {
-      module: "Shortcut",
-      direction: "Inner",
-      phase: "Actual",
-      shouldSaveEditorPreference: shouldSavePreference,
-      editorPreference: editorPreference,
-      action: "updateExampleFileUrl",
-    };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  
+
+    // const message: MessageShortcut = {
+    //   module: "Shortcut",
+    //   direction: "Inner",
+    //   phase: "Actual",
+    //   shouldSaveEditorPreference: shouldSavePreference,
+    //   editorPreference: editorPreference,
+    //   action: "updateExampleFileUrl",
+    // };
+
+    // const message: MessageSaveSyncedResource = {
+    //   shouldSaveSyncedReources: true,
+    //   shouldSaveSyncedReourcesType: "catalogueReferenceFileURL",
+    //   syncedResources: runtimeSyncedResources,
+    //   module: "General",
+    //   phase: "Actual",
+    //   direction: "Inner"
+    // }
+
+    // parent.postMessage({ pluginMessage: message, }, "*");
+
     handleClose();
   };
 
@@ -63,8 +70,8 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
     if (shouldSavePreference == false) {
       setShouldSavePreference(true);
     }
-    setEditorPreference((prevPreference) => ({
-      ...prevPreference,
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
       exampleFileUrl: event.target.value,
     }));
   };
@@ -78,13 +85,13 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
           {t("module:crossCatalogueIndexDesc")}
         </span>
         <div className="mt-xxsmall">
-          <textarea
+          {/* <textarea
             className="textarea"
             rows={5}
-            value={editorPreference.exampleFileUrl}
+            value={runtimeSyncedResources.exampleFileUrl}
             onChange={handleFileUrlChange}
-            placeholder={t("module:text")}
-          />
+            placeholder={t("term:text")}
+          /> */}
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { FramerMode, MessageFramer } from "../../types/Messages/MessageFramer";
+import * as info from "../../info.json";
 
 interface FramerModalProps {
   show: boolean;
@@ -31,26 +32,21 @@ const FramerModal: React.FC<FramerModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust delay time as needed
-          onProceed: () => applyFramer(true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+          onProceed: () => applyFramer(true),
         });
         return;
       }
     }
-  
+
     const message: MessageFramer = {
       mode: selectedFramerMode as FramerMode,
       module: "Framer",
       direction: "Inner",
       phase: "Actual",
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (

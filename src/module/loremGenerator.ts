@@ -1,10 +1,12 @@
-import * as util from "./util";
+
 import { MessageLoremGenerator } from "../types/Messages/MessageLoremGenerator";
+import { semanticTokens } from "./tokens";
+import { utils } from "./utils";
 
 export async function makeLorem(message: MessageLoremGenerator) {
   const { length } = message;
 
-  let textContent: string = util.readEditorPreference().lorem;
+  let textContent: string = utils.data.readEditorPreference().lorem;
 
   const requiredLength = {
     short: 100,
@@ -23,17 +25,17 @@ export async function makeLorem(message: MessageLoremGenerator) {
   }
   textContent = textContent.slice(0, requiredLength);
 
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     // 使用者沒有選擇任何物件
-    await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-    const textNode = util.createTextNode(
+
+    await utils.editor.loadFont([
+      semanticTokens.fontFamily.regular,
+    ]);
+    const textNode = utils.node.createTextNode(
       textContent,
-      {
-        family: "Inter",
-        style: "Regular",
-      },
+      semanticTokens.fontFamily.regular,
       16,
       undefined,
       {
@@ -44,7 +46,7 @@ export async function makeLorem(message: MessageLoremGenerator) {
     textNode.resize(300, textNode.height);
 
     // Position the text node at the center of the current viewport
-    const viewport = util.getCurrentViewport();
+    const viewport = utils.editor.getCurrentViewport();
     textNode.x = viewport.x;
     textNode.y = viewport.y;
 

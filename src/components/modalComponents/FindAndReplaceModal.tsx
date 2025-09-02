@@ -6,6 +6,7 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { ShortcutAction, MessageShortcutFindAndReplace } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
 
 interface FindAndReplaceModalProps {
   show: boolean;
@@ -45,13 +46,13 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => applyFindAndReplace(action, true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => applyFindAndReplace(action, true),
         });
         return;
       }
     }
-  
+
     if (action === "findAndReplace") {
       const message: MessageShortcutFindAndReplace = {
         module: "Shortcut",
@@ -76,6 +77,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       show={show}
       handleClose={handleClose}
     >
+      <h3>{t("module:findAndReplace")}</h3>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:findInSelection")} />
         <div className="width-100">
@@ -104,7 +106,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
         {t("module:findAndReplaceCriteriaAreCaseSensitive")}
       </span>
       <div className="mt-xsmall">
-        <div className="custom-checkbox-group">
+        <div className="cy-checkbox-group">
           <label className="container">
             {t("module:keepOriginalNameOfTextLayers")}
             <input

@@ -5,21 +5,23 @@ import { SVGprops } from "../types/SVGprops";
 interface TabButtonProps {
   activeTab: Module;
   tabName: Module;
-  setActiveTab: (value: React.SetStateAction<Module>) => void;
+  onClick: () => void;
+  // setActiveTab: (value: React.SetStateAction<Module>) => void;
   SvgComponent: React.FC<SVGprops>;
 }
 
 const TabButton: React.FC<TabButtonProps> = ({
   activeTab,
   tabName,
-  setActiveTab,
+  // setActiveTab,
+  onClick,
   SvgComponent,
 }) => {
   return (
     <div className="tab">
       <button
         className={activeTab === tabName ? "active" : ""}
-        onClick={() => setActiveTab(tabName)}
+        onClick={onClick}
       >
         <div className="icon-28">
           <SvgComponent

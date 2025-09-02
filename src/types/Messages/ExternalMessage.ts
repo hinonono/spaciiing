@@ -14,8 +14,13 @@ export type ExternalMode =
   | "UpdateLicense"
   | "UpdateStyleList"
   | "UpdateEditorPreference"
-  | "UpdateEditorType";
+  | "UpdateEditorType"
+  | "ShowExtractedProperties"
+  | "UpdateReferenceObject"
+  | "UpdateRuntimeSyncedResources";
+
 export interface ExternalMessage extends Message {
   mode?: ExternalMode;
   editorType?: EditorType;
+  triggeredCommand?: string
 }

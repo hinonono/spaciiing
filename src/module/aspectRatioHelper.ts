@@ -1,6 +1,6 @@
 import { Dimension } from "../types/General";
 import { MessageAspectRatio } from "../types/Messages/MessageAspectRatio";
-import * as util from "./util";
+import { utils } from "./utils";
 
 export function reception(message: MessageAspectRatio) {
   if (message.phase == "Actual") {
@@ -17,7 +17,7 @@ function adjustNodeAspectRatio(
   heightRatio: number,
   lockedDimension: Dimension
 ) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Check if there are any nodes selected
   if (selection.length === 0) {

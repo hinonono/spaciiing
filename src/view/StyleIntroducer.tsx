@@ -3,24 +3,19 @@ import { FigmaButton, SectionTitle, TitleBar } from "../components";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import Modal from "../components/Modal";
-import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
-import {
-  MessageStyleIntroducer,
-  StyleForm,
-  StyleMode,
-} from "../types/Messages/MessageStyleIntroducer";
+import { StyleForm, StyleMode, } from "../types/Messages/MessageStyleIntroducer";
 import { NestedStructure, StyleSelection } from "../types/General";
-import { buildNestedStructure } from "../module-frontend/styleIntroducerFrontEnd";
+import { applyStyleIntroducer, buildNestedStructure, reInitStyleIntroducer } from "../module-frontend/styleIntroducerFrontEnd";
 import FolderNavigator from "../components/FolderNavigator";
 import SegmentedControl from "../components/SegmentedControl";
-import { CatalogueSettingModal } from "../components/modalComponents";
+import * as info from "../info.json";
 
-interface StyleIntroducerProps {}
+interface StyleIntroducerProps { }
 
 const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   // Context
-  const { licenseManagement, setShowCTSubscribe, styleList, setFreeUserDelayModalConfig } = useAppContext();
-  const { t } = useTranslation(["common", "settings", "license", "term"]);
+  const appContext = useAppContext();
+  const { t, i18n } = useTranslation(["common", "settings", "license", "term"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -28,48 +23,14 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 型錄功能彈窗
-  const [showCatalogueModal, setShowCatalogueModal] = useState(false);
-  const handleOpenCatalogueModal = () => setShowCatalogueModal(true);
-  const handleCloseCatalogueModal = () => setShowCatalogueModal(false);
+  // const [showCatalogueModal, setShowCatalogueModal] = useState(false);
+  // const handleOpenCatalogueModal = () => setShowCatalogueModal(true);
+  // const handleCloseCatalogueModal = () => setShowCatalogueModal(false);
 
   // 形式：樣式、變數
   const [form, setForm] = useState<StyleForm>("STYLE");
-
   // 模式：色彩、效果、文字
   const [mode, setMode] = useState<StyleMode>("COLOR");
-
-  const applyStyleIntroducer = (isRealCall = false) => {
-    if (!isRealCall) {
-      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-        setFreeUserDelayModalConfig({
-          show: true,
-          initialTime: 30, // Adjust the delay time as necessary
-          onProceed: () => applyStyleIntroducer(true), // Retry with `isRealCall = true`
-        });
-        return;
-      }
-    }
-  
-    if (selectedScopes.scopes.length <= 0) {
-      return;
-    }
-  
-    const message: MessageStyleIntroducer = {
-      module: "StyleIntroducer",
-      phase: "Actual",
-      direction: "Inner",
-      form: form,
-      styleMode: mode,
-      styleSelection: selectedScopes,
-    };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
-  };
 
   const [selectedScopes, setSelectedScopes] = useState<StyleSelection>({
     title: "",
@@ -85,7 +46,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   const [errorPath, setErrorPath] = useState<string | undefined>(undefined); //  state for error path
 
   useEffect(() => {
-    const result = buildNestedStructure(styleList);
+    const result = buildNestedStructure(appContext.styleList);
 
     if (result.structure) {
       setNestedStructure(result.structure);
@@ -95,15 +56,14 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
       setHasError(true);
       setErrorPath(result.errorPath); // Store the error path for the error message
     }
-  }, [styleList, mode]);
+  }, [appContext.styleList, mode]);
 
   const folderNavigator = () => {
     if (hasError) {
       return (
-        <div className="text-color-error p-xsmall">
+        <div className="text-color-error p-xsmall font-size-small">
           Failed to process the {form} structure. The system encountered a
-          duplicate path: "{errorPath}". Please ensure that each path segment is
-          unique.
+          duplicate path: "{errorPath}". Please ensure that all {form} names are unique.
         </div>
       );
     }
@@ -124,51 +84,20 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
   };
 
   useEffect(() => {
-    setSelectedScopes({
-      title: "",
-      scopes: [],
-    });
     setMode("COLOR");
-    setNestedStructure(null);
-    // 當form改變時，傳送初始化訊息
-    const message: MessageStyleIntroducer = {
-      form: form,
-      styleMode: mode,
-      module: "StyleIntroducer",
-      phase: "Init",
-      direction: "Inner",
-    };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    clearScopeAndStructure();
+    reInitStyleIntroducer(i18n.language, form, mode,)
   }, [form]);
 
   useEffect(() => {
-    setSelectedScopes({
-      title: "",
-      scopes: [],
-    });
-    setNestedStructure(null);
-    // 當Mode改變時，傳送初始化訊息
-    const message: MessageStyleIntroducer = {
-      form: form,
-      styleMode: mode,
-      module: "StyleIntroducer",
-      phase: "Init",
-      direction: "Inner",
-    };
-
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    clearScopeAndStructure();
+    reInitStyleIntroducer(i18n.language, form, mode);
   }, [mode]);
+
+  function clearScopeAndStructure() {
+    setSelectedScopes({ title: "", scopes: [], });
+    setNestedStructure(null);
+  }
 
   return (
     <div>
@@ -182,25 +111,14 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             <p>{t("module:moduleCatalogueDesc")}</p>
           </div>
         </Modal>
-        <CatalogueSettingModal
+        {/* <CatalogueSettingModal
           show={showCatalogueModal}
           handleClose={handleCloseCatalogueModal}
-        />
+        /> */}
       </div>
       <TitleBar
         title={t("module:moduleCatalogue")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
-        rightItem={
-          <FigmaButton
-            title={t("module:setting")}
-            onClick={handleOpenCatalogueModal}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="grain"
-            hasMargin={false}
-          />
-        }
       />
       <div className="content">
         <div className="mt-xxsmall">
@@ -222,24 +140,17 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
             value={mode}
             onChange={(e) => setMode(e.target.value as StyleMode)}
           >
-            <option key="COLOR" value="COLOR">
-              {t("term:color")}
-            </option>
+            <option key="COLOR" value="COLOR">{t("term:color")}</option>
             {form === "VARIABLE" && (
               <>
-                <option key="FLOAT" value="FLOAT">
-                  {t("term:float")}
-                </option>
+                <option key="FLOAT" value="FLOAT">{t("term:float")}</option>
+                <option key="STRING" value="STRING">{t("term:string")}</option>
               </>
             )}
             {form === "STYLE" && (
               <>
-                <option key="EFFECT" value="EFFECT">
-                  {t("term:effect")}
-                </option>
-                <option key="TEXT" value="TEXT">
-                  {t("term:typography")}
-                </option>
+                <option key="EFFECT" value="EFFECT">{t("term:effect")}</option>
+                <option key="TEXT" value="TEXT">{t("term:typography")}</option>
               </>
             )}
           </select>
@@ -255,7 +166,16 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         <div className="mt-xsmall">
           <FigmaButton
             title={t("module:generate")}
-            onClick={() => applyStyleIntroducer(false)}
+            onClick={() => {
+              applyStyleIntroducer(
+                appContext,
+                selectedScopes,
+                form,
+                mode,
+                info.featureFlag.localizedCatalogue === true ? i18n.language : "enUS",
+                false
+              )
+            }}
             disabled={hasError}
           />
         </div>

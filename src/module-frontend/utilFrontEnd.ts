@@ -1,6 +1,7 @@
 import { Dimension } from "../types/General";
 import { LicenseManagement } from "../types/LicenseManagement";
 import { MessageAspectRatio } from "../types/Messages/MessageAspectRatio";
+import { MessageMinMaxWindow } from "../types/Messages/MessageMinMaxWindow";
 
 export const applyAspectRatio = (
   widthRatio: number,
@@ -64,3 +65,36 @@ export const scrollToElement = (id: string) => {
     element.scrollIntoView({ behavior: "smooth" });
   }
 };
+
+export const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
+  const hexValue = hex.replace("#", "");
+  const r = parseInt(hexValue.substring(0, 2), 16);
+  const g = parseInt(hexValue.substring(2, 4), 16);
+  const b = parseInt(hexValue.substring(4, 6), 16);
+
+  return {
+    r,
+    g,
+    b,
+  };
+}
+
+export const generateUUID = () => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+
+export function setWindowSize(shouldMinimize: boolean) {
+  const message: MessageMinMaxWindow = {
+    module: "MinMaxWindow",
+    direction: "Inner",
+    phase: "Actual",
+    shouldSaveEditorPreference: false,
+    shouldSaveSyncedReources: false,
+    toggle: shouldMinimize
+  };
+  parent.postMessage({ pluginMessage: message }, "*");
+}

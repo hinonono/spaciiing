@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TitleBar, FigmaButton, SectionTitle } from "../components";
+import { TitleBar, FigmaButton, SectionTitle, CYCheckbox } from "../components";
 import Modal from "../components/Modal";
 import { NodeFilterable } from "../types/NodeFilterable";
 import {
@@ -9,19 +9,12 @@ import {
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
-import { EditorType } from "../types/EditorType";
-
-interface FilterScopeItem {
-  nameKey: string;
-  scope: NodeFilterable;
-  indented?: boolean;
-  indentLevel?: number;
-  supportedEditorTypes: EditorType[];
-}
+import * as info from "../info.json";
+import { FilterableScopesNew } from "../module-frontend/selectionFilterUI";
 
 const SelectionFilter: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
-  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig, editorType } = useAppContext();
+  const { licenseManagement, setFreeUserDelayModalConfig, editorType } = useAppContext();
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -49,43 +42,6 @@ const SelectionFilter: React.FC = () => {
       setFindCriteria("");
     }
   };
-
-  const FilterableScopesNew: FilterScopeItem[] = [
-    { nameKey: "term:allOptions", scope: "ALL_OPTIONS", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:image", scope: "IMAGE", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:text", scope: "TEXT", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:frame", scope: "FRAME", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:group", scope: "GROUP", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:autoLayout", scope: "AUTO_LAYOUT", supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:instance", scope: "INSTANCE", supportedEditorTypes: ["figma"] },
-    { nameKey: "term:component", scope: "COMPONENT", supportedEditorTypes: ["figma"] },
-    { nameKey: "term:componentSet", scope: "COMPONENT_SET", supportedEditorTypes: ["figma"] },
-    { nameKey: "term:allShape", scope: "ALL_SHAPE", supportedEditorTypes: ["figma", "slides"] },
-    {
-      nameKey: "term:rectangle",
-      scope: "RECTANGLE",
-      indented: true,
-      indentLevel: 1,
-      supportedEditorTypes: ["figma", "slides"]
-    },
-    {
-      nameKey: "term:ellipse",
-      scope: "ELLIPSE",
-      indented: true,
-      indentLevel: 1,
-      supportedEditorTypes: ["figma", "slides"]
-    },
-    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
-    {
-      nameKey: "term:polygon",
-      scope: "POLYGON",
-      indented: true,
-      indentLevel: 1,
-      supportedEditorTypes: ["figma", "slides"]
-    },
-    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
-    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1, supportedEditorTypes: ["figma", "slides"] },
-  ];
 
   // 主要功能
   const [selectedScopes, setSelectedScopes] = useState<NodeFilterable[]>([]);
@@ -137,7 +93,7 @@ const SelectionFilter: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30,
+          initialTime: info.freeUserWaitingTime,
           onProceed: () => applySelectionFilter(true), // Re-invoke with the real call
         });
         return;
@@ -159,12 +115,7 @@ const SelectionFilter: React.FC = () => {
       additionalFilterOptions: addtionalOptions,
     };
 
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (
@@ -183,7 +134,6 @@ const SelectionFilter: React.FC = () => {
       <TitleBar
         title={t("module:moduleSelectionFilter")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         {/* 圖層類型 */}
@@ -191,55 +141,41 @@ const SelectionFilter: React.FC = () => {
           <SectionTitle
             title={`${t("module:filterFor")} (${selectedScopes.length})`}
           />
-          <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {FilterableScopesNew.map((item) => item.supportedEditorTypes.includes(editorType) && (
-              <label
-                key={t(item.nameKey)}
-                className={`container ${item.indented ? `indent-level-${item.indentLevel}` : ""
-                  }`}
-              >
-                {t(item.nameKey)}
-                <input
-                  type="checkbox"
-                  value={item.scope}
-                  checked={selectedScopes.includes(item.scope)}
-                  onChange={() => handleScopeChange(item.scope)}
-                />
-                <span className="checkmark"></span>
-              </label>
+              <CYCheckbox
+                label={
+                  <div className="flex align-items-center">
+                    {item.svg && <div className="icon-20 mr-xxsmall">{item.svg}</div>}
+                    {t(item.nameKey)}
+                  </div>
+                }
+                checked={selectedScopes.includes(item.scope)}
+                onChange={() => handleScopeChange(item.scope)}
+                labelKey={t(item.nameKey)}
+                labelAdditionClass={`${item.indented ? `indent-level-${item.indentLevel}` : ""}`}
+              />
             ))}
           </div>
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
-          <div className="custom-checkbox-group">
-            <label className="container">
-              {t("module:skipHiddenLayers")}
-              <input
-                type="checkbox"
-                checked={skipHiddenLayer}
-                onChange={handleSkipHiddenLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:skipLockLayers")}
-              <input
-                type="checkbox"
-                checked={skipLockedLayer}
-                onChange={handleSkipLockedLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:findWithName")}
-              <input
-                type="checkbox"
-                checked={findWithName}
-                onChange={handleFindWithNameChange}
-              />
-              <span className="checkmark"></span>
-            </label>
+          <div className="cy-checkbox-group">
+            <CYCheckbox
+              label={t("module:skipHiddenLayers")}
+              checked={skipHiddenLayer}
+              onChange={handleSkipHiddenLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:skipLockLayers")}
+              checked={skipLockedLayer}
+              onChange={handleSkipLockedLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:findWithName")}
+              checked={findWithName}
+              onChange={handleFindWithNameChange}
+            />
             {findWithName && (
               <div className="indent-level-1">
                 <textarea
@@ -256,7 +192,7 @@ const SelectionFilter: React.FC = () => {
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={t("module:filter")}
+            title={`${t("module:filter")} (${selectedScopes.length})`}
             id={"selection-filter-apply"}
             onClick={() => applySelectionFilter(false)}
           />

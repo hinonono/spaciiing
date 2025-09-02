@@ -1,9 +1,9 @@
 
 import { MessageFramer } from "../types/Messages/MessageFramer";
-import * as util from "./util";
+import { utils } from "./utils";
 
 export function useEqual(message: MessageFramer) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No object is selected.");
@@ -19,7 +19,7 @@ export function useEqual(message: MessageFramer) {
     return;
   }
 
-  const child = util.getNodesInSelectedFrame();
+  const child = utils.editor.getNodesInSelectedFrame();
   if (!child || child.length === 0) {
     figma.notify("❌ There is no object inside frame.");
     return;

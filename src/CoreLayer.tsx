@@ -8,17 +8,12 @@ import { messageController } from "./module-frontend/messageController";
 import { useAppContext } from "./AppProvider";
 import { useTranslation } from "react-i18next";
 import { ActivateLicenseModal, FreeUserDelayModal } from "./components/modalComponents";
+import { SavedClickCounter } from "./components";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Module>("Spaciiing");
   const [prevTab, setPrevTab] = useState<Module | null>(null);
-
-  // // Free User Delay Modal
-  // const [waitModalConfig, setWaitModalConfig] = useState({
-  //   initialTime: 30,
-  //   onProceed: () => {},
-  // }); // Configurable handlers for each tab
 
   const appContext = useAppContext();
   const { i18n } = useTranslation();
@@ -41,6 +36,14 @@ const CoreLayer: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (appContext.triggeredCommand === "updateCatalogueDesc") {
+      setActiveTab("Shortcut");
+    } else if (appContext.triggeredCommand === "drawArrows") {
+      setActiveTab("ArrowCreator");
+    }
+  }, [appContext.triggeredCommand])
+
   // #region WillEnd
   useEffect(() => {
     tabController(activeTab, prevTab, appContext);
@@ -48,21 +51,22 @@ const CoreLayer: React.FC = () => {
     setPrevTab(activeTab);
   }, [activeTab]);
 
-  // const triggerWaitModal = (
-  //   initialTime: number,
-  //   onProceed: () => void,
-  //   onClose: () => void
-  // ) => {
-  //   setWaitModalConfig({ initialTime, onProceed });
-  //   appContext.setShowFreeUserDelayModal(true);
-  // };
+  const isDevelopment =
+    process.env.REACT_APP_ENV === "development" ||
+    process.env.REACT_APP_ENV === "developmentfree";
 
   // #region JSX Elements
   return (
     <div className="App">
+      {isDevelopment && (
+        <div className="banner banner--development-mode">
+          {process.env.REACT_APP_ENV}模式
+        </div>
+      )}
+      {/* <SavedClickCounter /> */}
       <SubscriptionModal />
       <ActivateLicenseModal />
-      <FreeUserDelayModal/>
+      <FreeUserDelayModal />
       <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );

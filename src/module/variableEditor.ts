@@ -12,7 +12,8 @@ import {
   ExternalMessageUpdateVariableCollectionList,
   ExternalMessageUpdateVariableCollectionMode,
 } from "../types/Messages/MessageVariableEditor";
-import * as util from "./util";
+
+import { utils } from "./utils";
 
 export function reception(message: MessageVariableEditor) {
   if (message.phase == undefined) {
@@ -42,10 +43,10 @@ export function reception(message: MessageVariableEditor) {
 
 async function handleVariableCreation<
   T extends
-    | CustomVariableCodeNumber
-    | CustomVariableCodeString
-    | CustomVariableCodeBool
-    | CustomVariableCodeColor
+  | CustomVariableCodeNumber
+  | CustomVariableCodeString
+  | CustomVariableCodeBool
+  | CustomVariableCodeColor
 >(
   parsedCode: T[],
   collection: VariableCollection,
@@ -84,7 +85,7 @@ async function createVariable(
   let value: string | number | boolean | RGB | RGBA | null = item.value;
 
   if (message.variableResolvedDataType === "COLOR") {
-    value = util.parseColorToRgba(item.value as string, 1);
+    value = utils.color.parseColorToRgba(item.value as string, 1);
     if (!value) {
       return `❌ Invalid color format for variable "${item.name}". Skipping creation.`;
     }
@@ -144,7 +145,7 @@ function returnExecutionResults(results: Array<string>) {
     direction: "Outer",
     mode: "UpdateCustomCodeExecutionResults",
   };
-  util.sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
 }
 
 async function updateVariableCollectionListMessage() {
@@ -164,7 +165,7 @@ async function updateVariableCollectionListMessage() {
     mode: "UpdateVariableCollectionList",
   };
 
-  util.sendMessageBack(message);
+  utils.communication.sendMessageBack(message);
 }
 
 async function findExistingVariables(ids: string[]): Promise<Variable[]> {
@@ -314,7 +315,7 @@ async function handleGetAvailableModeList(
     phase: "Actual",
     mode: "UpdateVariableCollectionMode",
   };
-  util.sendMessageBack(messageToSent);
+  utils.communication.sendMessageBack(messageToSent);
 }
 
 async function initVariableEditor() {

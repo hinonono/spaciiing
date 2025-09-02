@@ -9,7 +9,8 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 dotenv.config();
 
 module.exports = (env, argv) => {
-  const isProduction = argv.mode === "production";
+  const outputConsole = env.outputConsole === "true";
+  console.log("oput", outputConsole);
 
   return {
     mode: argv.mode, // Use the mode passed by the CLI
@@ -50,14 +51,17 @@ module.exports = (env, argv) => {
         patterns: [{ from: "public/locales", to: "locales" }],
       }),
     ],
-    optimization: isProduction
-      ? {
+    optimization: {
           minimize: true,
           minimizer: [
             new TerserPlugin({
               terserOptions: {
                 compress: {
-                  drop_console: false, // Remove console logs
+                  drop_console: !outputConsole, // Remove console logs
+                  drop_debugger: true,
+                  dead_code: true,// Eliminates unused code
+                  unused: true,
+                  passes: 3// Apply multiple compression passes
                 },
                 output: {
                   comments: false, // Remove comments
@@ -66,19 +70,6 @@ module.exports = (env, argv) => {
               extractComments: false,
             }),
           ],
-        }
-      : {},
-    devServer: {
-      static: [
-        {
-          directory: path.join(__dirname, "dist"),
-        },
-        {
-          directory: path.join(__dirname, "public"),
-        },
-      ],
-      compress: true,
-      port: 9000,
-    },
+     }
   };
 };

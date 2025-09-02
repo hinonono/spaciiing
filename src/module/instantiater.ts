@@ -1,7 +1,6 @@
-import * as util from "./util";
-
 import * as colors from "../assets/colors";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
+import { utils } from "./utils";
 
 import {
   ColorCollection,
@@ -50,6 +49,7 @@ import {
   InstantiaterTarget,
   MessageInstantiater,
 } from "../types/Messages/MessageInstantiater";
+import { semanticTokens } from "./tokens";
 
 const iosSystemColors: ColorCollection = colors.iosSystemColorsData;
 const iosSystemGrayColors: ColorCollection = colors.iosSystemGrayColorsData;
@@ -62,108 +62,108 @@ const m3BaselineNeutral: ColorCollection = colors.m3BaselineNeutralData;
 const m3BaselineError: ColorCollection = colors.m3BaselineErrorData;
 
 // Ant Design
-const antDesignNeutralColor: ColorCollection = colors.antDesignNeutralColorData;
-const antDesignDustRed: ColorCollection = colors.antDesignDustRedData;
-const antDesignVolcano: ColorCollection = colors.antDesignVolcanoData;
-const antDesignSunsetOrange: ColorCollection = colors.antDesignSunsetOrangeData;
-const antDesignCalendulaGold: ColorCollection =
+const antNeutralColor: ColorCollection = colors.antDesignNeutralColorData;
+const antDustRed: ColorCollection = colors.antDesignDustRedData;
+const antVolcano: ColorCollection = colors.antDesignVolcanoData;
+const antSunsetOrange: ColorCollection = colors.antDesignSunsetOrangeData;
+const antCalendulaGold: ColorCollection =
   colors.antDesignCalendulaGoldData;
-const antDesignSunriseYellow: ColorCollection =
+const antSunriseYellow: ColorCollection =
   colors.antDesignSunriseYellowData;
-const antDesignLime: ColorCollection = colors.antDesignLimeData;
-const antDesignPolarGreen: ColorCollection = colors.antDesignPolarGreenData;
-const antDesignCyan: ColorCollection = colors.antDesignCyanData;
-const antDesignDaybreakBlue: ColorCollection = colors.antDesignDaybreakBlueData;
-const antDesignGeekBlue: ColorCollection = colors.antDesignGeekBlueData;
-const antDesignGoldenPurple: ColorCollection = colors.antDesignGoldenPurpleData;
-const antDesignMagenta: ColorCollection = colors.antDesignMagentaData;
-const antDesignBreakpoints: NumberCollection = antDesignBreakpointsData;
-const antDesignFontSize: NumberCollection = antDesignFontSizeData;
-const antDesignLineHeight: NumberCollection = antDesignLineHeightData;
-const antDesignPadding: NumberCollection = antDesignPaddingData;
+const antLime: ColorCollection = colors.antDesignLimeData;
+const antPolarGreen: ColorCollection = colors.antDesignPolarGreenData;
+const antCyan: ColorCollection = colors.antDesignCyanData;
+const antDaybreakBlue: ColorCollection = colors.antDesignDaybreakBlueData;
+const antGeekBlue: ColorCollection = colors.antDesignGeekBlueData;
+const antGoldenPurple: ColorCollection = colors.antDesignGoldenPurpleData;
+const antMagenta: ColorCollection = colors.antDesignMagentaData;
+const antBreakpoints: NumberCollection = antDesignBreakpointsData;
+const antFontSize: NumberCollection = antDesignFontSizeData;
+const antLineHeight: NumberCollection = antDesignLineHeightData;
+const antPadding: NumberCollection = antDesignPaddingData;
 
 // Tailwind CSS
-const tailwindSlate: ColorCollection = colors.tailwindSlateData;
-const tailwindGray: ColorCollection = colors.tailwindGrayData;
-const tailwindZinc: ColorCollection = colors.tailwindZincData;
-const tailwindNeutral: ColorCollection = colors.tailwindNeutralData;
-const tailwindStone: ColorCollection = colors.tailwindStoneData;
-const tailwindRed: ColorCollection = colors.tailwindRedData;
-const tailwindOrange: ColorCollection = colors.tailwindOrangeData;
-const tailwindAmber: ColorCollection = colors.tailwindAmberData;
-const tailwindYellow: ColorCollection = colors.tailwindYellowData;
-const tailwindLime: ColorCollection = colors.tailwindLimeData;
-const tailwindGreen: ColorCollection = colors.tailwindGreenData;
-const tailwindEmerald: ColorCollection = colors.tailwindEmeraldData;
-const tailwindTeal: ColorCollection = colors.tailwindTealData;
-const tailwindCyan: ColorCollection = colors.tailwindCyanData;
-const tailwindSky: ColorCollection = colors.tailwindSkyData;
-const tailwindBlue: ColorCollection = colors.tailwindBlueData;
-const tailwindIndigo: ColorCollection = colors.tailwindIndigoData;
-const tailwindViolet: ColorCollection = colors.tailwindVioletData;
-const tailwindPurple: ColorCollection = colors.tailwindPurpleData;
-const tailwindFuchsia: ColorCollection = colors.tailwindFuchsiaData;
-const tailwindPink: ColorCollection = colors.tailwindPinkData;
-const tailwindRose: ColorCollection = colors.tailwindRoseData;
-const tailwindBorder: NumberCollection = tailwindBorderData;
-const tailwindBorderRadius: NumberCollection = tailwindBorderRadiusData;
-const tailwindContainer: NumberCollection = tailwindContainerData;
-const tailwindFontSize: NumberCollection = tailwindFontSizeData;
-const tailwindOpacity: NumberCollection = tailwindOpacityData;
-const tailwindSize: NumberCollection = tailwindSizeData;
+const twSlate: ColorCollection = colors.tailwindSlateData;
+const twGray: ColorCollection = colors.tailwindGrayData;
+const twZinc: ColorCollection = colors.tailwindZincData;
+const twNeutral: ColorCollection = colors.tailwindNeutralData;
+const twStone: ColorCollection = colors.tailwindStoneData;
+const twRed: ColorCollection = colors.tailwindRedData;
+const twOrange: ColorCollection = colors.tailwindOrangeData;
+const twAmber: ColorCollection = colors.tailwindAmberData;
+const twYellow: ColorCollection = colors.tailwindYellowData;
+const twLime: ColorCollection = colors.tailwindLimeData;
+const twGreen: ColorCollection = colors.tailwindGreenData;
+const twEmerald: ColorCollection = colors.tailwindEmeraldData;
+const twTeal: ColorCollection = colors.tailwindTealData;
+const twCyan: ColorCollection = colors.tailwindCyanData;
+const twSky: ColorCollection = colors.tailwindSkyData;
+const twBlue: ColorCollection = colors.tailwindBlueData;
+const twIndigo: ColorCollection = colors.tailwindIndigoData;
+const twViolet: ColorCollection = colors.tailwindVioletData;
+const twPurple: ColorCollection = colors.tailwindPurpleData;
+const twFuchsia: ColorCollection = colors.tailwindFuchsiaData;
+const twPink: ColorCollection = colors.tailwindPinkData;
+const twRose: ColorCollection = colors.tailwindRoseData;
+const twBorder: NumberCollection = tailwindBorderData;
+const twBorderRadius: NumberCollection = tailwindBorderRadiusData;
+const twContainer: NumberCollection = tailwindContainerData;
+const twFontSize: NumberCollection = tailwindFontSizeData;
+const twOpacity: NumberCollection = tailwindOpacityData;
+const twSize: NumberCollection = tailwindSizeData;
 
 // Bootstrap
-const bootstrapBlue: ColorCollection = colors.bootstrapBlue;
-const bootstrapIndigo: ColorCollection = colors.bootstrapIndigo;
-const bootstrapPurple: ColorCollection = colors.bootstrapPurple;
-const bootstrapPink: ColorCollection = colors.bootstrapPink;
-const bootstrapRed: ColorCollection = colors.bootstrapRed;
-const bootstrapOrange: ColorCollection = colors.bootstrapOrange;
-const bootstrapYellow: ColorCollection = colors.bootstrapYellow;
-const bootstrapGreen: ColorCollection = colors.bootstrapGreen;
-const bootstrapTeal: ColorCollection = colors.bootstrapTeal;
-const bootstrapCyan: ColorCollection = colors.bootstrapCyan;
-const bootstrapGray: ColorCollection = colors.bootstrapGray;
-const bootstrapBorderRadius: NumberCollection = bootstrapBorderRadiusData;
-const bootstrapBreakpoints: NumberCollection = bootstrapBreakpointsData;
+const bsBlue: ColorCollection = colors.bootstrapBlue;
+const bsIndigo: ColorCollection = colors.bootstrapIndigo;
+const bsPurple: ColorCollection = colors.bootstrapPurple;
+const bsPink: ColorCollection = colors.bootstrapPink;
+const bsRed: ColorCollection = colors.bootstrapRed;
+const bsOrange: ColorCollection = colors.bootstrapOrange;
+const bsYellow: ColorCollection = colors.bootstrapYellow;
+const bsGreen: ColorCollection = colors.bootstrapGreen;
+const bsTeal: ColorCollection = colors.bootstrapTeal;
+const bsCyan: ColorCollection = colors.bootstrapCyan;
+const bsGray: ColorCollection = colors.bootstrapGray;
+const bsBorderRadius: NumberCollection = bootstrapBorderRadiusData;
+const bsBreakpoints: NumberCollection = bootstrapBreakpointsData;
 
 // Polaris
-const polarisRose: ColorCollection = colors.polarisRose;
-const polarisMagenta: ColorCollection = colors.polarisMagenta;
-const polarisPurple: ColorCollection = colors.polarisPurple;
-const polarisBlue: ColorCollection = colors.polarisBlue;
-const polarisAzure: ColorCollection = colors.polarisAzure;
-const polarisTeal: ColorCollection = colors.polarisTeal;
-const polarisCyan: ColorCollection = colors.polarisCyan;
-const polarisGreen: ColorCollection = colors.polarisGreen;
-const polarisLime: ColorCollection = colors.polarisLime;
-const polarisYellow: ColorCollection = colors.polarisYellow;
-const polarisOrange: ColorCollection = colors.polarisOrange;
-const polarisRed: ColorCollection = colors.polarisRed;
-const polarisBorderRadius: NumberCollection = polarisBorderRadiusData;
-const polarisBreakpoints: NumberCollection = polarisBreakpointsData;
-const polarisFontSize: NumberCollection = polarisFontSizeData;
-const polarisHeight: NumberCollection = polarisHeightData;
-const polarisLineHeight: NumberCollection = polarisLineHeightData;
-const polarisSpace: NumberCollection = polarisSpaceData;
-const polarisWidth: NumberCollection = polarisWidthData;
+const pRose: ColorCollection = colors.polarisRose;
+const pMagenta: ColorCollection = colors.polarisMagenta;
+const pPurple: ColorCollection = colors.polarisPurple;
+const pBlue: ColorCollection = colors.polarisBlue;
+const pAzure: ColorCollection = colors.polarisAzure;
+const pTeal: ColorCollection = colors.polarisTeal;
+const pCyan: ColorCollection = colors.polarisCyan;
+const pGreen: ColorCollection = colors.polarisGreen;
+const pLime: ColorCollection = colors.polarisLime;
+const pYellow: ColorCollection = colors.polarisYellow;
+const pOrange: ColorCollection = colors.polarisOrange;
+const pRed: ColorCollection = colors.polarisRed;
+const pBorderRadius: NumberCollection = polarisBorderRadiusData;
+const pBreakpoints: NumberCollection = polarisBreakpointsData;
+const pFontSize: NumberCollection = polarisFontSizeData;
+const pHeight: NumberCollection = polarisHeightData;
+const pLineHeight: NumberCollection = polarisLineHeightData;
+const pSpace: NumberCollection = polarisSpaceData;
+const pWidth: NumberCollection = polarisWidthData;
 
 // Carbon
-const carbonBlue: ColorCollection = colors.carbonBlue;
-const carbonCoolGray: ColorCollection = colors.carbonCoolGray;
-const carbonCyan: ColorCollection = colors.carbonCyan;
-const carbonGray: ColorCollection = colors.carbonGray;
-const carbonGreen: ColorCollection = colors.carbonGreen;
-const carbonMagenta: ColorCollection = colors.carbonMagenta;
-const carbonOrange: ColorCollection = colors.carbonOrange;
-const carbonPurple: ColorCollection = colors.carbonPurple;
-const carbonRed: ColorCollection = colors.carbonRed;
-const carbonTeal: ColorCollection = colors.carbonTeal;
-const carbonWarmGray: ColorCollection = colors.carbonWarmGray;
-const carbonYellow: ColorCollection = colors.carbonYellow;
-const carbonBreakpoints: NumberCollection = carbonBreakpointsData;
-const carbonSpacing: NumberCollection = carbonSpacingData;
-const carbonTypographyScale: NumberCollection = carbonTypographyScaleData;
+const cBlue: ColorCollection = colors.carbonBlue;
+const cCoolGray: ColorCollection = colors.carbonCoolGray;
+const cCyan: ColorCollection = colors.carbonCyan;
+const cGray: ColorCollection = colors.carbonGray;
+const cGreen: ColorCollection = colors.carbonGreen;
+const cMagenta: ColorCollection = colors.carbonMagenta;
+const cOrange: ColorCollection = colors.carbonOrange;
+const cPurple: ColorCollection = colors.carbonPurple;
+const cRed: ColorCollection = colors.carbonRed;
+const cTeal: ColorCollection = colors.carbonTeal;
+const cWarmGray: ColorCollection = colors.carbonWarmGray;
+const cYellow: ColorCollection = colors.carbonYellow;
+const cBreakpoints: NumberCollection = carbonBreakpointsData;
+const cSpacing: NumberCollection = carbonSpacingData;
+const cTypographyScale: NumberCollection = carbonTypographyScaleData;
 
 // Effect資料
 const iosDefaultDropShadow: EffectCollection =
@@ -227,256 +227,256 @@ export function determineGenerateColorStyle(target: InstantiaterTarget) {
       generateColorStyle(m3BaselineError, "none");
       break;
     case "antDesignNeutralColorLight":
-      generateColorStyle(antDesignNeutralColor, "light");
+      generateColorStyle(antNeutralColor, "light");
       break;
     case "antDesignNeutralColorDark":
-      generateColorStyle(antDesignNeutralColor, "dark");
+      generateColorStyle(antNeutralColor, "dark");
       break;
     case "antDesignDustRedLight":
-      generateColorStyle(antDesignDustRed, "light");
+      generateColorStyle(antDustRed, "light");
       break;
     case "antDesignDustRedDark":
-      generateColorStyle(antDesignDustRed, "dark");
+      generateColorStyle(antDustRed, "dark");
       break;
     case "antDesignVolcanoLight":
-      generateColorStyle(antDesignVolcano, "light");
+      generateColorStyle(antVolcano, "light");
       break;
     case "antDesignVolcanoDark":
-      generateColorStyle(antDesignVolcano, "dark");
+      generateColorStyle(antVolcano, "dark");
       break;
     case "antDesignSunsetOrangeLight":
-      generateColorStyle(antDesignSunsetOrange, "light");
+      generateColorStyle(antSunsetOrange, "light");
       break;
     case "antDesignSunsetOrangeDark":
-      generateColorStyle(antDesignSunsetOrange, "dark");
+      generateColorStyle(antSunsetOrange, "dark");
       break;
     case "antDesignCalendulaGoldLight":
-      generateColorStyle(antDesignCalendulaGold, "light");
+      generateColorStyle(antCalendulaGold, "light");
       break;
     case "antDesignCalendulaGoldDark":
-      generateColorStyle(antDesignCalendulaGold, "dark");
+      generateColorStyle(antCalendulaGold, "dark");
       break;
     case "antDesignSunriseYellowLight":
-      generateColorStyle(antDesignSunriseYellow, "light");
+      generateColorStyle(antSunriseYellow, "light");
       break;
     case "antDesignSunriseYellowDark":
-      generateColorStyle(antDesignSunriseYellow, "dark");
+      generateColorStyle(antSunriseYellow, "dark");
       break;
     case "antDesignLimeLight":
-      generateColorStyle(antDesignLime, "light");
+      generateColorStyle(antLime, "light");
       break;
     case "antDesignLimeDark":
-      generateColorStyle(antDesignLime, "dark");
+      generateColorStyle(antLime, "dark");
       break;
     case "antDesignPolarGreenLight":
-      generateColorStyle(antDesignPolarGreen, "light");
+      generateColorStyle(antPolarGreen, "light");
       break;
     case "antDesignPolarGreenDark":
-      generateColorStyle(antDesignPolarGreen, "dark");
+      generateColorStyle(antPolarGreen, "dark");
       break;
     case "antDesignCyanLight":
-      generateColorStyle(antDesignCyan, "light");
+      generateColorStyle(antCyan, "light");
       break;
     case "antDesignCyanDark":
-      generateColorStyle(antDesignCyan, "dark");
+      generateColorStyle(antCyan, "dark");
       break;
     case "antDesignDaybreakBlueLight":
-      generateColorStyle(antDesignDaybreakBlue, "light");
+      generateColorStyle(antDaybreakBlue, "light");
       break;
     case "antDesignDaybreakBlueDark":
-      generateColorStyle(antDesignDaybreakBlue, "dark");
+      generateColorStyle(antDaybreakBlue, "dark");
       break;
     case "antDesignGeekBlueLight":
-      generateColorStyle(antDesignGeekBlue, "light");
+      generateColorStyle(antGeekBlue, "light");
       break;
     case "antDesignGeekBlueDark":
-      generateColorStyle(antDesignGeekBlue, "dark");
+      generateColorStyle(antGeekBlue, "dark");
       break;
     case "antDesignGoldenPurpleLight":
-      generateColorStyle(antDesignGoldenPurple, "light");
+      generateColorStyle(antGoldenPurple, "light");
       break;
     case "antDesignGoldenPurpleDark":
-      generateColorStyle(antDesignGoldenPurple, "dark");
+      generateColorStyle(antGoldenPurple, "dark");
       break;
     case "antDesignMagentaLight":
-      generateColorStyle(antDesignMagenta, "light");
+      generateColorStyle(antMagenta, "light");
       break;
     case "antDesignMagentaDark":
-      generateColorStyle(antDesignMagenta, "dark");
+      generateColorStyle(antMagenta, "dark");
       break;
     case "tailwindSlate":
-      generateColorStyle(tailwindSlate, "none");
+      generateColorStyle(twSlate, "none");
       break;
     case "tailwindGray":
-      generateColorStyle(tailwindGray, "none");
+      generateColorStyle(twGray, "none");
       break;
     case "tailwindZinc":
-      generateColorStyle(tailwindZinc, "none");
+      generateColorStyle(twZinc, "none");
       break;
     case "tailwindNeutral":
-      generateColorStyle(tailwindNeutral, "none");
+      generateColorStyle(twNeutral, "none");
       break;
     case "tailwindStone":
-      generateColorStyle(tailwindStone, "none");
+      generateColorStyle(twStone, "none");
       break;
     case "tailwindRed":
-      generateColorStyle(tailwindRed, "none");
+      generateColorStyle(twRed, "none");
       break;
     case "tailwindOrange":
-      generateColorStyle(tailwindOrange, "none");
+      generateColorStyle(twOrange, "none");
       break;
     case "tailwindAmber":
-      generateColorStyle(tailwindAmber, "none");
+      generateColorStyle(twAmber, "none");
       break;
     case "tailwindYellow":
-      generateColorStyle(tailwindYellow, "none");
+      generateColorStyle(twYellow, "none");
       break;
     case "tailwindLime":
-      generateColorStyle(tailwindLime, "none");
+      generateColorStyle(twLime, "none");
       break;
     case "tailwindGreen":
-      generateColorStyle(tailwindGreen, "none");
+      generateColorStyle(twGreen, "none");
       break;
     case "tailwindEmerald":
-      generateColorStyle(tailwindEmerald, "none");
+      generateColorStyle(twEmerald, "none");
       break;
     case "tailwindTeal":
-      generateColorStyle(tailwindTeal, "none");
+      generateColorStyle(twTeal, "none");
       break;
     case "tailwindCyan":
-      generateColorStyle(tailwindCyan, "none");
+      generateColorStyle(twCyan, "none");
       break;
     case "tailwindSky":
-      generateColorStyle(tailwindSky, "none");
+      generateColorStyle(twSky, "none");
       break;
     case "tailwindBlue":
-      generateColorStyle(tailwindBlue, "none");
+      generateColorStyle(twBlue, "none");
       break;
     case "tailwindIndigo":
-      generateColorStyle(tailwindIndigo, "none");
+      generateColorStyle(twIndigo, "none");
       break;
     case "tailwindViolet":
-      generateColorStyle(tailwindViolet, "none");
+      generateColorStyle(twViolet, "none");
       break;
     case "tailwindPurple":
-      generateColorStyle(tailwindPurple, "none");
+      generateColorStyle(twPurple, "none");
       break;
     case "tailwindFuchsia":
-      generateColorStyle(tailwindFuchsia, "none");
+      generateColorStyle(twFuchsia, "none");
       break;
     case "tailwindPink":
-      generateColorStyle(tailwindPink, "none");
+      generateColorStyle(twPink, "none");
       break;
     case "tailwindRose":
-      generateColorStyle(tailwindRose, "none");
+      generateColorStyle(twRose, "none");
       break;
     case "tailwindShadow":
       generateEffectStyle(tailwindShadow);
       break;
     case "bootstrapBlue":
-      generateColorStyle(bootstrapBlue, "none");
+      generateColorStyle(bsBlue, "none");
       break;
     case "bootstrapIndigo":
-      generateColorStyle(bootstrapIndigo, "none");
+      generateColorStyle(bsIndigo, "none");
       break;
     case "bootstrapPurple":
-      generateColorStyle(bootstrapPurple, "none");
+      generateColorStyle(bsPurple, "none");
       break;
     case "bootstrapPink":
-      generateColorStyle(bootstrapPink, "none");
+      generateColorStyle(bsPink, "none");
       break;
     case "bootstrapRed":
-      generateColorStyle(bootstrapRed, "none");
+      generateColorStyle(bsRed, "none");
       break;
     case "bootstrapOrange":
-      generateColorStyle(bootstrapOrange, "none");
+      generateColorStyle(bsOrange, "none");
       break;
     case "bootstrapYellow":
-      generateColorStyle(bootstrapYellow, "none");
+      generateColorStyle(bsYellow, "none");
       break;
     case "bootstrapGreen":
-      generateColorStyle(bootstrapGreen, "none");
+      generateColorStyle(bsGreen, "none");
       break;
     case "bootstrapTeal":
-      generateColorStyle(bootstrapTeal, "none");
+      generateColorStyle(bsTeal, "none");
       break;
     case "bootstrapCyan":
-      generateColorStyle(bootstrapCyan, "none");
+      generateColorStyle(bsCyan, "none");
       break;
     case "bootstrapGray":
-      generateColorStyle(bootstrapGray, "none");
+      generateColorStyle(bsGray, "none");
       break;
     case "polarisRose":
-      generateColorStyle(polarisRose, "none");
+      generateColorStyle(pRose, "none");
       break;
     case "polarisMagenta":
-      generateColorStyle(polarisMagenta, "none");
+      generateColorStyle(pMagenta, "none");
       break;
     case "polarisPurple":
-      generateColorStyle(polarisPurple, "none");
+      generateColorStyle(pPurple, "none");
       break;
     case "polarisBlue":
-      generateColorStyle(polarisBlue, "none");
+      generateColorStyle(pBlue, "none");
       break;
     case "polarisAzure":
-      generateColorStyle(polarisAzure, "none");
+      generateColorStyle(pAzure, "none");
       break;
     case "polarisTeal":
-      generateColorStyle(polarisTeal, "none");
+      generateColorStyle(pTeal, "none");
       break;
     case "polarisCyan":
-      generateColorStyle(polarisCyan, "none");
+      generateColorStyle(pCyan, "none");
       break;
     case "polarisGreen":
-      generateColorStyle(polarisGreen, "none");
+      generateColorStyle(pGreen, "none");
       break;
     case "polarisLime":
-      generateColorStyle(polarisLime, "none");
+      generateColorStyle(pLime, "none");
       break;
     case "polarisYellow":
-      generateColorStyle(polarisYellow, "none");
+      generateColorStyle(pYellow, "none");
       break;
     case "polarisOrange":
-      generateColorStyle(polarisOrange, "none");
+      generateColorStyle(pOrange, "none");
       break;
     case "polarisRed":
-      generateColorStyle(polarisRed, "none");
+      generateColorStyle(pRed, "none");
       break;
     case "carbonBlue":
-      generateColorStyle(carbonBlue, "none");
+      generateColorStyle(cBlue, "none");
       break;
     case "carbonCoolGray":
-      generateColorStyle(carbonCoolGray, "none");
+      generateColorStyle(cCoolGray, "none");
       break;
     case "carbonCyan":
-      generateColorStyle(carbonCyan, "none");
+      generateColorStyle(cCyan, "none");
       break;
     case "carbonGray":
-      generateColorStyle(carbonGray, "none");
+      generateColorStyle(cGray, "none");
       break;
     case "carbonGreen":
-      generateColorStyle(carbonGreen, "none");
+      generateColorStyle(cGreen, "none");
       break;
     case "carbonMagenta":
-      generateColorStyle(carbonMagenta, "none");
+      generateColorStyle(cMagenta, "none");
       break;
     case "carbonOrange":
-      generateColorStyle(carbonOrange, "none");
+      generateColorStyle(cOrange, "none");
       break;
     case "carbonPurple":
-      generateColorStyle(carbonPurple, "none");
+      generateColorStyle(cPurple, "none");
       break;
     case "carbonRed":
-      generateColorStyle(carbonRed, "none");
+      generateColorStyle(cRed, "none");
       break;
     case "carbonTeal":
-      generateColorStyle(carbonTeal, "none");
+      generateColorStyle(cTeal, "none");
       break;
     case "carbonWarmGray":
-      generateColorStyle(carbonWarmGray, "none");
+      generateColorStyle(cWarmGray, "none");
       break;
     case "carbonYellow":
-      generateColorStyle(carbonYellow, "none");
+      generateColorStyle(cYellow, "none");
       break;
     default:
       // handle default case
@@ -513,219 +513,219 @@ export function determineGenerateVariable(
       return m3BaselineError;
     // Ant Design
     case "antDesignNeutralColorLight":
-      return antDesignNeutralColor;
+      return antNeutralColor;
     case "antDesignNeutralColorDark":
-      return antDesignNeutralColor;
+      return antNeutralColor;
     case "antDesignDustRedLight":
-      return antDesignDustRed;
+      return antDustRed;
     case "antDesignDustRedDark":
-      return antDesignDustRed;
+      return antDustRed;
     case "antDesignVolcanoLight":
-      return antDesignVolcano;
+      return antVolcano;
     case "antDesignVolcanoDark":
-      return antDesignVolcano;
+      return antVolcano;
     case "antDesignSunsetOrangeLight":
-      return antDesignSunsetOrange;
+      return antSunsetOrange;
     case "antDesignSunsetOrangeDark":
-      return antDesignSunsetOrange;
+      return antSunsetOrange;
     case "antDesignCalendulaGoldLight":
-      return antDesignCalendulaGold;
+      return antCalendulaGold;
     case "antDesignCalendulaGoldDark":
-      return antDesignCalendulaGold;
+      return antCalendulaGold;
     case "antDesignSunriseYellowLight":
-      return antDesignSunriseYellow;
+      return antSunriseYellow;
     case "antDesignSunriseYellowDark":
-      return antDesignSunriseYellow;
+      return antSunriseYellow;
     case "antDesignLimeLight":
-      return antDesignLime;
+      return antLime;
     case "antDesignLimeDark":
-      return antDesignLime;
+      return antLime;
     case "antDesignPolarGreenLight":
-      return antDesignPolarGreen;
+      return antPolarGreen;
     case "antDesignPolarGreenDark":
-      return antDesignPolarGreen;
+      return antPolarGreen;
     case "antDesignCyanLight":
-      return antDesignCyan;
+      return antCyan;
     case "antDesignCyanDark":
-      return antDesignCyan;
+      return antCyan;
     case "antDesignDaybreakBlueLight":
-      return antDesignDaybreakBlue;
+      return antDaybreakBlue;
     case "antDesignDaybreakBlueDark":
-      return antDesignDaybreakBlue;
+      return antDaybreakBlue;
     case "antDesignGeekBlueLight":
-      return antDesignGeekBlue;
+      return antGeekBlue;
     case "antDesignGeekBlueDark":
-      return antDesignGeekBlue;
+      return antGeekBlue;
     case "antDesignGoldenPurpleLight":
-      return antDesignGoldenPurple;
+      return antGoldenPurple;
     case "antDesignGoldenPurpleDark":
-      return antDesignGoldenPurple;
+      return antGoldenPurple;
     case "antDesignMagentaLight":
-      return antDesignMagenta;
+      return antMagenta;
     case "antDesignMagentaDark":
-      return antDesignMagenta;
+      return antMagenta;
     case "antDesignBreakpoints":
-      return antDesignBreakpoints;
+      return antBreakpoints;
     case "antDesignFontSize":
-      return antDesignFontSize;
+      return antFontSize;
     case "antDesignLineHeight":
-      return antDesignLineHeight;
+      return antLineHeight;
     case "antDesignPadding":
-      return antDesignPadding;
+      return antPadding;
     // Tailwind
     case "tailwindSlate":
-      return tailwindSlate;
+      return twSlate;
     case "tailwindGray":
-      return tailwindGray;
+      return twGray;
     case "tailwindZinc":
-      return tailwindZinc;
+      return twZinc;
     case "tailwindNeutral":
-      return tailwindNeutral;
+      return twNeutral;
     case "tailwindStone":
-      return tailwindStone;
+      return twStone;
     case "tailwindRed":
-      return tailwindRed;
+      return twRed;
     case "tailwindOrange":
-      return tailwindOrange;
+      return twOrange;
     case "tailwindAmber":
-      return tailwindAmber;
+      return twAmber;
     case "tailwindYellow":
-      return tailwindYellow;
+      return twYellow;
     case "tailwindLime":
-      return tailwindLime;
+      return twLime;
     case "tailwindGreen":
-      return tailwindGreen;
+      return twGreen;
     case "tailwindEmerald":
-      return tailwindEmerald;
+      return twEmerald;
     case "tailwindTeal":
-      return tailwindTeal;
+      return twTeal;
     case "tailwindCyan":
-      return tailwindCyan;
+      return twCyan;
     case "tailwindSky":
-      return tailwindSky;
+      return twSky;
     case "tailwindBlue":
-      return tailwindBlue;
+      return twBlue;
     case "tailwindIndigo":
-      return tailwindIndigo;
+      return twIndigo;
     case "tailwindViolet":
-      return tailwindViolet;
+      return twViolet;
     case "tailwindPurple":
-      return tailwindPurple;
+      return twPurple;
     case "tailwindFuchsia":
-      return tailwindFuchsia;
+      return twFuchsia;
     case "tailwindPink":
-      return tailwindPink;
+      return twPink;
     case "tailwindRose":
-      return tailwindRose;
+      return twRose;
     case "tailwindBorder":
-      return tailwindBorder;
+      return twBorder;
     case "tailwindBorderRadius":
-      return tailwindBorderRadius;
+      return twBorderRadius;
     case "tailwindContainer":
-      return tailwindContainer;
+      return twContainer;
     case "tailwindFontSize":
-      return tailwindFontSize;
+      return twFontSize;
     case "tailwindOpacity":
-      return tailwindOpacity;
+      return twOpacity;
     case "tailwindSize":
-      return tailwindSize;
+      return twSize;
     // Bootstrap
     case "bootstrapBlue":
-      return bootstrapBlue;
+      return bsBlue;
     case "bootstrapIndigo":
-      return bootstrapIndigo;
+      return bsIndigo;
     case "bootstrapPurple":
-      return bootstrapPurple;
+      return bsPurple;
     case "bootstrapPink":
-      return bootstrapPink;
+      return bsPink;
     case "bootstrapRed":
-      return bootstrapRed;
+      return bsRed;
     case "bootstrapOrange":
-      return bootstrapOrange;
+      return bsOrange;
     case "bootstrapYellow":
-      return bootstrapYellow;
+      return bsYellow;
     case "bootstrapGreen":
-      return bootstrapGreen;
+      return bsGreen;
     case "bootstrapTeal":
-      return bootstrapTeal;
+      return bsTeal;
     case "bootstrapCyan":
-      return bootstrapCyan;
+      return bsCyan;
     case "bootstrapGray":
-      return bootstrapGray;
+      return bsGray;
     case "bootstrapBorderRadius":
-      return bootstrapBorderRadius;
+      return bsBorderRadius;
     case "bootstrapBreakpoints":
-      return bootstrapBreakpoints;
+      return bsBreakpoints;
     // Polaris
     case "polarisRose":
-      return polarisRose;
+      return pRose;
     case "polarisMagenta":
-      return polarisMagenta;
+      return pMagenta;
     case "polarisPurple":
-      return polarisPurple;
+      return pPurple;
     case "polarisBlue":
-      return polarisBlue;
+      return pBlue;
     case "polarisAzure":
-      return polarisAzure;
+      return pAzure;
     case "polarisTeal":
-      return polarisTeal;
+      return pTeal;
     case "polarisCyan":
-      return polarisCyan;
+      return pCyan;
     case "polarisGreen":
-      return polarisGreen;
+      return pGreen;
     case "polarisLime":
-      return polarisLime;
+      return pLime;
     case "polarisYellow":
-      return polarisYellow;
+      return pYellow;
     case "polarisOrange":
-      return polarisOrange;
+      return pOrange;
     case "polarisRed":
-      return polarisRed;
+      return pRed;
     case "polarisBorderRadius":
-      return polarisBorderRadius;
+      return pBorderRadius;
     case "polarisBreakpoints":
-      return polarisBreakpoints;
+      return pBreakpoints;
     case "polarisFontSize":
-      return polarisFontSize;
+      return pFontSize;
     case "polarisHeight":
-      return polarisHeight;
+      return pHeight;
     case "polarisLineHeight":
-      return polarisLineHeight;
+      return pLineHeight;
     case "polarisSpace":
-      return polarisSpace;
+      return pSpace;
     case "polarisWidth":
-      return polarisWidth;
+      return pWidth;
     // Carbon
     case "carbonBlue":
-      return carbonBlue;
+      return cBlue;
     case "carbonCoolGray":
-      return carbonCoolGray;
+      return cCoolGray;
     case "carbonCyan":
-      return carbonCyan;
+      return cCyan;
     case "carbonGray":
-      return carbonGray;
+      return cGray;
     case "carbonGreen":
-      return carbonGreen;
+      return cGreen;
     case "carbonMagenta":
-      return carbonMagenta;
+      return cMagenta;
     case "carbonOrange":
-      return carbonOrange;
+      return cOrange;
     case "carbonPurple":
-      return carbonPurple;
+      return cPurple;
     case "carbonRed":
-      return carbonRed;
+      return cRed;
     case "carbonTeal":
-      return carbonTeal;
+      return cTeal;
     case "carbonWarmGray":
-      return carbonWarmGray;
+      return cWarmGray;
     case "carbonYellow":
-      return carbonYellow;
+      return cYellow;
     case "carbonBreakpoints":
-      return carbonBreakpoints;
+      return cBreakpoints;
     case "carbonSpacing":
-      return carbonSpacing;
+      return cSpacing;
     case "carbonTypographyScale":
-      return carbonTypographyScale;
+      return cTypographyScale;
     default:
       // handle default case
       throw new Error("Unknown target");
@@ -752,7 +752,7 @@ export function instantiateTarget(message: MessageInstantiater) {
           throw new Error("newCollectionName is required");
         }
 
-        if (util.isNumberCollection(collectionToBeUse)) {
+        if (utils.typeCheck.isNumberCollection(collectionToBeUse)) {
           // 傳回的collection是NumberCollection，生成Number Variable
           generateNumberVariable(
             collectionToBeUse,
@@ -887,11 +887,11 @@ async function generateColorVariable(
     // Set the values for light and dark modes
     variable.setValueForMode(
       lightModeId,
-      util.convertColorRange(member.color.light)
+      utils.color.convertColorRange(member.color.light)
     );
     variable.setValueForMode(
       darkModeId,
-      util.convertColorRange(member.color.dark)
+      utils.color.convertColorRange(member.color.dark)
     );
   }
 
@@ -921,9 +921,9 @@ function generateColorStyle(collection: ColorCollection, type: ColorType) {
       {
         type: "SOLID",
         color: {
-          r: util.mapToUnitRange(color.r),
-          g: util.mapToUnitRange(color.g),
-          b: util.mapToUnitRange(color.b),
+          r: utils.math.mapToUnitRange(color.r),
+          g: utils.math.mapToUnitRange(color.g),
+          b: utils.math.mapToUnitRange(color.b),
         },
         opacity: color.a,
       },
@@ -950,17 +950,16 @@ async function generateTextStyleNode(collection: TypographyCollection) {
   let currentYPosition = 0;
 
   const texts: Array<TextNode> = [];
-  const viewport = util.getCurrentViewport();
+  const viewport = utils.editor.getCurrentViewport();
 
-  // Load all necessary fonts
-  const fontsToLoad = [
-    { family: "Inter", style: "Regular" },
-    { family: "Inter", style: "Semi Bold" },
-  ];
-  await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+
+  await utils.editor.loadFont([
+    semanticTokens.fontFamily.regular,
+    semanticTokens.fontFamily.semiBold
+  ]);
 
   const notificationText = `Change the typeface of below text layer, then click "Shortcut => Generate Text Style" from plugin.`;
-  const notificationTextNode = util.createTextNode(
+  const notificationTextNode = utils.node.createTextNode(
     notificationText,
     { family: "Inter", style: "Regular" },
     32,
@@ -977,7 +976,7 @@ async function generateTextStyleNode(collection: TypographyCollection) {
       item.fontWeight === "regular" ? "Regular" : "Semi Bold";
     const fontName = { family: "Inter", style: fontWeightStyle };
 
-    const textNode = util.createTextNode(
+    const textNode = utils.node.createTextNode(
       `${collection.brand} - ${collection.name}/${item.name}`,
       fontName,
       item.fontSize,

@@ -8,11 +8,11 @@
     background-color: var(--figma-color-bg);
     border: 1px solid var(--cy-border-light);
     color: var(--figma-color-text);
-    transition: all .3s;
+    // transition: var(--cy-animation-default);
 
-    &:hover {
-        border-color: var(--cy-border-dark);
-    }
+    // &:hover {
+    //     border-color: var(--cy-border-dark);
+    // }
 
     &:focus {
         outline: none;

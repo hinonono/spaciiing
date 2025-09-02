@@ -1,0 +1,35 @@
+$base-size: 24px;
+
+// Mixin for icon size
+@mixin icon-size($size) {
+  display: flex;
+  width: $size;
+  height: $size;
+  justify-content: center;
+  align-items: center;
+  padding: calc(($size - ($size / 6 * 5)) / 2);
+
+  & > * {
+    height: 100%;
+  }
+}
+
+// Base icon class
+.icon {
+  @include icon-size($base-size);
+}
+
+// Icon size variants
+@each $s in 48, 32, 28, 24, 20, 16 {
+  .icon-#{$s} {
+    @include icon-size(#{$s}px);
+  }
+}
+
+.icon-hover {
+  border-radius: var(--cy-border-radius-large);
+
+  &:hover {
+    background-color: var(--figma-color-bg-secondary);
+  }
+}

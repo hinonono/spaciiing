@@ -6,6 +6,7 @@ import FigmaButton from "../FigmaButton";
 import SectionTitle from "../SectionTitle";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MessageUnifyText } from "../../types/Messages/MessageShortcut";
+import * as info from "../../info.json";
 
 interface UnifyTextModalProps {
   show: boolean;
@@ -16,7 +17,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
   show,
   handleClose,
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
   const { licenseManagement, setFreeUserDelayModalConfig } = useAppContext();
 
   const [targetTextContent, setTargetTextContent] = useState("");
@@ -31,13 +32,13 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // Adjust the delay time as needed
-          onProceed: () => unifyText(true), // Retry with `isRealCall = true`
+          initialTime: info.freeUserWaitingTime,
+          onProceed: () => unifyText(true),
         });
         return;
       }
     }
-  
+
     const message: MessageUnifyText = {
       module: "Shortcut",
       direction: "Inner",
@@ -45,26 +46,26 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
       targetTextContent: targetTextContent,
       action: "unifyText",
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (
     <Modal show={show} handleClose={handleClose}>
+      <h3>{t("module:unifyText")}</h3>
       <div className="mt-xxsmall">
-        <SectionTitle title={t("module:text")} />
+        <SectionTitle title={t("term:text")} />
         <textarea
           className="textarea"
           rows={5}
           value={targetTextContent}
           onChange={handleTargetTextContentChange}
-          placeholder={t("module:text")}
+          placeholder={t("term:text")}
         />
+      </div>
+      <div className="mt-xxsmall">
+        <SectionTitle title={t("module:specialSymbol")} />
+        <span className="note">$ORIGIN$ {t("module:originalTextContent")}</span>
       </div>
       <div className="mt-xxsmall">
         <FigmaButton title={t("module:execute")} onClick={() => unifyText(false)} />

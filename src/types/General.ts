@@ -1,6 +1,7 @@
 export interface StyleListItemFrontEnd {
   id: string;
   name: string;
+  color?: string;
 }
 
 export interface CustomCheckboxGroupOption {
@@ -13,6 +14,7 @@ export interface CustomCheckboxGroupOption {
 export type NestedStructure = {
   [key: string]: {
     id?: string;
+    color?: string;
     children?: NestedStructure;
   };
 };
@@ -23,3 +25,8 @@ export interface StyleSelection {
 }
 
 export type Dimension = "width" | "height";
+export type Direction = "horizontal" | "vertical"
+export interface Coordinates {
+  x: number;
+  y: number;
+}

@@ -1,0 +1,11 @@
+// Mixin for font size
+@mixin font-size($size) {
+  font-size: var(--font-size-#{$size});
+}
+
+// Generate font-size utility classes
+@each $size in xsmall, small, large, xlarge {
+  .font-size-#{$size} {
+    @include font-size($size);
+  }
+}

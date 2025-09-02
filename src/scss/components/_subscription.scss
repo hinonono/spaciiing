@@ -1,23 +1,28 @@
-.subscription-plan-title {
-    color: var(--figma-color-text);
-    font-size: 1rem;
-}
+.subscription-background {
+    padding: 16px;
+    border-radius: var(--cy-border-radius-xxxlarge);
+    background: var(--cy-bg-primary-dark-elevated);
 
-.subscription-block {
-    span {
-        display: block;
+    &.pro {
+        background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
+        box-shadow: 0px 6px 12px 0px rgba(180, 121, 255, 0.5);
+
+        .note {
+            color: #00000080
+        }
     }
 
-    &-emphasize {
-        border: 2px solid var(--cy-purple-600);
-        background-color: var(--cy-purple-100);
+    .subscription-plan-title {
+        color: #000000e5
     }
 }
 
 @media (prefers-color-scheme: dark) {
-    .subscription-block {
-        &-emphasize {
-            background-color: var(--cy-purple-950);
+    .subscription-background {
+        &.pro {
+            h4 {
+                color: #000000e5
+            }
         }
     }
 }

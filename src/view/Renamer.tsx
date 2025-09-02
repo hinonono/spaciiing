@@ -9,9 +9,12 @@ import {
   RenamerSupportedTargets,
   MessageRenamer,
 } from "../types/Messages/MessageRenamer";
+import * as info from "../info.json";
+import { RenamableScopesNew } from "../module-frontend/renamerUI";
+import CYCheckbox from "../components/CYCheckbox";
 
 const Renamer: React.FC = () => {
-  const { t } = useTranslation(["module", "term"]);
+  const { t, i18n } = useTranslation(["module", "term"]);
 
   const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
   // 功能說明彈窗
@@ -20,40 +23,7 @@ const Renamer: React.FC = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   //
-  const RenamableScopesNew: {
-    nameKey: string;
-    scope: NodeRenamable;
-    indented?: boolean;
-    indentLevel?: number;
-  }[] = [
-    { nameKey: "term:allOptions", scope: "ALL_OPTIONS" },
-    { nameKey: "term:image", scope: "IMAGE" },
-    { nameKey: "term:text", scope: "TEXT" },
-    { nameKey: "term:frame", scope: "FRAME" },
-    { nameKey: "term:group", scope: "GROUP" },
-    { nameKey: "term:allShape", scope: "ALL_SHAPE" },
-    {
-      nameKey: "term:rectangle",
-      scope: "RECTANGLE",
-      indented: true,
-      indentLevel: 1,
-    },
-    {
-      nameKey: "term:ellipse",
-      scope: "ELLIPSE",
-      indented: true,
-      indentLevel: 1,
-    },
-    { nameKey: "term:line", scope: "LINE", indented: true, indentLevel: 1 },
-    {
-      nameKey: "term:polygon",
-      scope: "POLYGON",
-      indented: true,
-      indentLevel: 1,
-    },
-    { nameKey: "term:star", scope: "STAR", indented: true, indentLevel: 1 },
-    { nameKey: "term:vector", scope: "VECTOR", indented: true, indentLevel: 1 },
-  ];
+
   const initialScopes = RenamableScopesNew.map((item) => item.scope);
 
   //
@@ -62,7 +32,14 @@ const Renamer: React.FC = () => {
     useState<NodeRenamable[]>(initialScopes);
   const [deleteHiddenLayer, setDeleteHiddenLayer] = useState(false);
   const [skipLockedLayer, setSkipLockedLayer] = useState(true);
-  const [includeParentLayer, setIncludeParentLayer] = useState(false);
+  const [skipHiddenLayer, setSkipHiddenLayer] = useState(true);
+  const handleSkipHiddenLayerChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setSkipHiddenLayer(event.target.checked);
+  };
+
+  const [useTextLayerContent, setUseTextLayerContent] = useState(true);
 
   // Handle checkbox change
   const handleDeleteHiddenLayerChange = (event: {
@@ -77,10 +54,10 @@ const Renamer: React.FC = () => {
     setSkipLockedLayer(event.target.checked);
   };
 
-  const handleIncludeParentLayerChange = (event: {
+  const handleUseTextLayerContentChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
   }) => {
-    setIncludeParentLayer(event.target.checked);
+    setUseTextLayerContent(event.target.checked);
   };
 
   const handleScopeChange = (scope: NodeRenamable) => {
@@ -125,13 +102,13 @@ const Renamer: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: 30, // You can adjust the delay time as needed
+          initialTime: info.freeUserWaitingTime, // You can adjust the delay time as needed
           onProceed: () => applyRenamer(true), // Retry the function with `isRealCall = true`
         });
         return;
       }
     }
-  
+
     // Real logic for applying the renamer
     const message: MessageRenamer = {
       target: options,
@@ -140,17 +117,14 @@ const Renamer: React.FC = () => {
       renameTarget: selectedScopes,
       options: {
         deleteHiddenLayer: deleteHiddenLayer,
+        skipHiddenLayers: skipHiddenLayer,
         skipLockedLayer: skipLockedLayer,
-        includeParentLayer: includeParentLayer,
+        useTextLayerContent: useTextLayerContent,
       },
+      lang: i18n.language
     };
-  
-    parent.postMessage(
-      {
-        pluginMessage: message,
-      },
-      "*"
-    );
+
+    parent.postMessage({ pluginMessage: message, }, "*");
   };
 
   return (
@@ -162,26 +136,11 @@ const Renamer: React.FC = () => {
         <div>
           <h3>{t("module:moduleNamingClener")}</h3>
           <p>{t("module:moduleNamingClenerDesc")}</p>
-          <h4>{t("module:renameFormat")}</h4>
-          <ul>
-            <li>{t("module:renameImage")}</li>
-            <li>{t("module:renameAutoLayout")}</li>
-            <li>{t("module:renameText")}</li>
-            <li>{t("module:renameFrame")}</li>
-            <li>{t("module:renameGroup")}</li>
-            <li>{t("module:renameRectangle")}</li>
-            <li>{t("module:renameEllipse")}</li>
-            <li>{t("module:renameLine")}</li>
-            <li>{t("module:renamePolygon")}</li>
-            <li>{t("module:renameStar")}</li>
-            <li>{t("module:renameVector")}</li>
-          </ul>
         </div>
       </Modal>
       <TitleBar
         title={t("module:moduleNamingClener")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         {/* 選項 */}
@@ -189,62 +148,48 @@ const Renamer: React.FC = () => {
           <SectionTitle
             title={`${t("module:renameScopes")} (${selectedScopes.length})`}
           />
-          <div className="custom-checkbox-group scope-group hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
-              <label
-                key={item.scope}
-                className={`container ${
-                  item.indented ? `indent-level-${item.indentLevel}` : ""
-                }`}
-              >
-                {t(item.nameKey)}
-                <input
-                  type="checkbox"
-                  value={item.scope}
-                  checked={selectedScopes.includes(item.scope)}
-                  onChange={() => handleScopeChange(item.scope)}
-                />
-                <span className="checkmark"></span>
-              </label>
+              <CYCheckbox
+                label={
+                  <div className="flex align-items-center">
+                    {item.svg && <div className="icon-20 mr-xxsmall">{item.svg}</div>}
+                    {t(item.nameKey)}
+                  </div>
+                }
+                checked={selectedScopes.includes(item.scope)}
+                onChange={() => handleScopeChange(item.scope)}
+                labelKey={item.scope}
+                labelAdditionClass={`${item.indented ? `indent-level-${item.indentLevel}` : ""}`}
+                value={item.scope}
+              />
             ))}
           </div>
         </div>
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:options")} />
-          <div className="custom-checkbox-group">
-            <label className="container">
-              {t("module:deleteHiddenLayers")}
-              <input
-                type="checkbox"
-                checked={deleteHiddenLayer}
-                onChange={handleDeleteHiddenLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:includeParentLayers")}
-              <input
-                type="checkbox"
-                checked={includeParentLayer}
-                onChange={handleIncludeParentLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="container">
-              {t("module:skipLockLayers")}
-              <input
-                type="checkbox"
-                checked={skipLockedLayer}
-                onChange={handleSkipLockedLayerChange}
-              />
-              <span className="checkmark"></span>
-            </label>
+          <div className="cy-checkbox-group">
+            <CYCheckbox
+              label={t("module:skipHiddenLayers")}
+              checked={skipHiddenLayer}
+              onChange={handleSkipHiddenLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:skipLockLayers")}
+              checked={skipLockedLayer}
+              onChange={handleSkipLockedLayerChange}
+            />
+            <CYCheckbox
+              label={t("module:useTextLayerContent")}
+              checked={useTextLayerContent}
+              onChange={handleUseTextLayerContentChange}
+            />
           </div>
         </div>
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <FigmaButton
-            title={t("module:cleanUp")}
+            title={`${t("module:cleanUp")} (${selectedScopes.length})`}
             id={"renamer-apply"}
             onClick={() => applyRenamer(false)}
           />

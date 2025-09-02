@@ -1,0 +1,14 @@
+{
+    "image": "画像",
+    "frame": "フレーム",
+    "group": "グループ",
+    "rectangle": "長方形",
+    "ellipse": "楕円",
+    "line": "直線",
+    "polygon": "多角形",
+    "star": "星",
+    "vector": "ベクター",
+    "auto_layout_horizontal": "横 オートレイアウト",
+    "auto_layout_vertical": "縦 オートレイアウト",
+    "text": "テキスト"
+}

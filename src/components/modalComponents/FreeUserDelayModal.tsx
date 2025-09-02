@@ -4,12 +4,14 @@ import Modal from '../Modal';
 import { useTranslation } from "react-i18next";
 import FigmaButton from "../FigmaButton";
 import SubscriptionPlanBlock from "../SubscriptionPlanBlock";
+import { SvgExternalLink, SvgSkip } from "../../assets/icons";
+import SavedTimeMessage from "../SavedTimeMessage";
 
 interface FreeUserDelayModalProps {
 }
 
 const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
-  const { freeUserDelayModalConfig, setFreeUserDelayModalConfig } = useAppContext();
+  const { freeUserDelayModalConfig, setFreeUserDelayModalConfig, editorPreference } = useAppContext();
   const { t } = useTranslation(["module", "license", "term"]);
 
   //Param
@@ -56,21 +58,41 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
     <Modal show={freeUserDelayModalConfig.show} handleClose={handleCloseFreeUserDelay}>
       <div className="free-trial-modal">
         <h2>{t("license:upgradeToSkipWaiting")}</h2>
-        <div>
-          <SubscriptionPlanBlock
-            plan={"monthly"}
-            additionalClass={["subscription-block", "subscription-block-emphasize"]}
+        {/* <div>
+          <SavedTimeMessage />
+        </div> */}
+        <div className="mt-xsmall">
+        <div className="border-radius-xxxlarge padding-16 shadow-view subscription-background">
+          <h4>Time limited campaign</h4>
+          <span className="note note-large">Complete the questionnaire and get one year pro license for free!</span>
+          <div className="mt-xsmall"></div>
+          <FigmaButton
+            title={"Fill questionnaire"}
+            buttonType={"tertiary"}
+            onClick={() => { window.open("https://forms.gle/YPmM9FxmdD6aKngw7", "_blank"); }}
+            svgPosition={"right"}
+            hasTopBottomMargin={false}
+            svg={<SvgExternalLink color="var(--figma-color-text)" />}
           />
         </div>
+      </div>
         <div className="mt-xsmall">
-        <span className="note">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</span>
+          <SubscriptionPlanBlock
+            plan={"monthly"}
+            additionalClass={["subscription-background", "pro"]}
+          />
+        </div>
+        <div className="mt-xsmall flex align-items-center">
+          <span className="note mr-xxsmall">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</span>
           <FigmaButton
-              buttonType="secondary"
-              title={t("module:skip")}
-              onClick={handleProceedButtonClicked}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={true}
-              disabled={!canProceed}
+            buttonType="tertiary"
+            title={t("module:skip")}
+            onClick={handleProceedButtonClicked}
+            buttonHeight="medium"
+            hasTopBottomMargin={true}
+            disabled={!canProceed}
+            svgPosition="right"
+            svg={<SvgSkip color={canProceed ? "var(--figma-color-text)" : `var(--figma-color-text-disabled)`} />}
           />
         </div>
       </div>

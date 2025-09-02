@@ -6,11 +6,11 @@ export function reception(message: MessageResize) {
 }
 
 function resize(width: number, height: number) {
-  const minWidth = 240;
-  const minHeight = 320;
+  const minWidth = 204;
+  const minHeight = 48;
 
-  const maxWidth = minWidth * 3;
-  const maxHeight = minHeight * 2;
+  const maxWidth = 640;
+  const maxHeight = 720;
 
   const newWidth = Math.round(Math.max(minWidth, Math.min(width, maxWidth)));
   const newHeight = Math.round(Math.max(minHeight, Math.min(height, maxHeight)));
