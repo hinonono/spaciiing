@@ -3,7 +3,7 @@ import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { ExternalMessageShowNestedComponentProperties, ExternalMessageUpdateReferenceObject, MessagePropertyClipboard, PasteBehavior } from "../types/Messages/MessagePropertyClipboard";
 import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty, ReferenceObject } from "../types/PropertClipboard";
 import { checkProFeatureAccessibleForUser } from './utilFrontEnd';
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 export function propertyClipboardHandler(message: ExternalMessage, context: AppContextType) {
     if (message.mode && message.mode === "ShowExtractedProperties") {
@@ -37,7 +37,7 @@ export function setReferenceObject(isRealCall: boolean, appContext: AppContextTy
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => setReferenceObject(true, appContext), // Re-invoke with the real call
             });
             return;
@@ -65,7 +65,7 @@ export function pastePropertyToObject(
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => pastePropertyToObject(appContext, property, true, pasteBehavior), // Re-invoke with the real call
             });
             return;
@@ -95,7 +95,7 @@ export function pasteInstancePropertyToObject(
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => pasteInstancePropertyToObject(true, appContext, properties), // Re-invoke with the real call
             });
             return;

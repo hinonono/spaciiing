@@ -9,7 +9,7 @@ import {
   RenamerSupportedTargets,
   MessageRenamer,
 } from "../types/Messages/MessageRenamer";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { RenamableScopesNew } from "../module-frontend/renamerUI";
 import CYCheckbox from "../components/CYCheckbox";
 
@@ -102,7 +102,7 @@ const Renamer: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime, // You can adjust the delay time as needed
+          initialTime: pluginConfig.freeUserWaitingTime, // You can adjust the delay time as needed
           onProceed: () => applyRenamer(true), // Retry the function with `isRealCall = true`
         });
         return;

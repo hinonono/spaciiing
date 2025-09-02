@@ -10,7 +10,7 @@ import {
   MessageVirtualProfileSingleValue,
   // MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 const VirtualProfile: React.FC = () => {
@@ -32,7 +32,7 @@ const VirtualProfile: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyVirtualProfile(key, value, true), // Re-invoke with the real call
         });
         return;
@@ -56,7 +56,7 @@ const VirtualProfile: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => saveVirtualProfile(true), // Re-invoke with the real call
         });
         return;

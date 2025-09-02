@@ -4,7 +4,7 @@ import { CYStroke, CYStrokeCap } from "../types/CYStroke";
 import { Direction } from "../types/General";
 import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { CYStrokeStyle } from "../types/CYStrokeStyle";
 import { MessageSaveEditorPreference } from "../types/Messages/MessageSaveEditorPreference";
 import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
@@ -22,7 +22,7 @@ export function applyArrowCreator(
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => { applyArrowCreator(true, appContext, safeMargin, connectPointPositionPair, stroke, createAnnotationBox, direction) }, // Re-invoke with the real call
             });
             return;
@@ -116,7 +116,7 @@ export function exportArrowStyle(
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => { exportArrowStyle(appContext, true) }, // Re-invoke with the real call
             });
             return;
@@ -143,7 +143,7 @@ export async function importArrowStyle(
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => { importArrowStyle(event, appContext, true) }, // Re-invoke with the real call
             });
             return;

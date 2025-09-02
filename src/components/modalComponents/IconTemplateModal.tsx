@@ -13,7 +13,7 @@ import {
   MessageShortcutGenerateIconTemplate,
 } from "../../types/Messages/MessageShortcut";
 import SegmentedControl from "../SegmentedControl";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 
 interface IconTemplateModalProps {
   show: boolean;
@@ -86,7 +86,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyGenerateIconTemplate(action, true),
         });
         return;

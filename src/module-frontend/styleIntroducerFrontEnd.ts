@@ -3,7 +3,7 @@ import { StyleListItemFrontEnd, NestedStructure, StyleSelection } from "../types
 import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { MessageStyleIntroducer, StyleForm, StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { ExternalMessageUpdatePaintStyleList as ExternalMessageUpdateStyleList } from "../types/Messages/MessageStyleIntroducer";
-import info from "../info.json";
+import info from "../pluginConfig.json";
 import { checkProFeatureAccessibleForUser } from './utilFrontEnd';
 
 export const buildNestedStructure = (

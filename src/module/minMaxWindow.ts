@@ -1,5 +1,5 @@
 import { MessageMinMaxWindow } from './../types/Messages/MessageMinMaxWindow';
-import info from "../info.json";
+import info from "../pluginConfig.json";
 
 export function reception(message: MessageMinMaxWindow) {
   const { toggle } = message;

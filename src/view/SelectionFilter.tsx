@@ -9,7 +9,7 @@ import {
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { FilterableScopesNew } from "../module-frontend/selectionFilterUI";
 
 const SelectionFilter: React.FC = () => {
@@ -93,7 +93,7 @@ const SelectionFilter: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applySelectionFilter(true), // Re-invoke with the real call
         });
         return;

@@ -1,6 +1,6 @@
 import { AppContextType } from "../AppProvider";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { MessageSpaciiing, SpacingMode } from "../types/Messages/MessageSpaciiing";
 
 export function applySpacing(
@@ -17,7 +17,7 @@ export function applySpacing(
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => applySpacing(
                     appContext,
                     true,

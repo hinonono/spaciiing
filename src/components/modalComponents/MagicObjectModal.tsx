@@ -9,7 +9,7 @@ import {
   ShortcutAction,
   MessageShortcutUpdateMagicalObjectSingle,
 } from "../../types/Messages/MessageShortcut";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 import { SvgNote } from "../../assets/icons";
 import SvgTag from "../../assets/icons/SvgTag";
 import SvgSection from "../../assets/icons/SvgSection";
@@ -40,7 +40,7 @@ const MagicObjectModal: React.FC<MagicObjectModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyMemorize(action, member, true),
         });
         return;

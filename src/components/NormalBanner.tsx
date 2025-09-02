@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
-import info from "../info.json"
+import info from "../pluginConfig.json"
 import FigmaButton from "./FigmaButton";
 
 interface NormalBannerProps { }
