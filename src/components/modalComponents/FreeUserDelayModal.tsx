@@ -63,8 +63,8 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
         </div> */}
         <div className="mt-xsmall">
         <div className="border-radius-xxxlarge padding-16 shadow-view subscription-background">
-          <h4>Time limited campaign</h4>
-          <span className="note note-large">Complete the questionnaire and get one year pro license for free!</span>
+          <h4>👋 Get 1-year PRO for free</h4>
+          <span className="note note-large">I am conducting a brief questionnaire to better understand your needs. Complete it to receive a free one-year Pro license!</span>
           <div className="mt-xsmall"></div>
           <FigmaButton
             title={"Fill questionnaire"}
