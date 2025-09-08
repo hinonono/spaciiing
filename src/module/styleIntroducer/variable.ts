@@ -192,12 +192,27 @@ async function createGenericItem<T>(
                 aliasName.push(undefined);
                 aliasVariableIds.push(undefined);
             } else {
-                const aliasVariable = localVariables.find((v) => v.id === value.id);
-                if (!aliasVariable) {
-                    throw new Error("Termination due to aliasVariable is null.");
+                let aliasVariable: { name: string, id: string | undefined, key: string | undefined }
+
+                const findLocalResult = localVariables.find((v) => v.id === value.id);
+                const findLibraryResult = libraryVariables.find((v) => v.key === variable.key);
+
+                if (findLocalResult) {
+                    // 尋找指定的variables連結的是否是本地variables
+                    aliasVariable = { name: findLocalResult.name, id: findLocalResult.id, key: undefined };
+
+                    aliasName.push(aliasVariable.name);
+                    aliasVariableIds.push(aliasVariable.id);
+
+                } else if (findLibraryResult) {
+                    // 尋找指定的variables連結的是否是library variables
+                    aliasVariable = { name: findLibraryResult.name, id: undefined, key: findLibraryResult.key };
+
+                    aliasName.push(aliasVariable.name);
+                    aliasVariableIds.push(aliasVariable.key);
+                } else {
+                    throw new Error("Termination due to aliasVariable being null or not found in both local and library variables.");
                 }
-                aliasName.push(aliasVariable.name);
-                aliasVariableIds.push(aliasVariable.id);
             }
 
             const resolvedValue = await resolveValueFn(value);
