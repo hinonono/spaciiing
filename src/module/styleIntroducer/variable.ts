@@ -26,14 +26,10 @@ export async function applyStyleIntroducer(
     const selectedVariables = await getSelectedVariables(scopes, localVariables);
     const modeNames = await getModeNames(selectedVariables);
 
-    const libraryVariables = await getLibraryVariables();
-
     const explanationItems = await createExplanationItemsHandler(
         form,
         styleMode,
         semanticTokens.fontFamily.regular,
-        libraryVariables,
-        localVariables,
         selectedVariables,
         modeNames,
     )
@@ -124,8 +120,6 @@ async function createExplanationItemsHandler(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    libraryVariables: LibraryVariable[],
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
 ): Promise<FrameNode[]> {
@@ -134,8 +128,6 @@ async function createExplanationItemsHandler(
             form,
             styleMode,
             fontName,
-            libraryVariables,
-            localVariables,
             selectedVariables,
             modeNames,
         );
@@ -146,8 +138,6 @@ async function createExplanationItemsHandler(
             form,
             styleMode,
             fontName,
-            libraryVariables,
-            localVariables,
             selectedVariables,
             modeNames,
         );
@@ -158,8 +148,6 @@ async function createExplanationItemsHandler(
             form,
             styleMode,
             fontName,
-            libraryVariables,
-            localVariables,
             selectedVariables,
             modeNames,
         );
@@ -176,13 +164,15 @@ async function createExplanationItemsHandler(
  * @param library Library variables
  * @param target The id you want to find.
  */
-function findCorrespondVariableInLocalOrLibrary(
-    local: Variable[],
-    library: LibraryVariable[],
+async function findCorrespondVariableInLocalOrLibrary(
+    styleMode: StyleMode,
     target: string
-): CYAliasVariable {
-    const findLocal = local.find((v) => v.id === target);
-    const findLibrary = library.find((v) => target.includes(v.key));
+): Promise<CYAliasVariable> {
+    const localVariables = await getLocalVariables(styleMode);
+    const libraryVariables = await getLibraryVariables();
+
+    const findLocal = localVariables.find((v) => v.id === target);
+    const findLibrary = libraryVariables.find((v) => target.includes(v.key));
     // 在library variables裡頭叫做key，但內容大致上等同於id，可是還多了一些奇怪的字，所以用「包含」邏輯來找
 
     if (findLocal) {
@@ -198,8 +188,6 @@ async function createGenericItem<T>(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    libraryVariables: LibraryVariable[],
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
     resolveValueFn: (value: VariableValue) => Promise<T | null>,
@@ -218,7 +206,7 @@ async function createGenericItem<T>(
                 // 如果Varaible的值並非索引其他Variable，設定為null
                 cyAliasVariables.push(null);
             } else {
-                const findResult = findCorrespondVariableInLocalOrLibrary(localVariables, libraryVariables, value.id);
+                const findResult = await findCorrespondVariableInLocalOrLibrary(styleMode, value.id);
                 cyAliasVariables.push(findResult);
             }
 
@@ -279,8 +267,6 @@ async function createItemColor(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    libraryVariables: LibraryVariable[],
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
 ): Promise<FrameNode[]> {
@@ -288,8 +274,6 @@ async function createItemColor(
         form,
         styleMode,
         fontName,
-        libraryVariables,
-        localVariables,
         selectedVariables,
         modeNames,
         CatalogueKit.valueResolver.resolveRGBA,
@@ -302,8 +286,6 @@ async function createItemNumber(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    libraryVariables: LibraryVariable[],
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
 ): Promise<FrameNode[]> {
@@ -311,8 +293,6 @@ async function createItemNumber(
         form,
         styleMode,
         fontName,
-        libraryVariables,
-        localVariables,
         selectedVariables,
         modeNames,
         CatalogueKit.valueResolver.resolveNum,
@@ -325,8 +305,6 @@ async function createItemString(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    libraryVariables: LibraryVariable[],
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
 ): Promise<FrameNode[]> {
@@ -334,8 +312,6 @@ async function createItemString(
         form,
         styleMode,
         fontName,
-        libraryVariables,
-        localVariables,
         selectedVariables,
         modeNames,
         CatalogueKit.valueResolver.resolveString,
