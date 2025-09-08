@@ -1,4 +1,5 @@
 import { MessageMinMaxWindow } from './../types/Messages/MessageMinMaxWindow';
+import info from "../pluginConfig.json";
 
 export function reception(message: MessageMinMaxWindow) {
   const { toggle } = message;
@@ -6,10 +7,12 @@ export function reception(message: MessageMinMaxWindow) {
 }
 
 function toggleWindow(shouldMinimize: boolean) {
+  const compactWindowSize = info.windowSize.compact;
+  const defaultWindowSize = info.windowSize.default;
 
   if (shouldMinimize) {
-    figma.ui.resize(204, 48);
+    figma.ui.resize(compactWindowSize.width, compactWindowSize.height);
   } else {
-    figma.ui.resize(360, 480);
+    figma.ui.resize(defaultWindowSize.width, defaultWindowSize.height);
   }
 }

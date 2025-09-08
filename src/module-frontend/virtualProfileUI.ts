@@ -3,7 +3,7 @@ import { AppContextType } from "../AppProvider";
 import { VirtualProfileChild, VirtualProfileGroup } from "../types/VirtualProfile";
 import { v4 as uuidv4 } from "uuid";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 export function toggleAll(
     appContext: AppContextType,
@@ -113,7 +113,7 @@ export function addTitleRow(
         if (!checkProFeatureAccessibleForUser(licenseManagement)) {
             setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => addTitleRow(appContext, true),
             });
             return;
@@ -142,7 +142,7 @@ export function addRecordToLastTitle(
         if (!checkProFeatureAccessibleForUser(licenseManagement)) {
             setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+                initialTime: pluginConfig.freeUserWaitingTime, // Adjust delay time as needed
                 onProceed: () => addRecordToLastTitle(appContext, true),
             });
             return;
@@ -181,7 +181,7 @@ export function deleteRow(
         if (!checkProFeatureAccessibleForUser(licenseManagement)) {
             setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+                initialTime: pluginConfig.freeUserWaitingTime, // Adjust delay time as needed
                 onProceed: () => deleteRow(appContext, rowId, handleClose, true),
             });
             return;
@@ -208,7 +208,7 @@ export function deleteChild(
         if (!checkProFeatureAccessibleForUser(licenseManagement)) {
             setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => deleteChild(appContext, rowId, childId, handleClose, true),
             });
             return;
@@ -243,7 +243,7 @@ export function addChildToRow(
         if (!checkProFeatureAccessibleForUser(licenseManagement)) {
             setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+                initialTime: pluginConfig.freeUserWaitingTime, // Adjust delay time as needed
                 onProceed: () => addChildToRow(appContext, rowId, handleClose, true),
             });
             return;
@@ -283,7 +283,7 @@ export function duplicateTitleRow(
         if (!checkProFeatureAccessibleForUser(licenseManagement)) {
             setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => duplicateTitleRow(appContext, rowId, handleClose, true),
             });
             return;
@@ -327,7 +327,7 @@ export function duplicateContentRow(
         if (!checkProFeatureAccessibleForUser(licenseManagement)) {
             setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime, // Adjust delay time as needed
+                initialTime: pluginConfig.freeUserWaitingTime, // Adjust delay time as needed
                 onProceed: () => duplicateContentRow(appContext, rowId, childId, handleClose, true),
             });
             return;

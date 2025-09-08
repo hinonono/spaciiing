@@ -8,7 +8,7 @@ import { checkProFeatureAccessibleForUser, generateUUID } from "../../module-fro
 import StrokeEditorView from "../StrokeEditorView";
 import { CYStroke } from "../../types/CYStroke";
 import { MessageSaveEditorPreference } from "../../types/Messages/MessageSaveEditorPreference";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 import { MessageSaveSyncedResource } from "../../types/Messages/MessageSaveSyncedResource";
 
 interface StrokeEditModalProps {
@@ -86,7 +86,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => saveNewStrokeStyle(true),
         });
         return;
@@ -106,7 +106,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => saveEditedStrokeStyle(true),
         });
         return;

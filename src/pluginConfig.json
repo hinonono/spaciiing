@@ -1,7 +1,8 @@
 {
   "name": "Spaciiing",
-  "version": "37",
+  "version": "38",
   "whatsNew": [
+    "New shortcuts: create section",
     "Bug fixes",
     "Overall enhancements"
   ],
@@ -12,10 +13,24 @@
   },
   "featureFlag": {
     "propertyClipboardSupportAutoLayout": false,
-    "enableSpaciiingNewInterface": false,
+    "enableSpaciiingNewInterface": true,
     "localizedCatalogue": false
   },
   "freeUserWaitingTime": 30,
+  "windowSize": {
+    "compact": {
+      "width": 204,
+      "height": 48
+    },
+    "default": {
+      "width": 360,
+      "height": 490
+    },
+    "expanded": {
+      "width": 640,
+      "height": 720
+    }
+  },
   "clickTier": [
     {
       "tier": "BRONZE",

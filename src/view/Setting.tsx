@@ -4,7 +4,7 @@ import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
-import info from "../info.json";
+import info from "../pluginConfig.json";
 import { SvgEraser, SvgKey } from "../assets/icons";
 import SavedTimeMessage from "../components/SavedTimeMessage";
 

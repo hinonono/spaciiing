@@ -1,7 +1,7 @@
 export const relaunchCommand = {
     open: {
         name: "open",
-        desc: "All in one edit tool"
+        desc: "All in one editing tool"
     },
     updateArrowsPosition: {
         name: "updateArrowsPosition",

@@ -1,4 +1,5 @@
 // 屬性
+import pluginConfig from "./pluginConfig.json";
 import { Message } from "./types/Messages/Message";
 
 import { MessageResize } from "./types/Messages/MessageResize";
@@ -43,7 +44,7 @@ import { utils } from "./module/utils";
 import { MessageMinMaxWindow } from "./types/Messages/MessageMinMaxWindow";
 
 figma.showUI(__html__, { themeColors: true });
-figma.ui.resize(360, 480);
+figma.ui.resize(pluginConfig.windowSize.default.width, pluginConfig.windowSize.default.height);
 
 figma.ui.onmessage = (message: Message) => {
   // console.log("plugin.ts", message);

@@ -21,7 +21,7 @@ import {
   isStringNumber,
 } from "../module-frontend/utilFrontEnd";
 import SegmentedControl from "../components/SegmentedControl";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 interface AspectRatioHelperProps { }
 type AspectRatioOptions =
@@ -133,7 +133,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyAspectRatioHandler(widthRatio, heightRatio, isCustom, true), // Retry with isRealCall = true
         });
         return;

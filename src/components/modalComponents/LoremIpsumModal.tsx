@@ -10,7 +10,7 @@ import {
   MessageLoremGenerator,
 } from "../../types/Messages/MessageLoremGenerator";
 import SegmentedControl from "../SegmentedControl";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 
 interface LoremIpsumModalProps {
   show: boolean;
@@ -39,7 +39,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => generateLorem(length, true),
         });
         return;

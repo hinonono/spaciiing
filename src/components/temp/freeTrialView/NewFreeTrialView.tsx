@@ -17,18 +17,19 @@ const NewFreeTrialView: React.FC<NewFreeTrialViewProps> = () => {
     <div className="free-trial-modal">
       <h2>{t("license:upgradeToSkipWaiting")}</h2>
       {/* Plan block */}
-      <div className="mt-xsmall">
+      {/* <div className="mt-xsmall">
         <SavedTimeMessage />
-      </div>
+      </div> */}
       <div className="mt-xsmall">
         <SubscriptionPlanBlock
           plan={"monthly"}
           additionalClass={["subscription-background", "pro"]}
         />
       </div>
-      <span className="note mt-xxsmall">{t("license:noHiddenFees")}</span>
       <div id="free-trial-faq" className="mt-small">
         <h3>{t("license:freeTrialWorks")}</h3>
+        <span className="note mt-xxsmall">{t("license:noHiddenFees")}</span>
+        <div className="mt-xxsmall"></div>
         <FreeTrialGraph />
         <div className="accordion">
           <details className="mt-xsmall">

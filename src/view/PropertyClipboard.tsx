@@ -8,7 +8,7 @@ import {
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
 import { pasteInstancePropertyToObject, pastePropertyToObject, PropertyClipboardCategory, propertyClipboardOptions, setReferenceObject, } from "../module-frontend/propertyClipboardFrontEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 interface PropertyClipboardProps { }
 
@@ -192,7 +192,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
               return null;
             }
 
-            if (key === "autoLayout" && info.featureFlag.propertyClipboardSupportAutoLayout === false) {
+            if (key === "autoLayout" && pluginConfig.featureFlag.propertyClipboardSupportAutoLayout === false) {
               return null;
             }
 

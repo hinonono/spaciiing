@@ -6,7 +6,7 @@ import FigmaButton from "../FigmaButton";
 import SectionTitle from "../SectionTitle";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MessageUnifyText } from "../../types/Messages/MessageShortcut";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 
 interface UnifyTextModalProps {
   show: boolean;
@@ -32,7 +32,7 @@ const UnifyTextModal: React.FC<UnifyTextModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => unifyText(true),
         });
         return;

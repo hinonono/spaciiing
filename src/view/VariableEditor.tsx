@@ -10,7 +10,7 @@ import {
   MessageGetAvailableCollectionMode,
   MessageVariableEditorExecuteCode,
 } from "../types/Messages/MessageVariableEditor";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 interface KeyAndScope {
   nameKey: string;
@@ -208,7 +208,7 @@ const VariableEditor: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => executeCode(true), // Retry with isRealCall = true
         });
         return;

@@ -3,7 +3,7 @@ import { AppContextType } from "../AppProvider";
 import { Message } from "../types/Messages/Message";
 import { MessageShortcut, MessageShortcutNumbering, NumberingForm } from "../types/Messages/MessageShortcut";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { ReactHTMLElement } from "react";
 import { Direction } from "../types/General";
 
@@ -27,7 +27,7 @@ export function createAutoLayoutIndividually(appContext: AppContextType, isRealC
     if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
       appContext.setFreeUserDelayModalConfig({
         show: true,
-        initialTime: info.freeUserWaitingTime,
+        initialTime: pluginConfig.freeUserWaitingTime,
         onProceed: () => createAutoLayoutIndividually(appContext, true), // Retry with isRealCall = true
       });
       return;
@@ -53,7 +53,7 @@ export const applyNumbering = (appContext: AppContextType, direction: Direction,
     if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
       appContext.setFreeUserDelayModalConfig({
         show: true,
-        initialTime: info.freeUserWaitingTime,
+        initialTime: pluginConfig.freeUserWaitingTime,
         onProceed: () => applyNumbering(appContext, direction, form, startfrom, true),
       });
       return;
@@ -77,7 +77,7 @@ export const applySpiltText = (appContext: AppContextType, spiltType: SpiltType,
     if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
       appContext.setFreeUserDelayModalConfig({
         show: true,
-        initialTime: info.freeUserWaitingTime,
+        initialTime: pluginConfig.freeUserWaitingTime,
         onProceed: () => applySpiltText(appContext, spiltType, spiltSymbol, true),
       });
       return;

@@ -10,7 +10,7 @@ const FreeTrialGraph: React.FC<FreeTrialGraphProps> = () => {
     <div className="free-trial-graph">
       <div className="vertical-step-container">
         <div className="step">
-          <div className="step-icon">🔓</div>
+          <div className="step-icon">✅</div>
           <div className="step-content">
             <h4>{t("license:today")}</h4>
             <p>{t("license:todayMessage")}</p>
@@ -24,7 +24,7 @@ const FreeTrialGraph: React.FC<FreeTrialGraphProps> = () => {
           </div>
         </div>
         <div className="step">
-          <div className="step-icon">⭐</div>
+          <div className="step-icon">💰</div>
           <div className="step-content">
             <h4>{t("license:daySeven")}</h4>
             <p>{t("license:daySevenMessage")}</p>

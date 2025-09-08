@@ -9,7 +9,7 @@ import {
 import { EditorPreference } from "./types/EditorPreference";
 import { FreeUserDelayModalConfig } from "./types/FreeUserDelayModalConfig";
 import { EditorType } from "./types/EditorType";
-import * as info from "./info.json";
+import * as pluginConfig from "./pluginConfig.json";
 import { ComponentPropertiesFrontEnd, ReferenceObject } from "./types/PropertClipboard";
 import { defaultEp } from "./assets/const/editorPreference";
 import { defaultRuntimeSyncedResources } from "./assets/const/runtimeSyncedResource";
@@ -104,7 +104,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   // 訂閱呼籲用
   const [showCTSubscribe, setShowCTSubscribe] = useState(false);
   const [showActivateModal, setShowActivateModal] = useState(false);
-  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: info.freeUserWaitingTime, onProceed: () => { } });
+  const [freeUserDelayModalConfig, setFreeUserDelayModalConfig] = useState<FreeUserDelayModalConfig>({ show: false, initialTime: pluginConfig.freeUserWaitingTime, onProceed: () => { } });
   const [isVerifying, setIsVerifying] = useState(true);
 
   // V20：Editor Preference整合

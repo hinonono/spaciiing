@@ -30,7 +30,7 @@ import {
   resolveContextMenuPos,
 } from "../module-frontend/utilFrontEnd";
 import { SupportedLangCode } from "../types/Localization";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { addChildToRow, addRecordToLastTitle, addTitleRow, deleteChild, deleteRow, duplicateContentRow, duplicateTitleRow, onDragEnd, toggleAll } from "../module-frontend/virtualProfileUI";
 import { ButtonIcon24 } from "../components";
 
@@ -321,7 +321,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => createNewGroupFromJsonData(category, true),
         });
         return;

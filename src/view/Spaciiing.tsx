@@ -8,7 +8,7 @@ import { SpacingMode, } from "../types/Messages/MessageSpaciiing";
 import SegmentedControl from "../components/SegmentedControl";
 import CYCheckbox from "../components/CYCheckbox";
 import { applySpacing } from "../module-frontend/spaciiingFrontEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 const SpacingValue: {
   nameKey: string;
@@ -183,7 +183,7 @@ const SpaciiingView: React.FC = () => {
             </div>
           </div>
         )}
-        {info.featureFlag.enableSpaciiingNewInterface === true ?
+        {pluginConfig.featureFlag.enableSpaciiingNewInterface === true ?
           <>
             <div className="mt-xxsmall">
               <SectionTitle title={t("module:spacingValue")} />

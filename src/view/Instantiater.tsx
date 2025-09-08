@@ -14,7 +14,7 @@ import {
   MessageInstantiater,
 } from "../types/Messages/MessageInstantiater";
 import SegmentedControl from "../components/SegmentedControl";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
@@ -106,7 +106,7 @@ const Instantiater: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyInstantiater(type, true),
         });
         return;

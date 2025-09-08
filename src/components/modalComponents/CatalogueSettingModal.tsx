@@ -5,7 +5,7 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { MessageShortcut } from "../../types/Messages/MessageShortcut";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 import { MessageSaveSyncedResource } from "../../types/Messages/MessageSaveSyncedResource";
 
 interface CatalogueSettingModalProps {
@@ -36,7 +36,7 @@ const CatalogueSettingModal: React.FC<CatalogueSettingModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => updateExampleFileUrl(true),
         });
         return;

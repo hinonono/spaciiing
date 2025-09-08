@@ -4,7 +4,7 @@ import FigmaButton from "../FigmaButton";
 import Modal from "../Modal";
 import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 import { MessageCreateSection } from "../../types/Messages/MessageShortcut";
 import SegmentedControl from "../SegmentedControl";
 import {
@@ -32,7 +32,7 @@ const CreateSectionModal: React.FC<CreateSectionModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => createSection(length, true),
         });
         return;

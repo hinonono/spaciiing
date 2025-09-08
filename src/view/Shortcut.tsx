@@ -20,7 +20,7 @@ import {
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
 import { createAutoLayoutIndividually, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { SvgNote } from "../assets/icons";
 import SvgTag from "../assets/icons/SvgTag";
 import SvgSection from "../assets/icons/SvgSection";
@@ -87,7 +87,7 @@ const Shortcut: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
         appContext.setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyShortcut(action, true), // Retry with isRealCall = true
         });
         return;

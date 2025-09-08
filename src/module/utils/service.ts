@@ -1,6 +1,6 @@
 import { utils } from ".";
 import { EditorPreference } from "../../types/EditorPreference";
-import info from "../../info.json";
+import info from "../../pluginConfig.json";
 
 export function incrementSavedClicks(incrementBy: number, incrementTime: boolean) {
     const ep = utils.data.readEditorPreference()
