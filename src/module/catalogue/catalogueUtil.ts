@@ -1,5 +1,7 @@
 import { StyleListItemFrontEnd } from "../../types/General";
 import { StyleMode, StyleModeForFigmaStyle, StyleModeForFigmaVariable } from "../../types/Messages/MessageStyleIntroducer";
+import { isRGBAType, isRGBType } from "../typeChecking";
+import { utils } from "../utils";
 
 // Type guard function for StyleModeForFigmaStyle
 export function isStyleModeForFigmaStyle(
@@ -22,7 +24,26 @@ export async function getStyleList(
     switch (styleType) {
         case "COLOR":
             styleList = await figma.getLocalPaintStylesAsync();
-            break;
+            return styleList.map((style) => {
+                const firstPaint = style.paints?.[0];
+                const isSolid = firstPaint?.type === "SOLID";
+
+                if (isSolid) {
+                    const color = utils.color.rgbToHex(firstPaint.color.r, firstPaint.color.g, firstPaint.color.b, true);
+                    return {
+                        id: style.id,
+                        name: style.name,
+                        color: color, // or null if you prefer
+                    };
+                } else {
+                    return {
+                        id: style.id,
+                        name: style.name,
+                    };
+                }
+
+            });
+
         case "TEXT":
             styleList = await figma.getLocalTextStylesAsync();
             break;
@@ -46,6 +67,25 @@ export async function getVariableList(
 
     if (styleType === "COLOR") {
         variableList = await figma.variables.getLocalVariablesAsync("COLOR");
+
+        return variableList.map((variable) => {
+            const firstValue = Object.entries(variable.valuesByMode)[0]?.[1];
+            let colorValue: string | undefined = undefined;
+
+            if (isRGBType(firstValue)) {
+                colorValue = utils.color.rgbToHex(firstValue.r, firstValue.g, firstValue.b, true);
+            } else if (isRGBAType(firstValue)) {
+                colorValue = utils.color.rgbToHexWithTransparency(firstValue.r, firstValue.g, firstValue.b, firstValue.a);
+            }
+
+            return {
+                id: variable.id,
+                name: variable.name,
+                color: colorValue, // will be undefined if not RGB(A)
+            };
+        });
+
+
     } else if (styleType === "FLOAT") {
         variableList = await figma.variables.getLocalVariablesAsync("FLOAT");
     } else if (styleType === "STRING") {

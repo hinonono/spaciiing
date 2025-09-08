@@ -8,3 +8,6 @@ export { default as ActivateLicenseModal } from "./ActivateLicenseModal";
 export { default as CatalogueSettingModal } from "./CatalogueSettingModal";
 export { default as FreeUserDelayModal } from "./FreeUserDelayModal";
 export { default as StrokeEditModal } from "./StrokeEditModal"
+export { default as NumberingModal } from "./NumberingModal";
+export { default as SpiltTextModal } from "./SpiltTextModal"
+export { default as CreateSectionModal } from "./CreateSectionModal";

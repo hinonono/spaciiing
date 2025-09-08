@@ -1,5 +1,7 @@
+import { Direction } from "../types/General";
 import { MessageSpaciiing } from "../types/Messages/MessageSpaciiing";
-import * as util from "./util";
+
+import { utils } from "./utils";
 
 function compareWithAxis(axis: "x" | "y") {
   return (a: SceneNode, b: SceneNode) => {
@@ -14,7 +16,7 @@ function compareWithAxis(axis: "x" | "y") {
 }
 
 export function useSpacing(message: MessageSpaciiing) {
-  const selectedLayers = util.getCurrentSelection();
+  const selectedLayers = utils.editor.getCurrentSelection();
 
   // Check if message.spacing is a valid number
   const spacing = Number(message.spacing);
@@ -59,7 +61,7 @@ export function useSpacing(message: MessageSpaciiing) {
 export function applySpacingToLayers(
   layers: SceneNode[],
   spacing: number,
-  mode: "vertical" | "horizontal",
+  mode: Direction,
   addAutolayout: boolean,
   returnFinalFrame: boolean = false,
   column?: number
@@ -138,13 +140,13 @@ export function applySpacingToLayers(
 
       const offset = isVerticalMode
         ? currentLayerBounds.y +
-          currentLayerBounds.height +
-          spacing -
-          nextLayerBounds.y
+        currentLayerBounds.height +
+        spacing -
+        nextLayerBounds.y
         : currentLayerBounds.x +
-          currentLayerBounds.width +
-          spacing -
-          nextLayerBounds.x;
+        currentLayerBounds.width +
+        spacing -
+        nextLayerBounds.x;
 
       if (isVerticalMode) {
         nextLayer.y += offset;
@@ -155,11 +157,11 @@ export function applySpacingToLayers(
   }
 
   // Calculate the bounding box dimensions of the selected layers
-  const selectionBoundingBox = util.getBoundingBox(layers);
-  const selectionPosition = util.getSelectionPosition(layers);
+  const selectionBoundingBox = utils.node.getBoundingBox(layers);
+  const selectionPosition = utils.editor.getSelectionPosition(layers);
 
   if (addAutolayout) {
-    const autolayoutFrame = util.createAutolayoutFrame(
+    const autolayoutFrame = utils.node.createAutolayoutFrame(
       layers,
       spacing,
       isVerticalMode ? "VERTICAL" : "HORIZONTAL"

@@ -7,8 +7,8 @@ import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import {
   PasteBehavior,
 } from "../types/Messages/MessagePropertyClipboard";
-import * as info from "../info.json";
 import { pasteInstancePropertyToObject, pastePropertyToObject, PropertyClipboardCategory, propertyClipboardOptions, setReferenceObject, } from "../module-frontend/propertyClipboardFrontEnd";
+import * as pluginConfig from "../pluginConfig.json";
 
 interface PropertyClipboardProps { }
 
@@ -126,7 +126,6 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       <TitleBar
         title={t("module:modulePropertyClipboard")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         {/* 已記憶 */}
@@ -135,7 +134,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           {appContext.referenceObject.id != "" ? (
             <div className="variable flex flex-justify-space-between align-items-center">
               <span className="text-color-primary">
-                {`${appContext.referenceObject.name} (ID: ${appContext.referenceObject.id})`}
+                {`${appContext.referenceObject.name} (${appContext.referenceObject.layerType}, ID: ${appContext.referenceObject.id})`}
               </span>
               <FigmaButton
                 buttonType="tertiary"
@@ -147,7 +146,7 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             </div>
           ) : (
             <div className="variable flex flex-justify-space-between align-items-center">
-              <span className="text-color-secondary">
+              <span className="text-color-secondary mr-xxxsmall">
                 {t("module:selectLayerAsReference")}
               </span>
               <FigmaButton
@@ -188,6 +187,21 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
             </div>
           }
           {Object.entries(propertyClipboardOptions).map(([key, group]) => {
+            // Skip rendering "text" group if the reference layer is not of type TEXT
+            if (key === "typography" && appContext.referenceObject.layerType !== "TEXT") {
+              return null;
+            }
+
+            if (key === "autoLayout" && pluginConfig.featureFlag.propertyClipboardSupportAutoLayout === false) {
+              return null;
+            }
+
+            // if (key === "autoLayout" &&
+            //   appContext.referenceObject.layerType !== "FRAME"
+            // ) {
+            //   return null;
+            // }
+
             const castedGroup = group as PropertyClipboardCategory;
 
             return (

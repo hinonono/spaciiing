@@ -16,9 +16,11 @@
     ],
     "reasoning": "CSS loading and license validation."
   },
+  "permissions": ["currentuser"],
   "relaunchButtons": [
     {"command": "open", "name": "Open Spaciiing"},
     {"command": "updateCatalogueDesc", "name": "Update description"},
-    {"command": "drawArrows", "name": "Draw arrows"}
+    {"command": "drawArrows", "name": "Draw arrows"},
+    {"command": "updateArrowsPosition", "name": "Update arrows position", "multipleSelection": true}
   ]
 }

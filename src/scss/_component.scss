@@ -1,3 +1,4 @@
+@import "./components/mainWindow";
 @import "./components/element-default";
 @import "./components/input";
 @import "./components/segmented-control";
@@ -24,185 +25,23 @@
 @import "./components/textarea";
 @import "./components/section-title";
 @import "./components/color-selector";
-@import "./components/accordion";
-
-h2 {
-    font-size: 1.4rem;
-}
-
-a {
-    color: var(--figma-color-text-brand)
-}
-
-.boder-none {
-    border: none;
-}
-
-.border-radius-none {
-    border-radius: 0;
-}
-
-
-
-.margin-0 {
-    margin: 0;
-}
-
-.bg-color-secondary {
-    background-color: var(--figma-color-bg-secondary);
-}
-
-
-
-
-
-
-
-.note {
-    font-size: var(--font-size-xsmall);
-    color: var(--figma-color-text-secondary);
-    display: block;
-
-    &-xlarge {
-        font-size: var(--font-size-xlarge);
-    }
-
-    &.error {
-        color: var(--figma-color-text-danger);
-    }
-
-    &.success {
-        color: var(--figma-color-text-success);
-    }
-
-    a {
-        color: var(--figma-color-text-secondary);
-    }
-}
-
-
-
-.padding-16 {
-    padding: 16px;
-}
-
-.border-radius-large {
-    border-radius: var(--cy-border-radius-large);
-}
-
-
-
-.banner {
-    background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
-    padding: 0rem 1rem;
-    min-height: 40px;
-
-    &--development-mode {
-        background: #a0ff41;
-        color: rgb(0, 0, 0);
-        text-align: center;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    button {
-        width: fit-content;
-    }
-
-    .message-primary {
-        font-size: 1rem;
-        font-weight: 600;
-    }
-
-    .message-secondary {
-        color: rgba($color: #000000, $alpha: 0.6)
-    }
-
-    .time-left {
-        margin-left: 4px;
-    }
-
-    .note {
-        font-size: 9px;
-    }
-}
-
-.dragHandle {
-    padding: 8px;
-    cursor: grab;
-    color: rgb(0, 0, 0, 0.5);
-}
-
-
-.arrowIcon {
-    cursor: pointer;
-    transition: transform 0.3s ease;
-
-    &.collapsed {
-        transform: rotate(0deg);
-    }
-
-    &.expanded {
-        transform: rotate(90deg);
-    }
-}
-
-.virtual-profile-toolbar {
-    position: sticky;
-    top: 0;
-    background-color: var(--figma-color-bg);
-    z-index: 3;
-}
-
-.color-thumbnail {
-    &-rounded {
-        border-radius: 999px;
-    }
-
-    &-square {
-        border-radius: var(--cy-border-radius-small);
-    }
-}
-
-.list-style-none {
-    list-style: none;
-    padding-inline-start: 0;
-}
-
-.width-auto {
-    width: auto;
-}
-
-.free-trial-modal {
-    .cta-message {
-        font-size: 14px;
-    }
-}
-
-.about-spaciiing {
-    display: grid;
-    // grid-template-columns: repeat(1, 1fr);
-    // grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 0.4rem;
-    grid-row-gap: 0.4rem;
-
-    // &>.block1 {
-    //     grid-area: 1 / 1 / 2 / 2;
-    // }
-
-    // &>.block2 {
-    //     grid-area: 1 / 2 / 2 / 3;
-    // }
-
-    // &>.block3 {
-    //     grid-area: 2 / 1 / 3 / 3;
-    // }
-}
-
-.property-clipboard-header {
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-    align-items: center;
-}
+@import "./components/spinner";
+@import "./components/display";
+@import "./components/width-and-height";
+@import "./components/icon";
+@import "./components/font-size";
+@import "./components/indent";
+@import "./components/loader";
+@import "./components/radio-group";
+@import "./components/grid";
+@import "./components/modal";
+@import "./components/scroll-bar";
+@import "./components/monaco-code-editor";
+@import "./components/margin";
+@import "./components/app-general";
+@import "./components/border-radius";
+@import "./components/bg";
+@import "./components/banner";
+@import "./components/note";
+@import "./components/chip";
+@import "./components/title-bar";

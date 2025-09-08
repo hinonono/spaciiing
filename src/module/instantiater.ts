@@ -1,6 +1,6 @@
-import * as util from "./util";
 import * as colors from "../assets/colors";
 import iosTypographyLargeData from "../assets/typography/iosTypographyLarge.json";
+import { utils } from "./utils";
 
 import {
   ColorCollection,
@@ -49,6 +49,7 @@ import {
   InstantiaterTarget,
   MessageInstantiater,
 } from "../types/Messages/MessageInstantiater";
+import { semanticTokens } from "./tokens";
 
 const iosSystemColors: ColorCollection = colors.iosSystemColorsData;
 const iosSystemGrayColors: ColorCollection = colors.iosSystemGrayColorsData;
@@ -751,7 +752,7 @@ export function instantiateTarget(message: MessageInstantiater) {
           throw new Error("newCollectionName is required");
         }
 
-        if (util.isNumberCollection(collectionToBeUse)) {
+        if (utils.typeCheck.isNumberCollection(collectionToBeUse)) {
           // 傳回的collection是NumberCollection，生成Number Variable
           generateNumberVariable(
             collectionToBeUse,
@@ -886,11 +887,11 @@ async function generateColorVariable(
     // Set the values for light and dark modes
     variable.setValueForMode(
       lightModeId,
-      util.convertColorRange(member.color.light)
+      utils.color.convertColorRange(member.color.light)
     );
     variable.setValueForMode(
       darkModeId,
-      util.convertColorRange(member.color.dark)
+      utils.color.convertColorRange(member.color.dark)
     );
   }
 
@@ -920,9 +921,9 @@ function generateColorStyle(collection: ColorCollection, type: ColorType) {
       {
         type: "SOLID",
         color: {
-          r: util.mapToUnitRange(color.r),
-          g: util.mapToUnitRange(color.g),
-          b: util.mapToUnitRange(color.b),
+          r: utils.math.mapToUnitRange(color.r),
+          g: utils.math.mapToUnitRange(color.g),
+          b: utils.math.mapToUnitRange(color.b),
         },
         opacity: color.a,
       },
@@ -949,17 +950,16 @@ async function generateTextStyleNode(collection: TypographyCollection) {
   let currentYPosition = 0;
 
   const texts: Array<TextNode> = [];
-  const viewport = util.getCurrentViewport();
+  const viewport = utils.editor.getCurrentViewport();
 
-  // Load all necessary fonts
-  const fontsToLoad = [
-    { family: "Inter", style: "Regular" },
-    { family: "Inter", style: "Semi Bold" },
-  ];
-  await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+
+  await utils.editor.loadFont([
+    semanticTokens.fontFamily.regular,
+    semanticTokens.fontFamily.semiBold
+  ]);
 
   const notificationText = `Change the typeface of below text layer, then click "Shortcut => Generate Text Style" from plugin.`;
-  const notificationTextNode = util.createTextNode(
+  const notificationTextNode = utils.node.createTextNode(
     notificationText,
     { family: "Inter", style: "Regular" },
     32,
@@ -976,7 +976,7 @@ async function generateTextStyleNode(collection: TypographyCollection) {
       item.fontWeight === "regular" ? "Regular" : "Semi Bold";
     const fontName = { family: "Inter", style: fontWeightStyle };
 
-    const textNode = util.createTextNode(
+    const textNode = utils.node.createTextNode(
       `${collection.brand} - ${collection.name}/${item.name}`,
       fontName,
       item.fontSize,

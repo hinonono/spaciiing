@@ -3,7 +3,7 @@ import { ExternalMessage } from "../types/Messages/ExternalMessage";
 import { ExternalMessageShowNestedComponentProperties, ExternalMessageUpdateReferenceObject, MessagePropertyClipboard, PasteBehavior } from "../types/Messages/MessagePropertyClipboard";
 import { ComponentPropertiesFrontEnd, PropertyClipboardSupportedProperty, ReferenceObject } from "../types/PropertClipboard";
 import { checkProFeatureAccessibleForUser } from './utilFrontEnd';
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 export function propertyClipboardHandler(message: ExternalMessage, context: AppContextType) {
     if (message.mode && message.mode === "ShowExtractedProperties") {
@@ -37,7 +37,7 @@ export function setReferenceObject(isRealCall: boolean, appContext: AppContextTy
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => setReferenceObject(true, appContext), // Re-invoke with the real call
             });
             return;
@@ -65,7 +65,7 @@ export function pastePropertyToObject(
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => pastePropertyToObject(appContext, property, true, pasteBehavior), // Re-invoke with the real call
             });
             return;
@@ -95,7 +95,7 @@ export function pasteInstancePropertyToObject(
         if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
             appContext.setFreeUserDelayModalConfig({
                 show: true,
-                initialTime: info.freeUserWaitingTime,
+                initialTime: pluginConfig.freeUserWaitingTime,
                 onProceed: () => pasteInstancePropertyToObject(true, appContext, properties), // Re-invoke with the real call
             });
             return;
@@ -114,6 +114,30 @@ export function pasteInstancePropertyToObject(
 
     parent.postMessage({ pluginMessage: message, }, "*");
 };
+
+interface PropertyClipboardOption {
+    lableKey: string,
+    keys: PropertyClipboardSupportedProperty[],
+    useModal: boolean
+}
+
+export interface PropertyClipboardCategory {
+    titleKey: string
+    applyAllKeys: PropertyClipboardSupportedProperty[]
+    useModal: boolean
+    items: PropertyClipboardOption[]
+}
+
+interface PropertyClipboardOptions {
+    size: PropertyClipboardCategory;
+    appearance: PropertyClipboardCategory;
+    typography: PropertyClipboardCategory;
+    autoLayout: PropertyClipboardCategory;
+    fill: PropertyClipboardCategory;
+    stroke: PropertyClipboardCategory;
+    effect: PropertyClipboardCategory;
+    other: PropertyClipboardCategory;
+}
 
 const strokeOptions: PropertyClipboardOption[] = [
     {
@@ -184,6 +208,16 @@ const effectOptions: PropertyClipboardOption[] = [
         keys: ["EFFECT_BACKGROUND_BLUR"],
         useModal: true,
     },
+    // {
+    //     lableKey: "term:noise",
+    //     keys: ["EFFECT_NOISE"],
+    //     useModal: true,
+    // },
+    // {
+    //     lableKey: "term:texture",
+    //     keys: ["EFFECT_TEXTURE"],
+    //     useModal: true,
+    // },
 ];
 
 const fillOptions: PropertyClipboardOption[] = [
@@ -248,32 +282,72 @@ const sizeOptions: PropertyClipboardOption[] = [
     }
 ];
 
-interface PropertyClipboardOption {
-    lableKey: string,
-    keys: PropertyClipboardSupportedProperty[],
-    useModal: boolean
-}
+const typographyOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:fontName",
+        keys: ["FONT_NAME"],
+        useModal: false
+    },
+    {
+        lableKey: "term:fontSize",
+        keys: ["FONT_SIZE"],
+        useModal: false
+    },
+    {
+        lableKey: "term:lineHeight",
+        keys: ["LINE_HEIGHT"],
+        useModal: false
+    },
+    {
+        lableKey: "term:letterSpacing",
+        keys: ["LETTER_SPACING"],
+        useModal: false
+    },
+    {
+        lableKey: "term:alignment",
+        keys: ["ALIGNMENT"],
+        useModal: false
+    }
+]
 
-export interface PropertyClipboardCategory {
-    titleKey: string
-    applyAllKeys: PropertyClipboardSupportedProperty[]
-    useModal: boolean
-    items: PropertyClipboardOption[]
-}
+const autolayoutOptions: PropertyClipboardOption[] = [
+    {
+        lableKey: "term:layoutMode",
+        keys: ["LAYOUT_MODE"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutAlignment",
+        keys: ["AUTOLAYOUT_ALIGNMENT"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutGap",
+        keys: ["AUTOLAYOUT_GAP"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutPaddingHorizontal",
+        keys: ["AUTOLAYOUT_PADDING_HORITONTAL"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutPaddingVertical",
+        keys: ["AUTOLAYOUT_PADDING_VERTICAL"],
+        useModal: false
+    },
+    {
+        lableKey: "term:autoLayoutClipContent",
+        keys: ["AUTOLAYOUT_CLIP_CONTENT"],
+        useModal: false
+    },
+]
 
-interface PropertyClipboardOptions {
-    size: PropertyClipboardCategory;
-    appearance: PropertyClipboardCategory;
-    fill: PropertyClipboardCategory;
-    stroke: PropertyClipboardCategory;
-    effect: PropertyClipboardCategory;
-    other: PropertyClipboardCategory;
-}
 
 export const propertyClipboardOptions: PropertyClipboardOptions = {
     size: {
         titleKey: "term:size",
-        applyAllKeys: ["HEIGHT", "WIDTH"],
+        applyAllKeys: ["WIDTH_AND_HEIGHT"],
         useModal: false,
         items: sizeOptions
     },
@@ -286,6 +360,31 @@ export const propertyClipboardOptions: PropertyClipboardOptions = {
         ],
         useModal: false,
         items: appearanceOptions
+    },
+    typography: {
+        titleKey: "term:typography",
+        applyAllKeys: [
+            "FONT_NAME",
+            "FONT_SIZE",
+            "LINE_HEIGHT",
+            "LETTER_SPACING",
+            "ALIGNMENT"
+        ],
+        useModal: false,
+        items: typographyOptions
+    },
+    autoLayout: {
+        titleKey: "term:autoLayout",
+        applyAllKeys: [
+            "LAYOUT_MODE",
+            "AUTOLAYOUT_ALIGNMENT",
+            "AUTOLAYOUT_GAP",
+            "AUTOLAYOUT_PADDING_HORITONTAL",
+            "AUTOLAYOUT_PADDING_VERTICAL",
+            "AUTOLAYOUT_CLIP_CONTENT"
+        ],
+        useModal: false,
+        items: autolayoutOptions,
     },
     fill: {
         titleKey: "term:allFills",

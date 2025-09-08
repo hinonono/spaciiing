@@ -1,9 +1,10 @@
 {
-  "moduleName": "設定",
-  "preferredLanguage": "優先する言語",
-  "about": "このプラグインについて",
-  "version": "バージョン",
-  "forBugReportOrSupport": "お問い合わせ先",
-  "provideFeedback": "ご意見箱",
-  "feedbackForm": "ご意見フォーム"
+	"about": "このプラグインについて",
+	"developer": "デベロッパー",
+	"feedbackForm": "ご意見フォーム",
+	"forBugReportOrSupport": "お問い合わせ先",
+	"moduleName": "設定",
+	"preferredLanguage": "優先する言語",
+	"provideFeedback": "ご意見箱",
+	"version": "バージョン"
 }

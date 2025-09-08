@@ -3,7 +3,7 @@ import FigmaButton from "./FigmaButton";
 import { SvgExternalLink } from "../assets/icons";
 import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import { useTranslation } from "react-i18next";
-import info from "../info.json";
+import info from "../pluginConfig.json";
 
 interface SubscriptionPlanBlockProps {
   plan: "monthly" | "yearly";
@@ -25,14 +25,14 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
         {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
       </span>
       {plan === "monthly" ? (
-        <span className="note note-xlarge">
+        <span className="note note-large">
           {t("license:monthlyPriceDesc").replace(
             "$MONTHLY_PRICE$",
             "US$" + info.price.monthly
           )}
         </span>
       ) : (
-        <span className="note note-xlarge">
+        <span className="note note-large">
           {t("license:yearlyPriceDesc").replace(
             "$YEARLY_PRICE$",
             "US$" + info.price.yearlyAvg

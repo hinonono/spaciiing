@@ -1,50 +1,24 @@
-// .subscription-plan-title {
-//     color: var(--figma-color-text);
-//     font-size: 1rem;
-// }
-
-// .subscription-block {
-//     span {
-//         display: block;
-//     }
-
-//     &-emphasize {
-//         border: 2px solid var(--cy-purple-600);
-//         background-color: var(--cy-purple-100);
-//     }
-// }
-
-// @media (prefers-color-scheme: dark) {
-//     .subscription-block {
-//         &-emphasize {
-//             background-color: var(--cy-purple-950);
-//         }
-//     }
-// }
-
 .subscription-background {
     padding: 16px;
     border-radius: var(--cy-border-radius-xxxlarge);
-    background: var(--figma-color-bg-primary);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, .1);
+    background: var(--cy-bg-primary-dark-elevated);
 
     &.pro {
         background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
+        box-shadow: 0px 6px 12px 0px rgba(180, 121, 255, 0.5);
+
+        .note {
+            color: #00000080
+        }
     }
 
     .subscription-plan-title {
         color: #000000e5
     }
-
-    .note {
-        color: #00000080
-    }
 }
 
 @media (prefers-color-scheme: dark) {
     .subscription-background {
-        background: var(--figma-color-bg-secondary);
-
         &.pro {
             h4 {
                 color: #000000e5

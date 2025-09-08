@@ -1143,7 +1143,7 @@ export const getAvailableBrands = (): { value: InstantiaterSupportedBrand, label
     },
     {
       value: "materialDesign",
-      label: "Material Design"
+      label: "Material Design 3"
     },
     {
       value: "polaris",

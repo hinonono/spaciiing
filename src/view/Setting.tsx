@@ -1,11 +1,12 @@
 import React from "react";
-import { TitleBar, FigmaButton } from "../components";
+import { TitleBar, FigmaButton, ProductivityDashboard, PreferredLanguageView } from "../components";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
 import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
-import info from "../info.json";
+import info from "../pluginConfig.json";
 import { SvgEraser, SvgKey } from "../assets/icons";
+import SavedTimeMessage from "../components/SavedTimeMessage";
 
 const Setting: React.FC = () => {
   // Context
@@ -14,6 +15,7 @@ const Setting: React.FC = () => {
     setLicenseManagement,
     setShowActivateModal,
     setShowCTSubscribe,
+    editorPreference
   } = useAppContext();
 
   const { t, i18n } = useTranslation(["common", "settings", "license"]);
@@ -31,8 +33,6 @@ const Setting: React.FC = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
-  console.log(licenseManagement);
-
   return (
     <div>
       <TitleBar title={t("settings:moduleName")} showInfoIcon={false} />
@@ -40,24 +40,16 @@ const Setting: React.FC = () => {
         {/*  訂閱 */}
         <div>
           <h3>{t("license:subscriptionSectionTitle")}</h3>
-          <div className={`subscription-background ${licenseManagement.tier === "PAID" ? "pro" : ""}`}>
+          <div className={`shadow-view subscription-background ${licenseManagement.tier === "PAID" ? "pro" : ""}`}>
             <div>
               {licenseManagement.tier == "PAID" ? (
                 <h4>{licenseManagement.recurrence === "monthly" ? t("license:monthly") : t("license:yearly")}</h4>
               ) : (
-                <h4>{t("license:free")}</h4>
+                <>
+                  <h4>{t("license:free")}</h4>
+                </>
               )}
             </div>
-            {/* <div className="mt-xxsmall">
-              {licenseManagement.tier !== "FREE" && (
-                <span className="note">
-                  {t("license:licenseStatus")}:{" "}
-                  {licenseManagement.isLicenseActive == true
-                    ? t("license:licenseActive")
-                    : t("license:licenseInactive")}
-                </span>
-              )}
-            </div> */}
             <div className="mt-xsmall grid">
               <FigmaButton
                 buttonType="tertiary"
@@ -79,7 +71,7 @@ const Setting: React.FC = () => {
               )}
               {licenseManagement.tier !== "PAID" && (
                 <FigmaButton
-                  title={t("license:seeAllPlans")}
+                  title={t("license:upgrade")}
                   buttonType="special"
                   onClick={() => {
                     setShowCTSubscribe(true);
@@ -88,72 +80,83 @@ const Setting: React.FC = () => {
               )}
             </div>
           </div>
-
         </div>
+        {/* Click Saved */}
+        <ProductivityDashboard
+          savedClicks={editorPreference.savedClicks}
+        />
         {/* 偏好語言 */}
-        <div className="mt-large">
-          <h3>{t("settings:preferredLanguage")}</h3>
-          <select
-            id="brand_select"
-            className="custom-select"
-            value={i18n.language} // current language
-            onChange={handleLangChange}
-          >
-            <option value="enUS">English</option>
-            <option value="jaJP">日本語</option>
-            <option value="zhTW">繁體中文</option>
-            <option value="zhCN">简体中文</option>
-          </select>
-        </div>
+        <PreferredLanguageView
+          lang={i18n.language}
+          onChange={handleLangChange}
+        />
         {/* 關於本Plugin */}
         <div className="mt-large">
           <h3>{t("settings:about")}</h3>
           <div className="about-spaciiing">
+            <div className="membership-block">
+              <p className="color--secondary">{t("settings:version")}</p>
+              <span>{info.version}</span>
+            </div>
+            <div className="membership-block">
+              <p className="color--secondary">What's new in this version</p>
+              <ul>
+                {info.whatsNew.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
             <div className="grid">
               <div className="membership-block">
                 <p className="color--secondary">Share Spaciiing on X(Twitter)</p>
-                <span>
-                  <a
-                    className="text-color-primary"
-                    href="https://x.com/intent/post?url=https%3A%2F%2Fwww.figma.com%2Fcommunity%2Fplugin%2F1129646367083296027%2Fspaciiing"
-                    target="_blank"
-                  >
-                    Share
-                  </a>
-                </span>
-              </div>
-              <div className="membership-block">
-                <p className="color--secondary">{t("settings:version")}</p>
-                <span>{info.version}</span>
-              </div>
-            </div>
-            <div className="membership-block">
-              <p className="color--secondary">
-                {t("settings:provideFeedback")}
-              </p>
-              <span>
                 <a
-                  className="text-color-primary"
-                  href="https://forms.gle/jFgzJfs1nw259Kgk8"
+                  href="https://x.com/intent/post?url=https%3A%2F%2Fwww.figma.com%2Fcommunity%2Fplugin%2F1129646367083296027%2Fspaciiing"
                   target="_blank"
                 >
-                  {t("settings:feedbackForm")}
+                  <span className="text-color-primary">
+
+                    Share
+
+                  </span>
                 </a>
-              </span>
+              </div>
+              <div className="membership-block">
+                <p className="color--secondary">
+                  {t("settings:provideFeedback")}
+                </p>
+                <a
+                  href="https://forms.gle/jFgzJfs1nw259Kgk8"
+                  target="_blank"
+                ><span className="text-color-primary">
+
+                    {t("settings:feedbackForm")}
+
+                  </span></a>
+              </div>
             </div>
             <div className="membership-block">
               <p className="color--secondary">
                 {t("settings:forBugReportOrSupport")}
               </p>
-              <span>
-                <a
-                  className="text-color-primary"
-                  href="mailto:contact@hsiehchengyi.com"
-                  target="_blank"
-                >
+              <a
+                href="mailto:contact@hsiehchengyi.com"
+                target="_blank"
+              >
+                <span className="text-color-primary">
                   contact@hsiehchengyi.com
-                </a>
-              </span>
+                </span>
+              </a>
+            </div>
+            <div className="membership-block">
+              <p className="color--secondary">
+                {t("settings:developer")}
+              </p>
+              <a
+                href="https://www.linkedin.com/in/cheng-yi-hsieh/"
+                target="_blank"
+              >
+                <span className="text-color-primary">
+                  Cheng-Yi Hsieh
+                </span>
+              </a>
             </div>
           </div>
         </div>

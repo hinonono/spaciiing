@@ -1,30 +1,25 @@
 import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
-import * as util from "../util"
-
-import * as CLVar from "../catalogue/catalogueVariable";
-import * as CLItemLink from "../catalogue/catalogueItemLink"
-import * as CLExplanationItem from "../catalogue/catalogueExplanationItem"
-import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper";
-
+import { utils } from "../utils";
 import * as styledTextSegments from "../styledTextSegments";
 import * as typeChecking from "../typeChecking";
-
+import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
+import { CatalogueKit } from "../catalogue";
 import { semanticTokens } from "../tokens";
 
-export async function applyStyleIntroducerForVariable(
+export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
 ) {
-    const { styleSelection, styleMode, form } = message;
+    const { styleSelection, styleMode, form, lang } = message;
 
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
-    const viewport = util.getCurrentViewport();
-    const isCatalogueItemLinkFeatureAvailable = CLItemLink.checkCatalogueItemLinkFeatureAvailability();
 
-    const fontNameRegular = { family: "Inter", style: "Regular" };
-    const fontNameSemi = { family: "Inter", style: "Semi Bold" };
-    const fontsToLoad = [fontNameRegular, fontNameSemi];
-    await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+    await utils.editor.loadFont([
+        semanticTokens.fontFamily.regular,
+        semanticTokens.fontFamily.semiBold
+    ]);
+
+    const lr: CatalogueLocalizationResources = CatalogueKit.localizer.createLocalizationResource(lang);
 
     const localVariables = await getLocalVariables(styleMode);
     const selectedVariables = await getSelectedVariables(scopes, localVariables);
@@ -33,27 +28,24 @@ export async function applyStyleIntroducerForVariable(
     const explanationItems = await createExplanationItemsHandler(
         form,
         styleMode,
-        fontNameRegular,
+        semanticTokens.fontFamily.regular,
         localVariables,
         selectedVariables,
         modeNames,
-        isCatalogueItemLinkFeatureAvailable
     )
     if (explanationItems.length === 0) { throw new Error("Termination due to explanationItems length is 0."); }
 
-    const wrapperTitle = title == "" ? "Variables" : title
-    const titleSecondary = "Catalogue";
-    const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
+    const wrapperTitle = title == "" ? lr.term["variable"] : title
+    const titleSecondary = lr.module["moduleCatalogue"];
+    const explanationWrapper = await CatalogueKit.wrapper.create(
+        lr,
         form,
         explanationItems,
         wrapperTitle,
         titleSecondary,
-        fontNameSemi,
-        isCatalogueItemLinkFeatureAvailable.availability,
+        semanticTokens.fontFamily.semiBold,
         modeNames
     )
-
-    CLExplanationWrapper.setUpWrapper(explanationWrapper, viewport);
 
     figma.currentPage.appendChild(explanationWrapper);
     figma.currentPage.selection = [explanationWrapper];
@@ -105,10 +97,6 @@ async function createExplanationItemsHandler(
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
 ): Promise<FrameNode[]> {
     if (styleMode === "COLOR") {
         const items = await createItemColor(
@@ -118,7 +106,6 @@ async function createExplanationItemsHandler(
             localVariables,
             selectedVariables,
             modeNames,
-            isCatalogueItemLinkFeatureAvailable
         );
         return items;
 
@@ -130,7 +117,6 @@ async function createExplanationItemsHandler(
             localVariables,
             selectedVariables,
             modeNames,
-            isCatalogueItemLinkFeatureAvailable
         );
         return items;
 
@@ -142,7 +128,6 @@ async function createExplanationItemsHandler(
             localVariables,
             selectedVariables,
             modeNames,
-            isCatalogueItemLinkFeatureAvailable
         );
         return items;
 
@@ -160,10 +145,6 @@ async function createGenericItem<T>(
     modeNames: string[],
     resolveValueFn: (value: VariableValue) => Promise<T | null>,
     previewKey: "colors" | "numbers" | "strings",
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
 ): Promise<FrameNode[]> {
     const explanationItems: FrameNode[] = [];
 
@@ -193,9 +174,22 @@ async function createGenericItem<T>(
 
         const { id, description, name } = variable;
         const title = name.split("/").pop() || "";
-        const previewResources: PreviewResources = {
-            [previewKey]: filteredValues
-        } as PreviewResources;
+
+        let previewResources: PreviewResources | null;
+        if (styleMode === "COLOR") {
+            previewResources = {
+                colors: {
+                    type: "SOLID",
+                    opacity: 1,
+                    colors: filteredValues as RGBA[],
+                }
+            }
+        } else {
+            previewResources = {
+                [previewKey]: filteredValues
+            } as PreviewResources;
+        }
+
 
         const aliasResources: AliasResources = {
             aliasNames: aliasName,
@@ -203,7 +197,7 @@ async function createGenericItem<T>(
             aliasVariableIds: aliasVariableIds
         };
 
-        const explanationItem = CLExplanationItem.createExplanationItem(
+        const explanationItem = CatalogueKit.explanationItemKit.main.createExplanationItem(
             form,
             styleMode,
             id,
@@ -211,16 +205,15 @@ async function createGenericItem<T>(
             description,
             fontName,
             previewResources,
-            aliasResources
+            aliasResources,
         );
 
         explanationItem.primaryAxisSizingMode = "AUTO";
         explanationItem.counterAxisSizingMode = "AUTO";
 
-        if (isCatalogueItemLinkFeatureAvailable.availability && isCatalogueItemLinkFeatureAvailable.url) {
-            const url = styledTextSegments.generateFigmaUrlWithNodeId(isCatalogueItemLinkFeatureAvailable.url, explanationItem.id);
-            styledTextSegments.writeCatalogueItemUrlToRoot(variable.id, url);
-        }
+        //V32: 去除對前端設定中的example file url 的依賴
+        styledTextSegments.writeCatalogueItemId(variable.id, explanationItem.id);
+
 
         explanationItems.push(explanationItem);
     }
@@ -235,10 +228,6 @@ async function createItemColor(
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
 ): Promise<FrameNode[]> {
     return createGenericItem<RGBA>(
         form,
@@ -247,9 +236,9 @@ async function createItemColor(
         localVariables,
         selectedVariables,
         modeNames,
-        CLVar.resolveToActualRgbaValue,
+        CatalogueKit.valueResolver.resolveRGBA,
         "colors",
-        isCatalogueItemLinkFeatureAvailable
+        // isCatalogueItemLinkFeatureAvailable
     );
 }
 
@@ -260,10 +249,6 @@ async function createItemNumber(
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
 ): Promise<FrameNode[]> {
     return createGenericItem<number>(
         form,
@@ -272,9 +257,9 @@ async function createItemNumber(
         localVariables,
         selectedVariables,
         modeNames,
-        CLVar.resolveToActualNumberValue,
+        CatalogueKit.valueResolver.resolveNum,
         "numbers",
-        isCatalogueItemLinkFeatureAvailable
+        // isCatalogueItemLinkFeatureAvailable
     );
 }
 
@@ -285,10 +270,6 @@ async function createItemString(
     localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
-    isCatalogueItemLinkFeatureAvailable: {
-        availability: boolean;
-        url: string | null;
-    }
 ): Promise<FrameNode[]> {
     return createGenericItem<string>(
         form,
@@ -297,9 +278,8 @@ async function createItemString(
         localVariables,
         selectedVariables,
         modeNames,
-        CLVar.resolveToActualStringValue,
+        CatalogueKit.valueResolver.resolveString,
         "strings",
-        isCatalogueItemLinkFeatureAvailable
     );
 }
 

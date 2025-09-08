@@ -4,4 +4,5 @@ export type NodeFilterable =
   | "IMAGE"
   | "AUTO_LAYOUT"
   | "ALL_OPTIONS"
-  | "ALL_SHAPE";
+  | "ALL_SHAPE"
+  | "SPACIIING_ARROW";

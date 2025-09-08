@@ -8,6 +8,7 @@ import { messageController } from "./module-frontend/messageController";
 import { useAppContext } from "./AppProvider";
 import { useTranslation } from "react-i18next";
 import { ActivateLicenseModal, FreeUserDelayModal } from "./components/modalComponents";
+import { SavedClickCounter } from "./components";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {
@@ -35,19 +36,37 @@ const CoreLayer: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (appContext.triggeredCommand === "updateCatalogueDesc") {
+      setActiveTab("Shortcut");
+    } else if (appContext.triggeredCommand === "drawArrows") {
+      setActiveTab("ArrowCreator");
+    }
+  }, [appContext.triggeredCommand])
+
   // #region WillEnd
   useEffect(() => {
     tabController(activeTab, prevTab, appContext);
 
     setPrevTab(activeTab);
   }, [activeTab]);
-  
+
+  const isDevelopment =
+    process.env.REACT_APP_ENV === "development" ||
+    process.env.REACT_APP_ENV === "developmentfree";
+
   // #region JSX Elements
   return (
     <div className="App">
+      {isDevelopment && (
+        <div className="banner banner--development-mode">
+          {process.env.REACT_APP_ENV}模式
+        </div>
+      )}
+      {/* <SavedClickCounter /> */}
       <SubscriptionModal />
       <ActivateLicenseModal />
-      <FreeUserDelayModal/>
+      <FreeUserDelayModal />
       <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );

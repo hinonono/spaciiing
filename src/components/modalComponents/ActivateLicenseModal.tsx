@@ -11,11 +11,11 @@ import {
 } from "../../types/LicenseManagement";
 import FigmaButton from "../FigmaButton";
 import * as paymentsUtil from "../../module-frontend/paymentsUtil";
-import * as util from "../../module/util";
 import { MessageLicenseManagement } from "../../types/Messages/MessageLicenseManagement";
 import { handleSubscriptionStatus } from "../../module-frontend/licenseManagementFrontEnd";
 import axios from "axios";
 import { LicenseKeyInput } from "..";
+import { utils } from "../../module/utils";
 
 interface ActivateLicenseModalProps { }
 
@@ -53,7 +53,7 @@ const ActivateLicenseModal: React.FC<ActivateLicenseModalProps> = () => {
           recurrence: "",
           isLicenseActive: false,
           licenseKey,
-          sessionExpiredAt: util.addHours(new Date(), 3).toUTCString(),
+          sessionExpiredAt: utils.data.addHours(new Date(), 3).toUTCString(),
         };
 
         const updatedLicense = handleSubscriptionStatus(

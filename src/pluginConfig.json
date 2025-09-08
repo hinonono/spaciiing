@@ -1,0 +1,61 @@
+{
+  "name": "Spaciiing",
+  "version": "38",
+  "whatsNew": [
+    "New shortcuts: create section",
+    "Bug fixes",
+    "Overall enhancements"
+  ],
+  "price": {
+    "monthly": "3",
+    "yearly": "36",
+    "yearlyAvg": "3"
+  },
+  "featureFlag": {
+    "propertyClipboardSupportAutoLayout": false,
+    "enableSpaciiingNewInterface": true,
+    "localizedCatalogue": false
+  },
+  "freeUserWaitingTime": 30,
+  "windowSize": {
+    "compact": {
+      "width": 204,
+      "height": 48
+    },
+    "default": {
+      "width": 360,
+      "height": 490
+    },
+    "expanded": {
+      "width": 640,
+      "height": 720
+    }
+  },
+  "clickTier": [
+    {
+      "tier": "BRONZE",
+      "max": 1000,
+      "translateKey": "module:bronze"
+    },
+    {
+      "tier": "SLIVER",
+      "max": 5000,
+      "translateKey": "module:sliver"
+    },
+    {
+      "tier": "GOLD",
+      "max": 10000,
+      "translateKey": "module:gold"
+    },
+    {
+      "tier": "PLATINUM",
+      "max": 18000,
+      "translateKey": "module:platinum"
+    },
+    {
+      "tier": "DIAMOND",
+      "max": 99999,
+      "translateKey": "module:diamond"
+    }
+  ]
+}

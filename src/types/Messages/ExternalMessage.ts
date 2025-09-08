@@ -16,8 +16,11 @@ export type ExternalMode =
   | "UpdateEditorPreference"
   | "UpdateEditorType"
   | "ShowExtractedProperties"
-  | "UpdateReferenceObject";
+  | "UpdateReferenceObject"
+  | "UpdateRuntimeSyncedResources";
+
 export interface ExternalMessage extends Message {
   mode?: ExternalMode;
   editorType?: EditorType;
+  triggeredCommand?: string
 }

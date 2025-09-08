@@ -108,19 +108,62 @@
     margin: 0;
     cursor: pointer;
     padding: 4px;
-    transition: all .3s;
+    transition: var(--cy-animation-default);
+    color: var(--figma-color-text);
 
     &:hover {
         background-color: var(--figma-color-bg-secondary);
+        color: var(--figma-color-text-hover)
     }
 
     &:disabled {
         cursor: not-allowed;
         border-color: var(--button-disabled);
-        color: var(--button-disabled);
+        color: var(--figma-color-text-disabled);
     }
 
     span {
         font-size: 11px;
     }
+}
+
+.button--tertiary {
+    background-color: rgba(24, 160, 251, 0.15);
+    color: var(--figma-color-bg-brand);
+    border: 1px solid var(--figma-color-bg-brand);
+}
+
+.button--special {
+    background-color: var(--cy-purple-600);
+    color: white;
+
+    &:hover {
+        background-color: var(--cy-purple-800);
+    }
+}
+
+.button {
+    cursor: pointer;
+    transition: var(--cy-animation-default);
+}
+
+// Mixin for button height
+@mixin button-height($size) {
+    height: var(--cy-button-height-#{$size});
+}
+
+.button-height-xlarge {
+    @include button-height(xlarge);
+}
+
+.button-height-large {
+    @include button-height(large);
+}
+
+.button-height-medium {
+    @include button-height(medium);
+}
+
+.button-height-small {
+    @include button-height(small);
 }

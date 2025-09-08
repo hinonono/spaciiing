@@ -33,6 +33,14 @@
     --drop-shadow-2: 0px 9px 28px 8px rgba(0, 0, 0, 0.05), 0px 6px 16px 0px rgba(0, 0, 0, 0.08), 0px 3px 6px -4px rgba(0, 0, 0, 0.12);
     --drop-shadow-3: 0px 12px 48px 16px rgba(0, 0, 0, 0.03), 0px 9px 28px 0px rgba(0, 0, 0, 0.05), 0px 6px 16px -8px rgba(0, 0, 0, 0.08);
 
+    --blur-1: blur(16px);
+
+    --cy-animation-default: all 0.3s;
+
+    --cy-glass-color-1: rgba(0, 0, 0, 0.05);
+    --cy-glass-color-2: rgba(0, 0, 0, 0.1);
+
+
     /* spaciiing色盤 color palette */
 
     /* cy-purple */
@@ -47,6 +55,11 @@
     --cy-purple-800: #6515bc;
     --cy-purple-900: #54149e;
     --cy-purple-950: #380e6b;
+
+    --cy-text-color-special: var(--cy-purple-600);
+
+    --cy-bg-primary-dark-elevated: var(--figma-color-bg-primary);
+    --cy-bg-secondary-dark-elevated: var(--figma-color-bg-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -70,5 +83,13 @@
         --tab-bar-icon: white;
 
         --color-bg-selected: #4a5878;
+
+        --cy-glass-color-1: rgba(255, 255, 255, 0.2);
+        --cy-glass-color-2: rgba(255, 255, 255, 0.4);
+
+        --cy-text-color-special: var(--cy-purple-400);
+
+        --cy-bg-primary-dark-elevated: var(--figma-color-bg-secondary);
+        --cy-bg-secondary-dark-elevated: #535353;
     }
 }

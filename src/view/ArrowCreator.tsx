@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
-import { FigmaButton, SectionTitle, TitleBar } from '../components';
+import { CYCheckbox, FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
-import { ConnectPointPosition, RectangleSegmentType, StrokeMode } from '../types/ArrowCreator';
+import { ConnectPointPosition, RectSegmentType, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator, defaultOffset, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
 import ConnectPointSelectorView from '../components/arrowCreator/ConnectPointSelectorView';
 import { CYStroke } from '../types/CYStroke';
@@ -29,8 +29,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   // 連接點
-  const [sourceItemConnectPointPosition, setSourceItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleRight);
-  const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectangleSegmentType.MiddleLeft);
+  const [sourceItemConnectPointPosition, setSourceItemConnectPointPosition] = useState<ConnectPointPosition>(RectSegmentType.MR);
+  const [targetItemConnectPointPosition, setTargetItemConnectPointPosition] = useState<ConnectPointPosition>(RectSegmentType.ML);
 
   // 安全間距
   const [safeMargin, setSafeMargin] = useState<number>(defaultOffset);
@@ -58,7 +58,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   };
 
   // 筆畫模式
-  const [strokeMode, setStrokeMode] = useState<StrokeMode>("freeform");
+  const [strokeMode, setStrokeMode] = useState<StrokeMode>(appContext.runtimeSyncedResources.strokeStyles.length > 0 ? "style" : "freeform");
   useEffect(() => {
     if (strokeMode === "freeform") {
 
@@ -71,11 +71,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [direction, setDirection] = useState<Direction>("horizontal");
   useEffect(() => {
     if (direction === "horizontal") {
-      setSourceItemConnectPointPosition(RectangleSegmentType.MiddleRight);
-      setTargetItemConnectPointPosition(RectangleSegmentType.MiddleLeft);
+      setSourceItemConnectPointPosition(RectSegmentType.MR);
+      setTargetItemConnectPointPosition(RectSegmentType.ML);
     } else if (direction === "vertical") {
-      setSourceItemConnectPointPosition(RectangleSegmentType.BottomCenter);
-      setTargetItemConnectPointPosition(RectangleSegmentType.TopCenter);
+      setSourceItemConnectPointPosition(RectSegmentType.BC);
+      setTargetItemConnectPointPosition(RectSegmentType.TC);
     }
   }, [direction])
 
@@ -158,7 +158,6 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         <TitleBar
           title={t("module:moduleDrawArrows")}
           onClick={handleOpenExplanationModal}
-          isProFeature={true}
         />
       </div>
       <div className="content">
@@ -194,19 +193,32 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             targetItemConnectPointPosition={targetItemConnectPointPosition}
             setTargetItemConnectPointPosition={setTargetItemConnectPointPosition}
           />
-          <div className="width-100 mt-xxsmall">
-            <SectionTitle title={t("module:offset")} titleType="secondary" />
+        </div>
+        {/* 間隔距離 */}
+        <div className="mt-xsmall">
+          <SectionTitle title={t("module:offset")} />
+          <div className="flex">
             <textarea
-              className="textarea textarea-height-fit-content"
+              className="textarea"
               rows={1}
               value={safeMargin}
               onChange={handleSafeMarginChange}
               placeholder={t("module:customValueNumbersOnly")}
             />
-            {safeMarginFieldNote && (
-              <span className="note error">{safeMarginFieldNote}</span>
+            {[8, 16, 32].map((num) =>
+              <div className='ml-xxxsmall'>
+                <FigmaButton
+                  buttonType="tertiary"
+                  title={`${num}`}
+                  onClick={() => setSafeMargin(num)}
+                  hasTopBottomMargin={false}
+                />
+              </div>
             )}
           </div>
+          {safeMarginFieldNote && (
+            <span className="note error">{safeMarginFieldNote}</span>
+          )}
         </div>
         {/* 筆畫模式 */}
         <div className='mt-xsmall'>
@@ -224,7 +236,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             />
             <SegmentedControl.Option
               value="style"
-              label={t("term:style")}
+              label={`${t("term:style")}`}
             />
           </SegmentedControl>
           {renderEditorBasedOnStrokeMode()}
@@ -232,15 +244,11 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         {/* 按鈕 */}
         <div className="mt-xsmall">
           <div className="cy-checkbox-group">
-            <label className="container">
-              {t("module:createAnnotationBox")}
-              <input
-                type="checkbox"
-                checked={createAnnotationBox}
-                onChange={handleCheckboxChange}
-              />
-              <span className="checkmark"></span>
-            </label>
+            <CYCheckbox
+              label={t("module:createAnnotationBox")}
+              checked={createAnnotationBox}
+              onChange={handleCheckboxChange}
+            />
           </div>
           <FigmaButton
             title={t("module:execute")}
@@ -250,8 +258,8 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
                 appContext,
                 safeMargin,
                 {
-                  source: sourceItemConnectPointPosition,
-                  target: targetItemConnectPointPosition
+                  start: sourceItemConnectPointPosition,
+                  end: targetItemConnectPointPosition
                 },
                 stroke,
                 createAnnotationBox,

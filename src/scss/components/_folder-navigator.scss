@@ -13,30 +13,18 @@
         margin: 0;
 
         .container {
-            margin-left: 16px;
-            margin-right: 16px;
-            margin-top: 0px;
-            margin-bottom: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            border-radius: var(--cy-border-radius-large);
+            min-height: 36px;
 
             &:hover {
                 background-color: var(--figma-color-bg-secondary);
-                border-radius: var(--cy-border-radius-medium);
-            }
-        }
-
-        &:first-child {
-            .container {
-                margin-top: 16px;
-            }
-        }
-
-        &:last-child {
-            .container {
-                margin-bottom: 16px;
             }
         }
     }
-
 }
 
 .folder-navigator-items-group {
@@ -45,7 +33,7 @@
     height: fit-content;
     width: 100%;
     overflow: scroll;
-    // transition: all .3s;
+    // transition: var(--cy-animation-default);
 
     &-large {
         max-height: 320px;
@@ -72,17 +60,16 @@
 }
 
 .button-folder {
-    border-bottom: 1px solid var(--cy-border-light);
-    padding: 8px 16px;
+    padding: 0px 8px;
+    margin: 0px;
     display: inline-block;
+    border-radius: var(--cy-border-radius-large);
     text-align: left;
-    margin: 0;
     position: relative;
-    min-height: 40px;
-    /* Add this line */
+    min-height: 36px;
 
     &:hover {
-        background-color: var(--color-bg-selected);
+        background-color: var(--figma-color-bg-secondary);
     }
 
 

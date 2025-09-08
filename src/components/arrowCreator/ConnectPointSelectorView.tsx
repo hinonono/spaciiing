@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConnectPointPosition, RectangleSegmentType } from '../../types/ArrowCreator';
+import { ConnectPointPosition, RectSegmentType } from '../../types/ArrowCreator';
 import { Direction } from '../../types/General';
 import { useTranslation } from 'react-i18next';
 
@@ -13,10 +13,10 @@ interface ConnectPointSelectorViewProps {
 
 // Available connection point positions around each item
 const connectPoints: ConnectPointPosition[] = [
-  RectangleSegmentType.TopCenter,
-  RectangleSegmentType.BottomCenter,
-  RectangleSegmentType.MiddleLeft,
-  RectangleSegmentType.MiddleRight
+  RectSegmentType.TC,
+  RectSegmentType.BC,
+  RectSegmentType.ML,
+  RectSegmentType.MR
 ];
 
 const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
@@ -26,7 +26,7 @@ const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
   targetItemConnectPointPosition,
   setTargetItemConnectPointPosition
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["term"]);
 
   return (
     <div className={`connect-point-container ${direction}`}>
@@ -46,7 +46,7 @@ const ConnectPointSelectorView: React.FC<ConnectPointSelectorViewProps> = ({
               }
             />
           ))}
-          <span className='text-color-secondary font-size-large'>{isStart ? t("module:start") : t("module:end")}</span>
+          <span className='text-color-secondary font-size-large'>{isStart ? t("term:start") : t("term:end")}</span>
         </div>
       ))}
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAppContext } from "../AppProvider";
-import { FigmaButton, SectionTitle, TitleBar } from "../components";
+import { FigmaButton, ListViewHeader, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import {
@@ -18,9 +18,10 @@ import { Dimension } from "../types/General";
 import {
   checkProFeatureAccessibleForUser,
   applyAspectRatio,
+  isStringNumber,
 } from "../module-frontend/utilFrontEnd";
 import SegmentedControl from "../components/SegmentedControl";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 
 interface AspectRatioHelperProps { }
 type AspectRatioOptions =
@@ -48,14 +49,20 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
   const handleWidthCustomRatioChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setWidthCustomRatio(Number(event.target.value));
+    const newRatio = event.target.value
+    if (isStringNumber(newRatio)) {
+      setWidthCustomRatio(Number(newRatio));
+    }
   };
 
   const [heightCustomRatio, setHeightCustomRatio] = useState(1);
   const handleHeightCustomRatioChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setHeightCustomRatio(Number(event.target.value));
+    const newRatio = event.target.value
+    if (isStringNumber(newRatio)) {
+      setHeightCustomRatio(Number(newRatio));
+    }
   };
 
   const aspectRatioOptionsUI: {
@@ -126,7 +133,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyAspectRatioHandler(widthRatio, heightRatio, isCustom, true), // Retry with isRealCall = true
         });
         return;
@@ -158,7 +165,6 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
       <TitleBar
         title={t("module:moduleAspectRatioHelper")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
       />
       <div className="content">
         <div>
@@ -174,33 +180,37 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
               <SegmentedControl.Option
                 value="height"
                 label="term:width"
-                icon={<SvgVertical color="var(--figma-color-text)" />}
+                icon={<SvgHorizontal color="var(--figma-color-text)" />}
               />
               <SegmentedControl.Option
                 value="width"
                 label="term:height"
-                icon={<SvgHorizontal color="var(--figma-color-text)" />}
+                icon={<SvgVertical color="var(--figma-color-text)" />}
               />
             </SegmentedControl>
           </div>
         </div>
         <div className="mt-xsmall">
-          <SectionTitle title={t("module:presetAspectRatio")} />
-          <div className="grid mt-xxxsmall">
-            {aspectRatioOptionsUI.map((option) => (
-              <FigmaButton
-                key={option.name}
-                buttonType="secondary"
-                title={option.name}
-                fontSize="xlarge"
-                svg={option.svg}
-                buttonHeight="xlarge"
-                onClick={() => {
-                  applyAspectRatioHandler(option.width, option.height, false);
-                }}
-                hasTopBottomMargin={false}
-              />
-            ))}
+          <div className="list-view mt-xsmall">
+            <ListViewHeader title={t("module:presetAspectRatio")} additionalClass="property-clipboard-header" />
+            <div className="padding-16 border-1-top">
+              <div className="grid mt-xxxsmall">
+                {aspectRatioOptionsUI.map((option) => (
+                  <FigmaButton
+                    key={option.name}
+                    buttonType="secondary"
+                    title={option.name}
+                    fontSize="xlarge"
+                    svg={option.svg}
+                    buttonHeight="xlarge"
+                    onClick={() => {
+                      applyAspectRatioHandler(option.width, option.height, false);
+                    }}
+                    hasTopBottomMargin={false}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <div className="mt-xsmall">

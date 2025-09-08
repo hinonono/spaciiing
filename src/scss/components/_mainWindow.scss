@@ -1,0 +1,40 @@
+#main-window-toolbar {
+    position: fixed;
+    bottom: 6;
+    right: 6;
+    background: var(--cy-glass-color-1);
+    z-index: 9999;
+    -webkit-backdrop-filter: var(--blur-1);
+    backdrop-filter: var(--blur-1);
+    border-radius: var(--cy-border-radius-medium);
+    overflow: hidden;
+}
+
+.main-window-toolbar {
+    &-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0rem;
+
+        .min-max-window {
+            cursor: pointer;
+        }
+
+        .resize {
+            cursor: nwse-resize;
+        }
+    }
+
+    &-icon-wrapper {
+        width: 16px;
+        height: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0px;
+
+        &:hover {
+            background-color: var(--cy-glass-color-2);
+        }
+    }
+}

@@ -1,6 +1,4 @@
 .cy-input {
-    border: none;
-    border: 1px solid transparent;
     padding: 4px;
     padding-bottom: 0;
     width: 100%;
@@ -9,15 +7,18 @@
     background-color: transparent;
     color: inherit;
     height: 1.5rem;
+    border-radius: var(--cy-border-radius-small);
+    border: 0px;
 
     &:hover {
-        border-color: var(--fg-focus);
+        border: 0px;
+        outline: 1.5px solid var(--figma-color-border-brand);
     }
 
-    &:focus {
-        outline: none;
-        border-color: var(--fg-focus);
-        border-width: 1.5px;
+    &:focus, &:active {
+        border: 0px;
+        outline-color: var(--fg-focus);
+        outline-width: 1.5px;
         background-color: var(--figma-color-bg);
     }
 }

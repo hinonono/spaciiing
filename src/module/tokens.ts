@@ -1,4 +1,61 @@
 const primitiveTokens = {
+  purple: {
+    50: {
+      r: 246 / 255,
+      g: 244 / 255,
+      b: 255 / 255,
+    },
+    100: {
+      r: 240 / 255,
+      g: 235 / 255,
+      b: 255 / 255,
+    },
+    200: {
+      r: 225 / 255,
+      g: 215 / 255,
+      b: 255 / 255,
+    },
+    300: {
+      r: 197 / 255,
+      g: 174 / 255,
+      b: 254 / 255,
+    },
+    400: {
+      r: 174 / 255,
+      g: 137 / 255,
+      b: 254 / 255,
+    },
+    500: {
+      r: 157 / 255,
+      g: 102 / 255,
+      b: 253 / 255,
+    },
+    600: {
+      r: 143 / 255,
+      g: 56 / 255,
+      b: 255 / 255,
+    },
+    700: {
+      r: 119 / 255,
+      g: 32 / 255,
+      b: 219 / 255,
+    },
+    800: {
+      r: 101 / 255,
+      g: 21 / 255,
+      b: 188 / 255,
+    },
+    900: {
+      r: 84 / 255,
+      g: 20 / 255,
+      b: 158 / 255,
+    },
+    950: {
+      r: 56 / 255,
+      g: 14 / 255,
+      b: 107 / 255,
+    },
+  },
   slate: {
     50: {
       r: 248 / 255,
@@ -69,13 +126,21 @@ export const semanticTokens = {
     secondary: primitiveTokens.slate[50],
     tertiary: primitiveTokens.slate[200],
   },
+  backgroundSpecial: {
+    primary: primitiveTokens.purple[600],
+  },
   text: {
     primary: primitiveTokens.slate[950],
     secondary: primitiveTokens.slate[500],
     tertiary: primitiveTokens.slate[400],
+    white: primitiveTokens.white,
   },
   dividerColor: primitiveTokens.slate[200],
   strokeColor: primitiveTokens.slate[300],
+  fontFamily: {
+    regular: { family: "Inter", style: "Regular" },
+    semiBold: { family: "Inter", style: "Semi Bold" },
+  },
   fontSize: {
     xsmall: 8,
     small: 12,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { TitleBar, FigmaButton, ListViewHeader } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
@@ -8,7 +8,10 @@ import {
   IconTemplateModal,
   LoremIpsumModal,
   MagicObjectModal,
+  NumberingModal,
+  SpiltTextModal,
   UnifyTextModal,
+  CreateSectionModal
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -17,13 +20,14 @@ import {
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
 import { createAutoLayoutIndividually, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
-import * as info from "../info.json";
+import * as pluginConfig from "../pluginConfig.json";
 import { SvgNote } from "../assets/icons";
 import SvgTag from "../assets/icons/SvgTag";
 import SvgSection from "../assets/icons/SvgSection";
+import { exportArrowStyle, importArrowStyle } from "../module-frontend/arrowCreatorFrontEnd";
 
 const Shortcut: React.FC = () => {
-  const { t } = useTranslation(["module", "term"]);
+  const { t, i18n } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -36,6 +40,11 @@ const Shortcut: React.FC = () => {
   const [showIconModal, setShowIconModal] = useState(false);
   const handleOpenIconModal = () => setShowIconModal(true);
   const handleCloseIconModal = () => setShowIconModal(false);
+
+  // section
+  const [showSectionModal, setShowSectionModal] = useState(false);
+  const handleOpenSectionModal = () => setShowSectionModal(true);
+  const handleCloseSectionModal = () => setShowSectionModal(false);
 
   // lorem ipsum
   const [showLoremModal, setShowLoremModal] = useState(false);
@@ -57,7 +66,15 @@ const Shortcut: React.FC = () => {
   const handleOpenUnifyTextModal = () => setShowUnifyTextModal(true);
   const handleCloseUnifyTextModal = () => setShowUnifyTextModal(false);
 
+  // 文字圖層編號彈窗
+  const [showNumberingModal, setShowNumberingModal] = useState(false);
+  const handleOpenNumberingModal = () => setShowNumberingModal(true);
+  const handleCloseNumberingModal = () => setShowNumberingModal(false);
 
+  // 文字分割彈窗
+  const [showSpiltTextModal, setShowSpiltTextModal] = useState(false);
+  const handleOpenSpiltTextModal = () => setShowSpiltTextModal(true)
+  const handleCloseSpiltTextModal = () => setShowSpiltTextModal(false);
 
   // Find and replace in selection for text
   const [showFindAndReplaceModal, setShowFindAndReplaceModal] = useState(false);
@@ -70,7 +87,7 @@ const Shortcut: React.FC = () => {
       if (!checkProFeatureAccessibleForUser(appContext.licenseManagement)) {
         appContext.setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyShortcut(action, true), // Retry with isRealCall = true
         });
         return;
@@ -82,6 +99,7 @@ const Shortcut: React.FC = () => {
       action: action,
       direction: "Inner",
       phase: "Actual",
+      lang: i18n.language
     };
 
     switch (action) {
@@ -153,6 +171,31 @@ const Shortcut: React.FC = () => {
     }
   }
 
+  const renderArrowCreatorShortcut = () => {
+    if (appContext.editorType === "figma" || appContext.editorType === "slides") {
+      const buttons: ShortcutButtonConfig[] = [
+        {
+          title: t("module:updateArrowPosition"),
+          onClick: () => applyShortcut("updateArrowPosition", false),
+        },
+        // {
+        //   title: t("module:exportArrowStyle"),
+        //   onClick: () => exportArrowStyle(appContext, false),
+        // },
+        // {
+        //   title: t("module:importArrowStyle"),
+        //   onClick: () => fileInputRef.current?.click(),
+        // },
+      ]
+
+      return (
+        renderShortcutSection(t("module:moduleDrawArrows"), buttons)
+      )
+    } else {
+      return null;
+    }
+  }
+
   const renderTextShortcut = () => {
     const buttons: ShortcutButtonConfig[] = [
       {
@@ -169,11 +212,19 @@ const Shortcut: React.FC = () => {
         title: t("module:unifyText"),
         onClick: handleOpenUnifyTextModal,
       },
+      {
+        title: t("module:numberingTextLayers"),
+        onClick: handleOpenNumberingModal,
+      },
+      // {
+      //   title: t("module:spiltText"),
+      //   onClick: handleOpenSpiltTextModal,
+      // }
     ];
 
 
     return (
-      renderShortcutSection(t("module:text"), buttons)
+      renderShortcutSection(t("term:text"), buttons)
     )
   }
 
@@ -279,6 +330,10 @@ const Shortcut: React.FC = () => {
         title: t("module:iconTemplate"),
         onClick: handleOpenIconModal,
       },
+      {
+        title: t("module:createSection"),
+        onClick: handleOpenSectionModal,
+      }
     ];
 
     return (
@@ -289,7 +344,7 @@ const Shortcut: React.FC = () => {
   const renderFrameShortcut = () => {
     const buttons: ShortcutButtonConfig[] = [
       {
-        title: t("module:frame"),
+        title: t("module:createShadowOverlay"),
         onClick: () => applyShortcut("makeFrameOverlay", false),
       },
       {
@@ -300,9 +355,11 @@ const Shortcut: React.FC = () => {
 
     return (
 
-      renderShortcutSection(t("module:frame"), buttons)
+      renderShortcutSection(t("term:frame"), buttons)
     )
   }
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div>
@@ -344,11 +401,22 @@ const Shortcut: React.FC = () => {
           show={showLoremModal}
           handleClose={handleCloseLoremModal}
         />
+        <NumberingModal
+          show={showNumberingModal}
+          handleClose={handleCloseNumberingModal}
+        />
+        <SpiltTextModal
+          show={showSpiltTextModal}
+          handleClose={handleCloseSpiltTextModal}
+        />
+        <CreateSectionModal
+          show={showSectionModal}
+          handleClose={handleCloseSectionModal}
+        />
       </div>
       <TitleBar
         title={t("module:moduleShortcut")}
         onClick={handleOpenExplanationModal}
-        isProFeature={true}
         rightItem={
           <FigmaButton
             title={t("module:setting")}
@@ -361,6 +429,17 @@ const Shortcut: React.FC = () => {
         }
       />
       <div className="content">
+        <input
+          type="file"
+          accept=".json"
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            importArrowStyle(event, appContext, false)
+          }
+          ref={fileInputRef}
+          style={{ display: "none" }}
+        />
+        {/* 箭頭 */}
+        {renderArrowCreatorShortcut()}
         {/* 型錄 */}
         {renderCatalogueShortcut()}
         {/* 文字 */}

@@ -1,0 +1,29 @@
+.note {
+    font-size: var(--font-size-xsmall);
+    color: var(--figma-color-text-secondary);
+    display: block;
+
+    &-large {
+        font-size: var(--font-size-large);
+    }
+
+    &-xlarge {
+        font-size: var(--font-size-xlarge);
+    }
+
+    &.error {
+        color: var(--figma-color-text-danger);
+    }
+
+    &.success {
+        color: var(--figma-color-text-success);
+    }
+
+    &.special {
+        color: var(--cy-text-color-special)
+    }
+
+    a {
+        color: var(--figma-color-text-secondary);
+    }
+}

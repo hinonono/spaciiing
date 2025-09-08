@@ -1,4 +1,5 @@
 import { MessageResize } from "../types/Messages/MessageResize";
+import info from "../pluginConfig.json";
 
 export function reception(message: MessageResize) {
   const { width, height } = message;
@@ -6,14 +7,11 @@ export function reception(message: MessageResize) {
 }
 
 function resize(width: number, height: number) {
-  const minWidth = 240;
-  const minHeight = 320;
+  const compactWindowSize = info.windowSize.compact;
+  const expandedWindowSize = info.windowSize.expanded;
 
-  const maxWidth = minWidth * 3;
-  const maxHeight = minHeight * 2;
-
-  const newWidth = Math.round(Math.max(minWidth, Math.min(width, maxWidth)));
-  const newHeight = Math.round(Math.max(minHeight, Math.min(height, maxHeight)));
+  const newWidth = Math.round(Math.max(compactWindowSize.width, Math.min(width, expandedWindowSize.width)));
+  const newHeight = Math.round(Math.max(compactWindowSize.height, Math.min(height, expandedWindowSize.height)));
 
   figma.ui.resize(newWidth, newHeight);
 }

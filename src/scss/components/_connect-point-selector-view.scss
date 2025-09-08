@@ -32,12 +32,17 @@
 
         .connect-point {
             position: absolute;
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
             background-color: #e2e2e2;
             border-radius: 50%;
             cursor: pointer;
-            border: 2px solid white;
+            border: 3px solid white;
+            transition: var(--cy-animation-default);
+
+            &:active {
+                scale: 0.8;
+            }
 
             &.topCenter {
                 top: -8px;
@@ -65,7 +70,7 @@
 
             &.selected {
                 background-color: var(--figma-color-bg-brand);
-                border: 2px solid white;
+                border: 3px solid white;
             }
         }
     }

@@ -8,7 +8,8 @@ import { checkProFeatureAccessibleForUser, generateUUID } from "../../module-fro
 import StrokeEditorView from "../StrokeEditorView";
 import { CYStroke } from "../../types/CYStroke";
 import { MessageSaveEditorPreference } from "../../types/Messages/MessageSaveEditorPreference";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
+import { MessageSaveSyncedResource } from "../../types/Messages/MessageSaveSyncedResource";
 
 interface StrokeEditModalProps {
   show: boolean;
@@ -36,8 +37,10 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
   const {
     licenseManagement,
     setFreeUserDelayModalConfig,
-    editorPreference,
-    setEditorPreference
+    // editorPreference,
+    // setEditorPreference
+    runtimeSyncedResources,
+    setRuntimeSyncedResources,
   } = useAppContext();
 
   const [styleName, setStyleName] = useState("New stroke style");
@@ -57,12 +60,14 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
 
   useEffect(() => {
     if (show) {
-      const message: MessageSaveEditorPreference = {
-        editorPreference: editorPreference,
-        shouldSaveEditorPreference: true,
+      const message: MessageSaveSyncedResource = {
+        shouldSaveSyncedReources: true,
+        shouldSaveSyncedReourcesType: "strokeStyles",
+        syncedResources: runtimeSyncedResources,
         module: "General",
-        phase: "Actual"
-      };
+        phase: "Actual",
+        direction: "Inner"
+      }
 
       parent.postMessage({ pluginMessage: message }, "*");
 
@@ -72,7 +77,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
         handleClose();
       }
     }
-  }, [editorPreference]); // Run when `editorPreference` updates
+  }, [runtimeSyncedResources]); // Run when `runtimeSyncedResources` updates
 
   const [savingPreference, setSavingPreference] = useState(false);
 
@@ -81,7 +86,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => saveNewStrokeStyle(true),
         });
         return;
@@ -90,7 +95,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
 
     setSavingPreference(true); // Set flag to indicate saving is in progress
 
-    setEditorPreference((prev) => ({
+    setRuntimeSyncedResources((prev) => ({
       ...prev,
       strokeStyles: [...prev.strokeStyles, { name: styleName, id: generateUUID(), style: stroke }]
     }));
@@ -101,7 +106,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => saveEditedStrokeStyle(true),
         });
         return;
@@ -119,7 +124,7 @@ const StrokeEditModal: React.FC<StrokeEditModalProps> = ({
     }
 
     setSavingPreference(true); // Set flag to indicate saving is in progress
-    setEditorPreference((prev) => {
+    setRuntimeSyncedResources((prev) => {
       const updatedStrokeStyles = prev.strokeStyles.map((style) =>
         style.id === existingStyleId
           ? { ...style, name: existingStyleName, style: stroke } // Update name & style

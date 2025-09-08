@@ -4,13 +4,14 @@ import Modal from '../Modal';
 import { useTranslation } from "react-i18next";
 import FigmaButton from "../FigmaButton";
 import SubscriptionPlanBlock from "../SubscriptionPlanBlock";
-import { SvgSkip } from "../../assets/icons";
+import { SvgExternalLink, SvgSkip } from "../../assets/icons";
+import SavedTimeMessage from "../SavedTimeMessage";
 
 interface FreeUserDelayModalProps {
 }
 
 const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
-  const { freeUserDelayModalConfig, setFreeUserDelayModalConfig } = useAppContext();
+  const { freeUserDelayModalConfig, setFreeUserDelayModalConfig, editorPreference } = useAppContext();
   const { t } = useTranslation(["module", "license", "term"]);
 
   //Param
@@ -57,7 +58,25 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
     <Modal show={freeUserDelayModalConfig.show} handleClose={handleCloseFreeUserDelay}>
       <div className="free-trial-modal">
         <h2>{t("license:upgradeToSkipWaiting")}</h2>
-        <div>
+        {/* <div>
+          <SavedTimeMessage />
+        </div> */}
+        <div className="mt-xsmall">
+        <div className="border-radius-xxxlarge padding-16 shadow-view subscription-background">
+          <h4>👋 Get 1-year PRO for free</h4>
+          <span className="note note-large">I am conducting a brief questionnaire to better understand your needs. Complete it to receive a free one-year Pro license!</span>
+          <div className="mt-xsmall"></div>
+          <FigmaButton
+            title={"Fill questionnaire"}
+            buttonType={"tertiary"}
+            onClick={() => { window.open("https://forms.gle/YPmM9FxmdD6aKngw7", "_blank"); }}
+            svgPosition={"right"}
+            hasTopBottomMargin={false}
+            svg={<SvgExternalLink color="var(--figma-color-text)" />}
+          />
+        </div>
+      </div>
+        <div className="mt-xsmall">
           <SubscriptionPlanBlock
             plan={"monthly"}
             additionalClass={["subscription-background", "pro"]}

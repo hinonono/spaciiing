@@ -1,0 +1,9 @@
+@mixin indent-level($level) {
+  margin-left: $level * 1.5rem;
+}
+
+@for $i from 1 through 5 {
+  .indent-level-#{$i} {
+    @include indent-level($i);
+  }
+}

@@ -1,16 +1,22 @@
-import * as util from "./util";
+import { CatalogueKit } from './catalogue';
 import * as spaciiing from "./spaciiing";
+import * as propertyClipboard from "./propertyClipboard";
 import { MagicObjectMembers } from "../types/MagicObject";
 import {
+  MessageCreateSection,
   MessageShortcut,
   MessageShortcutFindAndReplace,
   MessageShortcutGenerateIconTemplate,
   MessageShortcutGenerateMagicalObjectMember,
+  MessageShortcutNumbering,
+  MessageShortcutSpiltText,
   MessageUnifyText,
 } from "../types/Messages/MessageShortcut";
 import { SpacingMode } from "../types/Messages/MessageSpaciiing";
-import { writeCatalogueDescBackToFigma } from "./catalogue/catalogueItemLink";
-import { getNodeCatalogueItemRichStyle } from "./styledTextSegments";
+import { updateArrowPosition } from "./arrowCreator/arrowCreator";
+import { Direction } from "../types/General";
+import { utils } from "./utils";
+import { semanticTokens } from './tokens';
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -81,7 +87,20 @@ export function executeShortcut(message: MessageShortcut) {
         createAutoLayoutIndividually();
         break;
       case "updateCatalogueDescBackToFigma":
-        writeCatalogueDescBackToFigma();
+        if (!message.lang) { throw new Error("Lang is required to update catalogue description back to figma.") }
+        CatalogueKit.linker.writeCatalogueDescBackToFigma(message.lang);
+        break;
+      case "numbering":
+        numbering(message as MessageShortcutNumbering);
+        break;
+      case "updateArrowPosition":
+        updateArrowPosition();
+        break;
+      case "spiltText":
+        spiltText(message as MessageShortcutSpiltText);
+        break;
+      case "createSection":
+        createSection(message as MessageCreateSection);
         break;
       case "debug":
         debugFunction();
@@ -93,7 +112,7 @@ export function executeShortcut(message: MessageShortcut) {
 }
 
 function debugFunction() {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Filter selection to only include text nodes
   const textNodes = selection.filter(
@@ -108,11 +127,216 @@ function debugFunction() {
   }
 
   figma.notify("OK!")
-
 }
 
+function createSection(message: MessageCreateSection) {
+  const { padding } = message;
+  const selection = utils.editor.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("No nodes selected.");
+    return;
+  }
+
+  const group = figma.group(selection, figma.currentPage);
+  if (!group.absoluteBoundingBox) {
+    figma.notify("❌ Absolute bounding box is not availabe.");
+    return;
+  }
+
+  //Create section
+  const section = figma.createSection();
+  section.name = "Section";
+
+  section.resizeWithoutConstraints(group.absoluteBoundingBox.width + padding * 2, group.absoluteBoundingBox.height + padding * 2);
+  section.x = group.absoluteBoundingBox.x - padding;
+  section.y = group.absoluteBoundingBox.y - padding;
+  section.appendChild(group);
+  group.x = padding;
+  group.y = padding;
+
+  figma.ungroup(group);
+  figma.notify(`✅ Created section with ${selection.length} nodes and ${padding}pt padding.`);
+}
+
+async function spiltText(message: MessageShortcutSpiltText) {
+  const { spiltType, spiltSymbol } = message;
+  const selection = utils.editor.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("No nodes selected.");
+    return;
+  }
+
+  if (selection.length > 1) {
+    figma.notify("Please select only one text layer.");
+    return;
+  }
+
+  const node = selection[0];
+
+  if (node.type !== "TEXT") {
+    figma.notify("Selected node is not a text layer.");
+    return;
+  }
+
+  await utils.editor.loadFontOnTextNode(node);
+
+  await utils.editor.loadFont([
+    semanticTokens.fontFamily.regular,
+  ]);
+
+  const originalText = node.characters;
+
+  let parts: string[] = [];
+  let mode: Direction = "horizontal"
+
+  if (spiltType === "LINE_BREAK") {
+    parts = originalText.split(/\r?\n/);
+    mode = "vertical";
+  } else if (spiltType === "SPACE") {
+    parts = originalText.split(/\s+/);
+  } else {
+    if (!spiltSymbol) {
+      throw new Error("Custom symbol is required to spilt text.")
+    }
+    parts = originalText.split(spiltSymbol);
+  }
+
+  parts = parts.map(part => part.trim()).filter(part => part.length > 0);
+
+  // const parts = originalText.split(spiltSymbol).map(part => part.trim()).filter(part => part.length > 0);
+
+  if (parts.length <= 1) {
+    figma.notify("Nothing to split. Text does not contain the split symbol.");
+    return;
+  }
+
+  const parent = node.parent;
+  if (!parent) {
+    figma.notify("Cannot add new layers. Parent not found.");
+    return;
+  }
+
+  const originalX = node.x;
+  const originalY = node.y;
+
+  let spiltedTextNodes: TextNode[] = [];
+
+  // Create new text layers
+  for (let i = 0; i < parts.length; i++) {
+    const newText = figma.createText();
+    newText.characters = parts[i];
+    figma.currentPage.appendChild(newText);
+    newText.x = originalX
+    newText.y = originalY
+    spiltedTextNodes.push(newText);
+
+    figma.currentPage.selection = [newText];
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["LAYER_OPACITY", "LAYER_BLEND_MODE"],
+      "pasteToReplace"
+    )
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["FONT_NAME", "FONT_SIZE", "LINE_HEIGHT", "LETTER_SPACING", "ALIGNMENT"],
+      "pasteToReplace"
+    )
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["FILL_ALL"],
+      "pasteToReplace"
+    )
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["STROKES", "STROKE_ALIGN", "STROKE_WEIGHT", "STROKE_STYLE", "STROKE_DASH", "STROKE_GAP", "STROKE_CAP", "STROKE_JOIN", "STROKE_MITER_LIMIT",],
+      "pasteToReplace"
+    )
+
+    await propertyClipboard.pastePropertyComposer(
+      "pastePropertyToObject",
+      node.id,
+      ["EFFECT_ALL"],
+      "pasteToReplace"
+    )
+  }
+
+  spaciiing.applySpacingToLayers(spiltedTextNodes, 8, mode, false, false)
+  setTimeout(() => {
+    try {
+      node.remove();
+      figma.notify(`✅ Split into ${parts.length} text layers. Original node deleted.`);
+    } catch (e) {
+      console.error("Failed to remove node:", e);
+    }
+  }, 100); // 100ms is usually safe
+}
+
+async function numbering(message: MessageShortcutNumbering) {
+  const { numberingdirection, numberingForm, startFrom } = message;
+  const selection = utils.editor.getCurrentSelection();
+
+  // Check if there are any nodes selected
+  if (selection.length === 0) {
+    figma.notify("No nodes selected.");
+    return;
+  } else if (selection.length === 1) {
+    figma.notify("Please select at least two objects.");
+    return;
+  }
+
+  // Ensure all selected nodes are text layers
+  const allTextNodes = selection.every(node => node.type === "TEXT");
+  if (!allTextNodes) {
+    figma.notify("❌ All selected nodes must be text layers.");
+    return;
+  }
+
+  const sortedSelection = utils.editor.sortSelectionBasedOnXAndY(numberingdirection, selection) as TextNode[];
+
+  for (let i = 0; i < sortedSelection.length; i++) {
+    const textNode = sortedSelection[i];
+    await figma.loadFontAsync(textNode.fontName as FontName);
+
+    let value: string;
+    switch (numberingForm) {
+      case "ALPHABETIC_LOWERCASE":
+        value = utils.string.getAlphabet(i, false);
+        break;
+      case "ALPHABETIC_UPPERCASE":
+        value = utils.string.getAlphabet(i, true);
+        break;
+      case "ZHTW_SIMPLE_HANZI":
+        value = utils.string.getSimpleHanziNumber(i);
+        break;
+      case "ZHTW_COMPLEX_HANZI":
+        value = utils.string.getComplexHanziNumber(i);
+        break;
+      case "NUMBER":
+      default:
+        const start = startFrom ?? 1;
+        value = `${start + i}`;
+        break;
+    }
+
+    textNode.characters = value;
+  }
+
+  figma.notify(`✅ Numbered ${sortedSelection.length} text layers.`);
+}
+
+
 function createAutoLayoutIndividually() {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length === 0) {
     figma.notify("❌ No layers selected. Please select at least 1 layers.");
@@ -124,7 +348,7 @@ function createAutoLayoutIndividually() {
     const originalX = item.x;
     const originalY = item.y;
 
-    const autoLayoutFrame = util.createAutolayoutFrame([item], 0, "HORIZONTAL");
+    const autoLayoutFrame = utils.node.createAutolayoutFrame([item], 0, "HORIZONTAL");
     autoLayoutFrame.resize(item.width, item.height);
     autoLayoutFrame.x = originalX;
     autoLayoutFrame.y = originalY;
@@ -139,7 +363,7 @@ function createAutoLayoutIndividually() {
  */
 function unifyText(message: MessageUnifyText) {
   const targetTextContent = message.targetTextContent;
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Filter selection to only include text nodes
   const textNodes = selection.filter(
@@ -154,7 +378,14 @@ function unifyText(message: MessageUnifyText) {
   // Load fonts and update text content
   textNodes.forEach(async (textNode) => {
     await figma.loadFontAsync(textNode.fontName as FontName);
-    textNode.characters = targetTextContent;
+
+    if (targetTextContent.includes("$O")) {
+      const originalContent = textNode.characters;
+      textNode.characters = targetTextContent.replace("$ORIGIN$", originalContent);
+
+    } else {
+      textNode.characters = targetTextContent;
+    }
   });
 
   figma.notify(`✅ Text content updated for ${textNodes.length} text node(s).`);
@@ -163,7 +394,7 @@ function unifyText(message: MessageUnifyText) {
 async function findAndReplaceInSelection(
   message: MessageShortcutFindAndReplace
 ) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Recursive function to find all text layers within the selection
   function findAllTextLayers(nodes: readonly SceneNode[]): SceneNode[] {
@@ -326,7 +557,13 @@ async function updateDateText(node: SceneNode) {
     const textNode = node as TextNode;
 
     await figma.loadFontAsync(textNode.fontName as FontName);
-    textNode.characters = util.getFormattedDate("shortDate");
+    textNode.characters = textNode.characters.replace("YY", utils.data.getCurrentTime("YEAR"));
+    textNode.characters = textNode.characters.replace("MO", utils.data.getCurrentTime("MONTH"));
+    textNode.characters = textNode.characters.replace("DD", utils.data.getCurrentTime("DAY"));
+    textNode.characters = textNode.characters.replace("HH", utils.data.getCurrentTime("HOUR"));
+    textNode.characters = textNode.characters.replace("MI", utils.data.getCurrentTime("MIN"));
+    textNode.characters = textNode.characters.replace("SS", utils.data.getCurrentTime("SECOND"));
+
     textNode.locked = true;
   } else if ("children" in node) {
     for (const child of node.children) {
@@ -336,7 +573,7 @@ async function updateDateText(node: SceneNode) {
 }
 
 function memorizeSelectedNodeId(member: MagicObjectMembers) {
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   if (selection.length !== 1) {
     figma.notify("❌ Please select only one layer.");
@@ -354,7 +591,7 @@ function memorizeSelectedNodeId(member: MagicObjectMembers) {
   }
 
   // 新版
-  const editorPreference = util.readEditorPreference();
+  const editorPreference = utils.data.readEditorPreference();
   switch (member) {
     case "note":
       editorPreference.magicObjects.noteId = selectedNode.id;
@@ -368,8 +605,8 @@ function memorizeSelectedNodeId(member: MagicObjectMembers) {
     default:
       break;
   }
-  util.saveEditorPreference(editorPreference, "Shortcut");
-  util.updateEditorPreference(editorPreference, "Shortcut");
+  utils.data.saveEditorPreference(editorPreference, "Shortcut");
+  utils.data.updateEditorPreference(editorPreference, "Shortcut");
   figma.notify(
     `✅ The id is memorized successfully from object ${selectedNode.name}`
   );
@@ -380,7 +617,7 @@ function generateIconTemplate(message: MessageShortcutGenerateIconTemplate) {
   const receivedOuterFrame = message.outerFrame;
   const quantity = message.quantity;
 
-  const viewport = util.getCurrentViewport();
+  const viewport = utils.editor.getCurrentViewport();
 
   const outerFrameSize = Math.max(receivedInnerFrame, receivedOuterFrame);
   const innerFrameSize = Math.min(receivedInnerFrame, receivedOuterFrame);
@@ -491,14 +728,14 @@ async function generateLabelFromObjectFillColor(
 
         switch (type) {
           case "HEX":
-            label = util.rgbToHex(
+            label = utils.color.rgbToHex(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b
             );
             break;
           case "RGB":
-            label = util.rgbToRGB255(
+            label = utils.color.rgbToRGB255(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b
@@ -506,7 +743,7 @@ async function generateLabelFromObjectFillColor(
             break;
           case "RGBA":
             if (rectColor.opacity != null) {
-              label = util.rgbToRGBA255(
+              label = utils.color.rgbToRGBA255(
                 rectColor.color.r,
                 rectColor.color.g,
                 rectColor.color.b,
@@ -520,7 +757,7 @@ async function generateLabelFromObjectFillColor(
             }
             break;
           case "HEX_WITH_TRANSPARENCY":
-            label = util.rgbToHexWithTransparency(
+            label = utils.color.rgbToHexWithTransparency(
               rectColor.color.r,
               rectColor.color.g,
               rectColor.color.b,
@@ -543,7 +780,7 @@ function createAndPlaceTextNode(
   selectedNode: SceneNode,
   fontName: FontName
 ) {
-  const textNode = util.createTextNode(label, fontName, 16);
+  const textNode = utils.node.createTextNode(label, fontName, 16);
   textNode.name = `${type}_LABEL`;
   textNode.x = selectedNode.x;
   textNode.y = selectedNode.y + selectedNode.height + 16;
@@ -555,7 +792,7 @@ function createAndPlaceTextNode(
  */
 function makeOverlay() {
   // Get the current selection of nodes
-  const selection = util.getCurrentSelection();
+  const selection = utils.editor.getCurrentSelection();
 
   // Iterate over each selected item
   selection.forEach((selectedItem) => {

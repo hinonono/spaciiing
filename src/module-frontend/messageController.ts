@@ -37,7 +37,7 @@ function messageActualController(
   i18n: i18n
 ) {
   const { module } = message;
-  const { setLicenseManagement, setEditorType } = appContext;
+  const { setLicenseManagement, setEditorType, setTriggeredCommand } = appContext;
 
   switch (module) {
     case "Init":
@@ -45,6 +45,10 @@ function messageActualController(
       const castedMessage = message as ExternalMessage;
       if (castedMessage.editorType) {
         setEditorType(castedMessage.editorType);
+      }
+
+      if (castedMessage.triggeredCommand) {
+        setTriggeredCommand(castedMessage.triggeredCommand);
       }
 
       break;
@@ -88,7 +92,8 @@ function messageActualController(
     case "LicenseManagement":
       licenseManagementHandler(
         message as ExternalMessageLicenseManagement,
-        setLicenseManagement
+        setLicenseManagement,
+        appContext
       );
       break;
     case "AspectRatioHelper":
@@ -115,7 +120,7 @@ function messageWillEndController(
   }
 
   const { module } = message;
-  const { virtualProfileGroups } = appContext;
+  // const { virtualProfileGroups } = appContext;
 
   switch (module) {
     case "Init":
@@ -146,7 +151,7 @@ function messageWillEndController(
     case "VariableEditor":
       break;
     case "VirtualProfile":
-      virtualProfileWillEnd(virtualProfileGroups, appContext);
+      virtualProfileWillEnd(appContext.runtimeSyncedResources.virtualProfiles, appContext);
       break;
     case "SelectionFilter":
       // Handle SelectionFilter case

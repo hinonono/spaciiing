@@ -58,13 +58,38 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
     }
   };
 
-  // 虛線與斷點 - using temporary states for editing
-  const [editingDash, setEditingDash] = useState<string>(editingStroke.dashAndGap?.[0]?.toString() || "");
-  const [editingGap, setEditingGap] = useState<string>(editingStroke.dashAndGap?.[1]?.toString() || "");
-  const [editingCustomDashAndGap, setEditingCustomDashAndGap] = useState<string>(editingStroke.dashAndGap?.toString() || "");
+  // 虛線與斷點
+  const editingDash = React.useMemo(() => {
+    if (editingStroke.dashAndGap && editingStroke.dashAndGap.length === 2) {
+      return editingStroke.dashAndGap[0].toString();
+    } else {
+      return "0";
+    }
+  }, [editingStroke.dashAndGap]);
+
+  const editingGap = React.useMemo(() => {
+    if (editingStroke.dashAndGap && editingStroke.dashAndGap.length === 2) {
+      return editingStroke.dashAndGap[1].toString();
+    } else {
+      return "0";
+    }
+  }, [editingStroke.dashAndGap]);
+
+  const editingCustomDashAndGap = React.useMemo(() => {
+    if (editingStroke.dashAndGap && editingStroke.dashAndGap.length > 2) {
+      return editingStroke.dashAndGap.toString();
+    } else {
+      return "2,2,2,2";
+    }
+  }, [editingStroke.dashAndGap]);
 
   const handleDashChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setEditingDash(event.target.value); // Update UI only
+    const newDashString = event.target.value;
+    const numberValue = Number(newDashString);
+    const gap = editingStroke.dashAndGap?.[1] || 0;
+    if (!isNaN(numberValue)) {
+      setEditingStroke((prev) => ({ ...prev, dashAndGap: [numberValue, gap] }));
+    }
   }
 
   const handleDashBlur = () => {
@@ -76,7 +101,12 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   }
 
   const handleGapChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setEditingGap(event.target.value); // Update UI only
+    const newGapString = event.target.value;
+    const numberValue = Number(newGapString);
+    const dash = editingStroke.dashAndGap?.[0] || 0;
+    if (!isNaN(numberValue)) {
+      setEditingStroke((prev) => ({ ...prev, dashAndGap: [dash, numberValue] }));
+    }
   }
 
   const handleGapBlur = () => {
@@ -88,7 +118,13 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   }
 
   const handleCustomDashAndGapChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setEditingCustomDashAndGap(event.target.value); // Update UI only
+    const newCustomDashAndGapString = event.target.value;
+    const parsedValues = newCustomDashAndGapString
+      .split(',')
+      .map((num) => num.trim())
+      .filter((num) => !isNaN(Number(num)))
+      .map(Number);
+    setEditingStroke((prev) => ({ ...prev, dashAndGap: parsedValues }));
   }
 
   const handleCustomDashAndGapBlur = () => {
@@ -112,15 +148,26 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
   };
 
   // 筆畫樣式
-  const [strokeStyle, setStrokeStyle] = useState("");
+  const strokeStyle = React.useMemo(() => {
+    if (!editingStroke.dashAndGap) return "solid";
+    if (editingStroke.dashAndGap.length === 2) return "dash";
+    return "custom";
+  }, [editingStroke.dashAndGap]);
+
   const handleStrokeStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newStyle = e.target.value;
-    setStrokeStyle(newStyle);
-
-    if (newStyle === "solid" || newStyle === "dash") {
+    if (newStyle === "solid") {
+      setEditingStroke((prev) => ({ ...prev, dashAndGap: undefined }));
+    } else if (newStyle === "dash") {
       setEditingStroke((prev) => ({ ...prev, dashAndGap: [0, 0] }));
+    } else if (newStyle === "custom") {
+      setEditingStroke((prev) => ({ ...prev, dashAndGap: [2, 2, 2, 2] }));
     }
-  }
+  };
+
+  useEffect(() => {
+    console.log("Editing stroke changed", editingStroke);
+  }, [editingStroke]);
 
   // 起始點樣式
   const handleStartingPointStyleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -163,7 +210,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
                 opacity={editingStroke.opacity}
                 size={16}
                 type={'square'}
-                extraClassName="mr-xxxsmall"
+                extraClassName="mr-xxsmall"
               />
             </div>
             <textarea
@@ -270,7 +317,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         )}
         {strokeStyle === "custom" && (
           <div>
-            <SectionTitle title={t("module:custom")} titleType="secondary" />
+            <SectionTitle title={t("term:custom")} titleType="secondary" />
             <div className="width-100">
               <textarea
                 className="textarea textarea-height-fit-content"

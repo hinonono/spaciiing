@@ -4,6 +4,8 @@ import FigmaButton from "./FigmaButton";
 import { StyleForm, StyleMode } from "../types/Messages/MessageStyleIntroducer";
 import { useTranslation } from "react-i18next";
 import ListViewHeader from "./ListViewHeader";
+import ColorThumbnailView from "./ColorThumbnailView";
+import CYCheckbox from "./CYCheckbox";
 
 interface FolderNavigatorProps {
   form: StyleForm;
@@ -11,6 +13,8 @@ interface FolderNavigatorProps {
   structure: NestedStructure;
   selectedScopes: StyleSelection;
   setSelectedScopes: React.Dispatch<React.SetStateAction<StyleSelection>>;
+  onNextPageClicked?: () => void;
+  onPreviousPageClicked?: () => void;
 }
 
 const FolderNavigator: React.FC<FolderNavigatorProps> = ({
@@ -19,6 +23,8 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
   structure,
   selectedScopes,
   setSelectedScopes,
+  onNextPageClicked,
+  onPreviousPageClicked,
 }) => {
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [currentStructure, setCurrentStructure] =
@@ -45,8 +51,12 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       setCurrentStructure(currentStructure[folder].children as NestedStructure);
       setSelectedScopes((prev) => ({
         title: currentPath.join("/"),
-        scopes: prev.scopes,
+        scopes: [],
       }));
+
+      if (onNextPageClicked) {
+        onNextPageClicked();
+      }
     }
   };
 
@@ -64,6 +74,10 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       title: currentPath.join("/"),
       scopes: [],
     }));
+
+    if (onPreviousPageClicked) {
+      onPreviousPageClicked();
+    }
   };
 
   const handleScopeChange = (id: string) => {
@@ -157,7 +171,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       <div
         className={`cy-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical`}
       >
-        <ul className="list-style-none">
+        <ul className="padding-tb-16 padding-lr-8">
           {Object.keys(currentStructure).map((key) => (
             <li key={key}>
               {currentStructure[key].children ? (
@@ -169,23 +183,20 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
                   <span className="chevron-right"></span>
                 </button>
               ) : (
-                <label
-                  key={currentStructure[key].id} // Use id as the key to ensure uniqueness
-                  className="container" // You can add indentation styles or other classes here
-                >
-                  {key}
-                  <input
-                    type="checkbox"
-                    value={currentStructure[key].id}
-                    checked={selectedScopes.scopes.includes(
-                      currentStructure[key].id!
-                    )}
-                    onChange={() =>
-                      handleScopeChange(currentStructure[key].id!)
+                <>
+                  <CYCheckbox
+                    label={
+                      <div className="flex flex-row align-items-center">
+                        {currentStructure[key].color && <ColorThumbnailView color={currentStructure[key].color} opacity={1} size={20} type={form === "STYLE" ? "rounded" : "square"} extraClassName="mr-xxsmall" />}
+                        {key}
+                      </div>
                     }
+                    checked={selectedScopes.scopes.includes(currentStructure[key].id!)}
+                    onChange={() => handleScopeChange(currentStructure[key].id!)}
+                    labelKey={currentStructure[key].id}
+                    value={currentStructure[key].id}
                   />
-                  <span className="checkmark"></span>
-                </label>
+                </>
               )}
             </li>
           ))}

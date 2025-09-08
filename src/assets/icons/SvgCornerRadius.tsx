@@ -4,7 +4,7 @@ import { SVGprops } from "../../types/SVGprops";
 const SvgCornerRadius: React.FC<SVGprops> = ({ color }) => {
   return (
     <svg fill={color} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M6,21c-.41,0-.75-.34-.75-.75v-7.25c0-4.27,3.48-7.75,7.75-7.75h7.25c.41,0,.75.34.75.75s-.34.75-.75.75h-7.25c-3.45,0-6.25,2.8-6.25,6.25v7.25c0,.41-.34.75-.75.75Z" />
+      <path d="M3 7v2h1.5V7A2.5 2.5 0 0 1 7 4.5h2V3H7C4.79 3 3 4.79 3 7Zm14-4h-2v1.5h2A2.5 2.5 0 0 1 19.5 7v2H21V7c0-2.21-1.79-4-4-4ZM4.5 17v-2H3v2c0 2.21 1.79 4 4 4h2v-1.5H7A2.5 2.5 0 0 1 4.5 17Zm15 0a2.5 2.5 0 0 1-2.5 2.5h-2V21h2c2.21 0 4-1.79 4-4v-2h-1.5v2Z" />
     </svg>
   );
 };

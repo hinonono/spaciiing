@@ -19,10 +19,13 @@ export function tabController(
   appContext: AppContextType
 ) {
   tabWillEndController(activeTab, prevTab, appContext);
-  activeTabController(activeTab);
+  activeTabController(activeTab, appContext);
 }
 
-function activeTabController(activeTab: Module) {
+function activeTabController(
+  activeTab: Module,
+  appContext: AppContextType
+) {
   switch (activeTab) {
     case "Init":
       // Handle Init case
@@ -86,7 +89,7 @@ function tabWillEndController(
   prevTab: Module | null,
   appContext: AppContextType
 ) {
-  const { virtualProfileGroups } = appContext;
+  // const { virtualProfileGroups } = appContext;
 
   switch (prevTab) {
     case "Init":
@@ -141,7 +144,7 @@ function tabWillEndController(
       break;
     case "VirtualProfile":
       if (activeTab !== "VirtualProfile") {
-        virtualProfileWillEnd(virtualProfileGroups, appContext);
+        virtualProfileWillEnd(appContext.runtimeSyncedResources.virtualProfiles, appContext);
       }
       break;
     case "SelectionFilter":

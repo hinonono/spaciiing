@@ -13,7 +13,7 @@ import {
   MessageShortcutGenerateIconTemplate,
 } from "../../types/Messages/MessageShortcut";
 import SegmentedControl from "../SegmentedControl";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 
 interface IconTemplateModalProps {
   show: boolean;
@@ -24,7 +24,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   show,
   handleClose,
 }) => {
-  const { t } = useTranslation(["module"]);
+  const { t } = useTranslation(["module", "term"]);
   const {
     licenseManagement,
     setShowCTSubscribe,
@@ -86,7 +86,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyGenerateIconTemplate(action, true),
         });
         return;
@@ -168,8 +168,9 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
 
   return (
     <Modal show={show} handleClose={handleClose}>
+      <h3>{t("module:createIconTemplate")}</h3>
       <div>
-        <SectionTitle title={t("module:size")} />
+        <SectionTitle title={t("term:size")} />
         <SegmentedControl
           inputName="icon-size"
           value={tempIconSize}

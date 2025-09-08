@@ -6,7 +6,7 @@ import { useAppContext } from "../../AppProvider";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../../module-frontend/utilFrontEnd";
 import { ShortcutAction, MessageShortcutFindAndReplace } from "../../types/Messages/MessageShortcut";
-import * as info from "../../info.json";
+import * as pluginConfig from "../../pluginConfig.json";
 
 interface FindAndReplaceModalProps {
   show: boolean;
@@ -46,7 +46,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
         setFreeUserDelayModalConfig({
           show: true,
-          initialTime: info.freeUserWaitingTime,
+          initialTime: pluginConfig.freeUserWaitingTime,
           onProceed: () => applyFindAndReplace(action, true),
         });
         return;
@@ -77,6 +77,7 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       show={show}
       handleClose={handleClose}
     >
+      <h3>{t("module:findAndReplace")}</h3>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:findInSelection")} />
         <div className="width-100">

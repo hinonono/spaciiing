@@ -18,6 +18,7 @@ import {
 import { useAppContext } from "../AppProvider";
 import SaleBannerWrapper from "./SaleBannerWrapper";
 import { getAvailableTabs } from "./AvailableTabs";
+import * as utilFrontEnd from "../module-frontend/utilFrontEnd";
 
 interface TabBarProps {
   activeTab: Module;
@@ -25,10 +26,7 @@ interface TabBarProps {
 }
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
-  const isDevelopment =
-    process.env.REACT_APP_ENV === "development" ||
-    process.env.REACT_APP_ENV === "developmentfree";
-  const { licenseManagement, editorType } = useAppContext();
+  const { licenseManagement, editorType, isWindowMinimized, setIsWindowMinimized } = useAppContext();
 
   const availableTabs = getAvailableTabs(editorType);
 
@@ -129,11 +127,6 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="tabs">
-      {isDevelopment && (
-        <div className="banner banner--development-mode">
-          現在正執行開發者模式
-        </div>
-      )}
       <SaleBannerWrapper licenseManagement={licenseManagement} />
       <div
         className="tab-bar scroll-container hide-scrollbar-horizontal"
@@ -148,12 +141,21 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
             key={tab.tabName}
             activeTab={activeTab}
             tabName={tab.tabName}
-            setActiveTab={setActiveTab}
+            // setActiveTab={setActiveTab}
             SvgComponent={tab.svgComponent}
+            onClick={() => {
+              setActiveTab(tab.tabName);
+              if (isWindowMinimized === true) {
+                utilFrontEnd.setWindowSize(false);
+                setIsWindowMinimized(false);
+              }
+            }}
           />
         ))}
       </div>
-      <div className="tab-content">{renderTabContent()}</div>
+      <div className={`tab-content`}>
+        {renderTabContent()}
+      </div>
     </div>
   );
 };

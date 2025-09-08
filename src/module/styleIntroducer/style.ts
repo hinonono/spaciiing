@@ -1,35 +1,39 @@
 import { AliasResources, MessageStyleIntroducer, PreviewResources, StyleForm, StyleMode } from "../../types/Messages/MessageStyleIntroducer";
-import * as util from "../util"
-import * as CLExplanationItem from "../catalogue/catalogueExplanationItem"
-import * as CLExplanationWrapper from "../catalogue/catalogueExplanationWrapper";
+import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
+import { utils } from "../utils";
+import { CatalogueKit } from "../catalogue";
+import { semanticTokens } from "../tokens";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
 ) {
-    const { styleSelection, styleMode, form } = message;
+    const { styleSelection, styleMode, form, lang } = message;
 
     if (!styleSelection) { throw new Error("styleSelection is required"); }
     const { title, scopes } = styleSelection;
-    const viewport = util.getCurrentViewport();
 
-    const fontNameRegular = { family: "Inter", style: "Regular" };
-    const fontNameSemi = { family: "Inter", style: "Semi Bold" };
-    const fontsToLoad = [fontNameRegular, fontNameSemi];
-    await Promise.all(fontsToLoad.map((font) => figma.loadFontAsync(font)));
+    await utils.editor.loadFont([
+        semanticTokens.fontFamily.regular,
+        semanticTokens.fontFamily.semiBold
+    ]);
 
+    const lr: CatalogueLocalizationResources = CatalogueKit.localizer.createLocalizationResource(lang);
     const selectedStyleList = await getSelectedStyleList(scopes, styleMode);
-    const explanationItems = createExplanationItemsHandler(form, styleMode, fontNameRegular, selectedStyleList)
 
-    const wrapperTitle = title == "" ? "Styles" : title
-    const titleSecondary = "Catalogue";
-    const explanationWrapper = CLExplanationWrapper.createExplanationWrapper(
+    // Explanation Items
+    const explanationItems = createExplanationItemsHandler(lr, form, styleMode, semanticTokens.fontFamily.regular, selectedStyleList)
+
+    // Wrapper
+    const wrapperTitle = title == "" ? lr.term["style"] : title
+    const titleSecondary = lr.module["moduleCatalogue"];
+    const explanationWrapper = await CatalogueKit.wrapper.create(
+        lr,
         form,
         explanationItems,
         wrapperTitle,
         titleSecondary,
-        fontNameSemi
+        semanticTokens.fontFamily.semiBold
     )
-    CLExplanationWrapper.setUpWrapper(explanationWrapper, viewport);
 
     figma.currentPage.appendChild(explanationWrapper);
     figma.currentPage.selection = [explanationWrapper];
@@ -58,6 +62,7 @@ async function getSelectedStyleList(scopes: string[], styleMode: StyleMode) {
 }
 
 function createExplanationItemsHandler(
+    lr: CatalogueLocalizationResources,
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
@@ -65,6 +70,7 @@ function createExplanationItemsHandler(
 ): FrameNode[] {
     if (styleMode === "COLOR") {
         const items = createItemColor(
+            lr,
             styleList as PaintStyle[],
             form,
             styleMode,
@@ -74,6 +80,7 @@ function createExplanationItemsHandler(
 
     } else if (styleMode === "TEXT") {
         const items = createItemText(
+            lr,
             styleList as TextStyle[],
             form,
             styleMode,
@@ -83,6 +90,7 @@ function createExplanationItemsHandler(
 
     } else if (styleMode === "EFFECT") {
         const items = createItemEffect(
+            lr,
             styleList as EffectStyle[],
             form,
             styleMode,
@@ -96,6 +104,7 @@ function createExplanationItemsHandler(
 }
 
 function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
+    lr: CatalogueLocalizationResources,
     styleList: T[],
     form: StyleForm,
     styleMode: StyleMode,
@@ -111,7 +120,7 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
         const previewResources = getPreviewResources(member);
         const aliasResources: AliasResources = {};
 
-        const explanationItem = CLExplanationItem.createExplanationItem(
+        const explanationItem = CatalogueKit.explanationItemKit.main.createExplanationItem(
             form,
             styleMode,
             id,
@@ -119,7 +128,8 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
             description,
             fontName,
             previewResources,
-            aliasResources
+            aliasResources,
+            lr
         );
 
         explanationItem.primaryAxisSizingMode = "AUTO";
@@ -133,12 +143,13 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
 
 
 function createItemColor(
+    lr: CatalogueLocalizationResources,
     styleList: PaintStyle[],
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(styleList, form, styleMode, fontName, (style) => {
+    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => {
         const paint = style.paints[0];
 
         if (!paint) {
@@ -186,23 +197,25 @@ function createItemColor(
 }
 
 function createItemText(
+    lr: CatalogueLocalizationResources,
     styleList: TextStyle[],
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(styleList, form, styleMode, fontName, (style) => ({
+    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => ({
         textStyle: style
     }));
 }
 
 function createItemEffect(
+    lr: CatalogueLocalizationResources,
     styleList: EffectStyle[],
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(styleList, form, styleMode, fontName, (style) => ({
+    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => ({
         effects: [...style.effects]
     }));
 }

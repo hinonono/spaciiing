@@ -1,14 +1,14 @@
-import { ConnectPointPosition, RectangleSegmentMap, RectangleSegmentType, SegmentConnectionData, SegmentConnectionGroup } from "../../types/ArrowCreator";
+import { ConnectPointPosition, RectangleSegmentMap, RectSegmentType, SegmentConnectionData, SegmentConnectionGroup } from "../../types/ArrowCreator";
 import { CYStroke } from "../../types/CYStroke";
 import { Coordinates, Direction } from "../../types/General";
 import { MessageArrowCreator } from "../../types/Messages/MessageArrowCreator";
-import * as util from "../util";
-import * as rh from "./routeHorizontal"
-import * as rv from "./routeVertical";
+import { utils } from "../utils";
+import { router } from "./router";
 import { semanticTokens } from "../tokens";
+import { ArrowSchema } from "../../types/ArrowSchema";
 
 export function reception(message: MessageArrowCreator) {
-    const selection = util.getCurrentSelection();
+    const selection = utils.editor.getCurrentSelection();
 
     // Check if there are any nodes selected
     if (selection.length === 0) {
@@ -19,56 +19,38 @@ export function reception(message: MessageArrowCreator) {
         return;
     }
 
-    const sortedSelction = sortSelectionBasedOnXAndY(message.layoutDirection, selection)
+    const sortedSelction = utils.editor.sortSelectionBasedOnXAndY(message.layoutDirection, selection)
 
     for (let i = 0; i < sortedSelction.length - 1; i++) {
         const sourceItem = sortedSelction[i];
         const targetItem = sortedSelction[i + 1]
 
-        // calculateRouteELK(sourceItem, targetItem, message.stroke)
-        determineRoute(
+        const route = determineRoute(
             message.layoutDirection,
             sourceItem,
-            message.connectPointPositionPair.source,
+            message.connectPointPositionPair.start,
             targetItem,
-            message.connectPointPositionPair.target,
+            message.connectPointPositionPair.end,
             message.safeMargin,
+        )
+
+        console.log("normal route", route);
+
+        drawArrowAndAnnotation(
+            route,
             message.stroke,
-            message.createAnnotationBox
+            message.createAnnotationBox,
+            message.layoutDirection,
+            sourceItem.id,
+            message.connectPointPositionPair.start,
+            targetItem.id,
+            message.connectPointPositionPair.end,
+            message.safeMargin,
         )
     }
-
-    for (const item of sortedSelction) {
-        item.setRelaunchData({ drawArrows: '' });
-    }
 }
 
-// The .sort() function in JavaScript/TypeScript uses a comparison function that returns:
-// 	•	A negative value (< 0) if a should be placed before b.
-// 	•	A positive value (> 0) if a should be placed after b.
-// 	•	Zero (0) if their order remains the same.
 
-// So, using a.x - b.x:
-// 	•	If a.x is less than b.x, it returns negative, meaning a comes before b.
-// 	•	If a.x is greater than b.x, it returns positive, meaning b comes before a.
-function sortSelectionBasedOnXAndY(direction: Direction, selection: SceneNode[]): SceneNode[] {
-    return selection.sort((a, b) => {
-        if (!a.absoluteBoundingBox || !b.absoluteBoundingBox) {
-            throw new Error("Absolute bounding box is required for sorting.");
-        }
-
-        const aX = a.absoluteBoundingBox.x;
-        const aY = a.absoluteBoundingBox.y;
-        const bX = b.absoluteBoundingBox.x;
-        const bY = b.absoluteBoundingBox.y;
-
-        if (direction === "horizontal") {
-            return aX === bX ? aY - bY : aX - bX;
-        } else {
-            return aY === bY ? aX - bX : aY - bY;
-        }
-    });
-}
 
 /**
  * Calculates the positions of various connection points on a rectangular layer,
@@ -83,59 +65,65 @@ function sortSelectionBasedOnXAndY(direction: Direction, selection: SceneNode[])
  *   - `actual`: The connection points without any margin.
  *   - `withMargin`: The connection points adjusted by the specified margin.
  */
-function calcNodeSegments(x: number, y: number, width: number, height: number, hMargin: number, vMargin: number, offset: number): SegmentConnectionData {
+function calcNodeSegments(node: SceneNode, margin: { horizontal: number, vertical: number }, offset: number): SegmentConnectionData {
+    const { absoluteBoundingBox, width, height } = node;
+    if (!absoluteBoundingBox) {
+        throw new Error("absoluteBondingBox is required in order to calculate node segments.");
+    }
+    const { x, y } = absoluteBoundingBox;
+
     const actual: RectangleSegmentMap = {
-        [RectangleSegmentType.TopLeft]: { x: x - offset, y: y - offset },
-        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - offset },
-        [RectangleSegmentType.TopRight]: { x: x + width + offset, y: y - offset },
-        [RectangleSegmentType.MiddleLeft]: { x: x - offset, y: y + height / 2 },
-        [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
-        [RectangleSegmentType.MiddleRight]: { x: x + width + offset, y: y + height / 2 },
-        [RectangleSegmentType.BottomLeft]: { x: x - offset, y: y + height + offset },
-        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + offset },
-        [RectangleSegmentType.BottomRight]: { x: x + width + offset, y: y + height + offset },
+        [RectSegmentType.TL]: { x: x - offset, y: y - offset },
+        [RectSegmentType.TC]: { x: x + width / 2, y: y - offset },
+        [RectSegmentType.TR]: { x: x + width + offset, y: y - offset },
+        [RectSegmentType.ML]: { x: x - offset, y: y + height / 2 },
+        [RectSegmentType.MC]: { x: x + width / 2, y: y + height / 2 },
+        [RectSegmentType.MR]: { x: x + width + offset, y: y + height / 2 },
+        [RectSegmentType.BL]: { x: x - offset, y: y + height + offset },
+        [RectSegmentType.BC]: { x: x + width / 2, y: y + height + offset },
+        [RectSegmentType.BR]: { x: x + width + offset, y: y + height + offset },
     };
     const withMargin: RectangleSegmentMap = {
-        [RectangleSegmentType.TopLeft]: { x: x - hMargin, y: y - vMargin },
-        [RectangleSegmentType.TopCenter]: { x: x + width / 2, y: y - vMargin },
-        [RectangleSegmentType.TopRight]: { x: x + width + hMargin, y: y - vMargin },
-        [RectangleSegmentType.MiddleLeft]: { x: x - hMargin, y: y + height / 2 },
-        [RectangleSegmentType.MiddleCenter]: { x: x + width / 2, y: y + height / 2 },
-        [RectangleSegmentType.MiddleRight]: { x: x + width + hMargin, y: y + height / 2 },
-        [RectangleSegmentType.BottomLeft]: { x: x - hMargin, y: y + height + vMargin },
-        [RectangleSegmentType.BottomCenter]: { x: x + width / 2, y: y + height + vMargin },
-        [RectangleSegmentType.BottomRight]: { x: x + width + hMargin, y: y + height + vMargin },
+        [RectSegmentType.TL]: { x: x - margin.horizontal, y: y - margin.vertical },
+        [RectSegmentType.TC]: { x: x + width / 2, y: y - margin.vertical },
+        [RectSegmentType.TR]: { x: x + width + margin.horizontal, y: y - margin.vertical },
+        [RectSegmentType.ML]: { x: x - margin.horizontal, y: y + height / 2 },
+        [RectSegmentType.MC]: { x: x + width / 2, y: y + height / 2 },
+        [RectSegmentType.MR]: { x: x + width + margin.horizontal, y: y + height / 2 },
+        [RectSegmentType.BL]: { x: x - margin.horizontal, y: y + height + margin.vertical },
+        [RectSegmentType.BC]: { x: x + width / 2, y: y + height + margin.vertical },
+        [RectSegmentType.BR]: { x: x + width + margin.horizontal, y: y + height + margin.vertical },
     };
     return { actual, withMargin };
 }
 
-function calcNodeGap(sourceNode: SceneNode, targetNode: SceneNode): { horizontal: number, vertical: number } {
-    if (!sourceNode.absoluteBoundingBox || !targetNode.absoluteBoundingBox) {
+function calcNodeGap(start: SceneNode, end: SceneNode): { horizontal: number, vertical: number } {
+    if (!start.absoluteBoundingBox || !end.absoluteBoundingBox) {
         throw new Error("Absolute bounding box is required to calculate node gap.")
     }
 
     let hGap: number, vGap: number;
 
-    const rightOfSourceNode = sourceNode.absoluteBoundingBox.x + sourceNode.width;
-    const rightOfTargetNode = targetNode.absoluteBoundingBox.x + targetNode.width;
+    const rightOfSourceNode = start.absoluteBoundingBox.x + start.width;
+    const rightOfTargetNode = end.absoluteBoundingBox.x + end.width;
 
-    const bottomOfSourceNode = sourceNode.absoluteBoundingBox.y + sourceNode.height;
-    const bottomOfTargetNode = targetNode.absoluteBoundingBox.y + targetNode.height;
+    const bottomOfSourceNode = start.absoluteBoundingBox.y + start.height;
+    const bottomOfTargetNode = end.absoluteBoundingBox.y + end.height;
 
     // Calculate vertical gap
-    if (targetNode.absoluteBoundingBox.y >= bottomOfSourceNode) {
-        vGap = targetNode.absoluteBoundingBox.y - bottomOfSourceNode; // target is below
-    } else if (sourceNode.absoluteBoundingBox.y >= bottomOfTargetNode) {
-        vGap = sourceNode.absoluteBoundingBox.y - bottomOfTargetNode; // target is above
+    if (end.absoluteBoundingBox.y >= bottomOfSourceNode) {
+        vGap = end.absoluteBoundingBox.y - bottomOfSourceNode; // target is below
+    } else if (start.absoluteBoundingBox.y >= bottomOfTargetNode) {
+        vGap = start.absoluteBoundingBox.y - bottomOfTargetNode; // target is above
     } else {
         vGap = 0; // overlapping vertically
     }
 
     // Calculate horizontal gap
-    if (targetNode.absoluteBoundingBox.x >= rightOfSourceNode) {
-        hGap = targetNode.absoluteBoundingBox.x - rightOfSourceNode; // target is to the right
-    } else if (sourceNode.absoluteBoundingBox.x >= rightOfTargetNode) {
-        hGap = sourceNode.absoluteBoundingBox.x - rightOfTargetNode; // target is to the left
+    if (end.absoluteBoundingBox.x >= rightOfSourceNode) {
+        hGap = end.absoluteBoundingBox.x - rightOfSourceNode; // target is to the right
+    } else if (start.absoluteBoundingBox.x >= rightOfTargetNode) {
+        hGap = start.absoluteBoundingBox.x - rightOfTargetNode; // target is to the left
     } else {
         hGap = 0; // overlapping horizontally
     }
@@ -153,40 +141,38 @@ function createSegmentConnectionGroup(
 ): SegmentConnectionGroup {
     if (mode === "horizontal") {
         return {
-            source: source,
-            target: target,
-            betweenItemTopCenter: {
-                x: source.withMargin[RectangleSegmentType.TopRight].x,
-                y: Math.min(source.withMargin[RectangleSegmentType.TopRight].y, target.withMargin[RectangleSegmentType.TopLeft].y)
+            start: source,
+            end: target,
+            betweenItem: {
+                topCenter: {
+                    x: source.withMargin[RectSegmentType.TR].x,
+                    y: Math.min(source.withMargin[RectSegmentType.TR].y, target.withMargin[RectSegmentType.TL].y)
+                },
+                bottomCenter: {
+                    x: source.withMargin[RectSegmentType.TR].x,
+                    y: Math.max(source.withMargin[RectSegmentType.BR].y, target.withMargin[RectSegmentType.BL].y)
+                }
             },
-            betweenItemBottomCenter: {
-                x: source.withMargin[RectangleSegmentType.TopRight].x,
-                y: Math.max(source.withMargin[RectangleSegmentType.BottomRight].y, target.withMargin[RectangleSegmentType.BottomLeft].y)
-            }
         }
     } else {
         return {
-            source: source,
-            target: target,
-            betweenItemMiddleLeft: {
-                x: Math.min(source.withMargin[RectangleSegmentType.BottomLeft].x, target.withMargin[RectangleSegmentType.TopLeft].x),
-                y: source.withMargin[RectangleSegmentType.BottomLeft].y
-            },
-            betweenItemMiddleRight: {
-                x: Math.max(source.withMargin[RectangleSegmentType.BottomRight].x, target.withMargin[RectangleSegmentType.TopRight].x),
-                y: source.withMargin[RectangleSegmentType.BottomLeft].y
-            },
+            start: source,
+            end: target,
+            betweenItem: {
+                middleLeft: {
+                    x: Math.min(source.withMargin[RectSegmentType.BL].x, target.withMargin[RectSegmentType.TL].x),
+                    y: source.withMargin[RectSegmentType.BL].y
+                },
+                middleRight: {
+                    x: Math.max(source.withMargin[RectSegmentType.BR].x, target.withMargin[RectSegmentType.TR].x),
+                    y: source.withMargin[RectSegmentType.BL].y
+                }
+            }
         }
     }
 }
 
-async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
-    if (points.length < 2) {
-        throw new Error("A polyline requires at least two points.");
-    }
-    const vector = figma.createVector();
-    figma.currentPage.appendChild(vector);
-
+function createVectorNetwork(points: Coordinates[]) {
     const vertices = points.map((point) => ({
         x: point.x,
         y: point.y,
@@ -203,108 +189,170 @@ async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
         regions: [], // No enclosed region, just a line
     };
 
-    await vector.setVectorNetworkAsync(vectorNetwork);
-
-    const strokeColor = util.hexToRgb(strokeStyle.color);
-    // Apply stroke style
-    vector.strokes = [{ type: "SOLID", color: strokeColor, opacity: strokeStyle.opacity }];
-    if (strokeStyle.dashAndGap) {
-        vector.dashPattern = strokeStyle.dashAndGap
-    }
-    vector.strokeWeight = strokeStyle.strokeWeight;
-    vector.name = "Arrow"
-    vector.cornerRadius = strokeStyle.cornerRadius
-    vector.strokeCap = "NONE"
-
-
-    // Workaround for buggy figma plugin api
-    // 由於Figma不允許直接對單側Stroke Cap進行修改，所以先將它化為純文字然後改變它
-    /* make a copy of the original node */
-    let copy = JSON.parse(JSON.stringify(vector.vectorNetwork))
-    if ("strokeCap" in copy.vertices[copy.vertices.length - 1]) {
-        copy.vertices[0].strokeCap = strokeStyle.startPointCap
-        copy.vertices[copy.vertices.length - 1].strokeCap = strokeStyle.endPointCap
-    }
-    await vector.setVectorNetworkAsync(copy)
+    return vectorNetwork;
 }
 
-function determineRoute(
-    direction: Direction,
-    sourceNode: SceneNode,
-    sourceItemConnectPoint: ConnectPointPosition,
-    targetNode: SceneNode,
-    targetItemConnectPoint: ConnectPointPosition,
-    offset: number,
-    strokeStyle: CYStroke,
-    createAnnotationBool: boolean
-) {
-    const gap = calcNodeGap(sourceNode, targetNode);
-    const finalDecidedGap = {
+async function createPolyline(points: Coordinates[], strokeStyle: CYStroke) {
+    if (points.length < 2) {
+        throw new Error("A polyline requires at least two points.");
+    }
+    const vector = figma.createVector();
+    figma.currentPage.appendChild(vector);
+
+    const vectorNetwork = createVectorNetwork(points);
+    await utils.node.setStrokeCap(vector, vectorNetwork, strokeStyle.startPointCap, strokeStyle.endPointCap)
+    applyStrokeStyle(vector, strokeStyle);
+
+    vector.name = "Arrow Vector"
+
+    return vector
+}
+
+function applyStrokeStyle(node: VectorNode, strokeStyle: CYStroke) {
+    const strokeColor = utils.color.hexToRgb(strokeStyle.color);
+    node.strokes = [{ type: "SOLID", color: strokeColor, opacity: strokeStyle.opacity }];
+    if (strokeStyle.dashAndGap) {
+        node.dashPattern = strokeStyle.dashAndGap
+    }
+    node.strokeWeight = strokeStyle.strokeWeight;
+    node.cornerRadius = strokeStyle.cornerRadius
+}
+
+function calcMargin(gap: { horizontal: number, vertical: number }): { horizontal: number, vertical: number } {
+    const margin = {
         horizontal: gap.horizontal === 0 ? gap.vertical / 2 : gap.horizontal / 2,
         vertical: gap.vertical === 0 ? gap.horizontal / 2 : gap.vertical / 2
     }
 
-    console.log("final gap", finalDecidedGap);
+    return margin;
+}
 
+function determineRoute(
+    direction: Direction,
+    start: SceneNode,
+    startConnectPoint: ConnectPointPosition,
+    end: SceneNode,
+    endConnectPoint: ConnectPointPosition,
+    offset: number,
+) {
+    const gap = calcNodeGap(start, end);
+    const margin = calcMargin(gap);
 
-    if (!sourceNode.absoluteBoundingBox || !targetNode.absoluteBoundingBox) {
+    if (!start.absoluteBoundingBox || !end.absoluteBoundingBox) {
         throw new Error("Absolute bounding box is required to determine route.")
     }
 
-    const sourceNodeConnectionData = calcNodeSegments(sourceNode.absoluteBoundingBox.x, sourceNode.absoluteBoundingBox.y, sourceNode.absoluteBoundingBox.width, sourceNode.absoluteBoundingBox.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
-    const targetNodeConnectionData = calcNodeSegments(targetNode.absoluteBoundingBox.x, targetNode.absoluteBoundingBox.y, targetNode.absoluteBoundingBox.width, targetNode.absoluteBoundingBox.height, finalDecidedGap.horizontal, finalDecidedGap.vertical, offset)
-    const group = createSegmentConnectionGroup(direction, sourceNodeConnectionData, targetNodeConnectionData)
+    console.log(start.absoluteBoundingBox, end.absoluteBoundingBox)
+
+    const startConnectionData = calcNodeSegments(start, margin, offset);
+    const endConnectionData = calcNodeSegments(end, margin, offset);
+    const group = createSegmentConnectionGroup(direction, startConnectionData, endConnectionData)
 
     let route: Coordinates[] = [];
 
     if (direction === "horizontal") {
-        if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
-            route = rh.determineRouteFromTopCenter(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
-            route = rh.determineRouteFromBottomCenter(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
-            route = rh.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
-            route = rh.determineRouteFromMiddleRight(targetItemConnectPoint, group);
+        if (startConnectPoint === RectSegmentType.TC) {
+            route = router.horizontal.routeFromTC(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.BC) {
+            route = router.horizontal.routeFromBC(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.ML) {
+            route = router.horizontal.routeFromML(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.MR) {
+            route = router.horizontal.routeFromMR(endConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }
     } else {
-        if (sourceItemConnectPoint === RectangleSegmentType.TopCenter) {
-            route = rv.determineRouteFromTopCenter(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.BottomCenter) {
-            route = rv.determineRouteFromBottomCenter(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleLeft) {
-            route = rv.determineRouteFromMiddleLeft(targetItemConnectPoint, group);
-        } else if (sourceItemConnectPoint === RectangleSegmentType.MiddleRight) {
-            route = rv.determineRouteFromMiddleRight(targetItemConnectPoint, group);
+        if (startConnectPoint === RectSegmentType.TC) {
+            route = router.vertical.routeFromTC(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.BC) {
+            route = router.vertical.routeFromBC(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.ML) {
+            route = router.vertical.routeFromML(endConnectPoint, group);
+        } else if (startConnectPoint === RectSegmentType.MR) {
+            route = router.vertical.routeFromMR(endConnectPoint, group);
         } else {
             throw new Error("Unable to determine route from source item connect point.")
         }
     }
 
+    const optimizedRoute = utils.vector.removeDuplicateCoordinatesFromPath(route);
+
+    return optimizedRoute;
+}
+
+async function drawArrowAndAnnotation(
+    route: Coordinates[],
+    strokeStyle: CYStroke,
+    createAnnotationBool: boolean,
+    direction: Direction,
+    startNodeId: string,
+    startConnectPoint: ConnectPointPosition,
+    endNodeId: string,
+    endConnectPoint: ConnectPointPosition,
+    offset: number,
+) {
+    let line: VectorNode;
+
     if (route.length !== 0) {
-        createPolyline(route, strokeStyle)
+        line = await createPolyline(route, strokeStyle)
+
+        if (createAnnotationBool === false) {
+            const arrowGroup = figma.group([line], figma.currentPage);
+            arrowGroup.name = "Arrow"
+
+            setArrowSchemaData(
+                arrowGroup,
+                line.id,
+                direction,
+                startNodeId,
+                startConnectPoint,
+                endNodeId,
+                endConnectPoint,
+                offset,
+                strokeStyle,
+                createAnnotationBool
+            )
+        }
     } else {
         throw new Error("Unable to draw path because route is undefined.")
     }
 
     if (createAnnotationBool) {
-        const midPoint = util.calcMidpoint(route)
-        createAnnotation(midPoint, strokeStyle);
+        const midPoint = utils.vector.calcMidpoint(route)
+        const annotationNode = await createAnnotation(midPoint, strokeStyle);
+
+        const arrowGroup = figma.group([line, annotationNode], figma.currentPage);
+        arrowGroup.name = "Arrow"
+
+        setArrowSchemaData(
+            arrowGroup,
+            line.id,
+            direction,
+            startNodeId,
+            startConnectPoint,
+            endNodeId,
+            endConnectPoint,
+            offset,
+            strokeStyle,
+            createAnnotationBool,
+            annotationNode.id
+        )
     }
 }
 
-async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
-    await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-    await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
+async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
+    await utils.editor.loadFont([
+        semanticTokens.fontFamily.regular,
+        semanticTokens.fontFamily.semiBold
+    ]);
     const annotationNodeSize = {
         width: strokeStlye.strokeWeight * 30,
         height: strokeStlye.strokeWeight * 8,
         fontSize: strokeStlye.strokeWeight * 3,
     }
 
-    const annotation = util.createTextNode(
+    const annotation = utils.node.createTextNode(
         "Sample Text",
         { family: "Inter", style: "Semi Bold" },
         annotationNodeSize.fontSize
@@ -314,15 +362,13 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
     annotation.textAlignVertical = "CENTER";
     annotation.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
 
-    const backgroundColor = util.hexToRgb(strokeStlye.color);
+    const backgroundColor = utils.color.hexToRgb(strokeStlye.color);
 
-    const annotationNode = util.createAutolayoutFrame(
+    const annotationNode = utils.node.createAutolayoutFrame(
         [annotation],
         8,
         "HORIZONTAL"
     )
-
-
 
     annotationNode.layoutAlign = "CENTER";
     annotationNode.primaryAxisAlignItems = "CENTER";
@@ -336,7 +382,133 @@ async function createAnnotation(position: Coordinates, strokeStlye: CYStroke) {
     annotationNode.resize(annotationNodeSize.width, annotationNodeSize.height)
     annotationNode.name = "Annotation"
 
-    annotationNode.x = position.x - (annotationNodeSize.width / 2)
-    annotationNode.y = position.y - (annotationNodeSize.height / 2)
+    setAnnotationNodePosition(annotationNode, midPoint);
     annotationNode.cornerRadius = semanticTokens.cornerRadius.infinite;
+
+    return annotationNode
+}
+
+function setAnnotationNodePosition(node: SceneNode, midPoint: Coordinates) {
+    node.x = midPoint.x - (node.width / 2);
+    node.y = midPoint.y - (node.height / 2);
+}
+
+function setArrowSchemaData(
+    groupNode: SceneNode,
+    arrowNodeId: string,
+    direction: Direction,
+    startNodeId: string,
+    startConnectPoint: ConnectPointPosition,
+    endNodeId: string,
+    endItemConnectPoint: ConnectPointPosition,
+    offset: number,
+    strokeStyle: CYStroke,
+    hasAnnotation: boolean,
+    annotationNodeId?: string,
+) {
+    // const key = "arrow-schema"
+    const schema: ArrowSchema = {
+        objectType: "SPACIIING_ARROW",
+        arrowNodeId: arrowNodeId,
+        annotationNodeId: annotationNodeId,
+        direction: direction,
+        startNodeId: startNodeId,
+        startConnectPoint: startConnectPoint,
+        endNodeId: endNodeId,
+        endConnectPoint: endItemConnectPoint,
+        offset: offset,
+        strokeStyle: strokeStyle,
+        hasAnnotation: hasAnnotation,
+    }
+
+    groupNode.setPluginData(utils.dataKeys.ARROW_SCHEMA, JSON.stringify(schema));
+    groupNode.setRelaunchData(({ [utils.relaunchCommand.updateArrowsPosition.name]: utils.relaunchCommand.updateArrowsPosition.desc }))
+}
+
+function getArrowSchema(obj: SceneNode): ArrowSchema {
+    // const key = "arrow-schema"
+
+    const data = obj.getPluginData(utils.dataKeys.ARROW_SCHEMA);
+
+    if (data) {
+        const decodedData = JSON.parse(data) as ArrowSchema;
+        return decodedData;
+    } else {
+        throw new Error("ArrowSchema is undefined.");
+    }
+}
+
+export async function updateArrowPosition() {
+    const selection = utils.editor.getCurrentSelection();
+
+    if (selection.length === 0) {
+        figma.notify("No nodes selected.");
+        return;
+    }
+
+    let successCount = 0;
+    let errorCount = 0;
+
+    for (let i = 0; i < selection.length; i++) {
+        const item = selection[i];
+
+        try {
+            const schema = getArrowSchema(item);
+            const arrowNode = figma.currentPage.findOne(n => n.id === schema.arrowNodeId);
+            const annotationNode = figma.currentPage.findOne(n => n.id === schema.annotationNodeId);
+            const sourceNode = figma.currentPage.findOne(n => n.id === schema.startNodeId);
+            const targetNode = figma.currentPage.findOne(n => n.id === schema.endNodeId);
+
+            if (!sourceNode || !targetNode) {
+                throw new Error("Missing source or target node.");
+            }
+
+            if (!arrowNode || arrowNode.type !== "VECTOR") {
+                throw new Error("Missing or invalid arrow node.");
+            }
+
+            const newRoute = determineRoute(
+                schema.direction,
+                sourceNode,
+                schema.startConnectPoint,
+                targetNode,
+                schema.endConnectPoint,
+                schema.offset
+            );
+
+            if (figma.editorType === "slides") {
+                // 將ArrowNode的位置歸零，使得記載著「畫布絕對位置」的向量線段可以反映在正確的位置上
+                // 在簡報模式中，若要取得畫布的(0,0)點位置，需要考慮當前投影片之於畫布的相對位置
+                // 由於簡報模式無法直接抓取「簡報node」，因此使用「起始點node」替代來計算相對於當前畫布而言的畫布（0,0）位置
+                // 以此使得記載著「畫布絕對位置」的向量線段可以反映在正確的位置上
+                if (!sourceNode.absoluteBoundingBox) {
+                    throw new Error("Source node must include absolute bounding box in order to calculate new arrow position.")
+                }
+                const pageOriginRelativeToCurrentSlide: Vector = { x: sourceNode.x - sourceNode.absoluteBoundingBox.x, y: sourceNode.y - sourceNode.absoluteBoundingBox.y };
+
+                arrowNode.x = pageOriginRelativeToCurrentSlide.x;
+                arrowNode.y = pageOriginRelativeToCurrentSlide.y;
+            } else {
+                // 將ArrowNode的位置歸零，使得記載著「畫布絕對位置」的向量線段可以反映在正確的位置上
+                arrowNode.x = 0;
+                arrowNode.y = 0;
+            }
+
+            const newVectorNetwork = createVectorNetwork(newRoute);
+            await utils.node.setStrokeCap(arrowNode, newVectorNetwork, schema.strokeStyle.startPointCap, schema.strokeStyle.endPointCap);
+            applyStrokeStyle(arrowNode, schema.strokeStyle)
+
+            if (annotationNode) {
+                const midPoint = utils.vector.calcMidpoint(newRoute);
+                setAnnotationNodePosition(annotationNode, midPoint);
+            }
+
+            successCount++;
+        } catch (error) {
+            console.error(`Error updating arrow for item at index ${i}:`, error);
+            errorCount++;
+        }
+    }
+
+    figma.notify(`Arrow update completed. ✅Success: ${successCount}, ❌Errors: ${errorCount}`);
 }

@@ -4,21 +4,24 @@ import {
   LicenseResponseError,
   LicenseResponseSuccess,
 } from "./../types/LicenseManagement";
-import * as util from "../module/util";
+import { utils } from "../module/utils";
+
 import * as paymentsUtil from "./paymentsUtil";
 import { SalesConfig } from "../types/SalesConfig";
 import {
   ExternalMessageLicenseManagement,
   MessageLicenseManagement,
 } from "../types/Messages/MessageLicenseManagement";
+import { AppContextType } from "../AppProvider";
 
 export const licenseManagementHandler = (
   message: ExternalMessageLicenseManagement,
-  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
+  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>,
+  appContext: AppContextType
 ) => {
   switch (message.action) {
     case "VERIFY":
-      licenseVerifyHandler(message.license, setLicenseManagement);
+      licenseVerifyHandler(message.license, setLicenseManagement, appContext);
       break;
     case "UPDATE":
       break;
@@ -117,15 +120,18 @@ export const eraseLicense = (
 
 const licenseVerifyHandler = async (
   license: LicenseManagement,
-  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
+  setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>,
+  appContext: AppContextType
 ) => {
   let newLicense = { ...license };
-  const oldDate = util.convertUTCStringToDate(license.sessionExpiredAt);
+  const expiredAt = utils.data.convertUTCStringToDate(license.sessionExpiredAt);
 
   // console.log("Is old date:", oldDate);
 
-  if (oldDate <= new Date()) {
-    const newExpiredTime = util.addHours(new Date(), 3).toUTCString();
+  appContext.setIsVerifying(true);
+
+  if (expiredAt <= new Date()) {
+    const newExpiredTime = utils.data.addHours(new Date(), 3).toUTCString();
     newLicense.sessionExpiredAt = newExpiredTime;
 
     // 過期
@@ -163,6 +169,8 @@ const licenseVerifyHandler = async (
     }
   }
 
+  appContext.setIsVerifying(false);
+
   const message: MessageLicenseManagement = {
     license: newLicense,
     module: "LicenseManagement",
@@ -170,12 +178,7 @@ const licenseVerifyHandler = async (
     direction: "Inner",
     action: "UPDATE",
   };
-  parent.postMessage(
-    {
-      pluginMessage: message,
-    },
-    "*"
-  );
+  parent.postMessage({ pluginMessage: message, }, "*");
   setLicenseManagement(newLicense);
 };
 
