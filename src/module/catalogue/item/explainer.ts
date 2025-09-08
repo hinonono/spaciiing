@@ -752,6 +752,9 @@ function createAliasNameWrapper(
     // console.log("aliasVariableCatalogueItemUrl", aliasVariableCatalogueItemUrl);
 
     const catalogueItemId = styledTextSegments.getCatalogueItemId(aliasVariableId);
+    if (catalogueItemId === null) {
+      console.warn("Cannot find catologueItem id with provided aliasVariableId.");
+    }
     const resolvedCatalogueItem = figma.currentPage.findOne(
       (node) => node.id === catalogueItemId && node.removed === false
     );

@@ -195,7 +195,9 @@ async function createGenericItem<T>(
                 let aliasVariable: { name: string, id: string | undefined, key: string | undefined }
 
                 const findLocalResult = localVariables.find((v) => v.id === value.id);
-                const findLibraryResult = libraryVariables.find((v) => v.key === variable.key);
+
+                // 在library variables裡頭叫做key，但內容大致上等同於id，可是還多了一些奇怪的字，所以用「包含」邏輯來找
+                const findLibraryResult = libraryVariables.find((v) => value.id.includes(v.key));
 
                 if (findLocalResult) {
                     // 尋找指定的variables連結的是否是本地variables
@@ -211,7 +213,15 @@ async function createGenericItem<T>(
                     aliasName.push(aliasVariable.name);
                     aliasVariableIds.push(aliasVariable.key);
                 } else {
-                    throw new Error("Termination due to aliasVariable being null or not found in both local and library variables.");
+                    console.error({
+                        var: variable,
+                        value: value,
+                        localVar: localVariables,
+                        findLocal: findLocalResult,
+                        libraryVar: libraryVariables,
+                        findLibrary: findLibraryResult
+                    });
+                    throw new Error(`Termination due to aliasVariable being null or not found in both local and library variables.`);
                 }
             }
 
