@@ -25,9 +25,7 @@ export function pushInfoAreaAdditionalContent(
                 fontName,
                 previewResources.colors.colors,
                 aliasResources.cyAliasVariables,
-                aliasResources.aliasNames,
                 aliasResources.variableModes,
-                aliasResources.aliasVariableIds,
                 lr
             )
             target.push(...items);
@@ -128,9 +126,7 @@ export function createPropertiesForColor(
     fontName: FontName,
     colors: RGBA[],
     cyAliasVariables: (CYAliasVariable | null)[],
-    aliasNames?: (string | undefined)[],
     variableModes?: string[],
-    aliasVariableIds?: (string | undefined)[],
     lr?: CatalogueLocalizationResources,
 ): SceneNode[] {
     if (colors.length === 0) { throw new Error("Termination due to color.length is 0."); }
@@ -145,8 +141,8 @@ export function createPropertiesForColor(
 
         return [colorHexNode];
     } else {
-        if (!aliasNames) { throw new Error("Alias names are required for variable type."); }
-        if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
+        // if (!aliasNames) { throw new Error("Alias names are required for variable type."); }
+        // if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
 
         const colorHexNodes = CatalogueKit.explanationItemKit.explainer.createVariableColorHexNodes(
             colors,
