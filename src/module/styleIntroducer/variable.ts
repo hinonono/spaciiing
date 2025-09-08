@@ -180,6 +180,8 @@ async function findCorrespondVariableInLocalOrLibrary(
     } else if (findLibrary) {
         return { name: findLibrary.name, id: findLibrary.key };
     } else {
+        figma.notify("❌Unable to resolve alias for specified variable. This might due to the variable is removed, or an alias variable from team library is used.");
+        console.error({ local: localVariables, library: libraryVariables });
         throw new Error(`Unable to find id with ${target} in local or library variables.`);
     }
 }
