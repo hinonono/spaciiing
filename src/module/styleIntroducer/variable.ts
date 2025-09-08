@@ -187,7 +187,7 @@ async function createGenericItem<T>(
         // V38: 使用自製格式進行邏輯優化
         // 這個陣列記錄了單一Variable在各個模式下的索引Variable
         const cyAliasVariables: (CYAliasVariable | null)[] = [];
-        const values: (T | null)[] = [];
+        const valuesOrderedByMode: (T | null)[] = [];
 
         for (const [_, value] of Object.entries(variable.valuesByMode)) {
             if (!typeChecking.isVariableAliasType(value)) {
@@ -201,41 +201,30 @@ async function createGenericItem<T>(
                 if (findLocalResult) {
                     // 尋找指定的variables連結的是否是本地variables
                     // V38：新版邏輯
-                    const resolvedValue = await resolveValueFn(value);
-                    if (resolvedValue !== null) {
-                        cyAliasVariables.push({
-                            name: findLocalResult.name,
-                            id: findLocalResult.id,
-                            value: resolvedValue as VariableValue // ✅ Safe because you've checked null
-                        });
-                    } else {
-                        throw new Error("The founded variable cannot resolve to actual value.");
-                    }
+                    cyAliasVariables.push({
+                        name: findLocalResult.name,
+                        id: findLocalResult.id,
+                    });
 
 
                 } else if (findLibraryResult) {
                     // 尋找指定的variables連結的是否是library variables
                     // V38：新版邏輯
-                    const resolvedValue = await resolveValueFn(value);
-                    if (resolvedValue !== null) {
-                        cyAliasVariables.push({
-                            name: findLibraryResult.name,
-                            id: findLibraryResult.key,
-                            value: resolvedValue as VariableValue // ✅ Safe because you've checked null
-                        });
-                    } else {
-                        throw new Error("The founded variable cannot resolve to actual value.");
-                    }
+                    cyAliasVariables.push({
+                        name: findLibraryResult.name,
+                        id: findLibraryResult.key,
+                    });
+
                 } else {
                     throw new Error(`Termination due to aliasVariable being null or not found in both local and library variables.`);
                 }
             }
 
             const resolvedValue = await resolveValueFn(value);
-            values.push(resolvedValue);
+            valuesOrderedByMode.push(resolvedValue);
         }
 
-        const filteredValues = values.filter((v): v is T => v !== null);
+        const filteredValuesOrderedByMode = valuesOrderedByMode.filter((v): v is T => v !== null);
 
         const { id, description, name } = variable;
         const title = name.split("/").pop() || "";
@@ -246,12 +235,12 @@ async function createGenericItem<T>(
                 colors: {
                     type: "SOLID",
                     opacity: 1,
-                    colors: filteredValues as RGBA[],
+                    colors: filteredValuesOrderedByMode as RGBA[],
                 }
             }
         } else {
             previewResources = {
-                [previewKey]: filteredValues
+                [previewKey]: filteredValuesOrderedByMode
             } as PreviewResources;
         }
 
