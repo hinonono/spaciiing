@@ -25,6 +25,8 @@ export async function applyStyleIntroducer(
     const selectedVariables = await getSelectedVariables(scopes, localVariables);
     const modeNames = await getModeNames(selectedVariables);
 
+    const libraryVariables = await getLibraryVariables();
+
     const explanationItems = await createExplanationItemsHandler(
         form,
         styleMode,
@@ -69,6 +71,32 @@ async function getLocalVariables(styleMode: StyleMode) {
     if (!localVariables) { throw new Error("Termination due to styleList is undefined."); }
 
     return localVariables;
+}
+
+async function getLibraryVariables(): Promise<LibraryVariable[]> {
+    let libraryVariables: LibraryVariable[] = [];
+
+    let collections: LibraryVariableCollection[] = [];
+
+    // Try to get available collections
+    try {
+        collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
+    } catch (error) {
+        console.error("Failed to get available library collections:", error);
+        return libraryVariables; // Return empty if no collections are available
+    }
+
+    for (const collection of collections) {
+        try {
+            const variables = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collection.key);
+            libraryVariables.push(...variables);
+        } catch (error) {
+            console.warn(`Skipping collection "${collection.name}" due to error:`, error);
+            // Continue to next collection
+        }
+    }
+
+    return libraryVariables;
 }
 
 async function getSelectedVariables(scopes: string[], localVariables: Variable[]) {
