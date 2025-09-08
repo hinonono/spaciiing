@@ -646,20 +646,20 @@ function colorStopsToString(colorStops: ColorStop[]): string {
 export function createVariableNumberNodes(
   numbers: number[],
   fontName: FontName,
-  aliasNames: (string | undefined)[],
-  aliasVariableIds: (string | undefined)[],
+  cyAliasVariables: (CYAliasVariable | null)[],
   variableModes: string[],
 ): FrameNode[] {
   const singlePropertyNodes = numbers.map((number, i) => {
     const variableMode = variableModes[i];
-    const aliasName = aliasNames[i];
+    const aliasName = cyAliasVariables[i]?.name;
+    // const aliasName = aliasNames[i];
 
     if (aliasName != undefined) {
       const aliasNameWrapper = createAliasNameWrapper(
         aliasName,
         fontName,
         semanticTokens.fontSize.base * 0.75,
-        aliasVariableIds[i]
+        cyAliasVariables[i]?.id
       );
       aliasNameWrapper.layoutSizingHorizontal = "HUG";
       aliasNameWrapper.layoutSizingVertical = "HUG";
@@ -691,20 +691,19 @@ export function createVariableNumberNodes(
 export function createVariableStringNodes(
   strings: string[],
   fontName: FontName,
-  aliasNames: (string | undefined)[],
-  aliasVariableIds: (string | undefined)[],
+  cyAliasVariables: (CYAliasVariable | null)[],
   variableModes: string[],
 ): FrameNode[] {
   const singlePropertyNodes = strings.map((string, i) => {
     const variableMode = variableModes[i];
-    const aliasName = aliasNames[i];
+    const aliasName = cyAliasVariables[i]?.name;
 
     if (aliasName != undefined) {
       const aliasNameWrapper = createAliasNameWrapper(
         aliasName,
         fontName,
         semanticTokens.fontSize.base * 0.75,
-        aliasVariableIds[i]
+        cyAliasVariables[i]?.id,
       );
       aliasNameWrapper.layoutSizingHorizontal = "HUG";
       aliasNameWrapper.layoutSizingVertical = "HUG";

@@ -48,9 +48,8 @@ export function pushInfoAreaAdditionalContent(
             form,
             fontName,
             previewResources.numbers,
-            aliasResources.aliasNames,
+            aliasResources.cyAliasVariables,
             aliasResources.variableModes,
-            aliasResources.aliasVariableIds
         )
         target.push(...items);
 
@@ -72,9 +71,8 @@ export function pushInfoAreaAdditionalContent(
             form,
             fontName,
             previewResources.strings,
-            aliasResources.aliasNames,
+            aliasResources.cyAliasVariables,
             aliasResources.variableModes,
-            aliasResources.aliasVariableIds
         )
         target.push(...items);
 
@@ -185,17 +183,19 @@ export function createPropertiesForNumber(
     form: StyleForm,
     fontName: FontName,
     numbers: number[],
-    aliasNames?: (string | undefined)[],
+    cyAliasVariables: (CYAliasVariable | null)[],
     variableModes?: string[],
-    aliasVariableIds?: (string | undefined)[]
 ): SceneNode[] {
     if (numbers.length === 0) { throw new Error("Termination due to number.length is 0."); }
     if (!variableModes) { throw new Error("Variable modes are required for number type."); }
     if (form === "STYLE") { throw new Error("STYLE is not supported for number style."); }
-    if (!aliasNames) { throw new Error("Alias names are required for variable type."); }
-    if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
 
-    const numberNodes = CatalogueKit.explanationItemKit.explainer.createVariableNumberNodes(numbers, fontName, aliasNames, aliasVariableIds, variableModes);
+    const numberNodes = CatalogueKit.explanationItemKit.explainer.createVariableNumberNodes(
+        numbers,
+        fontName,
+        cyAliasVariables,
+        variableModes
+    );
     return [...numberNodes]
 }
 
@@ -227,16 +227,18 @@ export function createPropertiesForString(
     form: StyleForm,
     fontName: FontName,
     strings: string[],
-    aliasNames?: (string | undefined)[],
+    cyAliasVariables: (CYAliasVariable | null)[],
     variableModes?: string[],
-    aliasVariableIds?: (string | undefined)[]
 ): SceneNode[] {
     if (strings.length === 0) { throw new Error("Termination due to string.length is 0."); }
     if (!variableModes) { throw new Error("Variable modes are required for string type."); }
     if (form === "STYLE") { throw new Error("STYLE is not supported for string style."); }
-    if (!aliasNames) { throw new Error("Alias names are required for variable type."); }
-    if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
 
-    const stringNodes = CatalogueKit.explanationItemKit.explainer.createVariableStringNodes(strings, fontName, aliasNames, aliasVariableIds, variableModes);
+    const stringNodes = CatalogueKit.explanationItemKit.explainer.createVariableStringNodes(
+        strings,
+        fontName,
+        cyAliasVariables,
+        variableModes
+    );
     return [...stringNodes]
 }
