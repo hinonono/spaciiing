@@ -5,6 +5,7 @@ import * as typeChecking from "../typeChecking";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 import { CatalogueKit } from "../catalogue";
 import { semanticTokens } from "../tokens";
+import { CYAliasVariable } from "../../types/CYAliasVariable";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
@@ -183,44 +184,64 @@ async function createGenericItem<T>(
     const explanationItems: FrameNode[] = [];
 
     for (const variable of selectedVariables) {
+        // V38: 使用自製格式進行邏輯優化
+        // 這個陣列記錄了單一Variable在各個模式下的索引Variable
+        const cyAliasVariables: (CYAliasVariable | null)[] = [];
+
+
         const aliasName: (string | undefined)[] = [];
         const aliasVariableIds: (string | undefined)[] = [];
         const values: (T | null)[] = [];
 
         for (const [_, value] of Object.entries(variable.valuesByMode)) {
             if (!typeChecking.isVariableAliasType(value)) {
+                // 如果Varaible的值並非索引其他Variable，設定為null
+                cyAliasVariables.push(null);
+
                 aliasName.push(undefined);
                 aliasVariableIds.push(undefined);
             } else {
-                let aliasVariable: { name: string, id: string | undefined, key: string | undefined }
-
                 const findLocalResult = localVariables.find((v) => v.id === value.id);
-
                 // 在library variables裡頭叫做key，但內容大致上等同於id，可是還多了一些奇怪的字，所以用「包含」邏輯來找
                 const findLibraryResult = libraryVariables.find((v) => value.id.includes(v.key));
 
                 if (findLocalResult) {
                     // 尋找指定的variables連結的是否是本地variables
-                    aliasVariable = { name: findLocalResult.name, id: findLocalResult.id, key: undefined };
 
-                    aliasName.push(aliasVariable.name);
-                    aliasVariableIds.push(aliasVariable.id);
+                    aliasName.push(findLocalResult.name);
+                    aliasVariableIds.push(findLocalResult.id);
+
+                    // V38：新版邏輯
+                    const resolvedValue = await resolveValueFn(value);
+                    if (resolvedValue !== null) {
+                        cyAliasVariables.push({
+                            name: findLocalResult.name,
+                            id: findLocalResult.id,
+                            value: resolvedValue as VariableValue // ✅ Safe because you've checked null
+                        });
+                    } else {
+                        throw new Error("The founded variable cannot resolve to actual value.");
+                    }
+
 
                 } else if (findLibraryResult) {
                     // 尋找指定的variables連結的是否是library variables
-                    aliasVariable = { name: findLibraryResult.name, id: undefined, key: findLibraryResult.key };
 
-                    aliasName.push(aliasVariable.name);
-                    aliasVariableIds.push(aliasVariable.key);
+                    aliasName.push(findLibraryResult.name);
+                    aliasVariableIds.push(findLibraryResult.key);
+
+                    // V38：新版邏輯
+                    const resolvedValue = await resolveValueFn(value);
+                    if (resolvedValue !== null) {
+                        cyAliasVariables.push({
+                            name: findLibraryResult.name,
+                            id: findLibraryResult.key,
+                            value: resolvedValue as VariableValue // ✅ Safe because you've checked null
+                        });
+                    } else {
+                        throw new Error("The founded variable cannot resolve to actual value.");
+                    }
                 } else {
-                    console.error({
-                        var: variable,
-                        value: value,
-                        localVar: localVariables,
-                        findLocal: findLocalResult,
-                        libraryVar: libraryVariables,
-                        findLibrary: findLibraryResult
-                    });
                     throw new Error(`Termination due to aliasVariable being null or not found in both local and library variables.`);
                 }
             }
