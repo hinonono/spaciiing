@@ -37,8 +37,8 @@ export interface PreviewResources {
 }
 
 export interface AliasResources {
-  aliasNames?: (string | undefined)[],
+  // aliasNames?: (string | undefined)[],
   variableModes?: string[],
-  aliasVariableIds?: (string | undefined)[],
+  // aliasVariableIds?: (string | undefined)[],
   cyAliasVariables: (CYAliasVariable | null)[],
 }

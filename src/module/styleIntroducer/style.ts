@@ -118,7 +118,7 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
         const title = name.split("/").pop() || "";
 
         const previewResources = getPreviewResources(member);
-        const aliasResources: AliasResources = {};
+        const aliasResources: AliasResources = { cyAliasVariables: [] };
 
         const explanationItem = CatalogueKit.explanationItemKit.main.createExplanationItem(
             form,
