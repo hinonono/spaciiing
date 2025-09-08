@@ -187,21 +187,12 @@ async function createGenericItem<T>(
         // V38: 使用自製格式進行邏輯優化
         // 這個陣列記錄了單一Variable在各個模式下的索引Variable
         const cyAliasVariables: (CYAliasVariable | null)[] = [];
-
-        // ❌以下兩行即將刪除
-        // const aliasName: (string | undefined)[] = [];
-        // const aliasVariableIds: (string | undefined)[] = [];
-
         const values: (T | null)[] = [];
 
         for (const [_, value] of Object.entries(variable.valuesByMode)) {
             if (!typeChecking.isVariableAliasType(value)) {
                 // 如果Varaible的值並非索引其他Variable，設定為null
                 cyAliasVariables.push(null);
-
-                // ❌以下兩行即將刪除
-                // aliasName.push(undefined);
-                // aliasVariableIds.push(undefined);
             } else {
                 const findLocalResult = localVariables.find((v) => v.id === value.id);
                 // 在library variables裡頭叫做key，但內容大致上等同於id，可是還多了一些奇怪的字，所以用「包含」邏輯來找
@@ -209,11 +200,6 @@ async function createGenericItem<T>(
 
                 if (findLocalResult) {
                     // 尋找指定的variables連結的是否是本地variables
-
-                    // ❌以下兩行即將刪除
-                    // aliasName.push(findLocalResult.name);
-                    // aliasVariableIds.push(findLocalResult.id);
-
                     // V38：新版邏輯
                     const resolvedValue = await resolveValueFn(value);
                     if (resolvedValue !== null) {
@@ -229,11 +215,6 @@ async function createGenericItem<T>(
 
                 } else if (findLibraryResult) {
                     // 尋找指定的variables連結的是否是library variables
-
-                    // ❌以下兩行即將刪除
-                    // aliasName.push(findLibraryResult.name);
-                    // aliasVariableIds.push(findLibraryResult.key);
-
                     // V38：新版邏輯
                     const resolvedValue = await resolveValueFn(value);
                     if (resolvedValue !== null) {
@@ -276,9 +257,7 @@ async function createGenericItem<T>(
 
 
         const aliasResources: AliasResources = {
-            // aliasNames: aliasName,
             variableModes: modeNames,
-            // aliasVariableIds: aliasVariableIds,
             cyAliasVariables: cyAliasVariables,
         };
 
