@@ -170,6 +170,30 @@ async function createExplanationItemsHandler(
     }
 }
 
+/**
+ * Find specific target in both local and library variables.
+ * @param local Local variables
+ * @param library Library variables
+ * @param target The id you want to find.
+ */
+function findCorrespondVariableInLocalOrLibrary(
+    local: Variable[],
+    library: LibraryVariable[],
+    target: string
+): CYAliasVariable {
+    const findLocal = local.find((v) => v.id === target);
+    const findLibrary = library.find((v) => target.includes(v.key));
+    // 在library variables裡頭叫做key，但內容大致上等同於id，可是還多了一些奇怪的字，所以用「包含」邏輯來找
+
+    if (findLocal) {
+        return { name: findLocal.name, id: findLocal.id };
+    } else if (findLibrary) {
+        return { name: findLibrary.name, id: findLibrary.key };
+    } else {
+        throw new Error(`Unable to find id with ${target} in local or library variables.`);
+    }
+}
+
 async function createGenericItem<T>(
     form: StyleForm,
     styleMode: StyleMode,
@@ -194,30 +218,8 @@ async function createGenericItem<T>(
                 // 如果Varaible的值並非索引其他Variable，設定為null
                 cyAliasVariables.push(null);
             } else {
-                const findLocalResult = localVariables.find((v) => v.id === value.id);
-                // 在library variables裡頭叫做key，但內容大致上等同於id，可是還多了一些奇怪的字，所以用「包含」邏輯來找
-                const findLibraryResult = libraryVariables.find((v) => value.id.includes(v.key));
-
-                if (findLocalResult) {
-                    // 尋找指定的variables連結的是否是本地variables
-                    // V38：新版邏輯
-                    cyAliasVariables.push({
-                        name: findLocalResult.name,
-                        id: findLocalResult.id,
-                    });
-
-
-                } else if (findLibraryResult) {
-                    // 尋找指定的variables連結的是否是library variables
-                    // V38：新版邏輯
-                    cyAliasVariables.push({
-                        name: findLibraryResult.name,
-                        id: findLibraryResult.key,
-                    });
-
-                } else {
-                    throw new Error(`Termination due to aliasVariable being null or not found in both local and library variables.`);
-                }
+                const findResult = findCorrespondVariableInLocalOrLibrary(localVariables, libraryVariables, value.id);
+                cyAliasVariables.push(findResult);
             }
 
             const resolvedValue = await resolveValueFn(value);
@@ -243,7 +245,6 @@ async function createGenericItem<T>(
                 [previewKey]: filteredValuesOrderedByMode
             } as PreviewResources;
         }
-
 
         const aliasResources: AliasResources = {
             variableModes: modeNames,
