@@ -1,5 +1,5 @@
-export interface CYAliasVariable<T = VariableValue> {
+export interface CYAliasVariable {
     name: string;
     id: string;
-    value: T;
+    value: VariableValue;
 }

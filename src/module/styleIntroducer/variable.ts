@@ -188,9 +188,10 @@ async function createGenericItem<T>(
         // 這個陣列記錄了單一Variable在各個模式下的索引Variable
         const cyAliasVariables: (CYAliasVariable | null)[] = [];
 
-
+        // ❌以下兩行即將刪除
         const aliasName: (string | undefined)[] = [];
         const aliasVariableIds: (string | undefined)[] = [];
+
         const values: (T | null)[] = [];
 
         for (const [_, value] of Object.entries(variable.valuesByMode)) {
@@ -198,6 +199,7 @@ async function createGenericItem<T>(
                 // 如果Varaible的值並非索引其他Variable，設定為null
                 cyAliasVariables.push(null);
 
+                // ❌以下兩行即將刪除
                 aliasName.push(undefined);
                 aliasVariableIds.push(undefined);
             } else {
@@ -208,6 +210,7 @@ async function createGenericItem<T>(
                 if (findLocalResult) {
                     // 尋找指定的variables連結的是否是本地variables
 
+                    // ❌以下兩行即將刪除
                     aliasName.push(findLocalResult.name);
                     aliasVariableIds.push(findLocalResult.id);
 
@@ -227,6 +230,7 @@ async function createGenericItem<T>(
                 } else if (findLibraryResult) {
                     // 尋找指定的variables連結的是否是library variables
 
+                    // ❌以下兩行即將刪除
                     aliasName.push(findLibraryResult.name);
                     aliasVariableIds.push(findLibraryResult.key);
 
@@ -274,7 +278,8 @@ async function createGenericItem<T>(
         const aliasResources: AliasResources = {
             aliasNames: aliasName,
             variableModes: modeNames,
-            aliasVariableIds: aliasVariableIds
+            aliasVariableIds: aliasVariableIds,
+            cyAliasVariables: cyAliasVariables,
         };
 
         const explanationItem = CatalogueKit.explanationItemKit.main.createExplanationItem(

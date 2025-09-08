@@ -4,6 +4,7 @@ import { SinglePropertyString } from "../../../types/SinglePropertyString";
 import { CatalogueLocalizationResources } from "../../../types/CatalogueLocalization";
 
 import { utils } from "../../utils";
+import { CYAliasVariable } from "../../../types/CYAliasVariable";
 
 
 /**
@@ -555,11 +556,9 @@ export function createStyleColorHexNode(
 export function createVariableColorHexNodes(
   colors: RGBA[],
   fontName: FontName,
-  aliasNames: (string | undefined)[],
-  aliasVariableIds: (string | undefined)[],
+  cyAliasVariables: (CYAliasVariable | null)[],
   variableModes?: string[],
 ): FrameNode[] {
-  // console.log({ colors: colors, fontName: fontName, aliasNames: aliasNames, variableModes: variableModes });
 
   const hexValues = colors.map((color) => {
     let hex = utils.color.rgbToHex(color.r, color.g, color.b, true);
@@ -572,14 +571,16 @@ export function createVariableColorHexNodes(
 
   const singlePropertyNodes = hexValues.map((hexValue, i) => {
     const variableMode = variableModes ? variableModes[i] : "Unknown";
-    const aliasName = aliasNames[i];
+    const aliasName = cyAliasVariables[i]?.name;
+    // const aliasName = aliasNames[i];
 
     if (aliasName != undefined) {
       const aliasNameWrapper = createAliasNameWrapper(
         aliasName,
         fontName,
         semanticTokens.fontSize.base * 0.75,
-        aliasVariableIds[i]
+        cyAliasVariables[i]?.id
+        // aliasVariableIds[i]
       );
       aliasNameWrapper.layoutSizingHorizontal = "HUG";
       aliasNameWrapper.layoutSizingVertical = "HUG";

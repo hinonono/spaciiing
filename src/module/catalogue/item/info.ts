@@ -4,6 +4,7 @@ import { CatalogueLocalizationResources } from "../../../types/CatalogueLocaliza
 import { utils } from "../../utils";
 
 import { CatalogueKit } from "../index";
+import { CYAliasVariable } from "../../../types/CYAliasVariable";
 
 export function pushInfoAreaAdditionalContent(
     form: StyleForm,
@@ -23,6 +24,7 @@ export function pushInfoAreaAdditionalContent(
                 form,
                 fontName,
                 previewResources.colors.colors,
+                aliasResources.cyAliasVariables,
                 aliasResources.aliasNames,
                 aliasResources.variableModes,
                 aliasResources.aliasVariableIds,
@@ -125,6 +127,7 @@ export function createPropertiesForColor(
     form: StyleForm,
     fontName: FontName,
     colors: RGBA[],
+    cyAliasVariables: (CYAliasVariable | null)[],
     aliasNames?: (string | undefined)[],
     variableModes?: string[],
     aliasVariableIds?: (string | undefined)[],
@@ -145,7 +148,12 @@ export function createPropertiesForColor(
         if (!aliasNames) { throw new Error("Alias names are required for variable type."); }
         if (!aliasVariableIds) { throw new Error("Alias variable ids are required for variable type."); }
 
-        const colorHexNodes = CatalogueKit.explanationItemKit.explainer.createVariableColorHexNodes(colors, fontName, aliasNames, aliasVariableIds, variableModes);
+        const colorHexNodes = CatalogueKit.explanationItemKit.explainer.createVariableColorHexNodes(
+            colors,
+            fontName,
+            cyAliasVariables,
+            variableModes
+        );
         return [...colorHexNodes]
     }
 }
