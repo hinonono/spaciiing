@@ -218,6 +218,11 @@ const effectOptions: PropertyClipboardOption[] = [
     //     keys: ["EFFECT_TEXTURE"],
     //     useModal: true,
     // },
+    // {
+    //     lableKey: "term:glass",
+    //     keys: ["EFFECT_GLASS"],
+    //     useModal: true,
+    // },
 ];
 
 const fillOptions: PropertyClipboardOption[] = [

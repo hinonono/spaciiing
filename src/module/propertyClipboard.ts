@@ -329,6 +329,9 @@ async function pastePropertyToObject(
     case "EFFECT_TEXTURE":
       applyEffectToSelection(referenceObject, behavior, "TEXTURE");
       break;
+    case "EFFECT_GLASS":
+      applyEffectToSelection(referenceObject, behavior, "GLASS");
+      break;
     case "EXPORT_SETTINGS":
       applyPropertyToSelection(referenceObject, "exportSettings");
       break;
@@ -720,6 +723,7 @@ async function applyEffectToSelection(
     | "BACKGROUND_BLUR"
     | "NOISE"
     | "TEXTURE"
+    | "GLASS"
 ) {
   const selection = utils.editor.getCurrentSelection();
 
