@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Modal from "../Modal";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../AppProvider";
-import SectionTitle from "../SectionTitle";
 import useNetworkStatus from "../../useNetworkStatus";
 import {
   LicenseManagement,
