@@ -3,6 +3,8 @@
   "version": "38",
   "whatsNew": [
     "New shortcuts: create section",
+    "Preset library now supports iOS 26 color palettes",
+    "Catalogue now supports creation with variables from team library",
     "Bug fixes",
     "Overall enhancements"
   ],
