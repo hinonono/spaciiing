@@ -192,6 +192,9 @@ function createGenericEffectTitle(
     case "TEXTURE":
       title = `${lr.term["layer"]} ${index + 1} - ${lr.term["texture"]}`
       break;
+    case "GLASS":
+      title = `${lr.term["layer"]} ${index + 1} - ${lr.term["glass"]}`
+      break;
     default:
       throw new Error("Unsupported effect type.")
   }
@@ -401,6 +404,16 @@ function getEffectPropertiesToCreate(
     ]
 
     return effectPropertiesToCreate
+  } else if (effect.type === "GLASS") {
+    const effectPropertiesToCreate: SinglePropertyString[] = [
+      { title: lr.term["lightAngle"], content: `${effect.lightAngle}°`, show: true },
+      { title: lr.term["lightIntensity"], content: `${utils.string.formatNumberToDecimals(effect.lightIntensity * 100)}%`, show: true },
+      { title: lr.term["refraction"], content: `${utils.string.formatNumberToDecimals(effect.refraction * 100)}`, show: true },
+      { title: lr.term["depth"], content: `${effect.depth}`, show: true },
+      { title: lr.term["dispersion"], content: `${utils.string.formatNumberToDecimals(effect.dispersion * 100)}`, show: true },
+      { title: lr.term["frost"], content: `${effect.radius}`, show: true }
+    ]
+    return effectPropertiesToCreate
   } else {
     const effectPropertiesToCreate: SinglePropertyString[] = [
       {
@@ -431,7 +444,7 @@ export function createEffectPropertiesWrappers(
     countNode.layoutSizingHorizontal = "FILL";
 
 
-    if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
+    if (effect.type === "DROP_SHADOW" || effect.type === "INNER_SHADOW") {
       // 處理陰影類型的properties
       const effectPropertiesToCreate = getEffectPropertiesToCreate(lr, effect);
 
