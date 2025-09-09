@@ -28,18 +28,13 @@ import {
 } from "../module-frontend/utilFrontEnd";
 import { SupportedLangCode } from "../types/Localization";
 import * as pluginConfig from "../pluginConfig.json";
-import { addChildToRow, addRecordToLastTitle, addTitleRow, deleteChild, deleteRow, duplicateContentRow, duplicateTitleRow, onDragEnd, toggleAll } from "../module-frontend/virtualProfileUI";
+import { addChildToRow, addRecordToLastTitle, addTitleRow, deleteChild, deleteRow, duplicateContentRow, duplicateTitleRow, getAvailabeCategories, onDragEnd, toggleAll } from "../module-frontend/virtualProfileUI";
 import { ButtonIcon24 } from "../components";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
   saveVirtualProfile: () => void;
   previousVirtualProfile: VirtualProfileGroup[] | null;
-}
-
-interface CategoryAndKey {
-  category: SupportedPresetVirtualProfileCategory;
-  key: string;
 }
 
 interface ContextMenuState {
@@ -293,40 +288,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     if (!additionalContextMenu) return null;
     const { mouseX, mouseY } = additionalContextMenu;
 
-    const categories: CategoryAndKey[] = [
-      // {
-      //   category: "FLOW",
-      //   key: "module:userFlow"
-      // },
-      {
-        category: "BOOK",
-        key: "module:book",
-      },
-      {
-        category: "CREDIT_CARD",
-        key: "module:creditcard",
-      },
-      {
-        category: "FLIGHT",
-        key: "module:flight",
-      },
-      {
-        category: "MOVIE",
-        key: "module:movie",
-      },
-      {
-        category: "PERSONAL",
-        key: "module:personal",
-      },
-      {
-        category: "PRODUCT",
-        key: "module:product",
-      },
-      {
-        category: "STOCK",
-        key: "module:stock",
-      },
-    ];
+    const categories = getAvailabeCategories();
 
     return (
       <ul
@@ -357,25 +319,35 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const btnColor = "var(--figma-color-bg-brand)";
   const btnColorDisabled = "var(--figma-color-text-disabled)"
 
-  const toolBtns: { disabled?: boolean, onClick: (e: React.MouseEvent<HTMLButtonElement>) => void, svg: React.ReactNode }[] = [
-    {
-      disabled: runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? true : false,
-      onClick: saveVirtualProfile,
-      svg: <SvgSave color={runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? btnColorDisabled : btnColor} />
-    },
-    {
-      onClick: (e) => handleAdditionalContextMenu(e),
-      svg: <SvgAddFromPreset color={btnColor} />
-    },
-    {
-      onClick: () => { addTitleRow(appContext, false) },
-      svg: <SvgAddFolder color={btnColor} />,
-    },
-    {
-      onClick: () => { addRecordToLastTitle(appContext, false) },
-      svg: <SvgAdd color={btnColor} />
-    }
-  ]
+  const renderToolButtons = () => {
+    const toolBtns: { disabled?: boolean, onClick: (e: React.MouseEvent<HTMLButtonElement>) => void, svg: React.ReactNode }[] = [
+      {
+        disabled: runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? true : false,
+        onClick: saveVirtualProfile,
+        svg: <SvgSave color={runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? btnColorDisabled : btnColor} />
+      },
+      {
+        onClick: (e) => handleAdditionalContextMenu(e),
+        svg: <SvgAddFromPreset color={btnColor} />
+      },
+      {
+        onClick: () => { addTitleRow(appContext, false) },
+        svg: <SvgAddFolder color={btnColor} />,
+      },
+      {
+        onClick: () => { addRecordToLastTitle(appContext, false) },
+        svg: <SvgAdd color={btnColor} />
+      }
+    ]
+
+    return (toolBtns.map(btn =>
+      <ButtonIcon24
+        disabled={btn.disabled}
+        onClick={btn.onClick}
+        svg={btn.svg}
+      />
+    ))
+  };
 
   return (
     <div ref={containerRef} className="position-relative">
@@ -389,17 +361,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
               svg={!isFolderCollapsed ? (<SvgExpand color={btnColor} />) : (<SvgCollapse color={btnColor} />)}
             />
           </div>
-          <div className="flex flex-row">
-            {
-              toolBtns.map(btn =>
-                <ButtonIcon24
-                  disabled={btn.disabled}
-                  onClick={btn.onClick}
-                  svg={btn.svg}
-                />
-              )
-            }
-          </div>
+          <div className="flex flex-row">{renderToolButtons()}</div>
         </div>
         <Droppable droppableId="all-rows" type="row">
           {(provided) => (
