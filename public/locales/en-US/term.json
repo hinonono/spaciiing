@@ -121,5 +121,6 @@
 	"refraction": "Refraction",
 	"depth": "Depth",
 	"dispersion": "Dispersion",
-	"frost": "Frost"
+	"frost": "Frost",
+	"glass": "Glass"
 }
