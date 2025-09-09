@@ -6,9 +6,7 @@ import { MessageSpaciiing, SpacingMode } from "../types/Messages/MessageSpaciiin
 export function applySpacing(
     appContext: AppContextType,
     isRealCall: boolean,
-    space: string | number,
-    enteredCustomSpacing: number,
-    multiplier: number,
+    spacing: number,
     mode: SpacingMode,
     isChecked: boolean,
     column: number
@@ -21,9 +19,7 @@ export function applySpacing(
                 onProceed: () => applySpacing(
                     appContext,
                     true,
-                    space,
-                    enteredCustomSpacing,
-                    multiplier,
+                    spacing,
                     mode,
                     isChecked,
                     column
@@ -33,25 +29,11 @@ export function applySpacing(
         }
     }
 
-    let finalSpacing: number;
-    let useCustomValue: boolean;
-
-    if (typeof space === "string") {
-        // 使用者選擇了自定義間距
-        finalSpacing = enteredCustomSpacing;
-        useCustomValue = true;
-    } else {
-        // 預設間距
-        finalSpacing = space * multiplier;
-        useCustomValue = false;
-    }
-
     if (mode === "grid") {
         const message: MessageSpaciiing = {
             module: "Spaciiing",
             mode: mode,
-            spacing: finalSpacing,
-            useCustomValue: useCustomValue,
+            spacing: spacing,
             addAutolayout: isChecked,
             direction: "Inner",
             phase: "Actual",
@@ -70,8 +52,7 @@ export function applySpacing(
         const message: MessageSpaciiing = {
             module: "Spaciiing",
             mode: mode,
-            spacing: finalSpacing,
-            useCustomValue: useCustomValue,
+            spacing: spacing,
             addAutolayout: isChecked,
             direction: "Inner",
             phase: "Actual",

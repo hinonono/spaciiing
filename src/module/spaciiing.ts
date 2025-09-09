@@ -18,13 +18,6 @@ function compareWithAxis(axis: "x" | "y") {
 export function useSpacing(message: MessageSpaciiing) {
   const selectedLayers = utils.editor.getCurrentSelection();
 
-  // Check if message.spacing is a valid number
-  const spacing = Number(message.spacing);
-  if (isNaN(spacing)) {
-    figma.notify("❌ The spacing value must be a number.");
-    return;
-  }
-
   if (message.mode === "grid") {
     if (message.gridColumn === undefined) {
       throw new Error("The gridColumn is unspecified.");
@@ -32,7 +25,7 @@ export function useSpacing(message: MessageSpaciiing) {
 
     applySpacingToLayers(
       selectedLayers,
-      spacing,
+      message.spacing,
       "horizontal",
       message.addAutolayout,
       false,
@@ -41,7 +34,7 @@ export function useSpacing(message: MessageSpaciiing) {
   } else {
     applySpacingToLayers(
       selectedLayers,
-      spacing,
+      message.spacing,
       message.mode,
       message.addAutolayout
     );
