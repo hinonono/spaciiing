@@ -8,14 +8,13 @@ import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEn
 import VirtualProfileNew from "./VirtualProfileNew";
 import {
   MessageVirtualProfileSingleValue,
-  // MessageVirtualProfileWholeObject,
 } from "../types/Messages/MessageVirtualProfile";
 import * as pluginConfig from "../pluginConfig.json";
 import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 const VirtualProfile: React.FC = () => {
   const { t } = useTranslation(["module"]);
-  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
+  const { licenseManagement, setFreeUserDelayModalConfig } = useAppContext();
 
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -62,14 +61,6 @@ const VirtualProfile: React.FC = () => {
         return;
       }
     }
-
-    // const message: MessageVirtualProfileWholeObject = {
-    //   // virtualProfile: virtualProfile,
-    //   virtualProfileGroups: runtimeSyncedResources.virtualProfiles,
-    //   module: "VirtualProfile",
-    //   phase: "WillEnd",
-    //   direction: "Inner",
-    // };
 
     const message: MessageSaveSyncedResource = {
       shouldSaveSyncedReources: true,

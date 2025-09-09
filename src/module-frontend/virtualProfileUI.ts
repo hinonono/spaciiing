@@ -163,7 +163,6 @@ export function addRecordToLastTitle(
     const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows[newRows.length - 1].children.push(newRecord);
 
-    // setVirtualProfileGroups(newRows);
     setRuntimeSyncedResources((prev) => ({
         ...prev,
         virtualProfiles: newRows,
@@ -305,7 +304,6 @@ export function duplicateTitleRow(
 
     const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows.splice(rowIndex + 1, 0, duplicatedRow);
-    // setVirtualProfileGroups(newRows);
 
     setRuntimeSyncedResources((prev) => ({
         ...prev,
@@ -351,7 +349,6 @@ export function duplicateContentRow(
 
     const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows[rowIndex].children.splice(childIndex + 1, 0, duplicatedChild);
-    // setVirtualProfileGroups(newRows);
 
     setRuntimeSyncedResources((prev) => ({
         ...prev,

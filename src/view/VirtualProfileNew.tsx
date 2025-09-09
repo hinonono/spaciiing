@@ -3,12 +3,9 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
 } from "react-beautiful-dnd";
-import { v4 as uuidv4 } from "uuid";
 import {
   SupportedPresetVirtualProfileCategory,
-  VirtualProfileChild,
   VirtualProfileGroup,
 } from "../types/VirtualProfile";
 import { useTranslation } from "react-i18next";
@@ -96,23 +93,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           return group;
         }),
       }));
-
-      // setVirtualProfileGroups((prevGroups) =>
-      //   prevGroups.map((group) => {
-      //     if (group.id === groupId) {
-      //       return {
-      //         ...group,
-      //         children: group.children.map((child) => {
-      //           if (child.id === childId) {
-      //             return { ...child, content: value };
-      //           }
-      //           return child;
-      //         }),
-      //       };
-      //     }
-      //     return group;
-      //   })
-      // );
     } else {
       setRuntimeSyncedResources((prev) => ({
         ...prev,
@@ -131,22 +111,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           return group;
         })
       }));
-      // setVirtualProfileGroups((prevGroups) =>
-      //   prevGroups.map((group) => {
-      //     if (group.id === groupId) {
-      //       return {
-      //         ...group,
-      //         children: group.children.map((child) => {
-      //           if (child.id === childId) {
-      //             return { ...child, title: value };
-      //           }
-      //           return child;
-      //         }),
-      //       };
-      //     }
-      //     return group;
-      //   })
-      // );
     }
   };
 
@@ -163,17 +127,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         return group;
       })
     }));
-    // setVirtualProfileGroups((prevGroups) =>
-    //   prevGroups.map((group) => {
-    //     if (group.id === groupId) {
-    //       return {
-    //         ...group,
-    //         title: value,
-    //       };
-    //     }
-    //     return group;
-    //   })
-    // );
   };
 
   //
@@ -187,12 +140,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   const [hoveredRowIndex, setHoveredRowIndex] = useState<string | null>(null);
 
   const toggleCollapse = useCallback((id: string) => {
-    // setVirtualProfileGroups((prevRows) =>
-    //   prevRows.map((row) =>
-    //     row.id === id ? { ...row, isCollapsed: !row.isCollapsed } : row
-    //   )
-    // );
-
     setRuntimeSyncedResources((prev) => ({
       ...prev,
       virtualProfiles: prev.virtualProfiles.map((row) =>
@@ -334,7 +281,6 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
 
     if (newGroup) {
-      // setVirtualProfileGroups((prevGroups) => [...prevGroups, newGroup]);
 
       setRuntimeSyncedResources((prev) => ({
         ...prev,

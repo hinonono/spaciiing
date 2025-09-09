@@ -64,10 +64,6 @@ export function virtualProfileHandler(
 
   if (message.virtualProfileGroups) {
     const { virtualProfileGroups } = message;
-    // console.log("VirtualProfileHandler GROUPS");
-    // console.log(message.virtualProfileGroups);
-
-    // setVirtualProfileGroups(message.virtualProfileGroups);
     setRuntimeSyncedResources((prev) => ({
       ...prev,
       virtualProfiles: virtualProfileGroups,
@@ -80,14 +76,6 @@ export function virtualProfileWillEnd(
   appContext: AppContextType
 ) {
   const { runtimeSyncedResources, setRuntimeSyncedResources } = appContext;
-  // const message: MessageVirtualProfileWholeObject = {
-  //   module: "VirtualProfile",
-  //   phase: "WillEnd",
-  //   direction: "Inner",
-  //   virtualProfileGroups: virtualProfileGroups,
-  // };
-
-  // setVirtualProfileGroups(virtualProfileGroups);
   setRuntimeSyncedResources((prev) => ({
     ...prev,
     virtualProfiles: virtualProfileGroups,
