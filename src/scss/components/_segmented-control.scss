@@ -5,7 +5,7 @@
     justify-content: space-between;
     overflow: hidden;
     transition: var(--cy-animation-default);
-    padding: 6px;
+    padding: 4px;
     background: var(--figma-color-bg-secondary);
     min-height: 40px;
 
@@ -33,24 +33,24 @@
         }
 
         &:hover:checked+label {
-            scale: 0.95;
+            // scale: 0.95;
             z-index: 1;
         }
 
         &:hover:not(:checked)+label {
             background-color: var(--figma-color-bg-tertiary);
-            scale: 0.95;
+            // scale: 0.95;
             // z-index: 1;
         }
 
         &:active:checked+label {
-            scale: 0.8;
+            scale: 0.95;
             z-index: 1;
         }
 
         &:active:not(:checked)+label {
             background-color: var(--figma-color-bg-secondary);
-            scale: 0.8;
+            scale: 0.95;
             z-index: 1;
         }
     }
