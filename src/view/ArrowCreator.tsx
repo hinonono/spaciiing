@@ -205,7 +205,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         </div>
         {/* 間隔距離 */}
         <div className="mt-xsmall">
-          <SectionTitle title={t("module:offset")} />
+          <SectionTitle title={t("module:arrowAppearance")} />
           <ChipKeyboard
             name={'offset'}
             chipOptions={chipDefaultOptions}

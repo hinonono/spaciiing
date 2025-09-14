@@ -204,5 +204,6 @@
   "freeUserSubscribeEncourage": "您正在使用 Spaciiing 免費版。升級以解除等待時間限制，加快設計速度！",
   "createLoremIpsum": "生成亂數假文",
     "createIconTemplate": "建立圖標模板",
-    "createSection": "建立區段"
+    "createSection": "建立區段",
+    "arrowAppearance": "箭頭外觀"
 }
