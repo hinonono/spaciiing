@@ -162,35 +162,6 @@ const SpaciiingView: React.FC = () => {
             activeChip={activeOption}
             inputedCustomNum={inputedSpacing}
           />
-          {/* <div className="border-radius-large border-1-cy-border-light padding-16 hide-scrollbar-vertical">
-            <div className="spacing-option-numbers">
-              {defaultSpacingOptions.map((num) =>
-                <Chip
-                  label={num.toString()}
-                  onClick={() => {
-                    setActiveOption(num.toString());
-                    setActiveSpacing(num);
-                  }}
-                  highlighted={activeOption === num.toString() ? true : false}
-                />
-              )}
-              <button
-                className={`button chip spacing-option-custom ${activeOption === "custom" ? "highlighted" : ""}`}
-                onClick={() => {
-                  setActiveOption("custom");
-                  setActiveSpacing(inputedSpacing);
-                }}
-              >
-                <span>{t("term:custom")}</span>
-                <input
-                  className="cy-input"
-                  type="text"
-                  value={inputedSpacing}
-                  onChange={handleCustomValueChangeInput}
-                />
-              </button>
-            </div>
-          </div> */}
         </div>
         <div className="cy-checkbox-group mt-xsmall">
           <CYCheckbox
