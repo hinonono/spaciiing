@@ -40,7 +40,7 @@ const Setting: React.FC = () => {
         {/*  訂閱 */}
         <div>
           <h3>{t("license:subscriptionSectionTitle")}</h3>
-          <div className={`shadow-view padding-16 border-radius-xlarge ${licenseManagement.tier === "PAID" ? "pro" : ""}`}>
+          <div className={`shadow-view padding-16 border-radius-xlarge bg-color-primary-dark-elevated ${licenseManagement.tier === "PAID" ? "pro" : ""}`}>
             <div>
               {licenseManagement.tier == "PAID" ? (
                 <h4>{licenseManagement.recurrence === "monthly" ? t("license:monthly") : t("license:yearly")}</h4>

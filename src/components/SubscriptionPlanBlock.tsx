@@ -7,48 +7,44 @@ import info from "../pluginConfig.json";
 
 interface SubscriptionPlanBlockProps {
   plan: "monthly" | "yearly";
-  additionalClass?: string[];
 }
 
 const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
   plan,
-  additionalClass,
 }) => {
   const { t } = useTranslation(["license", "term"]);
 
   const renderPriceDesc = () => {
-    return plan === "monthly" ? (
-      <span className="note note-large">
-        {t("license:monthlyPriceDesc").replace(
+    return <>
+      <span className="note note-large plan-title-secondary">
+        {plan === "monthly" ? t("license:monthlyPriceDesc").replace(
           "$MONTHLY_PRICE$",
           "US$" + info.price.monthly
-        )}
-      </span>
-    ) : (
-      <span className="note note-large">
-        {t("license:yearlyPriceDesc").replace(
+        ) : t("license:yearlyPriceDesc").replace(
           "$YEARLY_PRICE$",
           "US$" + info.price.yearly
         )}
       </span>
-    )
+    </>
+  }
+
+  const getSvgColor = () => {
+    return plan === "monthly" ? "var(--figma-color-text)" : "black"
   }
 
   return (
     <div
-      className={`border-radius-xxxlarge padding-16 flex align-items-center ${additionalClass?.join(" ") || ""
-        }`}
-      onClick={() => paymentsUtil.navigateToPurchasePage()}
-      style={{ cursor: "pointer" }}
+      className={`subscription-plan-block ${plan} mt-xxsmall`}
+      onClick={() => paymentsUtil.navigateToCheckOutPage(plan)}
     >
       <div className="width-100">
-        <span className={"subscription-plan-title mt-xxsmall"}>
+        <span className={"plan-title"}>
           {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
         </span>
         {renderPriceDesc()}
       </div>
       <div className="icon-20">
-        <SvgExternalLink color="var(--figma-color-text)" />
+        <SvgExternalLink color={getSvgColor()} />
       </div>
     </div>
   );

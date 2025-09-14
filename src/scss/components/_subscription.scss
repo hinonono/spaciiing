@@ -1,28 +1,56 @@
-.subscription-background {
-    padding: 16px;
+// .subscription-background {
+//     padding: 16px;
+//     border-radius: var(--cy-border-radius-xlarge);
+//     border: 1px solid var(--figma-color-border);
+
+//     &.pro {
+//         background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
+//         border: none;
+
+//         .note {
+//             color: #00000080
+//         }
+//     }
+
+//     .subscription-plan-title {
+//         color: #000000e5
+//     }
+// }
+
+.subscription-plan-block {
+    cursor: pointer;
     border-radius: var(--cy-border-radius-xlarge);
-    border: 1px solid var(--figma-color-border);
+    display: flex;
+    align-items: center;
+    padding: 16px;
 
-    &.pro {
+    &.monthly {
+        border: 1px solid var(--figma-color-border);
+
+        .plan-title {
+            color: var(--figma-color-text);
+        }
+    }
+
+    &.yearly {
         background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
-        border: none;
 
-        .note {
-            color: #00000080
+        .plan-title {
+            color: black;
         }
-    }
 
-    .subscription-plan-title {
-        color: #000000e5
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .subscription-background {
-        &.pro {
-            h4 {
-                color: #000000e5
-            }
+        .plan-title-secondary {
+            color: #00000080;
         }
     }
 }
+
+// @media (prefers-color-scheme: dark) {
+//     .subscription-background {
+//         &.pro {
+//             h4 {
+//                 color: #000000e5
+//             }
+//         }
+//     }
+// }
