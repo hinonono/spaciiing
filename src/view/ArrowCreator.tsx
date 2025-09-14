@@ -205,7 +205,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         </div>
         {/* 間隔距離 */}
         <div className="mt-xsmall">
-          <SectionTitle title={t("module:arrowAppearance")} />
+          <SectionTitle title={t("module:offset")} />
           <ChipKeyboard
             name={'offset'}
             chipOptions={chipDefaultOptions}
@@ -218,7 +218,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         </div>
         {/* 筆畫模式 */}
         <div className='mt-xsmall'>
-          <SectionTitle title={t("term:stroke")} />
+          <SectionTitle title={t("module:arrowAppearance")} />
           <SegmentedControl
             inputName="stroke-style"
             value={strokeMode}
