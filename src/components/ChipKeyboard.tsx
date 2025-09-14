@@ -15,7 +15,7 @@ interface ChipKeyboardProps {
   chipOptions: number[];
   chipOnClick: (num: number) => void;
   chipCustomOnClick: () => void;
-  chipCustomOnChange: () => void;
+  chipCustomOnChange: (num: number) => void;
   activeChip: string;
   inputedCustomNum: number;
 }
@@ -37,7 +37,7 @@ const ChipKeyboard: React.FC<ChipKeyboardProps> = ({
     const value = event.target.value;
     const numberValue = Number(value);
 
-    if (!isNaN(numberValue)) { chipCustomOnChange(); }
+    if (!isNaN(numberValue)) { chipCustomOnChange(numberValue); }
   };
 
   return (

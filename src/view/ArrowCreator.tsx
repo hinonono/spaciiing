@@ -127,21 +127,9 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   // 紀錄使用者輸入的間距值
   const [inputedMargin, setInputedMargin] = useState<number>(0);
 
-  const chipCustomOnChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-
-    const numberValue = Number(value);
-
-    if (!isNaN(numberValue)) {
-      appContext.setEditorPreference((prevPreference) => ({
-        ...prevPreference,
-        spacing: numberValue,
-      }));
-      setInputedMargin(numberValue);
-      setSafeMargin(numberValue);
-    }
+  const chipCustomOnChange = (num: number) => {
+    setInputedMargin(num);
+    setSafeMargin(num);
   };
 
   function chipDefaultOnClick(num: number) {
@@ -223,7 +211,7 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
             chipOptions={chipDefaultOptions}
             chipOnClick={chipDefaultOnClick}
             chipCustomOnClick={chipCustomOnClick}
-            chipCustomOnChange={() => { chipCustomOnChange }}
+            chipCustomOnChange={chipCustomOnChange}
             activeChip={activeChip}
             inputedCustomNum={inputedMargin}
           />
