@@ -132,7 +132,7 @@
     "numberingTextLayers": "将文本图层编号",
     "objectIsMemorizedWithId": "对象已记忆 (ID: $LAYER_ID$)",
     "objectIsNotMemorized": "对象尚未被记忆",
-    "offset": "偏移",
+    "offset": "箭头与物件间的距离",
     "options": "选项",
     "originalTextContent": "文本图层的原始内容",
     "outerFrame": "外框",

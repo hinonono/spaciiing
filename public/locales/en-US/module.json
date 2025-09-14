@@ -132,7 +132,7 @@
     "numberingTextLayers": "Numbering Text Layers",
     "objectIsMemorizedWithId": "Object is memorized (ID: $LAYER_ID$).",
     "objectIsNotMemorized": "The object has not been memorized.",
-    "offset": "Offset",
+    "offset": "Margin between arrow and objects",
     "options": "Options",
     "originalTextContent": "Original text content.",
     "outerFrame": "Outer Frame",

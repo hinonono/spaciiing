@@ -132,7 +132,7 @@
     "numberingTextLayers": "テキストレイヤーをナンバーリング",
     "objectIsMemorizedWithId": "オブジェクトは記憶されました (ID: $LAYER_ID$)",
     "objectIsNotMemorized": "オブジェクトはまだ記憶されていません",
-    "offset": "オフセット",
+    "offset": "矢印とオブジェクトの間隔",
     "options": "オプション",
     "originalTextContent": "テキストレイヤー元の内容",
     "outerFrame": "外枠",
