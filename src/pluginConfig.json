@@ -2,7 +2,9 @@
   "name": "Spaciiing",
   "version": "38",
   "whatsNew": [
-    "New shortcuts: create section",
+    "Preset library now provides iOS 26 color palettes",
+    "Catalogue now supports creation with variables from team library",
+    "Catalogue now supports glass effect (BETA)",
     "Bug fixes",
     "Overall enhancements"
   ],
@@ -13,7 +15,6 @@
   },
   "featureFlag": {
     "propertyClipboardSupportAutoLayout": false,
-    "enableSpaciiingNewInterface": true,
     "localizedCatalogue": false
   },
   "freeUserWaitingTime": 30,

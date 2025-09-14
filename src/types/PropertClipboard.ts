@@ -58,7 +58,8 @@ type PropertyClipboardSupportedEffect =
   | "EFFECT_LAYER_BLUR"
   | "EFFECT_BACKGROUND_BLUR"
   | "EFFECT_NOISE"
-  | "EFFECT_TEXTURE";
+  | "EFFECT_TEXTURE"
+  | "EFFECT_GLASS";
 
 type PropertyClipboardSupportedTypography =
   | "FONT_NAME"

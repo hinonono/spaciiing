@@ -4,6 +4,7 @@ import { SinglePropertyString } from "../../../types/SinglePropertyString";
 import { CatalogueLocalizationResources } from "../../../types/CatalogueLocalization";
 
 import { utils } from "../../utils";
+import { CYAliasVariable } from "../../../types/CYAliasVariable";
 
 
 /**
@@ -190,6 +191,9 @@ function createGenericEffectTitle(
       break;
     case "TEXTURE":
       title = `${lr.term["layer"]} ${index + 1} - ${lr.term["texture"]}`
+      break;
+    case "GLASS":
+      title = `${lr.term["layer"]} ${index + 1} - ${lr.term["glass"]}`
       break;
     default:
       throw new Error("Unsupported effect type.")
@@ -400,6 +404,16 @@ function getEffectPropertiesToCreate(
     ]
 
     return effectPropertiesToCreate
+  } else if (effect.type === "GLASS") {
+    const effectPropertiesToCreate: SinglePropertyString[] = [
+      { title: lr.term["lightAngle"], content: `${effect.lightAngle}°`, show: true },
+      { title: lr.term["lightIntensity"], content: `${utils.string.formatNumberToDecimals(effect.lightIntensity * 100)}%`, show: true },
+      { title: lr.term["refraction"], content: `${utils.string.formatNumberToDecimals(effect.refraction * 100)}`, show: true },
+      { title: lr.term["depth"], content: `${effect.depth}`, show: true },
+      { title: lr.term["dispersion"], content: `${utils.string.formatNumberToDecimals(effect.dispersion * 100)}`, show: true },
+      { title: lr.term["frost"], content: `${effect.radius}`, show: true }
+    ]
+    return effectPropertiesToCreate
   } else {
     const effectPropertiesToCreate: SinglePropertyString[] = [
       {
@@ -430,7 +444,7 @@ export function createEffectPropertiesWrappers(
     countNode.layoutSizingHorizontal = "FILL";
 
 
-    if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
+    if (effect.type === "DROP_SHADOW" || effect.type === "INNER_SHADOW") {
       // 處理陰影類型的properties
       const effectPropertiesToCreate = getEffectPropertiesToCreate(lr, effect);
 
@@ -555,11 +569,9 @@ export function createStyleColorHexNode(
 export function createVariableColorHexNodes(
   colors: RGBA[],
   fontName: FontName,
-  aliasNames: (string | undefined)[],
-  aliasVariableIds: (string | undefined)[],
+  cyAliasVariables: (CYAliasVariable | null)[],
   variableModes?: string[],
 ): FrameNode[] {
-  // console.log({ colors: colors, fontName: fontName, aliasNames: aliasNames, variableModes: variableModes });
 
   const hexValues = colors.map((color) => {
     let hex = utils.color.rgbToHex(color.r, color.g, color.b, true);
@@ -572,14 +584,16 @@ export function createVariableColorHexNodes(
 
   const singlePropertyNodes = hexValues.map((hexValue, i) => {
     const variableMode = variableModes ? variableModes[i] : "Unknown";
-    const aliasName = aliasNames[i];
+    const aliasName = cyAliasVariables[i]?.name;
+    // const aliasName = aliasNames[i];
 
     if (aliasName != undefined) {
       const aliasNameWrapper = createAliasNameWrapper(
         aliasName,
         fontName,
         semanticTokens.fontSize.base * 0.75,
-        aliasVariableIds[i]
+        cyAliasVariables[i]?.id
+        // aliasVariableIds[i]
       );
       aliasNameWrapper.layoutSizingHorizontal = "HUG";
       aliasNameWrapper.layoutSizingVertical = "HUG";
@@ -645,20 +659,20 @@ function colorStopsToString(colorStops: ColorStop[]): string {
 export function createVariableNumberNodes(
   numbers: number[],
   fontName: FontName,
-  aliasNames: (string | undefined)[],
-  aliasVariableIds: (string | undefined)[],
+  cyAliasVariables: (CYAliasVariable | null)[],
   variableModes: string[],
 ): FrameNode[] {
   const singlePropertyNodes = numbers.map((number, i) => {
     const variableMode = variableModes[i];
-    const aliasName = aliasNames[i];
+    const aliasName = cyAliasVariables[i]?.name;
+    // const aliasName = aliasNames[i];
 
     if (aliasName != undefined) {
       const aliasNameWrapper = createAliasNameWrapper(
         aliasName,
         fontName,
         semanticTokens.fontSize.base * 0.75,
-        aliasVariableIds[i]
+        cyAliasVariables[i]?.id
       );
       aliasNameWrapper.layoutSizingHorizontal = "HUG";
       aliasNameWrapper.layoutSizingVertical = "HUG";
@@ -690,20 +704,19 @@ export function createVariableNumberNodes(
 export function createVariableStringNodes(
   strings: string[],
   fontName: FontName,
-  aliasNames: (string | undefined)[],
-  aliasVariableIds: (string | undefined)[],
+  cyAliasVariables: (CYAliasVariable | null)[],
   variableModes: string[],
 ): FrameNode[] {
   const singlePropertyNodes = strings.map((string, i) => {
     const variableMode = variableModes[i];
-    const aliasName = aliasNames[i];
+    const aliasName = cyAliasVariables[i]?.name;
 
     if (aliasName != undefined) {
       const aliasNameWrapper = createAliasNameWrapper(
         aliasName,
         fontName,
         semanticTokens.fontSize.base * 0.75,
-        aliasVariableIds[i]
+        cyAliasVariables[i]?.id,
       );
       aliasNameWrapper.layoutSizingHorizontal = "HUG";
       aliasNameWrapper.layoutSizingVertical = "HUG";
@@ -752,6 +765,9 @@ function createAliasNameWrapper(
     // console.log("aliasVariableCatalogueItemUrl", aliasVariableCatalogueItemUrl);
 
     const catalogueItemId = styledTextSegments.getCatalogueItemId(aliasVariableId);
+    if (catalogueItemId === null) {
+      console.warn("Cannot find catologueItem id with provided aliasVariableId.");
+    }
     const resolvedCatalogueItem = figma.currentPage.findOne(
       (node) => node.id === catalogueItemId && node.removed === false
     );

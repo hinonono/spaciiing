@@ -1,6 +1,7 @@
 import { StyleListItemFrontEnd, StyleSelection } from "../General";
 import { Message } from "./Message";
 import { ExternalMessage } from "./ExternalMessage";
+import { CYAliasVariable } from "../CYAliasVariable";
 
 export type StyleModeForFigmaStyle = "COLOR" | "EFFECT" | "TEXT";
 export type StyleModeForFigmaVariable = "COLOR" | "FLOAT" | "STRING";
@@ -36,7 +37,8 @@ export interface PreviewResources {
 }
 
 export interface AliasResources {
-  aliasNames?: (string | undefined)[],
+  // aliasNames?: (string | undefined)[],
   variableModes?: string[],
-  aliasVariableIds?: (string | undefined)[]
+  // aliasVariableIds?: (string | undefined)[],
+  cyAliasVariables: (CYAliasVariable | null)[],
 }

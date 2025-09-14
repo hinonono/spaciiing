@@ -115,5 +115,12 @@
     "long": "ロング",
     "small": "小さい",
     "large": "大きい",
-    "padding": "パディング"
+    "padding": "パディング",
+	"lightAngle": "ライトの角度",
+  "lightIntensity": "ライトの強さ",
+  "refraction": "屈折",
+  "depth": "奥行き",
+  "dispersion": "散布度",
+  "frost": "フロスト",
+  "glass": "ガラス"
 }

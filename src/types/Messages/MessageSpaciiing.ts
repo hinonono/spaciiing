@@ -8,7 +8,6 @@ export type SpacingMode = Direction | "grid";
 export interface MessageSpaciiing extends Message {
   mode: SpacingMode;
   spacing: number;
-  useCustomValue: boolean;
   addAutolayout: boolean;
   gridColumn?: number;
 }

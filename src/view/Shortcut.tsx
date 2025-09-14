@@ -330,10 +330,10 @@ const Shortcut: React.FC = () => {
         title: t("module:iconTemplate"),
         onClick: handleOpenIconModal,
       },
-      {
-        title: t("module:createSection"),
-        onClick: handleOpenSectionModal,
-      }
+      // {
+      //   title: t("module:createSection"),
+      //   onClick: handleOpenSectionModal,
+      // }
     ];
 
     return (

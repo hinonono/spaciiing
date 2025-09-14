@@ -115,5 +115,12 @@
     "long": "長",
     "small": "小",
     "large": "大",
-    "padding": "內邊距"
+    "padding": "內邊距",
+	"lightAngle": "光線角度",
+  "lightIntensity": "光線強度",
+  "refraction": "折射",
+  "depth": "深度",
+  "dispersion": "色散",
+  "frost": "結霜",
+  "glass": "玻璃"
 }

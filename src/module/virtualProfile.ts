@@ -1,6 +1,4 @@
 import {
-  // VirtualProfile,
-  VirtualProfileChild,
   VirtualProfileGroup,
 } from "./../types/VirtualProfile";
 
@@ -8,7 +6,6 @@ import {
   ExternalMessageUpdateVirtualProfile,
   MessageVirtualProfile,
   MessageVirtualProfileSingleValue,
-  // MessageVirtualProfileWholeObject,
   VirtualProfileSingleValue,
 } from "../types/Messages/MessageVirtualProfile";
 import { utils } from "./utils";
@@ -31,72 +28,16 @@ export function reception(message: MessageVirtualProfile) {
   }
 
   if (message.phase == "WillEnd") {
-    // virtualProfileWillEnd(message as MessageVirtualProfileWholeObject);
   }
 }
 
 
 function initVirtualProfileGroups() {
-  // const pluginDataKey = "virtual-profile-groups";
   const newVpdata = figma.root.getPluginData(utils.dataKeys.VIRTUAL_PROFILE_GROUPS);
-  // const oldVpData = figma.root.getPluginData(utils.dataKeys.VIRTUAL_PROFILE);
-
   let vpg: VirtualProfileGroup[] = [];
 
-  // const vp: VirtualProfile = {
-  //   name: "John Doe",
-  //   nickname: "Johnny",
-  //   gender: "Male",
-  //   birthday: "1990/01/01",
-  //   email: "johndoe@example.com",
-  //   cardNum: "1234-5678-9012-3456",
-  //   landlineNum: "555-1234",
-  //   phoneNum: "555-987-6543",
-  //   address: "123 Main St, Anytown, USA",
-  //   companyName: "Doe Industries",
-  //   companyAddress: "456 Industrial Way, Suite 100, Anytown, USA",
-  //   companyPhoneNum: "555-1122",
-  //   custom1: "Custom Field 1",
-  //   custom2: "Custom Field 2",
-  //   custom3: "Custom Field 3",
-  //   age: "20",
-  //   country: "Country",
-  //   city: "City",
-  //   expirationDate: "1990/01/01",
-  //   cvv: "000",
-  //   cardNetwork: "MasterCard",
-  //   username: "@johnniedoe123",
-  //   userId: "0000-1234-5678",
-  //   jobTitle: "Designer",
-  //   industry: "Art & Design",
-  // };
 
   if (newVpdata === "") {
-    // 未設置過virtual profile
-    // if (oldVpData === "") {
-    //   vpg = [
-    //     {
-    //       id: utils.data.generateUUID(),
-    //       title: "Category Name",
-    //       children: [
-    //         {
-    //           content: "Value",
-    //           id: utils.data.generateUUID(),
-    //           title: "Title",
-    //         },
-    //       ],
-    //       isCollapsed: false,
-    //     },
-    //   ];
-    // } else {
-    //   // 針對曾經設置過舊版VP的用戶進行資料轉換
-    //   const oldVp = JSON.parse(oldVpData) as VirtualProfile;
-    //   vpg = ConvertOldVpToNew(oldVp);
-
-    //   // 轉換完成後清空舊的
-    //   figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
-    // }
-
     // Save vp as a JSON string
     figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE_GROUPS, JSON.stringify(vpg));
 
@@ -122,20 +63,6 @@ function initVirtualProfileGroups() {
     utils.communication.sendMessageBack(message);
   }
 }
-
-// function virtualProfileWillEnd(message: MessageVirtualProfileWholeObject) {
-//   console.log("🔴 virtualProfileWillEnd");
-
-//   if (message.virtualProfileGroups) {
-//     // Save vp as a JSON string
-//     figma.root.setPluginData(
-//       utils.dataKeys.VIRTUAL_PROFILE_GROUPS,
-//       JSON.stringify(message.virtualProfileGroups)
-//     );
-//     // 清空舊的
-//     // figma.root.setPluginData(utils.dataKeys.VIRTUAL_PROFILE, "");
-//   }
-// }
 
 async function applyVirtualProfileValueToTextNode(
   message: MessageVirtualProfileSingleValue

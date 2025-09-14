@@ -3,6 +3,24 @@
   "name": "System Gray Colors",
   "members": [
     {
+      "name": "Black",
+      "color": {
+        "light": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        },
+        "dark": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        }
+      },
+      "description": "Pure black."
+    },
+    {
       "name": "Gray",
       "color": {
         "light": {
@@ -18,7 +36,7 @@
           "a": 1
         }
       },
-      "description": "This color represents the standard system gray. It adapts to the current environment."
+      "description": ""
     },
     {
       "name": "Gray 2",
@@ -36,7 +54,7 @@
           "a": 1
         }
       },
-      "description": "This color adapts to the current environment. In light environments, this gray is slightly lighter than systemGray. In dark environments, this gray is slightly darker than systemGray."
+      "description": ""
     },
     {
       "name": "Gray 3",
@@ -54,7 +72,7 @@
           "a": 1
         }
       },
-      "description": "This color adapts to the current environment. In light environments, this gray is slightly lighter than systemGray2. In dark environments, this gray is slightly darker than systemGray2."
+      "description": ""
     },
     {
       "name": "Gray 4",
@@ -72,7 +90,7 @@
           "a": 1
         }
       },
-      "description": "This color adapts to the current environment. In light environments, this gray is slightly lighter than systemGray3. In dark environments, this gray is slightly darker than systemGray3."
+      "description": ""
     },
     {
       "name": "Gray 5",
@@ -90,7 +108,7 @@
           "a": 1
         }
       },
-      "description": "This color adapts to the current environment. In light environments, this gray is slightly lighter than systemGray4. In dark environments, this gray is slightly darker than systemGray4."
+      "description": ""
     },
     {
       "name": "Gray 6",
@@ -108,7 +126,25 @@
           "a": 1
         }
       },
-      "description": "This color adapts to the current environment, and is close in color to systemBackground. In light environments, this gray is slightly lighter than systemGray5. In dark environments, this gray is slightly darker than systemGray5."
+      "description": ""
+    },
+    {
+      "name": "White",
+      "color": {
+        "light": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        },
+        "dark": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "description": "Pure white."
     }
   ]
 }

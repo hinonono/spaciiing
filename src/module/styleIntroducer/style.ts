@@ -103,7 +103,7 @@ function createExplanationItemsHandler(
     }
 }
 
-function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
+function createGenericItem<T extends PaintStyle | TextStyle | EffectStyle>(
     lr: CatalogueLocalizationResources,
     styleList: T[],
     form: StyleForm,
@@ -118,7 +118,7 @@ function createGenericItems<T extends PaintStyle | TextStyle | EffectStyle>(
         const title = name.split("/").pop() || "";
 
         const previewResources = getPreviewResources(member);
-        const aliasResources: AliasResources = {};
+        const aliasResources: AliasResources = { cyAliasVariables: [] };
 
         const explanationItem = CatalogueKit.explanationItemKit.main.createExplanationItem(
             form,
@@ -149,7 +149,7 @@ function createItemColor(
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => {
+    return createGenericItem(lr, styleList, form, styleMode, fontName, (style) => {
         const paint = style.paints[0];
 
         if (!paint) {
@@ -203,7 +203,7 @@ function createItemText(
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => ({
+    return createGenericItem(lr, styleList, form, styleMode, fontName, (style) => ({
         textStyle: style
     }));
 }
@@ -215,7 +215,7 @@ function createItemEffect(
     styleMode: StyleMode,
     fontName: FontName
 ): FrameNode[] {
-    return createGenericItems(lr, styleList, form, styleMode, fontName, (style) => ({
+    return createGenericItem(lr, styleList, form, styleMode, fontName, (style) => ({
         effects: [...style.effects]
     }));
 }

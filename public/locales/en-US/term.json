@@ -115,5 +115,12 @@
 	"long": "Long",
 	"small": "Small",
 	"large": "Large",
-	"padding": "Padding"
+	"padding": "Padding",
+	"lightAngle": "Light Angle",
+	"lightIntensity": "Light Intensity",
+	"refraction": "Refraction",
+	"depth": "Depth",
+	"dispersion": "Dispersion",
+	"frost": "Frost",
+	"glass": "Glass"
 }

@@ -6,7 +6,7 @@ import { MessageResize } from "./types/Messages/MessageResize";
 import { MessageAspectRatio } from "./types/Messages/MessageAspectRatio";
 import { MessageLocalization } from "./types/Messages/MessageLocalization";
 import { MessageSelectionFilter } from "./types/Messages/MessageSelectionFilter";
-import { MessageVirtualProfile, MessageVirtualProfileSingleValue } from "./types/Messages/MessageVirtualProfile";
+import { MessageVirtualProfile } from "./types/Messages/MessageVirtualProfile";
 import { MessageVariableEditor, MessageVariableEditorExecuteCode } from "./types/Messages/MessageVariableEditor";
 import { MessageInstantiater } from "./types/Messages/MessageInstantiater";
 import { MessageLoremGenerator } from "./types/Messages/MessageLoremGenerator";

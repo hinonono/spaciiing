@@ -22,7 +22,7 @@ const iosOptions: AvailableOption[] = [
     brands: ["ios"],
     category: ["color"],
     thumbnailColor:
-      "conic-gradient(rgba(255,52,143,1), rgba(255,197,65,1), rgba(0,212,255,1), rgba(207,0,255,1))",
+      "conic-gradient(rgba(255,56,60,1), rgba(255,204,0,1), rgba(0,136,255,1), rgba(203,48,224,1))",
     forms: ["style", "variable"],
     count: 12,
   },
@@ -32,7 +32,7 @@ const iosOptions: AvailableOption[] = [
     brands: ["ios"],
     category: ["color"],
     thumbnailColor:
-      "conic-gradient(rgba(190, 45, 110, 1), rgba(189, 147, 47, 1), rgba(0, 146, 176, 1), rgba(131, 1, 160, 1))",
+      "conic-gradient(rgba(255, 66, 69, 1), rgba(255, 214, 0, 1), rgba(0, 145, 255, 1), rgba(219, 52, 242, 1))",
     forms: ["style", "variable"],
     count: 12,
   },
@@ -41,18 +41,20 @@ const iosOptions: AvailableOption[] = [
     label: "System gray colors (Light)",
     brands: ["ios"],
     category: ["color"],
-    thumbnailColor: "rgb(199,199,204)",
+    thumbnailColor:
+      "conic-gradient(rgba(142, 142, 147, 1), rgba(199, 199, 204, 1), rgba(229, 229, 234, 1), rgba(242, 242, 247, 1))",
     forms: ["style", "variable"],
-    count: 6,
+    count: 8,
   },
   {
     value: "iosSystemGrayColorsDark",
     label: "System gray colors (Dark)",
     brands: ["ios"],
     category: ["color"],
-    thumbnailColor: "rgb(72,72,74)",
+    thumbnailColor:
+      "conic-gradient(rgba(142, 142, 147, 1), rgba(72, 72, 74, 1), rgba(44, 44, 46, 1), rgba(28, 28, 30, 1))",
     forms: ["style", "variable"],
-    count: 6,
+    count: 8,
   },
   {
     value: "iosEffectDefaultDropShadow",
@@ -1135,7 +1137,7 @@ export const getAvailableBrands = (): { value: InstantiaterSupportedBrand, label
     },
     {
       value: "ios",
-      label: "iOS"
+      label: "iOS 26"
     },
     {
       value: "carbon",
@@ -1143,7 +1145,7 @@ export const getAvailableBrands = (): { value: InstantiaterSupportedBrand, label
     },
     {
       value: "materialDesign",
-      label: "Material Design 3"
+      label: "Material Design 3 Expressive"
     },
     {
       value: "polaris",

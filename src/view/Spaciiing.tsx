@@ -8,26 +8,12 @@ import { SpacingMode, } from "../types/Messages/MessageSpaciiing";
 import SegmentedControl from "../components/SegmentedControl";
 import CYCheckbox from "../components/CYCheckbox";
 import { applySpacing } from "../module-frontend/spaciiingFrontEnd";
-import * as pluginConfig from "../pluginConfig.json";
-
-const SpacingValue: {
-  nameKey: string;
-  value: number | string;
-  translatable: boolean;
-}[] = [
-    { nameKey: "0", value: 0, translatable: false },
-    { nameKey: "8", value: 8, translatable: false },
-    { nameKey: "16", value: 16, translatable: false },
-    { nameKey: "20", value: 20, translatable: false },
-    { nameKey: "24", value: 24, translatable: false },
-    { nameKey: "32", value: 32, translatable: false },
-    { nameKey: "term:custom", value: "custom", translatable: true },
-  ];
 
 const SpaciiingView: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
 
   // 2025-07-20 新版UI
+  // 紀錄使用者目前選中的間距按鈕是哪一個
   const [activeOption, setActiveOption] = useState<string>("16");
 
   // 功能說明彈窗
@@ -40,12 +26,10 @@ const SpaciiingView: React.FC = () => {
   // 水平或垂直模式
   const [mode, setMode] = useState<SpacingMode>("vertical");
 
-  // 倍率
-  const [multiplier, setMultiplier] = useState<number>(1);
-
-  // 間距值
-  const [space, setSpace] = useState<string | number>(Number(activeOption));
-  const [enteredCustomSpacing, setEnteredCustomSpacing] = useState<number>(0);
+  // 現在啟用中的間距值
+  const [activeSpacing, setActiveSpacing] = useState<number>(Number(activeOption));
+  // 紀錄使用者輸入的間距值
+  const [inputedSpacing, setInputedSpacing] = useState<number>(0);
 
   // 格線
   const [columnFieldNote, setColumnFieldNote] = useState("");
@@ -67,33 +51,10 @@ const SpaciiingView: React.FC = () => {
 
   const [isChecked, setIsChecked] = useState(false);
 
-  const [customSpacingFieldNote, setCustomSpacingFieldNote] =
-    useState<string>("");
-
   const handleCheckboxChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
   }) => {
     setIsChecked(event.target.checked);
-  };
-
-  const handleCustomValueChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const value = event.target.value;
-
-    const numberValue = Number(value);
-
-    if (!isNaN(numberValue)) {
-      appContext.setEditorPreference((prevPreference) => ({
-        ...prevPreference,
-        spacing: numberValue,
-      }));
-      setEnteredCustomSpacing(numberValue);
-
-      setCustomSpacingFieldNote("");
-    } else {
-      setCustomSpacingFieldNote(t("module:invalidNumberInput"));
-    }
   };
 
   const handleCustomValueChangeInput = (
@@ -108,16 +69,14 @@ const SpaciiingView: React.FC = () => {
         ...prevPreference,
         spacing: numberValue,
       }));
-      setEnteredCustomSpacing(numberValue);
-      setSpace(numberValue);
+      setInputedSpacing(numberValue);
+      setActiveSpacing(numberValue);
     }
   };
 
-  const multipliers = [1, 2, 3, 4, 5];
-
   useEffect(() => {
     if (appContext.editorPreference.spacing) {
-      setEnteredCustomSpacing(appContext.editorPreference.spacing);
+      setInputedSpacing(appContext.editorPreference.spacing);
     }
   }, [appContext.editorPreference]);
 
@@ -183,119 +142,38 @@ const SpaciiingView: React.FC = () => {
             </div>
           </div>
         )}
-        {pluginConfig.featureFlag.enableSpaciiingNewInterface === true ?
-          <>
-            <div className="mt-xxsmall">
-              <SectionTitle title={t("module:spacingValue")} />
-              <div className="cy-checkbox-group spacing-option-set border-1-cy-border-light padding-16 hide-scrollbar-vertical">
-                <div className="spacing-option-numbers">
-                  {defaultSpacingOptions.map((num) =>
-                    <Chip
-                      label={num.toString()}
-                      onClick={() => {
-                        setActiveOption(num.toString());
-                        setSpace(num);
-                      }}
-                      highlighted={activeOption === num.toString() ? true : false}
-                    />
-                  )}
-                  <button
-                    className={`button chip spacing-option-custom ${activeOption === "custom" ? "highlighted" : ""}`}
-                    onClick={() => {
-                      setActiveOption("custom");
-                      setSpace(enteredCustomSpacing);
-                    }}
-                  >
-                    <span>{t("term:custom")}</span>
-                    <input
-                      className="cy-input"
-                      type="text"
-                      value={enteredCustomSpacing}
-                      onChange={handleCustomValueChangeInput}
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
-          :
-          <>
-            {/* 倍率 */}
-            <div className="mt-xxsmall">
-              <SectionTitle title={t("module:multiplySpacingBy")} />
-              <div className="flex flex-row">
-                <SegmentedControl
-                  inputName="multiply"
-                  value={String(multiplier)}
-                  onChange={(newMultiplier) => {
-                    setMultiplier(Number(newMultiplier));
+        <div className="mt-xxsmall">
+          <SectionTitle title={t("module:spacingValue")} />
+          <div className="cy-checkbox-group spacing-option-set border-1-cy-border-light padding-16 hide-scrollbar-vertical">
+            <div className="spacing-option-numbers">
+              {defaultSpacingOptions.map((num) =>
+                <Chip
+                  label={num.toString()}
+                  onClick={() => {
+                    setActiveOption(num.toString());
+                    setActiveSpacing(num);
                   }}
-                >
-                  {multipliers.map((singleMultiplier) => (
-                    <SegmentedControl.Option
-                      value={String(singleMultiplier)}
-                      label={String(singleMultiplier)}
-                      translatable={false}
-                    />
-                  ))}
-                </SegmentedControl>
-              </div>
+                  highlighted={activeOption === num.toString() ? true : false}
+                />
+              )}
+              <button
+                className={`button chip spacing-option-custom ${activeOption === "custom" ? "highlighted" : ""}`}
+                onClick={() => {
+                  setActiveOption("custom");
+                  setActiveSpacing(inputedSpacing);
+                }}
+              >
+                <span>{t("term:custom")}</span>
+                <input
+                  className="cy-input"
+                  type="text"
+                  value={inputedSpacing}
+                  onChange={handleCustomValueChangeInput}
+                />
+              </button>
             </div>
-            {/* 間距值 */}
-            <div className="mt-xxsmall">
-              <SectionTitle title={t("module:spacingValue")} />
-              <div className="flex flex-row">
-                <SegmentedControl
-                  inputName="prevalue"
-                  value={String(space)}
-                  onChange={(newSpace) => {
-                    if (!isNaN(Number(newSpace))) {
-                      setSpace(Number(newSpace));
-                    } else {
-                      setSpace(newSpace);
-                    }
-                  }}
-                >
-                  {SpacingValue.map((item) => (
-                    <SegmentedControl.Option
-                      value={String(item.value)}
-                      label={
-                        typeof item.value === "string"
-                          ? String(item.nameKey)
-                          : String(item.value * multiplier)
-                      }
-                      translatable={item.translatable}
-                    />
-                  ))}
-                </SegmentedControl>
-                {space === "custom" && (
-                  <div className="width-100">
-                    <div className="width-100 mt-xxsmall">
-                      <textarea
-                        id="sp-space-custom"
-                        className="textarea"
-                        rows={1}
-                        value={enteredCustomSpacing}
-                        onChange={handleCustomValueChange}
-                        placeholder={t("module:customValueNumbersOnly")}
-                      />
-                      {customSpacingFieldNote && (
-                        <span className="note error">{customSpacingFieldNote}</span>
-                      )}
-                    </div>
-                    <div className="mt-xxsmall">
-                      <span className="note">
-                        {t("module:customValueIsNotAffect")}
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </>
-        }
-
-
+          </div>
+        </div>
         <div className="cy-checkbox-group mt-xsmall">
           <CYCheckbox
             label={t("module:addAutoLayoutAfterApply")}
@@ -310,9 +188,7 @@ const SpaciiingView: React.FC = () => {
             applySpacing(
               appContext,
               false,
-              space,
-              enteredCustomSpacing,
-              multiplier,
+              activeSpacing,
               mode,
               isChecked,
               column

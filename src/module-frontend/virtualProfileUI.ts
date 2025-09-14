@@ -1,6 +1,6 @@
 import { DropResult } from "react-beautiful-dnd";
 import { AppContextType } from "../AppProvider";
-import { VirtualProfileChild, VirtualProfileGroup } from "../types/VirtualProfile";
+import { VirtualProfileCategoryAndKey, VirtualProfileChild, VirtualProfileGroup } from "../types/VirtualProfile";
 import { v4 as uuidv4 } from "uuid";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as pluginConfig from "../pluginConfig.json";
@@ -163,7 +163,6 @@ export function addRecordToLastTitle(
     const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows[newRows.length - 1].children.push(newRecord);
 
-    // setVirtualProfileGroups(newRows);
     setRuntimeSyncedResources((prev) => ({
         ...prev,
         virtualProfiles: newRows,
@@ -305,7 +304,6 @@ export function duplicateTitleRow(
 
     const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows.splice(rowIndex + 1, 0, duplicatedRow);
-    // setVirtualProfileGroups(newRows);
 
     setRuntimeSyncedResources((prev) => ({
         ...prev,
@@ -351,7 +349,6 @@ export function duplicateContentRow(
 
     const newRows = [...runtimeSyncedResources.virtualProfiles];
     newRows[rowIndex].children.splice(childIndex + 1, 0, duplicatedChild);
-    // setVirtualProfileGroups(newRows);
 
     setRuntimeSyncedResources((prev) => ({
         ...prev,
@@ -360,3 +357,40 @@ export function duplicateContentRow(
 
     handleClose();
 };
+
+export function getAvailabeCategories(): VirtualProfileCategoryAndKey[] {
+    return [
+        // {
+        //   category: "FLOW",
+        //   key: "module:userFlow"
+        // },
+        {
+            category: "BOOK",
+            key: "module:book",
+        },
+        {
+            category: "CREDIT_CARD",
+            key: "module:creditcard",
+        },
+        {
+            category: "FLIGHT",
+            key: "module:flight",
+        },
+        {
+            category: "MOVIE",
+            key: "module:movie",
+        },
+        {
+            category: "PERSONAL",
+            key: "module:personal",
+        },
+        {
+            category: "PRODUCT",
+            key: "module:product",
+        },
+        {
+            category: "STOCK",
+            key: "module:stock",
+        },
+    ]
+}

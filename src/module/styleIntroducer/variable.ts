@@ -5,6 +5,7 @@ import * as typeChecking from "../typeChecking";
 import { CatalogueLocalizationResources } from "../../types/CatalogueLocalization";
 import { CatalogueKit } from "../catalogue";
 import { semanticTokens } from "../tokens";
+import { CYAliasVariable } from "../../types/CYAliasVariable";
 
 export async function applyStyleIntroducer(
     message: MessageStyleIntroducer
@@ -29,7 +30,6 @@ export async function applyStyleIntroducer(
         form,
         styleMode,
         semanticTokens.fontFamily.regular,
-        localVariables,
         selectedVariables,
         modeNames,
     )
@@ -71,6 +71,32 @@ async function getLocalVariables(styleMode: StyleMode) {
     return localVariables;
 }
 
+async function getLibraryVariables(): Promise<LibraryVariable[]> {
+    let libraryVariables: LibraryVariable[] = [];
+
+    let collections: LibraryVariableCollection[] = [];
+
+    // Try to get available collections
+    try {
+        collections = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
+    } catch (error) {
+        console.error("Failed to get available library collections:", error);
+        return libraryVariables; // Return empty if no collections are available
+    }
+
+    for (const collection of collections) {
+        try {
+            const variables = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collection.key);
+            libraryVariables.push(...variables);
+        } catch (error) {
+            console.warn(`Skipping collection "${collection.name}" due to error:`, error);
+            // Continue to next collection
+        }
+    }
+
+    return libraryVariables;
+}
+
 async function getSelectedVariables(scopes: string[], localVariables: Variable[]) {
     const selectedVariables = localVariables.filter((variable) =>
         scopes.includes(variable.id)
@@ -94,7 +120,6 @@ async function createExplanationItemsHandler(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
 ): Promise<FrameNode[]> {
@@ -103,7 +128,6 @@ async function createExplanationItemsHandler(
             form,
             styleMode,
             fontName,
-            localVariables,
             selectedVariables,
             modeNames,
         );
@@ -114,7 +138,6 @@ async function createExplanationItemsHandler(
             form,
             styleMode,
             fontName,
-            localVariables,
             selectedVariables,
             modeNames,
         );
@@ -125,7 +148,6 @@ async function createExplanationItemsHandler(
             form,
             styleMode,
             fontName,
-            localVariables,
             selectedVariables,
             modeNames,
         );
@@ -136,11 +158,38 @@ async function createExplanationItemsHandler(
     }
 }
 
+/**
+ * Find specific target in both local and library variables.
+ * @param local Local variables
+ * @param library Library variables
+ * @param target The id you want to find.
+ */
+async function findCorrespondVariableInLocalOrLibrary(
+    styleMode: StyleMode,
+    target: string
+): Promise<CYAliasVariable> {
+    const localVariables = await getLocalVariables(styleMode);
+    const libraryVariables = await getLibraryVariables();
+
+    const findLocal = localVariables.find((v) => v.id === target);
+    const findLibrary = libraryVariables.find((v) => target.includes(v.key));
+    // 在library variables裡頭叫做key，但內容大致上等同於id，可是還多了一些奇怪的字，所以用「包含」邏輯來找
+
+    if (findLocal) {
+        return { name: findLocal.name, id: findLocal.id };
+    } else if (findLibrary) {
+        return { name: findLibrary.name, id: findLibrary.key };
+    } else {
+        figma.notify("❌Unable to resolve alias for specified variable. This might due to the variable is removed, or an alias variable from team library is used.");
+        console.error({ local: localVariables, library: libraryVariables });
+        throw new Error(`Unable to find id with ${target} in local or library variables.`);
+    }
+}
+
 async function createGenericItem<T>(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
     resolveValueFn: (value: VariableValue) => Promise<T | null>,
@@ -149,28 +198,25 @@ async function createGenericItem<T>(
     const explanationItems: FrameNode[] = [];
 
     for (const variable of selectedVariables) {
-        const aliasName: (string | undefined)[] = [];
-        const aliasVariableIds: (string | undefined)[] = [];
-        const values: (T | null)[] = [];
+        // V38: 使用自製格式進行邏輯優化
+        // 這個陣列記錄了單一Variable在各個模式下的索引Variable
+        const cyAliasVariables: (CYAliasVariable | null)[] = [];
+        const valuesOrderedByMode: (T | null)[] = [];
 
         for (const [_, value] of Object.entries(variable.valuesByMode)) {
             if (!typeChecking.isVariableAliasType(value)) {
-                aliasName.push(undefined);
-                aliasVariableIds.push(undefined);
+                // 如果Varaible的值並非索引其他Variable，設定為null
+                cyAliasVariables.push(null);
             } else {
-                const aliasVariable = localVariables.find((v) => v.id === value.id);
-                if (!aliasVariable) {
-                    throw new Error("Termination due to aliasVariable is null.");
-                }
-                aliasName.push(aliasVariable.name);
-                aliasVariableIds.push(aliasVariable.id);
+                const findResult = await findCorrespondVariableInLocalOrLibrary(styleMode, value.id);
+                cyAliasVariables.push(findResult);
             }
 
             const resolvedValue = await resolveValueFn(value);
-            values.push(resolvedValue);
+            valuesOrderedByMode.push(resolvedValue);
         }
 
-        const filteredValues = values.filter((v): v is T => v !== null);
+        const filteredValuesOrderedByMode = valuesOrderedByMode.filter((v): v is T => v !== null);
 
         const { id, description, name } = variable;
         const title = name.split("/").pop() || "";
@@ -181,20 +227,18 @@ async function createGenericItem<T>(
                 colors: {
                     type: "SOLID",
                     opacity: 1,
-                    colors: filteredValues as RGBA[],
+                    colors: filteredValuesOrderedByMode as RGBA[],
                 }
             }
         } else {
             previewResources = {
-                [previewKey]: filteredValues
+                [previewKey]: filteredValuesOrderedByMode
             } as PreviewResources;
         }
 
-
         const aliasResources: AliasResources = {
-            aliasNames: aliasName,
             variableModes: modeNames,
-            aliasVariableIds: aliasVariableIds
+            cyAliasVariables: cyAliasVariables,
         };
 
         const explanationItem = CatalogueKit.explanationItemKit.main.createExplanationItem(
@@ -225,7 +269,6 @@ async function createItemColor(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
 ): Promise<FrameNode[]> {
@@ -233,7 +276,6 @@ async function createItemColor(
         form,
         styleMode,
         fontName,
-        localVariables,
         selectedVariables,
         modeNames,
         CatalogueKit.valueResolver.resolveRGBA,
@@ -246,7 +288,6 @@ async function createItemNumber(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
 ): Promise<FrameNode[]> {
@@ -254,7 +295,6 @@ async function createItemNumber(
         form,
         styleMode,
         fontName,
-        localVariables,
         selectedVariables,
         modeNames,
         CatalogueKit.valueResolver.resolveNum,
@@ -267,7 +307,6 @@ async function createItemString(
     form: StyleForm,
     styleMode: StyleMode,
     fontName: FontName,
-    localVariables: Variable[],
     selectedVariables: Variable[],
     modeNames: string[],
 ): Promise<FrameNode[]> {
@@ -275,7 +314,6 @@ async function createItemString(
         form,
         styleMode,
         fontName,
-        localVariables,
         selectedVariables,
         modeNames,
         CatalogueKit.valueResolver.resolveString,
