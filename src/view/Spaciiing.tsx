@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton, Chip } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, Chip, ChipKeyboard } from "../components";
 import { useAppContext } from "../AppProvider";
 import { SvgGrid, SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
@@ -57,7 +57,7 @@ const SpaciiingView: React.FC = () => {
     setIsChecked(event.target.checked);
   };
 
-  const handleCustomValueChangeInput = (
+  const chipCustomOnChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.value;
@@ -81,6 +81,15 @@ const SpaciiingView: React.FC = () => {
   }, [appContext.editorPreference]);
 
   const defaultSpacingOptions = [0, 4, 8, 12, 16, 24, 32, 40, 48, 64, 96, 112, 128, 160];
+  function chipDefaultOnClick(num: number) {
+    setActiveOption(num.toString());
+    setActiveSpacing(num);
+  }
+
+  function chipCustomOnClick() {
+    setActiveOption("custom");
+    setActiveSpacing(inputedSpacing);
+  }
 
   return (
     <div>
@@ -144,7 +153,16 @@ const SpaciiingView: React.FC = () => {
         )}
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:spacingValue")} />
-          <div className="cy-checkbox-group spacing-option-set border-1-cy-border-light padding-16 hide-scrollbar-vertical">
+          <ChipKeyboard
+            name={'spacing'}
+            chipOptions={defaultSpacingOptions}
+            chipOnClick={chipDefaultOnClick}
+            chipCustomOnClick={chipCustomOnClick}
+            chipCustomOnChange={() => { chipCustomOnChange }}
+            activeChip={activeOption}
+            inputedCustomNum={inputedSpacing}
+          />
+          {/* <div className="border-radius-large border-1-cy-border-light padding-16 hide-scrollbar-vertical">
             <div className="spacing-option-numbers">
               {defaultSpacingOptions.map((num) =>
                 <Chip
@@ -172,7 +190,7 @@ const SpaciiingView: React.FC = () => {
                 />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="cy-checkbox-group mt-xsmall">
           <CYCheckbox
