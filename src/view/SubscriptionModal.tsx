@@ -16,29 +16,34 @@ const SubscriptionModal: React.FC = () => {
   return (
     <Modal show={showCTSubscribe} handleClose={handleCloseCTSubscribe}>
       <div className="free-trial-modal">
-        <h2>{t("license:upgradeToSkipWaiting")}</h2>
+        <h2>Choose your plan</h2>
+        <span className="note">Your payment will be processed by Gumroad.</span>
         <div className="mt-xsmall">
           <SubscriptionPlanBlock
             plan={"monthly"}
-            additionalClass={["subscription-background", "pro"]}
+            additionalClass={["subscription-background"]}
+          />
+          <SubscriptionPlanBlock
+            plan={"yearly"}
+            additionalClass={["mt-xxsmall", "subscription-background", "pro"]}
           />
         </div>
         <div id="free-trial-faq" className="mt-small">
-          <h3>{t("license:freeTrialWorks")}</h3>
+          {/* <h3>{t("license:freeTrialWorks")}</h3>
           <span className="note mt-xxsmall">{t("license:noHiddenFees")}</span>
           <div className="mt-xxsmall"></div>
-          <FreeTrialGraph />
+          <FreeTrialGraph /> */}
           <div className="accordion">
             <details className="mt-xsmall">
               <summary>{t("license:supportAndSubscriptionInfo")}</summary>
               <div className="padding-16">
-                <p>{t("license:supportAndSubscriptionInfoAnswer")}</p>
+                <span className="note">{t("license:supportAndSubscriptionInfoAnswer")}</span>
               </div>
             </details>
             <details className="mt-xsmall">
               <summary>{t("license:howRecurringPaymentsWork")}</summary>
               <div className="padding-16">
-                <p>{t("license:howRecurringPaymentsWorkAnswer")}{t("license:noHiddenFees")}</p>
+                <span className="note">{t("license:howRecurringPaymentsWorkAnswer")}{t("license:noHiddenFees")}</span>
               </div>
             </details>
           </div>

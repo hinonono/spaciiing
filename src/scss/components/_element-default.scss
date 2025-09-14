@@ -112,10 +112,10 @@ details {
 
     summary {
         border-radius: 5px;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 500;
         cursor: pointer;
-        color: var(--figma-color-text);
+        color: var(--figma-color-text-secondary);
 
         // When <details> is open
         [open] & {
