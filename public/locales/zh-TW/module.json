@@ -132,7 +132,7 @@
     "numberingTextLayers": "將文字圖層編號",
     "objectIsMemorizedWithId": "物件已被記憶 (ID: $LAYER_ID$)",
     "objectIsNotMemorized": "物件尚未被記憶",
-    "offset": "箭頭與物件間的距離",
+    "offset": "與物件的距離",
     "options": "選項",
     "originalTextContent": "文字圖層原本的內容",
     "outerFrame": "外框",
@@ -205,5 +205,5 @@
   "createLoremIpsum": "生成亂數假文",
     "createIconTemplate": "建立圖標模板",
     "createSection": "建立區段",
-    "arrowAppearance": "箭頭外觀"
+    "arrowAppearance": "外觀"
 }
