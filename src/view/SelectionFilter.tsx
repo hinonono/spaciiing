@@ -48,9 +48,7 @@ const SelectionFilter: React.FC = () => {
   const [isAllOptionsSelected, setIsAllOptionsSelected] = useState(false);
 
   const handleScopeChange = (scope: NodeFilterable) => {
-    if (scope === "ALL_OPTIONS") {
-
-    } else if (scope === "ALL_SHAPE") {
+    if (scope === "ALL_SHAPE") {
       // Toggle specific fill scopes
       const fillScopes: NodeFilterable[] = [
         "RECTANGLE",

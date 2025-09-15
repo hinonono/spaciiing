@@ -61,17 +61,7 @@ const Renamer: React.FC = () => {
   };
 
   const handleScopeChange = (scope: NodeRenamable) => {
-    if (scope === "ALL_OPTIONS") {
-      // Toggle specific fill scopes
-      const fillScopes: NodeRenamable[] = RenamableScopesNew.map(
-        (item) => item.scope
-      );
-      setSelectedScopes((prevScopes) =>
-        prevScopes.includes(scope)
-          ? prevScopes.filter((s) => !fillScopes.includes(s))
-          : [...new Set([...prevScopes, ...fillScopes])]
-      );
-    } else if (scope === "ALL_SHAPE") {
+    if (scope === "ALL_SHAPE") {
       // Toggle specific fill scopes
       const fillScopes: NodeRenamable[] = [
         "RECTANGLE",
