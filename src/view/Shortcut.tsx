@@ -145,8 +145,8 @@ const Shortcut: React.FC = () => {
     </div>
   );
 
-  const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[]) => (
-    <div className="list-view mt-xsmall">
+  const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[], hasTopMargin = true) => (
+    <div className={`list-view ${hasTopMargin ? "mt-xsmall" : ""}`}>
       <ListViewHeader title={title} additionalClass="property-clipboard-header" />
       <div className="padding-16 border-1-top">
         {renderButtons(buttons)}
@@ -189,7 +189,7 @@ const Shortcut: React.FC = () => {
       ]
 
       return (
-        renderShortcutSection(t("module:moduleDrawArrows"), buttons)
+        renderShortcutSection(t("module:moduleDrawArrows"), buttons, false)
       )
     } else {
       return null;

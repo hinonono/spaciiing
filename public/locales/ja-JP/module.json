@@ -205,5 +205,6 @@
   "createLoremIpsum": "ロレムイプサムテキストを作成",
     "createIconTemplate": "アイコンテンプレートを作成",
     "createSection": "セクションを作成",
-    "arrowAppearance": "見た目"
+    "arrowAppearance": "見た目",
+    "layerType": "レイヤータイプ"
 }

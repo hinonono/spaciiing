@@ -205,5 +205,6 @@
     "createLoremIpsum": "Create lorem ipsum text",
     "createIconTemplate": "Create icon template",
     "createSection": "Create section",
-    "arrowAppearance": "Appearance"
+    "arrowAppearance": "Appearance",
+    "layerType": "Layer Type"
 }

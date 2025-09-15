@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TitleBar, FigmaButton, SectionTitle } from "../components";
+import { TitleBar, FigmaButton, SectionTitle, ListViewHeader } from "../components";
 import { NodeRenamable } from "../types/NodeRenamable";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
@@ -23,7 +23,7 @@ const Renamer: React.FC = () => {
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
   //
-
+  const [isAllOptionsSelected, setIsAllOptionsSelected] = useState(true);
   const initialScopes = RenamableScopesNew.map((item) => item.scope);
 
   //
@@ -127,6 +127,21 @@ const Renamer: React.FC = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
+  function toggleAll() {
+    setIsAllOptionsSelected((prev) => {
+      const next = !prev;
+      if (next) {
+        // Turn on all scopes
+        const scopeToTurnOn: NodeRenamable[] = RenamableScopesNew.map((item) => item.scope);
+        setSelectedScopes(scopeToTurnOn);
+      } else {
+        // Turn off all scopes
+        setSelectedScopes([]);
+      }
+      return next;
+    });
+  }
+
   return (
     <div>
       <Modal
@@ -144,11 +159,24 @@ const Renamer: React.FC = () => {
       />
       <div className="content">
         {/* 選項 */}
-        <div className="mt-xxsmall">
-          <SectionTitle
-            title={`${t("module:renameScopes")} (${selectedScopes.length})`}
+        <div className="list-view">
+          <ListViewHeader
+            title={t("module:layerType")}
+            additionalClass="property-clipboard-header"
+            rightItem={
+              <FigmaButton
+                title={
+                  isAllOptionsSelected === true ? t("term:unselectAll") : t("term:selectAll")
+                }
+                onClick={toggleAll}
+                buttonHeight="small"
+                fontSize="small"
+                buttonType="grain"
+                hasMargin={false}
+              />
+            }
           />
-          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
+          <div className="cy-checkbox-group border-1-top padding-16 scope-group-large hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
               <CYCheckbox
                 label={

@@ -205,5 +205,6 @@
   "createLoremIpsum": "生成乱数假文",
     "createIconTemplate": "创建图标模板",
     "createSection": "创建部分",
-     "arrowAppearance": "外观"
+     "arrowAppearance": "外观",
+     "layerType": "图层类型"
 }

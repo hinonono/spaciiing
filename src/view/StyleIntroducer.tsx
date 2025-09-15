@@ -121,7 +121,7 @@ const StyleIntroducer: React.FC<StyleIntroducerProps> = () => {
         onClick={handleOpenExplanationModal}
       />
       <div className="content">
-        <div className="mt-xxsmall">
+        <div>
           <SectionTitle title={t("module:form")} />
           <SegmentedControl
             inputName="form"
