@@ -18,7 +18,7 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
 
   return (
     <div
-      className={`border-radius-xxxlarge padding-16 ${additionalClass?.join(" ") || ""
+      className={`border-radius-xxxlarge padding-16 shadow-view ${additionalClass?.join(" ") || ""
         }`}
     >
       <span className={"subscription-plan-title mt-xxsmall"}>

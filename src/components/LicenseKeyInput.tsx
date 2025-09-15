@@ -15,7 +15,6 @@ const LicenseKeyInput: React.FC<LicenseKeyInputProps> = ({ licenseKey, onChange,
 
   return (
     <div className="mt-xxsmall">
-      <SectionTitle title={t("module:licenseKey")} />
       <div className="width-100">
         <textarea
           className="textarea"
