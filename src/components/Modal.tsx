@@ -26,7 +26,6 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, children }) => {
         {show && (
           <motion.div
             className={`modal ${show ? "show" : ""}`}
-            onClick={handleClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

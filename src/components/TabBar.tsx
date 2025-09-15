@@ -19,6 +19,7 @@ import { useAppContext } from "../AppProvider";
 import SaleBannerWrapper from "./SaleBannerWrapper";
 import { getAvailableTabs } from "./AvailableTabs";
 import * as utilFrontEnd from "../module-frontend/utilFrontEnd";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface TabBarProps {
   activeTab: Module;
@@ -153,8 +154,20 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
           />
         ))}
       </div>
-      <div className={`tab-content`}>
-        {renderTabContent()}
+      {/* Animate tab content */}
+      <div className="tab-content">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab} // important for exit/enter
+            initial={{ opacity: 0, scale: 0.99 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.99 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="h-full w-full"
+          >
+            {renderTabContent()}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );
