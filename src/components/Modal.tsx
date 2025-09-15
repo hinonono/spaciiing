@@ -35,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, children }) => {
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", bounce: 0.1, visualDuration: 0.5 }}
+              transition={{ type: "spring", bounce: 0.1, visualDuration: 0.4 }}
             >
               <div className="close-wrap" onClick={handleClose}>
                 <div className="icon-24">

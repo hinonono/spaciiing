@@ -159,11 +159,10 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab} // important for exit/enter
-            initial={{ opacity: 0, scale: 0.99 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.99 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="h-full w-full"
+            initial={{ scale: 0.99 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0.99 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
           >
             {renderTabContent()}
           </motion.div>
