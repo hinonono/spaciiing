@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SvgCross } from "../assets/icons";
+import { AnimatePresence, motion } from "motion/react"
 
 interface ModalProps {
   show: boolean;
@@ -8,22 +9,46 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ show, handleClose, children }) => {
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (show) {
+      const prev = document.body.style.overflowY;
+      document.body.style.overflowY = "hidden";
+      return () => {
+        document.body.style.overflowY = prev; // restore
+      };
+    }
+  }, [show]);
+
   return (
-    <div className={`modal ${show ? "show" : ""}`} onClick={handleClose}>
-      <div className="modal-container">
-        <div
-          className="modal-content hide-scrollbar-vertical"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="close-wrap" onClick={handleClose}>
-            <div className="icon-24">
-              <SvgCross color="var(--tooltip-icon)" />
-            </div>
-          </div>
-          <div>{children}</div>
-        </div>
-      </div>
-    </div>
+    <>
+      <AnimatePresence>
+        {show && (
+          <motion.div
+            className={`modal ${show ? "show" : ""}`}
+            onClick={handleClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="modal-content hide-scrollbar-vertical"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", bounce: 0.1, visualDuration: 0.5 }}
+            >
+              <div className="close-wrap" onClick={handleClose}>
+                <div className="icon-24">
+                  <SvgCross color="var(--tooltip-icon)" />
+                </div>
+              </div>
+              {children}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
