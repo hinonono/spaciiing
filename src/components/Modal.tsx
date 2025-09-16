@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { SvgCross } from "../assets/icons";
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, motion } from "motion/react";
 
 interface ModalProps {
   show: boolean;
