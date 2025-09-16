@@ -4,7 +4,7 @@
     position: relative;
     min-width: 16px;
 
-    background-color: var(--figma-color-bg) !important;
+    background-color: var(--figma-color-bg);
     color: var(--figma-color-text) !important;
     border: 1px solid var(--cy-border-light);
     padding: 8px !important;
@@ -21,11 +21,7 @@
     }
 
     &:hover {
-        scale: 0.95;
-    }
-
-    &:active {
-        scale: 0.8;
+        background-color: var(--figma-color-bg-secondary);
     }
 
     &:disabled {
