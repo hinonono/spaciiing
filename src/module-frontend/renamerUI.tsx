@@ -23,10 +23,6 @@ interface RenamerScopeItem {
 
 export const RenamableScopesNew: RenamerScopeItem[] = [
     {
-        nameKey: "term:allOptions",
-        scope: "ALL_OPTIONS"
-    },
-    {
         nameKey: "term:image",
         scope: "IMAGE",
         svg: <SvgImage color="var(--figma-color-text)" />

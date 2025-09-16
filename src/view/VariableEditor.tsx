@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, FigmaButton, SectionTitle, CYCheckbox } from "../components";
+import { TitleBar, FigmaButton, SectionTitle, CYCheckbox, ListViewHeader } from "../components";
 import { useAppContext } from "../AppProvider";
 import MonacoCodeEditor from "../components/MonacoCodeEditor";
 import Modal from "../components/Modal";
@@ -34,7 +34,6 @@ const VariableScopesNew: {
   COLOR: {
     nameKey: "term:color",
     members: [
-      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
       { nameKey: "term:allFills", scope: "ALL_FILLS" },
       {
         nameKey: "term:frameFill",
@@ -61,7 +60,6 @@ const VariableScopesNew: {
   FLOAT: {
     nameKey: "term:float",
     members: [
-      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
       { nameKey: "term:textContent", scope: "TEXT_CONTENT" },
       { nameKey: "term:cornerRadius", scope: "CORNER_RADIUS" },
       { nameKey: "term:widthHeight", scope: "WIDTH_HEIGHT" },
@@ -80,7 +78,6 @@ const VariableScopesNew: {
   STRING: {
     nameKey: "term:string",
     members: [
-      { nameKey: "term:allScopes", scope: "ALL_SCOPES" },
       { nameKey: "term:textContent", scope: "TEXT_CONTENT" },
       { nameKey: "term:fontFamily", scope: "FONT_FAMILY" },
       { nameKey: "term:fontStyle", scope: "FONT_STYLE" },
@@ -170,17 +167,7 @@ const VariableEditor: React.FC = () => {
   };
 
   const handleScopeChange = (scope: VariableScope) => {
-    if (scope === "ALL_SCOPES") {
-      // Toggle all scopes
-      const allScopes = VariableScopesNew[dataType].members.map(
-        (item) => item.scope
-      );
-      setVariableScope((prevScopes) =>
-        prevScopes.includes(scope)
-          ? prevScopes.filter((s) => !allScopes.includes(s))
-          : allScopes
-      );
-    } else if (scope === "ALL_FILLS") {
+    if (scope === "ALL_FILLS") {
       // Toggle specific fill scopes
       const fillScopes: VariableScope[] = [
         "ALL_FILLS",
@@ -244,6 +231,22 @@ const VariableEditor: React.FC = () => {
   const generateExampleCodeSnippet = () => {
     setCode(exampleCode[dataType]);
   };
+
+  const [isAllOptionsSelected, setIsAllOptionsSelected] = useState(true);
+  function toggleAll() {
+    setIsAllOptionsSelected((prev) => {
+      const next = !prev;
+      if (next) {
+        // Turn on all scopes
+        const allScopes = VariableScopesNew[dataType].members.map((item) => item.scope);
+        setVariableScope(allScopes);
+      } else {
+        // Turn off all scopes
+        setVariableScope([]);
+      }
+      return next;
+    });
+  }
 
   return (
     <div>
@@ -343,13 +346,22 @@ const VariableEditor: React.FC = () => {
           </select>
         </div>
         {dataType !== "BOOLEAN" && (
-          <div className="mt-xsmall">
-            <SectionTitle
-              title={
-                t("module:variableScope") + "(" + variableScope.length + ")"
+          <div className="list-view mt-xsmall">
+            <ListViewHeader
+              title={t("module:variableScope")}
+              additionalClass="property-clipboard-header"
+              rightItem={
+                <FigmaButton
+                  title={isAllOptionsSelected === true ? t("term:unselectAll") : t("term:selectAll")}
+                  onClick={toggleAll}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
               }
             />
-            <div className="cy-checkbox-group border-1-cy-border-light scope-group hide-scrollbar-vertical">
+            <div className="cy-checkbox-group border-1-top padding-16 scope-group-large hide-scrollbar-vertical">
               {VariableScopesNew[dataType].members.map((item) => (
                 <CYCheckbox
                   label={t(item.nameKey)}

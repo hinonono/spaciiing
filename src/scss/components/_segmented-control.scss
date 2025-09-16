@@ -1,13 +1,21 @@
 .custom-segmented-control {
+    position: relative;
     display: inline-flex;
     border-radius: var(--cy-border-radius-large);
     width: 100%;
     justify-content: space-between;
     overflow: hidden;
     transition: var(--cy-animation-default);
-    padding: 6px;
+    padding: 4px;
     background: var(--figma-color-bg-secondary);
     min-height: 40px;
+
+    .highlight-box {
+        border-radius: var(--cy-border-radius-small);
+        background: var(--figma-color-bg);
+        box-shadow: var(--drop-shadow-1);
+        z-index: 0;
+    }
 
     input[type="radio"] {
         display: none;
@@ -17,10 +25,10 @@
         }
 
         &:checked+label {
-            background: var(--figma-color-bg);
+            // background: var(--figma-color-bg);
             color: var(--figma-color-bg-brand);
-            z-index: 1;
-            box-shadow: var(--drop-shadow-1);
+            // z-index: 1;
+            // box-shadow: var(--drop-shadow-1);
 
             * {
                 fill: var(--figma-color-bg-brand);
@@ -33,30 +41,32 @@
         }
 
         &:hover:checked+label {
-            scale: 0.95;
+            // scale: 0.95;
             z-index: 1;
         }
 
         &:hover:not(:checked)+label {
             background-color: var(--figma-color-bg-tertiary);
-            scale: 0.95;
+            // scale: 0.95;
             // z-index: 1;
         }
 
         &:active:checked+label {
-            scale: 0.8;
+            // scale: 0.95;
             z-index: 1;
         }
 
         &:active:not(:checked)+label {
             background-color: var(--figma-color-bg-secondary);
-            scale: 0.8;
+            // scale: 0.95;
             z-index: 1;
         }
     }
 
 
     label {
+        position: relative;
+        z-index: 1;
         display: flex;
         // margin-bottom: 0;
         padding: 4px 6px;
@@ -71,12 +81,13 @@
     }
 
     &>input:checked+label {
-        z-index: -1;
+        // z-index: -1;
     }
 }
 
 @media (prefers-color-scheme: dark) {
     .custom-segmented-control {
+        position: relative;
         display: inline-flex;
         border-radius: var(--cy-border-radius-large);
         width: 100%;
@@ -94,10 +105,10 @@
             display: none;
 
             &:checked+label {
-                background: #545454;
+                // background: #545454;
                 color: #3cadff;
                 z-index: 1;
-                box-shadow: var(--drop-shadow-1);
+                // box-shadow: var(--drop-shadow-1);
 
                 * {
                     fill: #3cadff;

@@ -65,7 +65,7 @@
     "findWithNameOptional": "按名稱尋找（可選）",
     "flight": "航班",
     "form": "形態",
-    "freeform": "自由格式",
+    "freeform": "自由",
     "generate": "建立",
     "generateAs": "建立",
     "generateHEXorRGB": "建立 HEX 或 RGB 文字標籤",
@@ -132,7 +132,7 @@
     "numberingTextLayers": "將文字圖層編號",
     "objectIsMemorizedWithId": "物件已被記憶 (ID: $LAYER_ID$)",
     "objectIsNotMemorized": "物件尚未被記憶",
-    "offset": "偏移",
+    "offset": "與物件的距離",
     "options": "選項",
     "originalTextContent": "文字圖層原本的內容",
     "outerFrame": "外框",
@@ -204,5 +204,7 @@
   "freeUserSubscribeEncourage": "您正在使用 Spaciiing 免費版。升級以解除等待時間限制，加快設計速度！",
   "createLoremIpsum": "生成亂數假文",
     "createIconTemplate": "建立圖標模板",
-    "createSection": "建立區段"
+    "createSection": "建立區段",
+    "arrowAppearance": "外觀",
+    "layerType": "圖層類型"
 }

@@ -132,7 +132,7 @@
     "numberingTextLayers": "Numbering Text Layers",
     "objectIsMemorizedWithId": "Object is memorized (ID: $LAYER_ID$).",
     "objectIsNotMemorized": "The object has not been memorized.",
-    "offset": "Offset",
+    "offset": "Margin between arrow and objects",
     "options": "Options",
     "originalTextContent": "Original text content.",
     "outerFrame": "Outer Frame",
@@ -204,5 +204,7 @@
     "freeUserSubscribeEncourage": "Enjoying the free version of Spaciiing? Upgrade to remove delay limits and design faster than ever!",
     "createLoremIpsum": "Create lorem ipsum text",
     "createIconTemplate": "Create icon template",
-    "createSection": "Create section"
+    "createSection": "Create section",
+    "arrowAppearance": "Appearance",
+    "layerType": "Layer Type"
 }

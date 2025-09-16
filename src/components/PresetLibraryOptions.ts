@@ -1087,21 +1087,6 @@ const carbonOptions: AvailableOption[] = [
  * 用於Preset Library模組，列出所有可選擇的選項
  */
 const allOptions: AvailableOption[] = [
-  {
-    value: "all",
-    label: "ALL",
-    brands: [
-      "ios",
-      "antDesign",
-      "materialDesign",
-      "tailwind",
-      "bootstrap",
-      "polaris",
-      "carbon",
-    ],
-    category: ["color", "effect", "typography", "other"],
-    forms: ["style", "variable"],
-  },
   ...iosOptions,
   ...materialDesignOptions,
   ...antDesignOptions,

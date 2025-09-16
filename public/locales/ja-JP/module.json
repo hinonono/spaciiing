@@ -132,7 +132,7 @@
     "numberingTextLayers": "テキストレイヤーをナンバーリング",
     "objectIsMemorizedWithId": "オブジェクトは記憶されました (ID: $LAYER_ID$)",
     "objectIsNotMemorized": "オブジェクトはまだ記憶されていません",
-    "offset": "オフセット",
+    "offset": "オブジェクトとの間隔",
     "options": "オプション",
     "originalTextContent": "テキストレイヤー元の内容",
     "outerFrame": "外枠",
@@ -204,5 +204,7 @@
   "freeUserSubscribeEncourage": "「Spaciiing」の無料版をご利用中です。アップグレードして遅延制限を解除し、よりスピーディにデザインしましょう！",
   "createLoremIpsum": "ロレムイプサムテキストを作成",
     "createIconTemplate": "アイコンテンプレートを作成",
-    "createSection": "セクションを作成"
+    "createSection": "セクションを作成",
+    "arrowAppearance": "見た目",
+    "layerType": "レイヤータイプ"
 }

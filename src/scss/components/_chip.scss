@@ -4,7 +4,7 @@
     position: relative;
     min-width: 16px;
 
-    background-color: var(--figma-color-bg) !important;
+    background-color: var(--figma-color-bg);
     color: var(--figma-color-text) !important;
     border: 1px solid var(--cy-border-light);
     padding: 8px !important;
@@ -21,11 +21,7 @@
     }
 
     &:hover {
-        scale: 0.95;
-    }
-
-    &:active {
-        scale: 0.8;
+        background-color: var(--figma-color-bg-secondary);
     }
 
     &:disabled {
@@ -42,4 +38,44 @@
             text-decoration: none !important;
         }
     }
+}
+
+.chip-keyboard-layout {
+    display: grid;
+    -moz-column-gap: 4px;
+    column-gap: 4px;
+    row-gap: 12px;
+}
+
+.chip-keyboard-chip-custom {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    span {
+        text-align: left;
+    }
+
+    input {
+        height: 100%;
+        padding: 0;
+        text-align: right;
+    }
+}
+
+// Spacing 鍵盤
+.spacing-chip-keyboard-layout {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.spacing-chip-keyboard-chip-custom {
+    grid-column: span 4;
+}
+
+// Arrow Creator 鍵盤
+.offset-chip-keyboard-layout {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.offset-chip-keyboard-chip-custom {
+    grid-column: span 3;
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
-import { CYCheckbox, FigmaButton, SectionTitle, TitleBar } from '../components';
+import { Chip, ChipKeyboard, CYCheckbox, FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
 import { ConnectPointPosition, RectSegmentType, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator, defaultOffset, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
@@ -34,20 +34,6 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
 
   // 安全間距
   const [safeMargin, setSafeMargin] = useState<number>(defaultOffset);
-  const handleSafeMarginChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const value = event.target.value;
-    const numberValue = Number(value);
-
-    if (!isNaN(numberValue)) {
-      setSafeMargin(numberValue);
-      setSafeMarginFieldNote("");
-    } else {
-      setSafeMarginFieldNote(t("module:invalidNumberInput"));
-    }
-  };
-  const [safeMarginFieldNote, setSafeMarginFieldNote] = useState<string>("");
 
   // 是否建立註解框
   const [createAnnotationBox, setCreateAnnotationBox] = useState(false);
@@ -133,6 +119,29 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
   const [existingStyleName, setExistingStyleName] = useState<string | undefined>();
   const [existingStyleId, setExistingStyleId] = useState<string | undefined>();
 
+  const chipDefaultOptions = [0, 8, 16, 32];
+
+  // 2025-07-20 新版UI
+  // 紀錄使用者目前選中的按鈕是哪一個
+  const [activeChip, setActiveChip] = useState<string>(defaultOffset.toString());
+  // 紀錄使用者輸入的間距值
+  const [inputedMargin, setInputedMargin] = useState<number>(0);
+
+  const chipCustomOnChange = (num: number) => {
+    setInputedMargin(num);
+    setSafeMargin(num);
+  };
+
+  function chipDefaultOnClick(num: number) {
+    setActiveChip(num.toString());
+    setSafeMargin(num);
+  }
+
+  function chipCustomOnClick() {
+    setActiveChip("custom");
+    setSafeMargin(inputedMargin);
+  }
+
   return (
     <div>
       <div>
@@ -197,32 +206,19 @@ const ArrowCreator: React.FC<ArrowCreatorProps> = () => {
         {/* 間隔距離 */}
         <div className="mt-xsmall">
           <SectionTitle title={t("module:offset")} />
-          <div className="flex">
-            <textarea
-              className="textarea"
-              rows={1}
-              value={safeMargin}
-              onChange={handleSafeMarginChange}
-              placeholder={t("module:customValueNumbersOnly")}
-            />
-            {[8, 16, 32].map((num) =>
-              <div className='ml-xxxsmall'>
-                <FigmaButton
-                  buttonType="tertiary"
-                  title={`${num}`}
-                  onClick={() => setSafeMargin(num)}
-                  hasTopBottomMargin={false}
-                />
-              </div>
-            )}
-          </div>
-          {safeMarginFieldNote && (
-            <span className="note error">{safeMarginFieldNote}</span>
-          )}
+          <ChipKeyboard
+            name={'offset'}
+            chipOptions={chipDefaultOptions}
+            chipOnClick={chipDefaultOnClick}
+            chipCustomOnClick={chipCustomOnClick}
+            chipCustomOnChange={chipCustomOnChange}
+            activeChip={activeChip}
+            inputedCustomNum={inputedMargin}
+          />
         </div>
         {/* 筆畫模式 */}
         <div className='mt-xsmall'>
-          <SectionTitle title={t("term:stroke")} />
+          <SectionTitle title={t("module:arrowAppearance")} />
           <SegmentedControl
             inputName="stroke-style"
             value={strokeMode}
