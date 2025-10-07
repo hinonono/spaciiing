@@ -166,7 +166,7 @@ const Renamer: React.FC = () => {
               />
             }
           />
-          <div className="cy-checkbox-group border-1-top padding-16 scope-group-large hide-scrollbar-vertical">
+          <div className="list-view-content cy-checkbox-group border-1-top  scope-group-large hide-scrollbar-vertical">
             {RenamableScopesNew.map((item) => (
               <CYCheckbox
                 label={

@@ -15,6 +15,7 @@
         color: var(--figma-color-text);
         user-select: none;
         min-height: 36px;
+        border-radius: var(--cy-border-radius-large);
 
         input {
             position: absolute;

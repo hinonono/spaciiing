@@ -25,10 +25,8 @@
         }
 
         &:checked+label {
-            // background: var(--figma-color-bg);
             color: var(--figma-color-bg-brand);
-            // z-index: 1;
-            // box-shadow: var(--drop-shadow-1);
+             z-index: 1;
 
             * {
                 fill: var(--figma-color-bg-brand);
@@ -41,24 +39,19 @@
         }
 
         &:hover:checked+label {
-            // scale: 0.95;
             z-index: 1;
         }
 
         &:hover:not(:checked)+label {
             background-color: var(--figma-color-bg-tertiary);
-            // scale: 0.95;
-            // z-index: 1;
         }
 
         &:active:checked+label {
-            // scale: 0.95;
             z-index: 1;
         }
 
         &:active:not(:checked)+label {
             background-color: var(--figma-color-bg-secondary);
-            // scale: 0.95;
             z-index: 1;
         }
     }
@@ -68,7 +61,6 @@
         position: relative;
         z-index: 1;
         display: flex;
-        // margin-bottom: 0;
         padding: 4px 6px;
         cursor: pointer;
         font-size: var(--font-size-large);
@@ -79,40 +71,28 @@
         min-height: 28px;
         border-radius: var(--cy-border-radius-small);
     }
-
-    &>input:checked+label {
-        // z-index: -1;
-    }
 }
 
 @media (prefers-color-scheme: dark) {
     .custom-segmented-control {
-        position: relative;
-        display: inline-flex;
-        border-radius: var(--cy-border-radius-large);
-        width: 100%;
-        justify-content: space-between;
-        overflow: hidden;
-        transition: var(--cy-animation-default);
-        padding: 6px;
-        background: var(--figma-color-bg-secondary);
+        background: #444444;
 
-        // &:hover {
-        //     border-color: var(--cy-border-dark);
-        // }
+        .highlight-box {
+            background: #2c2c2c;
+            box-shadow: 0px 1.5px 2px 0px rgba(83, 83, 83, 1) inset, 0px 0px 2px 0px rgba(83, 83, 83, 1) inset;
+        }
 
         input[type="radio"] {
-            display: none;
-
             &:checked+label {
-                // background: #545454;
                 color: #3cadff;
-                z-index: 1;
-                // box-shadow: var(--drop-shadow-1);
 
                 * {
                     fill: #3cadff;
                 }
+            }
+
+            &:hover:not(:checked)+label {
+                background-color: #383838;
             }
         }
     }
