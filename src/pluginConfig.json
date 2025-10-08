@@ -1,10 +1,8 @@
 {
   "name": "Spaciiing",
-  "version": "38",
+  "version": "39",
   "whatsNew": [
-    "Preset library now provides iOS 26 color palettes",
-    "Catalogue now supports creation with variables from team library",
-    "Catalogue now supports glass effect (BETA)",
+    "New shortcut: Create section",
     "Bug fixes",
     "Overall enhancements"
   ],
@@ -35,26 +33,31 @@
   "clickTier": [
     {
       "tier": "BRONZE",
+      "requiredExp": 1000,
       "max": 1000,
       "translateKey": "module:bronze"
     },
     {
       "tier": "SLIVER",
+      "requiredExp": 4000,
       "max": 5000,
       "translateKey": "module:sliver"
     },
     {
       "tier": "GOLD",
+      "requiredExp": 5000,
       "max": 10000,
       "translateKey": "module:gold"
     },
     {
       "tier": "PLATINUM",
+      "requiredExp": 8000,
       "max": 18000,
       "translateKey": "module:platinum"
     },
     {
       "tier": "DIAMOND",
+      "requiredExp": 99999,
       "max": 99999,
       "translateKey": "module:diamond"
     }

@@ -1,5 +1,6 @@
 export interface SavedClicksTierObj {
     tier: SavedClicksTier,
+    requiredExp: number,
     max: number,
     translateKey: string
 }
