@@ -275,7 +275,19 @@ const Shortcut: React.FC = () => {
 
       return (
         <div className="list-view mt-xsmall">
-          <ListViewHeader title={t("module:fileOrganizingObject")} additionalClass="property-clipboard-header" />
+          <ListViewHeader title={t("module:fileOrganizingObject")}
+            additionalClass="property-clipboard-header"
+            rightItem={
+              <FigmaButton
+                title={t("module:setting")}
+                onClick={handleOpenMagicObjectModal}
+                buttonHeight="small"
+                fontSize="small"
+                buttonType="grain"
+                hasMargin={false}
+              />
+            }
+          />
           <div className="padding-16 border-1-top">
             {renderMagicObjectButtons(buttons)}
           </div>
@@ -433,16 +445,6 @@ const Shortcut: React.FC = () => {
       <TitleBar
         title={t("module:moduleShortcut")}
         onClick={handleOpenExplanationModal}
-        rightItem={
-          <FigmaButton
-            title={t("module:setting")}
-            onClick={handleOpenMagicObjectModal}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="grain"
-            hasMargin={false}
-          />
-        }
       />
       <div className="content">
         <input
