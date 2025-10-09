@@ -50,16 +50,8 @@ const Setting: React.FC = () => {
                 </>
               )}
             </div>
-            <div className="mt-xsmall grid">
-              <FigmaButton
-                buttonType="tertiary"
-                title={t("license:activateLicense")}
-                onClick={() => {
-                  setShowActivateModal(true);
-                }}
-                svg={<SvgKey color="var(--figma-color-text)" />}
-              />
-              {licenseManagement.tier === "PAID" && (
+            {licenseManagement.tier === "PAID" ?
+              <div className="mt-xsmall">
                 <FigmaButton
                   title={t("license:eraseLicense")}
                   buttonType="tertiary"
@@ -68,8 +60,17 @@ const Setting: React.FC = () => {
                   }}
                   svg={<SvgEraser color="var(--figma-color-text)" />}
                 />
-              )}
-              {licenseManagement.tier !== "PAID" && (
+              </div>
+              :
+              <div className="mt-xsmall grid">
+                <FigmaButton
+                  buttonType="tertiary"
+                  title={t("license:activateLicense")}
+                  onClick={() => {
+                    setShowActivateModal(true);
+                  }}
+                  svg={<SvgKey color="var(--figma-color-text)" />}
+                />
                 <FigmaButton
                   title={t("license:upgrade")}
                   buttonType="special"
@@ -77,8 +78,8 @@ const Setting: React.FC = () => {
                     setShowCTSubscribe(true);
                   }}
                 />
-              )}
-            </div>
+              </div>
+            }
           </div>
         </div>
         {/* Click Saved */}
