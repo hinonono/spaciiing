@@ -215,12 +215,12 @@ function getEffectPropertiesToCreate(
 ): SinglePropertyString[] {
   if (effect.type === "DROP_SHADOW" || effect.type == "INNER_SHADOW") {
     const effectPropertiesToCreate: SinglePropertyString[] = [
-      { title: lr.term["color"], content: utils.color.rgbToHex(effect.color.r, effect.color.g, effect.color.b), show: true },
-      { title: lr.term["opacity"], content: `${utils.string.formatNumberToDecimals(effect.color.a * 100)}%`, show: true },
       { title: "X", content: `${effect.offset.x}`, show: true },
       { title: "Y", content: `${effect.offset.y}`, show: true },
       { title: lr.term["blur"], content: `${effect.radius}`, show: true },
-      { title: lr.term["spread"], content: effect.spread ? `${effect.spread}` : "0", show: true }
+      { title: lr.term["spread"], content: effect.spread ? `${effect.spread}` : "0", show: true },
+      { title: lr.term["color"], content: utils.color.rgbToHex(effect.color.r, effect.color.g, effect.color.b), show: true },
+      { title: lr.term["opacity"], content: `${utils.string.formatNumberToDecimals(effect.color.a * 100)}%`, show: true }
     ]
     return effectPropertiesToCreate
   } else if (effect.type === "LAYER_BLUR" || effect.type === "BACKGROUND_BLUR") {
@@ -271,11 +271,6 @@ function getEffectPropertiesToCreate(
     if (effect.noiseType === "MONOTONE") {
       const effectPropertiesToCreate: SinglePropertyString[] = [
         {
-          title: lr.term["noiseType"],
-          content: `${effect.noiseType}`,
-          show: true
-        },
-        {
           title: lr.term["noiseSize"],
           content: `${effect.noiseSize}`,
           show: true
@@ -297,21 +292,11 @@ function getEffectPropertiesToCreate(
           content: `${utils.string.formatNumberToDecimals(effect.color.a * 100)}%`,
           show: true
         },
-        {
-          title: "Placeholder",
-          content: "0",
-          show: false
-        }
       ]
 
       return effectPropertiesToCreate
     } else if (effect.noiseType === "DUOTONE") {
       const effectPropertiesToCreate: SinglePropertyString[] = [
-        {
-          title: lr.term["noiseType"],
-          content: `${effect.noiseType}`,
-          show: true
-        },
         {
           title: lr.term["noiseSize"],
           content: `${effect.noiseSize}`,
@@ -344,21 +329,11 @@ function getEffectPropertiesToCreate(
           content: `${utils.string.formatNumberToDecimals(effect.secondaryColor.a * 100)}%`,
           show: true
         },
-        {
-          title: "Placeholder",
-          content: "0",
-          show: false
-        }
       ]
 
       return effectPropertiesToCreate
     } else {
       const effectPropertiesToCreate: SinglePropertyString[] = [
-        {
-          title: lr.term["noiseType"],
-          content: `${effect.noiseType}`,
-          show: true
-        },
         {
           title: lr.term["noiseSize"],
           content: `${effect.noiseSize}`,
@@ -374,6 +349,11 @@ function getEffectPropertiesToCreate(
           content: `${utils.string.formatNumberToDecimals(effect.opacity * 100)}%`,
           show: true
         },
+        {
+          title: "Placeholder",
+          content: "0",
+          show: false
+        }
       ]
 
       return effectPropertiesToCreate
@@ -459,8 +439,8 @@ export function createEffectPropertiesWrappers(
 
       let groupedPropertyNodes: FrameNode[] = [];
       // Separate into 2 and 4 elements
-      const firstGroup = effectPropertiesNodes.slice(0, 2);
-      const secondGroup = effectPropertiesNodes.slice(2, 6);
+      const firstGroup = effectPropertiesNodes.slice(0, 4);
+      const secondGroup = effectPropertiesNodes.slice(4, 6);
 
       // Create pairs for the first group (2 elements and 4 elements)
       const firstGroupWrapper = utils.node.createAutolayoutFrame(firstGroup, semanticTokens.spacing.xsmall, "HORIZONTAL");
