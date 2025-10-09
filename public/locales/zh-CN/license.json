@@ -41,7 +41,7 @@
   "upgradeToSkipWaiting": "升级即可跳过等待",
   "upgrade": "升级",
   "youNeedToWait": "目前每次操作需要等待 $WAIT_TIME$ 秒",
-  "youSaved": "你已经省下 $SAVED_CLICKS$ 次滑鼠点击，相当于 $SAVED_MIN$ 分钟的无聊重复工作！",
+  "youSaved": "你省下了 $SAVED_CLICKS$ 次滑鼠点击，相当于省下了 $SAVED_MIN$ 分钟的重复性操作！",
   "saveTimeAsWell":"🚀马上升级 Pro，把 $SAVED_TIME$ 分钟的等待时间也省下来吧！",
   "minSaved": "🚀已省下$SAVED_MIN$分钟!",
   "chooseYourPlan": "选择方案",

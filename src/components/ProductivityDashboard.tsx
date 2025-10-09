@@ -15,8 +15,8 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
 
   const [showPercentage, setShowPercentage] = useState(false);
   const content = showPercentage
-    ? `${Math.round(((savedClicks - tier.requiredExp) / tier.requiredExp) * 100)}%`
-    : `${savedClicks} / ${tier.max}`;
+    ? `${savedClicks - tier.requiredExp} / ${tier.requiredExp}`
+    : `${Math.round(((savedClicks - tier.requiredExp) / tier.requiredExp) * 100)}%`;
 
   function toggleShowPercentage() {
     setShowPercentage(!showPercentage);
@@ -28,7 +28,7 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
       <div className='productivity-dashboard shadow-view'>
         <div className="icon-48 tier-badge">{getBadge(tier.tier)}</div>
         <p className={`tier-name tier-name-${tier.tier} mt-xxsmall`}>{t(tier.translateKey)}</p>
-        <span className="note note-large text-center">
+        <span className="note note-large">
           {t("license:youSaved")
             .replace("$SAVED_CLICKS$", `${savedClicks}`)
             .replace("$SAVED_MIN$", `${Math.round(savedClicks / 20)}`)
