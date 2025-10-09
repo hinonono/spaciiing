@@ -26,6 +26,8 @@ export type ShortcutAction =
   | "updateArrowPosition"
   | "spiltText"
   | "createSection"
+  | "resizeAspectFit"
+  | "resizeAspectFill"
   | "debug";
 
 export type NumberingForm =

@@ -206,5 +206,7 @@
     "createIconTemplate": "アイコンテンプレートを作成",
     "createSection": "セクションを作成",
     "arrowAppearance": "見た目",
-    "layerType": "レイヤータイプ"
+    "layerType": "レイヤータイプ",
+    "resizeAspectFit": "アスペクト比を維持してフィット",
+"resizeAspectFill": "アスペクト比を維持してフィル"
 }

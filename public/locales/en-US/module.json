@@ -206,5 +206,7 @@
     "createIconTemplate": "Create icon template",
     "createSection": "Create section",
     "arrowAppearance": "Appearance",
-    "layerType": "Layer Type"
+    "layerType": "Layer Type",
+    "resizeAspectFit": "Resize to fit",
+    "resizeAspectFill": "Resize to fill"
 }

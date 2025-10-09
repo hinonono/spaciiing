@@ -206,5 +206,7 @@
     "createIconTemplate": "建立圖標模板",
     "createSection": "建立區段",
     "arrowAppearance": "外觀",
-    "layerType": "圖層類型"
+    "layerType": "圖層類型",
+    "resizeAspectFit": "等比縮放以符合",
+"resizeAspectFill": "等比縮放以填滿"
 }

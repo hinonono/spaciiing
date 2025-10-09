@@ -354,8 +354,24 @@ const Shortcut: React.FC = () => {
     ];
 
     return (
-
       renderShortcutSection(t("term:frame"), buttons)
+    )
+  }
+
+  const renderImageShortcut = () => {
+    const buttons: ShortcutButtonConfig[] = [
+      {
+        title: t("module:resizeAspectFit"),
+        onClick: () => applyShortcut("resizeAspectFit", false),
+      },
+      {
+        title: t("module:resizeAspectFill"),
+        onClick: () => applyShortcut("resizeAspectFill", false),
+      },
+    ];
+
+    return (
+      renderShortcutSection(t("term:layer"), buttons)
     )
   }
 
@@ -442,6 +458,8 @@ const Shortcut: React.FC = () => {
         {renderArrowCreatorShortcut()}
         {/* 型錄 */}
         {renderCatalogueShortcut()}
+        {/* 圖層 */}
+        {renderImageShortcut()}
         {/* 文字 */}
         {renderTextShortcut()}
         {/* 檔案管理物件 */}

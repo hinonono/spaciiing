@@ -102,6 +102,12 @@ export function executeShortcut(message: MessageShortcut) {
       case "createSection":
         createSection(message as MessageCreateSection);
         break;
+      case "resizeAspectFill":
+        aspectResize("fill");
+        break;
+      case "resizeAspectFit":
+        aspectResize("fit");
+        break;
       case "debug":
         debugFunction();
         break;
@@ -127,6 +133,88 @@ function debugFunction() {
   }
 
   figma.notify("OK!")
+}
+
+function aspectResize(mode: "fit" | "fill") {
+  const selection = utils.editor.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("No nodes selected.");
+    return;
+  }
+
+  if (selection.length > 1) {
+    figma.notify("Please select only one image layer.");
+    return;
+  }
+
+  const node = selection[0];
+  if ("fills" in node && Array.isArray(node.fills) && utils.editor.isNodeWithResizeMethod(node)) {
+    const parent = node.parent;
+
+    // Validate parent node: must exist and have width/height properties
+    if (
+      !parent ||
+      typeof (parent as any).width !== "number" ||
+      typeof (parent as any).height !== "number"
+    ) {
+      figma.notify(
+        `❌ Aspect resize is not supported: parent node must exist and have width/height properties.`
+      );
+      return;
+    }
+
+    // Only support nodes with width/height
+    if (
+      typeof node.width !== "number" ||
+      typeof node.height !== "number"
+    ) {
+      figma.notify("❌ Aspect resize is not supported for this node type.");
+      return;
+    }
+
+    const nodeAspect = node.width / node.height;
+    const parentAspect = (parent as any).width / (parent as any).height;
+
+    let newWidth = node.width;
+    let newHeight = node.height;
+
+    if (mode === "fill") {
+      if (nodeAspect > parentAspect) {
+        newWidth = (parent as any).height * nodeAspect;
+        newHeight = (parent as any).height;
+      } else {
+        newWidth = (parent as any).width;
+        newHeight = (parent as any).width / nodeAspect;
+      }
+
+      node.constraints = { horizontal: "SCALE", vertical: "SCALE" };
+    } else {
+      if (nodeAspect > parentAspect) {
+        newWidth = (parent as any).width;
+        newHeight = (parent as any).width / nodeAspect;
+        node.constraints = { horizontal: "STRETCH", vertical: "CENTER" };
+      } else {
+        newWidth = (parent as any).height * nodeAspect;
+        newHeight = (parent as any).height;
+        node.constraints = { horizontal: "CENTER", vertical: "STRETCH" };
+      }
+      node.lockAspectRatio();
+    }
+
+    // Center the node within the parent  
+    node.resizeWithoutConstraints(newWidth, newHeight);
+    node.x = ((parent as any).width - newWidth) / 2;
+    node.y = ((parent as any).height - newHeight) / 2;
+
+    figma.notify(
+      `✅ Aspect resize (${mode}) applied.`
+    );
+  } else {
+    figma.notify(
+      `❌ Aspect resize is not supported for this layer type.`
+    );
+  }
 }
 
 function createSection(message: MessageCreateSection) {
