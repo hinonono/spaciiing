@@ -17,6 +17,7 @@ import { updateArrowPosition } from "./arrowCreator/arrowCreator";
 import { Direction } from "../types/General";
 import { utils } from "./utils";
 import { semanticTokens } from './tokens';
+import { AdditionalFilterOptions } from '../types/Messages/MessageSelectionFilter';
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -143,13 +144,21 @@ function aspectResize(mode: "fit" | "fill") {
     return;
   }
 
-  if (selection.length > 1) {
-    figma.notify("Please select only one image layer.");
-    return;
+  const addtionalFilterOptions: AdditionalFilterOptions = {
+    skipLockLayers: false,
+    skipHiddenLayers: false,
+    findWithName: false,
+    findCriteria: ''
   }
 
-  const node = selection[0];
-  if ("fills" in node && Array.isArray(node.fills) && utils.editor.isNodeWithResizeMethod(node)) {
+  const filteredSelection = utils.editor.filterSelection(selection, ["IMAGE"], addtionalFilterOptions);
+
+  for (let i = 0; i < filteredSelection.length; i++) {
+    const node = filteredSelection[i];
+    if (!utils.editor.isNodeWithResizeMethod(node)) {
+      return;
+    }
+
     const parent = node.parent;
 
     // Validate parent node: must exist and have width/height properties
@@ -206,14 +215,6 @@ function aspectResize(mode: "fit" | "fill") {
     node.resizeWithoutConstraints(newWidth, newHeight);
     node.x = ((parent as any).width - newWidth) / 2;
     node.y = ((parent as any).height - newHeight) / 2;
-
-    figma.notify(
-      `✅ Aspect resize (${mode}) applied.`
-    );
-  } else {
-    figma.notify(
-      `❌ Aspect resize is not supported for this layer type.`
-    );
   }
 }
 
