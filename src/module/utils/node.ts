@@ -1,3 +1,5 @@
+import { utils } from ".";
+import { ArrowSchema } from "../../types/ArrowSchema";
 import { CYStrokeCap } from "../../types/CYStroke";
 import { semanticTokens } from "../tokens";
 
@@ -45,11 +47,37 @@ export function getBoundingBox(layers: SceneNode[]) {
     return { width, height };
 }
 
-export function hasImageFill(node: RectangleNode): boolean {
+export function hasImageFill(node: SceneNode): boolean {
     return (
+        "fills" in node &&
         Array.isArray(node.fills) &&
         node.fills.some((fill) => fill.type === "IMAGE")
     );
+}
+
+export function hasAutoLayout(node: SceneNode): boolean {
+    return (
+        node.type === "FRAME" &&
+        (node.layoutMode === "HORIZONTAL" || node.layoutMode === "VERTICAL")
+    );
+}
+
+export function getArrowSchema(node: SceneNode): ArrowSchema | null {
+    const key = utils.dataKeys.ARROW_SCHEMA;
+    const data = node.getPluginData(key)
+
+    if (data) {
+        const decodedData = JSON.parse(data) as ArrowSchema;
+        return decodedData;
+    } else {
+        return null;
+    }
+}
+
+export function isSpaciiingArrowNode(node: SceneNode): boolean {
+    const schema = getArrowSchema(node);
+    if (!schema) { return false };
+    return node.type === "GROUP" && schema.objectType === "SPACIIING_ARROW";
 }
 
 /**

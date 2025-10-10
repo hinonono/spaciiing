@@ -1,5 +1,9 @@
 import { Direction } from "../../types/General";
+import { AdditionalFilterOptions } from "../../types/Messages/MessageSelectionFilter";
+import { NodeFilterable } from "../../types/NodeFilterable";
 import { ResizableNode } from "../../types/NodeResizable";
+import { getProcessedNodes } from "../nodeProcessing";
+import { hasAutoLayout, hasImageFill, isSpaciiingArrowNode } from "./node";
 
 export function getCurrentViewport(): Vector {
     // Get the current viewport
@@ -103,4 +107,28 @@ export function stripBoundVariables(effect: Effect): Effect {
     // Make a shallow copy of the effect
     const { boundVariables, ...cleanEffect } = effect as any;
     return cleanEffect as Effect;
+}
+
+export function filterSelection(
+    selection: SceneNode[],
+    filterScopes: NodeFilterable[],
+    additionalFilterOptions: AdditionalFilterOptions,
+): SceneNode[] {
+    // 針對額外的篩選條件做預處理
+    const processedNodes = getProcessedNodes(selection, additionalFilterOptions);
+
+    // 依照指定的圖層類型進行篩選
+    let matchingNodes: SceneNode[] = [];
+    for (const node of processedNodes) {
+        // Check if node matches any of the filter scopes
+        if (
+            filterScopes.includes(node.type) ||
+            (filterScopes.includes("IMAGE") && hasImageFill(node)) ||
+            (filterScopes.includes("AUTO_LAYOUT") && hasAutoLayout(node)) ||
+            (filterScopes.includes("SPACIIING_ARROW") && isSpaciiingArrowNode(node))
+        ) {
+            matchingNodes.push(node);
+        }
+    }
+    return matchingNodes;
 }
