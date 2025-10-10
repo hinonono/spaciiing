@@ -399,10 +399,6 @@ const Shortcut: React.FC = () => {
           <div>
             <h3>{t("module:moduleShortcut")}</h3>
             <p>{t("module:moduleShortcutDesc")}</p>
-            <h4>{t("module:generateHEXorRGB")}</h4>
-            <p>{t("module:generateHEXorRGBDesc")}</p>
-            <h4>{t("module:generateNoteDesignStatusTag")}</h4>
-            <p>{t("module:generateNoteDesignStatusTagDesc")}</p>
           </div>
         </Modal>
         <UnifyTextModal
