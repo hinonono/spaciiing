@@ -16,8 +16,6 @@ export function getProcessedNodes(
     nodes: SceneNode[],
     options: AdditionalFilterOptions,
 ): SceneNode[] {
-    // const nodes = utils.editor.getCurrentSelection();
-
     // Recursively exclude locked nodes and their children
     function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
         let result: SceneNode[] = [];
