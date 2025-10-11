@@ -48,7 +48,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
   const enterFolder = (folder: string) => {
     if (currentStructure[folder].children) {
-      setDirection("forward"); // ➡️ going deeper
+      // setDirection("forward"); // ➡️ going deeper
 
       const newPath = [...currentPath, folder];
       setCurrentPath(newPath);
@@ -67,7 +67,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
   };
 
   const goBack = () => {
-    setDirection("backward");
+    // setDirection("backward");
 
     const newPath = currentPath.slice(0, -1);
     let newStructure = structure;
@@ -140,23 +140,8 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
   const leafNodeCount = countLeafNodes(currentStructure);
 
   // V38: 2025-09-15 加入動畫
-  const [direction, setDirection] = useState<"forward" | "backward">("forward");
+  // const [direction, setDirection] = useState<"forward" | "backward">("forward");
   const [history, setHistory] = useState<string[][]>([[]]); // start at root
-  const variants = {
-    enter: (dir: "forward" | "backward") => ({
-      x: dir === "forward" ? "100%" : "-100%",
-      opacity: 0,
-      position: "absolute",
-      width: "100%",
-    }),
-    center: { x: 0, opacity: 1, position: "absolute", width: "100%" },
-    exit: (dir: "forward" | "backward") => ({
-      x: dir === "forward" ? "-100%" : "100%",
-      opacity: 0,
-      position: "absolute",
-      width: "100%",
-    }),
-  };
 
   return (
     <div>
@@ -202,7 +187,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       >
         <motion.div
           animate={{ x: `-${(history.length - 1) * 100}%` }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
+          transition={{ type: "spring", duration: 0.75, ease: "easeInOut", bounce: 0 }}
           className="flex w-full h-full"
         >
           {history.map((path) => {

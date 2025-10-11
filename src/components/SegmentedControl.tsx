@@ -47,7 +47,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> & {
             left: `calc(4px + ${selectedIndex} * ((100% - 8px) / ${values.length}))`,
             width: `calc((100% - 8px) / ${values.length})`,
           }}
-          transition={{ duration: 0.25, ease: "easeOut" }} // 👈 smooth slide
+          transition={{ type: "spring", duration: 0.5, ease: "easeInOut", bounce: 0 }}
           style={{
             position: "absolute",
             top: 4,
