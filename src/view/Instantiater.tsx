@@ -230,16 +230,16 @@ const Instantiater: React.FC = () => {
             value={selectedCat}
             onChange={handleCatChange}
           >
-            {categoryOptionsCount.color > 1 && (
+            {categoryOptionsCount.color >= 1 && (
               <option value="color">{t("term:color")}</option>
             )}
-            {categoryOptionsCount.effect > 1 && (
+            {categoryOptionsCount.effect >= 1 && (
               <option value="effect">{t("term:effect")}</option>
             )}
-            {categoryOptionsCount.typography > 1 && (
+            {categoryOptionsCount.typography >= 1 && (
               <option value="typography">{t("term:typography")}</option>
             )}
-            {categoryOptionsCount.other > 1 && (
+            {categoryOptionsCount.other >= 1 && (
               <option value="other">{t("term:others")}</option>
             )}
           </select>
@@ -261,7 +261,7 @@ const Instantiater: React.FC = () => {
                 />
               }
             />
-            <div className="list-view-content cy-checkbox-group border-1-top  scope-group-large hide-scrollbar-vertical">
+            <div className="list-view-content cy-checkbox-group border-1-top scope-group-large hide-scrollbar-vertical padding-tb-16 padding-lr-8">
               {options.map((option) => (
                 <CYCheckbox
                   label={
