@@ -6,5 +6,6 @@
 	"moduleName": "设置",
 	"preferredLanguage": "首选语言",
 	"provideFeedback": "意见反馈",
-	"version": "版本"
+	"version": "版本",
+	"preferredLanguageDesc": "这项设定会影响使用者介面、型录中所使用的语言。另外，部分捷径会根据本设定显示/不显示特定的选项。"
 }

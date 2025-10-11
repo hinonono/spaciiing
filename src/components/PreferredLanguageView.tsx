@@ -24,6 +24,7 @@ const PreferredLanguageView: React.FC<PreferredLanguageViewProps> = ({
           <option value={item.value}>{item.label}</option>
         ))}
       </select>
+      {/* <span className='mt-xxsmall note'>{t("settings:preferredLanguageDesc")}</span> */}
     </div>
   );
 };

@@ -6,5 +6,6 @@
 	"moduleName": "設定",
 	"preferredLanguage": "偏好語言",
 	"provideFeedback": "提供意見回饋",
-	"version": "版本"
+	"version": "版本",
+	"preferredLanguageDesc": "這項設定會影響使用者介面、型錄中所使用的語言。另外，部分捷徑會根據本設定顯示/不顯示特定的選項。"
 }
