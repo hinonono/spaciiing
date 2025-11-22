@@ -1,8 +1,7 @@
 {
   "name": "Spaciiing",
-  "version": "39",
+  "version": "40",
   "whatsNew": [
-    "New shortcut: Create section, Resize to fit, Resize to fill",
     "Bug fixes",
     "Overall enhancements"
   ],

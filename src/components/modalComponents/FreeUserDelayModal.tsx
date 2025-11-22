@@ -61,26 +61,11 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
           <SavedTimeMessage />
         </div> */}
         <div className="mt-xsmall">
-          <div className="border-radius-xxxlarge padding-16 shadow-view subscription-background">
-            <h4>👋 Get 1-year PRO for free</h4>
-            <span className="note note-large">I am conducting a brief questionnaire to better understand your needs. Complete it to receive a free one-year Pro license!</span>
-            <div className="mt-xsmall"></div>
-            <FigmaButton
-              title={"Fill questionnaire"}
-              buttonType={"tertiary"}
-              onClick={() => { window.open("https://forms.gle/YPmM9FxmdD6aKngw7", "_blank"); }}
-              svgPosition={"right"}
-              hasTopBottomMargin={false}
-              svg={<SvgExternalLink color="var(--figma-color-text)" />}
-            />
-          </div>
-        </div>
-        <div className="mt-xsmall">
           <SubscriptionPlanBlock plan={"monthly"} />
         </div>
         <div className="mt-xsmall flex align-items-center">
           <span className="note mr-xxsmall">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</span>
-          <FigmaButton
+          {canProceed && <FigmaButton
             buttonType="tertiary"
             title={t("module:skip")}
             onClick={handleProceedButtonClicked}
@@ -89,7 +74,7 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
             disabled={!canProceed}
             svgPosition="right"
             svg={<SvgSkip color={canProceed ? "var(--figma-color-text)" : `var(--figma-color-text-disabled)`} />}
-          />
+          />}
         </div>
       </div>
     </Modal>
