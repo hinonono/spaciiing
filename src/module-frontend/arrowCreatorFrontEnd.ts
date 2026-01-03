@@ -3,7 +3,7 @@ import { ConnectPointPositionPair } from "../types/ArrowCreator";
 import { CYStroke, CYStrokeCap } from "../types/CYStroke";
 import { Direction } from "../types/General";
 import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
-import { checkProFeatureAccessibleForUser, getTimestamp } from "./utilFrontEnd";
+import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as pluginConfig from "../pluginConfig.json";
 import { CYStrokeStyle } from "../types/CYStrokeStyle";
 import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
@@ -130,7 +130,9 @@ export function exportArrowStyle(
     const blob = new Blob([JSON.stringify(arrowStyles, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    const timestamp = getTimestamp();
+    const timestamp = new Date()
+        .toISOString()
+        .replace(/[:.]/g, "-"); // make it filename-safe
 
     a.href = url;
     a.download = `spaciiing_arrow-styles_${timestamp}.json`;
