@@ -310,7 +310,7 @@ async function spiltText(message: MessageShortcutSpiltText) {
   const originalX = node.x;
   const originalY = node.y;
 
-  let spiltedTextNodes: TextNode[] = [];
+  const spiltedTextNodes: TextNode[] = [];
 
   // Create new text layers
   for (let i = 0; i < parts.length; i++) {
