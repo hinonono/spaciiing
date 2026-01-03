@@ -46,31 +46,11 @@ interface StrokeCapOption {
     labelKey: string;
 }
 
-export const strokeCaps: StrokeCapOption[] = [
+export const strokeCapsPlain: StrokeCapOption[] = [
     {
         value: "NONE",
         labelKey: "term:none",
     },
-    {
-        value: "ARROW_LINES",
-        labelKey: "module:lineArrow",
-    },
-    {
-        value: "ARROW_EQUILATERAL",
-        labelKey: "module:triangleArrow",
-    },
-    // {
-    //     value: "TRIANGLE_FILLED",
-    //     labelKey: "module:reversedTriangle",
-    // },
-    // {
-    //     value: "CIRCLE_FILLED",
-    //     labelKey: "module:circleArrow",
-    // },
-    // {
-    //     value: "DIAMOND_FILLED",
-    //     labelKey: "module:diamondArrow"
-    // },
     {
         value: "ROUND",
         labelKey: "module:round",
@@ -78,6 +58,29 @@ export const strokeCaps: StrokeCapOption[] = [
     {
         value: "SQUARE",
         labelKey: "module:square",
+    }
+]
+
+export const strokeCapsWithDecoration: StrokeCapOption[] = [
+    {
+        value: "ARROW_LINES",
+        labelKey: "module:lineArrow",
+    },
+    {
+        value: "TRIANGLE_FILLED",
+        labelKey: "module:reversedTriangle",
+    },
+    {
+        value: "ARROW_EQUILATERAL",
+        labelKey: "module:triangleArrow",
+    },
+    {
+        value: "CIRCLE_FILLED",
+        labelKey: "module:circleArrow",
+    },
+    {
+        value: "DIAMOND_FILLED",
+        labelKey: "module:diamondArrow"
     },
 ]
 

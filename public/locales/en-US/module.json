@@ -204,5 +204,7 @@
     "arrowAppearance": "Appearance",
     "layerType": "Layer Type",
     "resizeAspectFit": "Resize to fit",
-    "resizeAspectFill": "Resize to fill"
+    "resizeAspectFill": "Resize to fill",
+    "exportArrowStyle": "Export arrow style",
+    "importArrowStyle": "Import arrow style"
 }

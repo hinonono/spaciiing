@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from './SectionTitle';
-import { strokeCaps, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
+import { strokeCapsPlain, strokeCapsWithDecoration, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
 import ColorThumbnailView from './ColorThumbnailView';
 import { CYStroke } from '../types/CYStroke';
 import { useTranslation } from 'react-i18next';
@@ -339,7 +339,10 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             value={editingStroke.startPointCap}
             onChange={handleStartingPointStyleChange}
           >
-            {strokeCaps.map((item) => (
+            {strokeCapsPlain.map((item) => (
+              <option key={item.value} value={item.value}>{t(item.labelKey)}</option>
+            ))}
+            {strokeCapsWithDecoration.map((item) => (
               <option key={item.value} value={item.value}>{t(item.labelKey)}</option>
             ))}
           </select>
@@ -352,7 +355,10 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
             value={editingStroke.endPointCap}
             onChange={handleEndPointStyleChange}
           >
-            {strokeCaps.map((item) => (
+            {strokeCapsPlain.map((item) => (
+              <option key={item.value} value={item.value}>{t(item.labelKey)}</option>
+            ))}
+            {strokeCapsWithDecoration.map((item) => (
               <option key={item.value} value={item.value}>{t(item.labelKey)}</option>
             ))}
           </select>

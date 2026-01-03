@@ -204,5 +204,7 @@
      "arrowAppearance": "外观",
      "layerType": "图层类型",
   "resizeAspectFit": "等比缩放以适应",
-  "resizeAspectFill": "等比缩放以填充"
+  "resizeAspectFill": "等比缩放以填充",
+  "exportArrowStyle": "导出箭头样式",
+"importArrowStyle": "导入箭头样式"
 }

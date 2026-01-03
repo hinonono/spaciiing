@@ -204,5 +204,7 @@
     "arrowAppearance": "見た目",
     "layerType": "レイヤータイプ",
     "resizeAspectFit": "アスペクト比を維持してフィット",
-"resizeAspectFill": "アスペクト比を維持してフィル"
+"resizeAspectFill": "アスペクト比を維持してフィル",
+"exportArrowStyle": "矢印スタイルを書き出し",
+"importArrowStyle": "矢印スタイルを読み込み"
 }

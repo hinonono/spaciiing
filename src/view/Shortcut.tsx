@@ -178,14 +178,14 @@ const Shortcut: React.FC = () => {
           title: t("module:updateArrowPosition"),
           onClick: () => applyShortcut("updateArrowPosition", false),
         },
-        // {
-        //   title: t("module:exportArrowStyle"),
-        //   onClick: () => exportArrowStyle(appContext, false),
-        // },
-        // {
-        //   title: t("module:importArrowStyle"),
-        //   onClick: () => fileInputRef.current?.click(),
-        // },
+        {
+          title: t("module:exportArrowStyle"),
+          onClick: () => exportArrowStyle(appContext, false),
+        },
+        {
+          title: t("module:importArrowStyle"),
+          onClick: () => fileInputRef.current?.click(),
+        },
       ]
 
       return (
@@ -216,10 +216,10 @@ const Shortcut: React.FC = () => {
         title: t("module:numberingTextLayers"),
         onClick: handleOpenNumberingModal,
       },
-      // {
-      //   title: t("module:spiltText"),
-      //   onClick: handleOpenSpiltTextModal,
-      // }
+      {
+        title: t("module:spiltText"),
+        onClick: handleOpenSpiltTextModal,
+      }
     ];
 
 
