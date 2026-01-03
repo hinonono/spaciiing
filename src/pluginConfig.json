@@ -2,6 +2,10 @@
   "name": "Spaciiing",
   "version": "41",
   "whatsNew": [
+    "New shortcut: Spilt text",
+    "Draw Arrows now support Triangle, Circle and Diamond arrow type",
+    "New Virtual Profile preset: User flow",
+    "Now you can import/export arrow styles as JSON file via corresponding shortcuts",
     "Bug fixes",
     "Overall enhancements"
   ],
