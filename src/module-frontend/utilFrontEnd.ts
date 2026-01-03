@@ -98,3 +98,17 @@ export function setWindowSize(shouldMinimize: boolean) {
   };
   parent.postMessage({ pluginMessage: message }, "*");
 }
+
+export function getTimestamp() {
+  const now = new Date();
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return (
+    `${now.getFullYear()}` +
+    `${pad(now.getMonth() + 1)}` +
+    `${pad(now.getDate())}` +
+    `${pad(now.getHours())}` +
+    `${pad(now.getMinutes())}` +
+    `${pad(now.getSeconds())}`
+  );
+}

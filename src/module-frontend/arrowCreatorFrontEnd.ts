@@ -3,10 +3,9 @@ import { ConnectPointPositionPair } from "../types/ArrowCreator";
 import { CYStroke, CYStrokeCap } from "../types/CYStroke";
 import { Direction } from "../types/General";
 import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
-import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
+import { checkProFeatureAccessibleForUser, getTimestamp } from "./utilFrontEnd";
 import * as pluginConfig from "../pluginConfig.json";
 import { CYStrokeStyle } from "../types/CYStrokeStyle";
-import { MessageSaveEditorPreference } from "../types/Messages/MessageSaveEditorPreference";
 import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 export function applyArrowCreator(
@@ -131,8 +130,10 @@ export function exportArrowStyle(
     const blob = new Blob([JSON.stringify(arrowStyles, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
+    const timestamp = getTimestamp();
+
     a.href = url;
-    a.download = "spaciiing_arrow-styles.json";
+    a.download = `spaciiing_arrow-styles_${timestamp}.json`;
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -182,6 +183,6 @@ export async function importArrowStyle(
         parent.postMessage({ pluginMessage: message }, "*");
         alert(`${newStyles.length} styles has been imported successfully.`);
     } catch (err) {
-        alert("Invalid JSON file");
+        alert("Invalid JSON file" + err);
     }
 }
