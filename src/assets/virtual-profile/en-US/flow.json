@@ -1,33 +1,39 @@
 {
   "title": "User flow",
   "children": [
-    { "title": "Action", "content": "Open" },
-    { "title": "Action", "content": "Close" },
-    { "title": "Action", "content": "Expand" },
-    { "title": "Action", "content": "Collapse" },
-    { "title": "Action", "content": "Scroll" },
-    { "title": "Action", "content": "Edit" },
-    { "title": "Action", "content": "Add" },
-    { "title": "Action", "content": "Delete" },
-    { "title": "Action", "content": "Save" },
-    { "title": "Action", "content": "Cancel" },
-    { "title": "Action", "content": "Start" },
-    { "title": "Action", "content": "Execute" },
-    { "title": "Action", "content": "Search" },
-    { "title": "Action", "content": "Filter" },
-    { "title": "Action", "content": "Download" },
-    { "title": "Action", "content": "Upload" },
-    { "title": "Action", "content": "Share" },
-    { "title": "Action", "content": "Export" },
-    { "title": "Action", "content": "Import" },
-    { "title": "Action", "content": "Confirm" },
-    { "title": "Action", "content": "Reject" },
-    { "title": "Action", "content": "Finish" },
-    { "title": "Action", "content": "View" },
-    { "title": "Action", "content": "Select" },
-    { "title": "Action", "content": "Deselect" },
-    { "title": "Action", "content": "Retry" },
-    { "title": "Action", "content": "Reset" },
-    { "title": "Action", "content": "Back" }
+    { "title": "State change", "content": "Open" },
+    { "title": "State change", "content": "Close" },
+    { "title": "State change", "content": "Expand" },
+    { "title": "State change", "content": "Collapse" },
+    { "title": "State change", "content": "Scroll" },
+    { "title": "State change", "content": "Back" },
+
+    { "title": "Create & edit", "content": "Add" },
+    { "title": "Create & edit", "content": "Edit" },
+    { "title": "Create & edit", "content": "Delete" },
+    { "title": "Create & edit", "content": "Reset" },
+
+    { "title": "Flow", "content": "Start" },
+    { "title": "Flow", "content": "Execute" },
+    { "title": "Flow", "content": "Finish" },
+    { "title": "Flow", "content": "Retry" },
+
+    { "title": "Decision", "content": "Confirm" },
+    { "title": "Decision", "content": "Cancel" },
+    { "title": "Decision", "content": "Reject" },
+
+    { "title": "Search & view", "content": "Search" },
+    { "title": "Search & view", "content": "Filter" },
+    { "title": "Search & view", "content": "View" },
+
+    { "title": "Selection", "content": "Select" },
+    { "title": "Selection", "content": "Deselect" },
+
+    { "title": "File & share", "content": "Save" },
+    { "title": "File & share", "content": "Download" },
+    { "title": "File & share", "content": "Upload" },
+    { "title": "File & share", "content": "Import" },
+    { "title": "File & share", "content": "Export" },
+    { "title": "File & share", "content": "Share" }
   ]
 }

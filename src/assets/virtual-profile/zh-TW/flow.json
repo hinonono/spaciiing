@@ -1,33 +1,39 @@
 {
   "title": "使用者流程",
   "children": [
-    { "title": "操作", "content": "開啟" },
-    { "title": "操作", "content": "關閉" },
-    { "title": "操作", "content": "展開" },
-    { "title": "操作", "content": "摺疊" },
-    { "title": "操作", "content": "捲動" },
-    { "title": "操作", "content": "編輯" },
-    { "title": "操作", "content": "新增" },
-    { "title": "操作", "content": "刪除" },
-    { "title": "操作", "content": "儲存" },
-    { "title": "操作", "content": "取消" },
-    { "title": "操作", "content": "開始" },
-    { "title": "操作", "content": "執行" },
-    { "title": "操作", "content": "搜尋" },
-    { "title": "操作", "content": "篩選" },
-    { "title": "操作", "content": "下載" },
-    { "title": "操作", "content": "上傳" },
-    { "title": "操作", "content": "分享" },
-    { "title": "操作", "content": "匯出" },
-    { "title": "操作", "content": "匯入" },
-    { "title": "操作", "content": "確認" },
-    { "title": "操作", "content": "拒絕" },
-    { "title": "操作", "content": "完成" },
-    { "title": "操作", "content": "檢視" },
-    { "title": "操作", "content": "選取" },
-    { "title": "操作", "content": "取消選取" },
-    { "title": "操作", "content": "重試" },
-    { "title": "操作", "content": "重設" },
-    { "title": "操作", "content": "返回" }
+    { "title": "狀態切換", "content": "開啟" },
+    { "title": "狀態切換", "content": "關閉" },
+    { "title": "狀態切換", "content": "展開" },
+    { "title": "狀態切換", "content": "摺疊" },
+    { "title": "狀態切換", "content": "捲動" },
+    { "title": "狀態切換", "content": "返回" },
+
+    { "title": "建立與編輯", "content": "新增" },
+    { "title": "建立與編輯", "content": "編輯" },
+    { "title": "建立與編輯", "content": "刪除" },
+    { "title": "建立與編輯", "content": "重設" },
+
+    { "title": "流程", "content": "開始" },
+    { "title": "流程", "content": "執行" },
+    { "title": "流程", "content": "完成" },
+    { "title": "流程", "content": "重試" },
+
+    { "title": "決策", "content": "確認" },
+    { "title": "決策", "content": "取消" },
+    { "title": "決策", "content": "拒絕" },
+
+    { "title": "搜尋與檢視", "content": "搜尋" },
+    { "title": "搜尋與檢視", "content": "篩選" },
+    { "title": "搜尋與檢視", "content": "檢視" },
+
+    { "title": "選取", "content": "選取" },
+    { "title": "選取", "content": "取消選取" },
+
+    { "title": "檔案與分享", "content": "儲存" },
+    { "title": "檔案與分享", "content": "下載" },
+    { "title": "檔案與分享", "content": "上傳" },
+    { "title": "檔案與分享", "content": "匯入" },
+    { "title": "檔案與分享", "content": "匯出" },
+    { "title": "檔案與分享", "content": "分享" }
   ]
 }
