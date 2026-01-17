@@ -18,6 +18,8 @@
     }
 
     &.yearly {
+        border: 1px solid var(--figma-color-border);
+        
         .plan-title {
             color: black;
         }
