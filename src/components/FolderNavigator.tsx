@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { NestedStructure, StyleSelection } from "../types/General";
 import FigmaButton from "./FigmaButton";
 import { StyleForm, StyleMode } from "../types/Messages/MessageStyleIntroducer";
@@ -47,12 +48,17 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
   const enterFolder = (folder: string) => {
     if (currentStructure[folder].children) {
-      setCurrentPath([...currentPath, folder]);
+      // setDirection("forward"); // ➡️ going deeper
+
+      const newPath = [...currentPath, folder];
+      setCurrentPath(newPath);
       setCurrentStructure(currentStructure[folder].children as NestedStructure);
       setSelectedScopes((prev) => ({
         title: currentPath.join("/"),
         scopes: [],
       }));
+
+      setHistory((prev) => [...prev, newPath]); // push to history
 
       if (onNextPageClicked) {
         onNextPageClicked();
@@ -61,6 +67,8 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
   };
 
   const goBack = () => {
+    // setDirection("backward");
+
     const newPath = currentPath.slice(0, -1);
     let newStructure = structure;
 
@@ -74,6 +82,8 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       title: currentPath.join("/"),
       scopes: [],
     }));
+
+    setHistory((prev) => prev.slice(0, -1)); // pop from history
 
     if (onPreviousPageClicked) {
       onPreviousPageClicked();
@@ -129,6 +139,10 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
 
   const leafNodeCount = countLeafNodes(currentStructure);
 
+  // V38: 2025-09-15 加入動畫
+  // const [direction, setDirection] = useState<"forward" | "backward">("forward");
+  const [history, setHistory] = useState<string[][]>([[]]); // start at root
+
   return (
     <div>
       <ListViewHeader
@@ -171,36 +185,61 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
       <div
         className={`cy-checkbox-group folder-navigator-items-group folder-navigator-items-group-large border-1-top hide-scrollbar-vertical`}
       >
-        <ul className="padding-tb-16 padding-lr-8">
-          {Object.keys(currentStructure).map((key) => (
-            <li key={key}>
-              {currentStructure[key].children ? (
-                <button
-                  onClick={() => enterFolder(key)}
-                  className="button-reset button-folder"
-                >
-                  {key}
-                  <span className="chevron-right"></span>
-                </button>
-              ) : (
-                <>
-                  <CYCheckbox
-                    label={
-                      <div className="flex flex-row align-items-center">
-                        {currentStructure[key].color && <ColorThumbnailView color={currentStructure[key].color} opacity={1} size={20} type={form === "STYLE" ? "rounded" : "square"} extraClassName="mr-xxsmall" />}
+        <motion.div
+          animate={{ x: `-${(history.length - 1) * 100}%` }}
+          transition={{ type: "spring", duration: 0.75, ease: "easeInOut", bounce: 0 }}
+          className="flex w-full h-full"
+        >
+          {history.map((path) => {
+            // derive structure for this path
+            let struct: NestedStructure = structure;
+            path.forEach((folder) => {
+              struct = struct[folder].children as NestedStructure;
+            });
+
+            return (
+              <ul
+                key={path.join("/")}
+                className="w-full flex-shrink-0 padding-tb-16 padding-lr-8"
+              >
+                {Object.keys(struct).map((key) => (
+                  <li key={key}>
+                    {struct[key].children ? (
+                      <button
+                        onClick={() => enterFolder(key)}
+                        className="button-reset button-folder"
+                      >
                         {key}
-                      </div>
-                    }
-                    checked={selectedScopes.scopes.includes(currentStructure[key].id!)}
-                    onChange={() => handleScopeChange(currentStructure[key].id!)}
-                    labelKey={currentStructure[key].id}
-                    value={currentStructure[key].id}
-                  />
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
+                        <span className="chevron-right"></span>
+                      </button>
+                    ) : (
+                      <CYCheckbox
+                        label={
+                          <div className="flex flex-row align-items-center">
+                            {struct[key].color && (
+                              <ColorThumbnailView
+                                color={struct[key].color}
+                                opacity={1}
+                                size={20}
+                                type={form === "STYLE" ? "rounded" : "square"}
+                                extraClassName="mr-xxsmall"
+                              />
+                            )}
+                            {key}
+                          </div>
+                        }
+                        checked={selectedScopes.scopes.includes(struct[key].id!)}
+                        onChange={() => handleScopeChange(struct[key].id!)}
+                        labelKey={struct[key].id}
+                        value={struct[key].id}
+                      />
+                    )}
+                  </li>
+                ))}
+              </ul>
+            );
+          })}
+        </motion.div>
       </div>
     </div>
   );

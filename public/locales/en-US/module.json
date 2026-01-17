@@ -68,10 +68,6 @@
     "freeform": "Freeform",
     "generate": "Generate",
     "generateAs": "Generate as",
-    "generateHEXorRGB": "Generate HEX or RGB text label",
-    "generateHEXorRGBDesc": "To generate HEX or RGB value text label, you need to select layers that has fill color.",
-    "generateNoteDesignStatusTag": "Generate Note, Design status tag, Title section",
-    "generateNoteDesignStatusTagDesc": "To generate Note, Design status tag or Title section, you need to copy the template component into your file, then use the \"Memorize\" button with in setting window. After object is memorized, you can start generate these component instance by selecting one or multiple frames, then click generate button. The current date will be automatically fill in to the component by default.",
     "generateUsageDefinition": "Generate usage definition",
     "grid": "Grid",
     "heightRatio": "Height Ratio",
@@ -132,7 +128,7 @@
     "numberingTextLayers": "Numbering Text Layers",
     "objectIsMemorizedWithId": "Object is memorized (ID: $LAYER_ID$).",
     "objectIsNotMemorized": "The object has not been memorized.",
-    "offset": "Offset",
+    "offset": "Margin between arrow and objects",
     "options": "Options",
     "originalTextContent": "Original text content.",
     "outerFrame": "Outer Frame",
@@ -204,5 +200,11 @@
     "freeUserSubscribeEncourage": "Enjoying the free version of Spaciiing? Upgrade to remove delay limits and design faster than ever!",
     "createLoremIpsum": "Create lorem ipsum text",
     "createIconTemplate": "Create icon template",
-    "createSection": "Create section"
+    "createSection": "Create section",
+    "arrowAppearance": "Appearance",
+    "layerType": "Layer Type",
+    "resizeAspectFit": "Resize to fit",
+    "resizeAspectFill": "Resize to fill",
+    "exportArrowStyle": "Export arrow style",
+    "importArrowStyle": "Import arrow style"
 }

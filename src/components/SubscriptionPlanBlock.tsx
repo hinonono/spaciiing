@@ -7,62 +7,45 @@ import info from "../pluginConfig.json";
 
 interface SubscriptionPlanBlockProps {
   plan: "monthly" | "yearly";
-  additionalClass?: string[];
 }
 
 const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
   plan,
-  additionalClass,
 }) => {
   const { t } = useTranslation(["license", "term"]);
 
+  const renderPriceDesc = () => {
+    return <>
+      <span className="note note-large plan-title-secondary">
+        {plan === "monthly" ? t("license:monthlyPriceDesc").replace(
+          "$MONTHLY_PRICE$",
+          "US$" + info.price.monthly
+        ) : t("license:yearlyPriceDesc").replace(
+          "$YEARLY_PRICE$",
+          "US$" + info.price.yearly
+        )}
+      </span>
+    </>
+  }
+
+  const getSvgColor = () => {
+    return plan === "monthly" ? "var(--figma-color-text)" : "black"
+  }
+
   return (
     <div
-      className={`border-radius-xxxlarge padding-16 ${additionalClass?.join(" ") || ""
-        }`}
+      className={`subscription-plan-block ${plan} mt-xxsmall`}
+      onClick={() => paymentsUtil.navigateToCheckOutPage(plan)}
     >
-      <span className={"subscription-plan-title mt-xxsmall"}>
-        {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
-      </span>
-      {plan === "monthly" ? (
-        <span className="note note-large">
-          {t("license:monthlyPriceDesc").replace(
-            "$MONTHLY_PRICE$",
-            "US$" + info.price.monthly
-          )}
+      <div className="width-100">
+        <span className={"plan-title"}>
+          {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
         </span>
-      ) : (
-        <span className="note note-large">
-          {t("license:yearlyPriceDesc").replace(
-            "$YEARLY_PRICE$",
-            "US$" + info.price.yearlyAvg
-          )}
-        </span>
-      )}
-      <div className="mt-xsmall"></div>
-      {plan === "monthly" ? (
-        <FigmaButton
-          buttonType="special"
-          title={t("license:tryItFree")}
-          onClick={() => {
-            paymentsUtil.navigateToPurchasePage();
-          }}
-          svgPosition={"right"}
-          hasTopBottomMargin={false}
-          svg={<SvgExternalLink color="white" />}
-        />
-      ) : (
-        <FigmaButton
-          buttonType="special"
-          title={t("license:tryItFree")}
-          onClick={() => {
-            paymentsUtil.navigateToPurchasePage();
-          }}
-          svgPosition={"right"}
-          hasTopBottomMargin={false}
-          svg={<SvgExternalLink color="white" />}
-        />
-      )}
+        {renderPriceDesc()}
+      </div>
+      <div className="icon-20">
+        <SvgExternalLink color={getSvgColor()} />
+      </div>
     </div>
   );
 };

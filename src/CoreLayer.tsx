@@ -8,7 +8,6 @@ import { messageController } from "./module-frontend/messageController";
 import { useAppContext } from "./AppProvider";
 import { useTranslation } from "react-i18next";
 import { ActivateLicenseModal, FreeUserDelayModal } from "./components/modalComponents";
-import { SavedClickCounter } from "./components";
 
 // #region Actual File Content
 const CoreLayer: React.FC = () => {

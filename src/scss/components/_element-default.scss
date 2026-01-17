@@ -105,17 +105,15 @@ details {
     margin: 5px;
 
     >div {
-        background: var(--figma-color-bg-secondary);
-        border-radius: var(--cy-border-radius-large);
         margin-top: 8px;
     }
 
     summary {
         border-radius: 5px;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 500;
         cursor: pointer;
-        color: var(--figma-color-text);
+        color: var(--figma-color-text-secondary);
 
         // When <details> is open
         [open] & {

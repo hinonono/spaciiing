@@ -1,5 +1,5 @@
 
-import { utils } from "./utils";
+import { AdditionalFilterOptions } from "../types/Messages/MessageSelectionFilter";
 
 /**
  * Processes a list of SceneNodes by applying various filtering options.
@@ -13,14 +13,9 @@ import { utils } from "./utils";
  * Returns a flat array of nodes that match the criteria.
  */
 export function getProcessedNodes(
-    options: {
-        skipLocked?: boolean;
-        skipHidden?: boolean;
-        findCriteria?: string;
-    }
+    nodes: SceneNode[],
+    options: AdditionalFilterOptions,
 ): SceneNode[] {
-    const nodes = utils.editor.getCurrentSelection();
-
     // Recursively exclude locked nodes and their children
     function skipLockLayersAndChildren(nodes: readonly SceneNode[]): SceneNode[] {
         let result: SceneNode[] = [];
@@ -75,45 +70,20 @@ export function getProcessedNodes(
     // Start with the initial node list
     let processed = [...nodes];
 
-    console.log("BERORE PROCESSED");
-    console.log(processed);
-
-    // Optionally include parent layers of matched nodes
-    // if (options.includeParentLayer === true) {
-    //     const parentSet = new Set<SceneNode>();
-    //     for (const node of processed) {
-    //         let current = node.parent;
-    //         while (current && current.type !== "PAGE" && current.type !== "DOCUMENT") {
-    //             if (!parentSet.has(current)) {
-    //                 parentSet.add(current);
-    //             }
-    //             current = current.parent;
-    //         }
-    //     }
-    //     processed = [...processed, ...Array.from(parentSet)];
-    // }
-    console.log("INCLUDE PROCESSED");
-    console.log(processed);
-
     // Apply visibility filter if requested
-    if (options.skipHidden === true) {
+    if (options.skipHiddenLayers === true) {
         processed = skipHiddenLayersAndChildren(processed);
     }
 
     // Apply locked layer filter if requested
-    if (options.skipLocked === true) {
+    if (options.skipLockLayers === true) {
         processed = skipLockLayersAndChildren(processed);
     }
 
     // Filter by name if criteria is provided
-    if (options.findCriteria) {
+    if (options.findWithName) {
         processed = filterByName(processed, options.findCriteria);
     }
-
-    console.log("3");
-    console.log(processed);
-
-
 
     const seen = new Set<string>();
     const uniqueNodes = processed.filter(node => {
@@ -121,9 +91,6 @@ export function getProcessedNodes(
         seen.add(node.id);
         return true;
     });
-
-    console.log("PROCESSED");
-    console.log(uniqueNodes);
 
     return uniqueNodes;
 }

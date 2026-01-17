@@ -68,10 +68,6 @@
     "freeform": "フリーフォーム",
     "generate": "生成",
     "generateAs": "生成するタイプ",
-    "generateHEXorRGB": "HEXまたはRGBテキストラベルを生成",
-    "generateHEXorRGBDesc": "HexまたはRGB値のテキストラベルを生成するには、塗りカラーのレイヤーを選択する必要があります。",
-    "generateNoteDesignStatusTag": "ノート、デザインステータスタグ、タイトルセクションを生成",
-    "generateNoteDesignStatusTagDesc": "ノート、デザインステータスタグ、タイトルセクションを生成するには、テンプレートコンポーネントをファイルにコピーし、設定ウィンドウ内の「記憶」ボタンを使用します。オブジェクトが記憶されると、1つまたは複数のフレームを選択し、生成ボタンをクリックしてこれらのコンポーネントインスタンスを生成できます。現在の日付は自動的にコンポーネントに入力されます。",
     "generateUsageDefinition": "使用定義を生成",
     "grid": "グリッド",
     "heightRatio": "高さの比",
@@ -132,7 +128,7 @@
     "numberingTextLayers": "テキストレイヤーをナンバーリング",
     "objectIsMemorizedWithId": "オブジェクトは記憶されました (ID: $LAYER_ID$)",
     "objectIsNotMemorized": "オブジェクトはまだ記憶されていません",
-    "offset": "オフセット",
+    "offset": "オブジェクトとの間隔",
     "options": "オプション",
     "originalTextContent": "テキストレイヤー元の内容",
     "outerFrame": "外枠",
@@ -204,5 +200,11 @@
   "freeUserSubscribeEncourage": "「Spaciiing」の無料版をご利用中です。アップグレードして遅延制限を解除し、よりスピーディにデザインしましょう！",
   "createLoremIpsum": "ロレムイプサムテキストを作成",
     "createIconTemplate": "アイコンテンプレートを作成",
-    "createSection": "セクションを作成"
+    "createSection": "セクションを作成",
+    "arrowAppearance": "見た目",
+    "layerType": "レイヤータイプ",
+    "resizeAspectFit": "アスペクト比を維持してフィット",
+"resizeAspectFill": "アスペクト比を維持してフィル",
+"exportArrowStyle": "矢印スタイルを書き出し",
+"importArrowStyle": "矢印スタイルを読み込み"
 }

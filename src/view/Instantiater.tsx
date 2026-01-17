@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView, CYCheckbox } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView, CYCheckbox, ListViewHeader } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { getAvailableBrands, getOptionsForSelectedBrandAndForm } from "../components/PresetLibraryOptions";
@@ -69,28 +69,15 @@ const Instantiater: React.FC = () => {
     form
   );
 
-  const [selectedTargets, setSelectedTargets] = useState<InstantiaterTarget[]>(
-    []
-  );
-  const handleTargetChange = (target: InstantiaterTarget) => {
-    if (target === "all") {
-      // Toggle specific fill scopes
-      const scopes = options.map((item) => item.value);
-      // const fillScopes: InstantiaterTarget[] = scopes;
+  const [selectedTargets, setSelectedTargets] = useState<InstantiaterTarget[]>([]);
 
-      setSelectedTargets((prevTargets) =>
-        prevTargets.includes(target)
-          ? prevTargets.filter((s) => !scopes.includes(s))
-          : [...new Set([...prevTargets, ...scopes])]
-      );
-    } else {
-      // Standard toggle for individual scopes
-      setSelectedTargets((prevTargets) =>
-        prevTargets.includes(target)
-          ? prevTargets.filter((s) => s !== target)
-          : [...prevTargets, target]
-      );
-    }
+  const handleTargetChange = (target: InstantiaterTarget) => {
+    // Standard toggle for individual scopes
+    setSelectedTargets((prevTargets) =>
+      prevTargets.includes(target)
+        ? prevTargets.filter((s) => s !== target)
+        : [...prevTargets, target]
+    );
   };
 
   useEffect(() => {
@@ -147,6 +134,23 @@ const Instantiater: React.FC = () => {
   ) => {
     setDefaultNewCollectionName(event.target.value);
   };
+
+  const [isAllOptionsSelected, setIsAllOptionsSelected] = useState(false);
+  function toggleAll() {
+    setIsAllOptionsSelected((prev) => {
+      const next = !prev;
+      if (next) {
+        // Turn on all scopes
+        const scopes = options.map((item) => item.value);
+
+        setSelectedTargets(scopes);
+      } else {
+        // Turn off all scopes
+        setSelectedTargets([]);
+      }
+      return next;
+    });
+  }
 
   return (
     <div>
@@ -226,45 +230,60 @@ const Instantiater: React.FC = () => {
             value={selectedCat}
             onChange={handleCatChange}
           >
-            {categoryOptionsCount.color > 1 && (
+            {categoryOptionsCount.color >= 1 && (
               <option value="color">{t("term:color")}</option>
             )}
-            {categoryOptionsCount.effect > 1 && (
+            {categoryOptionsCount.effect >= 1 && (
               <option value="effect">{t("term:effect")}</option>
             )}
-            {categoryOptionsCount.typography > 1 && (
+            {categoryOptionsCount.typography >= 1 && (
               <option value="typography">{t("term:typography")}</option>
             )}
-            {categoryOptionsCount.other > 1 && (
+            {categoryOptionsCount.other >= 1 && (
               <option value="other">{t("term:others")}</option>
             )}
           </select>
-          <div className="mt-xxsmall"></div>
           {/* 選項 */}
-          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
-            {options.map((option) => (
-              <CYCheckbox
-                label={
-                  <div className="width-100 flex flex-row align-items-center flex-justify-space-between">
-                    <div className="flex flex-row align-items-center">
-                      {option.label !== "ALL" && selectedCat === "color" && option.thumbnailColor && (
-                        <ColorThumbnailView color={option.thumbnailColor} opacity={1} size={20} type={form === "style" ? "rounded" : "square"} extraClassName="mr-xxsmall" />
+          <div className="list-view mt-xxsmall">
+            <ListViewHeader
+              title={""}
+              additionalClass="property-clipboard-header"
+              rightItem={
+                <FigmaButton
+                  title={
+                    isAllOptionsSelected === true ? t("term:unselectAll") : t("term:selectAll")
+                  }
+                  onClick={toggleAll}
+                  buttonHeight="small"
+                  fontSize="small"
+                  buttonType="grain"
+                  hasMargin={false}
+                />
+              }
+            />
+            <div className="list-view-content cy-checkbox-group border-1-top scope-group-large hide-scrollbar-vertical padding-tb-16 padding-lr-8">
+              {options.map((option) => (
+                <CYCheckbox
+                  label={
+                    <div className="width-100 flex flex-row align-items-center flex-justify-space-between">
+                      <div className="flex flex-row align-items-center">
+                        {selectedCat === "color" && option.thumbnailColor && (
+                          <ColorThumbnailView color={option.thumbnailColor} opacity={1} size={20} type={form === "style" ? "rounded" : "square"} extraClassName="mr-xxsmall" />
+                        )}
+                        {option.label}
+                      </div>
+                      {option.count && (
+                        <div className="text-color-secondary">{option.count}</div>
                       )}
-                      {option.label === "ALL"
-                        ? t("term:allOptions")
-                        : option.label}
                     </div>
-                    {option.count && (
-                      <div className="text-color-secondary">{option.count}</div>
-                    )}
-                  </div>
-                }
-                checked={selectedTargets.includes(option.value)}
-                onChange={() => handleTargetChange(option.value)}
-                labelKey={option.value}
-                value={option.value}
-              />
-            ))}
+                  }
+                  checked={selectedTargets.includes(option.value)}
+                  onChange={() => handleTargetChange(option.value)}
+                  labelKey={option.value}
+                  value={option.value}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <div className="mt-xsmall">

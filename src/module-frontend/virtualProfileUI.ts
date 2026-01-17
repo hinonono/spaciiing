@@ -360,10 +360,10 @@ export function duplicateContentRow(
 
 export function getAvailabeCategories(): VirtualProfileCategoryAndKey[] {
     return [
-        // {
-        //   category: "FLOW",
-        //   key: "module:userFlow"
-        // },
+        {
+          category: "FLOW",
+          key: "module:userFlow"
+        },
         {
             category: "BOOK",
             key: "module:book",

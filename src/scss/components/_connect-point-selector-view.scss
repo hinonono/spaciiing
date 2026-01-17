@@ -38,11 +38,11 @@
             border-radius: 50%;
             cursor: pointer;
             border: 3px solid white;
-            transition: var(--cy-animation-default);
+            // transition: background-color 0.3s;
 
-            &:active {
-                scale: 0.8;
-            }
+            // &:active {
+            //     scale: 0.8;
+            // }
 
             &.topCenter {
                 top: -8px;

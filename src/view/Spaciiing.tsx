@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton, Chip } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, Chip, ChipKeyboard } from "../components";
 import { useAppContext } from "../AppProvider";
 import { SvgGrid, SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";
@@ -57,21 +57,13 @@ const SpaciiingView: React.FC = () => {
     setIsChecked(event.target.checked);
   };
 
-  const handleCustomValueChangeInput = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-
-    const numberValue = Number(value);
-
-    if (!isNaN(numberValue)) {
-      appContext.setEditorPreference((prevPreference) => ({
-        ...prevPreference,
-        spacing: numberValue,
-      }));
-      setInputedSpacing(numberValue);
-      setActiveSpacing(numberValue);
-    }
+  const chipCustomOnChange = (num: number) => {
+    appContext.setEditorPreference((prevPreference) => ({
+      ...prevPreference,
+      spacing: num,
+    }));
+    setInputedSpacing(num);
+    setActiveSpacing(num);
   };
 
   useEffect(() => {
@@ -81,6 +73,15 @@ const SpaciiingView: React.FC = () => {
   }, [appContext.editorPreference]);
 
   const defaultSpacingOptions = [0, 4, 8, 12, 16, 24, 32, 40, 48, 64, 96, 112, 128, 160];
+  function chipDefaultOnClick(num: number) {
+    setActiveOption(num.toString());
+    setActiveSpacing(num);
+  }
+
+  function chipCustomOnClick() {
+    setActiveOption("custom");
+    setActiveSpacing(inputedSpacing);
+  }
 
   return (
     <div>
@@ -144,35 +145,15 @@ const SpaciiingView: React.FC = () => {
         )}
         <div className="mt-xxsmall">
           <SectionTitle title={t("module:spacingValue")} />
-          <div className="cy-checkbox-group spacing-option-set border-1-cy-border-light padding-16 hide-scrollbar-vertical">
-            <div className="spacing-option-numbers">
-              {defaultSpacingOptions.map((num) =>
-                <Chip
-                  label={num.toString()}
-                  onClick={() => {
-                    setActiveOption(num.toString());
-                    setActiveSpacing(num);
-                  }}
-                  highlighted={activeOption === num.toString() ? true : false}
-                />
-              )}
-              <button
-                className={`button chip spacing-option-custom ${activeOption === "custom" ? "highlighted" : ""}`}
-                onClick={() => {
-                  setActiveOption("custom");
-                  setActiveSpacing(inputedSpacing);
-                }}
-              >
-                <span>{t("term:custom")}</span>
-                <input
-                  className="cy-input"
-                  type="text"
-                  value={inputedSpacing}
-                  onChange={handleCustomValueChangeInput}
-                />
-              </button>
-            </div>
-          </div>
+          <ChipKeyboard
+            name={'spacing'}
+            chipOptions={defaultSpacingOptions}
+            chipOnClick={chipDefaultOnClick}
+            chipCustomOnClick={chipCustomOnClick}
+            chipCustomOnChange={chipCustomOnChange}
+            activeChip={activeOption}
+            inputedCustomNum={inputedSpacing}
+          />
         </div>
         <div className="cy-checkbox-group mt-xsmall">
           <CYCheckbox

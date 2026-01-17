@@ -15,8 +15,8 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
 
   const [showPercentage, setShowPercentage] = useState(false);
   const content = showPercentage
-    ? `${Math.round((savedClicks / tier.max) * 100)}%`
-    : `${savedClicks} / ${tier.max}`;
+    ? `${savedClicks - tier.requiredExp} / ${tier.requiredExp}`
+    : `${Math.round(((savedClicks - tier.requiredExp) / tier.requiredExp) * 100)}%`;
 
   function toggleShowPercentage() {
     setShowPercentage(!showPercentage);
@@ -28,7 +28,7 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
       <div className='productivity-dashboard shadow-view'>
         <div className="icon-48 tier-badge">{getBadge(tier.tier)}</div>
         <p className={`tier-name tier-name-${tier.tier} mt-xxsmall`}>{t(tier.translateKey)}</p>
-        <span className="note note-large text-center">
+        <span className="note note-large">
           {t("license:youSaved")
             .replace("$SAVED_CLICKS$", `${savedClicks}`)
             .replace("$SAVED_MIN$", `${Math.round(savedClicks / 20)}`)
@@ -42,8 +42,8 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
             </div>
             <ProgressBar
               additionalClass='mt-xxxsmall'
-              progress={savedClicks}
-              max={tier.max}
+              progress={savedClicks - tier.requiredExp}
+              max={tier.requiredExp}
             />
           </div>
         }
@@ -64,13 +64,14 @@ function getNextTier(click: number): SavedClicksTierObj {
       return {
         tier: tier.tier,
         max: Infinity,
+        requiredExp: Infinity,
         translateKey: tier.translateKey
       }
     }
   }
 
   // Fallback in case tierList is empty (optional safety)
-  return { tier: "UNKNOWN", max: Infinity, translateKey: "unknown" };
+  return { tier: "UNKNOWN", max: Infinity, requiredExp: Infinity, translateKey: "unknown" };
 }
 
 function getBadge(tier: SavedClicksTier) {

@@ -4,6 +4,7 @@ import { getProcessedNodes } from "./nodeProcessing";
 import { utils } from "./utils";
 import jaJPData from "../assets/renamer/ja-JP.json"
 import enUSData from "../assets/renamer/en-US.json"
+import { AdditionalFilterOptions } from '../types/Messages/MessageSelectionFilter';
 
 /**
  * Renames selected Figma objects based on the provided naming options.
@@ -11,13 +12,18 @@ import enUSData from "../assets/renamer/en-US.json"
  * and optionally deleting hidden layers.
  */
 export function renameSelectedObjects(message: MessageRenamer) {
+  const selection = utils.editor.getCurrentSelection();
+  const additionFilterOptions: AdditionalFilterOptions = {
+    skipLockLayers: message.options.skipLockedLayer,
+    skipHiddenLayers: message.options.skipHiddenLayers,
+    findWithName: false,
+    findCriteria: ''
+  }
+
   // Apply filtering: skip locked layers using shared utility
   const processedNodes = getProcessedNodes(
-    {
-      skipLocked: message.options.skipLockedLayer,
-      skipHidden: message.options.skipHiddenLayers,
-      findCriteria: undefined
-    }
+    selection,
+    additionFilterOptions
   );
 
   if (processedNodes.length === 0) {

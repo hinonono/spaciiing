@@ -30,11 +30,11 @@ interface FilterScopeItem {
 }
 
 export const FilterableScopesNew: FilterScopeItem[] = [
-    {
-        nameKey: "term:allOptions",
-        scope: "ALL_OPTIONS",
-        supportedEditorTypes: ["figma", "slides"]
-    },
+    // {
+    //     nameKey: "term:allOptions",
+    //     scope: "ALL_OPTIONS",
+    //     supportedEditorTypes: ["figma", "slides"]
+    // },
     {
         nameKey: "term:image",
         scope: "IMAGE",

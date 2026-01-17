@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from './SectionTitle';
-import { strokeCaps, strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
+import { strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
 import ColorThumbnailView from './ColorThumbnailView';
 import { CYStroke } from '../types/CYStroke';
 import { useTranslation } from 'react-i18next';
 import { SvgCornerRadius, SvgStrokeWeight } from '../assets/icons';
+import StrokeCapSelector from './StrokeCapSelector';
 
 interface StrokeEditorViewProps {
   editingStroke: CYStroke;
@@ -331,32 +332,16 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         )}
       </div>
       <div className='grid mt-xxsmall'>
-        <div>
-          <SectionTitle title={t("module:startPoint")} titleType="secondary" />
-          <select
-            name="type"
-            className="custom-select"
-            value={editingStroke.startPointCap}
-            onChange={handleStartingPointStyleChange}
-          >
-            {strokeCaps.map((item) => (
-              <option key={item.value} value={item.value}>{t(item.labelKey)}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <SectionTitle title={t("module:endPoint")} titleType="secondary" />
-          <select
-            name="type"
-            className="custom-select"
-            value={editingStroke.endPointCap}
-            onChange={handleEndPointStyleChange}
-          >
-            {strokeCaps.map((item) => (
-              <option key={item.value} value={item.value}>{t(item.labelKey)}</option>
-            ))}
-          </select>
-        </div>
+        <StrokeCapSelector
+          titleKey={'module:startPoint'}
+          value={editingStroke.startPointCap}
+          onChange={handleStartingPointStyleChange}
+        />
+        <StrokeCapSelector
+          titleKey={'module:endPoint'}
+          value={editingStroke.endPointCap}
+          onChange={handleEndPointStyleChange}
+        />
       </div>
     </div>
   );

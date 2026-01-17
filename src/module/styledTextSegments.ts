@@ -16,6 +16,7 @@
 export function getNodeCatalogueItemRichStyle(node: TextNode): ReturnType<TextNode["getStyledTextSegments"]> {
     const styledTextSegments = node.getStyledTextSegments([
         "fontSize",
+        "fontStyle",
         "fontName",
         "fontWeight",
         "textDecoration",

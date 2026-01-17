@@ -6,7 +6,6 @@ import { MessageArrowCreator } from "../types/Messages/MessageArrowCreator";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as pluginConfig from "../pluginConfig.json";
 import { CYStrokeStyle } from "../types/CYStrokeStyle";
-import { MessageSaveEditorPreference } from "../types/Messages/MessageSaveEditorPreference";
 import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 export function applyArrowCreator(
@@ -46,31 +45,11 @@ interface StrokeCapOption {
     labelKey: string;
 }
 
-export const strokeCaps: StrokeCapOption[] = [
+export const strokeCapsPlain: StrokeCapOption[] = [
     {
         value: "NONE",
         labelKey: "term:none",
     },
-    {
-        value: "ARROW_LINES",
-        labelKey: "module:lineArrow",
-    },
-    {
-        value: "ARROW_EQUILATERAL",
-        labelKey: "module:triangleArrow",
-    },
-    // {
-    //     value: "TRIANGLE_FILLED",
-    //     labelKey: "module:reversedTriangle",
-    // },
-    // {
-    //     value: "CIRCLE_FILLED",
-    //     labelKey: "module:circleArrow",
-    // },
-    // {
-    //     value: "DIAMOND_FILLED",
-    //     labelKey: "module:diamondArrow"
-    // },
     {
         value: "ROUND",
         labelKey: "module:round",
@@ -78,6 +57,29 @@ export const strokeCaps: StrokeCapOption[] = [
     {
         value: "SQUARE",
         labelKey: "module:square",
+    }
+]
+
+export const strokeCapsWithDecoration: StrokeCapOption[] = [
+    {
+        value: "ARROW_LINES",
+        labelKey: "module:lineArrow",
+    },
+    {
+        value: "TRIANGLE_FILLED",
+        labelKey: "module:reversedTriangle",
+    },
+    {
+        value: "ARROW_EQUILATERAL",
+        labelKey: "module:triangleArrow",
+    },
+    {
+        value: "CIRCLE_FILLED",
+        labelKey: "module:circleArrow",
+    },
+    {
+        value: "DIAMOND_FILLED",
+        labelKey: "module:diamondArrow"
     },
 ]
 
@@ -128,8 +130,12 @@ export function exportArrowStyle(
     const blob = new Blob([JSON.stringify(arrowStyles, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
+    const timestamp = new Date()
+        .toISOString()
+        .replace(/[:.]/g, "-"); // make it filename-safe
+
     a.href = url;
-    a.download = "spaciiing_arrow-styles.json";
+    a.download = `spaciiing_arrow-styles_${timestamp}.json`;
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -179,6 +185,6 @@ export async function importArrowStyle(
         parent.postMessage({ pluginMessage: message }, "*");
         alert(`${newStyles.length} styles has been imported successfully.`);
     } catch (err) {
-        alert("Invalid JSON file");
+        alert("Invalid JSON file" + err);
     }
 }

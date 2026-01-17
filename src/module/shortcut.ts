@@ -17,6 +17,7 @@ import { updateArrowPosition } from "./arrowCreator/arrowCreator";
 import { Direction } from "../types/General";
 import { utils } from "./utils";
 import { semanticTokens } from './tokens';
+import { AdditionalFilterOptions } from '../types/Messages/MessageSelectionFilter';
 
 export function executeShortcut(message: MessageShortcut) {
   if (message.phase == undefined) {
@@ -102,6 +103,12 @@ export function executeShortcut(message: MessageShortcut) {
       case "createSection":
         createSection(message as MessageCreateSection);
         break;
+      case "resizeAspectFill":
+        aspectResize("fill");
+        break;
+      case "resizeAspectFit":
+        aspectResize("fit");
+        break;
       case "debug":
         debugFunction();
         break;
@@ -127,6 +134,88 @@ function debugFunction() {
   }
 
   figma.notify("OK!")
+}
+
+function aspectResize(mode: "fit" | "fill") {
+  const selection = utils.editor.getCurrentSelection();
+
+  if (selection.length === 0) {
+    figma.notify("No nodes selected.");
+    return;
+  }
+
+  const addtionalFilterOptions: AdditionalFilterOptions = {
+    skipLockLayers: false,
+    skipHiddenLayers: false,
+    findWithName: false,
+    findCriteria: ''
+  }
+
+  const filteredSelection = utils.editor.filterSelection(selection, ["IMAGE"], addtionalFilterOptions);
+
+  for (let i = 0; i < filteredSelection.length; i++) {
+    const node = filteredSelection[i];
+    if (!utils.editor.isNodeWithResizeMethod(node)) {
+      return;
+    }
+
+    const parent = node.parent;
+
+    // Validate parent node: must exist and have width/height properties
+    if (
+      !parent ||
+      typeof (parent as any).width !== "number" ||
+      typeof (parent as any).height !== "number"
+    ) {
+      figma.notify(
+        `❌ Aspect resize is not supported: parent node must exist and have width/height properties.`
+      );
+      return;
+    }
+
+    // Only support nodes with width/height
+    if (
+      typeof node.width !== "number" ||
+      typeof node.height !== "number"
+    ) {
+      figma.notify("❌ Aspect resize is not supported for this node type.");
+      return;
+    }
+
+    const nodeAspect = node.width / node.height;
+    const parentAspect = (parent as any).width / (parent as any).height;
+
+    let newWidth = node.width;
+    let newHeight = node.height;
+
+    if (mode === "fill") {
+      if (nodeAspect > parentAspect) {
+        newWidth = (parent as any).height * nodeAspect;
+        newHeight = (parent as any).height;
+      } else {
+        newWidth = (parent as any).width;
+        newHeight = (parent as any).width / nodeAspect;
+      }
+
+      node.constraints = { horizontal: "SCALE", vertical: "SCALE" };
+    } else {
+      if (nodeAspect > parentAspect) {
+        newWidth = (parent as any).width;
+        newHeight = (parent as any).width / nodeAspect;
+        node.constraints = { horizontal: "STRETCH", vertical: "CENTER" };
+      } else {
+        newWidth = (parent as any).height * nodeAspect;
+        newHeight = (parent as any).height;
+        node.constraints = { horizontal: "CENTER", vertical: "STRETCH" };
+      }
+      node.lockAspectRatio();
+    }
+
+    // Center the node within the parent  
+    node.resizeWithoutConstraints(newWidth, newHeight);
+    node.x = ((parent as any).width - newWidth) / 2;
+    node.y = ((parent as any).height - newHeight) / 2;
+  }
 }
 
 function createSection(message: MessageCreateSection) {
@@ -221,7 +310,7 @@ async function spiltText(message: MessageShortcutSpiltText) {
   const originalX = node.x;
   const originalY = node.y;
 
-  let spiltedTextNodes: TextNode[] = [];
+  const spiltedTextNodes: TextNode[] = [];
 
   // Create new text layers
   for (let i = 0; i < parts.length; i++) {

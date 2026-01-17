@@ -6,5 +6,6 @@
 	"moduleName": "Settings",
 	"preferredLanguage": "Preferred Language",
 	"provideFeedback": "Provide Feedback",
-	"version": "Version"
+	"version": "Version",
+	"preferredLanguageDesc": "This settings will effect the plugin user interface, the outputed language in Catalogue and the result for Naming cleaner. Some shortcuts may show less or more options depends on the language set."
 }

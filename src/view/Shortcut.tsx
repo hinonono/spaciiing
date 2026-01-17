@@ -145,8 +145,8 @@ const Shortcut: React.FC = () => {
     </div>
   );
 
-  const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[]) => (
-    <div className="list-view mt-xsmall">
+  const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[], hasTopMargin = true) => (
+    <div className={`list-view ${hasTopMargin ? "mt-xsmall" : ""}`}>
       <ListViewHeader title={title} additionalClass="property-clipboard-header" />
       <div className="padding-16 border-1-top">
         {renderButtons(buttons)}
@@ -178,18 +178,18 @@ const Shortcut: React.FC = () => {
           title: t("module:updateArrowPosition"),
           onClick: () => applyShortcut("updateArrowPosition", false),
         },
-        // {
-        //   title: t("module:exportArrowStyle"),
-        //   onClick: () => exportArrowStyle(appContext, false),
-        // },
-        // {
-        //   title: t("module:importArrowStyle"),
-        //   onClick: () => fileInputRef.current?.click(),
-        // },
+        {
+          title: t("module:exportArrowStyle"),
+          onClick: () => exportArrowStyle(appContext, false),
+        },
+        {
+          title: t("module:importArrowStyle"),
+          onClick: () => fileInputRef.current?.click(),
+        },
       ]
 
       return (
-        renderShortcutSection(t("module:moduleDrawArrows"), buttons)
+        renderShortcutSection(t("module:moduleDrawArrows"), buttons, false)
       )
     } else {
       return null;
@@ -216,10 +216,10 @@ const Shortcut: React.FC = () => {
         title: t("module:numberingTextLayers"),
         onClick: handleOpenNumberingModal,
       },
-      // {
-      //   title: t("module:spiltText"),
-      //   onClick: handleOpenSpiltTextModal,
-      // }
+      {
+        title: t("module:spiltText"),
+        onClick: handleOpenSpiltTextModal,
+      }
     ];
 
 
@@ -275,7 +275,19 @@ const Shortcut: React.FC = () => {
 
       return (
         <div className="list-view mt-xsmall">
-          <ListViewHeader title={t("module:fileOrganizingObject")} additionalClass="property-clipboard-header" />
+          <ListViewHeader title={t("module:fileOrganizingObject")}
+            additionalClass="property-clipboard-header"
+            rightItem={
+              <FigmaButton
+                title={t("module:setting")}
+                onClick={handleOpenMagicObjectModal}
+                buttonHeight="small"
+                fontSize="small"
+                buttonType="grain"
+                hasMargin={false}
+              />
+            }
+          />
           <div className="padding-16 border-1-top">
             {renderMagicObjectButtons(buttons)}
           </div>
@@ -330,10 +342,10 @@ const Shortcut: React.FC = () => {
         title: t("module:iconTemplate"),
         onClick: handleOpenIconModal,
       },
-      // {
-      //   title: t("module:createSection"),
-      //   onClick: handleOpenSectionModal,
-      // }
+      {
+        title: t("module:createSection"),
+        onClick: handleOpenSectionModal,
+      }
     ];
 
     return (
@@ -354,8 +366,24 @@ const Shortcut: React.FC = () => {
     ];
 
     return (
-
       renderShortcutSection(t("term:frame"), buttons)
+    )
+  }
+
+  const renderImageShortcut = () => {
+    const buttons: ShortcutButtonConfig[] = [
+      {
+        title: t("module:resizeAspectFit"),
+        onClick: () => applyShortcut("resizeAspectFit", false),
+      },
+      {
+        title: t("module:resizeAspectFill"),
+        onClick: () => applyShortcut("resizeAspectFill", false),
+      },
+    ];
+
+    return (
+      renderShortcutSection(t("term:layer"), buttons)
     )
   }
 
@@ -371,10 +399,6 @@ const Shortcut: React.FC = () => {
           <div>
             <h3>{t("module:moduleShortcut")}</h3>
             <p>{t("module:moduleShortcutDesc")}</p>
-            <h4>{t("module:generateHEXorRGB")}</h4>
-            <p>{t("module:generateHEXorRGBDesc")}</p>
-            <h4>{t("module:generateNoteDesignStatusTag")}</h4>
-            <p>{t("module:generateNoteDesignStatusTagDesc")}</p>
           </div>
         </Modal>
         <UnifyTextModal
@@ -417,16 +441,6 @@ const Shortcut: React.FC = () => {
       <TitleBar
         title={t("module:moduleShortcut")}
         onClick={handleOpenExplanationModal}
-        rightItem={
-          <FigmaButton
-            title={t("module:setting")}
-            onClick={handleOpenMagicObjectModal}
-            buttonHeight="small"
-            fontSize="small"
-            buttonType="grain"
-            hasMargin={false}
-          />
-        }
       />
       <div className="content">
         <input
@@ -442,6 +456,8 @@ const Shortcut: React.FC = () => {
         {renderArrowCreatorShortcut()}
         {/* 型錄 */}
         {renderCatalogueShortcut()}
+        {/* 圖層 */}
+        {renderImageShortcut()}
         {/* 文字 */}
         {renderTextShortcut()}
         {/* 檔案管理物件 */}

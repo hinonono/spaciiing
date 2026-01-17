@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TitleBar, FigmaButton, SectionTitle, CYCheckbox } from "../components";
+import { TitleBar, FigmaButton, SectionTitle, CYCheckbox, ListViewHeader } from "../components";
 import Modal from "../components/Modal";
 import { NodeFilterable } from "../types/NodeFilterable";
 import {
@@ -45,17 +45,10 @@ const SelectionFilter: React.FC = () => {
 
   // 主要功能
   const [selectedScopes, setSelectedScopes] = useState<NodeFilterable[]>([]);
+  const [isAllOptionsSelected, setIsAllOptionsSelected] = useState(false);
+
   const handleScopeChange = (scope: NodeFilterable) => {
-    if (scope === "ALL_OPTIONS") {
-      // Toggle specific fill scopes
-      const scopes = FilterableScopesNew.map((item) => item.scope);
-      const fillScopes: NodeFilterable[] = scopes;
-      setSelectedScopes((prevScopes) =>
-        prevScopes.includes(scope)
-          ? prevScopes.filter((s) => !fillScopes.includes(s))
-          : [...new Set([...prevScopes, ...fillScopes])]
-      );
-    } else if (scope === "ALL_SHAPE") {
+    if (scope === "ALL_SHAPE") {
       // Toggle specific fill scopes
       const fillScopes: NodeFilterable[] = [
         "RECTANGLE",
@@ -118,6 +111,21 @@ const SelectionFilter: React.FC = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
+  function toggleAll() {
+    setIsAllOptionsSelected((prev) => {
+      const next = !prev;
+      if (next) {
+        // Turn on all scopes
+        const scopeToTurnOn: NodeFilterable[] = FilterableScopesNew.map((item) => item.scope);
+        setSelectedScopes(scopeToTurnOn);
+      } else {
+        // Turn off all scopes
+        setSelectedScopes([]);
+      }
+      return next;
+    });
+  }
+
   return (
     <div>
       <div>
@@ -137,11 +145,24 @@ const SelectionFilter: React.FC = () => {
       />
       <div className="content">
         {/* 圖層類型 */}
-        <div className="mt-xxsmall">
-          <SectionTitle
-            title={`${t("module:filterFor")} (${selectedScopes.length})`}
+        <div className="list-view">
+          <ListViewHeader
+            title={t("module:layerType")}
+            additionalClass="property-clipboard-header"
+            rightItem={
+              <FigmaButton
+                title={
+                  isAllOptionsSelected === true ? t("term:unselectAll") : t("term:selectAll")
+                }
+                onClick={toggleAll}
+                buttonHeight="small"
+                fontSize="small"
+                buttonType="grain"
+                hasMargin={false}
+              />
+            }
           />
-          <div className="cy-checkbox-group border-1-cy-border-light scope-group scope-group-large hide-scrollbar-vertical">
+          <div className="list-view-content cy-checkbox-group border-1-top  scope-group-large hide-scrollbar-vertical">
             {FilterableScopesNew.map((item) => item.supportedEditorTypes.includes(editorType) && (
               <CYCheckbox
                 label={

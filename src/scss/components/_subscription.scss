@@ -1,28 +1,31 @@
-.subscription-background {
+.subscription-plan-block {
+    cursor: pointer;
+    border-radius: var(--cy-border-radius-xlarge);
+    display: flex;
+    align-items: center;
     padding: 16px;
-    border-radius: var(--cy-border-radius-xxxlarge);
-    background: var(--cy-bg-primary-dark-elevated);
 
-    &.pro {
+    &.monthly {
         background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
-        box-shadow: 0px 6px 12px 0px rgba(180, 121, 255, 0.5);
 
-        .note {
-            color: #00000080
+        .plan-title {
+            color: black;
+        }
+
+        .plan-title-secondary {
+            color: #00000080;
         }
     }
 
-    .subscription-plan-title {
-        color: #000000e5
-    }
-}
+    &.yearly {
+        border: 1px solid var(--figma-color-border);
+        
+        .plan-title {
+            color: black;
+        }
 
-@media (prefers-color-scheme: dark) {
-    .subscription-background {
-        &.pro {
-            h4 {
-                color: #000000e5
-            }
+        .plan-title-secondary {
+            color: #00000080;
         }
     }
 }
