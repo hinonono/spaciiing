@@ -99,37 +99,6 @@
     outline: inherit;
 }
 
-.magic-object-button {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--cy-border-radius-xlarge);
-    margin: 0;
-    cursor: pointer;
-    padding: 4px;
-    transition: var(--cy-animation-default);
-
-    border: none;
-    box-shadow: var(--drop-shadow-2);
-    background-color: #fff;
-    color: var(--figma-color-text);
-
-    &:hover {
-        background-color: var(--figma-color-bg-secondary);
-        color: var(--figma-color-text-hover)
-    }
-
-    &:disabled {
-        cursor: not-allowed;
-        border-color: var(--button-disabled);
-        color: var(--figma-color-text-disabled);
-    }
-
-    span {
-        font-size: 11px;
-    }
-}
-
 .button--tertiary {
     background-color: rgba(24, 160, 251, 0.15);
     color: var(--figma-color-bg-brand);
