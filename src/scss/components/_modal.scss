@@ -36,7 +36,7 @@
     background-color: var(--figma-color-bg);
     padding: 16px;
     overflow-y: scroll;
-    border-radius: var(--cy-border-radius-xxxlarge);
+    border-radius: 20px;
     min-width: calc(100% - 32px);
     max-width: calc(100% - 32px);
     max-height: calc(100% - 32px);
@@ -65,9 +65,10 @@
         overflow: hidden;
         background-color: var(--cy-glass-color-1);
         transition: var(--cy-animation-default);
+        box-shadow: var(--drop-shadow-3);
 
         &:hover {
-            scale: 0.9;
+            scale: 1.2;
         }
     }
 }
