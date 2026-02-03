@@ -103,12 +103,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--figma-color-text);
-    border-radius: var(--cy-border-radius-large);
+    border-radius: var(--cy-border-radius-xlarge);
     margin: 0;
     cursor: pointer;
     padding: 4px;
     transition: var(--cy-animation-default);
+
+    border: none;
+    box-shadow: var(--drop-shadow-2);
+    background-color: #fff;
     color: var(--figma-color-text);
 
     &:hover {

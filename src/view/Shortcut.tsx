@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { TitleBar, FigmaButton, ListViewHeader } from "../components";
+import { TitleBar, FigmaButton } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import {
@@ -19,7 +19,7 @@ import {
   ShortcutAction,
   MessageShortcutGenerateMagicalObjectMember,
 } from "../types/Messages/MessageShortcut";
-import { createAutoLayoutIndividually, ShortcutButtonConfig } from "../module-frontend/shortcutFronEnd";
+import { createAutoLayoutIndividually, ShortcutButtonConfig, ShortcutSectionColor } from "../module-frontend/shortcutFronEnd";
 import * as pluginConfig from "../pluginConfig.json";
 import { SvgNote } from "../assets/icons";
 import SvgTag from "../assets/icons/SvgTag";
@@ -145,14 +145,28 @@ const Shortcut: React.FC = () => {
     </div>
   );
 
-  const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[], hasTopMargin = true) => (
-    <div className={`list-view ${hasTopMargin ? "mt-xsmall" : ""}`}>
-      <ListViewHeader title={title} additionalClass="property-clipboard-header" />
-      <div className="padding-16 border-1-top">
-        {renderButtons(buttons)}
+  const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[], color: ShortcutSectionColor, buttonRenderMethod: "Common" | "MagicObject", hasTopMargin: boolean, rightItem?: React.ReactNode) => (
+    <div className={`shortcut-section ${color} ${hasTopMargin ? "mt-xsmall" : ""}`}>
+      <div className={`shortcut-section-header`}>
+        <div className="flex align-items-center flex-justify-start font-size-xlarge text-color-primary">{title}</div>
+        {rightItem}
+      </div>
+      <div>
+        {buttonRenderMethod === "Common"
+          ? renderButtons(buttons)
+          : renderMagicObjectButtons(buttons)}
       </div>
     </div>
   );
+
+  // const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[], hasTopMargin = true) => (
+  //   <div className={`list-view ${hasTopMargin ? "mt-xsmall" : ""}`}>
+  //     <ListViewHeader title={title} additionalClass="property-clipboard-header" />
+  //     <div className="padding-16 border-1-top">
+  //       {renderButtons(buttons)}
+  //     </div>
+  //   </div>
+  // );
 
   const renderCatalogueShortcut = () => {
     if (appContext.editorType === "figma") {
@@ -164,7 +178,7 @@ const Shortcut: React.FC = () => {
       ]
 
       return (
-        renderShortcutSection(t("module:moduleCatalogue"), buttons)
+        renderShortcutSection(t("module:moduleCatalogue"), buttons, "blue", "Common", true)
       )
     } else {
       return null;
@@ -189,7 +203,7 @@ const Shortcut: React.FC = () => {
       ]
 
       return (
-        renderShortcutSection(t("module:moduleDrawArrows"), buttons, false)
+        renderShortcutSection(t("module:moduleDrawArrows"), buttons, "cyan", "Common", false)
       )
     } else {
       return null;
@@ -224,13 +238,13 @@ const Shortcut: React.FC = () => {
 
 
     return (
-      renderShortcutSection(t("term:text"), buttons)
+      renderShortcutSection(t("term:text"), buttons, "red", "Common", true)
     )
   }
 
   const renderMagicObjectButtons = (buttons: ShortcutButtonConfig[]) => (
     <div className="grid mt-xxxsmall">
-      {buttons.map(({ id, title, onClick, disabled, svg }, i) => (
+      {buttons.map(({ id, title, onClick, disabled, svg }) => (
         <div className="flex">
           <button
             id={id}
@@ -272,26 +286,38 @@ const Shortcut: React.FC = () => {
         },
       ];
 
+      const rightItem =
+        <FigmaButton
+          title={t("module:setting")}
+          onClick={handleOpenMagicObjectModal}
+          buttonHeight="small"
+          fontSize="small"
+          buttonType="grain"
+          hasMargin={false}
+          additionalClass={"flex-justify-end"}
+        />
+
 
       return (
-        <div className="list-view mt-xsmall">
-          <ListViewHeader title={t("module:fileOrganizingObject")}
-            additionalClass="property-clipboard-header"
-            rightItem={
-              <FigmaButton
-                title={t("module:setting")}
-                onClick={handleOpenMagicObjectModal}
-                buttonHeight="small"
-                fontSize="small"
-                buttonType="grain"
-                hasMargin={false}
-              />
-            }
-          />
-          <div className="padding-16 border-1-top">
-            {renderMagicObjectButtons(buttons)}
-          </div>
-        </div>
+        renderShortcutSection(t("module:fileOrganizingObject"), buttons, "yellow", "MagicObject", true, rightItem)
+        // < div className = "list-view mt-xsmall" >
+        //   <ListViewHeader title={t("module:fileOrganizingObject")}
+        //     additionalClass="property-clipboard-header"
+        //     rightItem={
+        //       <FigmaButton
+        //         title={t("module:setting")}
+        //         onClick={handleOpenMagicObjectModal}
+        //         buttonHeight="small"
+        //         fontSize="small"
+        //         buttonType="grain"
+        //         hasMargin={false}
+        //       />
+        //     }
+        //   />
+        //   <div className="padding-16 border-1-top">
+        //     {renderMagicObjectButtons(buttons)}
+        //   </div>
+        // </div >
       )
     } else {
       return null;
@@ -324,7 +350,7 @@ const Shortcut: React.FC = () => {
     ];
 
     return (
-      renderShortcutSection(t("module:colorValueToTextLabel"), buttons)
+      renderShortcutSection(t("module:colorValueToTextLabel"), buttons, "indigo", "Common", true)
     );
   };
 
@@ -349,7 +375,7 @@ const Shortcut: React.FC = () => {
     ];
 
     return (
-      renderShortcutSection(t("module:generate"), buttons)
+      renderShortcutSection(t("module:generate"), buttons, "orange", "Common", true)
     )
   }
 
@@ -366,7 +392,7 @@ const Shortcut: React.FC = () => {
     ];
 
     return (
-      renderShortcutSection(t("term:frame"), buttons)
+      renderShortcutSection(t("term:frame"), buttons, "purple", "Common", true)
     )
   }
 
@@ -383,7 +409,7 @@ const Shortcut: React.FC = () => {
     ];
 
     return (
-      renderShortcutSection(t("term:layer"), buttons)
+      renderShortcutSection(t("term:layer"), buttons, "green", "Common", true)
     )
   }
 

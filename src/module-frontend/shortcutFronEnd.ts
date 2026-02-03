@@ -4,7 +4,6 @@ import { Message } from "../types/Messages/Message";
 import { MessageShortcut, MessageShortcutNumbering, NumberingForm } from "../types/Messages/MessageShortcut";
 import { checkProFeatureAccessibleForUser } from "./utilFrontEnd";
 import * as pluginConfig from "../pluginConfig.json";
-import { ReactHTMLElement } from "react";
 import { Direction } from "../types/General";
 
 export function initShortcut() {
@@ -102,3 +101,13 @@ export interface ShortcutButtonConfig {
   disabled?: boolean;
   svg?: React.ReactNode;
 }
+
+export type ShortcutSectionColor =
+  | "red"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "blue"
+  | "cyan"
+  | "indigo"
+  | "purple"

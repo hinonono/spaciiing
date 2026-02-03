@@ -14,6 +14,7 @@ interface FigmaButtonProps {
   hasTopBottomMargin?: boolean;
   hasMargin?: boolean;
   showChevron?: boolean;
+  additionalClass?: string;
 }
 
 const FigmaButton: React.FC<FigmaButtonProps> = ({
@@ -29,12 +30,13 @@ const FigmaButton: React.FC<FigmaButtonProps> = ({
   hasTopBottomMargin = true,
   hasMargin = true,
   showChevron = false,
+  additionalClass
 }) => {
   return (
     <div className="flex">
       <button
         className={`button button--${buttonType} font-size-${fontSize} button-height-${buttonHeight} ${hasTopBottomMargin === false && "disable-mtmb"
-          } ${hasMargin === false && "margin-0"}`}
+          } ${hasMargin === false && "margin-0"} ${additionalClass}`}
         id={id}
         onClick={onClick}
         disabled={disabled}

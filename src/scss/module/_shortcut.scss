@@ -1,0 +1,55 @@
+.shortcut-section {
+    border-radius: var(--cy-border-radius-xlarge);
+    padding: 16px;
+
+    &.red {
+        background-color: rgba(251, 44, 54, 0.2);
+    }
+
+    &.orange {
+        background-color: rgba(255, 105, 0, 0.2);
+    }
+
+    &.yellow {
+        background-color: rgba(239, 177, 0, 0.2);
+    }
+
+    &.green {
+        background-color: rgba(0, 201, 81, 0.2);
+    }
+
+    &.blue {
+        background-color: rgba(43, 127, 255, 0.2);
+    }
+
+    &.cyan {
+        background-color: rgba(0, 184, 219, 0.2);
+    }
+
+    &.indigo {
+        background-color: rgba(97, 95, 255, 0.2);
+    }
+
+    &.purple {
+        background-color: rgba(173, 70, 255, 0.2);
+    }
+
+    &-header {
+        margin-bottom: 16px;
+        font-weight: 500;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        align-items: center;
+    }
+
+    .button--secondary {
+        border: none;
+        box-shadow: var(--drop-shadow-2);
+        background-color: rgba(255, 255, 255, 1);
+        color: var(--figma-color-text);
+
+        &:hover {
+            background-color: var(--figma-color-bg-secondary);
+        }
+    }
+}
