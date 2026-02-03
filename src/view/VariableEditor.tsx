@@ -396,7 +396,7 @@ const VariableEditor: React.FC = () => {
           <div className="grid">
             <FigmaButton
               buttonType="secondary"
-              title={t("module:codeExampleFor") + dataType}
+              title={"插入範例"}
               id={"variable-editor-example-code-snippet"}
               onClick={generateExampleCodeSnippet}
               disabled={code.trim() !== ""}

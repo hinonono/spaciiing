@@ -1,12 +1,12 @@
 .custom-segmented-control {
     position: relative;
     display: inline-flex;
-    border-radius: var(--cy-border-radius-large);
+    border-radius: var(--cy-border-radius-xlarge);
     width: 100%;
     justify-content: space-between;
     overflow: hidden;
     transition: var(--cy-animation-default);
-    padding: 4px;
+    padding: 6px;
     background: var(--figma-color-bg-secondary);
     min-height: 40px;
 
@@ -79,7 +79,7 @@
 
         .highlight-box {
             background: #2c2c2c;
-            box-shadow: 0px 1.5px 2px 0px rgba(83, 83, 83, 1) inset, 0px 0px 2px 0px rgba(83, 83, 83, 1) inset;
+            // box-shadow: 0px 1.5px 2px 0px rgba(83, 83, 83, 1) inset, 0px 0px 2px 0px rgba(83, 83, 83, 1) inset;
         }
 
         input[type="radio"] {

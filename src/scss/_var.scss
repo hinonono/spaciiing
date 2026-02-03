@@ -1,3 +1,46 @@
+@mixin colorPalette {
+    // White
+    --white-opacity-0: rgba(255, 255, 255, 0);
+    --white-opacity-5: rgba(255, 255, 255, 0.05);
+    --white-opacity-10: rgba(255, 255, 255, 0.1);
+    --white-opacity-20: rgba(255, 255, 255, 0.2);
+    --white-opacity-30: rgba(255, 255, 255, 0.3);
+    --white-opacity-40: rgba(255, 255, 255, 0.4);
+    --white-opacity-50: rgba(255, 255, 255, 0.5);
+    --white-opacity-60: rgba(255, 255, 255, 0.6);
+    --white-opacity-70: rgba(255, 255, 255, 0.7);
+    --white-opacity-80: rgba(255, 255, 255, 0.8);
+    --white-opacity-90: rgba(255, 255, 255, 0.9);
+    --white-opacity-100: rgba(255, 255, 255, 1);
+
+    // Black
+    --black-opacity-0: rgba(0, 0, 0, 0);
+    --black-opacity-5: rgba(0, 0, 0, 0.05);
+    --black-opacity-10: rgba(0, 0, 0, 0.1);
+    --black-opacity-20: rgba(0, 0, 0, 0.2);
+    --black-opacity-30: rgba(0, 0, 0, 0.3);
+    --black-opacity-40: rgba(0, 0, 0, 0.4);
+    --black-opacity-50: rgba(0, 0, 0, 0.5);
+    --black-opacity-60: rgba(0, 0, 0, 0.6);
+    --black-opacity-70: rgba(0, 0, 0, 0.7);
+    --black-opacity-80: rgba(0, 0, 0, 0.8);
+    --black-opacity-90: rgba(0, 0, 0, 0.9);
+    --black-opacity-100: rgba(0, 0, 0, 1);
+
+    /* spaciiing色盤 color palette */
+    --cy-purple-50: #f6f4ff;
+    --cy-purple-100: #f0ebff;
+    --cy-purple-200: #e1d7ff;
+    --cy-purple-300: #c5aefe;
+    --cy-purple-400: #ae89fe;
+    --cy-purple-500: #9d66fd;
+    --cy-purple-600: #8f38ff;
+    --cy-purple-700: #7720db;
+    --cy-purple-800: #6515bc;
+    --cy-purple-900: #54149e;
+    --cy-purple-950: #380e6b;
+}
+
 :root {
     --variable-background: #f5f5f5;
     /* L97 S50*/
@@ -29,9 +72,9 @@
 
     --color-bg-selected: #e5f4ff;
 
-    --drop-shadow-1: 0px 5px 12px 4px rgba(0, 0, 0, 0.09), 0px 3px 6px 0px rgba(0, 0, 0, 0.12), 0px 1px 2px -2px rgba(0, 0, 0, 0.16);
-    --drop-shadow-2: 0px 9px 28px 8px rgba(0, 0, 0, 0.05), 0px 6px 16px 0px rgba(0, 0, 0, 0.08), 0px 3px 6px -4px rgba(0, 0, 0, 0.12);
-    --drop-shadow-3: 0px 12px 48px 16px rgba(0, 0, 0, 0.03), 0px 9px 28px 0px rgba(0, 0, 0, 0.05), 0px 6px 16px -8px rgba(0, 0, 0, 0.08);
+    --drop-shadow-1: 0px 4px 4px 1px rgba(0, 0, 0, 0.04), 0px 2px 2px 0px rgba(0, 0, 0, 0.06), 0px 1px 2px -2px rgba(0, 0, 0, 0.8);
+    --drop-shadow-2: 0px 8px 8px 4px rgba(0, 0, 0, 0.03), 0px 4px 4px 0px rgba(0, 0, 0, 0.04), 0px 2px 4px -4px rgba(0, 0, 0, 0.4);
+    --drop-shadow-3: 0px 12px 16px 8px rgba(0, 0, 0, 0.02), 0px 6px 8px 0px rgba(0, 0, 0, 0.02), 0px 3px 8px -8px rgba(0, 0, 0, 0.02);
 
     --blur-1: blur(16px);
 
@@ -40,21 +83,7 @@
     --cy-glass-color-1: rgba(0, 0, 0, 0.05);
     --cy-glass-color-2: rgba(0, 0, 0, 0.1);
 
-
-    /* spaciiing色盤 color palette */
-
-    /* cy-purple */
-    --cy-purple-50: #f6f4ff;
-    --cy-purple-100: #f0ebff;
-    --cy-purple-200: #e1d7ff;
-    --cy-purple-300: #c5aefe;
-    --cy-purple-400: #ae89fe;
-    --cy-purple-500: #9d66fd;
-    --cy-purple-600: #8f38ff;
-    --cy-purple-700: #7720db;
-    --cy-purple-800: #6515bc;
-    --cy-purple-900: #54149e;
-    --cy-purple-950: #380e6b;
+    @include colorPalette();
 
     --cy-text-color-special: var(--cy-purple-600);
 
@@ -84,8 +113,8 @@
 
         --color-bg-selected: #4a5878;
 
-        --cy-glass-color-1: rgba(255, 255, 255, 0.2);
-        --cy-glass-color-2: rgba(255, 255, 255, 0.4);
+        --cy-glass-color-1: rgba(255, 255, 255, 0.05);
+        --cy-glass-color-2: rgba(255, 255, 255, 0.1);
 
         --cy-text-color-special: var(--cy-purple-400);
 

@@ -43,10 +43,14 @@ const Setting: React.FC = () => {
           <div className={`shadow-view padding-16 border-radius-xlarge bg-color-primary-dark-elevated ${licenseManagement.tier === "PAID" ? "pro" : ""}`}>
             <div>
               {licenseManagement.tier == "PAID" ? (
-                <h4>{licenseManagement.recurrence === "monthly" ? t("license:monthly") : t("license:yearly")}</h4>
+                <>
+                  <h4>{licenseManagement.recurrence === "monthly" ? t("license:monthly") : t("license:yearly")}</h4>
+                  <p className="note note-large">您可取用全部功能，且不包含等待時間與廣告。</p>
+                </>
               ) : (
                 <>
                   <h4>{t("license:free")}</h4>
+                  <p className="note note-large">您可取用全部功能，操作時將包含一定等待時間與廣告。</p>
                 </>
               )}
             </div>

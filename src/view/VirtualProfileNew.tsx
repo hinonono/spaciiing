@@ -349,19 +349,48 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     ))
   };
 
+  const toolbarRefLeft = useRef<HTMLDivElement>(null);
+  const toolbarRefRight = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+
+    const toolbars = [toolbarRefLeft.current, toolbarRefRight.current].filter(
+      Boolean
+    ) as HTMLDivElement[];
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        toolbars.forEach((el) => {
+          el.classList.toggle("is-sticky", !entry.isIntersecting);
+        });
+      },
+      {
+        root: null,
+        threshold: 0,
+      }
+    );
+
+    observer.observe(sentinelRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div ref={containerRef} className="position-relative">
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={(result) => { onDragEnd(result, appContext) }}>
-        <div className="flex flex-justify-space-between virtual-profile-toolbar">
-          <div>
+        <div ref={sentinelRef} className="sticky-sentinel" />
+        <div className="flex flex-justify-space-between virtual-profile-toolbar-container">
+          <div ref={toolbarRefLeft} className="virtual-profile-toolbar">
             <ButtonIcon24
               onClick={() => { toggleAll(appContext, setIsFolderCollapsed) }}
               svg={!isFolderCollapsed ? (<SvgExpand color={btnColor} />) : (<SvgCollapse color={btnColor} />)}
             />
           </div>
-          <div className="flex flex-row">{renderToolButtons()}</div>
+          <div ref={toolbarRefRight} className="flex flex-row virtual-profile-toolbar">{renderToolButtons()}</div>
         </div>
         <Droppable droppableId="all-rows" type="row">
           {(provided) => (
@@ -392,7 +421,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                         </div>
                         <div>
                           <input
-                            className="cy-input text-center font-weight-bold"
+                            className="cy-input font-weight-bold"
                             type="text"
                             value={row.title}
                             onChange={(e) =>

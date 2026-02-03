@@ -10,6 +10,13 @@
     overflow: hidden;
 }
 
+@media (prefers-color-scheme: dark) {
+    #main-window-toolbar {
+        background-color: var(--white-opacity-10);
+        border: 1px solid rgba(255, 255, 255, .2);
+    }
+}
+
 .main-window-toolbar {
     &-wrapper {
         display: grid;

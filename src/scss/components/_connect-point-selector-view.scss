@@ -10,7 +10,7 @@
     height: 160px;
     background-color: var(--figma-color-bg-secondary);
     padding: 16px;
-    border-radius: 8px;
+    border-radius: var(--cy-border-radius-xlarge);
 
     &.horizontal {
         flex-direction: row;

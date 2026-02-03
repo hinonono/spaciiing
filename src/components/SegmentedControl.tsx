@@ -43,16 +43,15 @@ const SegmentedControl: React.FC<SegmentedControlProps> & {
         <motion.div
           initial={false}
           animate={{
-            // left: `calc(${selectedIndex} * ((100% - 8px) / ${values.length})`,
-            left: `calc(4px + ${selectedIndex} * ((100% - 8px) / ${values.length}))`,
-            width: `calc((100% - 8px) / ${values.length})`,
+            left: `calc(6px + ${selectedIndex} * ((100% - 12px) / ${values.length}))`,
+            width: `calc((100% - 12px) / ${values.length})`,
           }}
           transition={{ type: "spring", duration: 0.5, ease: "easeInOut", bounce: 0 }}
           style={{
             position: "absolute",
-            top: 4,
-            left: 4,
-            bottom: 4,
+            top: 6,
+            left: 6,
+            bottom: 6,
           }}
           className="highlight-box"
         />

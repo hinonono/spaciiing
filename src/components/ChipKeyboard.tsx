@@ -41,7 +41,7 @@ const ChipKeyboard: React.FC<ChipKeyboardProps> = ({
   };
 
   return (
-    <div className={`chip-keyboard ${name}-chip-keyboard border-radius-large border-1-cy-border-light padding-16 hide-scrollbar-vertical`}>
+    <div className={`chip-keyboard ${name}-chip-keyboard border-radius-xlarge border-1-cy-border-light padding-16 hide-scrollbar-vertical`}>
       <div className={`chip-keyboard-layout ${name}-chip-keyboard-layout`}>
         {chipOptions.map((item) =>
           <Chip

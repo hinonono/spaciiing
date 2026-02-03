@@ -3,7 +3,7 @@
     margin: 8px 0;
     background-color: var(--figma-color-bg);
     border: 1px solid var(--figma-color-border);
-    border-radius: var(--cy-border-radius-large);
+    border-radius: var(--cy-border-radius-xlarge);
     overflow: hidden;
     transition: all ease 0.5s;
 }
@@ -18,7 +18,7 @@
     font-size: var(--font-size-large);
     color: var(--figma-color-text);
     align-items: center;
-    padding-left: var(--size-xxxsmall);
+    padding-left: 8px;
     min-height: 2.5rem;
 
     .dragHandle {

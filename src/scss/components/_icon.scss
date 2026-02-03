@@ -27,7 +27,7 @@ $base-size: 24px;
 }
 
 .icon-hover {
-  border-radius: var(--cy-border-radius-large);
+  border-radius: 9999px;
 
   &:hover {
     background-color: var(--figma-color-bg-secondary);

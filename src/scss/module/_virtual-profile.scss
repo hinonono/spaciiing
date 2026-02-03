@@ -1,8 +1,19 @@
-.virtual-profile-toolbar {
+.virtual-profile-toolbar-container {
     position: sticky;
-    top: 0;
-    background-color: var(--figma-color-bg);
+    top: 4;
     z-index: 3;
+}
+
+.virtual-profile-toolbar {
+    background-color: var(--white-opacity-80);
+    border-radius: 9999px;
+    transition: var(--cy-animation-default);
+
+    &.is-sticky {
+        box-shadow: var(--drop-shadow-2);
+        padding: 4px;
+        backdrop-filter: var(--blur-1);
+    }
 
     & button {
         transition: var(--cy-animation-default);
@@ -11,4 +22,25 @@
             scale: 0.8;
         }
     }
+}
+
+@media (prefers-color-scheme: dark) {
+    .virtual-profile-toolbar {
+        background-color: transparent;
+
+        &.is-sticky {
+            background-color: var(--white-opacity-5);
+            border: 1px solid rgba(255, 255, 255, .2);
+        }
+
+        .icon-hover {
+            &:hover {
+                background-color: var(--cy-glass-color-2) !important;
+            }
+        }
+    }
+}
+
+.sticky-sentinel {
+    height: 1px;
 }
