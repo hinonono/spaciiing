@@ -1,6 +1,7 @@
 import { EditorPreference } from "../../types/EditorPreference";
 
 export const defaultEp: EditorPreference = {
+    schemaVersion: 3,
     magicObjects: {
         noteId: "",
         tagId: "",
@@ -13,5 +14,4 @@ export const defaultEp: EditorPreference = {
     },
     savedClicks: 0,
     savedSecs: 0,
-    userId: ""
 }

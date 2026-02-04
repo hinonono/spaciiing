@@ -1,11 +1,20 @@
 export interface EditorPreference {
-  userId: string,
+  schemaVersion: 3,
+  user?: User,
   spacing?: number;
   magicObjects: MagicObjects;
   lorem: string; //預設寫英文
   iconFrame: IconFrame;
-  // exampleFileUrl?: string; //用戶填入的，目前的設計檔案的網址，用於型錄的相關物件索引連結
-  // strokeStyles: CYStrokeStyle[];
+  savedClicks: number;
+  savedSecs: number;
+}
+
+export interface LegacyEditorPreference {
+  userId: string;
+  spacing?: number;
+  magicObjects: MagicObjects;
+  lorem: string;
+  iconFrame: IconFrame;
   savedClicks: number;
   savedSecs: number;
 }

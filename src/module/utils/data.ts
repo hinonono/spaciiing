@@ -1,4 +1,4 @@
-import { EditorPreference } from "../../types/EditorPreference";
+import { EditorPreference, LegacyEditorPreference } from "../../types/EditorPreference";
 import { Module } from "../../types/Module";
 import loremText from "../../assets/loremText.json";
 import { ExternalMessageUpdateEditorPreference } from "../../types/Messages/MessageEditorPreference";
@@ -132,7 +132,7 @@ export function saveEditorPreference(
         }
     }
 
-    const existedIndex = decoded.findIndex((item) => item.userId === userId);
+    const existedIndex = decoded.findIndex((item) => item.user?.id === userId);
 
     if (existedIndex === -1) {
         decoded.push(editorPreference);
@@ -148,14 +148,31 @@ function createEditorPreference(): EditorPreference {
         throw new Error("In order to use this plugin, please log in.")
     }
 
-    const userId = figma.currentUser.id;
+    const currentUser = figma.currentUser;
 
     const createdEditorPreference: EditorPreference = {
         ...defaultEp,
-        userId: userId
+        user: currentUser
     };
 
     return createdEditorPreference;
+}
+
+function migrateEditorPreference(
+    legacy: LegacyEditorPreference,
+    currentUser: User
+): EditorPreference {
+    return {
+        ...defaultEp,
+        ...legacy,
+        user: currentUser,
+    };
+}
+
+function isLegacyPreference(
+    pref: any
+): pref is LegacyEditorPreference {
+    return typeof pref.userId === "string";
 }
 
 /**
@@ -164,7 +181,6 @@ function createEditorPreference(): EditorPreference {
  * @returns {EditorPreference} The decoded editor preference if it exists, otherwise a new empty EditorPreference object.
  */
 export function readEditorPreference(): EditorPreference {
-    // const dataKey = "editor-preferences";
 
     if (!figma.currentUser?.id) {
         throw new Error("User must be logged in to load preferences.");
@@ -173,33 +189,39 @@ export function readEditorPreference(): EditorPreference {
     const userId = figma.currentUser.id;
     const rawData = figma.root.getPluginData(utils.dataKeys.EDITOR_PREFERENCES);
 
-    let decoded: EditorPreference[] = [];
+    let decoded: LegacyEditorPreference[] = [];
+
     if (rawData) {
         try {
-            decoded = JSON.parse(rawData) as EditorPreference[];
+            decoded = JSON.parse(rawData);
             if (!Array.isArray(decoded)) {
-                console.warn("Editor preferences is not an array. Resetting.");
                 decoded = [];
             }
-        } catch (error) {
-            console.error("Error parsing editor preferences. Resetting.", error);
+        } catch {
             decoded = [];
         }
     }
 
-    const preference = decoded.find((item) => item.userId === userId);
+    const matched = decoded.find(pref => {
+        if (isLegacyPreference(pref)) {
+            return pref.userId === userId;
+        }
+        return (pref as EditorPreference).user?.id === userId;
+    });
 
-    if (!preference) {
-        const newPref = createEditorPreference();
-        saveEditorPreference(newPref);
-        return newPref;
-    } else {
-        const defaultPref = createEditorPreference();
-        return {
-            ...defaultPref,
-            ...preference,
-        };
+    if (!matched) {
+        const created = createEditorPreference();
+        saveEditorPreference(created);
+        return created;
     }
+
+    if (isLegacyPreference(matched)) {
+        const migrated = migrateEditorPreference(matched, figma.currentUser);
+        saveEditorPreference(migrated);
+        return migrated;
+    }
+
+    return matched;
 }
 
 /**
