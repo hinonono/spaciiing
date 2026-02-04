@@ -40,11 +40,11 @@ const langOptions = [
   },
   {
     value: "zhTW",
-    label: "繁體中文"
+    label: "中文（繁體）"
   },
   {
     value: "zhCN",
-    label: "简体中文"
+    label: "中文（简体）"
   }
 ]
 

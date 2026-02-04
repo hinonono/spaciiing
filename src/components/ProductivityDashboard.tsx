@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SvgBadgeBronze, SvgBadgeDiamond, SvgBadgeGold, SvgBadgePlatinum, SvgBadgeSliver, SvgGrid, SvgInfo } from '../assets/icons';
+import { SvgBadgeBronze, SvgBadgeDiamond, SvgBadgeGold, SvgBadgePlatinum, SvgBadgeSliver} from '../assets/icons';
 import { useTranslation } from 'react-i18next';
 import info from "../pluginConfig.json";
 import { SavedClicksTier, SavedClicksTierObj } from '../types/Tier';
