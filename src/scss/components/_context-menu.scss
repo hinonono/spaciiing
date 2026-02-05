@@ -1,7 +1,7 @@
 .context-menu {
     background: black;
     padding: 8px;
-    box-shadow: var(--shadow-floating-window);
+    box-shadow: var(--drop-shadow-1);
     list-style: none;
     position: fixed;
     color: white;
@@ -22,6 +22,19 @@
         &:hover {
             background-color: var(--figma-color-bg-brand);
         }
+
+        &.destructive {
+            &:hover {
+                background-color: var(--figma-color-bg-danger);
+            }
+        }
+    }
+
+    hr {
+        margin: 0.5rem 0;
+        border: none;
+        height: 1px;
+        background-color: var(--white-opacity-30);
     }
 
 }

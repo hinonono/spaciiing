@@ -50,7 +50,7 @@
 //.row-child
 .cy-table-row-child {
     display: grid;
-    grid-template-columns: 2fr 3fr 6fr 1fr;
+    grid-template-columns: 1fr 4fr 6fr 1fr;
     padding: 4px 0px;
     position: relative;
     font-size: var(--font-size-small);
@@ -58,12 +58,15 @@
     border-bottom: 1px solid var(--figma-color-border);
     align-items: center;
     min-height: 2.5rem;
+    transition: var(--cy-animation-default);
 
     .dragHandle {
         opacity: 0;
     }
 
     &:hover {
+        grid-template-columns: 2fr 3fr 6fr 1fr;
+
         .dragHandle {
             opacity: 1;
         }

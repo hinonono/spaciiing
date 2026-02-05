@@ -230,11 +230,17 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           {t("module:duplicate")}
         </li>
         {childId ? (
-          <li onClick={() => { deleteChild(appContext, rowId!, childId, handleClose, false) }}>
-            {t("module:delete")}
-          </li>
+          <>
+            <hr />
+            <li className="destructive" onClick={() => { deleteChild(appContext, rowId!, childId, handleClose, false) }}>
+              {t("module:delete")}
+            </li>
+          </>
         ) : (
-          <li onClick={() => deleteRow(appContext, rowId!, handleClose, false)}>{t("module:delete")}</li>
+          <>
+            <hr />
+            <li className="destructive" onClick={() => deleteRow(appContext, rowId!, handleClose, false)}>{t("module:delete")}</li>
+          </>
         )}
       </ul>
     );
