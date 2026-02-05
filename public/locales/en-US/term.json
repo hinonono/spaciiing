@@ -122,5 +122,6 @@
 	"depth": "Depth",
 	"dispersion": "Dispersion",
 	"frost": "Frost",
-	"glass": "Glass"
+	"glass": "Glass",
+	"splay": "Splay"
 }

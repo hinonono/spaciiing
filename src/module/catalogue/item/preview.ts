@@ -173,10 +173,15 @@ export function createColorFrame(color: RGBA): FrameNode {
 
 
 export function createEffectFrame(effects: Effect[]): FrameNode {
+    console.log(effects);
+
     const effectFrame = createFundamentalFrame("Effect");
     effectFrame.fills = [
         { type: "SOLID", color: semanticTokens.background.primary },
     ];
+
+    console.log(effects.map(utils.editor.stripBoundVariables));
+
     effectFrame.effects = effects.map(utils.editor.stripBoundVariables);
 
     return effectFrame;

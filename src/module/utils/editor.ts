@@ -105,7 +105,7 @@ export async function loadFont(fontNames: FontName[]) {
  */
 export function stripBoundVariables(effect: Effect): Effect {
     // Make a shallow copy of the effect
-    const { boundVariables, ...cleanEffect } = effect as any;
+    const { boundVariables, splay, ...cleanEffect } = effect as any;
     return cleanEffect as Effect;
 }
 

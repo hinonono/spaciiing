@@ -391,8 +391,10 @@ function getEffectPropertiesToCreate(
       { title: lr.term["refraction"], content: `${utils.string.formatNumberToDecimals(effect.refraction * 100)}`, show: true },
       { title: lr.term["depth"], content: `${effect.depth}`, show: true },
       { title: lr.term["dispersion"], content: `${utils.string.formatNumberToDecimals(effect.dispersion * 100)}`, show: true },
-      { title: lr.term["frost"], content: `${effect.radius}`, show: true }
+      { title: lr.term["frost"], content: `${effect.radius}`, show: true },
+      { title: lr.term["splay"], content: `${effect.radius}`, show: true },
     ]
+
     return effectPropertiesToCreate
   } else {
     const effectPropertiesToCreate: SinglePropertyString[] = [
