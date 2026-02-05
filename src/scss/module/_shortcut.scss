@@ -1,37 +1,45 @@
+@mixin section-gradient($r, $g, $b, $from: 0.4, $to: 0.15) {
+    background: linear-gradient(
+        0deg,
+        rgba($r, $g, $b, $from) 0%,
+        rgba($r, $g, $b, $to) 100%
+    );
+}
+
 .shortcut-section {
     border-radius: var(--cy-border-radius-xlarge);
     padding: 16px;
 
     &.red {
-        background-color: rgba(251, 44, 54, 0.2);
+        @include section-gradient(251, 44, 54);
     }
 
     &.orange {
-        background-color: rgba(255, 105, 0, 0.2);
+        @include section-gradient(255, 105, 0);
     }
 
     &.yellow {
-        background-color: rgba(239, 177, 0, 0.2);
+        @include section-gradient(239, 177, 0);
     }
 
     &.green {
-        background-color: rgba(0, 201, 81, 0.2);
+        @include section-gradient(0, 201, 81);
     }
 
     &.blue {
-        background-color: rgba(43, 127, 255, 0.2);
+        @include section-gradient(43, 127, 255);
     }
 
     &.cyan {
-        background-color: rgba(0, 184, 219, 0.2);
+        @include section-gradient(0, 184, 219);
     }
 
     &.indigo {
-        background-color: rgba(97, 95, 255, 0.2);
+        @include section-gradient(97, 95, 255);
     }
 
     &.purple {
-        background-color: rgba(173, 70, 255, 0.2);
+        @include section-gradient(173, 70, 255);
     }
 
     &-header {
