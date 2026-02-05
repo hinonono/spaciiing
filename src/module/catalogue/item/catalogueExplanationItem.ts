@@ -121,8 +121,8 @@ function finalSetUp(target: FrameNode) {
     utils.node.setPadding(target, {
         top: semanticTokens.padding.large,
         bottom: semanticTokens.padding.large,
-        left: semanticTokens.padding.xsmall,
-        right: semanticTokens.padding.xsmall,
+        left: 0,
+        right: 0,
     });
 
     // Set border properties for top edge only
