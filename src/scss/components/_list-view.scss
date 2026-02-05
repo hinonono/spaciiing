@@ -24,6 +24,10 @@
             user-select: none;
             border-radius: var(--cy-border-radius-large);
 
+            .checkmark {
+                left: 8;
+            }
+
             &:hover {
                 background-color: var(--figma-color-bg-secondary);
             }

@@ -216,5 +216,6 @@
   "createSectionDesc": "为选中的图层创建分区。",
   "colorToLabel": "颜色转标签",
   "colorToLabelDesc": "根据选中图层的填充颜色生成文本标签。若图层包含多个填充颜色，将仅引用第一个填充颜色，其余将被忽略。",
-  "outputFormat": "输出格式"
+  "outputFormat": "输出格式",
+  "insertExampleCode": "插入示例代码"
 }

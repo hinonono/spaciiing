@@ -200,7 +200,7 @@ const FolderNavigator: React.FC<FolderNavigatorProps> = ({
             return (
               <ul
                 key={path.join("/")}
-                className="w-full flex-shrink-0 padding-tb-16 padding-lr-8"
+                className="w-full flex-shrink-0 list-view-content"
               >
                 {Object.keys(struct).map((key) => (
                   <li key={key}>

@@ -216,5 +216,6 @@
   "createSectionDesc": "選択したレイヤーからセクションを作成します。",
   "colorToLabel": "カラーからラベル",
   "colorToLabelDesc": "選択したレイヤーの塗りの色からテキストラベルを生成します。レイヤーに複数の塗りの色がある場合、最初の塗りの色のみを参照し、他は無視されます。",
-  "outputFormat": "出力形式"
+  "outputFormat": "出力形式",
+  "insertExampleCode": "サンプルコードを挿入"
 }

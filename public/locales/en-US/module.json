@@ -216,5 +216,6 @@
     "createSectionDesc": "Create section for selected layer(s).",
     "colorToLabel": "Color to label",
     "colorToLabelDesc": "Generate text label from selected layers' fill color. If layer itself has multiple fill colors, this shortcut will reference the first fill color and ignore the rest.",
-    "outputFormat": "Output format"
+    "outputFormat": "Output format",
+    "insertExampleCode": "Insert example code"
 }

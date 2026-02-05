@@ -361,7 +361,7 @@ const VariableEditor: React.FC = () => {
                 />
               }
             />
-            <div className="cy-checkbox-group border-1-top padding-16 scope-group-large hide-scrollbar-vertical">
+            <div className="cy-checkbox-group border-1-top padding-16 scope-group-large hide-scrollbar-vertical list-view-content">
               {VariableScopesNew[dataType].members.map((item) => (
                 <CYCheckbox
                   label={t(item.nameKey)}
@@ -396,7 +396,7 @@ const VariableEditor: React.FC = () => {
           <div className="grid">
             <FigmaButton
               buttonType="secondary"
-              title={"插入範例"}
+              title={t("module:insertExampleCode")}
               id={"variable-editor-example-code-snippet"}
               onClick={generateExampleCodeSnippet}
               disabled={code.trim() !== ""}

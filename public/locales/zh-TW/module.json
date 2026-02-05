@@ -216,5 +216,6 @@
   "createSectionDesc": "為選取的圖層建立區段。",
   "colorToLabel": "顏色轉標籤",
   "colorToLabelDesc": "根據選取圖層的填色產生文字標籤。若圖層包含多個填色，僅會參考第一個填色，其餘將被忽略。",
-  "outputFormat": "輸出格式"
+  "outputFormat": "輸出格式",
+  "insertExampleCode": "插入範例程式碼"
 }
