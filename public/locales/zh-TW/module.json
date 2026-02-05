@@ -147,7 +147,7 @@
     "save": "儲存",
     "saveStyle": "儲存樣式",
     "saveYourChange": "儲存您的變更",
-    "saveYourChangeDesc": "預設情況下，外掛程式將自動保存您的變更。然而由於外掛程式 API 的限制，有時可能無法自動保存您的更改。<br /><br />為避免您的變更遺失，建議您隨時使用頁面頂部的儲存按鈕進行儲存。",
+    "saveYourChangeDesc": "預設情況下，外掛程式將自動保存您的變更。然而由於外掛程式 API 的限制，有時可能無法自動保存您的更改。\n\n為避免您的變更遺失，建議您隨時使用頁面頂部的儲存按鈕進行儲存。",
     "selectAnOption": "選擇一個選項",
     "selectLayerAsReference": "請選擇一個圖層作為參考以貼上其屬性。",
     "setting": "設定",

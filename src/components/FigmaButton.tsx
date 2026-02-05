@@ -2,7 +2,7 @@ import React from "react";
 import { utils } from "../module/utils";
 
 interface FigmaButtonProps {
-  buttonType?: "primary" | "secondary" | "tertiary" | "grain" | "special";
+  buttonType?: "primary" | "secondary" | "tertiary" | "grain" | "special" | "danger" | "secondary--danger";
   buttonHeight?: "small" | "medium" | "large" | "xlarge";
   fontSize?: "xsmall" | "small" | "large" | "xlarge";
   title: string;

@@ -147,7 +147,7 @@
     "save": "Save",
     "saveStyle": "Save style",
     "saveYourChange": "Save your change",
-    "saveYourChangeDesc": "By default, the plugin will automatically save your changes. However, due to limitations of the plugin API, there might be occasions when your changes cannot be saved automatically.<br /><br />To avoid any loss of your changes, it is recommended to always use the save button at the top of the page.",
+    "saveYourChangeDesc": "By default, the plugin will automatically save your changes. However, due to limitations of the plugin API, there might be occasions when your changes cannot be saved automatically.\n\nTo avoid any loss of your changes, it is recommended to always use the save button at the top of the page.",
     "selectAnOption": "Select an option",
     "selectLayerAsReference": "Select a layer as reference to paste its property.",
     "setting": "Settings",

@@ -45,5 +45,9 @@
   "saveTimeAsWell":"🚀 Pro にアップグレードすれば、さらに最大 $SAVED_TIME$ 分の待ち時間を節約できます！",
   "minSaved": "🚀$SAVED_MIN$分の作業時間を節約しました！",
   "chooseYourPlan": "プランを選択",
-  "weUseGumroad": "このプラグインの購読手続きには、Gumroadを利用しております。"
+  "weUseGumroad": "このプラグインの購読手続きには、Gumroadを利用しております。",
+  "proPlanDesc": "すべての機能にアクセス可能。待機時間なし、Spaciiing のブランディングも含まれません。",
+    "freePlanDesc": "すべての機能にアクセス可能。待機時間とブランディングが含まれます。",
+    "eraseLicenseDesc": "このデバイスからライセンスを削除すると、Pro 機能は使用できなくなります。\n\nご安心ください。ライセンスキー自体は有効なままで、再度入力すればいつでもこのデバイスで Pro 機能を復元できます。",
+    "dangerZone": "危険ゾーン"
 }

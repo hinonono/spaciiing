@@ -43,6 +43,21 @@
             border-color: var(--button-disabled);
             color: var(--button-disabled);
         }
+
+        &--danger {
+            background-color: var(--figma-color-bg-danger-tertiary);
+            color: var(--figma-color-text-danger);
+            border: 1px solid var(--figma-color-text-danger);
+
+            &:hover {
+                background-color: var(--figma-color-bg-danger-secondary);
+                color: white;
+
+                svg {
+                    fill: white;
+                }
+            }
+        }
     }
 
     &--tertiary {
@@ -111,6 +126,15 @@
 
     &:hover {
         background-color: var(--cy-purple-800);
+    }
+}
+
+.button--danger {
+    background-color: var(--figma-color-bg-danger);
+    color: white;
+
+    &:hover {
+        background-color: var(--figma-color-bg-danger-hover);
     }
 }
 

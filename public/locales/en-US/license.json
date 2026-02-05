@@ -23,7 +23,7 @@
   "pro": "PRO",
   "subscribe": "Subscribe",
   "endIn": "End in",
-  "eraseLicense": "Erase License from this device",
+  "eraseLicense": "Erase license",
   "trySevenDaysFree": "Try pro features 7 days free",
   "unleashYourProductivity": "Unleash your productivity.",
   "seeAllPlans": "See pricing",
@@ -45,5 +45,9 @@
   "saveTimeAsWell": " 🚀 Upgrade to Pro to skip the wait time and save even more — up to $SAVED_TIME$ minutes back in your day!",
   "minSaved": "🚀$SAVED_MIN$ min saved!",
   "chooseYourPlan": "Choose your plan",
-  "weUseGumroad": "We use Gumroad for payment."
+  "weUseGumroad": "We use Gumroad for payment.",
+   "proPlanDesc": "Eligible for access to all features, with no waiting delays and no Spaciiing branding.",
+  "freePlanDesc": "Eligible for access to all features, with waiting delays and branding included.",
+  "eraseLicenseDesc": "After the license is erased from this device, Pro features will no longer be available here.\n \n Don't worry, the license key itself remains valid and you can restore Pro access on this device at any time by re-entering your license key.",
+  "dangerZone": "Danger zone"
 }

@@ -45,5 +45,9 @@
   "saveTimeAsWell":"🚀馬上升級 Pro，把 $SAVED_TIME$ 分鐘的等待時間也省下來吧！",
   "minSaved": "🚀已省下$SAVED_MIN$分鐘!",
   "chooseYourPlan": "選擇方案",
-  "weUseGumroad": "我們使用Gumroad處理付款與訂閱事宜"
+  "weUseGumroad": "我們使用Gumroad處理付款與訂閱事宜",
+  "proPlanDesc": "可存取所有功能，不含等待延遲，也不包含 Spaciiing 品牌標示。",
+    "freePlanDesc": "可存取所有功能，包含等待延遲與品牌標示。",
+    "eraseLicenseDesc": "從此裝置移除授權後，將無法在該裝置上使用 Pro 功能。\n\n請放心，授權金鑰本身仍然有效，重新輸入金鑰即可在此裝置上恢復 Pro 功能。",
+    "dangerZone": "危險區域"
 }

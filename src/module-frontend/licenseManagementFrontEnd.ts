@@ -91,9 +91,9 @@ export const handleSubscriptionStatus = (
   return newLicense;
 };
 
-export const eraseLicense = (
+export const eraseLicense = async (
   setLicenseManagement: React.Dispatch<React.SetStateAction<LicenseManagement>>
-) => {
+): Promise<void> => {
   const resetedLicense: LicenseManagement = {
     tier: "FREE",
     isLicenseActive: false,
@@ -116,6 +116,9 @@ export const eraseLicense = (
     "*"
   );
   setLicenseManagement(resetedLicense);
+
+  // ensure asynchronous completion (allow state/message to be dispatched)
+  await new Promise((resolve) => setTimeout(resolve, 0));
 };
 
 const licenseVerifyHandler = async (

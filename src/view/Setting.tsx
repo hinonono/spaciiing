@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TitleBar, FigmaButton, ProductivityDashboard, PreferredLanguageView } from "../components";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
@@ -6,7 +6,7 @@ import { MessageLocalization } from "../types/Messages/MessageLocalization";
 import * as licenseManagementFrontEnd from "../module-frontend/licenseManagementFrontEnd";
 import info from "../pluginConfig.json";
 import { SvgEraser, SvgKey } from "../assets/icons";
-import SavedTimeMessage from "../components/SavedTimeMessage";
+import { EraseLicenseModal } from "../components/modalComponents";
 
 const Setting: React.FC = () => {
   // Context
@@ -33,8 +33,19 @@ const Setting: React.FC = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
+  // 顏色至文字彈窗
+  const [showEraseLicenseModal, setShowEraseLicenseModal] = useState(false);
+  const handleOpenEraseLicenseModal = () => setShowEraseLicenseModal(true)
+  const handleCloseEraseLicenseModal = () => setShowEraseLicenseModal(false);
+
   return (
     <div>
+      <div>
+        <EraseLicenseModal
+          show={showEraseLicenseModal}
+          handleClose={handleCloseEraseLicenseModal}
+        />
+      </div>
       <TitleBar title={t("settings:moduleName")} showInfoIcon={false} />
       <div className="content">
         {/*  訂閱 */}
@@ -45,27 +56,16 @@ const Setting: React.FC = () => {
               {licenseManagement.tier == "PAID" ? (
                 <>
                   <h4>{licenseManagement.recurrence === "monthly" ? t("license:monthly") : t("license:yearly")}</h4>
-                  <p className="note note-large">您可取用全部功能，且不包含等待時間與廣告。</p>
+                  <p className="note note-large">{t("license:proPlanDesc")}</p>
                 </>
               ) : (
                 <>
                   <h4>{t("license:free")}</h4>
-                  <p className="note note-large">您可取用全部功能，操作時將包含一定等待時間與廣告。</p>
+                  <p className="note note-large">{t("license:freePlanDesc")}</p>
                 </>
               )}
             </div>
-            {licenseManagement.tier === "PAID" ?
-              <div className="mt-xsmall">
-                <FigmaButton
-                  title={t("license:eraseLicense")}
-                  buttonType="tertiary"
-                  onClick={() => {
-                    licenseManagementFrontEnd.eraseLicense(setLicenseManagement);
-                  }}
-                  svg={<SvgEraser color="var(--figma-color-text)" />}
-                />
-              </div>
-              :
+            {licenseManagement.tier !== "PAID" &&
               <div className="mt-xsmall grid">
                 <FigmaButton
                   buttonType="tertiary"
@@ -165,6 +165,22 @@ const Setting: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* 危險區域 */}
+        {licenseManagement.tier === "PAID" &&
+          <>
+            <h3 className="mt-large">{t("license:dangerZone")}</h3>
+            <div className={`shadow-view padding-16 border-radius-xlarge bg-color-primary-dark-elevated`}>
+              <FigmaButton
+                title={t("license:eraseLicense")}
+                buttonType="secondary--danger"
+                onClick={() => {
+                  handleOpenEraseLicenseModal();
+                }}
+                svg={<SvgEraser color="var(--figma-color-text-danger)" />}
+              />
+            </div>
+          </>
+        }
       </div>
     </div>
   );
