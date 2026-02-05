@@ -51,6 +51,7 @@ const NumberingModal: React.FC<NumberingModalProps> = ({
       handleClose={handleClose}
     >
       <h3>{t("module:numberingTextLayers")}</h3>
+      <p className="mb-small font-size-large">{t("module:numberingTextLayersDesc")}</p>
       <div className="mt-xxsmall">
         <SectionTitle title={t("term:direction")} />
         <select
@@ -94,12 +95,13 @@ const NumberingModal: React.FC<NumberingModalProps> = ({
           </div>
         </div>
       }
-      <div className="mt-xsmall">
+      <div className="mt-xxsmall">
         <FigmaButton
           title={t("module:apply")}
           onClick={() => {
             applyNumbering(appContext, direction, form, startFrom, false);
           }}
+          hasTopBottomMargin={false}
         />
       </div>
     </Modal>

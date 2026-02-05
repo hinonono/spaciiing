@@ -92,6 +92,7 @@ const CreateSectionModal: React.FC<CreateSectionModalProps> = ({
   return (
     <Modal show={show} handleClose={handleClose}>
       <h3>{t("module:createSection")}</h3>
+      <p className="mb-small font-size-large">{t("module:createSectionDesc")}</p>
       <div>
         <SectionTitle title={t("term:padding")} />
         <SegmentedControl
@@ -140,6 +141,7 @@ const CreateSectionModal: React.FC<CreateSectionModalProps> = ({
           onClick={() => {
             createSection(padding, false);
           }}
+          hasTopBottomMargin={false}
         />
       </div>
     </Modal>

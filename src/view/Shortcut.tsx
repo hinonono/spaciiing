@@ -11,7 +11,8 @@ import {
   NumberingModal,
   SpiltTextModal,
   UnifyTextModal,
-  CreateSectionModal
+  CreateSectionModal,
+  ColorToLabelModal
 } from "../components/modalComponents";
 import { useTranslation } from "react-i18next";
 import { checkProFeatureAccessibleForUser } from "../module-frontend/utilFrontEnd";
@@ -81,6 +82,11 @@ const Shortcut: React.FC = () => {
   const handleOpenFindAndReplaceModal = () => setShowFindAndReplaceModal(true);
   const handleCloseFindAndReplaceModal = () =>
     setShowFindAndReplaceModal(false);
+
+  // 顏色至文字彈窗
+  const [showColorToLabelModal, setShowColorToLabelModal] = useState(false);
+  const handleOpenColorToLabelModal = () => setShowColorToLabelModal(true)
+  const handleCloseColorToLabelModal = () => setShowColorToLabelModal(false);
 
   const applyShortcut = (action: ShortcutAction, isRealCall = false) => {
     if (!isRealCall) {
@@ -159,15 +165,6 @@ const Shortcut: React.FC = () => {
     </div>
   );
 
-  // const renderShortcutSection = (title: string, buttons: ShortcutButtonConfig[], hasTopMargin = true) => (
-  //   <div className={`list-view ${hasTopMargin ? "mt-xsmall" : ""}`}>
-  //     <ListViewHeader title={title} additionalClass="property-clipboard-header" />
-  //     <div className="padding-16 border-1-top">
-  //       {renderButtons(buttons)}
-  //     </div>
-  //   </div>
-  // );
-
   const renderCatalogueShortcut = () => {
     if (appContext.editorType === "figma") {
       const buttons: ShortcutButtonConfig[] = [
@@ -178,7 +175,7 @@ const Shortcut: React.FC = () => {
       ]
 
       return (
-        renderShortcutSection(t("module:moduleCatalogue"), buttons, "blue", "Common", true)
+        renderShortcutSection(t("module:moduleCatalogue"), buttons, "cyan", "Common", true)
       )
     } else {
       return null;
@@ -203,7 +200,7 @@ const Shortcut: React.FC = () => {
       ]
 
       return (
-        renderShortcutSection(t("module:moduleDrawArrows"), buttons, "cyan", "Common", false)
+        renderShortcutSection(t("module:moduleDrawArrows"), buttons, "purple", "Common", false)
       )
     } else {
       return null;
@@ -300,24 +297,6 @@ const Shortcut: React.FC = () => {
 
       return (
         renderShortcutSection(t("module:fileOrganizingObject"), buttons, "yellow", "MagicObject", true, rightItem)
-        // < div className = "list-view mt-xsmall" >
-        //   <ListViewHeader title={t("module:fileOrganizingObject")}
-        //     additionalClass="property-clipboard-header"
-        //     rightItem={
-        //       <FigmaButton
-        //         title={t("module:setting")}
-        //         onClick={handleOpenMagicObjectModal}
-        //         buttonHeight="small"
-        //         fontSize="small"
-        //         buttonType="grain"
-        //         hasMargin={false}
-        //       />
-        //     }
-        //   />
-        //   <div className="padding-16 border-1-top">
-        //     {renderMagicObjectButtons(buttons)}
-        //   </div>
-        // </div >
       )
     } else {
       return null;
@@ -325,34 +304,34 @@ const Shortcut: React.FC = () => {
 
   }
 
-  const renderColorToTextShortcut = () => {
-    const buttons = [
-      {
-        title: t("module:hexValue"),
-        id: "shortcut-color-to-label-hex",
-        onClick: () => applyShortcut("colorToLabelHEX", false),
-      },
-      {
-        title: t("module:hexValueWithTransparency"),
-        id: "shortcut-color-to-label-hex-transparent",
-        onClick: () => applyShortcut("colorToLabelHEXWithTransparency", false),
-      },
-      {
-        title: t("module:rgbValue"),
-        id: "shortcut-color-to-label-rgb",
-        onClick: () => applyShortcut("colorToLabelRGB", false),
-      },
-      {
-        title: t("module:rgbaValue"),
-        id: "shortcut-color-to-label-rgba",
-        onClick: () => applyShortcut("colorToLabelRGBA", false),
-      },
-    ];
+  // const renderColorToTextShortcut = () => {
+  //   const buttons = [
+  //     {
+  //       title: t("module:hexValue"),
+  //       id: "shortcut-color-to-label-hex",
+  //       onClick: () => applyShortcut("colorToLabelHEX", false),
+  //     },
+  //     {
+  //       title: t("module:hexValueWithTransparency"),
+  //       id: "shortcut-color-to-label-hex-transparent",
+  //       onClick: () => applyShortcut("colorToLabelHEXWithTransparency", false),
+  //     },
+  //     {
+  //       title: t("module:rgbValue"),
+  //       id: "shortcut-color-to-label-rgb",
+  //       onClick: () => applyShortcut("colorToLabelRGB", false),
+  //     },
+  //     {
+  //       title: t("module:rgbaValue"),
+  //       id: "shortcut-color-to-label-rgba",
+  //       onClick: () => applyShortcut("colorToLabelRGBA", false),
+  //     },
+  //   ];
 
-    return (
-      renderShortcutSection(t("module:colorValueToTextLabel"), buttons, "indigo", "Common", true)
-    );
-  };
+  //   return (
+  //     renderShortcutSection(t("module:colorValueToTextLabel"), buttons, "indigo", "Common", true)
+  //   );
+  // };
 
   const renderGenerateShortcut = () => {
     const buttons: ShortcutButtonConfig[] = [
@@ -371,11 +350,15 @@ const Shortcut: React.FC = () => {
       {
         title: t("module:createSection"),
         onClick: handleOpenSectionModal,
+      },
+      {
+        title: t("module:colorToLabel"),
+        onClick: handleOpenColorToLabelModal,
       }
     ];
 
     return (
-      renderShortcutSection(t("module:generate"), buttons, "orange", "Common", true)
+      renderShortcutSection(t("module:generate"), buttons, "green", "Common", true)
     )
   }
 
@@ -392,7 +375,7 @@ const Shortcut: React.FC = () => {
     ];
 
     return (
-      renderShortcutSection(t("term:frame"), buttons, "purple", "Common", true)
+      renderShortcutSection(t("term:frame"), buttons, "indigo", "Common", true)
     )
   }
 
@@ -409,7 +392,7 @@ const Shortcut: React.FC = () => {
     ];
 
     return (
-      renderShortcutSection(t("term:layer"), buttons, "green", "Common", true)
+      renderShortcutSection(t("term:layer"), buttons, "blue", "Common", true)
     )
   }
 
@@ -463,6 +446,10 @@ const Shortcut: React.FC = () => {
           show={showSectionModal}
           handleClose={handleCloseSectionModal}
         />
+        <ColorToLabelModal
+          show={showColorToLabelModal}
+          handleClose={handleCloseColorToLabelModal}
+        />
       </div>
       <TitleBar
         title={t("module:moduleShortcut")}
@@ -488,8 +475,6 @@ const Shortcut: React.FC = () => {
         {renderTextShortcut()}
         {/* 檔案管理物件 */}
         {renderMagicObjectShortcut()}
-        {/* 顏色數值至文字標籤 */}
-        {renderColorToTextShortcut()}
         {/* 生成 */}
         {renderGenerateShortcut()}
         {/* 框 */}

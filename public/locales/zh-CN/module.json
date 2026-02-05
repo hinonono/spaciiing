@@ -141,8 +141,8 @@
     "replace": "替换",
     "replaceStyle": "取代已有样式",
     "reversedTriangle": "倒三角形",
-    "rgbValue": "RGB 值",
-    "rgbaValue": "RGB 值",
+    "rgbValue": "RGB",
+    "rgbaValue": "RGBA",
     "round": "圆形",
     "save": "保存",
     "saveStyle": "保存样式",
@@ -206,5 +206,15 @@
   "resizeAspectFit": "等比缩放以适应",
   "resizeAspectFill": "等比缩放以填充",
   "exportArrowStyle": "导出箭头样式",
-"importArrowStyle": "导入箭头样式"
+"importArrowStyle": "导入箭头样式",
+"findAndReplaceDesc": "为选中的文本图层执行查找并替换内容。",
+  "unifyTextDesc": "统一选中文本图层的内容。",
+  "numberingTextLayersDesc": "为选中的文本图层进行编号。",
+  "spiltTextDesc": "根据指定条件拆分选中文本图层的内容。",
+  "createLoremIpsumDesc": "为选中的文本图层填充 Lorem Ipsum 文本。",
+  "createIconTemplateDesc": "生成图标模板。",
+  "createSectionDesc": "为选中的图层创建分区。",
+  "colorToLabel": "颜色转标签",
+  "colorToLabelDesc": "根据选中图层的填充颜色生成文本标签。若图层包含多个填充颜色，将仅引用第一个填充颜色，其余将被忽略。",
+  "outputFormat": "输出格式"
 }

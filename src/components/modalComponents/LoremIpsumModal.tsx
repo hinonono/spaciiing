@@ -71,6 +71,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
   return (
     <Modal show={show} handleClose={handleClose}>
       <h3>{t("module:createLoremIpsum")}</h3>
+      <p className="mb-small font-size-large">{t("module:createLoremIpsumDesc")}</p>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:length")} />
         <SegmentedControl
@@ -101,6 +102,7 @@ const LoremIpsumModal: React.FC<LoremIpsumModalProps> = ({
         onClick={() => {
           generateLorem(length);
         }}
+        hasTopBottomMargin={false}
       />
     </Modal>
   );

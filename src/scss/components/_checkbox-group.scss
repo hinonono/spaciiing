@@ -9,7 +9,7 @@
         align-items: center;
         position: relative;
         padding: 8px;
-        padding-left: 34px;
+        padding-left: 24px;
         cursor: pointer;
         font-size: var(--font-size-small);
         color: var(--figma-color-text);
@@ -63,7 +63,7 @@
 .checkmark {
     position: absolute;
     top: 9;
-    left: 8;
+    left: 0;
     height: 18px;
     width: 18px;
     border: 1px solid var(--cy-border-light);

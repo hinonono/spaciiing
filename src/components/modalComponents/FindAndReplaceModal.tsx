@@ -78,8 +78,9 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
       handleClose={handleClose}
     >
       <h3>{t("module:findAndReplace")}</h3>
+      <p className="mb-small font-size-large">{t("module:findAndReplaceDesc")}</p>
       <div className="mt-xxsmall">
-        <SectionTitle title={t("module:findInSelection")} />
+        <SectionTitle title={t("module:find")} />
         <div className="width-100">
           <textarea
             className="textarea"
@@ -117,12 +118,14 @@ const FindAndReplaceModal: React.FC<FindAndReplaceModalProps> = ({
             <span className="checkmark"></span>
           </label>
         </div>
+        <div className="mt-xxsmall"></div>
         <FigmaButton
           title={t("module:apply")}
           id={"shortcut-apply-find-and-replace-in-selection"}
           onClick={() => {
             applyFindAndReplace("findAndReplace");
           }}
+          hasTopBottomMargin={false}
         />
       </div>
     </Modal>

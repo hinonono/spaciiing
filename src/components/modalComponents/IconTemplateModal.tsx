@@ -169,6 +169,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
   return (
     <Modal show={show} handleClose={handleClose}>
       <h3>{t("module:createIconTemplate")}</h3>
+      <p className="mb-small font-size-large">{t("module:createIconTemplateDesc")}</p>
       <div>
         <SectionTitle title={t("term:size")} />
         <SegmentedControl
@@ -237,6 +238,7 @@ const IconTemplateModal: React.FC<IconTemplateModalProps> = ({
           onClick={() => {
             applyGenerateIconTemplate("generateIconTemplate");
           }}
+          hasTopBottomMargin={false}
         />
       </div>
     </Modal>

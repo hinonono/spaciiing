@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../AppProvider';
-import { isStringNumber } from '../../module-frontend/utilFrontEnd';
-import { NumberingForm, SpiltType } from '../../types/Messages/MessageShortcut';
+import { SpiltType } from '../../types/Messages/MessageShortcut';
 import FigmaButton from '../FigmaButton';
 import Modal from '../Modal';
 import SectionTitle from '../SectionTitle';
-import { applyNumbering, applySpiltText } from '../../module-frontend/shortcutFronEnd';
-import { Direction } from '../../types/General';
+import { applySpiltText } from '../../module-frontend/shortcutFronEnd';
 
 interface SpiltTextModalProps {
   show: boolean;
@@ -40,6 +38,7 @@ const SpiltTextModal: React.FC<SpiltTextModalProps> = ({
       handleClose={handleClose}
     >
       <h3>{t("module:spiltText")}</h3>
+      <p className="mb-small font-size-large">{t("module:spiltTextDesc")}</p>
       <div className="mt-xxsmall">
         <SectionTitle title={t("module:spiltBasedOn")} />
         <select
@@ -62,12 +61,13 @@ const SpiltTextModal: React.FC<SpiltTextModalProps> = ({
           />
         </>}
       </div>
-      <div className="mt-xsmall">
+      <div className="mt-xxsmall">
         <FigmaButton
           title={t("module:apply")}
           onClick={() => {
             applySpiltText(appContext, spiltType, spiltSymbol, false);
           }}
+          hasTopBottomMargin={false}
         />
       </div>
     </Modal>
