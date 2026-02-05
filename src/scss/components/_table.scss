@@ -45,6 +45,10 @@
             border-bottom: none;
         }
     }
+
+    &.nothing-inside {
+        height: 20px;
+    }
 }
 
 //.row-child
