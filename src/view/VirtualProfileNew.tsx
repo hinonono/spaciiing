@@ -454,8 +454,8 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                             }}
                             className={
                               row.isCollapsed
-                                ? "cy-table-rows-wrapper"
-                                : "cy-table-rows-wrapper visible"
+                                ? `cy-table-rows-wrapper`
+                                : `cy-table-rows-wrapper visible ${row.children.length === 0 ? "nothing-inside" : ""}`
                             }
                           >
                             {row.children.map((child, childIndex) => (

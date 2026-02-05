@@ -9,6 +9,7 @@ import {
 } from "../types/Messages/MessagePropertyClipboard";
 import { pasteInstancePropertyToObject, pastePropertyToObject, PropertyClipboardCategory, propertyClipboardOptions, setReferenceObject, } from "../module-frontend/propertyClipboardFrontEnd";
 import * as pluginConfig from "../pluginConfig.json";
+import ReferenceObjectView from "../components/propertyClipboard/ReferenceObjectView";
 
 interface PropertyClipboardProps { }
 
@@ -132,31 +133,15 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
         <div>
           <SectionTitle title={t("module:copyFrom")} />
           {appContext.referenceObject.id != "" ? (
-            <div className="variable flex flex-justify-space-between align-items-center">
-              <span className="text-color-primary">
-                {`${appContext.referenceObject.name} (${appContext.referenceObject.layerType}, ID: ${appContext.referenceObject.id})`}
-              </span>
-              <FigmaButton
-                buttonType="tertiary"
-                title={t("module:memorize")}
-                onClick={() => setReferenceObject(false, appContext)}
-                buttonHeight="small"
-                hasTopBottomMargin={false}
-              />
-            </div>
+            <ReferenceObjectView
+              title={`${appContext.referenceObject.name} (${appContext.referenceObject.layerType}, ID: ${appContext.referenceObject.id})`}
+              memorizeAction={() => setReferenceObject(false, appContext)}
+            />
           ) : (
-            <div className="variable flex flex-justify-space-between align-items-center">
-              <span className="text-color-secondary mr-xxxsmall">
-                {t("module:selectLayerAsReference")}
-              </span>
-              <FigmaButton
-                buttonType="tertiary"
-                title={t("module:memorize")}
-                onClick={() => setReferenceObject(false, appContext)}
-                buttonHeight="xlarge"
-                hasTopBottomMargin={false}
-              />
-            </div>
+            <ReferenceObjectView
+              title={t("module:selectLayerAsReference")}
+              memorizeAction={() => setReferenceObject(false, appContext)}
+            />
           )}
           <div className="mt-xxsmall"></div>
         </div>
