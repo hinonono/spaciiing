@@ -16,11 +16,6 @@ interface ContextMenuViewProps {
   setGroupColor: (value: VirtualProfileGroupColor, rowId: string) => void;
 }
 
-interface AvailableColor {
-  translateKey: string;
-  color: VirtualProfileGroupColor;
-}
-
 const ContextMenuView: React.FC<ContextMenuViewProps> = ({
   menuRef,
   mouseX,
@@ -36,16 +31,16 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
 }) => {
   const { t } = useTranslation(["module"]);
 
-  const availableColors: AvailableColor[] = [
-    { translateKey: "term:red", color: "red" },
-    { translateKey: "term:yellow", color: "yellow" },
-    { translateKey: "term:green", color: "green" },
-    { translateKey: "term:cyan", color: "cyan" },
-    { translateKey: "term:blue", color: "blue" },
-    { translateKey: "term:indigo", color: "indigo" },
-    { translateKey: "term:purple", color: "purple" },
-    { translateKey: "term:gray", color: "gray" },
-  ];
+  const availableColors: VirtualProfileGroupColor[] = [
+    "red",
+    "yellow",
+    "green",
+    "blue",
+    "cyan",
+    "indigo",
+    "purple",
+    "gray"
+  ]
 
   return (
     <ul
@@ -60,11 +55,11 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
     >
       {!childId && (
         <div className='virtual-profile-group-colors-wrapper'>
-          {availableColors.map((obj) => (
+          {availableColors.map((color) => (
             <li
-              key={obj.color}
-              onClick={() => setGroupColor(obj.color, rowId)}
-              className={obj.color}
+              key={color}
+              onClick={() => setGroupColor(color, rowId)}
+              className={color}
             >
             </li>
           ))}
