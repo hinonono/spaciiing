@@ -30,6 +30,7 @@ import { SupportedLangCode } from "../types/Localization";
 import * as pluginConfig from "../pluginConfig.json";
 import { addChildToRow, addRecordToLastTitle, addTitleRow, deleteChild, deleteRow, duplicateContentRow, duplicateTitleRow, getAvailabeCategories, onDragEnd, toggleAll } from "../module-frontend/virtualProfileUI";
 import { ButtonIcon24 } from "../components";
+import VirtualProfileToolBarView from "../components/virtualProfile/VirtualProfileToolBarView";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -43,6 +44,12 @@ interface ContextMenuState {
   rowId?: string;
   childId?: string;
 }
+
+interface ToolButtonConfig {
+  disabled?: boolean;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  svg: React.ReactNode;
+};
 
 const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   applyVirtualProfile,
@@ -355,33 +362,14 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     ))
   };
 
-  const toolbarRefLeft = useRef<HTMLDivElement>(null);
-  const toolbarRefRight = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!sentinelRef.current) return;
+  const toolbarLeftButtons = [<ButtonIcon24
+    onClick={() => { toggleAll(appContext, setIsFolderCollapsed) }}
+    svg={!isFolderCollapsed ? (<SvgExpand color={btnColor} />) : (<SvgCollapse color={btnColor} />)}
+  />]
 
-    const toolbars = [toolbarRefLeft.current, toolbarRefRight.current].filter(
-      Boolean
-    ) as HTMLDivElement[];
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        toolbars.forEach((el) => {
-          el.classList.toggle("is-sticky", !entry.isIntersecting);
-        });
-      },
-      {
-        root: null,
-        threshold: 0,
-      }
-    );
-
-    observer.observe(sentinelRef.current);
-
-    return () => observer.disconnect();
-  }, []);
+  const toolbarRightItems = renderToolButtons();
 
   return (
     <div ref={containerRef} className="position-relative">
@@ -389,15 +377,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={(result) => { onDragEnd(result, appContext) }}>
         <div ref={sentinelRef} className="sticky-sentinel" />
-        <div className="flex flex-justify-space-between virtual-profile-toolbar-container">
-          <div ref={toolbarRefLeft} className="virtual-profile-toolbar">
-            <ButtonIcon24
-              onClick={() => { toggleAll(appContext, setIsFolderCollapsed) }}
-              svg={!isFolderCollapsed ? (<SvgExpand color={btnColor} />) : (<SvgCollapse color={btnColor} />)}
-            />
-          </div>
-          <div ref={toolbarRefRight} className="flex flex-row virtual-profile-toolbar">{renderToolButtons()}</div>
-        </div>
+        <VirtualProfileToolBarView
+          sentinelRef={sentinelRef}
+          leftItems={toolbarLeftButtons}
+          rightItems={toolbarRightItems}
+        />
         <Droppable droppableId="all-rows" type="row">
           {(provided) => (
             <div
