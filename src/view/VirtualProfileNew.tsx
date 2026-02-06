@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -329,59 +329,88 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
   };
 
-  const btnColor = "var(--figma-color-bg-brand)";
-  const btnColorDisabled = "var(--figma-color-text-disabled)"
 
-  const renderToolButtons = () => {
-    const toolBtns: { disabled?: boolean, onClick: (e: React.MouseEvent<HTMLButtonElement>) => void, svg: React.ReactNode }[] = [
+  // TOOLBAR RELATED
+  const BTN_COLOR = "var(--figma-color-bg-brand)";
+  const BTN_COLOR_DISABLED = "var(--figma-color-text-disabled)";
+
+  const isUnchanged =
+    runtimeSyncedResources.virtualProfiles === previousVirtualProfile;
+
+  const saveIconColor = isUnchanged ? BTN_COLOR_DISABLED : BTN_COLOR;
+
+  const toolButtons = useMemo<ToolButtonConfig[]>(
+    () => [
       {
-        disabled: runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? true : false,
+        disabled: isUnchanged,
         onClick: saveVirtualProfile,
-        svg: <SvgSave color={runtimeSyncedResources.virtualProfiles == previousVirtualProfile ? btnColorDisabled : btnColor} />
+        svg: <SvgSave color={saveIconColor} />,
       },
       {
-        onClick: (e) => handleAdditionalContextMenu(e),
-        svg: <SvgAddFromPreset color={btnColor} />
+        onClick: handleAdditionalContextMenu,
+        svg: <SvgAddFromPreset color={BTN_COLOR} />,
       },
       {
-        onClick: () => { addTitleRow(appContext, false) },
-        svg: <SvgAddFolder color={btnColor} />,
+        onClick: () => addTitleRow(appContext, false),
+        svg: <SvgAddFolder color={BTN_COLOR} />,
       },
       {
-        onClick: () => { addRecordToLastTitle(appContext, false) },
-        svg: <SvgAdd color={btnColor} />
-      }
+        onClick: () => addRecordToLastTitle(appContext, false),
+        svg: <SvgAdd color={BTN_COLOR} />,
+      },
+    ],
+    [
+      isUnchanged,
+      saveVirtualProfile,
+      handleAdditionalContextMenu,
+      appContext,
+      saveIconColor,
     ]
+  );
 
-    return (toolBtns.map(btn =>
+  const toolbarRightItems = useMemo(
+    () =>
+      toolButtons.map((btn, index) => (
+        <ButtonIcon24
+          key={index}
+          disabled={btn.disabled}
+          onClick={btn.onClick}
+          svg={btn.svg}
+        />
+      )),
+    [toolButtons]
+  );
+
+  const toolbarLeftItems = useMemo(
+    () => [
       <ButtonIcon24
-        disabled={btn.disabled}
-        onClick={btn.onClick}
-        svg={btn.svg}
-      />
-    ))
-  };
+        key="toggle"
+        onClick={() => toggleAll(appContext, setIsFolderCollapsed)}
+        svg={
+          isFolderCollapsed
+            ? <SvgCollapse color={BTN_COLOR} />
+            : <SvgExpand color={BTN_COLOR} />
+        }
+      />,
+    ],
+    [appContext, isFolderCollapsed]
+  );
 
   const sentinelRef = useRef<HTMLDivElement>(null);
-
-  const toolbarLeftButtons = [<ButtonIcon24
-    onClick={() => { toggleAll(appContext, setIsFolderCollapsed) }}
-    svg={!isFolderCollapsed ? (<SvgExpand color={btnColor} />) : (<SvgCollapse color={btnColor} />)}
-  />]
-
-  const toolbarRightItems = renderToolButtons();
 
   return (
     <div ref={containerRef} className="position-relative">
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={(result) => { onDragEnd(result, appContext) }}>
-        <div ref={sentinelRef} className="sticky-sentinel" />
-        <VirtualProfileToolBarView
-          sentinelRef={sentinelRef}
-          leftItems={toolbarLeftButtons}
-          rightItems={toolbarRightItems}
-        />
+        <>
+          <div ref={sentinelRef} className="sticky-sentinel" />
+          <VirtualProfileToolBarView
+            sentinelRef={sentinelRef}
+            leftItems={toolbarLeftItems}
+            rightItems={toolbarRightItems}
+          />
+        </>
         <Droppable droppableId="all-rows" type="row">
           {(provided) => (
             <div
