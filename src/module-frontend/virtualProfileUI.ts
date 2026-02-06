@@ -236,7 +236,7 @@ export function addChildToRow(
     handleClose: () => void,
     isRealCall = false
 ) {
-    const { licenseManagement, setFreeUserDelayModalConfig, setRuntimeSyncedResources, runtimeSyncedResources } = appContext;
+    const { licenseManagement, setFreeUserDelayModalConfig, setRuntimeSyncedResources } = appContext;
 
     if (!isRealCall) {
         if (!checkProFeatureAccessibleForUser(licenseManagement)) {
@@ -361,8 +361,8 @@ export function duplicateContentRow(
 export function getAvailabeCategories(): VirtualProfileCategoryAndKey[] {
     return [
         {
-          category: "FLOW",
-          key: "module:userFlow"
+            category: "FLOW",
+            key: "module:userFlow"
         },
         {
             category: "BOOK",

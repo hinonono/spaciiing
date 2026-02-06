@@ -31,6 +31,7 @@ import * as pluginConfig from "../pluginConfig.json";
 import { addChildToRow, addRecordToLastTitle, addTitleRow, deleteChild, deleteRow, duplicateContentRow, duplicateTitleRow, getAvailabeCategories, onDragEnd, toggleAll } from "../module-frontend/virtualProfileUI";
 import { ButtonIcon24 } from "../components";
 import VirtualProfileToolBarView from "../components/virtualProfile/VirtualProfileToolBarView";
+import ContextMenuView from "../components/virtualProfile/ContextMenuView";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -214,42 +215,23 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     if (!rowId) return;
 
     return (
-      <ul
-        ref={menuRef}
-        style={{
-          position: "absolute",
-          top: mouseY,
-          left: mouseX,
-          zIndex: 1000,
+      <ContextMenuView
+        menuRef={menuRef}
+        mouseX={mouseX}
+        mouseY={mouseY}
+        childId={childId}
+        addChildToRow={() => addChildToRow(appContext, rowId, handleClose, false)}
+        duplicateContentRow={() => {
+          if (!childId) return;
+          duplicateContentRow(appContext, rowId, childId, handleClose, false)
         }}
-        className="context-menu"
-      >
-        {!childId && (
-          <li onClick={() => { addChildToRow(appContext, rowId, handleClose, false) }}>{t("module:addItem")}</li>
-        )}
-        <li
-          onClick={() =>
-            childId
-              ? duplicateContentRow(appContext, rowId, childId, handleClose, false)
-              : duplicateTitleRow(appContext, rowId, handleClose, false)
-          }
-        >
-          {t("module:duplicate")}
-        </li>
-        {childId ? (
-          <>
-            <hr />
-            <li className="destructive" onClick={() => { deleteChild(appContext, rowId!, childId, handleClose, false) }}>
-              {t("module:delete")}
-            </li>
-          </>
-        ) : (
-          <>
-            <hr />
-            <li className="destructive" onClick={() => deleteRow(appContext, rowId!, handleClose, false)}>{t("module:delete")}</li>
-          </>
-        )}
-      </ul>
+        duplicateTitleRow={() => duplicateTitleRow(appContext, rowId, handleClose, false)}
+        deleteChild={() => {
+          if (!childId) return;
+          deleteChild(appContext, rowId!, childId, handleClose, false)
+        }}
+        deleteRow={() => deleteRow(appContext, rowId!, handleClose, false)}
+      />
     );
   };
 
