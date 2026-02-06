@@ -53,6 +53,10 @@
             rgba($r, $g, $b, $to) 100%);
 }
 
+@mixin section-solid($r, $g, $b) {
+    background-color: rgb($r, $g, $b);
+}
+
 @mixin section-bg($r, $g, $b) {
     background-color: rgba($r, $g, $b, 0.05);
 }
@@ -74,6 +78,27 @@
                 @include section-bg(nth($rgb, 1),
                     nth($rgb, 2),
                     nth($rgb, 3));
+            }
+        }
+    }
+}
+
+.virtual-profile-group-colors-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    column-gap: 4px;
+    row-gap: 4px;
+    padding: 2px;
+
+    li {
+        aspect-ratio: 1 / 1;
+        border-radius: 9999px;
+        padding: 0;
+
+        @each $name, $rgb in var.$section-colors {
+            &.#{$name} {
+                @include section-solid(nth($rgb, 1), nth($rgb, 2), nth($rgb, 3));
             }
         }
     }

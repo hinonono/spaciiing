@@ -40,8 +40,8 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
     { translateKey: "term:red", color: "red" },
     { translateKey: "term:yellow", color: "yellow" },
     { translateKey: "term:green", color: "green" },
-    { translateKey: "term:blue", color: "blue" },
     { translateKey: "term:cyan", color: "cyan" },
+    { translateKey: "term:blue", color: "blue" },
     { translateKey: "term:indigo", color: "indigo" },
     { translateKey: "term:purple", color: "purple" },
     { translateKey: "term:gray", color: "gray" },
@@ -59,15 +59,19 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
       className="context-menu"
     >
       {!childId && (
-        <>
+        <div className='virtual-profile-group-colors-wrapper'>
           {availableColors.map((obj) => (
             <li
               key={obj.color}
               onClick={() => setGroupColor(obj.color, rowId)}
+              className={obj.color}
             >
-              {t(obj.translateKey)}
             </li>
           ))}
+        </div>
+      )}
+      {!childId && (
+        <>
           <hr />
           <li onClick={addChildToRow}>
             {t("module:addItem")}
