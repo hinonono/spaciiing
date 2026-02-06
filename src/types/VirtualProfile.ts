@@ -8,6 +8,7 @@ export interface VirtualProfileChild extends BasicRow {
 }
 
 export interface VirtualProfileGroup extends BasicRow {
+  color: VirtualProfileGroupColor;
   children: VirtualProfileChild[];
   isCollapsed: boolean;
 }
@@ -21,6 +22,9 @@ export interface VirtualProfileGroupRaw {
   children: VirtualProfileChildRaw[];
   title: string;
 }
+
+export type VirtualProfileGroupColor =
+  | "red"
 
 export type SupportedPresetVirtualProfileCategory =
   | "BOOK"

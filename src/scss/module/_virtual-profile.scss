@@ -1,3 +1,5 @@
+@use "../var";
+
 .virtual-profile-toolbar-container {
     position: sticky;
     top: 4;
@@ -43,4 +45,114 @@
 
 .sticky-sentinel {
     height: 1px;
+}
+
+@mixin section-gradient($r, $g, $b, $from: 0.4, $to: 0.15) {
+    background: linear-gradient(0deg,
+            rgba($r, $g, $b, $from) 0%,
+            rgba($r, $g, $b, $to) 100%);
+}
+
+.virtual-profile-group-header {
+    &.red {
+        @include section-gradient(251, 44, 54);
+    }
+
+    &.orange {
+        @include section-gradient(255, 105, 0);
+    }
+
+    &.yellow {
+        @include section-gradient(239, 177, 0);
+    }
+
+    &.green {
+        @include section-gradient(0, 201, 81);
+    }
+
+    &.blue {
+        @include section-gradient(43, 127, 255);
+    }
+
+    &.cyan {
+        @include section-gradient(0, 184, 219);
+    }
+
+    &.indigo {
+        @include section-gradient(97, 95, 255);
+    }
+
+    &.purple {
+        @include section-gradient(173, 70, 255);
+    }
+}
+
+@mixin section-bg($r, $g, $b) {
+    background-color: rgba($r, $g, $b, 0.05)
+}
+
+.cy-table-rows-wrapper.visible {
+    &.red {
+        .cy-table-row-child {
+            &:nth-child(even) {
+                @include section-bg(251, 44, 54);
+            }
+        }
+    }
+
+    &.orange {
+        .cy-table-row-child {
+            &:nth-child(even) {
+                @include section-bg(255, 105, 0);
+            }
+        }
+    }
+
+    &.yellow {
+        .cy-table-row-child {
+            &:nth-child(even) {
+                @include section-bg(239, 177, 0);
+            }
+        }
+    }
+
+    &.green {
+        .cy-table-row-child {
+            &:nth-child(even) {
+                @include section-bg(0, 201, 81);
+            }
+        }
+    }
+
+    &.blue {
+        .cy-table-row-child {
+            &:nth-child(even) {
+                @include section-bg(43, 127, 255);
+            }
+        }
+    }
+
+    &.cyan {
+        .cy-table-row-child {
+            &:nth-child(even) {
+                @include section-bg(0, 184, 219);
+            }
+        }
+    }
+
+    &.indigo {
+        .cy-table-row-child {
+            &:nth-child(even) {
+                @include section-bg(97, 95, 255);
+            }
+        }
+    }
+
+    &.purple {
+        .cy-table-row-child {
+            &:nth-child(even) {
+                @include section-bg(173, 70, 255);
+            }
+        }
+    }
 }

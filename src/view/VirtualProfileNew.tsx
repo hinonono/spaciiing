@@ -7,6 +7,7 @@ import {
 import {
   SupportedPresetVirtualProfileCategory,
   VirtualProfileGroup,
+  VirtualProfileGroupColor,
 } from "../types/VirtualProfile";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
@@ -219,6 +220,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         menuRef={menuRef}
         mouseX={mouseX}
         mouseY={mouseY}
+        rowId={rowId}
         childId={childId}
         addChildToRow={() => addChildToRow(appContext, rowId, handleClose, false)}
         duplicateContentRow={() => {
@@ -231,9 +233,27 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
           deleteChild(appContext, rowId!, childId, handleClose, false)
         }}
         deleteRow={() => deleteRow(appContext, rowId!, handleClose, false)}
+        setGroupColor={setGroupColor}
       />
     );
   };
+
+  const setGroupColor = (newColor: VirtualProfileGroupColor, rowId: string) => {
+    setRuntimeSyncedResources((prev) => ({
+      ...prev,
+      virtualProfiles: prev.virtualProfiles.map((group) => {
+        if (group.id === rowId) {
+          return {
+            ...group,
+            color: newColor
+          };
+        }
+        return group;
+      })
+    }));
+
+    handleClose();
+  }
 
   const handleAdditionalContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -423,7 +443,7 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                             className={
                               row.isCollapsed
                                 ? `cy-table-rows-wrapper`
-                                : `cy-table-rows-wrapper visible ${row.children.length === 0 ? "nothing-inside" : ""}`
+                                : `cy-table-rows-wrapper visible ${row.color} ${row.children.length === 0 ? "nothing-inside" : ""}`
                             }
                           >
                             {row.children.map((child, childIndex) => (

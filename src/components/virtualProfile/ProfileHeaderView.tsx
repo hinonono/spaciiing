@@ -21,7 +21,7 @@ const ProfileHeaderView: React.FC<ProfileHeaderViewProps> = ({
 
   return (
     <div
-      className="cy-table-group-header"
+      className={`cy-table-group-header virtual-profile-group-header ${row.color}`}
       onContextMenu={handleContextMenu}
     >
       <div

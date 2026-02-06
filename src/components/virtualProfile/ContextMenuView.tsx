@@ -1,16 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { VirtualProfileGroupColor } from '../../types/VirtualProfile';
 
 interface ContextMenuViewProps {
   menuRef: React.RefObject<HTMLUListElement>;
   mouseX: number;
   mouseY: number;
+  rowId: string;
   childId?: string;
   addChildToRow: () => void;
   duplicateContentRow: () => void;
   duplicateTitleRow: () => void;
   deleteChild: () => void;
   deleteRow: () => void;
+  setGroupColor: (value: VirtualProfileGroupColor, rowId: string) => void;
 }
 
 const ContextMenuView: React.FC<ContextMenuViewProps> = ({
@@ -18,15 +21,15 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
   mouseX,
   mouseY,
   childId,
+  rowId,
   addChildToRow,
   duplicateContentRow,
   duplicateTitleRow,
   deleteChild,
-  deleteRow
+  deleteRow,
+  setGroupColor
 }) => {
   const { t } = useTranslation(["module"]);
-
-  console.log("cidle" + childId);
 
   return (
     <ul
@@ -40,7 +43,11 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
       className="context-menu"
     >
       {!childId && (
-        <li onClick={addChildToRow}>{t("module:addItem")}</li>
+        <>
+          <li onClick={() => setGroupColor("red", rowId)}>RED</li>
+          <hr />
+          <li onClick={addChildToRow}>{t("module:addItem")}</li>
+        </>
       )}
       <li onClick={() => childId ? duplicateContentRow() : duplicateTitleRow()} >{t("module:duplicate")}</li>
       {childId ? (
