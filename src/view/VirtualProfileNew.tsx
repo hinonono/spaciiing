@@ -16,7 +16,6 @@ import {
   SvgAddFromPreset,
   SvgExpand,
   SvgCollapse,
-  SvgChevronLeft,
   SvgDragHandle,
   SvgSave,
 } from "../assets/icons";
@@ -32,6 +31,7 @@ import { addChildToRow, addRecordToLastTitle, addTitleRow, deleteChild, deleteRo
 import { ButtonIcon24 } from "../components";
 import VirtualProfileToolBarView from "../components/virtualProfile/VirtualProfileToolBarView";
 import ContextMenuView from "../components/virtualProfile/ContextMenuView";
+import ProfileHeaderView from "../components/virtualProfile/ProfileHeaderView";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
@@ -403,36 +403,15 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
                       className={`cy-table-group ${snapshot.isDragging ? "dragging" : ""
                         }`}
                     >
-                      <div
-                        className="cy-table-group-header"
-                        onContextMenu={(e) => handleContextMenu(e, row.id)}
-                      >
-                        <div
-                          className={`arrowIcon ${row.isCollapsed ? "collapsed" : "expanded"
-                            } icon-16`}
-                          onClick={() => toggleCollapse(row.id)}
-                        >
-                          <SvgChevronLeft color="var(--figma-color-text)" />
-                        </div>
-                        <div>
-                          <input
-                            className="cy-input font-weight-bold"
-                            type="text"
-                            value={row.title}
-                            onChange={(e) =>
-                              handleGroupTitleChange(row.id, e.target.value)
-                            }
-                          />
-                        </div>
-                        <div
-                          {...provided.dragHandleProps}
-                          className="dragHandle"
-                        >
-                          <div className="icon-16">
-                            <SvgDragHandle color="var(--figma-color-text-secondary)" />
-                          </div>
-                        </div>
-                      </div>
+                      <ProfileHeaderView
+                        provided={provided}
+                        row={row}
+                        handleContextMenu={(e) => handleContextMenu(e, row.id)}
+                        toggleCollapse={() => toggleCollapse(row.id)}
+                        handleGroupTitleChange={
+                          (e) => handleGroupTitleChange(row.id, e.target.value)
+                        }
+                      />
                       <Droppable droppableId={row.id} type="child">
                         {(provided) => (
                           <div
