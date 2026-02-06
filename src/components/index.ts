@@ -17,3 +17,4 @@ export { default as ButtonIcon24 } from "./ButtonIcon24";
 export { default as MainWindowToolBar } from "./MainWindowToolBar";
 export { default as Chip } from "./Chip";
 export { default as ChipKeyboard } from "./ChipKeyboard";
+export { default as Bottomchip } from "./BottomChip";

@@ -103,3 +103,37 @@
         }
     }
 }
+
+.bottom-chip-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto 0;
+    transform: none;
+    pointer-events: auto;
+    opacity: 1;
+    z-index: 4;
+
+
+    .bottom-chip {
+        box-shadow: var(--drop-shadow-3);
+        padding: 8px 12px;
+        border-radius: var(--cy-border-radius-xlarge);
+        background: rgb(45, 45, 45);
+        color: rgb(255, 255, 255);
+        font-size: 12px;
+        width: fit-content;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .bottom-chip-wrapper {
+        .bottom-chip {
+            box-shadow:
+                var(--drop-shadow-3),
+                inset 0px 1.5px 2px rgba(255, 255, 255, 0.12),
+                inset 0px 0px 2px rgba(255, 255, 255, 0.1);
+        }
+    }
+}

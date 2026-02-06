@@ -217,5 +217,8 @@
     "colorToLabel": "Color to label",
     "colorToLabelDesc": "Generate text label from selected layers' fill color. If layer itself has multiple fill colors, this shortcut will reference the first fill color and ignore the rest.",
     "outputFormat": "Output format",
-    "insertExampleCode": "Insert example code"
+    "insertExampleCode": "Insert example code",
+    "changeSaved": "Change saved.",
+    "newGroupAdded": "Added new group.",
+    "newRowAdded": "Added new row."
 }

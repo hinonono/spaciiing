@@ -217,5 +217,8 @@
   "colorToLabel": "カラーからラベル",
   "colorToLabelDesc": "選択したレイヤーの塗りの色からテキストラベルを生成します。レイヤーに複数の塗りの色がある場合、最初の塗りの色のみを参照し、他は無視されます。",
   "outputFormat": "出力形式",
-  "insertExampleCode": "サンプルコードを挿入"
+  "insertExampleCode": "サンプルコードを挿入",
+  "changeSaved": "変更が保存されました。",
+  "newGroupAdded": "新しいグループを追加しました。",
+  "newRowAdded": "新しい行を追加しました。"
 }

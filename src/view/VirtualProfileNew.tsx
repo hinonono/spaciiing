@@ -33,11 +33,14 @@ import { ButtonIcon24 } from "../components";
 import VirtualProfileToolBarView from "../components/virtualProfile/VirtualProfileToolBarView";
 import ContextMenuView from "../components/virtualProfile/ContextMenuView";
 import ProfileHeaderView from "../components/virtualProfile/ProfileHeaderView";
+import BottomChip from "../components/BottomChip";
+import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 interface VirtualProfileNewProps {
   applyVirtualProfile: (key: string, value: string) => void;
-  saveVirtualProfile: () => void;
+  // saveVirtualProfile: () => void;
   previousVirtualProfile: VirtualProfileGroup[] | null;
+  setPreviousVirtualProfile: React.Dispatch<React.SetStateAction<VirtualProfileGroup[] | null>>;
 }
 
 interface ContextMenuState {
@@ -55,8 +58,9 @@ interface ToolButtonConfig {
 
 const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
   applyVirtualProfile,
-  saveVirtualProfile,
+  // saveVirtualProfile,
   previousVirtualProfile,
+  setPreviousVirtualProfile
 }) => {
   const { i18n, t } = useTranslation(["module"]);
 
@@ -331,6 +335,33 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     );
   };
 
+  // 從外面搬進來
+  const saveVirtualProfile = (isRealCall = false) => {
+    if (!isRealCall) {
+      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+        setFreeUserDelayModalConfig({
+          show: true,
+          initialTime: pluginConfig.freeUserWaitingTime,
+          onProceed: () => saveVirtualProfile(true), // Re-invoke with the real call
+        });
+        return;
+      }
+    }
+
+    const message: MessageSaveSyncedResource = {
+      shouldSaveSyncedReources: true,
+      shouldSaveSyncedReourcesType: "virtualProfiles",
+      syncedResources: runtimeSyncedResources,
+      module: "General",
+      phase: "Actual",
+      direction: "Inner"
+    }
+
+    parent.postMessage({ pluginMessage: message, }, "*");
+
+    setPreviousVirtualProfile(runtimeSyncedResources.virtualProfiles);
+  };
+
 
   // TOOLBAR RELATED
   const BTN_COLOR = "var(--figma-color-bg-brand)";
@@ -345,7 +376,11 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     () => [
       {
         disabled: isUnchanged,
-        onClick: saveVirtualProfile,
+        onClick: () => {
+          setOpenBottomChip(true);
+          setBottomChipContent("module:changeSaved");
+          saveVirtualProfile();
+        },
         svg: <SvgSave color={saveIconColor} />,
       },
       {
@@ -353,11 +388,19 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
         svg: <SvgAddFromPreset color={BTN_COLOR} />,
       },
       {
-        onClick: () => addTitleRow(appContext, false),
+        onClick: () => {
+          setOpenBottomChip(true);
+          setBottomChipContent("module:newGroupAdded");
+          addTitleRow(appContext, false)
+        },
         svg: <SvgAddFolder color={BTN_COLOR} />,
       },
       {
-        onClick: () => addRecordToLastTitle(appContext, false),
+        onClick: () => {
+          setOpenBottomChip(true);
+          setBottomChipContent("module:newRowAdded");
+          addRecordToLastTitle(appContext, false)
+        },
         svg: <SvgAdd color={BTN_COLOR} />,
       },
     ],
@@ -398,8 +441,18 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     [appContext, isFolderCollapsed]
   );
 
+  // Bottomchip 相關
+  const [openBottomChip, setOpenBottomChip] = useState(false);
+  const [bottomChipContent, setBottomChipContent] = useState("");
+
+
   return (
     <div ref={containerRef} className="position-relative">
+      <BottomChip
+        open={openBottomChip}
+        setOpen={setOpenBottomChip}
+        content={bottomChipContent}
+      />
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={(result) => { onDragEnd(result, appContext) }}>

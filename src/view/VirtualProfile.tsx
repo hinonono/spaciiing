@@ -10,7 +10,6 @@ import {
   MessageVirtualProfileSingleValue,
 } from "../types/Messages/MessageVirtualProfile";
 import * as pluginConfig from "../pluginConfig.json";
-import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 const VirtualProfile: React.FC = () => {
   const { t } = useTranslation(["module"]);
@@ -21,7 +20,6 @@ const VirtualProfile: React.FC = () => {
   const handleOpenExplanationModal = () => setShowExplanationModal(true);
   const handleCloseExplanationModal = () => setShowExplanationModal(false);
 
-  const { runtimeSyncedResources } = useAppContext();
   const [previousVirtualProfile, setPreviousVirtualProfile] = useState<
     VirtualProfileGroup[] | null
   >(null);
@@ -50,31 +48,31 @@ const VirtualProfile: React.FC = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
-  const saveVirtualProfile = (isRealCall = false) => {
-    if (!isRealCall) {
-      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-        setFreeUserDelayModalConfig({
-          show: true,
-          initialTime: pluginConfig.freeUserWaitingTime,
-          onProceed: () => saveVirtualProfile(true), // Re-invoke with the real call
-        });
-        return;
-      }
-    }
+  // const saveVirtualProfile = (isRealCall = false) => {
+  //   if (!isRealCall) {
+  //     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+  //       setFreeUserDelayModalConfig({
+  //         show: true,
+  //         initialTime: pluginConfig.freeUserWaitingTime,
+  //         onProceed: () => saveVirtualProfile(true), // Re-invoke with the real call
+  //       });
+  //       return;
+  //     }
+  //   }
 
-    const message: MessageSaveSyncedResource = {
-      shouldSaveSyncedReources: true,
-      shouldSaveSyncedReourcesType: "virtualProfiles",
-      syncedResources: runtimeSyncedResources,
-      module: "General",
-      phase: "Actual",
-      direction: "Inner"
-    }
+  //   const message: MessageSaveSyncedResource = {
+  //     shouldSaveSyncedReources: true,
+  //     shouldSaveSyncedReourcesType: "virtualProfiles",
+  //     syncedResources: runtimeSyncedResources,
+  //     module: "General",
+  //     phase: "Actual",
+  //     direction: "Inner"
+  //   }
 
-    parent.postMessage({ pluginMessage: message, }, "*");
+  //   parent.postMessage({ pluginMessage: message, }, "*");
 
-    setPreviousVirtualProfile(runtimeSyncedResources.virtualProfiles);
-  };
+  //   setPreviousVirtualProfile(runtimeSyncedResources.virtualProfiles);
+  // };
 
   return (
     <div>
@@ -98,8 +96,8 @@ const VirtualProfile: React.FC = () => {
       <div className="content">
         <VirtualProfileNew
           applyVirtualProfile={applyVirtualProfile}
-          saveVirtualProfile={saveVirtualProfile}
           previousVirtualProfile={previousVirtualProfile}
+          setPreviousVirtualProfile={setPreviousVirtualProfile}
         />
       </div>
     </div>
