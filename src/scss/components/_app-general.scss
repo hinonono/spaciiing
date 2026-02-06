@@ -84,7 +84,8 @@
 .variable {
     font-size: var(--font-size-small);
     padding: 4px 8px;
-    background-color: var(--figma-color-bg-secondary);
+    background-color: var(--figma-color-bg);
+    box-shadow: var(--drop-shadow-1);
     border-radius: var(--cy-border-radius-xlarge);
     padding: 16px;
     min-height: 76px;

@@ -35,8 +35,8 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
     "red",
     "yellow",
     "green",
-    "blue",
     "cyan",
+    "blue",
     "indigo",
     "purple",
     "gray"

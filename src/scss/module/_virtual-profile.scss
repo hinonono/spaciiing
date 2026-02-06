@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use "../var" as var;
 
 .virtual-profile-toolbar-container {
@@ -63,21 +64,21 @@
 
 .virtual-profile-group-header {
     @each $name, $rgb in var.$section-colors {
-        &.#{$name} {
-            @include section-gradient(nth($rgb, 1),
-                nth($rgb, 2),
-                nth($rgb, 3));
+        &.#{"" + $name} {
+            @include section-gradient(list.nth($rgb, 1),
+                list.nth($rgb, 2),
+                list.nth($rgb, 3));
         }
     }
 }
 
 .cy-table-rows-wrapper.visible {
     @each $name, $rgb in var.$section-colors {
-        &.#{$name} {
+        &.#{"" + $name} {
             .cy-table-row-child:nth-child(even) {
-                @include section-bg(nth($rgb, 1),
-                    nth($rgb, 2),
-                    nth($rgb, 3));
+                @include section-bg(list.nth($rgb, 1),
+                    list.nth($rgb, 2),
+                    list.nth($rgb, 3));
             }
         }
     }
@@ -97,8 +98,8 @@
         padding: 0;
 
         @each $name, $rgb in var.$section-colors {
-            &.#{$name} {
-                @include section-solid(nth($rgb, 1), nth($rgb, 2), nth($rgb, 3));
+            &.#{"" + $name} {
+                @include section-solid(list.nth($rgb, 1), list.nth($rgb, 2), list.nth($rgb, 3));
             }
         }
     }

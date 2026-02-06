@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use "../var" as var;
 
 @mixin section-gradient($r, $g, $b, $from: 0.4, $to: 0.15) {
@@ -11,10 +12,10 @@
     padding: 16px;
 
     @each $name, $rgb in var.$section-colors {
-        &.#{$name} {
-            @include section-gradient(nth($rgb, 1),
-                nth($rgb, 2),
-                nth($rgb, 3));
+        &.#{"" + $name} {
+            @include section-gradient(list.nth($rgb, 1),
+                list.nth($rgb, 2),
+                list.nth($rgb, 3));
         }
     }
 
