@@ -63,9 +63,9 @@
         backdrop-filter: var(--blur-1);
         border-radius: 9999px;
         overflow: hidden;
-        background-color: var(--cy-glass-color-1);
+        background-color: var(--figma-color-bg);
         transition: var(--cy-animation-default);
-        box-shadow: var(--drop-shadow-3);
+        box-shadow: var(--drop-shadow-2);
 
         &:hover {
             scale: 1.2;
