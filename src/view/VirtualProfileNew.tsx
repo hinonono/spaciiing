@@ -396,21 +396,15 @@ const VirtualProfileNew: React.FC<VirtualProfileNewProps> = ({
     [appContext, isFolderCollapsed]
   );
 
-  const sentinelRef = useRef<HTMLDivElement>(null);
-
   return (
     <div ref={containerRef} className="position-relative">
       {renderContextMenu()}
       {renderAdditionalContextMenu()}
       <DragDropContext onDragEnd={(result) => { onDragEnd(result, appContext) }}>
-        <>
-          <div ref={sentinelRef} className="sticky-sentinel" />
-          <VirtualProfileToolBarView
-            sentinelRef={sentinelRef}
-            leftItems={toolbarLeftItems}
-            rightItems={toolbarRightItems}
-          />
-        </>
+        <VirtualProfileToolBarView
+          leftItems={toolbarLeftItems}
+          rightItems={toolbarRightItems}
+        />
         <Droppable droppableId="all-rows" type="row">
           {(provided) => (
             <div
