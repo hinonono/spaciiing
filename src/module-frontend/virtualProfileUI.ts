@@ -125,7 +125,7 @@ export function addTitleRow(
         title: `Title`,
         children: [],
         isCollapsed: false,
-        color: "red"
+        color: "gray"
     };
 
     setRuntimeSyncedResources((prev) => ({

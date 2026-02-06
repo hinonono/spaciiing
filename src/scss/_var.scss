@@ -41,6 +41,17 @@
     --cy-purple-950: #380e6b;
 }
 
+$section-colors: (
+    red: (251, 44, 54),
+    yellow: (239, 177, 0),
+    green: (0, 201, 81),
+    blue: (43, 127, 255),
+    cyan: (0, 184, 219),
+    indigo: (97, 95, 255),
+    purple: (173, 70, 255),
+    gray: (190, 190, 190),
+);
+
 :root {
     --variable-background: #f5f5f5;
     /* L97 S50*/

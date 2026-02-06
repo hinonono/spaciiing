@@ -1,45 +1,21 @@
+@use "../var" as var;
+
 @mixin section-gradient($r, $g, $b, $from: 0.4, $to: 0.15) {
-    background: linear-gradient(
-        0deg,
-        rgba($r, $g, $b, $from) 0%,
-        rgba($r, $g, $b, $to) 100%
-    );
+    background: linear-gradient(0deg,
+            rgba($r, $g, $b, $from) 0%,
+            rgba($r, $g, $b, $to) 100%);
 }
 
 .shortcut-section {
     border-radius: var(--cy-border-radius-xlarge);
     padding: 16px;
 
-    &.red {
-        @include section-gradient(251, 44, 54);
-    }
-
-    &.orange {
-        @include section-gradient(255, 105, 0);
-    }
-
-    &.yellow {
-        @include section-gradient(239, 177, 0);
-    }
-
-    &.green {
-        @include section-gradient(0, 201, 81);
-    }
-
-    &.blue {
-        @include section-gradient(43, 127, 255);
-    }
-
-    &.cyan {
-        @include section-gradient(0, 184, 219);
-    }
-
-    &.indigo {
-        @include section-gradient(97, 95, 255);
-    }
-
-    &.purple {
-        @include section-gradient(173, 70, 255);
+    @each $name, $rgb in var.$section-colors {
+        &.#{$name} {
+            @include section-gradient(nth($rgb, 1),
+                nth($rgb, 2),
+                nth($rgb, 3));
+        }
     }
 
     &-header {

@@ -16,6 +16,11 @@ interface ContextMenuViewProps {
   setGroupColor: (value: VirtualProfileGroupColor, rowId: string) => void;
 }
 
+interface AvailableColor {
+  translateKey: string;
+  color: VirtualProfileGroupColor;
+}
+
 const ContextMenuView: React.FC<ContextMenuViewProps> = ({
   menuRef,
   mouseX,
@@ -31,6 +36,17 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
 }) => {
   const { t } = useTranslation(["module"]);
 
+  const availableColors: AvailableColor[] = [
+    { translateKey: "term:red", color: "red" },
+    { translateKey: "term:yellow", color: "yellow" },
+    { translateKey: "term:green", color: "green" },
+    { translateKey: "term:blue", color: "blue" },
+    { translateKey: "term:cyan", color: "cyan" },
+    { translateKey: "term:indigo", color: "indigo" },
+    { translateKey: "term:purple", color: "purple" },
+    { translateKey: "term:gray", color: "gray" },
+  ];
+
   return (
     <ul
       ref={menuRef}
@@ -44,9 +60,18 @@ const ContextMenuView: React.FC<ContextMenuViewProps> = ({
     >
       {!childId && (
         <>
-          <li onClick={() => setGroupColor("red", rowId)}>RED</li>
+          {availableColors.map((obj) => (
+            <li
+              key={obj.color}
+              onClick={() => setGroupColor(obj.color, rowId)}
+            >
+              {t(obj.translateKey)}
+            </li>
+          ))}
           <hr />
-          <li onClick={addChildToRow}>{t("module:addItem")}</li>
+          <li onClick={addChildToRow}>
+            {t("module:addItem")}
+          </li>
         </>
       )}
       <li onClick={() => childId ? duplicateContentRow() : duplicateTitleRow()} >{t("module:duplicate")}</li>

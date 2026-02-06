@@ -38,7 +38,7 @@ export const transformJsonToGroup = (
       title: child.title,
       content: child.content,
     })),
-    color: "red"
+    color: "gray"
   };
 };
 

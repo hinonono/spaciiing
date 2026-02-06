@@ -25,6 +25,13 @@ export interface VirtualProfileGroupRaw {
 
 export type VirtualProfileGroupColor =
   | "red"
+  | "yellow"
+  | "green"
+  | "blue"
+  | "cyan"
+  | "indigo"
+  | "purple"
+  | "gray"
 
 export type SupportedPresetVirtualProfileCategory =
   | "BOOK"
