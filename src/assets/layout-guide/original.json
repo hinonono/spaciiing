@@ -13,7 +13,7 @@
             },
             "alignment": "STRETCH",
             "gutterSize": 20,
-            "count": "12",
+            "count": 12,
             "sectionSize": 20,
             "offset": 20
         },
@@ -28,7 +28,7 @@
             },
             "alignment": "STRETCH",
             "gutterSize": 20,
-            "count": "12",
+            "count": 12,
             "sectionSize": 20,
             "offset": 20
         },

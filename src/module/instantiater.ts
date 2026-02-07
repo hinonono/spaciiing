@@ -973,7 +973,7 @@ function generateLayoutGuide(collection: LayoutGridCollection) {
         alignment: item.alignment,
         gutterSize: item.gutterSize,
         count: item.count,
-        sectionSize: item.sectionSize,
+        // sectionSize: item.sectionSize,
         offset: item.offset
       }]
 
@@ -986,15 +986,15 @@ function generateLayoutGuide(collection: LayoutGridCollection) {
       style.layoutGrids = [{
         pattern: "COLUMNS",
         color: {
-          r: item.color.r,
-          g: item.color.g,
-          b: item.color.b,
-          a: item.color.a
+          r: utils.math.mapToUnitRange(item.color.r),
+          g: utils.math.mapToUnitRange(item.color.g),
+          b: utils.math.mapToUnitRange(item.color.b),
+          a: utils.math.mapToUnitRange(item.color.a)
         },
         alignment: item.alignment,
         gutterSize: item.gutterSize,
         count: item.count,
-        sectionSize: item.sectionSize,
+        // sectionSize: item.sectionSize,
         offset: item.offset
       }]
     } else {
@@ -1006,10 +1006,10 @@ function generateLayoutGuide(collection: LayoutGridCollection) {
       style.layoutGrids = [{
         pattern: "GRID",
         color: {
-          r: item.color.r,
-          g: item.color.g,
-          b: item.color.b,
-          a: item.color.a
+          r: utils.math.mapToUnitRange(item.color.r),
+          g: utils.math.mapToUnitRange(item.color.g),
+          b: utils.math.mapToUnitRange(item.color.b),
+          a: utils.math.mapToUnitRange(item.color.a)
         },
         sectionSize: item.sectionSize,
       }]
