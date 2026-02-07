@@ -1,11 +1,10 @@
 {
   "name": "Spaciiing",
-  "version": "41",
+  "version": "42",
   "whatsNew": [
-    "New shortcut: Spilt text",
-    "Draw Arrows now support Triangle, Circle and Diamond arrow type",
-    "New Virtual Profile preset: User flow",
-    "Now you can import/export arrow styles as JSON file via corresponding shortcuts",
+    "Now you can customize virtual profile group's background color",
+    "Improved shortcut tool interface",
+    "This version also fixes bugs related to Figma’s recent update to the glass effect. Currently, the catalogue preview does not correctly reflect the splay property, although the information shown in the right panel is correct.",
     "Bug fixes",
     "Overall enhancements"
   ],
