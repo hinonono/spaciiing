@@ -1083,6 +1083,17 @@ const carbonOptions: AvailableOption[] = [
   },
 ];
 
+const originalOptions: AvailableOption[] = [
+  {
+    value: "originalLayoutGuide",
+    label: "Basic layout guide",
+    brands: ["original"],
+    category: ["other"],
+    forms: ["style"],
+    count: 3,
+  },
+];
+
 /**
  * 用於Preset Library模組，列出所有可選擇的選項
  */
@@ -1094,6 +1105,7 @@ const allOptions: AvailableOption[] = [
   ...bootstrapOptions,
   ...polarisOptions,
   ...carbonOptions,
+  ...originalOptions,
 ];
 
 export const getOptionsForSelectedBrandAndForm = (
@@ -1101,12 +1113,17 @@ export const getOptionsForSelectedBrandAndForm = (
   category: InstantiaterCategory,
   form: InstantiateForm
 ) => {
-  return allOptions.filter(
+  console.log(selectedBrand, category, form);
+
+  const result = allOptions.filter(
     (option) =>
       option.brands.includes(selectedBrand) &&
       option.category.includes(category) &&
       option.forms.includes(form)
   );
+  console.log("RESULT " + result.entries);
+
+  return result;
 };
 
 
@@ -1139,6 +1156,10 @@ export const getAvailableBrands = (): { value: InstantiaterSupportedBrand, label
     {
       value: "tailwind",
       label: "Tailwind CSS 4.0"
+    },
+    {
+      value: "original",
+      label: "Original"
     }
   ]
 }

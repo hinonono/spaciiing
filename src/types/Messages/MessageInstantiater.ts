@@ -10,7 +10,8 @@ export type InstantiaterSupportedBrand =
   | "tailwind"
   | "bootstrap"
   | "polaris"
-  | "carbon";
+  | "carbon"
+  | "original";
 export type InstantiaterCategory = "color" | "effect" | "typography" | "other";
 export type InstantiaterTarget =
   | ""
@@ -141,7 +142,9 @@ export type InstantiaterTarget =
   | "carbonYellow"
   | "carbonBreakpoints"
   | "carbonSpacing"
-  | "carbonTypographyScale";
+  | "carbonTypographyScale"
+  // Original
+  | "originalLayoutGuide";
 
 export interface MessageInstantiater extends Message {
   targets: InstantiaterTarget[];

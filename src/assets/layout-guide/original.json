@@ -1,0 +1,47 @@
+{
+    "brand": "Original",
+    "name": "Basic layout guide",
+    "members": [
+        {
+            "name": "Col 12",
+            "pattern": "COLUMNS",
+            "color": {
+                "r": 255,
+                "g": 56,
+                "b": 60,
+                "a": 1
+            },
+            "alignment": "STRETCH",
+            "gutterSize": 20,
+            "count": "12",
+            "sectionSize": 20,
+            "offset": 20
+        },
+        {
+            "name": "Row 12",
+            "pattern": "ROWS",
+            "color": {
+                "r": 255,
+                "g": 56,
+                "b": 60,
+                "a": 1
+            },
+            "alignment": "STRETCH",
+            "gutterSize": 20,
+            "count": "12",
+            "sectionSize": 20,
+            "offset": 20
+        },
+        {
+            "name": "Grid 10px",
+            "pattern": "GRID",
+            "color": {
+                "r": 255,
+                "g": 56,
+                "b": 60,
+                "a": 1
+            },
+            "sectionSize": 10
+        }
+    ]
+}
