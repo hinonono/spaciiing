@@ -8,7 +8,8 @@ import {
   EffectCollection,
   NumberCollection,
   TypographyCollection,
-} from "../types/ColorCollection";
+  LayoutGridCollection
+} from "../types/PresetCollection";
 import {
   m3ElevationDarkData,
   m3ElevationLightData,
@@ -44,6 +45,8 @@ import {
   polarisSpaceData,
   polarisWidthData,
 } from "../assets/numbers";
+
+import { originalLayoutGuideData } from "../assets/layout-guide";
 
 import {
   InstantiaterTarget,
@@ -179,11 +182,16 @@ const tailwindShadow: EffectCollection = tailwindShadowData as EffectCollection;
 // 字型資料
 const iosTypographyLarge: TypographyCollection = iosTypographyLargeData;
 
+// Layout guide資料
+const originalLayoutGuide: LayoutGridCollection = originalLayoutGuideData as LayoutGridCollection;
+
 /**
  * 依據Target決定要生成哪個Color Style
  */
 export function determineGenerateColorStyle(target: InstantiaterTarget) {
   switch (target) {
+    case "originalLayoutGuide":
+      break;
     case "iosEffectDefaultDropShadow":
       generateEffectStyle(iosDefaultDropShadow);
       break;

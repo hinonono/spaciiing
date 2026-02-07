@@ -1,4 +1,4 @@
-import { CollectionExplanationable, ColorCollection, NumberCollection } from "../../types/ColorCollection";
+import { CollectionExplanationable, ColorCollection, NumberCollection } from "../../types/PresetCollection";
 import { CornerRadiusNode } from "../../types/NodeCornerRadius";
 import { SingleCornerRadiusNode } from "../../types/NodeSingleCornerRadius";
 

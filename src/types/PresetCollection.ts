@@ -4,6 +4,11 @@ export interface BaseCollection {
   name: string;
 }
 
+// Layout guide
+export interface LayoutGridCollection extends BaseCollection {
+  members: (RowsColsLayoutGrid | GridLayoutGrid)[];
+}
+
 // 字級
 export interface TypographyCollection extends BaseCollection {
   members: CustomTypography[];
