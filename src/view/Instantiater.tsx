@@ -53,9 +53,16 @@ const Instantiater: React.FC = () => {
   const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const brand = event.target.value as InstantiaterSupportedBrand;
     setSelectedBrand(brand);
-    setSelectedCat("color");
-    setSelectedTargets([]); // Reset the selected option when the brand changes
     calculateOptionsCount(brand); // Calculate options count for the new brand
+
+    // Find the first available category for this brand
+    const availableCategories: InstantiaterCategory[] = ["color", "effect", "typography", "other"];
+    const firstAvailableCategory = availableCategories.find(
+      (cat) => getOptionsForSelectedBrandAndForm(brand, cat, form).length > 0
+    ) || "color";
+
+    setSelectedCat(firstAvailableCategory);
+    setSelectedTargets([]); // Reset the selected option when the brand changes
   };
   const handleCatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cat = event.target.value as InstantiaterCategory;
