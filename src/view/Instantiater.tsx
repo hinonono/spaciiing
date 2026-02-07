@@ -30,28 +30,32 @@ const Instantiater: React.FC = () => {
   const [selectedCat, setSelectedCat] = useState<InstantiaterCategory>("color");
   const [form, setForm] = useState<InstantiateForm>("style");
 
+
+  // 效能優化
+  const allCategoryOptions = useMemo(() => {
+    const cats: InstantiaterCategory[] = ["color", "effect", "typography", "other"];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const map = {} as Record<InstantiaterCategory, any[]>;
+    cats.forEach((cat) => {
+      map[cat] = getOptionsForSelectedBrandAndForm(selectedBrand, cat, form);
+    });
+    return map;
+  }, [selectedBrand, form]);
+
   const categoryOptionsCount = useMemo(() => {
     return {
-      color: getOptionsForSelectedBrandAndForm(selectedBrand, "color", form).length,
-      effect: getOptionsForSelectedBrandAndForm(selectedBrand, "effect", form).length,
-      typography: getOptionsForSelectedBrandAndForm(selectedBrand, "typography", form).length,
-      other: getOptionsForSelectedBrandAndForm(selectedBrand, "other", form).length,
+      color: allCategoryOptions.color.length,
+      effect: allCategoryOptions.effect.length,
+      typography: allCategoryOptions.typography.length,
+      other: allCategoryOptions.other.length,
     };
-  }, [selectedBrand, form]);
+  }, [allCategoryOptions]);
 
   const handleBrandChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     const brand = event.target.value as InstantiaterSupportedBrand;
     setSelectedBrand(brand);
-
-    // Find the first available category for this brand
-    const availableCategories: InstantiaterCategory[] = ["color", "effect", "typography", "other"];
-    const firstAvailableCategory = availableCategories.find(
-      (cat) => getOptionsForSelectedBrandAndForm(brand, cat, form).length > 0
-    ) || "color";
-
-    setSelectedCat(firstAvailableCategory);
     setSelectedTargets([]);
-  }, [form]);
+  }, []);
 
   const handleCatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cat = event.target.value as InstantiaterCategory;
@@ -59,14 +63,21 @@ const Instantiater: React.FC = () => {
     setSelectedTargets([]); // Reset the selected option when the brand changes
   };
 
-  const options = useMemo(() => {
-    return getOptionsForSelectedBrandAndForm(
-      selectedBrand,
-      selectedCat,
-      form
-    );
-  }, [selectedBrand, selectedCat, form]);
+  useEffect(() => {
+    const availableCategories: InstantiaterCategory[] = ["color", "effect", "typography", "other"];
+    const firstAvailableCategory =
+      availableCategories.find((cat) => (allCategoryOptions[cat]?.length ?? 0) > 0) || "color";
 
+    setSelectedCat(firstAvailableCategory);
+    setSelectedTargets([]);
+  }, [selectedBrand, form, allCategoryOptions]);
+
+  const options = useMemo(() => {
+    return allCategoryOptions[selectedCat] || [];
+  }, [allCategoryOptions, selectedCat]);
+
+
+  // 目前使用者選中的生成目標
   const [selectedTargets, setSelectedTargets] = useState<InstantiaterTarget[]>([]);
 
   const handleTargetChange = (target: InstantiaterTarget) => {
@@ -83,6 +94,7 @@ const Instantiater: React.FC = () => {
   }, [selectedBrand, selectedCat]);
 
 
+  // 套用
   const applyInstantiater = (type: InstantiaterType, isRealCall = false) => {
     if (!isRealCall) {
       if (!checkProFeatureAccessibleForUser(licenseManagement)) {
