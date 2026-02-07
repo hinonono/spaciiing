@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TitleBar, SectionTitle, FigmaButton, ColorThumbnailView, CYCheckbox, ListViewHeader } from "../components";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
@@ -18,7 +18,7 @@ import * as pluginConfig from "../pluginConfig.json";
 
 const Instantiater: React.FC = () => {
   const { t } = useTranslation(["module", "term"]);
-  const { licenseManagement, setShowCTSubscribe, variableCollectionList, setFreeUserDelayModalConfig } =
+  const { licenseManagement, variableCollectionList, setFreeUserDelayModalConfig } =
     useAppContext();
   // 功能說明彈窗
   const [showExplanationModal, setShowExplanationModal] = useState(false);
@@ -30,30 +30,18 @@ const Instantiater: React.FC = () => {
   const [selectedCat, setSelectedCat] = useState<InstantiaterCategory>("color");
   const [form, setForm] = useState<InstantiateForm>("style");
 
-  const [categoryOptionsCount, setCategoryOptionsCount] = useState<{
-    [key in InstantiaterCategory]: number;
-  }>({
-    color: 0,
-    effect: 0,
-    typography: 0,
-    other: 0,
-  });
-  const calculateOptionsCount = (brand: InstantiaterSupportedBrand) => {
-    const counts: { [key in InstantiaterCategory]: number } = {
-      color: getOptionsForSelectedBrandAndForm(brand, "color", form).length,
-      effect: getOptionsForSelectedBrandAndForm(brand, "effect", form).length,
-      typography: getOptionsForSelectedBrandAndForm(brand, "typography", form)
-        .length,
-      other: getOptionsForSelectedBrandAndForm(brand, "other", form).length,
+  const categoryOptionsCount = useMemo(() => {
+    return {
+      color: getOptionsForSelectedBrandAndForm(selectedBrand, "color", form).length,
+      effect: getOptionsForSelectedBrandAndForm(selectedBrand, "effect", form).length,
+      typography: getOptionsForSelectedBrandAndForm(selectedBrand, "typography", form).length,
+      other: getOptionsForSelectedBrandAndForm(selectedBrand, "other", form).length,
     };
-    setCategoryOptionsCount(counts);
-    console.log(counts);
-  };
+  }, [selectedBrand, form]);
 
-  const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleBrandChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     const brand = event.target.value as InstantiaterSupportedBrand;
     setSelectedBrand(brand);
-    calculateOptionsCount(brand); // Calculate options count for the new brand
 
     // Find the first available category for this brand
     const availableCategories: InstantiaterCategory[] = ["color", "effect", "typography", "other"];
@@ -62,19 +50,22 @@ const Instantiater: React.FC = () => {
     ) || "color";
 
     setSelectedCat(firstAvailableCategory);
-    setSelectedTargets([]); // Reset the selected option when the brand changes
-  };
+    setSelectedTargets([]);
+  }, [form]);
+
   const handleCatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cat = event.target.value as InstantiaterCategory;
     setSelectedCat(cat);
     setSelectedTargets([]); // Reset the selected option when the brand changes
   };
 
-  const options = getOptionsForSelectedBrandAndForm(
-    selectedBrand,
-    selectedCat,
-    form
-  );
+  const options = useMemo(() => {
+    return getOptionsForSelectedBrandAndForm(
+      selectedBrand,
+      selectedCat,
+      form
+    );
+  }, [selectedBrand, selectedCat, form]);
 
   const [selectedTargets, setSelectedTargets] = useState<InstantiaterTarget[]>([]);
 
@@ -91,9 +82,6 @@ const Instantiater: React.FC = () => {
     setSelectedTargets([]); // Reset target when options change
   }, [selectedBrand, selectedCat]);
 
-  useEffect(() => {
-    calculateOptionsCount(selectedBrand); // Initial calculation on component mount
-  }, [selectedBrand, form]);
 
   const applyInstantiater = (type: InstantiaterType, isRealCall = false) => {
     if (!isRealCall) {
