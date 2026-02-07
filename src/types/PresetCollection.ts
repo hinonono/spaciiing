@@ -6,7 +6,15 @@ export interface BaseCollection {
 
 // Layout guide
 export interface LayoutGridCollection extends BaseCollection {
-  members: (RowsColsLayoutGrid | GridLayoutGrid)[];
+  members: (RowsColsLayoutGridWithName | GridLayoutGridWithName)[];
+}
+
+interface RowsColsLayoutGridWithName extends RowsColsLayoutGrid {
+  name: string;
+}
+
+interface GridLayoutGridWithName extends GridLayoutGrid {
+  name: string;
 }
 
 // 字級

@@ -191,6 +191,7 @@ const originalLayoutGuide: LayoutGridCollection = originalLayoutGuideData as Lay
 export function determineGenerateColorStyle(target: InstantiaterTarget) {
   switch (target) {
     case "originalLayoutGuide":
+      generateLayoutGuide(originalLayoutGuide);
       break;
     case "iosEffectDefaultDropShadow":
       generateEffectStyle(iosDefaultDropShadow);
@@ -950,6 +951,69 @@ function generateEffectStyle(collection: EffectCollection) {
     style.effects = item.effects.map((effect) => ({
       ...effect, // Copy the effect properties
     }));
+  });
+}
+
+function generateLayoutGuide(collection: LayoutGridCollection) {
+  collection.members.forEach((item) => {
+    if (item.pattern === "ROWS") {
+      // 
+      if (!item.color) return;
+      const style = figma.createGridStyle();
+      style.name = `${collection.brand} - ${collection.name}/${item.name}`
+
+      style.layoutGrids = [{
+        pattern: "ROWS",
+        color: {
+          r: utils.math.mapToUnitRange(item.color.r),
+          g: utils.math.mapToUnitRange(item.color.g),
+          b: utils.math.mapToUnitRange(item.color.b),
+          a: utils.math.mapToUnitRange(item.color.a)
+        },
+        alignment: item.alignment,
+        gutterSize: item.gutterSize,
+        count: item.count,
+        sectionSize: item.sectionSize,
+        offset: item.offset
+      }]
+
+    } else if (item.pattern === "COLUMNS") {
+      // 
+      if (!item.color) return;
+      const style = figma.createGridStyle();
+      style.name = `${collection.brand} - ${collection.name}/${item.name}`
+
+      style.layoutGrids = [{
+        pattern: "COLUMNS",
+        color: {
+          r: item.color.r,
+          g: item.color.g,
+          b: item.color.b,
+          a: item.color.a
+        },
+        alignment: item.alignment,
+        gutterSize: item.gutterSize,
+        count: item.count,
+        sectionSize: item.sectionSize,
+        offset: item.offset
+      }]
+    } else {
+      // 
+      if (!item.color || !item.sectionSize) return;
+      const style = figma.createGridStyle();
+      style.name = `${collection.brand} - ${collection.name}/${item.name}`
+
+      style.layoutGrids = [{
+        pattern: "GRID",
+        color: {
+          r: item.color.r,
+          g: item.color.g,
+          b: item.color.b,
+          a: item.color.a
+        },
+        sectionSize: item.sectionSize,
+      }]
+    }
   });
 }
 
