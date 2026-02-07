@@ -9,7 +9,7 @@
                 "r": 255,
                 "g": 56,
                 "b": 60,
-                "a": 1
+                "a": 0.3
             },
             "alignment": "STRETCH",
             "gutterSize": 20,
@@ -24,7 +24,7 @@
                 "r": 255,
                 "g": 56,
                 "b": 60,
-                "a": 1
+                "a": 0.3
             },
             "alignment": "STRETCH",
             "gutterSize": 20,
@@ -39,7 +39,7 @@
                 "r": 255,
                 "g": 56,
                 "b": 60,
-                "a": 1
+                "a": 0.3
             },
             "sectionSize": 10
         }

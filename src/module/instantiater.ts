@@ -968,7 +968,7 @@ function generateLayoutGuide(collection: LayoutGridCollection) {
           r: utils.math.mapToUnitRange(item.color.r),
           g: utils.math.mapToUnitRange(item.color.g),
           b: utils.math.mapToUnitRange(item.color.b),
-          a: utils.math.mapToUnitRange(item.color.a)
+          a: item.color.a
         },
         alignment: item.alignment,
         gutterSize: item.gutterSize,
@@ -989,7 +989,7 @@ function generateLayoutGuide(collection: LayoutGridCollection) {
           r: utils.math.mapToUnitRange(item.color.r),
           g: utils.math.mapToUnitRange(item.color.g),
           b: utils.math.mapToUnitRange(item.color.b),
-          a: utils.math.mapToUnitRange(item.color.a)
+          a: item.color.a
         },
         alignment: item.alignment,
         gutterSize: item.gutterSize,
@@ -1009,7 +1009,7 @@ function generateLayoutGuide(collection: LayoutGridCollection) {
           r: utils.math.mapToUnitRange(item.color.r),
           g: utils.math.mapToUnitRange(item.color.g),
           b: utils.math.mapToUnitRange(item.color.b),
-          a: utils.math.mapToUnitRange(item.color.a)
+          a: item.color.a
         },
         sectionSize: item.sectionSize,
       }]

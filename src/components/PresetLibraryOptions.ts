@@ -1113,15 +1113,12 @@ export const getOptionsForSelectedBrandAndForm = (
   category: InstantiaterCategory,
   form: InstantiateForm
 ) => {
-  console.log(selectedBrand, category, form);
-
   const result = allOptions.filter(
     (option) =>
       option.brands.includes(selectedBrand) &&
       option.category.includes(category) &&
       option.forms.includes(form)
   );
-  console.log("RESULT " + result.entries);
 
   return result;
 };

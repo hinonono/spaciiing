@@ -3,6 +3,7 @@
   "version": "42",
   "whatsNew": [
     "Now you can customize virtual profile group's background color",
+    "New preset \"Basic layout guide\" has been added under \"Original\" category",
     "Improved shortcut tool interface",
     "This version also fixes bugs related to Figma’s recent update to the glass effect. Currently, the catalogue preview does not correctly reflect the splay property, although the information shown in the right panel is correct.",
     "Bug fixes",
