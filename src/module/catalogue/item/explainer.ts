@@ -393,7 +393,8 @@ function getEffectPropertiesToCreate(
       { title: lr.term["dispersion"], content: `${utils.string.formatNumberToDecimals(effect.dispersion * 100)}`, show: true },
       { title: lr.term["frost"], content: `${effect.radius}`, show: true },
       // { title: lr.term["splay"], content: `${effect.radius}`, show: true },
-      { title: lr.term["splay"], content: `NOT SUPPORTED`, show: true },
+      //@ts-expect-error: Currently figma's API definition is not updated to reflect latest change
+      { title: lr.term["splay"], content: `${effect.splay}`, show: true },
     ]
 
     return effectPropertiesToCreate
