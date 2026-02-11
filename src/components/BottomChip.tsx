@@ -1,5 +1,5 @@
+import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from "motion/react";
 import { useTranslation } from 'react-i18next';
 
 interface BottomChipProps {
