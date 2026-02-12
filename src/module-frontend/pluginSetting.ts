@@ -34,10 +34,7 @@ const updateEditorPreferenceHandler = (
   message: ExternalMessageUpdateEditorPreference,
   appContext: AppContextType
 ) => {
-  console.log("🕹️接收了EP！", message.editorPreference);
-
   const { setEditorPreference } = appContext;
-
   setEditorPreference(() => message.editorPreference);
 };
 

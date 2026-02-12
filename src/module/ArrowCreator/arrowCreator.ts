@@ -34,8 +34,6 @@ export function reception(message: MessageArrowCreator) {
             message.safeMargin,
         )
 
-        console.log("normal route", route);
-
         drawArrowAndAnnotation(
             route,
             message.stroke,
@@ -241,8 +239,6 @@ function determineRoute(
     if (!start.absoluteBoundingBox || !end.absoluteBoundingBox) {
         throw new Error("Absolute bounding box is required to determine route.")
     }
-
-    console.log(start.absoluteBoundingBox, end.absoluteBoundingBox)
 
     const startConnectionData = calcNodeSegments(start, margin, offset);
     const endConnectionData = calcNodeSegments(end, margin, offset);

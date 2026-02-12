@@ -37,8 +37,6 @@ export function applyArrowCreator(
         phase: "Actual",
         direction: "Inner",
     };
-    console.log("applyArrowCreator from front end", message);
-
     parent.postMessage({ pluginMessage: message, }, "*");
 }
 

@@ -75,9 +75,9 @@ export const handleSubscriptionStatus = (
     // Free tier process
     newLicense.tier = "FREE";
     newLicense.isLicenseActive = false;
-    console.log(
-      "License is invalid due to end of subscription, cancelled, or payment failed."
-    );
+    // console.log(
+    //   "License is invalid due to end of subscription, cancelled, or payment failed."
+    // );
   } else {
     // Paid tier process
     newLicense.tier = "PAID";
@@ -85,7 +85,7 @@ export const handleSubscriptionStatus = (
     if (response.purchase.recurrence) {
       newLicense.recurrence = response.purchase.recurrence;
     }
-    console.log("License is successfully verified.");
+    // console.log("License is successfully verified.");
   }
 
   return newLicense;

@@ -47,7 +47,6 @@ figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(pluginConfig.windowSize.default.width, pluginConfig.windowSize.default.height);
 
 figma.ui.onmessage = (message: Message) => {
-  // console.log("plugin.ts", message);
   const selectionLength = utils.editor.getCurrentSelection().length;
   let incrementSavedClicks = 0;
   let shouldIncrementTime = true;
