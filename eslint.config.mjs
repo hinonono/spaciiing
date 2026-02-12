@@ -20,5 +20,11 @@ export default defineConfig(
     rules: {
       ...figmaPlugin.flatConfigs.recommended.rules,
     },
+  },
+  // 👇 FINAL OVERRIDE BLOCK
+  {
+    rules: {
+      '@typescript-eslint/no-empty-object-type': 'off',
+    },
   }
 );
