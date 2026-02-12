@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../AppProvider';
 import Modal from '../components/Modal';
-import { Chip, ChipKeyboard, CYCheckbox, FigmaButton, SectionTitle, TitleBar } from '../components';
+import { ChipKeyboard, CYCheckbox, FigmaButton, SectionTitle, TitleBar } from '../components';
 import SegmentedControl from '../components/SegmentedControl';
 import { ConnectPointPosition, RectSegmentType, StrokeMode } from '../types/ArrowCreator';
 import { applyArrowCreator, defaultOffset, defaultStroke } from '../module-frontend/arrowCreatorFrontEnd';
@@ -13,7 +13,6 @@ import { SvgHorizontal, SvgVertical } from '../assets/icons';
 import StrokeEditor from '../components/arrowCreator/StrokeEditor';
 import StrokeStyleSelector from '../components/arrowCreator/StrokeStyleSelector';
 import { StrokeEditModal } from '../components/modalComponents';
-
 
 interface ArrowCreatorProps {
 

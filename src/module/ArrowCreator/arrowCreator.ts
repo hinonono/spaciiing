@@ -370,7 +370,10 @@ async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
         "HORIZONTAL"
     )
 
-    annotationNode.layoutAlign = "CENTER";
+    annotation.layoutSizingHorizontal = "FILL";
+    annotation.layoutSizingVertical = "FILL";
+
+    // annotationNode.layoutAlign = "CENTER";
     annotationNode.primaryAxisAlignItems = "CENTER";
     annotationNode.counterAxisAlignItems = "CENTER";
 
@@ -389,8 +392,27 @@ async function createAnnotation(midPoint: Coordinates, strokeStlye: CYStroke) {
 }
 
 function setAnnotationNodePosition(node: SceneNode, midPoint: Coordinates) {
-    node.x = midPoint.x - (node.width / 2);
-    node.y = midPoint.y - (node.height / 2);
+    if (figma.editorType === "slides") {
+        const pageOriginRelativeToCurrentSlide = getNodeOffsetFromFirstSlideOrigin(node);
+
+        node.x = midPoint.x - (node.width / 2) + pageOriginRelativeToCurrentSlide.x;
+        node.y = midPoint.y - (node.height / 2) + pageOriginRelativeToCurrentSlide.y;
+    } else {
+        node.x = midPoint.x - (node.width / 2);
+        node.y = midPoint.y - (node.height / 2);
+    }
+}
+
+function getNodeOffsetFromFirstSlideOrigin(node: SceneNode): Vector {
+    if (figma.editorType !== "slides") {
+        throw new Error("This function is only meant to be used in slide mode.");
+    };
+
+    if (!node.absoluteBoundingBox) {
+        throw new Error("Node must include absolute bounding box in order to calculate correct position.")
+    }
+
+    return { x: node.x - node.absoluteBoundingBox.x, y: node.y - node.absoluteBoundingBox.y };
 }
 
 function setArrowSchemaData(
@@ -481,10 +503,7 @@ export async function updateArrowPosition() {
                 // 在簡報模式中，若要取得畫布的(0,0)點位置，需要考慮當前投影片之於畫布的相對位置
                 // 由於簡報模式無法直接抓取「簡報node」，因此使用「起始點node」替代來計算相對於當前畫布而言的畫布（0,0）位置
                 // 以此使得記載著「畫布絕對位置」的向量線段可以反映在正確的位置上
-                if (!sourceNode.absoluteBoundingBox) {
-                    throw new Error("Source node must include absolute bounding box in order to calculate new arrow position.")
-                }
-                const pageOriginRelativeToCurrentSlide: Vector = { x: sourceNode.x - sourceNode.absoluteBoundingBox.x, y: sourceNode.y - sourceNode.absoluteBoundingBox.y };
+                const pageOriginRelativeToCurrentSlide = getNodeOffsetFromFirstSlideOrigin(sourceNode);
 
                 arrowNode.x = pageOriginRelativeToCurrentSlide.x;
                 arrowNode.y = pageOriginRelativeToCurrentSlide.y;
