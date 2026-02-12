@@ -42,147 +42,205 @@ import { MessageArrowCreator } from "./types/Messages/MessageArrowCreator";
 
 import { utils } from "./module/utils";
 import { MessageMinMaxWindow } from "./types/Messages/MessageMinMaxWindow";
+import { ModuleHandler } from "./types/ModuleHandler";
 
 figma.showUI(__html__, { themeColors: true });
 figma.ui.resize(pluginConfig.windowSize.default.width, pluginConfig.windowSize.default.height);
 
 figma.ui.onmessage = (message: Message) => {
   const selectionLength = utils.editor.getCurrentSelection().length;
-  let incrementSavedClicks = 0;
-  let shouldIncrementTime = true;
 
+  handlePreferenceSaving(message);
+  handleSyncedResources(message);
+
+  const handler = moduleHandlers[message.module];
+  if (!handler) return;
+
+  handler.execute(message);
+
+  const shouldIncrementTime = handler.shouldIncrementTime !== false;
+
+  if (shouldIncrementTime && handler.getSavedClicks) {
+    const clicks = handler.getSavedClicks(message, selectionLength);
+    utils.service.incrementSavedClicks(clicks, true);
+  }
+};
+
+function handlePreferenceSaving(message: Message): void {
   if (
-    message.shouldSaveEditorPreference &&
-    message.shouldSaveEditorPreference == true
+    message.shouldSaveEditorPreference === true
   ) {
     if (message.editorPreference) {
-      utils.data.saveEditorPreference(message.editorPreference, "General");
+      utils.data.saveEditorPreference(
+        message.editorPreference,
+        "General"
+      );
     } else {
       throw new Error("Missing Editor Preference.");
     }
   }
+}
 
+function handleSyncedResources(message: Message): void {
   if (
-    message.shouldSaveSyncedReources &&
-    message.shouldSaveSyncedReourcesType &&
-    message.shouldSaveSyncedReources === true
+    message.shouldSaveSyncedReources === true &&
+    message.shouldSaveSyncedReourcesType
   ) {
     if (message.syncedResources) {
-      utils.data.saveSyncedResource(message.shouldSaveSyncedReourcesType, message.syncedResources);
+      utils.data.saveSyncedResource(
+        message.shouldSaveSyncedReourcesType,
+        message.syncedResources
+      );
     } else {
-      throw new Error("Missing synced resources.")
+      throw new Error("Missing synced resources.");
     }
   }
+}
 
-  switch (message.module) {
-    case "Init":
-      init.init();
-      incrementSavedClicks = 0;
-      shouldIncrementTime = false;
-      break;
-    case "Localization":
-      localization.reception(message as MessageLocalization);
-      incrementSavedClicks = 0;
-      shouldIncrementTime = false;
-      break;
-    case "Spaciiing":
-      spaciiing.useSpacing(message as MessageSpaciiing);
-      incrementSavedClicks = selectionLength * 4
-      break;
-    case "ArrowCreator":
-      arrowCreator.reception(message as MessageArrowCreator)
-      incrementSavedClicks = (selectionLength - 1) * 18
-      break;
-    case "Framer":
-      framer.useEqual(message as MessageFramer);
-      incrementSavedClicks = selectionLength
-      break;
-    case "PropertyClipboard":
-      const pcMessage = message as MessagePropertyClipboard;
-      propertyClipboard.reception(pcMessage);
-      if (pcMessage.property) {
-        incrementSavedClicks = selectionLength * pcMessage.property.length
-      }
-      break;
-    case "Shortcut":
-      const scMessage = message as MessageShortcut;
-      shortcut.executeShortcut(scMessage);
-      if (scMessage.phase !== "Init") {
-        incrementSavedClicks = selectionLength * 10;
-      }
-      break;
-    case "Renamer":
-      renamer.renameSelectedObjects(message as MessageRenamer);
-      incrementSavedClicks = selectionLength * 2
-      break;
-    case "VariableEditor":
-      const veMessage = message as MessageVariableEditor;
-      variableEditor.reception(veMessage);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const moduleHandlers: Record<string, ModuleHandler<any>> = {
+  Init: {
+    execute: () => init.init(),
+    shouldIncrementTime: false,
+  },
 
-      if (veMessage.intent === "executeCode") {
-        const veMessage2 = veMessage as MessageVariableEditorExecuteCode;
-        incrementSavedClicks = Math.round(veMessage2.code.length / 114) * 5
-      }
-      break;
-    case "VirtualProfile":
-      virtualProfile.reception(message as MessageVirtualProfile);
-      incrementSavedClicks = selectionLength * 4
-      break;
-    case "Instantiater":
-      const iMessage = message as MessageInstantiater;
-      instantiater.instantiateTarget(iMessage);
-      incrementSavedClicks = iMessage.targets.length * 80
-      break;
-    case "LoremGenerator":
-      lorem.makeLorem(message as MessageLoremGenerator);
-      incrementSavedClicks = selectionLength * 4
-      break;
-    case "SelectionFilter":
-      selectionFilter.reception(message as MessageSelectionFilter);
-      incrementSavedClicks = selectionLength * 16
-      break;
-    case "LicenseManagement":
-      licenseManagement.reception(message as MessageLicenseManagement);
-      shouldIncrementTime = false;
-      break;
-    case "AspectRatioHelper":
-      aspectRatioHelper.reception(message as MessageAspectRatio);
-      incrementSavedClicks = selectionLength * 2
-      break;
-    case "Resize":
-      shouldIncrementTime = false;
-      incrementSavedClicks = 0;
-      resize.reception(message as MessageResize);
-      break;
-    case "MinMaxWindow":
-      shouldIncrementTime = false;
-      incrementSavedClicks = 0;
-      minMaxWindow.reception(message as MessageMinMaxWindow);
-      break;
-    case "StyleIntroducer":
-      const siMessage = message as MessageStyleIntroducer;
-      styleIntroducer.reception(siMessage);
+  Localization: {
+    execute: (message: MessageLocalization) =>
+      localization.reception(message),
+    shouldIncrementTime: false,
+  },
 
-      if (siMessage.styleSelection) {
-        incrementSavedClicks = siMessage.styleSelection.scopes.length * 18 + 8
-      }
-      break;
-    case "General":
-      shouldIncrementTime = false;
-      incrementSavedClicks = 0;
-      break;
-    case "PluginSetting":
-      shouldIncrementTime = false;
-      incrementSavedClicks = 0;
-      break;
-    default:
-      shouldIncrementTime = false;
-      break;
-  }
+  Spaciiing: {
+    execute: (message: MessageSpaciiing) =>
+      spaciiing.useSpacing(message),
+    getSavedClicks: (_, selectionLength) =>
+      selectionLength * 4,
+  },
 
-  if (shouldIncrementTime) {
-    utils.service.incrementSavedClicks(incrementSavedClicks, shouldIncrementTime);
-  }
+  ArrowCreator: {
+    execute: (message: MessageArrowCreator) =>
+      arrowCreator.reception(message),
+    getSavedClicks: (_, selectionLength) =>
+      (selectionLength - 1) * 18,
+  },
+
+  Framer: {
+    execute: (message: MessageFramer) =>
+      framer.useEqual(message),
+    getSavedClicks: (_, selectionLength) =>
+      selectionLength,
+  },
+
+  PropertyClipboard: {
+    execute: (message: MessagePropertyClipboard) =>
+      propertyClipboard.reception(message),
+    getSavedClicks: (message: MessagePropertyClipboard, selectionLength) =>
+      message.property
+        ? selectionLength * message.property.length
+        : 0,
+  },
+
+  Shortcut: {
+    execute: (message: MessageShortcut) =>
+      shortcut.executeShortcut(message),
+    getSavedClicks: (message: MessageShortcut, selectionLength) =>
+      message.phase !== "Init"
+        ? selectionLength * 10
+        : 0,
+  },
+
+  Renamer: {
+    execute: (message: MessageRenamer) =>
+      renamer.renameSelectedObjects(message),
+    getSavedClicks: (_, selectionLength) =>
+      selectionLength * 2,
+  },
+
+  VariableEditor: {
+    execute: (message: MessageVariableEditor) =>
+      variableEditor.reception(message),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getSavedClicks: (message: MessageVariableEditor, _) => {
+      if (message.intent === "executeCode") {
+        const veMessage =
+          message as MessageVariableEditorExecuteCode;
+        return Math.round(veMessage.code.length / 114) * 5;
+      }
+      return 0;
+    },
+  },
+
+  VirtualProfile: {
+    execute: (message: MessageVirtualProfile) =>
+      virtualProfile.reception(message),
+    getSavedClicks: (_, selectionLength) =>
+      selectionLength * 4,
+  },
+
+  Instantiater: {
+    execute: (message: MessageInstantiater) =>
+      instantiater.instantiateTarget(message),
+    getSavedClicks: (message: MessageInstantiater) =>
+      message.targets.length * 80,
+  },
+
+  LoremGenerator: {
+    execute: (message: MessageLoremGenerator) =>
+      lorem.makeLorem(message),
+    getSavedClicks: (_, selectionLength) =>
+      selectionLength * 4,
+  },
+
+  SelectionFilter: {
+    execute: (message: MessageSelectionFilter) =>
+      selectionFilter.reception(message),
+    getSavedClicks: (_, selectionLength) =>
+      selectionLength * 16,
+  },
+
+  LicenseManagement: {
+    execute: (message: MessageLicenseManagement) =>
+      licenseManagement.reception(message),
+    shouldIncrementTime: false,
+  },
+
+  AspectRatioHelper: {
+    execute: (message: MessageAspectRatio) =>
+      aspectRatioHelper.reception(message),
+    getSavedClicks: (_, selectionLength) =>
+      selectionLength * 2,
+  },
+
+  Resize: {
+    execute: (message: MessageResize) =>
+      resize.reception(message),
+    shouldIncrementTime: false,
+  },
+
+  MinMaxWindow: {
+    execute: (message: MessageMinMaxWindow) =>
+      minMaxWindow.reception(message),
+    shouldIncrementTime: false,
+  },
+
+  StyleIntroducer: {
+    execute: (message: MessageStyleIntroducer) =>
+      styleIntroducer.reception(message),
+    getSavedClicks: (message: MessageStyleIntroducer) =>
+      message.styleSelection
+        ? message.styleSelection.scopes.length * 18 + 8
+        : 0,
+  },
+
+  General: {
+    execute: () => { },
+    shouldIncrementTime: false,
+  },
+
+  PluginSetting: {
+    execute: () => { },
+    shouldIncrementTime: false,
+  },
 };
 
 // Function to execute before the plugin is closed
