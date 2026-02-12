@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
-import { FigmaButton, ListViewHeader, SectionTitle, TitleBar } from "../components";
+import { FigmaButton, ListViewHeader, SectionTitle, TitleBar, BottomChip } from "../components";
 import Modal from "../components/Modal";
 import { PropertyClipboardSupportedProperty } from "../types/PropertClipboard";
 import {
@@ -92,38 +92,55 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
       />
     ));
 
+  function OnMemorizeButtonClicked() {
+    setReferenceObject(false, appContext);
+    setOpenBottomChip(true);
+    setBottomChipContent("module:objectMemorized");
+  }
+
+  // Bottomchip 相關
+  const [openBottomChip, setOpenBottomChip] = useState(false);
+  const [bottomChipContent, setBottomChipContent] = useState("");
+
   return (
-    <div>
-      <Modal
-        show={showExplanationModal}
-        handleClose={handleCloseExplanationModal}
-      >
-        <div>
-          <h3>{t("module:modulePropertyClipboard")}</h3>
-          <p>{t("module:modulePropertyClipboardDesc")}</p>
-        </div>
-      </Modal>
-      <Modal show={showBehaviorModal} handleClose={handleCloseBehaviorModal}>
-        <div>
-          <h3>{t("module:pastePreference")}</h3>
-          <div className="grid mt-xsmall">
-            <FigmaButton
-              buttonType="secondary"
-              title={t("module:addToExistingStyle")}
-              onClick={() => handleBehaviorChangeAndConfirm("pasteToIncrement")}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
-            <FigmaButton
-              buttonType="primary"
-              title={t("module:replaceStyle")}
-              onClick={() => handleBehaviorChangeAndConfirm("pasteToReplace")}
-              buttonHeight="xlarge"
-              hasTopBottomMargin={false}
-            />
+    <div className="position-relative">
+      <div>
+        <Modal
+          show={showExplanationModal}
+          handleClose={handleCloseExplanationModal}
+        >
+          <div>
+            <h3>{t("module:modulePropertyClipboard")}</h3>
+            <p>{t("module:modulePropertyClipboardDesc")}</p>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+        <Modal show={showBehaviorModal} handleClose={handleCloseBehaviorModal}>
+          <div>
+            <h3>{t("module:pastePreference")}</h3>
+            <div className="grid mt-xsmall">
+              <FigmaButton
+                buttonType="secondary"
+                title={t("module:addToExistingStyle")}
+                onClick={() => handleBehaviorChangeAndConfirm("pasteToIncrement")}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+              <FigmaButton
+                buttonType="primary"
+                title={t("module:replaceStyle")}
+                onClick={() => handleBehaviorChangeAndConfirm("pasteToReplace")}
+                buttonHeight="xlarge"
+                hasTopBottomMargin={false}
+              />
+            </div>
+          </div>
+        </Modal>
+      </div>
+      <BottomChip
+        open={openBottomChip}
+        setOpen={setOpenBottomChip}
+        content={bottomChipContent}
+      />
       <TitleBar
         title={t("module:modulePropertyClipboard")}
         onClick={handleOpenExplanationModal}
@@ -135,12 +152,12 @@ const PropertyClipboard: React.FC<PropertyClipboardProps> = () => {
           {appContext.referenceObject.id != "" ? (
             <ReferenceObjectView
               title={`${appContext.referenceObject.name} (${appContext.referenceObject.layerType}, ID: ${appContext.referenceObject.id})`}
-              memorizeAction={() => setReferenceObject(false, appContext)}
+              memorizeAction={OnMemorizeButtonClicked}
             />
           ) : (
             <ReferenceObjectView
               title={t("module:selectLayerAsReference")}
-              memorizeAction={() => setReferenceObject(false, appContext)}
+              memorizeAction={OnMemorizeButtonClicked}
             />
           )}
           <div className="mt-xxsmall"></div>

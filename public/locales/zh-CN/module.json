@@ -220,5 +220,6 @@
   "insertExampleCode": "插入示例代码",
   "changeSaved": "更改已保存。",
   "newGroupAdded": "已添加新分组。",
-  "newRowAdded": "已添加新行。"
+  "newRowAdded": "已添加新行。",
+  "objectMemorized": "已设定参考图层。"
 }

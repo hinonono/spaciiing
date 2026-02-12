@@ -29,11 +29,10 @@ import {
 import { SupportedLangCode } from "../types/Localization";
 import * as pluginConfig from "../pluginConfig.json";
 import { addChildToRow, addRecordToLastTitle, addTitleRow, deleteChild, deleteRow, duplicateContentRow, duplicateTitleRow, getAvailabeCategories, onDragEnd, toggleAll } from "../module-frontend/virtualProfileUI";
-import { ButtonIcon24 } from "../components";
+import { ButtonIcon24, BottomChip } from "../components";
 import VirtualProfileToolBarView from "../components/virtualProfile/VirtualProfileToolBarView";
 import ContextMenuView from "../components/virtualProfile/ContextMenuView";
 import ProfileHeaderView from "../components/virtualProfile/ProfileHeaderView";
-import BottomChip from "../components/BottomChip";
 import { MessageSaveSyncedResource } from "../types/Messages/MessageSaveSyncedResource";
 
 interface VirtualProfileNewProps {

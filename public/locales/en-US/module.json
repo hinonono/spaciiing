@@ -220,5 +220,6 @@
     "insertExampleCode": "Insert example code",
     "changeSaved": "Change saved.",
     "newGroupAdded": "Added new group.",
-    "newRowAdded": "Added new row."
+    "newRowAdded": "Added new row.",
+    "objectMemorized": "Reference object set."
 }

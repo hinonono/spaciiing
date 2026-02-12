@@ -220,5 +220,6 @@
   "insertExampleCode": "サンプルコードを挿入",
   "changeSaved": "変更が保存されました。",
   "newGroupAdded": "新しいグループを追加しました。",
-  "newRowAdded": "新しい行を追加しました。"
+  "newRowAdded": "新しい行を追加しました。",
+  "objectMemorized": "参照レイヤーに設定しました。"
 }

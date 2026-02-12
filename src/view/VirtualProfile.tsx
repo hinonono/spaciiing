@@ -48,32 +48,6 @@ const VirtualProfile: React.FC = () => {
     parent.postMessage({ pluginMessage: message, }, "*");
   };
 
-  // const saveVirtualProfile = (isRealCall = false) => {
-  //   if (!isRealCall) {
-  //     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-  //       setFreeUserDelayModalConfig({
-  //         show: true,
-  //         initialTime: pluginConfig.freeUserWaitingTime,
-  //         onProceed: () => saveVirtualProfile(true), // Re-invoke with the real call
-  //       });
-  //       return;
-  //     }
-  //   }
-
-  //   const message: MessageSaveSyncedResource = {
-  //     shouldSaveSyncedReources: true,
-  //     shouldSaveSyncedReourcesType: "virtualProfiles",
-  //     syncedResources: runtimeSyncedResources,
-  //     module: "General",
-  //     phase: "Actual",
-  //     direction: "Inner"
-  //   }
-
-  //   parent.postMessage({ pluginMessage: message, }, "*");
-
-  //   setPreviousVirtualProfile(runtimeSyncedResources.virtualProfiles);
-  // };
-
   return (
     <div>
       <Modal
