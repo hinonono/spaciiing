@@ -9,7 +9,7 @@
   "licenseNote": "ライセンスステータスは、プロ機能がアクセス可能かどうかを示します。ライセンス認証プロセス中にインターネット接続がない場合、有料プランに登録されていてもステータスは無効に設定される可能があります。",
   "activateLicense": "ライセンスキーを入力",
   "subscribeNow": "今すぐ購読する",
-  "enterLicenseKey": "ライセンスキーを入力してください",
+  "enterLicenseKey": "ライセンスキーを入力",
   "enterLicenseKeyDescription": "ライセンスキーはGumroadのページまたは購入時に入力したメールボックスで確認できます。",
   "enterYourLicenseKeyHere": "ここにライセンスキーを入力してください",
   "activateSuccess": "ライセンスを成功にアクティベートしました。",
