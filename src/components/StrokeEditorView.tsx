@@ -4,8 +4,9 @@ import { strokeStyles } from '../module-frontend/arrowCreatorFrontEnd';
 import ColorThumbnailView from './ColorThumbnailView';
 import { CYStroke } from '../types/CYStroke';
 import { useTranslation } from 'react-i18next';
-import { SvgCornerRadius, SvgStrokeWeight } from '../assets/icons';
+import { SvgCornerRadius, SvgStrokeWeight, SvgSwitch } from '../assets/icons';
 import StrokeCapSelector from './StrokeCapSelector';
+import { IconButton } from '.';
 
 interface StrokeEditorViewProps {
   editingStroke: CYStroke;
@@ -190,6 +191,13 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
     document.getElementById("colorPickerInput")?.click();
   };
 
+  const onSwitchClick = () => {
+    const oldStartPointCap = editingStroke.startPointCap;
+    const oldEndPointCap = editingStroke.endPointCap;
+
+    setEditingStroke((prev) => ({ ...prev, startPointCap: oldEndPointCap, endPointCap: oldStartPointCap }));
+  }
+
   return (
     <div>
       <div>
@@ -331,11 +339,18 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
           </div>
         )}
       </div>
-      <div className='grid mt-xxsmall'>
+      <div className='stroke-cap-wrapper mt-xxsmall'>
         <StrokeCapSelector
           titleKey={'module:startPoint'}
           value={editingStroke.startPointCap}
           onChange={handleStartingPointStyleChange}
+        />
+        <IconButton
+          buttonType="tertiary"
+          svg={<SvgSwitch color="var(--figma-color-text)" />}
+          onClick={onSwitchClick}
+          buttonHeight="small"
+          hasTopBottomMargin={false}
         />
         <StrokeCapSelector
           titleKey={'module:endPoint'}

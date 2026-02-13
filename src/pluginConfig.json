@@ -3,6 +3,7 @@
   "version": "43",
   "whatsNew": [
     "This version fixed bugs that cause annotation box being positioned incorrectly in Figma slides.",
+    "Added switch button in \"Aspect Ratio Helper\" and \"Draw Arrows\" tool.",
     "Bug fixes",
     "Overall enhancements"
   ],

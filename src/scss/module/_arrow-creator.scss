@@ -1,7 +1,7 @@
-.custom-ratio-block {
+.stroke-cap-wrapper {
     display: grid;
     grid-template-columns: 4fr 1fr 4fr;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     column-gap: 0.4rem;
 }
