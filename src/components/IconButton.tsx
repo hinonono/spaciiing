@@ -3,7 +3,7 @@ import React from "react";
 interface IconButtonProps {
   buttonType?: "primary" | "secondary" | "tertiary" | "grain" | "special" | "danger" | "secondary--danger";
   buttonHeight?: "small" | "medium" | "large" | "xlarge";
-  fontSize?: "xsmall" | "small" | "large" | "xlarge";
+  iconSize?: "20" | "24";
   id?: string;
   onClick?: () => void;
   disabled?: boolean;
@@ -16,7 +16,7 @@ interface IconButtonProps {
 const IconButton: React.FC<IconButtonProps> = ({
   buttonType = "primary",
   buttonHeight = "medium",
-  fontSize = "xsmall",
+  iconSize = "24",
   id,
   onClick,
   disabled = false,
@@ -28,13 +28,13 @@ const IconButton: React.FC<IconButtonProps> = ({
   return (
     <div className="flex flex-justify-center align-items-center">
       <button
-        className={`button button-icon button--${buttonType} font-size-${fontSize} button-height-${buttonHeight} ${hasTopBottomMargin === false && "disable-mtmb"
+        className={`button button-icon button--${buttonType} button-height-${buttonHeight} ${hasTopBottomMargin === false && "disable-mtmb"
           } ${hasMargin === false && "margin-0"} ${additionalClass}`}
         id={id}
         onClick={onClick}
         disabled={disabled}
       >
-        <div className="icon-24">{svg}</div>
+        <div className={`icon-${iconSize}`}>{svg}</div>
       </button>
     </div>
   );

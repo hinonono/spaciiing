@@ -347,6 +347,7 @@ const StrokeEditorView: React.FC<StrokeEditorViewProps> = ({
         />
         <IconButton
           buttonType="tertiary"
+          iconSize='20'
           svg={<SvgSwitch color="var(--figma-color-text)" />}
           onClick={onSwitchClick}
           buttonHeight="small"

@@ -57,84 +57,6 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
     setHeightCustomRatio(oldWidthRatio);
   }
 
-  // const aspectRatioOptionsUI: {
-  //   name: AspectRatioOptions;
-  //   svg: React.JSX.Element;
-  //   width: number;
-  //   height: number;
-  //   nameKey: string;
-  // }[] = [
-  //     {
-  //       name: "16:9",
-  //       svg: <SvgAR16to9 color="var(--figma-color-text)" />,
-  //       width: 16,
-  //       height: 9,
-  //       nameKey: "module:aspectRatio_16_9",
-  //     },
-  //     {
-  //       name: "9:16",
-  //       svg: <SvgAR9to16 color="var(--figma-color-text)" />,
-  //       width: 9,
-  //       height: 16,
-  //       nameKey: "module:aspectRatio_9_16",
-  //     },
-  //     {
-  //       name: "4:3",
-  //       svg: <SvgAR4to3 color="var(--figma-color-text)" />,
-  //       width: 4,
-  //       height: 3,
-  //       nameKey: "module:aspectRatio_4_3",
-  //     },
-  //     {
-  //       name: "3:4",
-  //       svg: <SvgAR3to4 color="var(--figma-color-text)" />,
-  //       width: 3,
-  //       height: 4,
-  //       nameKey: "module:aspectRatio_3_4",
-  //     },
-  //     {
-  //       name: "3:2",
-  //       svg: <SvgAR3to2 color="var(--figma-color-text)" />,
-  //       width: 3,
-  //       height: 2,
-  //       nameKey: "module:aspectRatio_3_2",
-  //     },
-  //     {
-  //       name: "2:3",
-  //       svg: <SvgAR2to3 color="var(--figma-color-text)" />,
-  //       width: 2,
-  //       height: 3,
-  //       nameKey: "module:aspectRatio_2_3",
-  //     },
-  //     {
-  //       name: "1:1",
-  //       svg: <SvgAR1to1 color="var(--figma-color-text)" />,
-  //       width: 1,
-  //       height: 1,
-  //       nameKey: "module:aspectRatio_1_1",
-  //     },
-  //   ];
-
-  // const applyAspectRatioHandler = (
-  //   widthRatio: number,
-  //   heightRatio: number,
-  //   isCustom: boolean,
-  //   isRealCall = false
-  // ) => {
-  //   if (!isRealCall) {
-  //     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-  //       setFreeUserDelayModalConfig({
-  //         show: true,
-  //         initialTime: pluginConfig.freeUserWaitingTime,
-  //         onProceed: () => applyAspectRatioHandler(widthRatio, heightRatio, isCustom, true), // Retry with isRealCall = true
-  //       });
-  //       return;
-  //     }
-  //   }
-
-  //   applyAspectRatio(widthRatio, heightRatio, isCustom, lockedDimension);
-  // };
-
   return (
     <div>
       <Modal
@@ -230,6 +152,7 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
               />
               <IconButton
                 buttonType="tertiary"
+                iconSize="20"
                 svg={<SvgSwitch color="var(--figma-color-text)" />}
                 onClick={onSwitchClick}
                 buttonHeight="small"
