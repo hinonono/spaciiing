@@ -1,41 +1,25 @@
 import React, { useState } from "react";
 import { useAppContext } from "../AppProvider";
-import { FigmaButton, ListViewHeader, SectionTitle, TitleBar } from "../components";
+import { FigmaButton, IconButton, ListViewHeader, SectionTitle, TitleBar } from "../components";
 import Modal from "../components/Modal";
 import { useTranslation } from "react-i18next";
 import {
   SvgVertical,
   SvgHorizontal,
-  SvgAR16to9,
-  SvgAR9to16,
-  SvgAR4to3,
-  SvgAR3to4,
-  SvgAR3to2,
-  SvgAR2to3,
-  SvgAR1to1,
+  SvgSwitch,
 } from "../assets/icons";
 import { Dimension } from "../types/General";
 import {
-  checkProFeatureAccessibleForUser,
-  applyAspectRatio,
   isStringNumber,
 } from "../module-frontend/utilFrontEnd";
 import SegmentedControl from "../components/SegmentedControl";
-import * as pluginConfig from "../pluginConfig.json";
+import { applyAspectRatioHandler, aspectRatioOptionsUI } from "../module-frontend/aspectRatioHelperFrontEnd";
 
 interface AspectRatioHelperProps { }
-type AspectRatioOptions =
-  | "16:9"
-  | "9:16"
-  | "4:3"
-  | "3:4"
-  | "3:2"
-  | "2:3"
-  | "1:1"
-  | "custom";
+
 
 const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
-  const { licenseManagement, setShowCTSubscribe, setFreeUserDelayModalConfig } = useAppContext();
+  const appContext = useAppContext();
   const { t } = useTranslation(["module", "term"]);
 
   // 功能說明彈窗
@@ -65,83 +49,91 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
     }
   };
 
-  const aspectRatioOptionsUI: {
-    name: AspectRatioOptions;
-    svg: React.JSX.Element;
-    width: number;
-    height: number;
-    nameKey: string;
-  }[] = [
-      {
-        name: "16:9",
-        svg: <SvgAR16to9 color="var(--figma-color-text)" />,
-        width: 16,
-        height: 9,
-        nameKey: "module:aspectRatio_16_9",
-      },
-      {
-        name: "9:16",
-        svg: <SvgAR9to16 color="var(--figma-color-text)" />,
-        width: 9,
-        height: 16,
-        nameKey: "module:aspectRatio_9_16",
-      },
-      {
-        name: "4:3",
-        svg: <SvgAR4to3 color="var(--figma-color-text)" />,
-        width: 4,
-        height: 3,
-        nameKey: "module:aspectRatio_4_3",
-      },
-      {
-        name: "3:4",
-        svg: <SvgAR3to4 color="var(--figma-color-text)" />,
-        width: 3,
-        height: 4,
-        nameKey: "module:aspectRatio_3_4",
-      },
-      {
-        name: "3:2",
-        svg: <SvgAR3to2 color="var(--figma-color-text)" />,
-        width: 3,
-        height: 2,
-        nameKey: "module:aspectRatio_3_2",
-      },
-      {
-        name: "2:3",
-        svg: <SvgAR2to3 color="var(--figma-color-text)" />,
-        width: 2,
-        height: 3,
-        nameKey: "module:aspectRatio_2_3",
-      },
-      {
-        name: "1:1",
-        svg: <SvgAR1to1 color="var(--figma-color-text)" />,
-        width: 1,
-        height: 1,
-        nameKey: "module:aspectRatio_1_1",
-      },
-    ];
+  const onSwitchClick = () => {
+    const oldWidthRatio = widthCustomRatio;
+    const oldHeightRatio = heightCustomRatio;
 
-  const applyAspectRatioHandler = (
-    widthRatio: number,
-    heightRatio: number,
-    isCustom: boolean,
-    isRealCall = false
-  ) => {
-    if (!isRealCall) {
-      if (!checkProFeatureAccessibleForUser(licenseManagement)) {
-        setFreeUserDelayModalConfig({
-          show: true,
-          initialTime: pluginConfig.freeUserWaitingTime,
-          onProceed: () => applyAspectRatioHandler(widthRatio, heightRatio, isCustom, true), // Retry with isRealCall = true
-        });
-        return;
-      }
-    }
+    setWidthCustomRatio(oldHeightRatio);
+    setHeightCustomRatio(oldWidthRatio);
+  }
 
-    applyAspectRatio(widthRatio, heightRatio, isCustom, lockedDimension);
-  };
+  // const aspectRatioOptionsUI: {
+  //   name: AspectRatioOptions;
+  //   svg: React.JSX.Element;
+  //   width: number;
+  //   height: number;
+  //   nameKey: string;
+  // }[] = [
+  //     {
+  //       name: "16:9",
+  //       svg: <SvgAR16to9 color="var(--figma-color-text)" />,
+  //       width: 16,
+  //       height: 9,
+  //       nameKey: "module:aspectRatio_16_9",
+  //     },
+  //     {
+  //       name: "9:16",
+  //       svg: <SvgAR9to16 color="var(--figma-color-text)" />,
+  //       width: 9,
+  //       height: 16,
+  //       nameKey: "module:aspectRatio_9_16",
+  //     },
+  //     {
+  //       name: "4:3",
+  //       svg: <SvgAR4to3 color="var(--figma-color-text)" />,
+  //       width: 4,
+  //       height: 3,
+  //       nameKey: "module:aspectRatio_4_3",
+  //     },
+  //     {
+  //       name: "3:4",
+  //       svg: <SvgAR3to4 color="var(--figma-color-text)" />,
+  //       width: 3,
+  //       height: 4,
+  //       nameKey: "module:aspectRatio_3_4",
+  //     },
+  //     {
+  //       name: "3:2",
+  //       svg: <SvgAR3to2 color="var(--figma-color-text)" />,
+  //       width: 3,
+  //       height: 2,
+  //       nameKey: "module:aspectRatio_3_2",
+  //     },
+  //     {
+  //       name: "2:3",
+  //       svg: <SvgAR2to3 color="var(--figma-color-text)" />,
+  //       width: 2,
+  //       height: 3,
+  //       nameKey: "module:aspectRatio_2_3",
+  //     },
+  //     {
+  //       name: "1:1",
+  //       svg: <SvgAR1to1 color="var(--figma-color-text)" />,
+  //       width: 1,
+  //       height: 1,
+  //       nameKey: "module:aspectRatio_1_1",
+  //     },
+  //   ];
+
+  // const applyAspectRatioHandler = (
+  //   widthRatio: number,
+  //   heightRatio: number,
+  //   isCustom: boolean,
+  //   isRealCall = false
+  // ) => {
+  //   if (!isRealCall) {
+  //     if (!checkProFeatureAccessibleForUser(licenseManagement)) {
+  //       setFreeUserDelayModalConfig({
+  //         show: true,
+  //         initialTime: pluginConfig.freeUserWaitingTime,
+  //         onProceed: () => applyAspectRatioHandler(widthRatio, heightRatio, isCustom, true), // Retry with isRealCall = true
+  //       });
+  //       return;
+  //     }
+  //   }
+
+  //   applyAspectRatio(widthRatio, heightRatio, isCustom, lockedDimension);
+  // };
 
   return (
     <div>
@@ -204,7 +196,14 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
                     svg={option.svg}
                     buttonHeight="xlarge"
                     onClick={() => {
-                      applyAspectRatioHandler(option.width, option.height, false);
+                      applyAspectRatioHandler(
+                        appContext,
+                        option.width,
+                        option.height,
+                        false,
+                        lockedDimension,
+                        false
+                      );
                     }}
                     hasTopBottomMargin={false}
                   />
@@ -216,27 +215,33 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
         <div className="mt-xsmall">
           <SectionTitle title={t("term:custom")} />
           <div className="border-1 padding-16 border-radius-large">
-            <div className="grid">
-              <div>
-                <SectionTitle title={t("module:widthRatio")} />
-                <textarea
-                  className="textarea font-size-xlarge"
-                  rows={1}
-                  value={widthCustomRatio}
-                  onChange={handleWidthCustomRatioChange}
-                  placeholder={t("module:customValueNumbersOnly")}
-                />
-              </div>
-              <div>
-                <SectionTitle title={t("module:heightRatio")} />
-                <textarea
-                  className="textarea font-size-xlarge"
-                  rows={1}
-                  value={heightCustomRatio}
-                  onChange={handleHeightCustomRatioChange}
-                  placeholder={t("module:customValueNumbersOnly")}
-                />
-              </div>
+            <div className="custom-ratio-block">
+              <SectionTitle title={t("module:widthRatio")} />
+              <div></div>
+              <SectionTitle title={t("module:heightRatio")} />
+            </div>
+            <div className="custom-ratio-block">
+              <textarea
+                className="textarea font-size-xlarge"
+                rows={1}
+                value={widthCustomRatio}
+                onChange={handleWidthCustomRatioChange}
+                placeholder={t("module:customValueNumbersOnly")}
+              />
+              <IconButton
+                buttonType="tertiary"
+                svg={<SvgSwitch color="var(--figma-color-text)" />}
+                onClick={onSwitchClick}
+                buttonHeight="small"
+                hasTopBottomMargin={false}
+              />
+              <textarea
+                className="textarea font-size-xlarge"
+                rows={1}
+                value={heightCustomRatio}
+                onChange={handleHeightCustomRatioChange}
+                placeholder={t("module:customValueNumbersOnly")}
+              />
             </div>
             <div className="mt-xxsmall">
               <FigmaButton
@@ -244,9 +249,12 @@ const AspectRatioHelper: React.FC<AspectRatioHelperProps> = () => {
                 title={t("module:apply")}
                 onClick={() => {
                   applyAspectRatioHandler(
+                    appContext,
                     widthCustomRatio,
                     heightCustomRatio,
-                    true
+                    true,
+                    lockedDimension,
+                    false
                   );
                 }}
               />

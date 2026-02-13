@@ -18,3 +18,4 @@ export { default as MainWindowToolBar } from "./MainWindowToolBar";
 export { default as Chip } from "./Chip";
 export { default as ChipKeyboard } from "./ChipKeyboard";
 export { default as BottomChip } from "./BottomChip";
+export { default as IconButton } from "./IconButton";

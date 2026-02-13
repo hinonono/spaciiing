@@ -1,0 +1,7 @@
+.custom-ratio-block {
+    display: grid;
+    grid-template-columns: 4fr 1fr 4fr;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+}

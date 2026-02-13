@@ -10,6 +10,10 @@
         }
     }
 
+    &-icon {
+        min-width: fit-content;
+    }
+
     &--primary {
         cursor: pointer;
         color: var(--white);
