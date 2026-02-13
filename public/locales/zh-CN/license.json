@@ -49,5 +49,10 @@
       "proPlanDesc": "可访问全部功能，不含等待延迟，也不包含 Spaciiing 品牌标识。",
     "freePlanDesc": "可访问全部功能，包含等待延迟与品牌标识。",
     "eraseLicenseDesc": "从此设备中移除许可证后，将无法在该设备上使用 Pro 功能。\n\n请放心，许可证密钥本身仍然有效，您可以随时通过重新输入许可证密钥在此设备上恢复 Pro 功能。",
-    "dangerZone": "危险区域"
+    "dangerZone": "危险区域",
+    "accessOver10ProTools": "访问超过10项专业工具",
+  "noOperationDelay": "操作时无等待延迟",
+  "removeBranding": "移除Spaciiing品牌标识",
+  "allFutureUpdates": "享有未来所有新功能及程序错误修复",
+  "prioritySupport": "优先客服服务"
 }

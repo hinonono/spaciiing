@@ -44,10 +44,15 @@
   "youSaved": "あなたはすでに $SAVED_CLICKS$ 回のクリックを節約できました。これはおよそ $SAVED_MIN$ 分の単調な作業に相当します！",
   "saveTimeAsWell":"🚀 Pro にアップグレードすれば、さらに最大 $SAVED_TIME$ 分の待ち時間を節約できます！",
   "minSaved": "🚀$SAVED_MIN$分の作業時間を節約しました！",
-  "chooseYourPlan": "プランを選択",
+  "chooseYourPlan": "PROにアップグレード",
   "weUseGumroad": "このプラグインの購読手続きには、Gumroadを利用しております。",
   "proPlanDesc": "すべての機能にアクセス可能。待機時間なし、Spaciiing のブランディングも含まれません。",
     "freePlanDesc": "すべての機能にアクセス可能。待機時間とブランディングが含まれます。",
     "eraseLicenseDesc": "このデバイスからライセンスを削除すると、Pro 機能は使用できなくなります。\n\nご安心ください。ライセンスキー自体は有効なままで、再度入力すればいつでもこのデバイスで Pro 機能を復元できます。",
-    "dangerZone": "危険ゾーン"
+    "dangerZone": "危険ゾーン",
+    "accessOver10ProTools": "10種類以上のツールにアクセス可能",
+  "noOperationDelay": "操作時の待機遅延なし",
+  "removeBranding": "Spaciiingのブランド表示を削除",
+  "allFutureUpdates": "今後のすべての新機能およびバグ修正を利用可能",
+  "prioritySupport": "優先カスタマーサポート"
 }

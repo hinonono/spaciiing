@@ -2,7 +2,6 @@ import React from "react";
 import Modal from "../components/Modal";
 import { useAppContext } from "../AppProvider";
 import { useTranslation } from "react-i18next";
-import FreeTrialGraph from "../components/FreeTrialGraph";
 import SubscriptionPlanBlock from "../components/SubscriptionPlanBlock";
 
 const SubscriptionModal: React.FC = () => {

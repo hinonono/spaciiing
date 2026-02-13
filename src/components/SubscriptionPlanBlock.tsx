@@ -1,9 +1,8 @@
 import React from "react";
-import FigmaButton from "./FigmaButton";
-import { SvgExternalLink } from "../assets/icons";
 import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import { useTranslation } from "react-i18next";
 import info from "../pluginConfig.json";
+import { FigmaButton } from ".";
 
 interface SubscriptionPlanBlockProps {
   plan: "monthly" | "yearly";
@@ -16,35 +15,48 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
 
   const renderPriceDesc = () => {
     return <>
-      <span className="note note-large plan-title-secondary">
-        {plan === "monthly" ? t("license:monthlyPriceDesc").replace(
-          "$MONTHLY_PRICE$",
-          "US$" + info.price.monthly
-        ) : t("license:yearlyPriceDesc").replace(
-          "$YEARLY_PRICE$",
-          "US$" + info.price.yearly
-        )}
-      </span>
+      <div>
+        <div className="mt-xxsmall">
+          <FigmaButton
+            title={t("license:upgrade")}
+            buttonType="special"
+            onClick={() => paymentsUtil.navigateToCheckOutPage(plan)}
+          />
+          <hr />
+          <ul>
+            <li>{t("license:accessOver10ProTools")}</li>
+            <li>{t("license:noOperationDelay")}</li>
+            <li>{t("license:removeBranding")}</li>
+            <li>{t("license:allFutureUpdates")}</li>
+            <li>{t("license:prioritySupport")}</li>
+          </ul>
+        </div>
+      </div>
     </>
-  }
-
-  const getSvgColor = () => {
-    return plan === "monthly" ? "var(--figma-color-text)" : "black"
   }
 
   return (
     <div
       className={`subscription-plan-block ${plan} mt-xxsmall`}
-      onClick={() => paymentsUtil.navigateToCheckOutPage(plan)}
     >
-      <div className="width-100">
-        <span className={"plan-title"}>
-          {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
-        </span>
-        {renderPriceDesc()}
+      <div className="width-100 flex flex-justify-space-between align-items-center">
+        <div>
+          <span className={"plan-title"}>
+            {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
+          </span>
+          <span className="note note-large plan-title-secondary">
+            {plan === "monthly" ? t("license:monthlyPriceDesc").replace(
+              "$MONTHLY_PRICE$",
+              "US$" + info.price.monthly
+            ) : t("license:yearlyPriceDesc").replace(
+              "$YEARLY_PRICE$",
+              "US$" + info.price.yearly
+            )}
+          </span>
+        </div>
       </div>
-      <div className="icon-20">
-        <SvgExternalLink color={getSvgColor()} />
+      <div className="width-100">
+        {renderPriceDesc()}
       </div>
     </div>
   );

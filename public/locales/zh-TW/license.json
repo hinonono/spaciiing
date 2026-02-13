@@ -41,13 +41,18 @@
   "upgradeToSkipWaiting": "升級即可跳過等待",
   "upgrade": "升級",
   "youNeedToWait": "滑鼠點到手冒煙，Spaciiing來做僅一鍵",
-  "youSaved": "你省下了 $SAVED_CLICKS$ 次滑鼠點擊，相當於省下了 $SAVED_MIN$ 分鐘的重複性操作！",
+  "youSaved": "Spaciiing幫你省下了 $SAVED_CLICKS$ 次滑鼠點擊，這相當於省下了 $SAVED_MIN$ 分鐘！",
   "saveTimeAsWell":"🚀馬上升級 Pro，把 $SAVED_TIME$ 分鐘的等待時間也省下來吧！",
   "minSaved": "🚀已省下$SAVED_MIN$分鐘!",
-  "chooseYourPlan": "選擇方案",
+  "chooseYourPlan": "升級至PRO",
   "weUseGumroad": "我們使用Gumroad處理付款與訂閱事宜",
   "proPlanDesc": "可存取所有功能，不含等待延遲，也不包含 Spaciiing 品牌標示。",
-    "freePlanDesc": "可存取所有功能，包含等待延遲與品牌標示。",
-    "eraseLicenseDesc": "從此裝置移除授權後，將無法在該裝置上使用 Pro 功能。\n\n請放心，授權金鑰本身仍然有效，重新輸入金鑰即可在此裝置上恢復 Pro 功能。",
-    "dangerZone": "危險區域"
+    "freePlanDesc": "可存取所有功能，但包含等待延遲與 Spaciiing 品牌標示。",
+    "eraseLicenseDesc": "清除授權後，您將無法存取 Pro 功能。\n\n請放心，授權金鑰本身仍然有效。只要重新輸入金鑰，即可恢復存取 Pro 功能。",
+    "dangerZone": "危險區域",
+    "accessOver10ProTools": "存取超過10項專業工具",
+  "noOperationDelay": "操作時不含等待延遲",
+  "removeBranding": "移除Spaciiing品牌標示",
+  "allFutureUpdates": "享有未來所有新功能、程式錯誤修正",
+  "prioritySupport": "優先客服服務"
 }

@@ -15,8 +15,8 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
 
   const [showPercentage, setShowPercentage] = useState(false);
   const content = showPercentage
-    ? `${savedClicks} / ${tier.requiredExp}`
-    : `${Math.round((savedClicks / tier.requiredExp) * 100)}%`;
+    ? `${savedClicks} / ${tier.max}`
+    : `${Math.round((savedClicks / tier.max) * 100)}%`;
 
   function toggleShowPercentage() {
     setShowPercentage(!showPercentage);
@@ -43,7 +43,7 @@ const ProductivityDashboard: React.FC<ProductivityDashboardProps> = ({ savedClic
             <ProgressBar
               additionalClass='mt-xxxsmall'
               progress={savedClicks}
-              max={tier.requiredExp}
+              max={tier.max}
             />
           </div>
         }
