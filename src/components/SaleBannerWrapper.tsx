@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LicenseManagement } from "../types/LicenseManagement";
 import NormalBanner from "./NormalBanner";
 import { useAppContext } from "../AppProvider";
@@ -19,7 +19,7 @@ const SaleBannerWrapper: React.FC<SaleBannerWrapperProps> = ({
   }
 
   return (
-    isVerifying ? <div className="banner flex flex-justify-center align-items-center"><Spinner /></div> : <div className="banner flex flex-justify-space-between align-items-center"><NormalBanner /></div>
+    isVerifying ? <div className="banner flex flex-justify-center align-items-center"><Spinner /></div> : <NormalBanner />
   );
 };
 

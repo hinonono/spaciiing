@@ -1,5 +1,7 @@
 .banner {
-    background: linear-gradient(46deg, rgba(204, 228, 255, 1) 0%, rgba(220, 204, 255, 1) 53%, rgba(255, 230, 240, 1) 100%);
+    background: linear-gradient(46deg, rgb(168 233 255) 0%, rgb(220, 204, 255) 53%, rgb(255 196 220) 100%);
+    background-size: 300% 300%;
+    animation: gradient-move 8s linear infinite;
     padding: 16px 8px;
     min-height: 40px;
     max-height: 49px;
@@ -15,7 +17,7 @@
         bottom: 6;
         left: 6;
         border-radius: var(--cy-border-radius-large);
-        z-index: 999;
+        z-index: 9999;
         font-size: var(--font-size-small);
         padding: 4px 8px;
         min-height: auto;
@@ -42,5 +44,19 @@
 
     .note {
         font-size: 9px;
+    }
+}
+
+@keyframes gradient-move {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
     }
 }

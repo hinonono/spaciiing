@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../AppProvider";
-import info from "../pluginConfig.json"
 import FigmaButton from "./FigmaButton";
 
 interface NormalBannerProps { }
@@ -11,7 +10,7 @@ const NormalBanner: React.FC<NormalBannerProps> = () => {
   const { setShowCTSubscribe } = useAppContext();
 
   return (
-    <>
+    <div className="banner flex flex-justify-space-between align-items-center">
       <div className="frame-group">
         <div className="message-primary">{t("license:upgradeToSkipWaiting")}</div>
       </div>
@@ -21,7 +20,7 @@ const NormalBanner: React.FC<NormalBannerProps> = () => {
         buttonHeight={"small"}
         onClick={() => setShowCTSubscribe(true)}
       />
-    </>
+    </div>
   );
 };
 
