@@ -14,23 +14,40 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
 }) => {
   const { t } = useTranslation(["license", "term"]);
 
+  // Determine plan type and get corresponding values
   const isYearly = plan === "YEARLY";
   const planLabel = isYearly ? t("license:yearly") : t("license:monthly");
   const price = isYearly ? info.price.yearly : info.price.monthly;
-  const priceDescription = isYearly ? t("license:yearlyPriceDesc").replace("$YEARLY_PRICE$", price) : t("license:monthlyPriceDesc").replace("$MONTHLY_PRICE$", price);
+  const priceKey = isYearly ? "license:yearlyPriceDesc" : "license:monthlyPriceDesc";
+  const priceToken = isYearly ? "$YEARLY_PRICE$" : "$MONTHLY_PRICE$";
+  const priceDescription = t(priceKey).replace(priceToken, price);
 
   const handleUpgradeClick = () => {
     paymentsUtil.navigateToCheckOutPage(plan);
   };
 
+  // List of subscription benefits
+  const benefits = [
+    "accessOver10ProTools",
+    "noOperationDelay",
+    "removeBranding",
+    "allFutureUpdates",
+    "prioritySupport",
+  ];
+
   return (
     <div className={`subscription-plan-block ${plan} mt-xxsmall`}>
+      {/* Plan header with title and price */}
       <div className="width-100 flex flex-justify-space-between align-items-center">
         <div>
           <span className="plan-title">{planLabel}</span>
-          <span className="note note-large plan-title-secondary">US${priceDescription}</span>
+          <span className="note note-large plan-title-secondary">
+            US${priceDescription}
+          </span>
         </div>
       </div>
+
+      {/* Plan details and benefits */}
       <div className="width-100">
         <div className="mt-xxsmall">
           <FigmaButton
@@ -40,11 +57,9 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
           />
           <hr />
           <ul>
-            <li>{t("license:accessOver10ProTools")}</li>
-            <li>{t("license:noOperationDelay")}</li>
-            <li>{t("license:removeBranding")}</li>
-            <li>{t("license:allFutureUpdates")}</li>
-            <li>{t("license:prioritySupport")}</li>
+            {benefits.map((benefit) => (
+              <li key={benefit}>{t(`license:${benefit}`)}</li>
+            ))}
           </ul>
         </div>
       </div>
