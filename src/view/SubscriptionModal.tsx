@@ -9,7 +9,7 @@ import { ChargeType } from "../types/LicenseManagement";
 const SubscriptionModal: React.FC = () => {
   const { showCTSubscribe, setShowCTSubscribe } = useAppContext();
   const { t } = useTranslation(["license", "term"]);
-  const [billingPeriod, setBillingPeriod] = useState<ChargeType>("MONTHLY");
+  const [billingPeriod, setBillingPeriod] = useState<ChargeType>("YEARLY");
 
   const handleClose = () => {
     setShowCTSubscribe(false);
