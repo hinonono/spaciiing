@@ -9,64 +9,45 @@ import { ChargeType } from "../types/LicenseManagement";
 const SubscriptionModal: React.FC = () => {
   const { showCTSubscribe, setShowCTSubscribe } = useAppContext();
   const { t } = useTranslation(["license", "term"]);
+  const [billingPeriod, setBillingPeriod] = useState<ChargeType>("MONTHLY");
 
-  const [showingPlan, setShowingPlan] = useState<ChargeType>("MONTHLY");
-
-  const handleCloseCTSubscribe = () => {
+  const handleClose = () => {
     setShowCTSubscribe(false);
   };
 
-  const handleShowingPlanChange = (newPlan: string) => {
-    if (newPlan === "MONTHLY") {
-      setShowingPlan("MONTHLY");
-    } else {
-      setShowingPlan("YEARLY");
-    }
-  }
-
-  const renderPlanBlock = () => {
-    if (showingPlan === "MONTHLY") {
-      return <SubscriptionPlanBlock plan={"MONTHLY"} />;
-    } else {
-      return <SubscriptionPlanBlock plan={"YEARLY"} />;
-    }
-  }
+  const handleBillingPeriodChange = (value: string) => {
+    setBillingPeriod(value === "MONTHLY" ? "MONTHLY" : "YEARLY");
+  };
 
   return (
-    <Modal show={showCTSubscribe} handleClose={handleCloseCTSubscribe}>
+    <Modal show={showCTSubscribe} handleClose={handleClose}>
       <div className="free-trial-modal">
         <h2>{t("license:chooseYourPlan")}</h2>
         <span className="note">{t("license:weUseGumroad")}</span>
+
         <div className="mt-xsmall">
           <SegmentedControl
-            inputName="showing-plan"
-            value={showingPlan}
-            onChange={handleShowingPlanChange}
+            inputName="billing-period"
+            value={billingPeriod}
+            onChange={handleBillingPeriodChange}
           >
-            <SegmentedControl.Option
-              value="monthly"
-              label="license:monthly"
-            />
-            <SegmentedControl.Option
-              value="yearly"
-              label="license:yearly"
-            />
+            <SegmentedControl.Option value="MONTHLY" label="license:monthly" />
+            <SegmentedControl.Option value="YEARLY" label="license:yearly" />
           </SegmentedControl>
         </div>
-        <div className="mt-xsmall">{renderPlanBlock()}</div>
+        <div className="mt-xsmall">
+          <SubscriptionPlanBlock plan={billingPeriod} />
+        </div>
+
         <div id="free-trial-faq" className="mt-small">
           <div className="accordion">
             <details className="mt-xsmall">
               <summary>{t("license:supportAndSubscriptionInfo")}</summary>
-              <div className="">
-                <span className="note">{t("license:supportAndSubscriptionInfoAnswer")}</span>
-              </div>
+              <span className="note">{t("license:supportAndSubscriptionInfoAnswer")}</span>
             </details>
             <details className="mt-xsmall">
               <summary>{t("license:howRecurringPaymentsWork")}</summary>
-              <div className="">
-                <span className="note">{t("license:howRecurringPaymentsWorkAnswer")}</span>
-              </div>
+              <span className="note">{t("license:howRecurringPaymentsWorkAnswer")}</span>
             </details>
           </div>
         </div>

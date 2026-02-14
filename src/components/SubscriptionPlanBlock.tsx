@@ -16,9 +16,8 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
 
   const isYearly = plan === "YEARLY";
   const planLabel = isYearly ? t("license:yearly") : t("license:monthly");
-  const priceKey = isYearly ? "license:yearlyPriceDesc" : "license:monthlyPriceDesc";
   const price = isYearly ? info.price.yearly : info.price.monthly;
-  const priceDescription = t(priceKey).replace("$PRICE_PLACEHOLDER$", `US$${price}`);
+  const priceDescription = isYearly ? t("license:yearlyPriceDesc").replace("$YEARLY_PRICE$", price) : t("license:monthlyPriceDesc").replace("$MONTHLY_PRICE$", price);
 
   const handleUpgradeClick = () => {
     paymentsUtil.navigateToCheckOutPage(plan);
@@ -29,9 +28,7 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
       <div className="width-100 flex flex-justify-space-between align-items-center">
         <div>
           <span className="plan-title">{planLabel}</span>
-          <span className="note note-large plan-title-secondary">
-            {priceDescription}
-          </span>
+          <span className="note note-large plan-title-secondary">US${priceDescription}</span>
         </div>
       </div>
       <div className="width-100">

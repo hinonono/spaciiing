@@ -4,13 +4,13 @@ import Modal from '../Modal';
 import { useTranslation } from "react-i18next";
 import FigmaButton from "../FigmaButton";
 import SubscriptionPlanBlock from "../SubscriptionPlanBlock";
-import { SvgExternalLink, SvgSkip } from "../../assets/icons";
+import { SvgSkip } from "../../assets/icons";
 
 interface FreeUserDelayModalProps {
 }
 
 const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
-  const { freeUserDelayModalConfig, setFreeUserDelayModalConfig, editorPreference } = useAppContext();
+  const { freeUserDelayModalConfig, setFreeUserDelayModalConfig } = useAppContext();
   const { t } = useTranslation(["module", "license", "term"]);
 
   //Param
@@ -57,11 +57,8 @@ const FreeUserDelayModal: React.FC<FreeUserDelayModalProps> = () => {
     <Modal show={freeUserDelayModalConfig.show} handleClose={handleCloseFreeUserDelay}>
       <div className="free-trial-modal">
         <h2>{t("license:upgradeToSkipWaiting")}</h2>
-        {/* <div>
-          <SavedTimeMessage />
-        </div> */}
         <div className="mt-xsmall">
-          <SubscriptionPlanBlock plan={"monthly"} />
+          <SubscriptionPlanBlock plan={"MONTHLY"} />
         </div>
         <div className="mt-xsmall flex align-items-center">
           <span className="note mr-xxsmall">{t("license:freeUsersNeedToWait").replace("$TIME_REMAINING$", timeRemaining.toString())}</span>
