@@ -41,13 +41,13 @@ const SubscriptionModal: React.FC = () => {
 
         <div id="free-trial-faq" className="mt-small">
           <div className="accordion">
-            <details className="mt-xsmall">
+            <details>
               <summary>{t("license:supportAndSubscriptionInfo")}</summary>
-              <span className="note">{t("license:supportAndSubscriptionInfoAnswer")}</span>
+              <span className="note mt-xsmall">{t("license:supportAndSubscriptionInfoAnswer")}</span>
             </details>
-            <details className="mt-xsmall">
+            <details>
               <summary>{t("license:howRecurringPaymentsWork")}</summary>
-              <span className="note">{t("license:howRecurringPaymentsWorkAnswer")}</span>
+              <span className="note mt-xsmall">{t("license:howRecurringPaymentsWorkAnswer")}</span>
             </details>
           </div>
         </div>

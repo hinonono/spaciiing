@@ -109,15 +109,17 @@ details {
     }
 
     summary {
-        border-radius: 5px;
+        border-radius: 0px;
         font-size: 12px;
         font-weight: 500;
         cursor: pointer;
         color: var(--figma-color-text-secondary);
+        border-bottom: 1px solid var(--figma-color-border);
+        padding: 8px 0px;
 
         // When <details> is open
-        [open] & {
-            border-radius: var(--cy-border-radius-large) var(--cy-border-radius-large) 0 0;
-        }
+        // [open] & {
+        //     border-radius: var(--cy-border-radius-large) var(--cy-border-radius-large) 0 0;
+        // }
     }
 }
