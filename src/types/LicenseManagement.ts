@@ -1,5 +1,6 @@
 // 管理Plugin的授權狀態
 export type UserTier = "FREE" | "PAID" | "UNKNOWN";
+export type ChargeType = "MONTHLY" | "YEARLY";
 export interface LicenseManagement {
   tier: UserTier;
   isLicenseActive: boolean;

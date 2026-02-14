@@ -3,9 +3,10 @@ import * as paymentsUtil from "../module-frontend/paymentsUtil";
 import { useTranslation } from "react-i18next";
 import info from "../pluginConfig.json";
 import { FigmaButton } from ".";
+import { ChargeType } from "../types/LicenseManagement";
 
 interface SubscriptionPlanBlockProps {
-  plan: "monthly" | "yearly";
+  plan: ChargeType;
 }
 
 const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
@@ -13,14 +14,32 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
 }) => {
   const { t } = useTranslation(["license", "term"]);
 
-  const renderPriceDesc = () => {
-    return <>
-      <div>
+  const isYearly = plan === "YEARLY";
+  const planLabel = isYearly ? t("license:yearly") : t("license:monthly");
+  const priceKey = isYearly ? "license:yearlyPriceDesc" : "license:monthlyPriceDesc";
+  const price = isYearly ? info.price.yearly : info.price.monthly;
+  const priceDescription = t(priceKey).replace("$PRICE_PLACEHOLDER$", `US$${price}`);
+
+  const handleUpgradeClick = () => {
+    paymentsUtil.navigateToCheckOutPage(plan);
+  };
+
+  return (
+    <div className={`subscription-plan-block ${plan} mt-xxsmall`}>
+      <div className="width-100 flex flex-justify-space-between align-items-center">
+        <div>
+          <span className="plan-title">{planLabel}</span>
+          <span className="note note-large plan-title-secondary">
+            {priceDescription}
+          </span>
+        </div>
+      </div>
+      <div className="width-100">
         <div className="mt-xxsmall">
           <FigmaButton
             title={t("license:upgrade")}
             buttonType="special"
-            onClick={() => paymentsUtil.navigateToCheckOutPage(plan)}
+            onClick={handleUpgradeClick}
           />
           <hr />
           <ul>
@@ -31,32 +50,6 @@ const SubscriptionPlanBlock: React.FC<SubscriptionPlanBlockProps> = ({
             <li>{t("license:prioritySupport")}</li>
           </ul>
         </div>
-      </div>
-    </>
-  }
-
-  return (
-    <div
-      className={`subscription-plan-block ${plan} mt-xxsmall`}
-    >
-      <div className="width-100 flex flex-justify-space-between align-items-center">
-        <div>
-          <span className={"plan-title"}>
-            {plan === "monthly" ? t("license:monthly") : t("license:yearly")}
-          </span>
-          <span className="note note-large plan-title-secondary">
-            {plan === "monthly" ? t("license:monthlyPriceDesc").replace(
-              "$MONTHLY_PRICE$",
-              "US$" + info.price.monthly
-            ) : t("license:yearlyPriceDesc").replace(
-              "$YEARLY_PRICE$",
-              "US$" + info.price.yearly
-            )}
-          </span>
-        </div>
-      </div>
-      <div className="width-100">
-        {renderPriceDesc()}
       </div>
     </div>
   );

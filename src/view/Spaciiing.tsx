@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TitleBar, SectionTitle, FigmaButton, Chip, ChipKeyboard } from "../components";
+import { TitleBar, SectionTitle, FigmaButton, ChipKeyboard } from "../components";
 import { useAppContext } from "../AppProvider";
 import { SvgGrid, SvgHorizontal, SvgVertical } from "../assets/icons";
 import Modal from "../components/Modal";

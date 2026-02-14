@@ -1,11 +1,12 @@
 import axios from "axios";
+import { ChargeType } from "../types/LicenseManagement";
 
 export const navigateToPurchasePage = () => {
   window.open("https://hsiehchengyi.gumroad.com/l/spaciiing-pro", "_blank"); // Replace with your desired URL
 };
 
-export const navigateToCheckOutPage = (plan: "monthly" | "yearly") => {
-  if (plan === "monthly") {
+export const navigateToCheckOutPage = (plan: ChargeType) => {
+  if (plan === "MONTHLY") {
     window.open(
       "https://app.gumroad.com/checkout?product=xyjsy&option=8LhOD0wJakerUsuuL0H3jw%3D%3D&recurrence=monthly&quantity=1",
       "_blank"
